@@ -9,12 +9,17 @@
 /* Begin PBXBuildFile section */
 		1DEDC7D81C9F817B0083B394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7D71C9F817B0083B394 /* main.m */; };
 		1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */; };
-		1DEDC7DE1C9F817B0083B394 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DD1C9F817B0083B394 /* ViewController.m */; };
 		1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DF1C9F817B0083B394 /* Main.storyboard */; };
 		1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7E21C9F817B0083B394 /* Assets.xcassets */; };
 		1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */; };
 		1DEDC7F11C9F817B0083B394 /* TyDtkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7F01C9F817B0083B394 /* TyDtkTests.m */; };
 		1DEDC7FC1C9F817B0083B394 /* TyDtkUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7FB1C9F817B0083B394 /* TyDtkUITests.m */; };
+		1DEDC80D1C9F86170083B394 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC80C1C9F86170083B394 /* LoginViewController.m */; };
+		1DEDC8101C9F86400083B394 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC80F1C9F86400083B394 /* RegisterViewController.m */; };
+		1DEDC8131C9F866C0083B394 /* ForgetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC8121C9F866C0083B394 /* ForgetPwdViewController.m */; };
+		1DEDC8161C9F880E0083B394 /* IndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC8151C9F880E0083B394 /* IndexViewController.m */; };
+		1DEDC8311C9F9F770083B394 /* login_password.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC82F1C9F9F770083B394 /* login_password.png */; };
+		1DEDC8321C9F9F770083B394 /* login_person.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC8301C9F9F770083B394 /* login_person.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,8 +44,6 @@
 		1DEDC7D71C9F817B0083B394 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1DEDC7D91C9F817B0083B394 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1DEDC7DC1C9F817B0083B394 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		1DEDC7DD1C9F817B0083B394 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		1DEDC7E01C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1DEDC7E21C9F817B0083B394 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1DEDC7E51C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +54,17 @@
 		1DEDC7F71C9F817B0083B394 /* TyDtkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TyDtkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DEDC7FB1C9F817B0083B394 /* TyDtkUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TyDtkUITests.m; sourceTree = "<group>"; };
 		1DEDC7FD1C9F817B0083B394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1DEDC80B1C9F86170083B394 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		1DEDC80C1C9F86170083B394 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		1DEDC80E1C9F86400083B394 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		1DEDC80F1C9F86400083B394 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		1DEDC8111C9F866C0083B394 /* ForgetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgetPwdViewController.h; sourceTree = "<group>"; };
+		1DEDC8121C9F866C0083B394 /* ForgetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgetPwdViewController.m; sourceTree = "<group>"; };
+		1DEDC8141C9F880E0083B394 /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
+		1DEDC8151C9F880E0083B394 /* IndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexViewController.m; sourceTree = "<group>"; };
+		1DEDC81E1C9F9B660083B394 /* DtkPchFile.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DtkPchFile.pch; sourceTree = "<group>"; };
+		1DEDC82F1C9F9F770083B394 /* login_password.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_password.png; sourceTree = "<group>"; };
+		1DEDC8301C9F9F770083B394 /* login_person.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_person.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,10 +115,12 @@
 		1DEDC7D51C9F817B0083B394 /* TyDtk */ = {
 			isa = PBXGroup;
 			children = (
+				1DEDC82E1C9F9F770083B394 /* Imgs */,
+				1DEDC81E1C9F9B660083B394 /* DtkPchFile.pch */,
+				1DEDC80A1C9F85BD0083B394 /* TyDtk */,
+				1DEDC8091C9F85AF0083B394 /* TyUser */,
 				1DEDC7D91C9F817B0083B394 /* AppDelegate.h */,
 				1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */,
-				1DEDC7DC1C9F817B0083B394 /* ViewController.h */,
-				1DEDC7DD1C9F817B0083B394 /* ViewController.m */,
 				1DEDC7DF1C9F817B0083B394 /* Main.storyboard */,
 				1DEDC7E21C9F817B0083B394 /* Assets.xcassets */,
 				1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */,
@@ -138,6 +154,37 @@
 				1DEDC7FD1C9F817B0083B394 /* Info.plist */,
 			);
 			path = TyDtkUITests;
+			sourceTree = "<group>";
+		};
+		1DEDC8091C9F85AF0083B394 /* TyUser */ = {
+			isa = PBXGroup;
+			children = (
+				1DEDC80B1C9F86170083B394 /* LoginViewController.h */,
+				1DEDC80C1C9F86170083B394 /* LoginViewController.m */,
+				1DEDC80E1C9F86400083B394 /* RegisterViewController.h */,
+				1DEDC80F1C9F86400083B394 /* RegisterViewController.m */,
+				1DEDC8111C9F866C0083B394 /* ForgetPwdViewController.h */,
+				1DEDC8121C9F866C0083B394 /* ForgetPwdViewController.m */,
+			);
+			name = TyUser;
+			sourceTree = "<group>";
+		};
+		1DEDC80A1C9F85BD0083B394 /* TyDtk */ = {
+			isa = PBXGroup;
+			children = (
+				1DEDC8141C9F880E0083B394 /* IndexViewController.h */,
+				1DEDC8151C9F880E0083B394 /* IndexViewController.m */,
+			);
+			name = TyDtk;
+			sourceTree = "<group>";
+		};
+		1DEDC82E1C9F9F770083B394 /* Imgs */ = {
+			isa = PBXGroup;
+			children = (
+				1DEDC82F1C9F9F770083B394 /* login_password.png */,
+				1DEDC8301C9F9F770083B394 /* login_person.png */,
+			);
+			path = Imgs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +292,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DEDC8311C9F9F770083B394 /* login_password.png in Resources */,
+				1DEDC8321C9F9F770083B394 /* login_person.png in Resources */,
 				1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */,
 				1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */,
 				1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */,
@@ -272,7 +321,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DEDC7DE1C9F817B0083B394 /* ViewController.m in Sources */,
+				1DEDC8101C9F86400083B394 /* RegisterViewController.m in Sources */,
+				1DEDC8161C9F880E0083B394 /* IndexViewController.m in Sources */,
+				1DEDC80D1C9F86170083B394 /* LoginViewController.m in Sources */,
+				1DEDC8131C9F866C0083B394 /* ForgetPwdViewController.m in Sources */,
 				1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */,
 				1DEDC7D81C9F817B0083B394 /* main.m in Sources */,
 			);
@@ -414,6 +466,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				INFOPLIST_FILE = TyDtk/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -427,6 +480,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				INFOPLIST_FILE = TyDtk/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -502,6 +556,7 @@
 				1DEDC8021C9F817B0083B394 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1DEDC8031C9F817B0083B394 /* Build configuration list for PBXNativeTarget "TyDtkTests" */ = {
 			isa = XCConfigurationList;
@@ -510,6 +565,7 @@
 				1DEDC8051C9F817B0083B394 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1DEDC8061C9F817B0083B394 /* Build configuration list for PBXNativeTarget "TyDtkUITests" */ = {
 			isa = XCConfigurationList;
@@ -518,6 +574,7 @@
 				1DEDC8081C9F817B0083B394 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
