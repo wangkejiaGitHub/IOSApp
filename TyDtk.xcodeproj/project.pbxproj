@@ -1,0 +1,525 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1DEDC7D81C9F817B0083B394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7D71C9F817B0083B394 /* main.m */; };
+		1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */; };
+		1DEDC7DE1C9F817B0083B394 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DD1C9F817B0083B394 /* ViewController.m */; };
+		1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DF1C9F817B0083B394 /* Main.storyboard */; };
+		1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7E21C9F817B0083B394 /* Assets.xcassets */; };
+		1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */; };
+		1DEDC7F11C9F817B0083B394 /* TyDtkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7F01C9F817B0083B394 /* TyDtkTests.m */; };
+		1DEDC7FC1C9F817B0083B394 /* TyDtkUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7FB1C9F817B0083B394 /* TyDtkUITests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1DEDC7ED1C9F817B0083B394 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1DEDC7CB1C9F817B0083B394 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1DEDC7D21C9F817B0083B394;
+			remoteInfo = TyDtk;
+		};
+		1DEDC7F81C9F817B0083B394 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1DEDC7CB1C9F817B0083B394 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1DEDC7D21C9F817B0083B394;
+			remoteInfo = TyDtk;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		1DEDC7D31C9F817B0083B394 /* TyDtk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TyDtk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DEDC7D71C9F817B0083B394 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1DEDC7D91C9F817B0083B394 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		1DEDC7DC1C9F817B0083B394 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		1DEDC7DD1C9F817B0083B394 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1DEDC7E01C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1DEDC7E21C9F817B0083B394 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1DEDC7E51C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		1DEDC7E71C9F817B0083B394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1DEDC7EC1C9F817B0083B394 /* TyDtkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TyDtkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DEDC7F01C9F817B0083B394 /* TyDtkTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TyDtkTests.m; sourceTree = "<group>"; };
+		1DEDC7F21C9F817B0083B394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1DEDC7F71C9F817B0083B394 /* TyDtkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TyDtkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DEDC7FB1C9F817B0083B394 /* TyDtkUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TyDtkUITests.m; sourceTree = "<group>"; };
+		1DEDC7FD1C9F817B0083B394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1DEDC7D01C9F817B0083B394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1DEDC7E91C9F817B0083B394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1DEDC7F41C9F817B0083B394 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1DEDC7CA1C9F817B0083B394 = {
+			isa = PBXGroup;
+			children = (
+				1DEDC7D51C9F817B0083B394 /* TyDtk */,
+				1DEDC7EF1C9F817B0083B394 /* TyDtkTests */,
+				1DEDC7FA1C9F817B0083B394 /* TyDtkUITests */,
+				1DEDC7D41C9F817B0083B394 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1DEDC7D41C9F817B0083B394 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1DEDC7D31C9F817B0083B394 /* TyDtk.app */,
+				1DEDC7EC1C9F817B0083B394 /* TyDtkTests.xctest */,
+				1DEDC7F71C9F817B0083B394 /* TyDtkUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1DEDC7D51C9F817B0083B394 /* TyDtk */ = {
+			isa = PBXGroup;
+			children = (
+				1DEDC7D91C9F817B0083B394 /* AppDelegate.h */,
+				1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */,
+				1DEDC7DC1C9F817B0083B394 /* ViewController.h */,
+				1DEDC7DD1C9F817B0083B394 /* ViewController.m */,
+				1DEDC7DF1C9F817B0083B394 /* Main.storyboard */,
+				1DEDC7E21C9F817B0083B394 /* Assets.xcassets */,
+				1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */,
+				1DEDC7E71C9F817B0083B394 /* Info.plist */,
+				1DEDC7D61C9F817B0083B394 /* Supporting Files */,
+			);
+			path = TyDtk;
+			sourceTree = "<group>";
+		};
+		1DEDC7D61C9F817B0083B394 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1DEDC7D71C9F817B0083B394 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1DEDC7EF1C9F817B0083B394 /* TyDtkTests */ = {
+			isa = PBXGroup;
+			children = (
+				1DEDC7F01C9F817B0083B394 /* TyDtkTests.m */,
+				1DEDC7F21C9F817B0083B394 /* Info.plist */,
+			);
+			path = TyDtkTests;
+			sourceTree = "<group>";
+		};
+		1DEDC7FA1C9F817B0083B394 /* TyDtkUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1DEDC7FB1C9F817B0083B394 /* TyDtkUITests.m */,
+				1DEDC7FD1C9F817B0083B394 /* Info.plist */,
+			);
+			path = TyDtkUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1DEDC7D21C9F817B0083B394 /* TyDtk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEDC8001C9F817B0083B394 /* Build configuration list for PBXNativeTarget "TyDtk" */;
+			buildPhases = (
+				1DEDC7CF1C9F817B0083B394 /* Sources */,
+				1DEDC7D01C9F817B0083B394 /* Frameworks */,
+				1DEDC7D11C9F817B0083B394 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TyDtk;
+			productName = TyDtk;
+			productReference = 1DEDC7D31C9F817B0083B394 /* TyDtk.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1DEDC7EB1C9F817B0083B394 /* TyDtkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEDC8031C9F817B0083B394 /* Build configuration list for PBXNativeTarget "TyDtkTests" */;
+			buildPhases = (
+				1DEDC7E81C9F817B0083B394 /* Sources */,
+				1DEDC7E91C9F817B0083B394 /* Frameworks */,
+				1DEDC7EA1C9F817B0083B394 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1DEDC7EE1C9F817B0083B394 /* PBXTargetDependency */,
+			);
+			name = TyDtkTests;
+			productName = TyDtkTests;
+			productReference = 1DEDC7EC1C9F817B0083B394 /* TyDtkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1DEDC7F61C9F817B0083B394 /* TyDtkUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEDC8061C9F817B0083B394 /* Build configuration list for PBXNativeTarget "TyDtkUITests" */;
+			buildPhases = (
+				1DEDC7F31C9F817B0083B394 /* Sources */,
+				1DEDC7F41C9F817B0083B394 /* Frameworks */,
+				1DEDC7F51C9F817B0083B394 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1DEDC7F91C9F817B0083B394 /* PBXTargetDependency */,
+			);
+			name = TyDtkUITests;
+			productName = TyDtkUITests;
+			productReference = 1DEDC7F71C9F817B0083B394 /* TyDtkUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1DEDC7CB1C9F817B0083B394 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0720;
+				ORGANIZATIONNAME = "天一文化.王可佳";
+				TargetAttributes = {
+					1DEDC7D21C9F817B0083B394 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
+					1DEDC7EB1C9F817B0083B394 = {
+						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = W4284DA4FY;
+						TestTargetID = 1DEDC7D21C9F817B0083B394;
+					};
+					1DEDC7F61C9F817B0083B394 = {
+						CreatedOnToolsVersion = 7.2.1;
+						DevelopmentTeam = W4284DA4FY;
+						TestTargetID = 1DEDC7D21C9F817B0083B394;
+					};
+				};
+			};
+			buildConfigurationList = 1DEDC7CE1C9F817B0083B394 /* Build configuration list for PBXProject "TyDtk" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1DEDC7CA1C9F817B0083B394;
+			productRefGroup = 1DEDC7D41C9F817B0083B394 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1DEDC7D21C9F817B0083B394 /* TyDtk */,
+				1DEDC7EB1C9F817B0083B394 /* TyDtkTests */,
+				1DEDC7F61C9F817B0083B394 /* TyDtkUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1DEDC7D11C9F817B0083B394 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */,
+				1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */,
+				1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1DEDC7EA1C9F817B0083B394 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1DEDC7F51C9F817B0083B394 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1DEDC7CF1C9F817B0083B394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DEDC7DE1C9F817B0083B394 /* ViewController.m in Sources */,
+				1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */,
+				1DEDC7D81C9F817B0083B394 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1DEDC7E81C9F817B0083B394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DEDC7F11C9F817B0083B394 /* TyDtkTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1DEDC7F31C9F817B0083B394 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1DEDC7FC1C9F817B0083B394 /* TyDtkUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1DEDC7EE1C9F817B0083B394 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1DEDC7D21C9F817B0083B394 /* TyDtk */;
+			targetProxy = 1DEDC7ED1C9F817B0083B394 /* PBXContainerItemProxy */;
+		};
+		1DEDC7F91C9F817B0083B394 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1DEDC7D21C9F817B0083B394 /* TyDtk */;
+			targetProxy = 1DEDC7F81C9F817B0083B394 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		1DEDC7DF1C9F817B0083B394 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DEDC7E01C9F817B0083B394 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DEDC7E51C9F817B0083B394 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEDC7FE1C9F817B0083B394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		1DEDC7FF1C9F817B0083B394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1DEDC8011C9F817B0083B394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = TyDtk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.TyDtk;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1DEDC8021C9F817B0083B394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = TyDtk/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.TyDtk;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1DEDC8041C9F817B0083B394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TyDtkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.TyDtkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TyDtk.app/TyDtk";
+			};
+			name = Debug;
+		};
+		1DEDC8051C9F817B0083B394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TyDtkTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.TyDtkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TyDtk.app/TyDtk";
+			};
+			name = Release;
+		};
+		1DEDC8071C9F817B0083B394 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = TyDtkUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.TyDtkUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = TyDtk;
+				USES_XCTRUNNER = YES;
+			};
+			name = Debug;
+		};
+		1DEDC8081C9F817B0083B394 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				INFOPLIST_FILE = TyDtkUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.TyDtkUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = TyDtk;
+				USES_XCTRUNNER = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEDC7CE1C9F817B0083B394 /* Build configuration list for PBXProject "TyDtk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEDC7FE1C9F817B0083B394 /* Debug */,
+				1DEDC7FF1C9F817B0083B394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEDC8001C9F817B0083B394 /* Build configuration list for PBXNativeTarget "TyDtk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEDC8011C9F817B0083B394 /* Debug */,
+				1DEDC8021C9F817B0083B394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1DEDC8031C9F817B0083B394 /* Build configuration list for PBXNativeTarget "TyDtkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEDC8041C9F817B0083B394 /* Debug */,
+				1DEDC8051C9F817B0083B394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		1DEDC8061C9F817B0083B394 /* Build configuration list for PBXNativeTarget "TyDtkUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEDC8071C9F817B0083B394 /* Debug */,
+				1DEDC8081C9F817B0083B394 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1DEDC7CB1C9F817B0083B394 /* Project object */;
+}
