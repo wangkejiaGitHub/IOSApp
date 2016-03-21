@@ -80,9 +80,17 @@
                             <constraint firstAttribute="trailing" secondItem="7gq-ri-kPM" secondAttribute="trailing" id="lpO-r9-SKG"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="09W-V6-OVK"/>
+                    <navigationItem key="navigationItem" id="09W-V6-OVK">
+                        <barButtonItem key="leftBarButtonItem" title="city" id="hUn-Tt-JBx">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="cityBtnClick:" destination="BYZ-38-t0r" id="NT8-Lq-bYB"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="buttonLeftItem" destination="hUn-Tt-JBx" id="wr3-g5-v51"/>
                         <outlet property="imageBackGround" destination="h1h-kO-iAg" id="kdC-G4-0W0"/>
                         <outlet property="myCollectionView" destination="7gq-ri-kPM" id="U2i-kB-Z8n"/>
                     </connections>

@@ -7,10 +7,13 @@
 //
 
 #import "IndexViewController.h"
-@interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
+#import <CoreLocation/CoreLocation.h>
+@interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,CLLocationManagerDelegate>
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonLeftItem;
 @property (weak, nonatomic) IBOutlet UICollectionView *myCollectionView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackGround;
 @property (nonatomic,assign) CGFloat cellEdglr;
+@property (nonatomic,strong) CLLocationManager *locManager;
 //所有第一类科目
 @property (nonatomic,strong) NSMutableArray *arraySubject;
 @end
@@ -20,7 +23,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self addDataView];
-    
+    [self getCurrProvince];
     [self getSubjectClass];
 }
 //页面加载，设置页面的背景图片等
@@ -31,6 +34,29 @@
     UIImage *image = [[UIImage imageNamed:@"mainbg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     _imageBackGround.image = image;
 }
+//选择城市
+- (IBAction)cityBtnClick:(UIBarButtonItem *)sender {
+    
+}
+//定位当前所在省
+- (void)getCurrProvince{
+    _locManager = [[CLLocationManager alloc]init];
+    _locManager.delegate = self;
+    _locManager.distanceFilter = 10.0;
+    _locManager.desiredAccuracy=kCLLocationAccuracyBestForNavigation;
+    [_locManager startUpdatingLocation];
+}
+//定位代理
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
+    NSLog(@"fsdf");
+    CLLocation *curr = [locations lastObject];
+    CLGeocoder *gender = [[CLGeocoder alloc]init];
+    [gender reverseGeocodeLocation:curr completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        CLPlacemark *addressPla = [placemarks lastObject];
+        _buttonLeftItem.title = addressPla.administrativeArea;
+    }];
+}
+//数据请求，获取专业信息
 - (void)getSubjectClass{
     [HttpTools getHttpRequestURL:[NSString stringWithFormat:@"%@api/Classify/GetAll",systemHttps] RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         
