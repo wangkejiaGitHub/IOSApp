@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface LocationViewController : UIViewController
-
+/**当前定位*/
+@property (nonatomic,strong) NSString *currLocation;
 @end

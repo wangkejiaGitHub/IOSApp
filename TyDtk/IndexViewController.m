@@ -7,6 +7,7 @@
 //
 
 #import "IndexViewController.h"
+#import "LocationViewController.h"
 #import <CoreLocation/CoreLocation.h>
 @interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,CLLocationManagerDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonLeftItem;
@@ -36,7 +37,14 @@
 }
 //选择城市
 - (IBAction)cityBtnClick:(UIBarButtonItem *)sender {
-    
+    [self performSegueWithIdentifier:@"location" sender:sender.title];
+}
+//页面跳转调用
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"location"]) {
+        LocationViewController *locationVc = segue.destinationViewController;
+        locationVc.currLocation = sender;
+    }
 }
 //定位当前所在省
 - (void)getCurrProvince{
@@ -48,7 +56,6 @@
 }
 //定位代理
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations{
-    NSLog(@"fsdf");
     CLLocation *curr = [locations lastObject];
     CLGeocoder *gender = [[CLGeocoder alloc]init];
     [gender reverseGeocodeLocation:curr completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
