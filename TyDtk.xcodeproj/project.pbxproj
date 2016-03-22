@@ -46,6 +46,7 @@
 		1DEDC87F1C9FA6810083B394 /* HttpTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC87E1C9FA6810083B394 /* HttpTools.m */; };
 		1DEDC8821C9FD5CD0083B394 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DEDC8811C9FD5CD0083B394 /* CoreLocation.framework */; };
 		1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC8841C9FEDDE0083B394 /* LocationViewController.m */; };
+		1DEFF1E01CA0E5D800994E2C /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -143,6 +144,8 @@
 		1DEDC8811C9FD5CD0083B394 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		1DEDC8831C9FEDDE0083B394 /* LocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationViewController.h; sourceTree = "<group>"; };
 		1DEDC8841C9FEDDE0083B394 /* LocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationViewController.m; sourceTree = "<group>"; };
+		1DEFF1DE1CA0E5D800994E2C /* ChineseToPinyin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChineseToPinyin.h; sourceTree = "<group>"; };
+		1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -324,6 +327,8 @@
 		1DEDC8681C9FA6460083B394 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				1DEFF1DE1CA0E5D800994E2C /* ChineseToPinyin.h */,
+				1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */,
 				1DEDC87D1C9FA6810083B394 /* HttpTools.h */,
 				1DEDC87E1C9FA6810083B394 /* HttpTools.m */,
 			);
@@ -501,6 +506,7 @@
 				1DEDC8651C9FA2920083B394 /* UIView+WebCacheOperation.m in Sources */,
 				1DEDC8161C9F880E0083B394 /* IndexViewController.m in Sources */,
 				1DEDC8791C9FA66B0083B394 /* AFSecurityPolicy.m in Sources */,
+				1DEFF1E01CA0E5D800994E2C /* ChineseToPinyin.m in Sources */,
 				1DEDC85F1C9FA2920083B394 /* UIButton+WebCache.m in Sources */,
 				1DEDC8571C9FA2920083B394 /* NSData+ImageContentType.m in Sources */,
 				1DEDC85E1C9FA2920083B394 /* SDWebImagePrefetcher.m in Sources */,

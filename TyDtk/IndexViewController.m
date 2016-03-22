@@ -9,7 +9,7 @@
 #import "IndexViewController.h"
 #import "LocationViewController.h"
 #import <CoreLocation/CoreLocation.h>
-@interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,CLLocationManagerDelegate>
+@interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,CLLocationManagerDelegate,AgainLocationDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonLeftItem;
 @property (weak, nonatomic) IBOutlet UICollectionView *myCollectionView;
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackGround;
@@ -44,6 +44,16 @@
     if ([segue.identifier isEqualToString:@"location"]) {
         LocationViewController *locationVc = segue.destinationViewController;
         locationVc.currLocation = sender;
+        locationVc.locationDelegate = self;
+    }
+}
+//重新定位回调
+- (void)againLocationClick:(NSString *)proVince{
+    if (proVince == nil) {
+        NSLog(@"fsf");
+    }
+    else{
+        NSLog(@"%@",proVince);
     }
 }
 //定位当前所在省
@@ -61,6 +71,7 @@
     [gender reverseGeocodeLocation:curr completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         CLPlacemark *addressPla = [placemarks lastObject];
         _buttonLeftItem.title = addressPla.administrativeArea;
+        [_locManager stopUpdatingLocation];
     }];
 }
 //数据请求，获取专业信息
