@@ -8,6 +8,7 @@
 
 #import "IndexViewController.h"
 #import "LocationViewController.h"
+#import "SecoundSubjectViewController.h"
 #import <CoreLocation/CoreLocation.h>
 @interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,CLLocationManagerDelegate,AgainLocationDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonLeftItem;
@@ -15,8 +16,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackGround;
 @property (nonatomic,assign) CGFloat cellEdglr;
 @property (nonatomic,strong) CLLocationManager *locManager;
-//所有第一类科目
+//所有第一类科目(专业)
 @property (nonatomic,strong) NSMutableArray *arraySubject;
+//所有第二类科目（科目）
+@property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
 @end
 
 @implementation IndexViewController
@@ -31,6 +34,7 @@
 - (void)addDataView{
     self.title = @"选择专业";
     _arraySubject = [NSMutableArray array];
+    _arraySecoundSubject = [NSMutableArray array];
     _cellEdglr = 40;
     UIImage *image = [[UIImage imageNamed:@"mainbg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     _imageBackGround.image = image;
@@ -45,6 +49,16 @@
         LocationViewController *locationVc = segue.destinationViewController;
         locationVc.currLocation = sender;
         locationVc.locationDelegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"ssubject"]){
+        SecoundSubjectViewController *secoundVC = segue.destinationViewController;
+        secoundVC.arraySubject = _arraySubject;
+        secoundVC.arraySecoundSubject = _arraySecoundSubject;
+        NSIndexPath *indexPath = (NSIndexPath *)sender;
+        secoundVC.selectSubject = indexPath.row;
+        if (indexPath.row == _arraySubject.count) {
+            secoundVC.selectSubject = 0;
+        }
     }
 }
 //重新定位回调
@@ -87,14 +101,17 @@
         NSArray *arrayDatas = dicSubject[@"datas"];
         
         for (NSDictionary *dicArr in arrayDatas) {
-            NSInteger dataId = [dicArr[@"Id"] integerValue];
-            if (dataId<=12) {
+            NSInteger ParentId = [dicArr[@"ParentId"] integerValue];
+            if (ParentId==0) {
                 [_arraySubject addObject:dicArr];
                 //                /////
                 //                for (NSString *keys in dicArr.allKeys) {
                 //                    NSLog(@"%@ == %@",keys,dicArr[keys]);
                 //                }
                 //                //////
+            }
+            else{
+                [_arraySecoundSubject addObject:dicArr];
             }
         }
         [_myCollectionView reloadData];
@@ -151,6 +168,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"%ld",indexPath.row);
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    [self performSegueWithIdentifier:@"ssubject" sender:indexPath];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
