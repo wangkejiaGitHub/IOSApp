@@ -188,6 +188,7 @@
                                                 <constraint firstItem="Md1-yv-S53" firstAttribute="centerY" secondItem="dgE-s9-TAY" secondAttribute="centerY" id="v9V-Kb-ImW"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>

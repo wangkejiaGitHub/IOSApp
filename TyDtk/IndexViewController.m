@@ -54,6 +54,10 @@
     }
     else{
         NSLog(@"%@",proVince);
+        if (proVince.length>5) {
+            proVince = [proVince substringToIndex:2];
+        }
+        _buttonLeftItem.title = proVince;
     }
 }
 //定位当前所在省

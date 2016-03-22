@@ -671,7 +671,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.TyDtk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -685,7 +685,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.TyDtk;
 				PRODUCT_NAME = "$(TARGET_NAME)";

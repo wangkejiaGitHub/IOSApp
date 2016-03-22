@@ -41,6 +41,8 @@
     _buttonLocation.layer.masksToBounds = YES;
     _buttonLocation.layer.cornerRadius = 5;
     _labLocation.text = _currLocation;
+    _myTabVIewPronice.sectionIndexColor = [UIColor grayColor];
+    _myTabVIewPronice.sectionIndexBackgroundColor = [UIColor clearColor];
     
 }
 //从新定位
@@ -56,12 +58,12 @@
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSArray *arrayDic = dic[@"datas"];
         for (NSDictionary *dicDatas in arrayDic) {
-            [_dicPronice setValue:dicDatas[@"Names"] forKey:dicDatas[@"Id"]];
+            [_dicPronice setValue:dicDatas[@"Id"] forKey:dicDatas[@"Names"]];
         }
         //所有省份Id数组
-        _arrayProvniceAllId = [_dicPronice allKeys];
+        _arrayProvniceAllId = [_dicPronice allValues];
         //所有省份名称排序后的数组
-        _arrayProvniceAllName = [NSMutableArray arrayWithArray:[self compareProvnice:[_dicPronice allValues]]];
+        _arrayProvniceAllName = [NSMutableArray arrayWithArray:[self compareProvnice:[_dicPronice allKeys]]];
         
         [self setValueForDicFirstProvniceFirstLetter];
         [_myTabVIewPronice reloadData];
@@ -83,22 +85,17 @@
             pinYinKey = @"CHONGQINGSHI";
         }
         [dicName setValue:keys forKey:pinYinKey];
-        
         NSString *firstLetter = [pinYinKey substringToIndex:1];
         if (![arrayFirstLetter containsObject:firstLetter]) {
             [arrayFirstLetter addObject:firstLetter];
         }
-        
     }
     _arrayProvniceFirstLetter = [arrayFirstLetter sortedArrayUsingSelector:@selector(compare:)];
-    
     NSArray *arrayAllpinYinKey = [[dicName allKeys] sortedArrayUsingSelector:@selector(compare:)];
-    
     for (NSString *pinYinKey in arrayAllpinYinKey) {
         [arrayCompare addObject:dicName[pinYinKey]];
     }
     return arrayCompare;
-    
 }
 - (void)setValueForDicFirstProvniceFirstLetter{
     for (NSString *letter in _arrayProvniceFirstLetter) {
@@ -127,7 +124,7 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *sectionView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 30)];
-    sectionView.backgroundColor = [UIColor lightGrayColor];
+    sectionView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     UILabel *labSec = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, 30, 20)];
     labSec.text = _arrayProvniceFirstLetter[section];
     [sectionView addSubview:labSec];
@@ -135,6 +132,9 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)section{
     return 30;
+}
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 50;
 }
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellprovnice" forIndexPath:indexPath];
@@ -144,8 +144,16 @@
     labProvince.text = array[indexPath.row];
     return cell;
 }
+- (nullable NSArray<NSString *> *)sectionIndexTitlesForTableView:(UITableView *)tableView{
+    return _arrayProvniceFirstLetter;
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSArray *array = _dicFirstProvniceFirstLetter[_arrayProvniceFirstLetter[indexPath.section]];
+    NSString *provniceName = array[indexPath.row];
+//    NSString *provniceId = [_dicPronice valueForKey:provniceName];
+    [_locationDelegate againLocationClick:provniceName];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
