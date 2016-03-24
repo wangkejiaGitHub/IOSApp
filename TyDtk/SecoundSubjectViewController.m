@@ -24,6 +24,7 @@
     [self viewLoad];
 }
 - (void)viewLoad{
+    [SVProgressHUD show];
 //    NSLog(@"%@",_arraySecoundSubject);
 //    NSLog(@"%@",_arraySubject);
     _arrayCurrSelectSubject = [NSMutableArray array];
@@ -41,6 +42,10 @@
  */
 - (void)currSelectSubject{
     [_arrayCurrSelectSubject removeAllObjects];
+    if (_arraySubject.count == 0) {
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        return;
+    }
     NSDictionary *dicCurrSubject = _arraySubject[_selectSubject];
     NSInteger currSubjectId = [dicCurrSubject[@"Id"] integerValue];
     for (NSDictionary *dicSecoundSub in _arraySecoundSubject) {
@@ -49,7 +54,11 @@
             [_arrayCurrSelectSubject addObject:dicSecoundSub];
         }
     }
+    
 //    NSLog(@"%@",_arrayCurrSelectSubject);
+}
+- (void)viewDidAppear:(BOOL)animated{
+    [SVProgressHUD dismiss];
 }
 /////////////////////////
 ///// tableView代理

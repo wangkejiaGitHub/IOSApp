@@ -9,8 +9,8 @@
 #import "LocationViewController.h"
 
 @interface LocationViewController ()<UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *labLocation;
-@property (weak, nonatomic) IBOutlet UIButton *buttonLocation;
+//@property (weak, nonatomic) IBOutlet UILabel *labLocation;
+//@property (weak, nonatomic) IBOutlet UIButton *buttonLocation;
 @property (weak, nonatomic) IBOutlet UITableView *myTabVIewPronice;
 
 //id对应字典
@@ -23,6 +23,9 @@
 @property (nonatomic,strong) NSArray *arrayProvniceFirstLetter;
 //首字母查找字典
 @property (nonatomic,strong) NSMutableDictionary *dicFirstProvniceFirstLetter;
+//tableView的头试图
+@property (nonatomic ,strong) UIView *viewTabHeardView;
+@property (nonatomic ,strong) UIView *viewNullData;
 @end
 
 @implementation LocationViewController
@@ -36,22 +39,77 @@
 - (void)viewLoad{
     self.title = @"选择地区";
     _dicPronice = [NSMutableDictionary dictionary];
-    _buttonLocation.backgroundColor = [UIColor blueColor];
+//    _buttonLocation.backgroundColor = [UIColor blueColor];
     _dicFirstProvniceFirstLetter = [NSMutableDictionary dictionary];
-    _buttonLocation.layer.masksToBounds = YES;
-    _buttonLocation.layer.cornerRadius = 5;
-    _labLocation.text = _currLocation;
+//    _buttonLocation.layer.masksToBounds = YES;
+//    _buttonLocation.layer.cornerRadius = 5;
+//    _labLocation.text = _currLocation;
     _myTabVIewPronice.sectionIndexColor = [UIColor grayColor];
     _myTabVIewPronice.sectionIndexBackgroundColor = [UIColor clearColor];
+}
+//数据为空时显示
+- (void)addViewWhenDataIsNull{
+    _viewNullData = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    _viewNullData.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake((Scr_Width -100)/2, (Scr_Height-30)/2, 100, 30)];
+    lab.text = @"点我刷新地区";
+    lab.font = [UIFont systemFontOfSize:16.0];
+    lab.textColor = [UIColor grayColor];
+    lab.textAlignment = NSTextAlignmentCenter;
+    [_viewNullData addSubview:lab];
+    UITapGestureRecognizer *tapGe = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dataIsNullTap:)];
+    [_viewNullData addGestureRecognizer:tapGe];
+    [self.view addSubview:_viewNullData];
+}
+//数据为空时添加手势重新请求地区
+- (void)dataIsNullTap:(UITapGestureRecognizer *)tap{
+    [self getAllProVince];
+    [_viewNullData removeFromSuperview];
+}
+//添加tableView的头试图
+- (void)addHeardViewForTableView{
+    if (!_viewTabHeardView) {
+        _viewTabHeardView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 60)];
+        _viewTabHeardView.backgroundColor =ColorWithRGB(218, 218, 218);
+        
+        UILabel *labTextLoca = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, 80, 30)];
+        labTextLoca.text = @"当前地区:";
+        //    labTextLoca.backgroundColor = [UIColor redColor];
+        labTextLoca.font = [UIFont systemFontOfSize:17.0];
+        [_myTabVIewPronice addSubview:labTextLoca];
+        
+        UILabel *labPrivince = [[UILabel alloc]initWithFrame:CGRectMake(91, 15, 100, 30)];
+        labPrivince.text = _currLocation;
+        labPrivince.font = [UIFont systemFontOfSize:18.0];
+        labPrivince.textColor = [UIColor blueColor];
+        [_myTabVIewPronice addSubview:labPrivince];
+        
+        UIButton *btnLocation = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnLocation.frame = CGRectMake((Scr_Width-100), 15, 80, 30);
+        btnLocation.backgroundColor = [UIColor blueColor];
+        [btnLocation setTitle:@"重新定位" forState:UIControlStateNormal];
+        [btnLocation setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        btnLocation.layer.masksToBounds = YES;
+        btnLocation.layer.cornerRadius = 5;
+        btnLocation.titleLabel.font = [UIFont systemFontOfSize:15.0];
+        [btnLocation addTarget:self action:@selector(btnLocationClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_viewTabHeardView addSubview:btnLocation];
+    }
+    _myTabVIewPronice.tableHeaderView = _viewTabHeardView;
+}
+//重新定位按钮
+- (void)btnLocationClick:(UIButton *)button{
+        if (_dicPronice.allKeys.count==0) {
     
+            [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        }
+        [_locationDelegate againLocationClick:nil];
+        [self.navigationController popViewControllerAnimated:YES];
 }
-//从新定位
-- (IBAction)locationBtnClick:(UIButton *)sender {
-    [_locationDelegate againLocationClick:nil];
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 //获取所有省份信息
 - (void)getAllProVince{
+    [SVProgressHUD show];
     NSString *stringUrl = [NSString stringWithFormat:@"%@api/Common/GetAreas",systemHttps];
     
     [HttpTools getHttpRequestURL:stringUrl RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -66,8 +124,14 @@
         _arrayProvniceAllName = [NSMutableArray arrayWithArray:[self compareProvnice:[_dicPronice allKeys]]];
         
         [self setValueForDicFirstProvniceFirstLetter];
+        [self addHeardViewForTableView];
         [_myTabVIewPronice reloadData];
+        [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        
+        [self addViewWhenDataIsNull];
+       
         
     }];
 }

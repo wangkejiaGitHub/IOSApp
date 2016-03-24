@@ -20,6 +20,8 @@
 @property (nonatomic,strong) NSMutableArray *arraySubject;
 //所有第二类科目（科目）
 @property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
+//网络监控
+@property (nonatomic,strong) Reachability *conn;
 @end
 
 @implementation IndexViewController
@@ -29,7 +31,9 @@
     [self addDataView];
     [self getCurrProvince];
     [self getSubjectClass];
+    
 }
+
 //页面加载，设置页面的背景图片等
 - (void)addDataView{
     self.title = @"选择专业";
@@ -38,6 +42,17 @@
     _cellEdglr = 40;
     UIImage *image = [[UIImage imageNamed:@"mainbg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     _imageBackGround.image = image;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netWorkChange) name:kReachabilityChangedNotification object:nil];
+    _conn = [Reachability reachabilityForInternetConnection];
+    
+    [_conn startNotifier];
+}
+/**
+ 网络发生变化时触发
+ */
+- (void)netWorkChange{
+    [self getSubjectClass];
 }
 //选择城市
 - (IBAction)cityBtnClick:(UIBarButtonItem *)sender {
@@ -64,17 +79,18 @@
 //重新定位回调
 - (void)againLocationClick:(NSString *)proVince{
     if (proVince == nil) {
-        NSLog(@"fsf");
+        [self getCurrProvince];
     }
     else{
-        NSLog(@"%@",proVince);
         if (proVince.length>5) {
             proVince = [proVince substringToIndex:2];
         }
         _buttonLeftItem.title = proVince;
     }
 }
-//定位当前所在省
+/**
+ 定位当前所在省
+ */
 - (void)getCurrProvince{
     _locManager = [[CLLocationManager alloc]init];
     _locManager.delegate = self;
@@ -94,6 +110,7 @@
 }
 //数据请求，获取专业信息
 - (void)getSubjectClass{
+    [SVProgressHUD show];
     [HttpTools getHttpRequestURL:[NSString stringWithFormat:@"%@api/Classify/GetAll",systemHttps] RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         
         NSDictionary *dicSubject =[NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -116,8 +133,13 @@
         }
         [_myCollectionView reloadData];
         
-    } RequestFaile:^(NSError *error) {
+        [SVProgressHUD dismiss];
         
+    } RequestFaile:^(NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        [_arraySubject removeAllObjects];
+        [_arraySecoundSubject removeAllObjects];
+        [_myCollectionView reloadData];
     }];
 }
 //每段 cell 个数
