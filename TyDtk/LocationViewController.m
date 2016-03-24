@@ -9,10 +9,8 @@
 #import "LocationViewController.h"
 
 @interface LocationViewController ()<UITableViewDataSource,UITableViewDelegate>
-//@property (weak, nonatomic) IBOutlet UILabel *labLocation;
-//@property (weak, nonatomic) IBOutlet UIButton *buttonLocation;
+//tableView
 @property (weak, nonatomic) IBOutlet UITableView *myTabVIewPronice;
-
 //id对应字典
 @property (nonatomic,strong) NSMutableDictionary *dicPronice;
 //所有省份的Id
