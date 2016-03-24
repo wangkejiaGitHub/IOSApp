@@ -11,7 +11,7 @@
 - (void)againLocationClick:(NSString *)proVince;
 @end
 @interface LocationViewController : UIViewController
-/**当前定位*/
+/**当前定位位置（由主页传过来）*/
 @property (nonatomic,strong) NSString *currLocation;
 @property (nonatomic,weak) id <AgainLocationDelegate> locationDelegate;
 @end

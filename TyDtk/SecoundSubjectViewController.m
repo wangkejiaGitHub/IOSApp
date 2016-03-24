@@ -9,10 +9,15 @@
 #import "SecoundSubjectViewController.h"
 
 @interface SecoundSubjectViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
+//tableVIew 的宽度（页面适配）
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tabViewWidthCount;
+//collectionView
 @property (weak, nonatomic) IBOutlet UICollectionView *myCollectionView;
+//tableView
 @property (weak, nonatomic) IBOutlet UITableView *myTabViewSubject;
+//背景图片
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackGrd;
+//当前选中的第一大科目下的所有第二大科目
 @property (nonatomic,strong) NSMutableArray *arrayCurrSelectSubject;
 @end
 
@@ -25,8 +30,6 @@
 }
 - (void)viewLoad{
     [SVProgressHUD show];
-//    NSLog(@"%@",_arraySecoundSubject);
-//    NSLog(@"%@",_arraySubject);
     _arrayCurrSelectSubject = [NSMutableArray array];
     self.title = @"选择科目";
     _myTabViewSubject.tableFooterView = [UIView new];
@@ -36,6 +39,9 @@
     _imageBackGrd.image = image;
     
     [self currSelectSubject];
+}
+- (void)viewDidAppear:(BOOL)animated{
+    [SVProgressHUD dismiss];
 }
 /**
  当前选中的科目
@@ -57,9 +63,7 @@
     
 //    NSLog(@"%@",_arrayCurrSelectSubject);
 }
-- (void)viewDidAppear:(BOOL)animated{
-    [SVProgressHUD dismiss];
-}
+
 /////////////////////////
 ///// tableView代理
 ////////////////////////
@@ -95,10 +99,6 @@
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(15, 10, 10, 10);
 }
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-//    return 1;
-//}
-//行间距
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     return 25;
 }

@@ -11,10 +11,15 @@
 #import "SecoundSubjectViewController.h"
 #import <CoreLocation/CoreLocation.h>
 @interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,CLLocationManagerDelegate,AgainLocationDelegate>
+//地区按钮
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonLeftItem;
+//collcetionView
 @property (weak, nonatomic) IBOutlet UICollectionView *myCollectionView;
+//背景图片
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackGround;
+//collectionView左右边距
 @property (nonatomic,assign) CGFloat cellEdglr;
+//定位
 @property (nonatomic,strong) CLLocationManager *locManager;
 //所有第一类科目(专业)
 @property (nonatomic,strong) NSMutableArray *arraySubject;
@@ -42,10 +47,9 @@
     _cellEdglr = 40;
     UIImage *image = [[UIImage imageNamed:@"mainbg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
     _imageBackGround.image = image;
-    
+    //开始网络监控
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netWorkChange) name:kReachabilityChangedNotification object:nil];
     _conn = [Reachability reachabilityForInternetConnection];
-    
     [_conn startNotifier];
 }
 /**
