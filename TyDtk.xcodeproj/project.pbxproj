@@ -48,6 +48,8 @@
 		1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC8841C9FEDDE0083B394 /* LocationViewController.m */; };
 		1DEFF1E01CA0E5D800994E2C /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */; };
 		1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */; };
+		1DF950571CA38F4D00104597 /* user_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF950561CA38F4D00104597 /* user_icon.png */; };
+		1DF950591CA38F5800104597 /* km_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF950581CA38F5800104597 /* km_icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +151,8 @@
 		1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 		1DEFF1E11CA122D200994E2C /* SecoundSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecoundSubjectViewController.h; sourceTree = "<group>"; };
 		1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecoundSubjectViewController.m; sourceTree = "<group>"; };
+		1DF950561CA38F4D00104597 /* user_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_icon.png; sourceTree = "<group>"; };
+		1DF950581CA38F5800104597 /* km_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = km_icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +277,8 @@
 		1DEDC82E1C9F9F770083B394 /* Imgs */ = {
 			isa = PBXGroup;
 			children = (
+				1DF950581CA38F5800104597 /* km_icon.png */,
+				1DF950561CA38F4D00104597 /* user_icon.png */,
 				1DEDC82F1C9F9F770083B394 /* login_password.png */,
 				1DEDC8301C9F9F770083B394 /* login_person.png */,
 				1DEDC8661C9FA40A0083B394 /* mainbg.png */,
@@ -474,11 +480,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DF950571CA38F4D00104597 /* user_icon.png in Resources */,
 				1DEDC8311C9F9F770083B394 /* login_password.png in Resources */,
 				1DEDC8671C9FA40A0083B394 /* mainbg.png in Resources */,
 				1DEDC8321C9F9F770083B394 /* login_person.png in Resources */,
 				1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */,
 				1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */,
+				1DF950591CA38F5800104597 /* km_icon.png in Resources */,
 				1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

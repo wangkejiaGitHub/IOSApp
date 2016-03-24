@@ -11,5 +11,6 @@
 @interface SecoundSubjectViewController : UIViewController
 @property (nonatomic,assign) NSInteger selectSubject;
 @property (nonatomic,strong) NSArray *arraySubject;
+//主要参数
 @property (nonatomic,strong) NSArray *arraySecoundSubject;
 @end
