@@ -27,6 +27,8 @@
 @property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
 //网络监控
 @property (nonatomic,strong) Reachability *conn;
+//
+@property (nonatomic,strong) UILabel *labText;
 @end
 
 @implementation IndexViewController
@@ -56,9 +58,19 @@
  网络发生变化时触发
  */
 - (void)netWorkChange{
+    [_labText removeFromSuperview];
     [self getSubjectClass];
 }
-//选择城市
+//网络异常时添加提示信息
+- (void)addLabelForNilNework{
+    _labText = [[UILabel alloc]initWithFrame:CGRectMake(20, (Scr_Height-30)/2, Scr_Width - 40, 30)];
+    _labText.text = @"请检查网络链接";
+    _labText.textColor = [UIColor grayColor];
+    _labText.font = [UIFont systemFontOfSize:16.0];
+    _labText.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_labText];
+}
+//选择城市按钮
 - (IBAction)cityBtnClick:(UIBarButtonItem *)sender {
     [self performSegueWithIdentifier:@"location" sender:sender.title];
 }
@@ -109,6 +121,7 @@
     [gender reverseGeocodeLocation:curr completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         CLPlacemark *addressPla = [placemarks lastObject];
         _buttonLeftItem.title = addressPla.administrativeArea;
+        //结束定位
         [_locManager stopUpdatingLocation];
     }];
 }
@@ -144,6 +157,7 @@
         [_arraySubject removeAllObjects];
         [_arraySecoundSubject removeAllObjects];
         [_myCollectionView reloadData];
+        [self addLabelForNilNework];
     }];
 }
 //每段 cell 个数

@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackGrd;
 //当前选中的第一大科目下的所有第二大科目
 @property (nonatomic,strong) NSMutableArray *arrayCurrSelectSubject;
+@property (nonatomic,strong) ViewNullData *viewNullData;
 @end
 
 @implementation SecoundSubjectViewController
@@ -48,8 +49,11 @@
  */
 - (void)currSelectSubject{
     [_arrayCurrSelectSubject removeAllObjects];
+    [_viewNullData removeFromSuperview];
     if (_arraySubject.count == 0) {
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        _viewNullData = [[ViewNullData alloc]initWithFrame:CGRectMake(_tabViewWidthCount.constant, 0, Scr_Width - _tabViewWidthCount.constant, Scr_Height) showText:@"点击左边菜单刷新"];
+        [self.view addSubview:_viewNullData];
         return;
     }
     NSDictionary *dicCurrSubject = _arraySubject[_selectSubject];
@@ -60,11 +64,11 @@
             [_arrayCurrSelectSubject addObject:dicSecoundSub];
         }
     }
-    
-//    NSLog(@"%@",_arrayCurrSelectSubject);
 }
+- (void)addLabelWhenCollectionViewNullData{
 
-/////////////////////////
+}
+////////////////////////
 ///// tableView代理
 ////////////////////////
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -83,14 +87,13 @@
     NSString *imgUrl = [NSString stringWithFormat:@"%@%@",systemHttpImgs,dicCell[@"ImageUrl"]];
     [imageCell sd_setImageWithURL:[NSURL URLWithString:imgUrl]];
     return cell;
-    
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _selectSubject = indexPath.row;
     [self currSelectSubject];
     [_myCollectionView reloadData];
 }
-/////////////////////////
+////////////////////////
 ///// collcetion代理
 ////////////////////////
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{

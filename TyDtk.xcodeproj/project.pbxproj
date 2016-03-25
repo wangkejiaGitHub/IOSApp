@@ -48,6 +48,7 @@
 		1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC8841C9FEDDE0083B394 /* LocationViewController.m */; };
 		1DEFF1E01CA0E5D800994E2C /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */; };
 		1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */; };
+		1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */; };
 		1DF950571CA38F4D00104597 /* user_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF950561CA38F4D00104597 /* user_icon.png */; };
 		1DF950591CA38F5800104597 /* km_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF950581CA38F5800104597 /* km_icon.png */; };
 		1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF950661CA3BFC500104597 /* SVIndefiniteAnimatedView.m */; };
@@ -157,6 +158,8 @@
 		1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 		1DEFF1E11CA122D200994E2C /* SecoundSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecoundSubjectViewController.h; sourceTree = "<group>"; };
 		1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecoundSubjectViewController.m; sourceTree = "<group>"; };
+		1DF898491CA4C3E800D726E3 /* ViewNullData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewNullData.h; sourceTree = "<group>"; };
+		1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewNullData.m; sourceTree = "<group>"; };
 		1DF950561CA38F4D00104597 /* user_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_icon.png; sourceTree = "<group>"; };
 		1DF950581CA38F5800104597 /* km_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = km_icon.png; sourceTree = "<group>"; };
 		1DF950651CA3BFC500104597 /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
@@ -364,6 +367,8 @@
 				1DEDC87E1C9FA6810083B394 /* HttpTools.m */,
 				1DF950731CA3C52200104597 /* Reachability.h */,
 				1DF950741CA3C52200104597 /* Reachability.m */,
+				1DF898491CA4C3E800D726E3 /* ViewNullData.h */,
+				1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -581,6 +586,7 @@
 				1DEDC87A1C9FA66B0083B394 /* AFURLRequestSerialization.m in Sources */,
 				1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */,
 				1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */,
+				1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */,
 				1DEDC7D81C9F817B0083B394 /* main.m in Sources */,
 				1DEDC8611C9FA2920083B394 /* UIImage+MultiFormat.m in Sources */,
 				1DEDC8631C9FA2920083B394 /* UIImageView+HighlightedWebCache.m in Sources */,
