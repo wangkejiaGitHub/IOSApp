@@ -21,7 +21,7 @@
 @property (nonatomic,assign) CGFloat cellEdglr;
 //定位
 @property (nonatomic,strong) CLLocationManager *locManager;
-//所有第一类科目(专业)
+//所有第一类专业科目(专业)
 @property (nonatomic,strong) NSMutableArray *arraySubject;
 //所有第二类科目（科目）
 @property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
@@ -47,8 +47,7 @@
     _arraySubject = [NSMutableArray array];
     _arraySecoundSubject = [NSMutableArray array];
     _cellEdglr = 40;
-    UIImage *image = [[UIImage imageNamed:@"mainbg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-    _imageBackGround.image = image;
+    _imageBackGround.image = systemBackGrdImg;
     //开始网络监控
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netWorkChange) name:kReachabilityChangedNotification object:nil];
     _conn = [Reachability reachabilityForInternetConnection];
@@ -153,7 +152,7 @@
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
         [_arraySubject removeAllObjects];
         [_arraySecoundSubject removeAllObjects];
         [_myCollectionView reloadData];

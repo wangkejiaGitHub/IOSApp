@@ -9,7 +9,7 @@
 #import "RegisterViewController.h"
 
 @interface RegisterViewController ()
-
+@property (nonatomic,strong) UIView *viewLine;
 @end
 
 @implementation RegisterViewController
@@ -17,6 +17,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self viewLoad];
+}
+- (void)viewLoad{
+    self.title = @"新用户注册";
+    _viewLine = [[UIView alloc]initWithFrame:CGRectMake(0, 64+48, (Scr_Width/2), 2)];
+    _viewLine.backgroundColor = [UIColor redColor];
+    [self.view addSubview:_viewLine];
+}
+- (IBAction)btnPwdClick:(UIButton *)sender {
+    CGRect rect = _viewLine.frame;
+    rect.origin.x =(Scr_Width/2)*sender.tag;
+    [UIView animateWithDuration:0.2 animations:^{
+        _viewLine.frame = rect;
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

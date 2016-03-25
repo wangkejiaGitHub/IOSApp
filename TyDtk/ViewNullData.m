@@ -31,8 +31,7 @@
     CGFloat scrH = frame.size.height;
     
     UIImageView *imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, scrW, scrH)];
-    UIImage *image = [[UIImage imageNamed:@"mainbg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)];
-    imgView.image = image;
+    imgView.image = systemBackGrdImg;
     [self addSubview:imgView];
     UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(20, (scrH - 30)/2, scrW - 40, 30)];
     if (showText == nil) {

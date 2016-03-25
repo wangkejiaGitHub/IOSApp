@@ -18,6 +18,7 @@
 #import "SVProgressHUD.h"
 #import "Reachability.h"
 #import "ViewNullData.h"
+#import "MZView.h"
 //屏宽
 #define Scr_Width [UIScreen mainScreen].bounds.size.width
 //屏高
@@ -33,7 +34,7 @@
 //会员中心
 #define systemHttpsTyUser @"http://www.tydlk.cn/tyuser/"
 //首页背景图片
-#define systemBackGrdImg @"http://tiku.kaola100.com/content/images/mainbg.png"
+#define systemBackGrdImg [[UIImage imageNamed:@"mainbg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)]
 //"更多" 图片地址
 #define systemMoreImg @"http://mobile.kaola100.com/images/more.png"
 

@@ -51,7 +51,7 @@
     [_arrayCurrSelectSubject removeAllObjects];
     [_viewNullData removeFromSuperview];
     if (_arraySubject.count == 0) {
-        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
         _viewNullData = [[ViewNullData alloc]initWithFrame:CGRectMake(_tabViewWidthCount.constant, 0, Scr_Width - _tabViewWidthCount.constant, Scr_Height) showText:@"点击左边菜单刷新"];
         [self.view addSubview:_viewNullData];
         return;
@@ -132,6 +132,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 //    NSDictionary *dic = _arrayCurrSelectSubject[indexPath.row];
 //    NSLog(@"%@",dic);
+    [self performSegueWithIdentifier:@"gologin" sender:nil];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

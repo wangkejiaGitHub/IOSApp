@@ -88,7 +88,7 @@
 - (void)btnLocationClick:(UIButton *)button{
         if (_dicPronice.allKeys.count==0) {
     
-            [SVProgressHUD showErrorWithStatus:@"网络异常"];
+            [SVProgressHUD showInfoWithStatus:@"网络异常"];
         }
         [_locationDelegate againLocationClick:nil];
         [self.navigationController popViewControllerAnimated:YES];
@@ -115,7 +115,7 @@
         [_myTabVIewPronice reloadData];
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
         [self addViewWhenDataIsNull];
     }];
 }
