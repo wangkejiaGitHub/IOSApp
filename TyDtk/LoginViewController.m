@@ -30,6 +30,8 @@
     _viewName.layer.masksToBounds = YES;
     _viewName.layer.cornerRadius = 3;
     _viewName.layer.borderWidth = 1;
+    _viewName.alpha = 0.6;
+    _viewPwd.alpha = 0.6;
     _viewName.layer.borderColor = [[UIColor whiteColor] CGColor];
     _viewPwd.layer.masksToBounds = YES;
     _viewPwd.layer.cornerRadius = 3;

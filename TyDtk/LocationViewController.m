@@ -40,6 +40,7 @@
     _dicFirstProvniceFirstLetter = [NSMutableDictionary dictionary];
     _myTabVIewPronice.sectionIndexColor = [UIColor grayColor];
     _myTabVIewPronice.sectionIndexBackgroundColor = [UIColor clearColor];
+    _myTabVIewPronice.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 //数据为空时显示
 - (void)addViewWhenDataIsNull{
@@ -112,9 +113,11 @@
         
         [self setValueForDicFirstProvniceFirstLetter];
         [self addHeardViewForTableView];
+        _myTabVIewPronice.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         [_myTabVIewPronice reloadData];
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
+        _myTabVIewPronice.separatorStyle = UITableViewCellSeparatorStyleNone;
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
         [self addViewWhenDataIsNull];
     }];

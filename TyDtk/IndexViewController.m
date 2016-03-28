@@ -67,6 +67,7 @@
     _labText.textColor = [UIColor grayColor];
     _labText.font = [UIFont systemFontOfSize:16.0];
     _labText.textAlignment = NSTextAlignmentCenter;
+    _buttonLeftItem.title = @"定位";
     [self.view addSubview:_labText];
 }
 //选择城市按钮
@@ -111,6 +112,12 @@
     _locManager.delegate = self;
     _locManager.distanceFilter = 10.0;
     _locManager.desiredAccuracy=kCLLocationAccuracyBestForNavigation;
+    
+    //如果系统在8.0以上，提醒用户是否允许本应获取当前位置
+    if ([[[UIDevice currentDevice] systemVersion] doubleValue] > 8.0){
+        [_locManager requestWhenInUseAuthorization];// 前台定位
+        //  [locationManager requestAlwaysAuthorization];// 前后台同时定位
+    }
     [_locManager startUpdatingLocation];
 }
 //定位代理
@@ -119,6 +126,9 @@
     CLGeocoder *gender = [[CLGeocoder alloc]init];
     [gender reverseGeocodeLocation:curr completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         CLPlacemark *addressPla = [placemarks lastObject];
+        //addressPla.administrativeArea 省级
+        // addressPla.locality 市级
+        // addressPla.name 具体位置信息（街道等）
         _buttonLeftItem.title = addressPla.administrativeArea;
         //结束定位
         [_locManager stopUpdatingLocation];
@@ -126,7 +136,7 @@
 }
 //数据请求，获取专业信息
 - (void)getSubjectClass{
-    [SVProgressHUD show];
+    [SVProgressHUD showWithStatus:@"加载中..."];
     [HttpTools getHttpRequestURL:[NSString stringWithFormat:@"%@api/Classify/GetAll",systemHttps] RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         
         NSDictionary *dicSubject =[NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -148,7 +158,8 @@
             }
         }
         [_myCollectionView reloadData];
-        
+        //网络回复时重新定位
+//        [self getCurrProvince];
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {
