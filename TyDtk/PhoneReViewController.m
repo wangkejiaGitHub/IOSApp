@@ -11,17 +11,17 @@
 @interface PhoneReViewController ()<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *textPhoneNumber;
-
 @property (weak, nonatomic) IBOutlet UITextField *textYzm;
 @property (weak, nonatomic) IBOutlet UIButton *buttonYzmImg;
-
 @property (weak, nonatomic) IBOutlet UITextField *textMessage;
 @property (weak, nonatomic) IBOutlet UIButton *buttonGetMessage;
 @property (weak, nonatomic) IBOutlet UITextField *textPwd;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRegiste;
+
 @property (nonatomic ,assign) CGFloat rectH;
-@property (nonatomic ,assign) NSInteger textTag;
+//开始编辑的TextField
 @property (nonatomic,strong) UITextField *textBegin;
+//点击屏幕的手势
 @property (nonatomic,strong) UITapGestureRecognizer *tapGestView;
 @end
 
@@ -67,10 +67,15 @@
 - (IBAction)registButtonClick:(UIButton *)sender {
     
 }
-//点击更换验证码
+//点击更换图片验证码
 - (IBAction)yzmButtonClick:(UIButton *)sender {
     [self getYzmImageView];
 }
+//获取短信验证码
+- (IBAction)messageBtnClick:(UIButton *)sender {
+    
+}
+
 /////////
 //键盘监听
 //键盘出现
@@ -108,13 +113,24 @@
     _rectH = 0;
 }
 /**
+ 获取短信验证码
+ */
+- (void)startRegiste{
+    NSString *urlString = [NSString stringWithFormat:@"%@getregsms?mobile=%@&captcha=%@",systemHttpsTyUser,_textPhoneNumber.text,_textYzm.text];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dic);
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/**
  获取验证码图片
  */
 - (void)getYzmImageView{
     NSString *urlString = [NSString stringWithFormat:@"%@getCaptcha",systemHttpsTyUser];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSData *data = [[NSData alloc]initWithData:repoes];
-        //        _imageYzm.image = [UIImage imageWithData:data];
         UIImage *image = [UIImage imageWithData:data];
         [_buttonYzmImg setImage:image forState:UIControlStateNormal];
     } RequestFaile:^(NSError *error) {

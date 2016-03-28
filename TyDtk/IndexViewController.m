@@ -48,18 +48,17 @@
     _arraySecoundSubject = [NSMutableArray array];
     _cellEdglr = 40;
     _imageBackGround.image = systemBackGrdImg;
-    
-    
-}
-- (void)viewWillAppear:(BOOL)animated{
     //开始网络监控
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netWorkChange) name:kReachabilityChangedNotification object:nil];
     _conn = [Reachability reachabilityForInternetConnection];
     [_conn startNotifier];
 }
-- (void)viewWillDisappear:(BOOL)animated{
-    
-}
+//- (void)viewWillAppear:(BOOL)animated{
+//    
+//}
+//- (void)viewWillDisappear:(BOOL)animated{
+//    
+//}
 /**
  网络发生变化时触发
  */

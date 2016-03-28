@@ -15,7 +15,10 @@
 @property (weak, nonatomic) IBOutlet UIView *viewPwd;
 @property (weak, nonatomic) IBOutlet UITextField *textName;
 @property (weak, nonatomic) IBOutlet UITextField *textPwd;
+//朦层
 @property (nonatomic,strong) MZView *mzView;
+//点击屏幕的手势
+@property (nonatomic,strong) UITapGestureRecognizer *tapGestView;
 @end
 @implementation LoginViewController
 
@@ -38,6 +41,18 @@
     _imageViewBrg.image = [UIImage imageNamed:@"loginBrg.jpeg"];
     _buttonLogin.layer.masksToBounds = YES;
     _buttonLogin.layer.cornerRadius = 5;
+}
+- (void)viewWillAppear:(BOOL)animated{
+    _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTap)];
+    [self.view addGestureRecognizer:_tapGestView];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [_tapGestView removeTarget:self action:@selector(viewTap)];
+}
+//屏幕点击事件（所有textfield失去焦点）
+- (void)viewTap{
+    [_textName resignFirstResponder];
+    [_textPwd resignFirstResponder];
 }
 - (IBAction)btnLoginClick:(UIButton *)sender {
     [SVProgressHUD showWithStatus:@"登录中..."];

@@ -11,7 +11,9 @@
 #import "EmailReViewController.h"
 @interface RegisterViewController ()
 @property (nonatomic,strong) UIView *viewLine;
+//手机注册页面
 @property (nonatomic ,strong) PhoneReViewController *phoneReVc;
+//邮箱注册页面
 @property (nonatomic ,strong) EmailReViewController *emailReVc;
 @end
 
@@ -22,6 +24,7 @@
     // Do any additional setup after loading the view.
     [self viewLoad];
 }
+//页面加载
 - (void)viewLoad{
     self.title = @"新用户注册";
     _viewLine = [[UIView alloc]initWithFrame:CGRectMake(0, 64+48, (Scr_Width/2), 2)];
@@ -37,6 +40,9 @@
     [self addRegistChildViewControllerForSelf];
     
 }
+/**
+ 添加子试图
+ */
 - (void)addRegistChildViewControllerForSelf{
     UIViewController *viewC1 = [self.storyboard instantiateViewControllerWithIdentifier:@"PhoneReViewController"];
     [self addChildViewController:viewC1];
@@ -51,6 +57,7 @@
     [self.view addSubview:_phoneReVc.view];
                                       
 }
+//注册方式选择
 - (IBAction)btnPwdClick:(UIButton *)sender {
     NSInteger tagSen = sender.tag;
     //下划线的跟踪

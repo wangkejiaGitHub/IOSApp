@@ -103,19 +103,25 @@
     [HttpTools getHttpRequestURL:stringUrl RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSArray *arrayDic = dic[@"datas"];
-        for (NSDictionary *dicDatas in arrayDic) {
-            [_dicPronice setValue:dicDatas[@"Id"] forKey:dicDatas[@"Names"]];
+        if (arrayDic.count>0) {
+            for (NSDictionary *dicDatas in arrayDic) {
+                [_dicPronice setValue:dicDatas[@"Id"] forKey:dicDatas[@"Names"]];
+            }
+            //所有省份Id数组
+            _arrayProvniceAllId = [_dicPronice allValues];
+            //所有省份名称排序后的数组
+            _arrayProvniceAllName = [NSMutableArray arrayWithArray:[self compareProvnice:[_dicPronice allKeys]]];
+            
+            [self setValueForDicFirstProvniceFirstLetter];
+            [self addHeardViewForTableView];
+            _myTabVIewPronice.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+            [SVProgressHUD dismiss];
         }
-        //所有省份Id数组
-        _arrayProvniceAllId = [_dicPronice allValues];
-        //所有省份名称排序后的数组
-        _arrayProvniceAllName = [NSMutableArray arrayWithArray:[self compareProvnice:[_dicPronice allKeys]]];
-        
-        [self setValueForDicFirstProvniceFirstLetter];
-        [self addHeardViewForTableView];
-        _myTabVIewPronice.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        else{
+            [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
+            _myTabVIewPronice.separatorStyle = UITableViewCellSeparatorStyleNone;
+        }
         [_myTabVIewPronice reloadData];
-        [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
         NSLog(@"%@",error);
         _myTabVIewPronice.separatorStyle = UITableViewCellSeparatorStyleNone;
