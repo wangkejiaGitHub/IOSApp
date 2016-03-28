@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1DE695D51CA8C75100ED1DA3 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695D41CA8C75100ED1DA3 /* TestViewController.m */; };
-		1DE695D91CA8CA1300ED1DA3 /* EmailRegisteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695D81CA8CA1300ED1DA3 /* EmailRegisteViewController.m */; };
 		1DE695DF1CA8D28100ED1DA3 /* PhoneReViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695DE1CA8D28100ED1DA3 /* PhoneReViewController.m */; };
+		1DE695E21CA8D39200ED1DA3 /* EmailReViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695E11CA8D39200ED1DA3 /* EmailReViewController.m */; };
 		1DEDC7D81C9F817B0083B394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7D71C9F817B0083B394 /* main.m */; };
 		1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */; };
 		1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DF1C9F817B0083B394 /* Main.storyboard */; };
@@ -84,10 +84,10 @@
 /* Begin PBXFileReference section */
 		1DE695D31CA8C75100ED1DA3 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		1DE695D41CA8C75100ED1DA3 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
-		1DE695D71CA8CA1300ED1DA3 /* EmailRegisteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailRegisteViewController.h; sourceTree = "<group>"; };
-		1DE695D81CA8CA1300ED1DA3 /* EmailRegisteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailRegisteViewController.m; sourceTree = "<group>"; };
 		1DE695DD1CA8D28100ED1DA3 /* PhoneReViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneReViewController.h; sourceTree = "<group>"; };
 		1DE695DE1CA8D28100ED1DA3 /* PhoneReViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneReViewController.m; sourceTree = "<group>"; };
+		1DE695E01CA8D39200ED1DA3 /* EmailReViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailReViewController.h; sourceTree = "<group>"; };
+		1DE695E11CA8D39200ED1DA3 /* EmailReViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailReViewController.m; sourceTree = "<group>"; };
 		1DEDC7D31C9F817B0083B394 /* TyDtk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TyDtk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DEDC7D71C9F817B0083B394 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1DEDC7D91C9F817B0083B394 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -219,10 +219,10 @@
 		1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */ = {
 			isa = PBXGroup;
 			children = (
-				1DE695D71CA8CA1300ED1DA3 /* EmailRegisteViewController.h */,
-				1DE695D81CA8CA1300ED1DA3 /* EmailRegisteViewController.m */,
 				1DE695DD1CA8D28100ED1DA3 /* PhoneReViewController.h */,
 				1DE695DE1CA8D28100ED1DA3 /* PhoneReViewController.m */,
+				1DE695E01CA8D39200ED1DA3 /* EmailReViewController.h */,
+				1DE695E11CA8D39200ED1DA3 /* EmailReViewController.m */,
 			);
 			name = UserRegisteView;
 			sourceTree = "<group>";
@@ -614,11 +614,11 @@
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
 				1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */,
 				1DEDC8561C9FA2920083B394 /* MKAnnotationView+WebCache.m in Sources */,
-				1DE695D91CA8CA1300ED1DA3 /* EmailRegisteViewController.m in Sources */,
 				1DEDC8591C9FA2920083B394 /* SDWebImageCompat.m in Sources */,
 				1DEDC87B1C9FA66B0083B394 /* AFURLResponseSerialization.m in Sources */,
 				1DE695D51CA8C75100ED1DA3 /* TestViewController.m in Sources */,
 				1DEDC87A1C9FA66B0083B394 /* AFURLRequestSerialization.m in Sources */,
+				1DE695E21CA8D39200ED1DA3 /* EmailReViewController.m in Sources */,
 				1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */,
 				1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */,
 				1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */,

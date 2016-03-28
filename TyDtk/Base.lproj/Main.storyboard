@@ -373,7 +373,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dXf-5U-dFP">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k1N-wH-sux">
+                            <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k1N-wH-sux">
                                 <rect key="frame" x="30" y="114" width="315" height="45"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_person.png" translatesAutoresizingMaskIntoConstraints="NO" id="mPK-U4-E5u">
@@ -405,7 +405,7 @@
                                     <constraint firstItem="en5-DQ-KLR" firstAttribute="leading" secondItem="mPK-U4-E5u" secondAttribute="trailing" constant="5" id="wyH-xF-SHj"/>
                                 </constraints>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3d8-vO-FIi">
+                            <view alpha="0.69999999999999996" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3d8-vO-FIi">
                                 <rect key="frame" x="30" y="179" width="315" height="45"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_password.png" translatesAutoresizingMaskIntoConstraints="NO" id="n9y-Gm-xKJ">
@@ -534,10 +534,10 @@
             </objects>
             <point key="canvasLocation" x="-1673.5" y="-1252.5"/>
         </scene>
-        <!--Email Registe View Controller-->
+        <!--Email Re View Controller-->
         <scene sceneID="2QU-Qw-xZp">
             <objects>
-                <viewController storyboardIdentifier="EmailRegisteViewController" id="x6g-u3-QpS" customClass="EmailRegisteViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EmailReViewController" id="x6g-u3-QpS" customClass="EmailReViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="a3M-Ub-agk"/>
                         <viewControllerLayoutGuide type="bottom" id="N3n-iE-CMG"/>
@@ -545,7 +545,7 @@
                     <view key="view" contentMode="scaleToFill" id="Nwu-0G-oSa">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.31326548040000002" green="0.58244698829999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>
@@ -565,21 +565,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBrg.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="wQR-6r-czl">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入手机号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bnJ-qh-eu2">
                                 <rect key="frame" x="50" y="40" width="275" height="35"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="7FK-T4-Mvr"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1qy-WS-H2M">
-                                <rect key="frame" x="225" y="93" width="100" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="B3X-fD-5k0"/>
-                                    <constraint firstAttribute="height" constant="30" id="Xxi-sF-ykU"/>
-                                </constraints>
-                            </imageView>
                             <textField opaque="NO" clipsSubviews="YES" alpha="0.69999999999999996" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0rg-Gh-1UW">
                                 <rect key="frame" x="50" y="90" width="165" height="35"/>
                                 <constraints>
@@ -625,21 +622,30 @@
                                 <state key="normal" title="立即注册">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="registButtonClick:" destination="edo-K5-R2D" eventType="touchUpInside" id="SjV-yG-CWY"/>
+                                </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBrg.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="wQR-6r-czl">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7V4-Rm-ysG">
+                                <rect key="frame" x="225" y="93" width="100" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Ogy-Yp-FeA"/>
+                                    <constraint firstAttribute="width" constant="100" id="sZL-9U-Tc4"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <connections>
+                                    <action selector="yzmButtonClick:" destination="edo-K5-R2D" eventType="touchUpInside" id="hnY-Kg-NCD"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wQR-6r-czl" firstAttribute="top" secondItem="dyx-ci-igf" secondAttribute="top" id="023-Sz-ldD"/>
                             <constraint firstAttribute="trailing" secondItem="bnJ-qh-eu2" secondAttribute="trailing" constant="50" id="1Ui-Dd-eif"/>
                             <constraint firstItem="CS4-Vt-dw1" firstAttribute="leading" secondItem="dyx-ci-igf" secondAttribute="leading" constant="50" id="3K3-iW-8gT"/>
-                            <constraint firstItem="1qy-WS-H2M" firstAttribute="trailing" secondItem="bnJ-qh-eu2" secondAttribute="trailing" id="8Ef-ct-B34"/>
                             <constraint firstItem="d61-P0-gJi" firstAttribute="trailing" secondItem="bnJ-qh-eu2" secondAttribute="trailing" id="8vc-Go-stF"/>
                             <constraint firstItem="Dsf-JU-ZLV" firstAttribute="top" secondItem="0rg-Gh-1UW" secondAttribute="bottom" constant="15" id="95r-b2-XLQ"/>
                             <constraint firstItem="Dsf-JU-ZLV" firstAttribute="leading" secondItem="bnJ-qh-eu2" secondAttribute="leading" id="9QW-7s-rNb"/>
-                            <constraint firstItem="1qy-WS-H2M" firstAttribute="top" secondItem="bnJ-qh-eu2" secondAttribute="bottom" constant="18" id="BVC-Rk-fC4"/>
                             <constraint firstItem="d61-P0-gJi" firstAttribute="leading" secondItem="Dsf-JU-ZLV" secondAttribute="trailing" constant="10" id="Grh-kZ-afM"/>
                             <constraint firstAttribute="trailing" secondItem="96t-wI-Ay5" secondAttribute="trailing" constant="50" id="I1P-cI-W1h"/>
                             <constraint firstItem="1JY-Vv-BP7" firstAttribute="top" secondItem="wQR-6r-czl" secondAttribute="bottom" id="J5y-9Z-iUO"/>
@@ -647,10 +653,12 @@
                             <constraint firstItem="bnJ-qh-eu2" firstAttribute="top" secondItem="dyx-ci-igf" secondAttribute="top" constant="40" id="KJM-xD-W9a"/>
                             <constraint firstItem="96t-wI-Ay5" firstAttribute="leading" secondItem="dyx-ci-igf" secondAttribute="leading" constant="50" id="MjC-4t-9Bs"/>
                             <constraint firstItem="wQR-6r-czl" firstAttribute="leading" secondItem="dyx-ci-igf" secondAttribute="leading" id="Ne5-95-0tg"/>
+                            <constraint firstItem="7V4-Rm-ysG" firstAttribute="trailing" secondItem="bnJ-qh-eu2" secondAttribute="trailing" id="P3m-F6-uoN"/>
                             <constraint firstAttribute="trailing" secondItem="CS4-Vt-dw1" secondAttribute="trailing" constant="50" id="TYX-wM-KR3"/>
+                            <constraint firstItem="7V4-Rm-ysG" firstAttribute="leading" secondItem="0rg-Gh-1UW" secondAttribute="trailing" constant="10" id="YDW-4z-Vmr"/>
                             <constraint firstItem="96t-wI-Ay5" firstAttribute="top" secondItem="CS4-Vt-dw1" secondAttribute="bottom" constant="30" id="beM-Xv-slB"/>
+                            <constraint firstItem="7V4-Rm-ysG" firstAttribute="top" secondItem="bnJ-qh-eu2" secondAttribute="bottom" constant="18" id="hgq-28-YoT"/>
                             <constraint firstItem="CS4-Vt-dw1" firstAttribute="top" secondItem="Dsf-JU-ZLV" secondAttribute="bottom" constant="15" id="nor-Y9-d3k"/>
-                            <constraint firstItem="1qy-WS-H2M" firstAttribute="leading" secondItem="0rg-Gh-1UW" secondAttribute="trailing" constant="10" id="rDA-yZ-xpg"/>
                             <constraint firstAttribute="trailing" secondItem="wQR-6r-czl" secondAttribute="trailing" id="rR5-J6-Mml"/>
                             <constraint firstItem="0rg-Gh-1UW" firstAttribute="top" secondItem="bnJ-qh-eu2" secondAttribute="bottom" constant="15" id="rtU-i8-Stg"/>
                             <constraint firstItem="bnJ-qh-eu2" firstAttribute="leading" secondItem="dyx-ci-igf" secondAttribute="leading" constant="50" id="v8b-eh-od2"/>
@@ -658,6 +666,14 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="buttonGetMessage" destination="d61-P0-gJi" id="u1b-x7-Odo"/>
+                        <outlet property="buttonYzmImg" destination="7V4-Rm-ysG" id="UBG-fC-dca"/>
+                        <outlet property="textMessage" destination="Dsf-JU-ZLV" id="RIf-GN-xd4"/>
+                        <outlet property="textPhoneNumber" destination="bnJ-qh-eu2" id="Oq4-Vx-KjJ"/>
+                        <outlet property="textPwd" destination="CS4-Vt-dw1" id="UMg-Kh-R2E"/>
+                        <outlet property="textYzm" destination="0rg-Gh-1UW" id="dlI-Ph-hF0"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fwF-6s-ayw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

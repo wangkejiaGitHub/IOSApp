@@ -7,8 +7,12 @@
 //
 
 #import "RegisterViewController.h"
+#import "PhoneReViewController.h"
+#import "EmailReViewController.h"
 @interface RegisterViewController ()
 @property (nonatomic,strong) UIView *viewLine;
+@property (nonatomic ,strong) PhoneReViewController *phoneReVc;
+@property (nonatomic ,strong) EmailReViewController *emailReVc;
 @end
 
 @implementation RegisterViewController
@@ -24,20 +28,45 @@
     _viewLine.backgroundColor = [UIColor redColor];
     [self.view addSubview:_viewLine];
     
-    UIViewController *viewC = [self.storyboard instantiateViewControllerWithIdentifier:@"TestViewController"];
-    [self addChildViewController:viewC];
-    
-    TestViewController *tTest= self.childViewControllers[0];
-    tTest.view.frame = CGRectMake(0, (64+50), Scr_Width, Scr_Height - (64+50));
-    [self.view addSubview:tTest.view];
+//    UIViewController *viewC = [self.storyboard instantiateViewControllerWithIdentifier:@"TestViewController"];
+//    [self addChildViewController:viewC];
+//    
+//    TestViewController *tTest= self.childViewControllers[0];
+//    tTest.view.frame = CGRectMake(0, (64+50), Scr_Width, Scr_Height - (64+50));
+//    [self.view addSubview:tTest.view];
+    [self addRegistChildViewControllerForSelf];
     
 }
+- (void)addRegistChildViewControllerForSelf{
+    UIViewController *viewC1 = [self.storyboard instantiateViewControllerWithIdentifier:@"PhoneReViewController"];
+    [self addChildViewController:viewC1];
+    UIViewController *viewC2 = [self.storyboard instantiateViewControllerWithIdentifier:@"EmailReViewController"];
+    [self addChildViewController:viewC2];
+    
+    _phoneReVc = self.childViewControllers[0];
+    _phoneReVc.view.frame = CGRectMake(0, (64+50), Scr_Width, Scr_Height - (64+50));
+    _emailReVc = self.childViewControllers[1];
+    _emailReVc.view.frame = CGRectMake(0, (64+50), Scr_Width, Scr_Height - (64+50));
+    
+    [self.view addSubview:_phoneReVc.view];
+                                      
+}
 - (IBAction)btnPwdClick:(UIButton *)sender {
+    NSInteger tagSen = sender.tag;
+    //下划线的跟踪
     CGRect rect = _viewLine.frame;
-    rect.origin.x =(Scr_Width/2)*sender.tag;
+    rect.origin.x =(Scr_Width/2)*tagSen;
     [UIView animateWithDuration:0.2 animations:^{
         _viewLine.frame = rect;
     }];
+    [_phoneReVc.view removeFromSuperview];
+    [_emailReVc.view removeFromSuperview];
+    if (tagSen == 0) {
+        [self.view addSubview:_phoneReVc.view];
+    }
+    else{
+        [self.view addSubview:_emailReVc.view];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

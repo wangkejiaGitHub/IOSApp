@@ -1,18 +1,18 @@
 //
-//  EmailRegisteViewController.m
+//  EmailReViewController.m
 //  TyDtk
 //
 //  Created by 天一文化 on 16/3/28.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
-#import "EmailRegisteViewController.h"
+#import "EmailReViewController.h"
 
-@interface EmailRegisteViewController ()
+@interface EmailReViewController ()
 
 @end
 
-@implementation EmailRegisteViewController
+@implementation EmailReViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

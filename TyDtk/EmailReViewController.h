@@ -1,5 +1,5 @@
 //
-//  EmailRegisteViewController.h
+//  EmailReViewController.h
 //  TyDtk
 //
 //  Created by 天一文化 on 16/3/28.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EmailRegisteViewController : UIViewController
+@interface EmailReViewController : UIViewController
 
 @end
