@@ -31,7 +31,7 @@
 }
 - (void)viewLoad{
     [SVProgressHUD showWithStatus:@"加载中..."];
-//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+    //    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     
     _arrayCurrSelectSubject = [NSMutableArray array];
     self.title = @"选择科目";
@@ -68,7 +68,7 @@
     }
 }
 - (void)addLabelWhenCollectionViewNullData{
-
+    
 }
 ////////////////////////
 ///// tableView代理
@@ -123,17 +123,19 @@
     NSInteger courseNum = [dicCurrSubject[@"CourseNum"] integerValue];
     NSString *courseNumString = [NSString stringWithFormat:@"%ld",courseNum];
     NSString *labText = [NSString stringWithFormat:@"%@科目",courseNumString];
-        NSMutableAttributedString *labAtt = [[NSMutableAttributedString alloc]initWithString:labText];
+    NSMutableAttributedString *labAtt = [[NSMutableAttributedString alloc]initWithString:labText];
     [labAtt addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, courseNumString.length)];
     UILabel *labSub = (UILabel *)[cell.contentView viewWithTag:11];
     labSub.attributedText = labAtt;
     //人数
-//    cell.backgroundColor = [UIColor redColor];
+    UILabel *labPersonNub = (UILabel *)[cell.contentView viewWithTag:12];
+    labPersonNub.adjustsFontSizeToFitWidth = YES;
+    NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:@"0人在学"];
+    [labPerson addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 1)];
+    labPersonNub.attributedText = labPerson;
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-//    NSDictionary *dic = _arrayCurrSelectSubject[indexPath.row];
-//    NSLog(@"%@",dic);
     [self performSegueWithIdentifier:@"gologin" sender:nil];
 }
 - (void)didReceiveMemoryWarning {

@@ -37,9 +37,9 @@
     _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapTextRfr)];
     [self.view addGestureRecognizer:_tapGestView];
 }
-- (void)viewDidAppear:(BOOL)animated{
-    [_textEmail becomeFirstResponder];
-}
+//- (void)viewDidAppear:(BOOL)animated{
+//    [_textEmail becomeFirstResponder];
+//}
 - (void)viewWillDisappear:(BOOL)animated{
     [self viewTapTextRfr];
     [_tapGestView removeTarget:self action:@selector(viewTapTextRfr)];

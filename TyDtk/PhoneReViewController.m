@@ -51,10 +51,10 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
 }
-//
-- (void)viewDidAppear:(BOOL)animated{
-    [_textPhoneNumber becomeFirstResponder];
-}
+////
+//- (void)viewDidAppear:(BOOL)animated{
+//    [_textPhoneNumber becomeFirstResponder];
+//}
 //View即将消失或隐藏
 -(void)viewWillDisappear:(BOOL)animated{
     [self viewTapTextRfr];
