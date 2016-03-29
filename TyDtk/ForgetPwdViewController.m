@@ -27,6 +27,7 @@
     [self viewLoad];
 }
 - (void)viewLoad{
+    self.title = @"找回密码";
     _viewLine = [[UIView alloc]initWithFrame:CGRectMake(0, 48, Scr_Width/2, 2)];
     _viewLine.backgroundColor = [UIColor redColor];
     [_heardView addSubview:_viewLine];
@@ -38,6 +39,7 @@
     [self addChildViewController:view2];
     
     _pVc = self.childViewControllers[0];
+    _pVc.view.frame = CGRectMake(0, 50+64, Scr_Width, Scr_Height-50-64);
     [self.view addSubview:_pVc.view];
 }
 /**
@@ -48,10 +50,12 @@
     [_pVc.view removeFromSuperview];
     if (vcId == 0) {
         _pVc = self.childViewControllers[vcId];
+        _pVc.view.frame = CGRectMake(0, 50+64, Scr_Width, Scr_Height-50-64);
         [self.view addSubview:_pVc.view];
     }
     else{
         _eVc = self.childViewControllers[vcId];
+        _eVc.view.frame = CGRectMake(0, 50+64, Scr_Width, Scr_Height-50-64);
         [self.view addSubview:_eVc.view];
     }
 }

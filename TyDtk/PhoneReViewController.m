@@ -42,7 +42,6 @@
     _buttonGetMessage.layer.cornerRadius = 5;
     _buttonRegiste.layer.masksToBounds = YES;
     _buttonRegiste.layer.cornerRadius = 5;
-    [self getYzmImageView];
 }
 //View即将呈现(加载)
 - (void)viewWillAppear:(BOOL)animated{
@@ -50,6 +49,7 @@
     [self.view addGestureRecognizer:_tapGestView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
+    [self getYzmImageView];
 }
 ////
 //- (void)viewDidAppear:(BOOL)animated{
@@ -108,8 +108,8 @@
     NSLog(@"%f",_textPwd.frame.origin.y);
     CGFloat textFoldH = _textBegin.frame.origin.y;
     //如果键盘能够覆盖文本框，让试图向上移动
-    if (cH < (textFoldH + 35)) {
-        _rectH =(textFoldH + 35) - cH;
+    if (cH < (textFoldH + 40)) {
+        _rectH =(textFoldH + 40) - cH;
         CGRect rect = self.view.frame;
         rect.origin.y = rect.origin.y-_rectH -15;
         [UIView animateWithDuration:0.2 animations:^{
@@ -189,14 +189,14 @@
  获取短信验证码
  */
 - (void)getYzmMessage{
+    //判断手机号是否为空
+    if (_textPhoneNumber.text.length == 0) {
+        [SVProgressHUD showInfoWithStatus:@"手机号码不能为空"];
+        return;
+    }
     [SVProgressHUD showWithStatus:@"请稍后..."];
     NSString *urlString = [NSString stringWithFormat:@"%@getregsms?mobile=%@&captcha=%@",systemHttpsTyUser,_textPhoneNumber.text,_textYzm.text];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        //判断手机号是否为空
-        if (_textPhoneNumber.text.length == 0) {
-            [SVProgressHUD showInfoWithStatus:@"手机号码不能为空"];
-            return;
-        }
         NSString *reString = [[NSString alloc]initWithData:repoes encoding:NSUTF8StringEncoding];
         reString = [reString substringWithRange:NSMakeRange(1, reString.length -2)];
         if (reString.length > 13) {
@@ -225,6 +225,7 @@
         NSData *data = [[NSData alloc]initWithData:repoes];
         UIImage *image = [UIImage imageWithData:data];
         [_buttonYzmImg setImage:image forState:UIControlStateNormal];
+        
     } RequestFaile:^(NSError *error) {
         
     }];

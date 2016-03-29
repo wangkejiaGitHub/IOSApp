@@ -31,9 +31,10 @@
     self.title = @"邮箱注册";
     _buttonRegist.layer.masksToBounds = YES;
     _buttonRegist.layer.cornerRadius = 5;
-    [self getYzmImageView];
+    
 }
 - (void)viewWillAppear:(BOOL)animated{
+    [self getYzmImageView];
     _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapTextRfr)];
     [self.view addGestureRecognizer:_tapGestView];
 }

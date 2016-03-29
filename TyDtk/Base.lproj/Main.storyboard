@@ -714,7 +714,7 @@
                                     <action selector="messageBtnClick:" destination="edo-K5-R2D" eventType="touchUpInside" id="ZFw-bu-P5X"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.80000000000000004" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="设置登录密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CS4-Vt-dw1">
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.80000000000000004" tag="13" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="设置登录密码" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="CS4-Vt-dw1">
                                 <rect key="frame" x="40" y="279" width="295" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="YIg-IW-gg6"/>
@@ -813,7 +813,7 @@
         <!--Phone For Pwd View Controller-->
         <scene sceneID="7Ok-lj-03l">
             <objects>
-                <viewController id="AZa-El-93c" customClass="PhoneForPwdViewController" customModule="PhoneForPwdViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhoneForPwdViewController" id="AZa-El-93c" customClass="PhoneForPwdViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="3Y3-HS-Da8"/>
                         <viewControllerLayoutGuide type="bottom" id="dBm-F0-wYv"/>
@@ -822,13 +822,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入手机号" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XOh-CN-dqG">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBrg.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="KjW-lk-2FS">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入手机号" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="XOh-CN-dqG">
                                 <rect key="frame" x="40" y="70" width="295" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="dHF-qZ-Vm7"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <connections>
+                                    <outlet property="delegate" destination="AZa-El-93c" id="oUA-eC-YB7"/>
+                                </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mnO-CI-ADk">
                                 <rect key="frame" x="40" y="125" width="185" height="40"/>
@@ -836,7 +842,10 @@
                                     <constraint firstAttribute="height" constant="40" id="LFk-kn-F4W"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <connections>
+                                    <outlet property="delegate" destination="AZa-El-93c" id="RoU-KR-0VF"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fba-aN-H99">
                                 <rect key="frame" x="235" y="130" width="100" height="30"/>
@@ -852,7 +861,10 @@
                                     <constraint firstAttribute="height" constant="40" id="VM6-hS-tnK"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                <connections>
+                                    <outlet property="delegate" destination="AZa-El-93c" id="zDN-Kg-L96"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5OG-SX-WyT">
                                 <rect key="frame" x="235" y="185" width="100" height="30"/>
@@ -863,22 +875,31 @@
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <state key="normal" title="获取短信验证码"/>
+                                <connections>
+                                    <action selector="getYzmBtnClick:" destination="AZa-El-93c" eventType="touchUpInside" id="E2q-vu-Ts3"/>
+                                </connections>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="设置新密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hm8-bH-ocx">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="设置新密码" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Hm8-bH-ocx">
                                 <rect key="frame" x="40" y="235" width="295" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="uCt-lh-P0J"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="AZa-El-93c" id="0tq-9e-J9u"/>
+                                </connections>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="确认新密码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RHA-hk-juO">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="确认新密码" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="RHA-hk-juO">
                                 <rect key="frame" x="40" y="290" width="295" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="UaT-cf-8Xj"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="AZa-El-93c" id="x5f-6f-feW"/>
+                                </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5tM-bF-84k">
                                 <rect key="frame" x="40" y="360" width="295" height="45"/>
@@ -889,10 +910,10 @@
                                 <state key="normal" title="提交">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="buttonSubClick:" destination="AZa-El-93c" eventType="touchUpInside" id="11p-D7-hCn"/>
+                                </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBrg.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="KjW-lk-2FS">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -927,6 +948,17 @@
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="buttonGetYzm" destination="5OG-SX-WyT" id="3P8-eA-v0f"/>
+                        <outlet property="buttonSubmit" destination="5tM-bF-84k" id="lhT-Ym-4PJ"/>
+                        <outlet property="buttonYzm" destination="Fba-aN-H99" id="UGO-j3-pri"/>
+                        <outlet property="textPhoneNumber" destination="XOh-CN-dqG" id="pTU-n6-QCX"/>
+                        <outlet property="textPhoneTopLayout" destination="oLm-gJ-hRl" id="Su3-Gl-cIJ"/>
+                        <outlet property="textPhoneYzm" destination="hNj-5g-gnH" id="suN-a9-GHn"/>
+                        <outlet property="textPwdAgain" destination="RHA-hk-juO" id="MNL-LR-sLa"/>
+                        <outlet property="textYzm" destination="mnO-CI-ADk" id="obb-1a-JXJ"/>
+                        <outlet property="textpwd" destination="Hm8-bH-ocx" id="z7f-dS-4XS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4V7-Fb-3pU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -935,7 +967,7 @@
         <!--Email For Pwd View Controller-->
         <scene sceneID="x86-MF-Frf">
             <objects>
-                <viewController id="jxd-jK-HhL" customClass="EmailForPwdViewController" customModule="EmailForPwdViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="EmailForPwdViewController" id="jxd-jK-HhL" customClass="EmailForPwdViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="uQg-Dh-5xP"/>
                         <viewControllerLayoutGuide type="bottom" id="PQY-sM-bKv"/>
@@ -966,20 +998,24 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hbk-qn-myM">
                                 <rect key="frame" x="0.0" y="64" width="375" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCt-yL-8yo">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tCt-yL-8yo">
                                         <rect key="frame" x="0.0" y="0.0" width="188" height="48"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <state key="normal" title="手机号找回密码"/>
+                                        <state key="normal" title="手机号找回密码">
+                                            <color key="titleColor" red="0.14055548079999999" green="0.36273404650000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="buttonClick:" destination="fIE-6a-iM8" eventType="touchUpInside" id="OJA-jX-X4b"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMl-ER-ivJ">
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CMl-ER-ivJ">
                                         <rect key="frame" x="188" y="0.0" width="187" height="48"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <state key="normal" title="邮箱找回密码"/>
+                                        <state key="normal" title="邮箱找回密码">
+                                            <color key="titleColor" red="0.14055548079999999" green="0.36273404650000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="buttonClick:" destination="fIE-6a-iM8" eventType="touchUpInside" id="XZm-9c-4el"/>
                                         </connections>

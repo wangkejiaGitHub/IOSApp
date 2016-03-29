@@ -65,6 +65,8 @@
         NSInteger codeUser = [dic[@"code"] integerValue];
         if (codeUser == 1) {
             [SVProgressHUD showSuccessWithStatus:@"登录成功"];
+            
+            [self.navigationController popViewControllerAnimated:YES];
         }
         else{
             [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
