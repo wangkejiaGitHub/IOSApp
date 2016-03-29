@@ -31,6 +31,8 @@
 }
 - (void)viewLoad{
     [SVProgressHUD showWithStatus:@"加载中..."];
+//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+    
     _arrayCurrSelectSubject = [NSMutableArray array];
     self.title = @"选择科目";
     _myTabViewSubject.tableFooterView = [UIView new];

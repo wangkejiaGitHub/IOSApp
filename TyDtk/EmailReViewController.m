@@ -28,19 +28,26 @@
 }
 //页面加载
 - (void)viewLoad{
+    self.title = @"邮箱注册";
     _buttonRegist.layer.masksToBounds = YES;
     _buttonRegist.layer.cornerRadius = 5;
     [self getYzmImageView];
 }
 - (void)viewWillAppear:(BOOL)animated{
-    _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTap)];
+    _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapTextRfr)];
     [self.view addGestureRecognizer:_tapGestView];
 }
-- (void)viewWillDisappear:(BOOL)animated{
-    [_tapGestView removeTarget:self action:@selector(viewTap)];
+- (void)viewDidAppear:(BOOL)animated{
+    [_textEmail becomeFirstResponder];
 }
-//屏幕点击事件（所有textfield失去焦点）
-- (void)viewTap{
+- (void)viewWillDisappear:(BOOL)animated{
+    [self viewTapTextRfr];
+    [_tapGestView removeTarget:self action:@selector(viewTapTextRfr)];
+}
+/**
+ 屏幕点击事件（所有textfield失去焦点)
+ */
+- (void)viewTapTextRfr{
     for (id subView in self.view.subviews) {
         if ([subView isKindOfClass:[UITextField class]]) {
             UITextField *text = (UITextField *)subView;
@@ -52,11 +59,30 @@
 - (IBAction)YzmButtonClick:(UIButton *)sender {
     [self getYzmImageView];
 }
-//注册
+//立即注册
 - (IBAction)registeButtonClick:(UIButton *)sender {
-    
+    if (_textEmail.text.length > 0 && _textPwd.text.length >0) {
+        [self viewTapTextRfr];
+        [self startRegiste];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"请完善注册信息"];
+    }
 }
-
+/**
+ 立即注册，请求服务器
+ */
+- (void)startRegiste{
+    NSString *urlString = [NSString stringWithFormat:@"%@register/email/json",systemHttpsTyUser];
+    NSDictionary *dicUserInfo = @{@"formSystem":@"1",@"email":_textEmail.text,@"password":_textPwd.text,@"captcha":_textYzm.text};
+    NSLog(@"%@",dicUserInfo);
+    [HttpTools postHttpRequestURL:urlString RequestPram:dicUserInfo RequestSuccess:^(id respoes) {
+        //        NSDictionary *dicRegiste = [NSJSONSerialization JSONObjectWithData:respoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",respoes);
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+}
 /**
  获取验证码图片
  */

@@ -19,7 +19,7 @@
     // Override point for customization after application launch.
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
-    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeNone];
+//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     return YES;
 }
 

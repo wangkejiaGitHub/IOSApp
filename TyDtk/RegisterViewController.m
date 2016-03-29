@@ -10,6 +10,8 @@
 #import "PhoneReViewController.h"
 #import "EmailReViewController.h"
 @interface RegisterViewController ()
+@property (weak, nonatomic) IBOutlet UIView *heardView;
+
 @property (nonatomic,strong) UIView *viewLine;
 //手机注册页面
 @property (nonatomic ,strong) PhoneReViewController *phoneReVc;

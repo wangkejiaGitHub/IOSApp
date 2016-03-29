@@ -23,6 +23,8 @@
 @property (nonatomic,strong) UITextField *textBegin;
 //点击屏幕的手势
 @property (nonatomic,strong) UITapGestureRecognizer *tapGestView;
+//是否允许立即注册
+@property (nonatomic,assign) BOOL allowRegiste;
 @end
 
 @implementation PhoneReViewController
@@ -34,27 +36,36 @@
 }
 //页面加载
 - (void)viewLoad{
+    self.title = @"新用户注册";
+    _allowRegiste = NO;
     _buttonGetMessage.layer.masksToBounds = YES;
     _buttonGetMessage.layer.cornerRadius = 5;
     _buttonRegiste.layer.masksToBounds = YES;
     _buttonRegiste.layer.cornerRadius = 5;
     [self getYzmImageView];
 }
-//View即将呈现
+//View即将呈现(加载)
 - (void)viewWillAppear:(BOOL)animated{
-    _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTap)];
+    _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapTextRfr)];
     [self.view addGestureRecognizer:_tapGestView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
 }
+//
+- (void)viewDidAppear:(BOOL)animated{
+    [_textPhoneNumber becomeFirstResponder];
+}
 //View即将消失或隐藏
 -(void)viewWillDisappear:(BOOL)animated{
-    [_tapGestView removeTarget:self action:@selector(viewTap)];
+    [self viewTapTextRfr];
+    [_tapGestView removeTarget:self action:@selector(viewTapTextRfr)];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
-//屏幕点击事件（所有textfield失去焦点）
-- (void)viewTap{
+/**
+ 屏幕点击事件（所有textfield失去焦点)
+ */
+- (void)viewTapTextRfr{
     for (id subView in self.view.subviews) {
         if ([subView isKindOfClass:[UITextField class]]) {
             UITextField *text = (UITextField *)subView;
@@ -65,6 +76,13 @@
 
 //立即注册
 - (IBAction)registButtonClick:(UIButton *)sender {
+    if (_allowRegiste && _textPwd.text.length>0) {
+        [self viewTapTextRfr];
+        [self startRegiste];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"请完善注册信息或获取正确短信验证码"];
+    }
     
 }
 //点击更换图片验证码
@@ -73,12 +91,12 @@
 }
 //获取短信验证码
 - (IBAction)messageBtnClick:(UIButton *)sender {
-    
+    [self getYzmMessage];
 }
 
-/////////
-//键盘监听
-//键盘出现
+///////////
+//键盘监听//
+//键盘出现//
 - (void)keyboardShow:(NSNotification *)note{
     [self keyboardHide:nil];
     NSDictionary *userInfo = [note userInfo];
@@ -90,8 +108,8 @@
     NSLog(@"%f",_textPwd.frame.origin.y);
     CGFloat textFoldH = _textBegin.frame.origin.y;
     //如果键盘能够覆盖文本框，让试图向上移动
-    if (cH < (textFoldH + 35 +50+64)) {
-        _rectH =(textFoldH + 35 +50+64) - cH;
+    if (cH < (textFoldH + 35)) {
+        _rectH =(textFoldH + 35) - cH;
         CGRect rect = self.view.frame;
         rect.origin.y = rect.origin.y-_rectH -15;
         [UIView animateWithDuration:0.2 animations:^{
@@ -99,9 +117,9 @@
         }];
     }
 }
-/////////
-//键盘监听
-//键盘消失
+///////////
+//键盘监听//
+//键盘消失//
 - (void)keyboardHide:(NSNotification *)note{
     if (_rectH > 0) {
         CGRect rect = self.view.frame;
@@ -113,15 +131,89 @@
     _rectH = 0;
 }
 /**
- 获取短信验证码
+ 60秒后重新发送手机验证码
+ */
+-(void)startSenderYzmMessage{
+    __block int timeout=60; //倒计时时间
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+    dispatch_source_set_event_handler(_timer, ^{
+        if(timeout<=0){ //倒计时结束，关闭
+            dispatch_source_cancel(_timer);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //设置界面的按钮显示 根据自己需求设置
+                [_buttonGetMessage setTitle:@"获取短信验证码" forState:UIControlStateNormal];
+                _buttonGetMessage.userInteractionEnabled = YES;
+            });
+        }else{
+            // int minutes = timeout / 60;
+            int seconds = timeout % 60;
+            NSString *strTime = [NSString stringWithFormat:@"%.2d", seconds];
+            if ([strTime isEqualToString:@"00"]) {
+                strTime = @"60";
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //设置界面的按钮显示 根据自己需求设置
+                [_buttonGetMessage setTitle:[NSString stringWithFormat:@"%@秒后重新获取",strTime] forState:UIControlStateNormal];
+                _buttonGetMessage.userInteractionEnabled = NO;
+            });
+            timeout--;
+        }
+    });
+    dispatch_resume(_timer);
+}
+/**
+ 立即注册，请求服务器
  */
 - (void)startRegiste{
+    NSString *urlString = [NSString stringWithFormat:@"%@register/mobile/json",systemHttpsTyUser];
+    NSDictionary *dicUserInfo = @{@"formSystem":@"902",@"mobile":_textPhoneNumber.text,@"password":_textPwd.text,@"regsms":_textMessage.text};
+    NSLog(@"%@",dicUserInfo);
+    [HttpTools postHttpRequestURL:urlString RequestPram:dicUserInfo RequestSuccess:^(id respoes) {
+//        NSDictionary *dicRegiste = [NSJSONSerialization JSONObjectWithData:respoes options:NSJSONReadingMutableLeaves error:nil];
+        NSDictionary *dicRegiste = (NSDictionary *)respoes;
+        NSInteger codeId = [dicRegiste[@"code"] integerValue];
+        if (codeId == 1) {
+            [SVProgressHUD showSuccessWithStatus:@"注册成功"];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:dicRegiste[@"errmsg"]];
+        }
+        NSLog(@"%@",respoes);
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+}
+/**
+ 获取短信验证码
+ */
+- (void)getYzmMessage{
+    [SVProgressHUD showWithStatus:@"请稍后..."];
     NSString *urlString = [NSString stringWithFormat:@"%@getregsms?mobile=%@&captcha=%@",systemHttpsTyUser,_textPhoneNumber.text,_textYzm.text];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dic);
+        //判断手机号是否为空
+        if (_textPhoneNumber.text.length == 0) {
+            [SVProgressHUD showInfoWithStatus:@"手机号码不能为空"];
+            return;
+        }
+        NSString *reString = [[NSString alloc]initWithData:repoes encoding:NSUTF8StringEncoding];
+        reString = [reString substringWithRange:NSMakeRange(1, reString.length -2)];
+        if (reString.length > 13) {
+            //发送成功
+            NSLog(@"%@",reString);
+            [self startSenderYzmMessage];
+            [SVProgressHUD showSuccessWithStatus:reString];
+            _allowRegiste = YES;
+        }
+        else{
+            //发送错误
+            NSLog(@"%@",reString);
+            [SVProgressHUD showInfoWithStatus:reString];
+        }
     } RequestFaile:^(NSError *error) {
-        
+        NSLog(@"fasfafsf");
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 /**

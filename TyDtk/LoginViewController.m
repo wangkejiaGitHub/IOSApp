@@ -64,7 +64,7 @@
         NSLog(@"%@",dic);
         NSInteger codeUser = [dic[@"code"] integerValue];
         if (codeUser == 1) {
-            
+            [SVProgressHUD showSuccessWithStatus:@"登录成功"];
         }
         else{
             [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
