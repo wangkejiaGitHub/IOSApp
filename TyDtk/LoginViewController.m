@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIView *viewPwd;
 @property (weak, nonatomic) IBOutlet UITextField *textName;
 @property (weak, nonatomic) IBOutlet UITextField *textPwd;
+
 //朦层
 @property (nonatomic,strong) MZView *mzView;
 //点击屏幕的手势
@@ -55,6 +56,7 @@
     [_textPwd resignFirstResponder];
 }
 - (IBAction)btnLoginClick:(UIButton *)sender {
+    [self viewTap];
     [SVProgressHUD showWithStatus:@"登录中..."];
     _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
     [self.view addSubview:_mzView];

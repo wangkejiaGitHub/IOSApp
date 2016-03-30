@@ -105,7 +105,6 @@
     //键盘高度
     CGFloat keyBoardHeight = keyboardRect.size.height;
     CGFloat cH = Scr_Height - keyBoardHeight;
-    NSLog(@"%f",_textPwd.frame.origin.y);
     CGFloat textFoldH = _textBegin.frame.origin.y;
     //如果键盘能够覆盖文本框，让试图向上移动
     if (cH < (textFoldH + 40)) {
@@ -169,7 +168,6 @@
 - (void)startRegiste{
     NSString *urlString = [NSString stringWithFormat:@"%@register/mobile/json",systemHttpsTyUser];
     NSDictionary *dicUserInfo = @{@"formSystem":@"902",@"mobile":_textPhoneNumber.text,@"password":_textPwd.text,@"regsms":_textMessage.text};
-    NSLog(@"%@",dicUserInfo);
     [HttpTools postHttpRequestURL:urlString RequestPram:dicUserInfo RequestSuccess:^(id respoes) {
 //        NSDictionary *dicRegiste = [NSJSONSerialization JSONObjectWithData:respoes options:NSJSONReadingMutableLeaves error:nil];
         NSDictionary *dicRegiste = (NSDictionary *)respoes;
@@ -180,7 +178,6 @@
         else{
             [SVProgressHUD showInfoWithStatus:dicRegiste[@"errmsg"]];
         }
-        NSLog(@"%@",respoes);
     } RequestFaile:^(NSError *erro) {
         
     }];
@@ -201,18 +198,15 @@
         reString = [reString substringWithRange:NSMakeRange(1, reString.length -2)];
         if (reString.length > 13) {
             //发送成功
-            NSLog(@"%@",reString);
             [self startSenderYzmMessage];
             [SVProgressHUD showSuccessWithStatus:reString];
             _allowRegiste = YES;
         }
         else{
             //发送错误
-            NSLog(@"%@",reString);
             [SVProgressHUD showInfoWithStatus:reString];
         }
     } RequestFaile:^(NSError *error) {
-        NSLog(@"fasfafsf");
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }

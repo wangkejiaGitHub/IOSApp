@@ -38,11 +38,12 @@
     [self addDataView];
     [self getCurrProvince];
     [self getSubjectClass];
-    
+
 }
 
 //页面加载，设置页面的背景图片等
 - (void)addDataView{
+    _buttonLeftItem.title = @"地区";
     self.title = @"选择专业";
     _arraySubject = [NSMutableArray array];
     _arraySecoundSubject = [NSMutableArray array];
@@ -73,7 +74,7 @@
     _labText.textColor = [UIColor grayColor];
     _labText.font = [UIFont systemFontOfSize:16.0];
     _labText.textAlignment = NSTextAlignmentCenter;
-    _buttonLeftItem.title = @"定位";
+    _buttonLeftItem.title = @"选择地区";
     [self.view addSubview:_labText];
 }
 //选择城市按钮
@@ -164,8 +165,6 @@
             }
         }
         [_myCollectionView reloadData];
-        //网络回复时重新定位
-//        [self getCurrProvince];
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {
@@ -187,7 +186,7 @@
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(30, _cellEdglr, 20, _cellEdglr);
 }
-// cell 大小
+// cell 大小（设置根据屏幕大小适配）
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return CGSizeMake((Scr_Width - _cellEdglr*2 -50)/2, (Scr_Width - _cellEdglr*2 -50)/2 + 30);
 }
@@ -222,7 +221,6 @@
 }
 // 选中cell
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%ld",indexPath.row);
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     [self performSegueWithIdentifier:@"ssubject" sender:indexPath];
 }

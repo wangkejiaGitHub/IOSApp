@@ -19,6 +19,7 @@
 #import "Reachability.h"
 #import "ViewNullData.h"
 #import "MZView.h"
+#import "CustomTools.h"
 
 #import "TestViewController.h"
 //屏宽

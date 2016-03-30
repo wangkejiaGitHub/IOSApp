@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonPhone;
 @property (weak, nonatomic) IBOutlet UIButton *buttonEmail;
 @property (nonatomic,strong) UIView *viewLine;
+@property (nonatomic,assign) CGFloat rgbSize;
 @property (nonatomic,strong) PhoneForPwdViewController *pVc;
 @property (nonatomic,strong) EmailForPwdViewController *eVc;
 @end
@@ -28,6 +29,7 @@
 }
 - (void)viewLoad{
     self.title = @"找回密码";
+    _rgbSize = 200;
     _viewLine = [[UIView alloc]initWithFrame:CGRectMake(0, 48, Scr_Width/2, 2)];
     _viewLine.backgroundColor = [UIColor redColor];
     [_heardView addSubview:_viewLine];
@@ -41,6 +43,9 @@
     _pVc = self.childViewControllers[0];
     _pVc.view.frame = CGRectMake(0, 50+64, Scr_Width, Scr_Height-50-64);
     [self.view addSubview:_pVc.view];
+    
+    _buttonPhone.backgroundColor = ColorWithRGB(170, 170, 170);
+    _buttonEmail.backgroundColor = ColorWithRGB(_rgbSize, _rgbSize, _rgbSize);
 }
 /**
  添加子试图
@@ -61,7 +66,17 @@
 }
 - (IBAction)buttonClick:(UIButton *)sender {
     NSInteger tagBtn = sender.tag;
-    
+    for (id subView in _heardView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            UIButton *currBtn = (UIButton *)subView;
+            if (currBtn.tag == tagBtn) {
+                currBtn.backgroundColor = ColorWithRGB(170, 170, 170);
+            }
+            else{
+                currBtn.backgroundColor = ColorWithRGB(_rgbSize, _rgbSize, _rgbSize);
+            }
+        }
+    }
     //下划线跟踪
     CGRect rect = _viewLine.frame;
     rect.origin.x = tagBtn*Scr_Width/2;

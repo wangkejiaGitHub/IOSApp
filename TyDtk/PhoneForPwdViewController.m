@@ -43,7 +43,6 @@
     if (Scr_Height < 560) {
         _textPhoneTopLayout.constant = 20;
     }
-    NSLog(@"fasfs");
     _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapTextRfr)];
     [self.view addGestureRecognizer:_tapGestView];
     
@@ -59,11 +58,16 @@
 }
 //获取验证码
 - (IBAction)getYzmBtnClick:(UIButton *)sender {
+    [self viewTapTextRfr];
     [self getYzmMessage];
 }
 //提交
 - (IBAction)buttonSubClick:(UIButton *)sender {
     [self viewTapTextRfr];
+    [self viewTapTextRfr];
+}
+- (IBAction)buttonYzmImgsClick:(UIButton *)sender {
+    [self getYzmImageView];
 }
 
 ///////////
