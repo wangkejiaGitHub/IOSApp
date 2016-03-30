@@ -63,11 +63,12 @@
     NSDictionary *dicLogin = @{@"account":_textName.text,@"password":_textPwd.text};
     [HttpTools postHttpRequestURL:@"http://www.tydlk.cn/tyuser/login/json" RequestPram:dicLogin RequestSuccess:^(id respoes) {
         NSDictionary *dic = respoes;
-        NSLog(@"%@",dic);
         NSInteger codeUser = [dic[@"code"] integerValue];
+        NSDictionary *dicUser = dic[@"datas"];
         if (codeUser == 1) {
             [SVProgressHUD showSuccessWithStatus:@"登录成功"];
-            
+            NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+            [tyUser setObject:dicUser forKey:tyUserUser];
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{

@@ -293,10 +293,10 @@
             </objects>
             <point key="canvasLocation" x="-824.5" y="245.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Subject Info View Controller-->
         <scene sceneID="aaT-Uf-0P6">
             <objects>
-                <viewController id="Fee-mn-zWi" sceneMemberID="viewController">
+                <viewController id="Fee-mn-zWi" customClass="SubjectInfoViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fv5-kC-kBV"/>
                         <viewControllerLayoutGuide type="bottom" id="5xN-PX-IXf"/>
@@ -305,11 +305,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xfr-87-luS">
-                                <rect key="frame" x="0.0" y="64" width="375" height="48"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TVl-Gl-dTg">
+                                <rect key="frame" x="0.0" y="64" width="375" height="50"/>
+                                <color key="backgroundColor" red="0.77091916360000001" green="0.84952596749999998" blue="0.9031413613" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="VMe-fN-Xyi"/>
+                                </constraints>
                             </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vDX-u9-JlD">
+                                <rect key="frame" x="0.0" y="617" width="375" height="50"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="B6w-Th-xnJ"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XsD-wx-pfy">
+                                <rect key="frame" x="95" y="295" width="185" height="35"/>
+                                <state key="normal" title="授权并获取令牌"/>
+                                <connections>
+                                    <action selector="buttonClick:" destination="Fee-mn-zWi" eventType="touchUpInside" id="xc7-LQ-YE6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5xN-PX-IXf" firstAttribute="top" secondItem="vDX-u9-JlD" secondAttribute="bottom" id="6Ae-kr-Hyp"/>
+                            <constraint firstItem="vDX-u9-JlD" firstAttribute="leading" secondItem="8AC-B0-WdF" secondAttribute="leading" id="GvM-Z4-QTn"/>
+                            <constraint firstAttribute="trailing" secondItem="vDX-u9-JlD" secondAttribute="trailing" id="bO9-zE-iGI"/>
+                            <constraint firstItem="TVl-Gl-dTg" firstAttribute="top" secondItem="fv5-kC-kBV" secondAttribute="bottom" id="hM2-s4-jAb"/>
+                            <constraint firstAttribute="trailing" secondItem="TVl-Gl-dTg" secondAttribute="trailing" id="huK-Vp-ajN"/>
+                            <constraint firstItem="TVl-Gl-dTg" firstAttribute="leading" secondItem="8AC-B0-WdF" secondAttribute="leading" id="smb-bY-HAz"/>
+                        </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                 </viewController>

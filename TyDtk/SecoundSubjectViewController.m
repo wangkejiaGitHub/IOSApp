@@ -127,7 +127,7 @@
     [labAtt addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, courseNumString.length)];
     UILabel *labSub = (UILabel *)[cell.contentView viewWithTag:11];
     labSub.attributedText = labAtt;
-    //人数
+    //学习人数
     UILabel *labPersonNub = (UILabel *)[cell.contentView viewWithTag:12];
     labPersonNub.adjustsFontSizeToFitWidth = YES;
     NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:@"0人在学"];
@@ -136,7 +136,17 @@
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:@"gologin" sender:nil];
+    NSDictionary *dic = _arrayCurrSelectSubject[indexPath.row];
+    NSLog(@"%@",dic);
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    if (![tyUser objectForKey:tyUserUser]) {
+        [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];
+        [self performSegueWithIdentifier:@"gologin" sender:nil];
+    }
+    else{
+        [self performSegueWithIdentifier:@"subjectin" sender:nil];
+        
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

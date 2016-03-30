@@ -12,16 +12,31 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
+/**********************
+ 头文件宏引用
+ *********************/
+//图片请求
 #import "UIImageView+WebCache.h"
+//网络请求
 #import "HttpTools.h"
+//汉字转拼音
 #import "ChineseToPinyin.h"
+//提示框
 #import "SVProgressHUD.h"
+//网络监控
 #import "Reachability.h"
+//空数据View层
 #import "ViewNullData.h"
+//朦层
 #import "MZView.h"
+//自定义封装方法
 #import "CustomTools.h"
-
+//用于测试的ViewController
 #import "TestViewController.h"
+
+/**********************
+ 自定义字段（简化代码）
+ *********************/
 //屏宽
 #define Scr_Width [UIScreen mainScreen].bounds.size.width
 //屏高
@@ -30,6 +45,10 @@
 #define ColorWithRGB(r,g,b) [UIColor colorWithRed:r/225.0 green:g/225.0 blue:b/225.0 alpha:1]
 //color RGB with alpha
 #define ColorWithRGBWithAlpp(r,g,b,alp) [UIColor colorWithRed:r/225.0 green:g/225.0 blue:b/225.0 alpha:alp]
+
+/**********************
+ 服务器请求相关地址
+ *********************/
 /**服务器地址*/
 #define systemHttps @"http://api.diantiku.cn/"
 /**图片地址*/
@@ -41,4 +60,17 @@
 //"更多" 图片地址
 #define systemMoreImg @"http://mobile.kaola100.com/images/more.png"
 
+/**********************
+  NSUserDefaults 信息储存字段
+ *********************/
+//用户信息（字典模型
+// 包含的key对应服务器发送过来的Key
+#define tyNSUserDefaults [NSUserDefaults standardUserDefaults]
+#define tyUserUser @"tyUserInfo"
+//令牌
+#define tyUserAccessToken @"tyAccessToken"
+//专业
+#define tyUserClass @"tyClass"
+//科目
+#define tyUserSubject @"tySubject"
 #endif /* DtkPchFile_pch */
