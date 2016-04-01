@@ -138,6 +138,11 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *dic = _arrayCurrSelectSubject[indexPath.row];
+    NSInteger courseNumId = [dic[@"CourseNum"] integerValue];
+    if (courseNumId == 0) {
+        [SVProgressHUD showInfoWithStatus:@"暂时还没有科目哟~"];
+        return;
+    }
     NSLog(@"%@",dic);
 //    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
 //    if (![tyUser objectForKey:tyUserUser]) {

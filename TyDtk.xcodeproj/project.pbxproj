@@ -11,6 +11,7 @@
 		1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */; };
 		1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */; };
 		1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE066A1CAA296A00FA1505 /* EmailForPwdViewController.m */; };
+		1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */; };
 		1DE695D51CA8C75100ED1DA3 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695D41CA8C75100ED1DA3 /* TestViewController.m */; };
 		1DE695DF1CA8D28100ED1DA3 /* PhoneReViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695DE1CA8D28100ED1DA3 /* PhoneReViewController.m */; };
 		1DE695E21CA8D39200ED1DA3 /* EmailReViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695E11CA8D39200ED1DA3 /* EmailReViewController.m */; };
@@ -94,6 +95,8 @@
 		1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneForPwdViewController.m; sourceTree = "<group>"; };
 		1DDE06691CAA296A00FA1505 /* EmailForPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailForPwdViewController.h; sourceTree = "<group>"; };
 		1DDE066A1CAA296A00FA1505 /* EmailForPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailForPwdViewController.m; sourceTree = "<group>"; };
+		1DE3F88D1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
+		1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		1DE695D31CA8C75100ED1DA3 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		1DE695D41CA8C75100ED1DA3 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		1DE695DD1CA8D28100ED1DA3 /* PhoneReViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneReViewController.h; sourceTree = "<group>"; };
@@ -239,6 +242,15 @@
 			name = UserFindPwd;
 			sourceTree = "<group>";
 		};
+		1DE3F88C1CAE52CA00A290CF /* FDFullscreenPopGesture */ = {
+			isa = PBXGroup;
+			children = (
+				1DE3F88D1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.h */,
+				1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */,
+			);
+			path = FDFullscreenPopGesture;
+			sourceTree = "<group>";
+		};
 		1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */ = {
 			isa = PBXGroup;
 			children = (
@@ -365,6 +377,7 @@
 		1DEDC8331C9FA2920083B394 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				1DE3F88C1CAE52CA00A290CF /* FDFullscreenPopGesture */,
 				1DEDC8691C9FA66B0083B394 /* AFNetworking */,
 				1DEDC8341C9FA2920083B394 /* SDWebImage */,
 			);
@@ -654,6 +667,7 @@
 				1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */,
 				1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */,
 				1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */,
+				1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */,
 				1DEDC7D81C9F817B0083B394 /* main.m in Sources */,
 				1DEDC8611C9FA2920083B394 /* UIImage+MultiFormat.m in Sources */,

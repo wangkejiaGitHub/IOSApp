@@ -7,9 +7,14 @@
 //
 
 #import "SubjectInfoViewController.h"
-@interface SubjectInfoViewController ()<UIScrollViewDelegate>
+@interface SubjectInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *ScrolHeardView;
-
+@property (weak, nonatomic) IBOutlet UIView *viewNaviTitle;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonLayoutWidth;
+@property (weak, nonatomic) IBOutlet UIButton *buttonHeard;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewHeard;
+//titleButton要显示的字段
+@property (nonatomic,strong) NSString *buttonString;
 //用户信息，以及所需全局信息
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //从tyUser中获取到的用户信息
@@ -19,6 +24,11 @@
 customTool;
 //专业下所有科目科目
 @property (nonatomic,strong) NSArray *arraySubject;
+@property (nonatomic,strong) UIView *viewDroupDownList;
+@property (nonatomic,assign) BOOL allowMenu;
+@property (nonatomic,assign) CGFloat tableHeight;
+//手势层
+@property (nonatomic,strong) UIView *viewDown;
 @end
 
 @implementation SubjectInfoViewController
@@ -26,28 +36,107 @@ customTool;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     [self viewLoad];
 }
 - (void)viewLoad{
-    NSLog(@"%@",_dicSubject);
-    self.title = _dicSubject[@"Names"];
+    _buttonString = @"请选择科目";
+    _allowMenu = NO;
+    CGSize btnSize = sizeWithStrinfLength(_buttonString, 15.0, 30);
+    _buttonLayoutWidth.constant = btnSize.width;
+    [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
+    
     [self getAllSubject];
 }
+/**
+ 屏幕点击事件
+ */
+- (void)viewTapTextRfr{
+    [self hideViewDroupDownListMenu];
+}
 -(void)test{
-    //    _tyUser = tyNSUserDefaults;
+        _tyUser = tyNSUserDefaults;
     //    _dicUser = [_tyUser objectForKey:tyUserUser];
     //    _customTool = [[CustomTools alloc]init];
     //    _customTool.delegateTool = self;
     //    [_customTool empowerAndSignatureWithUserId:_dicUser[@"userId"] userName:_dicUser[@"name"] classId:@"105" subjectId:@"661"];
-    //
-    //    [_tyUser removeObjectForKey:tyUserUser];
-    //    [_tyUser removeObjectForKey:tyUserAccessToken];
+    
+        [_tyUser removeObjectForKey:tyUserUser];
+        [_tyUser removeObjectForKey:tyUserAccessToken];
+}
+
+- (IBAction)heardButtonClick:(UIButton *)sender {
+    _allowMenu = !_allowMenu;
+    if (_allowMenu) {
+       
+        [self addViewDroupDownListMenuForSelf];
+    }
+    else{
+        
+        
+        [self hideViewDroupDownListMenu];
+    }
+    NSLog(@"fasfsfff");
+}
+/**
+ 菜单出现
+ */
+- (void)addViewDroupDownListMenuForSelf{
+    if (!_viewDroupDownList) {
+        _viewDroupDownList = [[UIView alloc]initWithFrame:CGRectMake(0, -_tableHeight, Scr_Width, _tableHeight)];
+        _viewDroupDownList.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.3);
+        
+        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _tableHeight) style:UITableViewStylePlain];
+        tableView.delegate = self;
+        tableView.dataSource =self;
+        tableView.backgroundColor = [UIColor clearColor];
+        tableView.tableFooterView = [UIView new];
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 10)];
+        tableView.tableHeaderView = view;
+        [_viewDroupDownList addSubview:tableView];
+    }
+     _imageViewHeard.image = [UIImage imageNamed:@"arrow_up"];
+    [self.view addSubview:_viewDroupDownList];
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect rect = _viewDroupDownList.frame;
+        rect.origin.y = 64;
+        _viewDroupDownList.frame = rect;
+    }];
+    if (!_viewDown) {
+        _viewDown = [[UIView alloc]initWithFrame:CGRectMake(0, _tableHeight+60, Scr_Width, Scr_Height-_tableHeight-40)];
+        _viewDown.backgroundColor =[UIColor clearColor];
+        [self.view addSubview:_viewDown];
+        UITapGestureRecognizer *tapViewDown = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapViewDown)];
+        [_viewDown addGestureRecognizer:tapViewDown];
+    }
+    [self.view addSubview:_viewDown];
+   
+}
+-(void)tapViewDown{
+    [self hideViewDroupDownListMenu];
+}
+/**
+ 隐藏菜单
+ */
+- (void)hideViewDroupDownListMenu{
+    if (_viewDown) {
+        [_viewDown removeFromSuperview];
+    }
+    _imageViewHeard.image = [UIImage imageNamed:@"arrow_down"];
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect rect = _viewDroupDownList.frame;
+        rect.origin.y = -Scr_Height/2;
+        _viewDroupDownList.frame = rect;
+    }];
+    _allowMenu = NO;
+}
+- (IBAction)leftButtonClick:(UIBarButtonItem *)sender {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 /**
  获取专业下所有科目
  */
 - (void)getAllSubject{
+    [SVProgressHUD show];
     NSInteger subId = [_dicSubject[@"Id"] intValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,subId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -55,79 +144,46 @@ customTool;
         NSLog(@"%@",dicSubject);
         _arraySubject = dicSubject[@"datas"];
         NSLog(@"%@",_arraySubject);
-        [self addSubjectButtonForScrolView];
+        _tableHeight = _arraySubject.count*30+20;
+        [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
-/**
- 在scrollView上加上科目
- */
-- (void)addSubjectButtonForScrolView{
-    CGFloat btn_w = 180;
-    CGFloat btn_h = 30;
-    //button之间的间距
-    CGFloat btn_spa = 10;
-    _ScrolHeardView.contentSize = CGSizeMake(btn_w*_arraySubject.count+btn_spa*(_arraySubject.count + 1), 50);
-    for (int i =0; i<_arraySubject.count; i++) {
-        NSDictionary *dic = _arraySubject[i];
-        UIButton *btnSub = [UIButton buttonWithType:UIButtonTypeCustom];
-        btnSub.frame = CGRectMake(btn_spa+(btn_w+btn_spa)*i, 10, btn_w, btn_h);
-        btnSub.titleLabel.font = [UIFont systemFontOfSize:15.0];
-        [btnSub setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [btnSub setTitle:dic[@"Names"] forState:UIControlStateNormal];
-        btnSub.tag = i+1000;
-        [btnSub addTarget:self action:@selector(btnScrloClick:) forControlEvents:UIControlEventTouchUpInside];
-        if (i == 0) {
-            [btnSub setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        }
-        [_ScrolHeardView addSubview:btnSub];
-    }
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _arraySubject.count;
 }
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView;{
-    NSLog(@"%f",scrollView.contentOffset.x);
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 30;
 }
-/**
- scrollView上面的科目点击事件
- */
--(void)btnScrloClick:(UIButton *)sender{
-    for (id subView in _ScrolHeardView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) {
-            UIButton *btnCurr = (UIButton *)subView;
-            if (sender.tag == btnCurr.tag ) {
-                [btnCurr setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-                [self setScrollViewContentOffsetWhenBtnClick:btnCurr];
-                NSLog(@"UIButton.frame == %f",sender.frame.origin.x + 90 - (Scr_Width/2));
-            }
-            else{
-                [btnCurr setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            }
-        }
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
     }
-}
-/**
- 当点击scrollView上面的科目时，让科目名字居中
- */
-- (void)setScrollViewContentOffsetWhenBtnClick:(UIButton*)currSelectButton{
-//    CGFloat btn_spa = 10;
-    CGFloat btn_w = 180;
-    //button的X坐标
-    CGFloat currBtnLocX = currSelectButton.frame.origin.x;
-    NSLog(@"%f",currBtnLocX);
-    NSLog(@"当前X方向偏移 = %f",_ScrolHeardView.contentOffset.x);
-    //button中心点的位置
-    CGFloat currBtnCenterLocX = currBtnLocX + (btn_w/2);
-    //判断button是否在可偏移的范围之内
-    if (currBtnCenterLocX > (Scr_Width/2) && currBtnCenterLocX<(_ScrolHeardView.contentSize.width-(Scr_Width/2))) {
-
-        //计算X方向偏移量
-        CGFloat scrollViewOffSizeX = currBtnCenterLocX - (Scr_Width/2);
-        NSLog(@"%f",scrollViewOffSizeX);
-        [_ScrolHeardView setContentOffset:CGPointMake(scrollViewOffSizeX, 0) animated:YES];
-
+    for (id subView in cell.contentView.subviews) {
+        [subView removeFromSuperview];
     }
+    cell.backgroundColor = [UIColor clearColor];
+    NSDictionary *dic = _arraySubject[indexPath.row];
+    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, Scr_Width-20, 20)];
+    labText.textColor = [UIColor blueColor];
+    labText.font = [UIFont systemFontOfSize:16.0];
+    labText.text = dic[@"Names"];
+    labText.textAlignment = NSTextAlignmentCenter;
+    [cell.contentView addSubview:labText];
     
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary *dic = _arraySubject[indexPath.row];
+    _buttonString = dic[@"Names"];
+    CGSize size = sizeWithStrinfLength(_buttonString, 15.0, 30);
+    [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
+    _buttonLayoutWidth.constant = size.width;
+    [self hideViewDroupDownListMenu];
+    NSLog(@"ddddddddd");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
