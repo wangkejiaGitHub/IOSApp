@@ -7,7 +7,7 @@
 //
 
 #import "SecoundSubjectViewController.h"
-
+#import "SubjectInfoViewController.h"
 @interface SecoundSubjectViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
 //tableVIew 的宽度（页面适配）
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tabViewWidthCount;
@@ -28,6 +28,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self viewLoad];
+    NSLog(@"%@ == %@",_arraySecoundSubject,_arrayCurrSelectSubject);
 }
 - (void)viewLoad{
     [SVProgressHUD showWithStatus:@"加载中..."];
@@ -138,15 +139,22 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *dic = _arrayCurrSelectSubject[indexPath.row];
     NSLog(@"%@",dic);
-    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    if (![tyUser objectForKey:tyUserUser]) {
-        [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];
-        [self performSegueWithIdentifier:@"gologin" sender:nil];
-    }
-    else{
-        [self performSegueWithIdentifier:@"subjectin" sender:nil];
-        
-    }
+//    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+//    if (![tyUser objectForKey:tyUserUser]) {
+//        [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];
+//        [self performSegueWithIdentifier:@"gologin" sender:nil];
+//    }
+//    else{
+//        [self performSegueWithIdentifier:@"subjectin" sender:nil];
+    
+//    }
+    [self performSegueWithIdentifier:@"subjectin" sender:dic];
+
+}
+//页面跳转调用
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    SubjectInfoViewController *subVc = segue.destinationViewController;
+    subVc.dicSubject = sender;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

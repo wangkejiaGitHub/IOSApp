@@ -12,7 +12,7 @@
 #import <CoreLocation/CoreLocation.h>
 @interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,CLLocationManagerDelegate,AgainLocationDelegate>
 //地区按钮
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonLeftItem;
+@property (weak, nonatomic) IBOutlet UIButton *buttonLeftItem;
 //collcetionView
 @property (weak, nonatomic) IBOutlet UICollectionView *myCollectionView;
 //背景图片
@@ -21,9 +21,9 @@
 @property (nonatomic,assign) CGFloat cellEdglr;
 //定位
 @property (nonatomic,strong) CLLocationManager *locManager;
-//所有第一类专业科目(专业)
+//所有专业分类
 @property (nonatomic,strong) NSMutableArray *arraySubject;
-//所有第二类科目（科目）
+//所有专业
 @property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
 //网络监控
 @property (nonatomic,strong) Reachability *conn;
@@ -43,7 +43,8 @@
 
 //页面加载，设置页面的背景图片等
 - (void)addDataView{
-    _buttonLeftItem.title = @"地区";
+//    _buttonLeftItem.title = @"地区";
+    [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
     self.title = @"选择专业";
     _arraySubject = [NSMutableArray array];
     _arraySecoundSubject = [NSMutableArray array];
@@ -74,12 +75,12 @@
     _labText.textColor = [UIColor grayColor];
     _labText.font = [UIFont systemFontOfSize:16.0];
     _labText.textAlignment = NSTextAlignmentCenter;
-    _buttonLeftItem.title = @"选择地区";
+       [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
     [self.view addSubview:_labText];
 }
 //选择城市按钮
-- (IBAction)cityBtnClick:(UIBarButtonItem *)sender {
-    [self performSegueWithIdentifier:@"location" sender:sender.title];
+- (IBAction)cityBtnClick:(UIButton *)sender {
+    [self performSegueWithIdentifier:@"location" sender:_buttonLeftItem.titleLabel.text];
 }
 //页面跳转调用
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -105,10 +106,13 @@
         [self getCurrProvince];
     }
     else{
-        if (proVince.length>5) {
+        if (proVince.length == 4) {
+            proVince = [proVince substringToIndex:3];
+        }
+        if (proVince.length>=5) {
             proVince = [proVince substringToIndex:2];
         }
-        _buttonLeftItem.title = proVince;
+            [_buttonLeftItem setTitle:proVince forState:UIControlStateNormal];
     }
 }
 /**
@@ -136,7 +140,7 @@
         //addressPla.administrativeArea 省级
         // addressPla.locality 市级
         // addressPla.name 具体位置信息（街道等）
-        _buttonLeftItem.title = addressPla.administrativeArea;
+            [_buttonLeftItem setTitle:addressPla.administrativeArea forState:UIControlStateNormal];
         //结束定位
         [_locManager stopUpdatingLocation];
     }];
