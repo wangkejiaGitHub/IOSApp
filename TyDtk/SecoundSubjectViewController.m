@@ -110,11 +110,14 @@
     return 25;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(((Scr_Width-_tabViewWidthCount.constant)-20), ((Scr_Width-_tabViewWidthCount.constant)-20)/2 - 10);
+    return CGSizeMake(((Scr_Width-_tabViewWidthCount.constant)-20), ((Scr_Width-_tabViewWidthCount.constant)-20)/2 - 10+30);
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"sscell" forIndexPath:indexPath];
     NSDictionary *dicCurrSubject = _arrayCurrSelectSubject[indexPath.row];
+    //专业名称
+    UILabel *labnName = (UILabel *)[cell.contentView viewWithTag:14];
+    labnName.text = dicCurrSubject[@"Names"];
     //图片
     UIImageView *imageCell = (UIImageView *)[cell.contentView viewWithTag:10];
     NSString *imgUrl = [NSString stringWithFormat:@"%@%@",systemHttpImgs,dicCurrSubject[@"ImageUrl"]];
@@ -135,6 +138,10 @@
     NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:@"0人在学"];
     [labPerson addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 1)];
     labPersonNub.attributedText = labPerson;
+//    cell.backgroundColor = [UIColor clearColor];
+    cell.backgroundColor = ColorWithRGBWithAlpp(218, 218, 218, 0.5);
+    cell.layer.masksToBounds = YES;
+    cell.layer.cornerRadius = 5;
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -152,10 +159,8 @@
         [self performSegueWithIdentifier:@"gologin" sender:nil];
     }
     else{
-        [self performSegueWithIdentifier:@"subjectin" sender:nil];
+        [self performSegueWithIdentifier:@"subjectin" sender:dic];
     }
-    
-//    [self performSegueWithIdentifier:@"subjectin" sender:dic];
 
 }
 //页面跳转调用
@@ -163,9 +168,12 @@
     if ([segue.identifier isEqualToString:@"subjectin"]) {
         SubjectInfoViewController *subVc = segue.destinationViewController;
         subVc.dicSubject = sender;
+        //隐藏tabbar
+        subVc.hidesBottomBarWhenPushed = YES;
     }
     else if ([segue.identifier isEqualToString:@"gologin"]){
         LoginViewController *logVc = segue.destinationViewController;
+        //隐藏tabbar
         logVc.hidesBottomBarWhenPushed = YES;
     }
 }

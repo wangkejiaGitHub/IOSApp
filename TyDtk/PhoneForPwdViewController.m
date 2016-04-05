@@ -42,6 +42,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [self getYzmImageView];
+    //适应4s手机，让整个试图能够全部显示
     if (Scr_Height < 560) {
         _textPhoneTopLayout.constant = 20;
     }

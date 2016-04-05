@@ -38,15 +38,14 @@
     [self addDataView];
     [self getCurrProvince];
     [self getSubjectClass];
-
+    
 }
 
 //页面加载，设置页面的背景图片等
 - (void)addDataView{
-        self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"qydp_001"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-//    _buttonLeftItem.title = @"地区";
-    self.navigationController.tabBarController.title = @"fsff";
+//    self.tabBarController.tabBar.tintColor = [UIColor redColor];
+    self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon1_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
     _arraySubject = [NSMutableArray array];
     _arraySecoundSubject = [NSMutableArray array];
@@ -58,10 +57,10 @@
     [_conn startNotifier];
 }
 //- (void)viewWillAppear:(BOOL)animated{
-//    
+//
 //}
 //- (void)viewWillDisappear:(BOOL)animated{
-//    
+//
 //}
 /**
  网络发生变化时触发
@@ -77,7 +76,7 @@
     _labText.textColor = [UIColor grayColor];
     _labText.font = [UIFont systemFontOfSize:16.0];
     _labText.textAlignment = NSTextAlignmentCenter;
-       [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
+    [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
     [self.view addSubview:_labText];
 }
 //选择城市按钮
@@ -114,7 +113,7 @@
         if (proVince.length>=5) {
             proVince = [proVince substringToIndex:2];
         }
-            [_buttonLeftItem setTitle:proVince forState:UIControlStateNormal];
+        [_buttonLeftItem setTitle:proVince forState:UIControlStateNormal];
     }
 }
 /**
@@ -142,7 +141,7 @@
         //addressPla.administrativeArea 省级
         // addressPla.locality 市级
         // addressPla.name 具体位置信息（街道等）
-            [_buttonLeftItem setTitle:addressPla.administrativeArea forState:UIControlStateNormal];
+        [_buttonLeftItem setTitle:addressPla.administrativeArea forState:UIControlStateNormal];
         //结束定位
         [_locManager stopUpdatingLocation];
     }];
@@ -223,6 +222,9 @@
     UIView *selectView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height)];
     selectView.backgroundColor = [UIColor lightGrayColor];
     cell.selectedBackgroundView = selectView;
+    cell.backgroundColor = ColorWithRGBWithAlpp(218, 218, 218, 0.3);
+    cell.layer.masksToBounds = YES;
+    cell.layer.cornerRadius = 5;
     return cell;
 }
 // 选中cell

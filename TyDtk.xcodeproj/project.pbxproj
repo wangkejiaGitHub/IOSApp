@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D10C9891CB3A74C00040913 /* UserIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D10C9881CB3A74C00040913 /* UserIndexViewController.m */; };
 		1D18A02D1CAB7D690022642C /* CustomTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02C1CAB7D690022642C /* CustomTools.m */; };
 		1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */; };
 		1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */; };
@@ -87,6 +88,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D10C9871CB3A74C00040913 /* UserIndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserIndexViewController.h; sourceTree = "<group>"; };
+		1D10C9881CB3A74C00040913 /* UserIndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserIndexViewController.m; sourceTree = "<group>"; };
 		1D18A02B1CAB7D690022642C /* CustomTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTools.h; sourceTree = "<group>"; };
 		1D18A02C1CAB7D690022642C /* CustomTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTools.m; sourceTree = "<group>"; };
 		1D18A02E1CABB0E00022642C /* SubjectInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectInfoViewController.h; sourceTree = "<group>"; };
@@ -336,6 +339,8 @@
 			children = (
 				1DDE06651CAA28FB00FA1505 /* UserFindPwd */,
 				1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */,
+				1D10C9871CB3A74C00040913 /* UserIndexViewController.h */,
+				1D10C9881CB3A74C00040913 /* UserIndexViewController.m */,
 				1DEDC80B1C9F86170083B394 /* LoginViewController.h */,
 				1DEDC80C1C9F86170083B394 /* LoginViewController.m */,
 				1DEDC80E1C9F86400083B394 /* RegisterViewController.h */,
@@ -649,6 +654,7 @@
 				1DEDC87F1C9FA6810083B394 /* HttpTools.m in Sources */,
 				1DEDC8621C9FA2920083B394 /* UIImage+WebP.m in Sources */,
 				1DEDC8641C9FA2920083B394 /* UIImageView+WebCache.m in Sources */,
+				1D10C9891CB3A74C00040913 /* UserIndexViewController.m in Sources */,
 				1DEDC8771C9FA66B0083B394 /* AFHTTPSessionManager.m in Sources */,
 				1DEDC85A1C9FA2920083B394 /* SDWebImageDecoder.m in Sources */,
 				1DE695DF1CA8D28100ED1DA3 /* PhoneReViewController.m in Sources */,

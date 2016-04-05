@@ -63,8 +63,8 @@ customTool;
     //    _customTool.delegateTool = self;
     //    [_customTool empowerAndSignatureWithUserId:_dicUser[@"userId"] userName:_dicUser[@"name"] classId:@"105" subjectId:@"661"];
     
-        [_tyUser removeObjectForKey:tyUserUser];
-        [_tyUser removeObjectForKey:tyUserAccessToken];
+//        [_tyUser removeObjectForKey:tyUserUser];
+//        [_tyUser removeObjectForKey:tyUserAccessToken];
 }
 
 - (IBAction)heardButtonClick:(UIButton *)sender {
@@ -93,7 +93,8 @@ customTool;
         tableView.delegate = self;
         tableView.dataSource =self;
         tableView.backgroundColor = [UIColor clearColor];
-        tableView.tableFooterView = [UIView new];
+        UIView *viewF = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 10)];
+        tableView.tableFooterView = viewF;
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 10)];
         tableView.tableHeaderView = view;
         [_viewDroupDownList addSubview:tableView];
@@ -128,7 +129,7 @@ customTool;
     _imageViewHeard.image = [UIImage imageNamed:@"arrow_down"];
     [UIView animateWithDuration:0.3 animations:^{
         CGRect rect = _viewDroupDownList.frame;
-        rect.origin.y = -Scr_Height/2;
+        rect.origin.y = - _tableHeight;
         _viewDroupDownList.frame = rect;
     }];
     _allowMenu = NO;
@@ -150,6 +151,9 @@ customTool;
         _arraySubject = dicSubject[@"datas"];
         NSLog(@"%@",_arraySubject);
         _tableHeight = _arraySubject.count*30+20;
+        if (_tableHeight > Scr_Height) {
+            _tableHeight = Scr_Height - 153;
+        }
         [SVProgressHUD dismiss];
         _buttonHeard.enabled = YES;
     } RequestFaile:^(NSError *error) {
