@@ -7,14 +7,15 @@
 //
 
 #import "EmailReViewController.h"
-
+#import "LoginViewController.h"
 @interface EmailReViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textEmail;
 @property (weak, nonatomic) IBOutlet UITextField *textYzm;
 @property (weak, nonatomic) IBOutlet UIButton *buttonYzm;
 @property (weak, nonatomic) IBOutlet UITextField *textPwd;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRegist;
-
+//朦层
+@property (nonatomic,strong) MZView *mzView;
 //点击屏幕的手势
 @property (nonatomic,strong) UITapGestureRecognizer *tapGestView;
 @end
@@ -26,6 +27,8 @@
     // Do any additional setup after loading the view.
     [self viewLoad];
 }
+
+
 //页面加载
 - (void)viewLoad{
     self.title = @"邮箱注册";
@@ -74,14 +77,34 @@
  立即注册，请求服务器
  */
 - (void)startRegiste{
+    if (!_mzView) {
+        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    }
+    [self.view addSubview:_mzView];
+    [SVProgressHUD showWithStatus:@"请稍后..."];
     NSString *urlString = [NSString stringWithFormat:@"%@register/email/json",systemHttpsTyUser];
-    NSDictionary *dicUserInfo = @{@"formSystem":@"1",@"email":_textEmail.text,@"password":_textPwd.text,@"captcha":_textYzm.text};
+    NSDictionary *dicUserInfo = @{@"fromSystem":@"902",@"email":_textEmail.text,@"password":_textPwd.text,@"captcha":_textYzm.text};
     NSLog(@"%@",dicUserInfo);
     [HttpTools postHttpRequestURL:urlString RequestPram:dicUserInfo RequestSuccess:^(id respoes) {
         //        NSDictionary *dicRegiste = [NSJSONSerialization JSONObjectWithData:respoes options:NSJSONReadingMutableLeaves error:nil];
         NSLog(@"%@",respoes);
+        NSDictionary *dicRe = (NSDictionary *)respoes;
+        NSInteger codeId = [dicRe[@"code"] integerValue];
+        if (codeId == 1) {
+            [SVProgressHUD showSuccessWithStatus:@"操作成功,请前往邮箱激活"];
+            //当前的Viewcontrol在本栈列的位置
+            NSInteger index = (NSInteger)[[self.navigationController viewControllers]indexOfObject:self];
+            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(index -2)] animated:YES];
+            
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:dicRe[@"errmsg"]];
+            
+        }
+        [_mzView removeFromSuperview];
     } RequestFaile:^(NSError *erro) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [_mzView removeFromSuperview];
     }];
 }
 /**
@@ -109,13 +132,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

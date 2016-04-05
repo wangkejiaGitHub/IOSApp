@@ -55,10 +55,13 @@
     [_textName resignFirstResponder];
     [_textPwd resignFirstResponder];
 }
+//登录
 - (IBAction)btnLoginClick:(UIButton *)sender {
     [self viewTap];
     [SVProgressHUD showWithStatus:@"登录中..."];
-    _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    if (!_mzView) {
+        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    }
     [self.view addSubview:_mzView];
     NSDictionary *dicLogin = @{@"account":_textName.text,@"password":_textPwd.text};
     [HttpTools postHttpRequestURL:@"http://www.tydlk.cn/tyuser/login/json" RequestPram:dicLogin RequestSuccess:^(id respoes) {
@@ -76,6 +79,7 @@
         }
         [_mzView removeFromSuperview];
     } RequestFaile:^(NSError *erro) {
+        [_mzView removeFromSuperview];
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }

@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonSubmit;
 //开始编辑的TextField
 @property (nonatomic,strong) UITextField *textBegin;
+//朦层
+@property (nonatomic,strong) MZView *mzView;
 //点击屏幕的手势
 @property (nonatomic,strong) UITapGestureRecognizer *tapGestView;
 @property (nonatomic ,assign) CGFloat rectH;
@@ -63,13 +65,47 @@
 }
 //提交
 - (IBAction)buttonSubClick:(UIButton *)sender {
-    [self viewTapTextRfr];
+    if ([_textpwd.text isEqualToString:@""] | [_textPwdAgain.text isEqualToString:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"请完善信息"];
+        return;
+    }
+    if (![_textpwd.text isEqualToString:_textPwdAgain.text]) {
+        [SVProgressHUD showInfoWithStatus:@"两次密码输入不一致"];
+        return;
+    }
+    [self startFindPwdWithPhone];
     [self viewTapTextRfr];
 }
 - (IBAction)buttonYzmImgsClick:(UIButton *)sender {
     [self getYzmImageView];
 }
-
+//开始找回密码
+- (void)startFindPwdWithPhone{
+    if (!_mzView) {
+        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    }
+    [self.view addSubview:_mzView];
+    [SVProgressHUD showWithStatus:@"请稍后..."];
+    NSDictionary *dicInfo = @{@"fromSystem":@"902",@"mobile":_textPhoneNumber.text,@"password":_textPwdAgain.text,@"findpwdsms":_textPhoneYzm.text};
+    NSString *urlString = [NSString stringWithFormat:@"%@findpwd/mobile/json",systemHttpsTyUser];
+    [HttpTools postHttpRequestURL:urlString RequestPram:dicInfo RequestSuccess:^(id respoes) {
+        NSDictionary *dicRe = (NSDictionary *)respoes;
+        NSInteger codeId = [dicRe[@"code"] integerValue];
+        if (codeId == 1) {
+            [SVProgressHUD showSuccessWithStatus:@"密码更新成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:dicRe[@"errmsg"]];
+            
+        }
+        [_mzView removeFromSuperview];
+        NSLog(@"%@",respoes);
+    } RequestFaile:^(NSError *erro) {
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [_mzView removeFromSuperview];
+    }];
+}
 ///////////
 //键盘监听//
 //键盘出现//
@@ -185,25 +221,14 @@
         if (codeId == 1) {
             //发送成功
             [self startSenderYzmMessage];
-            [SVProgressHUD showSuccessWithStatus:@"验证码发送成功!"];
+            [SVProgressHUD showSuccessWithStatus:@"验证码发送成功"];
 
         }
         else{
             [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
         }
         NSLog(@"%@",dic);
-//        reString = [reString substringWithRange:NSMakeRange(1, reString.length -2)];
-//        if (reString.length > 13) {
-//            //发送成功
-//            NSLog(@"%@",reString);
-//            [self startSenderYzmMessage];
-//            [SVProgressHUD showSuccessWithStatus:reString];
-//        }
-//        else{
-//            //发送错误
-//            NSLog(@"%@",reString);
-//            [SVProgressHUD showInfoWithStatus:reString];
-//        }
+
     } RequestFaile:^(NSError *error) {
         NSLog(@"fasfafsf");
         [SVProgressHUD showErrorWithStatus:@"网络异常"];

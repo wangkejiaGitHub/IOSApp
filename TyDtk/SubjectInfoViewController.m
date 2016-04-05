@@ -29,6 +29,8 @@ customTool;
 @property (nonatomic,assign) CGFloat tableHeight;
 //手势层
 @property (nonatomic,strong) UIView *viewDown;
+//朦层
+//@property (nonatomic,strong) MZView *mzView;
 @end
 
 @implementation SubjectInfoViewController
@@ -37,6 +39,8 @@ customTool;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self viewLoad];
+    
+    [self test];
 }
 - (void)viewLoad{
     _buttonString = @"请选择科目";
@@ -44,7 +48,6 @@ customTool;
     CGSize btnSize = sizeWithStrinfLength(_buttonString, 15.0, 30);
     _buttonLayoutWidth.constant = btnSize.width;
     [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
-    
     [self getAllSubject];
 }
 /**
@@ -81,11 +84,12 @@ customTool;
  菜单出现
  */
 - (void)addViewDroupDownListMenuForSelf{
+    UITableView *tableView;
     if (!_viewDroupDownList) {
         _viewDroupDownList = [[UIView alloc]initWithFrame:CGRectMake(0, -_tableHeight, Scr_Width, _tableHeight)];
         _viewDroupDownList.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.3);
         
-        UITableView *tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _tableHeight) style:UITableViewStylePlain];
+        tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _tableHeight) style:UITableViewStylePlain];
         tableView.delegate = self;
         tableView.dataSource =self;
         tableView.backgroundColor = [UIColor clearColor];
@@ -137,6 +141,7 @@ customTool;
  */
 - (void)getAllSubject{
     [SVProgressHUD show];
+     _buttonHeard.enabled = NO;
     NSInteger subId = [_dicSubject[@"Id"] intValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,subId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -146,6 +151,7 @@ customTool;
         NSLog(@"%@",_arraySubject);
         _tableHeight = _arraySubject.count*30+20;
         [SVProgressHUD dismiss];
+        _buttonHeard.enabled = YES;
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
@@ -180,6 +186,10 @@ customTool;
     NSDictionary *dic = _arraySubject[indexPath.row];
     _buttonString = dic[@"Names"];
     CGSize size = sizeWithStrinfLength(_buttonString, 15.0, 30);
+    _buttonHeard.titleLabel.font = [UIFont systemFontOfSize:15.0];
+    if (_buttonString.length > 15) {
+        _buttonHeard.titleLabel.font = [UIFont systemFontOfSize:13.0];
+    }
     [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
     _buttonLayoutWidth.constant = size.width;
     [self hideViewDroupDownListMenu];

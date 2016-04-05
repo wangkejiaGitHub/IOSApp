@@ -25,6 +25,8 @@
 @property (nonatomic,strong) UITapGestureRecognizer *tapGestView;
 //是否允许立即注册
 @property (nonatomic,assign) BOOL allowRegiste;
+//朦层
+@property (nonatomic,strong) MZView *mzView;
 @end
 
 @implementation PhoneReViewController
@@ -166,20 +168,27 @@
  立即注册，请求服务器
  */
 - (void)startRegiste{
+    [SVProgressHUD showWithStatus:@"请稍后..."];
+    if (!_mzView) {
+        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    }
+    [self.view addSubview:_mzView];
     NSString *urlString = [NSString stringWithFormat:@"%@register/mobile/json",systemHttpsTyUser];
-    NSDictionary *dicUserInfo = @{@"formSystem":@"902",@"mobile":_textPhoneNumber.text,@"password":_textPwd.text,@"regsms":_textMessage.text};
+    NSDictionary *dicUserInfo = @{@"fromSystem":@"902",@"mobile":_textPhoneNumber.text,@"password":_textPwd.text,@"regsms":_textMessage.text};
     [HttpTools postHttpRequestURL:urlString RequestPram:dicUserInfo RequestSuccess:^(id respoes) {
-//        NSDictionary *dicRegiste = [NSJSONSerialization JSONObjectWithData:respoes options:NSJSONReadingMutableLeaves error:nil];
         NSDictionary *dicRegiste = (NSDictionary *)respoes;
         NSInteger codeId = [dicRegiste[@"code"] integerValue];
         if (codeId == 1) {
-            [SVProgressHUD showSuccessWithStatus:@"注册成功"];
+            [SVProgressHUD showSuccessWithStatus:@"注册成功!"];
+            [self.navigationController popViewControllerAnimated:YES];
         }
         else{
             [SVProgressHUD showInfoWithStatus:dicRegiste[@"errmsg"]];
         }
+        [_mzView removeFromSuperview];
     } RequestFaile:^(NSError *erro) {
-        
+        [_mzView removeFromSuperview];
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
 /**

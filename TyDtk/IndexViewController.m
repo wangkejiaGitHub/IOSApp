@@ -43,9 +43,11 @@
 
 //页面加载，设置页面的背景图片等
 - (void)addDataView{
+        self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"qydp_001"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
 //    _buttonLeftItem.title = @"地区";
+    self.navigationController.tabBarController.title = @"fsff";
     [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
-    self.title = @"选择专业";
     _arraySubject = [NSMutableArray array];
     _arraySecoundSubject = [NSMutableArray array];
     _cellEdglr = 40;

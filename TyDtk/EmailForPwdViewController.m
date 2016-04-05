@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonYzm;
 //点击屏幕的手势
 @property (nonatomic,strong) UITapGestureRecognizer *tapGestView;
+//朦层
+@property (nonatomic,strong) MZView *mzView;
 @end
 
 @implementation EmailForPwdViewController
@@ -26,11 +28,11 @@
     [self getYzmImageView];
     _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapTextRfr)];
     [self.view addGestureRecognizer:_tapGestView];
-
+    
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [self viewTapTextRfr];
-        [_tapGestView removeTarget:self action:@selector(viewTapTextRfr)];
+    [_tapGestView removeTarget:self action:@selector(viewTapTextRfr)];
 }
 /**
  屏幕点击事件（所有textfield失去焦点)
@@ -48,7 +50,38 @@
     [self getYzmImageView];
 }
 - (IBAction)buttonNextClick:(UIButton *)sender {
+    if ([_textEmail.text isEqualToString:@""]) {
+        [SVProgressHUD showInfoWithStatus:@"请填写邮箱信息"];
+        return;
+    }
+    [self startFindPwdWithEmail];
     [self viewTapTextRfr];
+    
+}
+//开始邮箱找回密码
+- (void)startFindPwdWithEmail{
+    [SVProgressHUD showWithStatus:@"请稍后..."];
+    if (!_mzView) {
+        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    }
+    [self.view addSubview:_mzView];
+    NSDictionary *dicInfo = @{@"fromSystem":@"902",@"email":_textEmail.text,@"captcha":_textYzm.text};
+    NSString *urlString = [NSString stringWithFormat:@"%@findpwd/email/json",systemHttpsTyUser];
+    [HttpTools postHttpRequestURL:urlString RequestPram:dicInfo RequestSuccess:^(id respoes) {
+        NSDictionary *dicRe = (NSDictionary *)respoes;
+        NSInteger codeId = [dicRe[@"code"] integerValue];
+        if (codeId == 1) {
+            [SVProgressHUD showSuccessWithStatus:@"操作成功,请前往邮箱更改密码"];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:dicRe[@"errmsg"]];
+            
+        }
+        [_mzView removeFromSuperview];
+    } RequestFaile:^(NSError *erro) {
+        [_mzView removeFromSuperview];
+    }];
 }
 /**
  获取验证码图片
@@ -63,7 +96,6 @@
     } RequestFaile:^(NSError *error) {
         
     }];
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -71,13 +103,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

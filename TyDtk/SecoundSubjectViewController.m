@@ -8,6 +8,7 @@
 
 #import "SecoundSubjectViewController.h"
 #import "SubjectInfoViewController.h"
+#import "LoginViewController.h"
 @interface SecoundSubjectViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
 //tableVIew 的宽度（页面适配）
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tabViewWidthCount;
@@ -144,22 +145,29 @@
         return;
     }
     NSLog(@"%@",dic);
-//    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-//    if (![tyUser objectForKey:tyUserUser]) {
-//        [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];
-//        [self performSegueWithIdentifier:@"gologin" sender:nil];
-//    }
-//    else{
-//        [self performSegueWithIdentifier:@"subjectin" sender:nil];
     
-//    }
-    [self performSegueWithIdentifier:@"subjectin" sender:dic];
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    if (![tyUser objectForKey:tyUserUser]) {
+        [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];
+        [self performSegueWithIdentifier:@"gologin" sender:nil];
+    }
+    else{
+        [self performSegueWithIdentifier:@"subjectin" sender:nil];
+    }
+    
+//    [self performSegueWithIdentifier:@"subjectin" sender:dic];
 
 }
 //页面跳转调用
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    SubjectInfoViewController *subVc = segue.destinationViewController;
-    subVc.dicSubject = sender;
+    if ([segue.identifier isEqualToString:@"subjectin"]) {
+        SubjectInfoViewController *subVc = segue.destinationViewController;
+        subVc.dicSubject = sender;
+    }
+    else if ([segue.identifier isEqualToString:@"gologin"]){
+        LoginViewController *logVc = segue.destinationViewController;
+        logVc.hidesBottomBarWhenPushed = YES;
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
