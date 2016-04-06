@@ -394,21 +394,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vs4-X0-c4U">
                                 <rect key="frame" x="0.0" y="617" width="375" height="50"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xIc-ti-6cp">
-                                        <rect key="frame" x="96" y="12" width="46" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <state key="normal" title="Button"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A5Y-ka-40r">
-                                        <rect key="frame" x="171" y="12" width="46" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <state key="normal" title="Button"/>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hdS-8x-p4g">
-                                        <rect key="frame" x="255" y="10" width="46" height="30"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                        <state key="normal" title="Button"/>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rmG-09-saj">
                                         <rect key="frame" x="22" y="12" width="44" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -416,8 +401,24 @@
                                             <color key="titleColor" red="0.087655348709999997" green="0.134951504" blue="0.94752126960000005" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xIc-ti-6cp">
+                                        <rect key="frame" x="13" y="12" width="62" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="章节考点"/>
+                                        <connections>
+                                            <action selector="downButtonClick:" destination="Fee-mn-zWi" eventType="touchUpInside" id="5dP-Oi-Ns0"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AuB-ng-cPk">
+                                        <rect key="frame" x="117" y="12" width="76" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="模拟试卷"/>
+                                        <connections>
+                                            <action selector="downButtonClick:" destination="Fee-mn-zWi" eventType="touchUpInside" id="FAM-UU-HGN"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.70435138019999999" green="0.84245411569999995" blue="0.93819535340000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="e0t-mg-M5v"/>
                                 </constraints>
@@ -472,6 +473,7 @@
                             </constraints>
                         </view>
                     </navigationItem>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="buttonHeard" destination="j0j-lI-SWJ" id="54c-Fy-sQe"/>
@@ -707,6 +709,76 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O7e-7z-egc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-824.5" y="-524.5"/>
+        </scene>
+        <!--Chapters View Controller-->
+        <scene sceneID="r4C-7M-z7u">
+            <objects>
+                <viewController storyboardIdentifier="ChaptersViewController" id="7Ly-jy-dRb" customClass="ChaptersViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KO7-sI-Ztg"/>
+                        <viewControllerLayoutGuide type="bottom" id="plN-ZB-95V"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="s7S-wY-6yA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OhB-zP-jJB">
+                                <rect key="frame" x="129" y="359" width="117" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3fj-Gm-LoA">
+                                <rect key="frame" x="105" y="260" width="165" height="80"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="章节练习"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="labTest" destination="OhB-zP-jJB" id="JtB-bV-gyx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LJU-lJ-Tej" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-352.5" y="-524.5"/>
+        </scene>
+        <!--Model Papers View Controller-->
+        <scene sceneID="V3Q-PL-rpM">
+            <objects>
+                <viewController storyboardIdentifier="ModelPapersViewController" id="JFo-P8-nFS" customClass="ModelPapersViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="3gJ-Qa-keV"/>
+                        <viewControllerLayoutGuide type="bottom" id="7Sa-G4-fbd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fgH-ea-reI">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LMD-jL-ryn">
+                                <rect key="frame" x="114" y="271" width="147" height="53"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <state key="normal" title="模拟试卷"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3TK-aX-eiR">
+                                <rect key="frame" x="115" y="346" width="145" height="41"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="labTest" destination="3TK-aX-eiR" id="ISl-7F-Hu6"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qwZ-54-FDC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="74.5" y="-524.5"/>
         </scene>
         <!--Test View Controller-->
         <scene sceneID="b9G-sh-2Yo">

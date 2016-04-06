@@ -151,14 +151,15 @@
         [SVProgressHUD showInfoWithStatus:@"暂时还没有科目哟~"];
         return;
     }
-    NSLog(@"%@",dic);
-    
+//    [self performSegueWithIdentifier:@"gologin" sender:nil];
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     if (![tyUser objectForKey:tyUserUser]) {
         [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];
         [self performSegueWithIdentifier:@"gologin" sender:nil];
     }
     else{
+        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+        [tyUser setObject:dic forKey:tyUserClass];
         [self performSegueWithIdentifier:@"subjectin" sender:dic];
     }
 
@@ -181,15 +182,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

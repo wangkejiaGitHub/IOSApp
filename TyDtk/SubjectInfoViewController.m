@@ -7,8 +7,11 @@
 //
 
 #import "SubjectInfoViewController.h"
+//章节练习
+#import "ChaptersViewController.h"
+//模拟试卷
+#import "ModelPapersViewController.h"
 @interface SubjectInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UIScrollView *ScrolHeardView;
 @property (weak, nonatomic) IBOutlet UIView *viewNaviTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonLayoutWidth;
 @property (weak, nonatomic) IBOutlet UIButton *buttonHeard;
@@ -29,8 +32,19 @@ customTool;
 @property (nonatomic,assign) CGFloat tableHeight;
 //手势层
 @property (nonatomic,strong) UIView *viewDown;
+@property (nonatomic,nonnull) ViewNullData *viewNilData;
 //朦层
 //@property (nonatomic,strong) MZView *mzView;
+
+//当前选择的科目
+@property (nonatomic,strong) NSDictionary *dicCurrSubject;
+//当前需要显示的子试图的索引
+@property (nonatomic,assign) NSInteger indexCurrChildView;
+
+//章节练习
+@property (nonatomic,strong) ChaptersViewController *chapterVc;
+//模拟试卷
+@property (nonatomic,strong) ModelPapersViewController *modelPapersVc;
 @end
 
 @implementation SubjectInfoViewController
@@ -39,16 +53,97 @@ customTool;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self viewLoad];
-    
-    [self test];
+    [self ifDataIsNil];
+    [self addChildViewControllerForSelfWithUser];
 }
+
 - (void)viewLoad{
-    _buttonString = @"请选择科目";
+    _buttonString = @"请选择考试科目";
     _allowMenu = NO;
     CGSize btnSize = sizeWithStrinfLength(_buttonString, 15.0, 30);
     _buttonLayoutWidth.constant = btnSize.width;
     [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
     [self getAllSubject];
+}
+//根据点击的button不同，显示不同的子试图页面
+- (IBAction)downButtonClick:(UIButton *)sender {
+    _indexCurrChildView = sender.tag;
+    if ([self ifDataIsNil]) {
+        _indexCurrChildView = sender.tag;
+        [self showSelfChildViewWithViewIndex];
+    }
+}
+/**
+ 判断是否选择了科目
+ */
+- (BOOL)ifDataIsNil{
+    if (_dicCurrSubject.allKeys == 0) {
+        if (!_viewNilData) {
+            _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 49) showText:@"您还没有选择考试科目"];
+            [self.view addSubview:_viewNilData];
+        }
+        return NO;
+    }
+    return YES;
+}
+/**
+ ******************************
+ 根据添加的子试图索引，显示子试图页面
+ ******************************
+ */
+- (void)showSelfChildViewWithViewIndex{
+    //去除空数据层
+    if (_viewNilData) {
+        [_viewNilData removeFromSuperview];
+    }
+    //移除可能显示过的子试图
+    [_chapterVc.view removeFromSuperview];
+    [_modelPapersVc.view removeFromSuperview];
+    
+    if (_indexCurrChildView == 0) {
+        //章节考点
+        if (!_chapterVc) {
+            _chapterVc = self.childViewControllers[_indexCurrChildView];
+            _chapterVc.view.frame = CGRectMake(0, 0, Scr_Width, Scr_Height - 49);
+        }
+        _chapterVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
+        
+        [self.view addSubview:_chapterVc.view];
+    }
+    else if (_indexCurrChildView == 1){
+        //模拟试卷
+        if (!_modelPapersVc) {
+            _modelPapersVc = self.childViewControllers[_indexCurrChildView];
+            _modelPapersVc.view.frame = CGRectMake(0, 0, Scr_Width, Scr_Height - 49);
+        }
+        _modelPapersVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
+        [self.view addSubview:_modelPapersVc.view];
+    }
+    else if (_indexCurrChildView == 2){
+        //每周精选
+    }
+    else if (_indexCurrChildView == 3){
+        //练习记录
+    }
+}
+/**
+ ****************************
+ 添加章节考点、模拟试卷等相关view
+ ****************************
+ */
+- (void)addChildViewControllerForSelfWithUser{
+    //添加章节考点子试图
+    UIViewController *cZjVc = [self.storyboard instantiateViewControllerWithIdentifier:@"ChaptersViewController"];
+    [self addChildViewController:cZjVc];
+    //添加模拟试卷子试图
+    UIViewController *mPapersVc = [self.storyboard instantiateViewControllerWithIdentifier:@"ModelPapersViewController"];
+    [self addChildViewController:mPapersVc];
+    //添加每周精选子试图
+    
+    
+    
+    //添加练习记录子试图
+    
 }
 /**
  屏幕点击事件
@@ -56,21 +151,11 @@ customTool;
 - (void)viewTapTextRfr{
     [self hideViewDroupDownListMenu];
 }
--(void)test{
-        _tyUser = tyNSUserDefaults;
-    //    _dicUser = [_tyUser objectForKey:tyUserUser];
-    //    _customTool = [[CustomTools alloc]init];
-    //    _customTool.delegateTool = self;
-    //    [_customTool empowerAndSignatureWithUserId:_dicUser[@"userId"] userName:_dicUser[@"name"] classId:@"105" subjectId:@"661"];
-    
-//        [_tyUser removeObjectForKey:tyUserUser];
-//        [_tyUser removeObjectForKey:tyUserAccessToken];
-}
 
 - (IBAction)heardButtonClick:(UIButton *)sender {
     _allowMenu = !_allowMenu;
     if (_allowMenu) {
-       
+        
         [self addViewDroupDownListMenuForSelf];
     }
     else{
@@ -78,7 +163,6 @@ customTool;
         
         [self hideViewDroupDownListMenu];
     }
-    NSLog(@"fasfsfff");
 }
 /**
  菜单出现
@@ -99,7 +183,7 @@ customTool;
         tableView.tableHeaderView = view;
         [_viewDroupDownList addSubview:tableView];
     }
-     _imageViewHeard.image = [UIImage imageNamed:@"arrow_up"];
+    _imageViewHeard.image = [UIImage imageNamed:@"arrow_up"];
     [self.view addSubview:_viewDroupDownList];
     [UIView animateWithDuration:0.3 animations:^{
         CGRect rect = _viewDroupDownList.frame;
@@ -114,7 +198,7 @@ customTool;
         [_viewDown addGestureRecognizer:tapViewDown];
     }
     [self.view addSubview:_viewDown];
-   
+    
 }
 -(void)tapViewDown{
     [self hideViewDroupDownListMenu];
@@ -142,7 +226,7 @@ customTool;
  */
 - (void)getAllSubject{
     [SVProgressHUD show];
-     _buttonHeard.enabled = NO;
+    _buttonHeard.enabled = NO;
     NSInteger subId = [_dicSubject[@"Id"] intValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,subId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -187,8 +271,8 @@ customTool;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary *dic = _arraySubject[indexPath.row];
-    _buttonString = dic[@"Names"];
+    _dicCurrSubject = _arraySubject[indexPath.row];
+    _buttonString = _dicCurrSubject[@"Names"];
     CGSize size = sizeWithStrinfLength(_buttonString, 15.0, 30);
     _buttonHeard.titleLabel.font = [UIFont systemFontOfSize:15.0];
     if (_buttonString.length > 15) {
@@ -197,21 +281,11 @@ customTool;
     [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
     _buttonLayoutWidth.constant = size.width;
     [self hideViewDroupDownListMenu];
-    NSLog(@"ddddddddd");
+    [self showSelfChildViewWithViewIndex];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 @end

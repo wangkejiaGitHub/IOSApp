@@ -26,7 +26,6 @@
     return result;
 }
 -(void)empowerAndSignatureWithUserId:(NSString *)userId userName:(NSString *)user classId:(NSString *)cateOrClassId subjectId:(NSString *)courseIdOrSubjectId{
-    [SVProgressHUD show];
     //建立易操作字典
     NSDictionary *dicUserPar = @{@"appId":@"dtkios",@"userId":userId,@"user":user,@"cate":cateOrClassId,@"courseId":courseIdOrSubjectId,@"appKey":@"Xdtkm17070316begg"};
      NSArray *arrayDic = [dicUserPar allKeys];
@@ -56,7 +55,6 @@
             [tyUser setObject:accessToken forKey:tyUserAccessToken];
             //授权成功，回调方法
             [self.delegateTool httpSussessReturnClick];
-            [SVProgressHUD dismiss];
             NSLog(@"11111111");
         }
         else{

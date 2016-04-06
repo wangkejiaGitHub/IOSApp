@@ -10,6 +10,8 @@
 		1D10C9891CB3A74C00040913 /* UserIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D10C9881CB3A74C00040913 /* UserIndexViewController.m */; };
 		1D18A02D1CAB7D690022642C /* CustomTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02C1CAB7D690022642C /* CustomTools.m */; };
 		1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */; };
+		1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */; };
+		1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */; };
 		1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */; };
 		1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE066A1CAA296A00FA1505 /* EmailForPwdViewController.m */; };
 		1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */; };
@@ -94,6 +96,10 @@
 		1D18A02C1CAB7D690022642C /* CustomTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTools.m; sourceTree = "<group>"; };
 		1D18A02E1CABB0E00022642C /* SubjectInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectInfoViewController.h; sourceTree = "<group>"; };
 		1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectInfoViewController.m; sourceTree = "<group>"; };
+		1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChaptersViewController.h; sourceTree = "<group>"; };
+		1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChaptersViewController.m; sourceTree = "<group>"; };
+		1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelPapersViewController.h; sourceTree = "<group>"; };
+		1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelPapersViewController.m; sourceTree = "<group>"; };
 		1DDE06661CAA295B00FA1505 /* PhoneForPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneForPwdViewController.h; sourceTree = "<group>"; };
 		1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneForPwdViewController.m; sourceTree = "<group>"; };
 		1DDE06691CAA296A00FA1505 /* EmailForPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailForPwdViewController.h; sourceTree = "<group>"; };
@@ -362,6 +368,10 @@
 				1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */,
 				1D18A02E1CABB0E00022642C /* SubjectInfoViewController.h */,
 				1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */,
+				1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */,
+				1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */,
+				1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */,
+				1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */,
 			);
 			name = TyDtk;
 			sourceTree = "<group>";
@@ -642,6 +652,7 @@
 				1DEDC8651C9FA2920083B394 /* UIView+WebCacheOperation.m in Sources */,
 				1DF9506F1CA3BFC500104597 /* SVProgressHUD.m in Sources */,
 				1DEDC8161C9F880E0083B394 /* IndexViewController.m in Sources */,
+				1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */,
 				1DEDC8791C9FA66B0083B394 /* AFSecurityPolicy.m in Sources */,
 				1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */,
 				1DEFF1E01CA0E5D800994E2C /* ChineseToPinyin.m in Sources */,
@@ -662,6 +673,7 @@
 				1DEDC87C1C9FA66B0083B394 /* AFURLSessionManager.m in Sources */,
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
 				1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */,
+				1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */,
 				1DEDC8561C9FA2920083B394 /* MKAnnotationView+WebCache.m in Sources */,
 				1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */,
 				1DEDC8591C9FA2920083B394 /* SDWebImageCompat.m in Sources */,
