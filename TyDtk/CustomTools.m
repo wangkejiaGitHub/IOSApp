@@ -55,13 +55,14 @@
             [tyUser setObject:accessToken forKey:tyUserAccessToken];
             //授权成功，回调方法
             [self.delegateTool httpSussessReturnClick];
-            NSLog(@"11111111");
         }
         else{
-            [SVProgressHUD showInfoWithStatus:@"操作有误，请重试!"];
+            [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
+            [self.delegateTool httpErrorReturnClick];
         }
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD showErrorWithStatus:@"网络异常!"];
+        [self.delegateTool httpErrorReturnClick];
     }];
 }
 

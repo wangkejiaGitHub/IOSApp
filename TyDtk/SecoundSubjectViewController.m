@@ -29,7 +29,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self viewLoad];
-    NSLog(@"%@ == %@",_arraySecoundSubject,_arrayCurrSelectSubject);
 }
 - (void)viewLoad{
     [SVProgressHUD showWithStatus:@"加载中..."];
@@ -96,6 +95,7 @@
     _selectSubject = indexPath.row;
     [self currSelectSubject];
     [_myCollectionView reloadData];
+    [_myCollectionView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 ////////////////////////
 ///// collcetion代理

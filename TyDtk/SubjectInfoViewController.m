@@ -67,6 +67,7 @@ customTool;
 }
 //根据点击的button不同，显示不同的子试图页面
 - (IBAction)downButtonClick:(UIButton *)sender {
+    sender.selected = !sender.selected;
     _indexCurrChildView = sender.tag;
     if ([self ifDataIsNil]) {
         _indexCurrChildView = sender.tag;
@@ -104,7 +105,7 @@ customTool;
         //章节考点
         if (!_chapterVc) {
             _chapterVc = self.childViewControllers[_indexCurrChildView];
-            _chapterVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49);
+            _chapterVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49-64);
         }
         _chapterVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
         [self.view addSubview:_chapterVc.view];
@@ -158,8 +159,6 @@ customTool;
         [self addViewDroupDownListMenuForSelf];
     }
     else{
-        
-        
         [self hideViewDroupDownListMenu];
     }
 }
@@ -170,12 +169,13 @@ customTool;
     UITableView *tableView;
     if (!_viewDroupDownList) {
         _viewDroupDownList = [[UIView alloc]initWithFrame:CGRectMake(0, -_tableHeight, Scr_Width, _tableHeight)];
-        _viewDroupDownList.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.3);
+        _viewDroupDownList.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.5);
         
         tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _tableHeight) style:UITableViewStylePlain];
         tableView.delegate = self;
         tableView.dataSource =self;
         tableView.backgroundColor = [UIColor clearColor];
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         UIView *viewF = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 10)];
         tableView.tableFooterView = viewF;
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 10)];
@@ -230,9 +230,7 @@ customTool;
     NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,subId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dicSubject);
         _arraySubject = dicSubject[@"datas"];
-        NSLog(@"%@",_arraySubject);
         _tableHeight = _arraySubject.count*30+20;
         if (_tableHeight > Scr_Height) {
             _tableHeight = Scr_Height - 153;
@@ -260,7 +258,7 @@ customTool;
     cell.backgroundColor = [UIColor clearColor];
     NSDictionary *dic = _arraySubject[indexPath.row];
     UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, Scr_Width-20, 20)];
-    labText.textColor = [UIColor blueColor];
+    labText.textColor = [UIColor whiteColor];
     labText.font = [UIFont systemFontOfSize:16.0];
     labText.text = dic[@"Names"];
     labText.textAlignment = NSTextAlignmentCenter;

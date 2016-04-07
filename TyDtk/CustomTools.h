@@ -14,6 +14,7 @@
  授权成功获取令牌后回调
  */
 - (void)httpSussessReturnClick;
+-(void)httpErrorReturnClick;
 @end
 @interface CustomTools : NSObject
 @property (nonatomic,assign) id<CustomToolDelegate> delegateTool;
