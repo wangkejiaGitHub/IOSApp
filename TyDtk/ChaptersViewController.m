@@ -9,13 +9,12 @@
 #import "ChaptersViewController.h"
 
 @interface ChaptersViewController ()<CustomToolDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *labTest;
-
 @property (nonatomic,strong) CustomTools *customTools;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) MZView *mzView;
 @property (nonatomic,strong) NSMutableArray *arrayChapterId;
 @property (nonatomic,strong) NSMutableArray *arrayChapter;
+@property (nonatomic,strong) NSDictionary *dicUserClass;
 @end
 
 @implementation ChaptersViewController
@@ -28,7 +27,19 @@
     
 }
 - (void)viewWillAppear:(BOOL)animated{
-    _labTest.text = _subjectId;
+    [self viewWillShow];
+}
+- (void)viewWillShow{
+    if (!_tyUser) {
+        _tyUser = [NSUserDefaults standardUserDefaults];
+    }
+    _dicUserClass = [_tyUser objectForKey:tyUserClass];
+    
+    NSLog(@"%@",_dicUserClass);
+    ActiveVIew *hearhVIew = [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
+    [hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpImgs,_dicUserClass[@"ImageUrl"]]]];
+    hearhVIew.labTitle.text = _dicUserClass[@"Names"];
+    [self.view addSubview:hearhVIew];
     [self getAccessToken];
 }
 /**
@@ -43,7 +54,7 @@
         _tyUser = [NSUserDefaults standardUserDefaults];
     }
     //获取储存的专业信息
-    NSDictionary *dicUserClass = [_tyUser objectForKey:tyUserClass];
+    _dicUserClass = [_tyUser objectForKey:tyUserClass];
     NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
     if (!_mzView) {
         _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
@@ -51,7 +62,7 @@
     [self.view addSubview:_mzView];
     //授权并收取令牌
     [SVProgressHUD show];
-    NSString *classId = [NSString stringWithFormat:@"%@",dicUserClass[@"Id"]];
+    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
     [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
 }
 /**
@@ -61,8 +72,10 @@
     NSString *acc = [_tyUser objectForKey:tyUserAccessToken];
     [self getChaptersInfo:acc];
 }
+
+
 /**
- 获取章节考点信息
+ 获取章节考点信息,并根据节点进行章节分类
  */
 - (void)getChaptersInfo:(NSString *)accessToken{
     NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetAll?access_token=%@",systemHttps,accessToken];
@@ -112,6 +125,21 @@
             [_arrayChapter addObject:dicChapter];
         }
         NSLog(@"%@",_arrayChapter);
+        ///////////////////////////
+        ///////////////////////////
+        NSDictionary *dicTest = [_arrayChapter lastObject];
+        NSMutableArray *arrayTest = [NSMutableArray array];
+        for (NSString *idTest in dicTest.allKeys) {
+            for (NSDictionary *dicAlltest in arrayAllChapter) {
+                NSInteger dicId = [dicAlltest[@"Id"] integerValue];
+                if ([idTest integerValue] == dicId) {
+                    [arrayTest addObject:dicAlltest];
+                }
+            }
+        }
+        NSLog(@"%@",arrayTest);
+        /////////////////////////
+        /////////////////////////
         [_mzView removeFromSuperview];
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {

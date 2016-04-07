@@ -104,10 +104,9 @@ customTool;
         //章节考点
         if (!_chapterVc) {
             _chapterVc = self.childViewControllers[_indexCurrChildView];
-            _chapterVc.view.frame = CGRectMake(0, 0, Scr_Width, Scr_Height - 49);
+            _chapterVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49);
         }
         _chapterVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
-        
         [self.view addSubview:_chapterVc.view];
     }
     else if (_indexCurrChildView == 1){
