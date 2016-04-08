@@ -10,10 +10,13 @@
 
 @interface ChaptersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
-
+//授权工具
 @property (nonatomic,strong) CustomTools *customTools;
+//本地信息存储
 @property (nonatomic,strong) NSUserDefaults *tyUser;
+//朦层
 @property (nonatomic,strong) MZView *mzView;
+
 @property (nonatomic,strong) NSMutableArray *arrayChapterId;
 @property (nonatomic,strong) NSMutableArray *arrayChapter;
 @property (nonatomic,strong) NSDictionary *dicUserClass;
@@ -32,7 +35,6 @@
     
 }
 - (void)viewWillAppear:(BOOL)animated{
-//    [self viewWillShow];
     [self getAccessToken];
 }
 /**

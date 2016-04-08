@@ -114,7 +114,7 @@ customTool;
         //模拟试卷
         if (!_modelPapersVc) {
             _modelPapersVc = self.childViewControllers[_indexCurrChildView];
-            _modelPapersVc.view.frame = CGRectMake(0, 0, Scr_Width, Scr_Height - 49);
+            _modelPapersVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
         }
         _modelPapersVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
         [self.view addSubview:_modelPapersVc.view];
