@@ -50,7 +50,7 @@
         _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 + 20)];
         [view addSubview:_hearhVIew];
-        view.backgroundColor = [UIColor redColor];
+        view.backgroundColor = [UIColor clearColor];
         _myTableView.tableHeaderView = view;
     }
     [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpImgs,_dicUserClass[@"ImageUrl"]]]];

@@ -33,7 +33,10 @@
 #import "CustomTools.h"
 //用于测试的ViewController
 #import "TestViewController.h"
+//带有激活码的tableView头试图
 #import "ActiveVIew.h"
+//刷新
+#import "MJRefresh.h"
 /**********************
  自定义字段（简化代码）
  *********************/

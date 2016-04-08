@@ -67,7 +67,6 @@ customTool;
 }
 //根据点击的button不同，显示不同的子试图页面
 - (IBAction)downButtonClick:(UIButton *)sender {
-    sender.selected = !sender.selected;
     _indexCurrChildView = sender.tag;
     if ([self ifDataIsNil]) {
         _indexCurrChildView = sender.tag;
