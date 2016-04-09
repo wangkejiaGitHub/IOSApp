@@ -11,7 +11,7 @@
 #import "ChaptersViewController.h"
 //模拟试卷
 #import "ModelPapersViewController.h"
-@interface SubjectInfoViewController ()<UITableViewDataSource,UITableViewDelegate,DataDoneDelegatePater,DataDoneDelegateChapter>
+@interface SubjectInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *viewNaviTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonLayoutWidth;
 @property (weak, nonatomic) IBOutlet UIButton *buttonHeard;
@@ -109,20 +109,10 @@ customTool;
         }
     }
     if ([self ifDataIsNil]) {
-        [self allowTouchButton:NO];
         _indexCurrChildView = sender.tag;
         [self showSelfChildViewWithViewIndex];
     }
 }
-- (void)allowTouchButton:(BOOL)allow{
-    for (id subView in _viewFooter.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) {
-            UIButton *btn = (UIButton *)subView;
-            btn.userInteractionEnabled = allow;
-            }
-        }
-}
-
 /**
  判断是否选择了科目
  */
@@ -157,7 +147,6 @@ customTool;
             _chapterVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49-64);
         }
         _chapterVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
-        _chapterVc.deledateData = self;
         [self.view addSubview:_chapterVc.view];
     }
     else if (_indexCurrChildView == 1){
@@ -166,29 +155,17 @@ customTool;
             _modelPapersVc = self.childViewControllers[_indexCurrChildView];
             _modelPapersVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
         }
-        _modelPapersVc.deledateData = self;
         _modelPapersVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
         [self.view addSubview:_modelPapersVc.view];
     }
     else if (_indexCurrChildView == 2){
-        //?????????????????????????
-        [self allowTouchButton:YES];
+
         //每周精选
     }
     else if (_indexCurrChildView == 3){
-        //????????????????????????
-        [self allowTouchButton:YES];
+
         //练习记录
     }
-}
-/////////////////////////////
-// 各个页面请求回调
-
-- (void)doneBlockChapter{
-    [self allowTouchButton:YES];
-}
-- (void)doneBlockPater{
-    [self allowTouchButton:YES];
 }
 
 /////////////////////////////

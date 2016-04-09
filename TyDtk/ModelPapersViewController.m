@@ -56,7 +56,6 @@
     _arrayPapers = [NSMutableArray array];
 }
 - (void)viewDidAppear:(BOOL)animated{
-
     NSLog(@"出现");
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
@@ -144,7 +143,6 @@
  授权失败
  */
 - (void)httpErrorReturnClick{
-    [self.deledateData doneBlockPater];
 }
 /**
  获取试卷数据
@@ -179,10 +177,8 @@
         [_refreshFooter endRefreshing];
         [_myTableView reloadData];
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        [self.deledateData doneBlockPater];
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
-        [self.deledateData doneBlockPater];
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
@@ -231,7 +227,10 @@
 //tableview 代理
 ///////////////////////////////////////
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _arrayPapers.count;;
+    if (_arrayPapers.count > 0) {
+        return _arrayPapers.count;
+    }
+    return 0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 120;
@@ -254,6 +253,11 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary *diccc = _arrayPapers[indexPath.row];
+    NSInteger paterId =[diccc[@"Id"] integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+    NSLog(@"%@",urlString);
+    
     
     [self performSegueWithIdentifier:@"test" sender:nil];
 }
