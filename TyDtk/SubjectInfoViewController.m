@@ -11,11 +11,15 @@
 #import "ChaptersViewController.h"
 //模拟试卷
 #import "ModelPapersViewController.h"
-@interface SubjectInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface SubjectInfoViewController ()<UITableViewDataSource,UITableViewDelegate,DataDoneDelegatePater,DataDoneDelegateChapter>
 @property (weak, nonatomic) IBOutlet UIView *viewNaviTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonLayoutWidth;
 @property (weak, nonatomic) IBOutlet UIButton *buttonHeard;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewHeard;
+//view底部试图
+@property (weak, nonatomic) IBOutlet UIView *viewFooter;
+//追踪的下划线
+@property (nonatomic ,strong) UIView *viewFooterLine;
 //titleButton要显示的字段
 @property (nonatomic,strong) NSString *buttonString;
 //用户信息，以及所需全局信息
@@ -64,15 +68,61 @@ customTool;
     _buttonLayoutWidth.constant = btnSize.width;
     [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
     [self getAllSubject];
+    
+    //添加追踪下划线
+    _viewFooterLine = [[UIView alloc]initWithFrame:CGRectMake(0, 47, Scr_Width/4, 3)];
+    _viewFooterLine.backgroundColor = [UIColor purpleColor];
+    _viewFooterLine.layer.masksToBounds = YES;
+    _viewFooterLine.layer.cornerRadius = 1;
+    [_viewFooter addSubview:_viewFooterLine];
+    //设置button颜色
+    for (id subView in _viewFooter.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)subView;
+            [btn setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+            if (btn.tag == 0) {
+            [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+                btn.titleLabel.font = [UIFont systemFontOfSize:15.0];
+            }
+        }
+    }
 }
 //根据点击的button不同，显示不同的子试图页面
 - (IBAction)downButtonClick:(UIButton *)sender {
     _indexCurrChildView = sender.tag;
+    //下划线跟踪
+    [UIView animateWithDuration:0.15 animations:^{
+        CGRect rectV = _viewFooterLine.frame;
+        rectV.origin.x = _indexCurrChildView*(Scr_Width/4);
+        _viewFooterLine.frame = rectV;
+    }];
+    
+    for (id subView in _viewFooter.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)subView;
+            [btn setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+            btn.titleLabel.font = [UIFont systemFontOfSize:13.0];
+            if (btn.tag == _indexCurrChildView) {
+            [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+            btn.titleLabel.font = [UIFont systemFontOfSize:15.0];
+            }
+        }
+    }
     if ([self ifDataIsNil]) {
+        [self allowTouchButton:NO];
         _indexCurrChildView = sender.tag;
         [self showSelfChildViewWithViewIndex];
     }
 }
+- (void)allowTouchButton:(BOOL)allow{
+    for (id subView in _viewFooter.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)subView;
+            btn.userInteractionEnabled = allow;
+            }
+        }
+}
+
 /**
  判断是否选择了科目
  */
@@ -107,6 +157,7 @@ customTool;
             _chapterVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49-64);
         }
         _chapterVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
+        _chapterVc.deledateData = self;
         [self.view addSubview:_chapterVc.view];
     }
     else if (_indexCurrChildView == 1){
@@ -115,16 +166,32 @@ customTool;
             _modelPapersVc = self.childViewControllers[_indexCurrChildView];
             _modelPapersVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
         }
+        _modelPapersVc.deledateData = self;
         _modelPapersVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
         [self.view addSubview:_modelPapersVc.view];
     }
     else if (_indexCurrChildView == 2){
+        //?????????????????????????
+        [self allowTouchButton:YES];
         //每周精选
     }
     else if (_indexCurrChildView == 3){
+        //????????????????????????
+        [self allowTouchButton:YES];
         //练习记录
     }
 }
+/////////////////////////////
+// 各个页面请求回调
+
+- (void)doneBlockChapter{
+    [self allowTouchButton:YES];
+}
+- (void)doneBlockPater{
+    [self allowTouchButton:YES];
+}
+
+/////////////////////////////
 /**
  ****************************
  添加章节考点、模拟试卷等相关view
@@ -240,6 +307,7 @@ customTool;
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
+//菜单上的tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _arraySubject.count;
 }

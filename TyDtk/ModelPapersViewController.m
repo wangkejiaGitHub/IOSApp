@@ -8,7 +8,7 @@
 
 #import "ModelPapersViewController.h"
 
-@interface ModelPapersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface ModelPapersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate,UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 //授权工具
@@ -37,8 +37,9 @@
 @property (nonatomic,strong) NSMutableArray *arrayPapers;
 //刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
-//是否允许tableView回到顶部
-@property (nonatomic,assign) BOOL allowTopTable;
+
+//回到顶部的按钮
+@property (nonatomic,strong) UIButton *buttonTopTable;
 @end
 
 @implementation ModelPapersViewController
@@ -53,16 +54,17 @@
     _paterPages = 0;
     _paterIndexPage = 1;
     _arrayPapers = [NSMutableArray array];
+}
+- (void)viewDidAppear:(BOOL)animated{
 
+    NSLog(@"出现");
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
     [_refreshFooter setTitle:@"松开加载更多试卷" forState:MJRefreshStatePulling];
     [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
+    [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _myTableView.mj_footer = _refreshFooter;
-    
-}
-- (void)viewWillAppear:(BOOL)animated{
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //试卷授权一次
     if (_allowToken) {
@@ -74,11 +76,16 @@
         //新数据从传递的科目Id中请求获取
         _paterPages = 0;
         _paterIndexPage = 1;
-        _allowTopTable = YES;
         [_arrayPapers removeAllObjects];
         [self getModelPapersData];
     }
     _allowToken = NO;
+
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+     _refreshFooter = nil;
+     NSLog(@"消失");
 }
 /**
  授权，收取令牌
@@ -92,6 +99,7 @@
     _dicUserClass = [_tyUser objectForKey:tyUserClass];
     if (!_hearhVIew) {
         _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
+        _hearhVIew.delegateAtive = self;
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 + 20)];
         [view addSubview:_hearhVIew];
         view.backgroundColor = [UIColor clearColor];
@@ -113,6 +121,17 @@
     [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
 }
 /**
+ 头试图回调代理
+ */
+//激活码做题回调代理
+- (void)activeForPapersClick{
+    NSLog(@"激活码做题");
+}
+//获取激活码回调代理
+- (void)getActiveMaClick{
+    NSLog(@"如何获取激活码");
+}
+/**
  授权成功回调，用与第一次授权加载数据
  */
 - (void)httpSussessReturnClick{
@@ -125,7 +144,7 @@
  授权失败
  */
 - (void)httpErrorReturnClick{
-    
+    [self.deledateData doneBlockPater];
 }
 /**
  获取试卷数据
@@ -141,7 +160,7 @@
     //获取试卷级别
     [self.view addSubview:_mzView];
     //获取试卷级别
-//    [self getModelPaterLevel];
+    //    [self getModelPaterLevel];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPapers?access_token=%@&courseId=%@&page=%ld&level=%@&year=%@",systemHttps,_accessToken,_subjectId,_paterIndexPage,_paterLevel,_paterYear];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicModelPapers = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -159,17 +178,16 @@
         [SVProgressHUD dismiss];
         [_refreshFooter endRefreshing];
         [_myTableView reloadData];
-        if (_allowTopTable) {
-            [_myTableView setContentOffset:CGPointMake(0, 0) animated:YES];
-        }
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        [self.deledateData doneBlockPater];
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
+        [self.deledateData doneBlockPater];
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
 /**
- 获取当前专业下的试卷级别, 
+ 获取当前专业下的试卷级别,
  */
 - (void)getModelPaterLevel{
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetLevels?access_token=%@",systemHttps,_accessToken];
@@ -180,8 +198,34 @@
     }];
 }
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
-    _allowTopTable = NO;
     [self getModelPapersData];
+}
+//tableView上的scroll代理，用户判断是否显示'回到顶部'按钮
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (_myTableView.contentOffset.y > Scr_Height - 64 - 50) {
+        [_buttonTopTable removeFromSuperview];
+        if (!_buttonTopTable) {
+            _buttonTopTable = [UIButton buttonWithType:UIButtonTypeCustom];
+            _buttonTopTable.frame = CGRectMake(Scr_Width - 55, Scr_Height - 300, 100, 30);
+            [_buttonTopTable setTitle:@"回到顶部" forState:UIControlStateNormal];
+            _buttonTopTable.titleLabel.font = [UIFont systemFontOfSize:12.0];
+            _buttonTopTable.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+            _buttonTopTable.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+            _buttonTopTable.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.3);
+            [_buttonTopTable setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+            _buttonTopTable.layer.masksToBounds = YES;
+            _buttonTopTable.layer.cornerRadius = 5;
+            [_buttonTopTable addTarget:self action:@selector(topButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        [self.view addSubview:_buttonTopTable];
+    }
+    else{
+        [_buttonTopTable removeFromSuperview];
+    }
+}
+//回到顶部按钮
+- (void)topButtonClick:(UIButton *)topButton{
+    [_myTableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 ///////////////////////////////////////
 //tableview 代理
@@ -210,6 +254,8 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [self performSegueWithIdentifier:@"test" sender:nil];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

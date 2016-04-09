@@ -8,7 +8,7 @@
 
 #import "ChaptersViewController.h"
 
-@interface ChaptersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface ChaptersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
@@ -34,8 +34,11 @@
     [self viewWillShow];
     
 }
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated{
     [self getAccessToken];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    
 }
 /**
  获取tableView的头试图，并设置其参数值
@@ -48,6 +51,7 @@
     
     if (!_hearhVIew) {
         _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
+        _hearhVIew.delegateAtive = self;
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 + 20)];
         [view addSubview:_hearhVIew];
         view.backgroundColor = [UIColor clearColor];
@@ -62,6 +66,17 @@
     _hearhVIew.labPrice.text = @"0.0";
     
     
+}
+/**
+ 头试图回调代理
+ */
+//激活码做题回调代理
+- (void)activeForPapersClick{
+    NSLog(@"激活码做题");
+}
+//获取激活码回调代理
+- (void)getActiveMaClick{
+    NSLog(@"如何获取激活码");
 }
 /**
  科目授权，获取令牌
@@ -97,6 +112,7 @@
  获取令牌失败
  */
 - (void)httpErrorReturnClick{
+    [self.deledateData doneBlockChapter];
     [_mzView removeFromSuperview];
 }
 
@@ -163,11 +179,12 @@
         /////////////////////////
         [_mzView removeFromSuperview];
         //重新刷新数据，让tableView返回到顶部
-        [_myTableView setContentOffset:CGPointMake(0, 0) animated:YES];
         [_myTableView reloadData];
         [SVProgressHUD dismiss];
+        [self.deledateData doneBlockChapter];
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
+        [self.deledateData doneBlockChapter];
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }

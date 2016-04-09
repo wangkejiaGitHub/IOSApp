@@ -61,7 +61,7 @@
             [self.delegateTool httpErrorReturnClick];
         }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"网络异常!"];
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
         [self.delegateTool httpErrorReturnClick];
     }];
 }

@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@protocol ActiveDelegate<NSObject>
+//激活码做题
+- (void)activeForPapersClick;
+//获取激活码
+- (void)getActiveMaClick;
+@end
 @interface ActiveVIew : UIView
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *labTitle;
@@ -24,5 +29,5 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonHeight;
-
+@property (nonatomic,assign) id<ActiveDelegate> delegateAtive;
 @end

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@protocol DataDoneDelegatePater<NSObject>
+- (void)doneBlockPater;
+@end
 @interface ModelPapersViewController : UIViewController
 @property (nonatomic,strong) NSString *subjectId;
+@property (nonatomic,assign) id <DataDoneDelegatePater> deledateData;
 @end

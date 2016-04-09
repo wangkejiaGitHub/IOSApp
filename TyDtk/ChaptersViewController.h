@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@protocol DataDoneDelegateChapter<NSObject>
+- (void)doneBlockChapter;
+@end
 @interface ChaptersViewController : UIViewController
 @property (nonatomic,strong) NSString *subjectId;
+@property (nonatomic,assign) id <DataDoneDelegateChapter> deledateData;
 @end

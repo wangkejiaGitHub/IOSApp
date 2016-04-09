@@ -39,5 +39,19 @@
         _buttonActive.layer.cornerRadius = 5;
         _labGetActiveAcc.font = [UIFont systemFontOfSize:11.0];
     }
+    
+    [self addgestForlabActive];
+    _labGetActiveAcc.userInteractionEnabled = YES;
 }
+- (void)addgestForlabActive{
+    UITapGestureRecognizer *tapLabGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labClick)];
+    [_labGetActiveAcc addGestureRecognizer:tapLabGest];
+}
+- (void)labClick{
+    [self.delegateAtive getActiveMaClick];
+}
+- (IBAction)activeBtnClick:(UIButton *)sender {
+    [self.delegateAtive activeForPapersClick];
+}
+
 @end
