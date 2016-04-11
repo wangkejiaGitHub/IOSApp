@@ -70,7 +70,7 @@ customTool;
     [self getAllSubject];
     
     //添加追踪下划线
-    _viewFooterLine = [[UIView alloc]initWithFrame:CGRectMake(0, 47, Scr_Width/4, 3)];
+    _viewFooterLine = [[UIView alloc]initWithFrame:CGRectMake(0, 45, Scr_Width/4, 2)];
     _viewFooterLine.backgroundColor = [UIColor purpleColor];
     _viewFooterLine.layer.masksToBounds = YES;
     _viewFooterLine.layer.cornerRadius = 1;

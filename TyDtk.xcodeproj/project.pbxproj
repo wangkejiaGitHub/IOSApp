@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */; };
+		1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */; };
+		1D064E8B1CBB738F007BD4E4 /* PaterTopicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E8A1CBB738F007BD4E4 /* PaterTopicTableViewCell.m */; };
 		1D10C9891CB3A74C00040913 /* UserIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D10C9881CB3A74C00040913 /* UserIndexViewController.m */; };
 		1D18A02D1CAB7D690022642C /* CustomTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02C1CAB7D690022642C /* CustomTools.m */; };
 		1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */; };
 		1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */; };
 		1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */; };
-		1DC18ECF1CB77D7E0006D642 /* ModelPaterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ECE1CB77D7E0006D642 /* ModelPaterTableViewCell.m */; };
 		1DC18EFD1CB795D50006D642 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ED31CB795D50006D642 /* MJRefreshAutoFooter.m */; };
 		1DC18EFE1CB795D50006D642 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ED51CB795D50006D642 /* MJRefreshBackFooter.m */; };
 		1DC18EFF1CB795D50006D642 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ED71CB795D50006D642 /* MJRefreshComponent.m */; };
@@ -112,6 +114,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D064E011CBB3303007BD4E4 /* StartDoTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartDoTopicViewController.h; sourceTree = "<group>"; };
+		1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartDoTopicViewController.m; sourceTree = "<group>"; };
+		1D064E441CBB6A4B007BD4E4 /* PatersTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatersTopicViewController.h; sourceTree = "<group>"; };
+		1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatersTopicViewController.m; sourceTree = "<group>"; };
+		1D064E891CBB738F007BD4E4 /* PaterTopicTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicTableViewCell.h; sourceTree = "<group>"; };
+		1D064E8A1CBB738F007BD4E4 /* PaterTopicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicTableViewCell.m; sourceTree = "<group>"; };
 		1D10C9871CB3A74C00040913 /* UserIndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserIndexViewController.h; sourceTree = "<group>"; };
 		1D10C9881CB3A74C00040913 /* UserIndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserIndexViewController.m; sourceTree = "<group>"; };
 		1D18A02B1CAB7D690022642C /* CustomTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTools.h; sourceTree = "<group>"; };
@@ -122,8 +130,6 @@
 		1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChaptersViewController.m; sourceTree = "<group>"; };
 		1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelPapersViewController.h; sourceTree = "<group>"; };
 		1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelPapersViewController.m; sourceTree = "<group>"; };
-		1DC18ECD1CB77D7E0006D642 /* ModelPaterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelPaterTableViewCell.h; sourceTree = "<group>"; };
-		1DC18ECE1CB77D7E0006D642 /* ModelPaterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelPaterTableViewCell.m; sourceTree = "<group>"; };
 		1DC18ED21CB795D50006D642 /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
 		1DC18ED31CB795D50006D642 /* MJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshAutoFooter.m; sourceTree = "<group>"; };
 		1DC18ED41CB795D50006D642 /* MJRefreshBackFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBackFooter.h; sourceTree = "<group>"; };
@@ -305,11 +311,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D064E431CBB69E2007BD4E4 /* ChildView */ = {
+			isa = PBXGroup;
+			children = (
+				1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */,
+				1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */,
+				1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */,
+				1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */,
+				1D064E441CBB6A4B007BD4E4 /* PatersTopicViewController.h */,
+				1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */,
+			);
+			name = ChildView;
+			sourceTree = "<group>";
+		};
 		1DC18ECC1CB77D540006D642 /* TableViewCell */ = {
 			isa = PBXGroup;
 			children = (
-				1DC18ECD1CB77D7E0006D642 /* ModelPaterTableViewCell.h */,
-				1DC18ECE1CB77D7E0006D642 /* ModelPaterTableViewCell.m */,
+				1D064E891CBB738F007BD4E4 /* PaterTopicTableViewCell.h */,
+				1D064E8A1CBB738F007BD4E4 /* PaterTopicTableViewCell.m */,
 			);
 			name = TableViewCell;
 			sourceTree = "<group>";
@@ -537,6 +556,7 @@
 		1DEDC80A1C9F85BD0083B394 /* TyDtk */ = {
 			isa = PBXGroup;
 			children = (
+				1D064E431CBB69E2007BD4E4 /* ChildView */,
 				1DC18ECC1CB77D540006D642 /* TableViewCell */,
 				1DD2E6F61CB5F1C800423484 /* XibForTk */,
 				1DEDC8141C9F880E0083B394 /* IndexViewController.h */,
@@ -547,10 +567,8 @@
 				1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */,
 				1D18A02E1CABB0E00022642C /* SubjectInfoViewController.h */,
 				1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */,
-				1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */,
-				1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */,
-				1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */,
-				1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */,
+				1D064E011CBB3303007BD4E4 /* StartDoTopicViewController.h */,
+				1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */,
 			);
 			name = TyDtk;
 			sourceTree = "<group>";
@@ -833,6 +851,7 @@
 				1DC18F021CB795D50006D642 /* MJRefreshAutoGifFooter.m in Sources */,
 				1DEDC8581C9FA2920083B394 /* SDImageCache.m in Sources */,
 				1DEDC85C1C9FA2920083B394 /* SDWebImageDownloaderOperation.m in Sources */,
+				1D064E8B1CBB738F007BD4E4 /* PaterTopicTableViewCell.m in Sources */,
 				1D18A02D1CAB7D690022642C /* CustomTools.m in Sources */,
 				1DC18F0C1CB795D50006D642 /* MJRefreshConst.m in Sources */,
 				1DEDC8651C9FA2920083B394 /* UIView+WebCacheOperation.m in Sources */,
@@ -872,12 +891,12 @@
 				1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */,
 				1DC18F0E1CB795D50006D642 /* UIScrollView+MJRefresh.m in Sources */,
 				1DC18F001CB795D50006D642 /* MJRefreshFooter.m in Sources */,
+				1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */,
 				1DEDC8591C9FA2920083B394 /* SDWebImageCompat.m in Sources */,
 				1DEDC87B1C9FA66B0083B394 /* AFURLResponseSerialization.m in Sources */,
 				1DE695D51CA8C75100ED1DA3 /* TestViewController.m in Sources */,
 				1DC18F0F1CB795D50006D642 /* UIView+MJExtension.m in Sources */,
 				1DEDC87A1C9FA66B0083B394 /* AFURLRequestSerialization.m in Sources */,
-				1DC18ECF1CB77D7E0006D642 /* ModelPaterTableViewCell.m in Sources */,
 				1DC18F051CB795D50006D642 /* MJRefreshBackGifFooter.m in Sources */,
 				1DE695E21CA8D39200ED1DA3 /* EmailReViewController.m in Sources */,
 				1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */,
@@ -893,6 +912,7 @@
 				1DEDC8631C9FA2920083B394 /* UIImageView+HighlightedWebCache.m in Sources */,
 				1DC18EFF1CB795D50006D642 /* MJRefreshComponent.m in Sources */,
 				1DEDC8781C9FA66B0083B394 /* AFNetworkReachabilityManager.m in Sources */,
+				1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */,
 				1DF950751CA3C52200104597 /* Reachability.m in Sources */,
 				1DEDC8601C9FA2920083B394 /* UIImage+GIF.m in Sources */,
 			);

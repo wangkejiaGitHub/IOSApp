@@ -1,0 +1,28 @@
+//
+//  PaterTopicTableViewCell.m
+//  TyDtk
+//
+//  Created by 天一文化 on 16/4/11.
+//  Copyright © 2016年 天一文化.王可佳. All rights reserved.
+//
+
+#import "PaterTopicTableViewCell.h"
+
+@implementation PaterTopicTableViewCell
+
+- (void)awakeFromNib {
+    // Initialization code
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+    _labTopicTitle.text = dic[@"title"];
+    _labTopicNumber.text = [NSString stringWithFormat:@"%ld、",index];
+    _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
+    _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
+}
+@end

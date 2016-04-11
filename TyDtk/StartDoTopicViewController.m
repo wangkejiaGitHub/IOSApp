@@ -7,7 +7,7 @@
 //
 
 #import "StartDoTopicViewController.h"
-
+#import "PatersTopicViewController.h"
 @interface StartDoTopicViewController ()
 //所有展示试题的容器
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
@@ -44,16 +44,15 @@
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
         NSLog(@"%ld == %@",_paterId,_accessToken);
-        NSLog(@"%@",dicPater);
         _scrollContentWidth = 0;
         for (NSDictionary *dicNum in _arrayPaterData) {
             NSArray *arrayDic = dicNum[@"Questions"];
             _scrollContentWidth = _scrollContentWidth + arrayDic.count;
         }
-        NSLog(@"%ld",_scrollContentWidth);
-        
         _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
         [self testScrollView];
+        
+        [self addChildViewWithTopicForSelf];
         
         
     } RequestFaile:^(NSError *error) {
@@ -67,11 +66,38 @@
         [_scrollViewPater addSubview:view];
     }
 }
+- (void)addChildViewWithTopicForSelf{
+    for (int i =0; i<_scrollContentWidth; i++) {
+        UIViewController *chVc = [self.storyboard instantiateViewControllerWithIdentifier:@"PatersTopicViewController"];
+        [self addChildViewController:chVc];
+    }
+    
+    
+    for (int i = 0; i<_scrollContentWidth; i++) {
+        PatersTopicViewController *paterVc = self.childViewControllers[i];
+        paterVc.dicTopic = [self getTopicDictionary:i];
+        paterVc.topicIndex = i+1;
+        paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, Scr_Height);
+        [_scrollViewPater addSubview:paterVc.view];
+    }
+}
 /**
- http://api.diantiku.cn/api/Paper/GetPaperInfo/25?access_token=1Ak0ePXnVNoeh7MfuxD3yW41Nrjz86sLXXslGj8tumdL9Fa%2BJj3AjccnwL9wUCr%2BvpQKrgrWaeoDHvcro%2B1VS1WsDgKULZw2fQEYBOfxmKVoRxU2nuYQnuBrnRTPpZrPkfjRQkQvPAqU0t03l/9LyjM5MjZv1Vl6x6WBPcPUd2/zeZfW8IHJFq/bqEoe2V0v
- 
- http://api.diantiku.cn/api/Paper/GetCaptions/25?access_token=1Ak0ePXnVNoeh7MfuxD3yW41Nrjz86sLXXslGj8tumdL9Fa%2BJj3AjccnwL9wUCr%2BvpQKrgrWaeoDHvcro%2B1VS1WsDgKULZw2fQEYBOfxmKVoRxU2nuYQnuBrnRTPpZrPkfjRQkQvPAqU0t03l/9LyjM5MjZv1Vl6x6WBPcPUd2/zeZfW8IHJFq/bqEoe2V0v
-*/
+ 根据索引获取所对应的题目字典
+ */
+- (NSDictionary *)getTopicDictionary:(NSInteger)index{
+    NSInteger countDicF = 0;
+    NSInteger countDicL = 0;
+    for (NSDictionary *dic in _arrayPaterData) {
+        NSArray *array = dic[@"Questions"];
+        countDicL = array.count + countDicF;
+        if (index >= countDicF && index <= countDicL - 1) {
+            NSDictionary *diccc = array[index - countDicF];
+            return diccc;
+        }
+        countDicF = countDicL;
+    }
+    return nil;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
