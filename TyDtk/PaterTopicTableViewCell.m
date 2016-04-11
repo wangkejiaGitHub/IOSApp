@@ -25,8 +25,8 @@
     _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     CGSize labSize = [_labTopicTitle sizeThatFits:CGSizeMake(_labTopicTitle.frame.size.width, MAXFLOAT)];
-    _labTitleHeight.constant = labSize.height;
+    _labTitleHeight.constant = labSize.height+20;
     
-    return _labTopicTitle.frame.origin.y + _labTitleHeight.constant + 20;
+    return _labTopicTitle.frame.origin.y + _labTitleHeight.constant + 30;
 }
 @end
