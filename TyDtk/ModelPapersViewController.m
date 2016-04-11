@@ -7,7 +7,6 @@
 //
 
 #import "ModelPapersViewController.h"
-
 @interface ModelPapersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate,UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -143,6 +142,7 @@
  授权失败
  */
 - (void)httpErrorReturnClick{
+    
 }
 /**
  获取试卷数据
@@ -185,14 +185,14 @@
 /**
  获取当前专业下的试卷级别,
  */
-- (void)getModelPaterLevel{
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetLevels?access_token=%@",systemHttps,_accessToken];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicPaterLevel = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-    } RequestFaile:^(NSError *error) {
-        
-    }];
-}
+//- (void)getModelPaterLevel{
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetLevels?access_token=%@",systemHttps,_accessToken];
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicPaterLevel = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//    } RequestFaile:^(NSError *error) {
+//        
+//    }];
+//}
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
     [self getModelPapersData];
 }
@@ -259,7 +259,13 @@
     NSLog(@"%@",urlString);
     
     
-    [self performSegueWithIdentifier:@"test" sender:nil];
+    [self performSegueWithIdentifier:@"test" sender:[NSString stringWithFormat:@"%ld",paterId]];
+}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"test"]) {
+        StartDoTopicViewController *topicVc = segue.destinationViewController;
+        topicVc.paterId = [sender integerValue];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
