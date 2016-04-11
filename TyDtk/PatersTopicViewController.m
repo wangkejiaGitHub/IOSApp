@@ -10,7 +10,7 @@
 #import "PaterTopicTableViewCell.h"
 @interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
-
+@property (nonatomic,assign) CGFloat cellHeight;
 @end
 
 @implementation PatersTopicViewController
@@ -19,15 +19,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _tableViewPater.tableFooterView = [UIView new];
+    _cellHeight = 100;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return _cellHeight;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     PaterTopicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"celltopic" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (_dicTopic.allKeys > 0) {
-        [cell setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+        _cellHeight = [cell setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
     }
     return cell;
 }

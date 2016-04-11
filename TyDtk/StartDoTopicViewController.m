@@ -8,10 +8,11 @@
 
 #import "StartDoTopicViewController.h"
 #import "PatersTopicViewController.h"
-@interface StartDoTopicViewController ()
+@interface StartDoTopicViewController ()<UIScrollViewDelegate>
 //所有展示试题的容器
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
-
+@property (weak, nonatomic) IBOutlet UIButton *lastButton;
+@property (weak, nonatomic) IBOutlet UIButton *nextButton;
 //本地信息存储
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //令牌
@@ -34,7 +35,22 @@
 - (IBAction)tewtwew:(UIBarButtonItem *)sender {
     NSLog(@"datas");
 }
-
+//上一题
+- (IBAction)lastBtnClick:(UIButton *)sender {
+    if (_scrollViewPater.contentOffset.x>=Scr_Width) {
+        _lastButton.userInteractionEnabled = NO;
+        _nextButton.userInteractionEnabled =NO;
+        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x - Scr_Width, 0) animated:YES];
+    }
+}
+//下一题
+- (IBAction)nextBtnClick:(UIButton *)sender {
+    if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
+        _lastButton.userInteractionEnabled = NO;
+        _nextButton.userInteractionEnabled =NO;
+         [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
+    }
+}
 /**
  获取试卷试题
  */
@@ -97,6 +113,12 @@
         countDicF = countDicL;
     }
     return nil;
+}
+//scrollView代理
+//动画结束，控制不让‘上一题’，‘下一题’连续点击
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    _lastButton.userInteractionEnabled = YES;
+    _nextButton.userInteractionEnabled =YES;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -16,13 +16,17 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
-- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     _labTopicTitle.text = dic[@"title"];
     _labTopicNumber.text = [NSString stringWithFormat:@"%ld、",index];
     _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
+    CGSize labSize = [_labTopicTitle sizeThatFits:CGSizeMake(_labTopicTitle.frame.size.width, MAXFLOAT)];
+    _labTitleHeight.constant = labSize.height;
+    
+    return _labTopicTitle.frame.origin.y + _labTitleHeight.constant + 20;
 }
 @end
