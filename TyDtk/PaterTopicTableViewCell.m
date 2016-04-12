@@ -1,7 +1,7 @@
 //
 //  PaterTopicTableViewCell.m
 //  TyDtk
-//
+//  试题展示cell类，用于试题信息展示，cell上的控件适配
 //  Created by 天一文化 on 16/4/11.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //

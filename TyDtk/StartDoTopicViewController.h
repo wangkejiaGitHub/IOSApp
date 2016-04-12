@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface StartDoTopicViewController : UIViewController
-@property (nonatomic,assign) NSInteger paterId;
+@property (nonatomic,assign) NSDictionary *dicPater;
 @end

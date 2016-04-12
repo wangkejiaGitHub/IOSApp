@@ -232,7 +232,6 @@
     } RequestFaile:^(NSError *error) {
         
     }];
-    
 }
 //textField代理
 - (void)textFieldDidBeginEditing:(UITextField *)textField{

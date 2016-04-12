@@ -1,7 +1,7 @@
 //
 //  ModelPapersViewController.m
 //  TyDtk
-//
+//  模拟试卷
 //  Created by 天一文化 on 16/4/6.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
@@ -259,12 +259,12 @@
     NSLog(@"%@",urlString);
     
     
-    [self performSegueWithIdentifier:@"test" sender:[NSString stringWithFormat:@"%ld",paterId]];
+    [self performSegueWithIdentifier:@"test" sender:diccc];
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"test"]) {
         StartDoTopicViewController *topicVc = segue.destinationViewController;
-        topicVc.paterId = [sender integerValue];
+        topicVc.dicPater = sender;
     }
 }
 - (void)didReceiveMemoryWarning {

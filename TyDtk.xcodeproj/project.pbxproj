@@ -42,6 +42,7 @@
 		1DE695D51CA8C75100ED1DA3 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695D41CA8C75100ED1DA3 /* TestViewController.m */; };
 		1DE695DF1CA8D28100ED1DA3 /* PhoneReViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695DE1CA8D28100ED1DA3 /* PhoneReViewController.m */; };
 		1DE695E21CA8D39200ED1DA3 /* EmailReViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695E11CA8D39200ED1DA3 /* EmailReViewController.m */; };
+		1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEB178A1CBC90FA00C82293 /* timelog.png */; };
 		1DEDC7D81C9F817B0083B394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7D71C9F817B0083B394 /* main.m */; };
 		1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */; };
 		1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DF1C9F817B0083B394 /* Main.storyboard */; };
@@ -183,6 +184,7 @@
 		1DE695DE1CA8D28100ED1DA3 /* PhoneReViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneReViewController.m; sourceTree = "<group>"; };
 		1DE695E01CA8D39200ED1DA3 /* EmailReViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailReViewController.h; sourceTree = "<group>"; };
 		1DE695E11CA8D39200ED1DA3 /* EmailReViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailReViewController.m; sourceTree = "<group>"; };
+		1DEB178A1CBC90FA00C82293 /* timelog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timelog.png; sourceTree = "<group>"; };
 		1DEDC7D31C9F817B0083B394 /* TyDtk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TyDtk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DEDC7D71C9F817B0083B394 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1DEDC7D91C9F817B0083B394 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -314,12 +316,13 @@
 		1D064E431CBB69E2007BD4E4 /* ChildView */ = {
 			isa = PBXGroup;
 			children = (
+				1DEB17481CBC7AE000C82293 /* PaterTopic */,
 				1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */,
 				1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */,
 				1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */,
 				1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */,
-				1D064E441CBB6A4B007BD4E4 /* PatersTopicViewController.h */,
-				1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */,
+				1D064E011CBB3303007BD4E4 /* StartDoTopicViewController.h */,
+				1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */,
 			);
 			name = ChildView;
 			sourceTree = "<group>";
@@ -467,6 +470,15 @@
 			name = UserRegisteView;
 			sourceTree = "<group>";
 		};
+		1DEB17481CBC7AE000C82293 /* PaterTopic */ = {
+			isa = PBXGroup;
+			children = (
+				1D064E441CBB6A4B007BD4E4 /* PatersTopicViewController.h */,
+				1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */,
+			);
+			name = PaterTopic;
+			sourceTree = "<group>";
+		};
 		1DEDC7CA1C9F817B0083B394 = {
 			isa = PBXGroup;
 			children = (
@@ -567,8 +579,6 @@
 				1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */,
 				1D18A02E1CABB0E00022642C /* SubjectInfoViewController.h */,
 				1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */,
-				1D064E011CBB3303007BD4E4 /* StartDoTopicViewController.h */,
-				1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */,
 			);
 			name = TyDtk;
 			sourceTree = "<group>";
@@ -576,6 +586,7 @@
 		1DEDC82E1C9F9F770083B394 /* Imgs */ = {
 			isa = PBXGroup;
 			children = (
+				1DEB178A1CBC90FA00C82293 /* timelog.png */,
 				1DF8984C1CA5218000D726E3 /* loginBrg.jpeg */,
 				1DF950581CA38F5800104597 /* km_icon.png */,
 				1DF950561CA38F4D00104597 /* user_icon.png */,
@@ -811,6 +822,7 @@
 				1DF950571CA38F4D00104597 /* user_icon.png in Resources */,
 				1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */,
 				1DC18F0B1CB795D50006D642 /* MJRefresh.bundle in Resources */,
+				1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */,
 				1DF9506E1CA3BFC500104597 /* SVProgressHUD.bundle in Resources */,
 				1DEDC8311C9F9F770083B394 /* login_password.png in Resources */,
 				1DEDC8671C9FA40A0083B394 /* mainbg.png in Resources */,

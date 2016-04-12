@@ -1,7 +1,7 @@
 //
 //  SubjectInfoViewController.m
 //  TyDtk
-//
+//  选择科目，并展示对应章节考点、模拟试卷、每周精选、只能出题模块
 //  Created by 天一文化 on 16/3/30.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
