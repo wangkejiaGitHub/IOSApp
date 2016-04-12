@@ -1044,15 +1044,8 @@
                             <rect key="frame" x="103" y="6" width="170" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="timelog.png" translatesAutoresizingMaskIntoConstraints="NO" id="cqA-2j-jqL">
-                                    <rect key="frame" x="11" y="7" width="20" height="20"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="20" id="MTG-v0-Nma"/>
-                                        <constraint firstAttribute="width" constant="20" id="wX6-Ea-7Kj"/>
-                                    </constraints>
-                                </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nVR-uI-uIf">
-                                    <rect key="frame" x="93" y="7" width="72" height="20"/>
+                                    <rect key="frame" x="83" y="7" width="82" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="xul-CC-hcB"/>
                                     </constraints>
@@ -1061,7 +1054,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="剩余时间" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1dG-Op-GKW">
-                                    <rect key="frame" x="33" y="7" width="55" height="20"/>
+                                    <rect key="frame" x="23" y="7" width="55" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="CGN-lh-P65"/>
                                         <constraint firstAttribute="width" constant="55" id="KK4-HO-GUM"/>
@@ -1073,11 +1066,9 @@
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="1dG-Op-GKW" firstAttribute="centerX" secondItem="acp-6y-00J" secondAttribute="centerX" constant="-25" id="0jS-em-YQU"/>
+                                <constraint firstItem="1dG-Op-GKW" firstAttribute="centerX" secondItem="acp-6y-00J" secondAttribute="centerX" constant="-35" id="0jS-em-YQU"/>
                                 <constraint firstAttribute="trailing" secondItem="nVR-uI-uIf" secondAttribute="trailing" constant="5" id="GXq-eY-ZfM"/>
                                 <constraint firstItem="1dG-Op-GKW" firstAttribute="centerY" secondItem="acp-6y-00J" secondAttribute="centerY" id="OMy-xc-ahc"/>
-                                <constraint firstItem="1dG-Op-GKW" firstAttribute="leading" secondItem="cqA-2j-jqL" secondAttribute="trailing" constant="2" id="k8z-xV-oER"/>
-                                <constraint firstItem="cqA-2j-jqL" firstAttribute="centerY" secondItem="acp-6y-00J" secondAttribute="centerY" id="kau-aL-NTE"/>
                                 <constraint firstItem="nVR-uI-uIf" firstAttribute="centerY" secondItem="acp-6y-00J" secondAttribute="centerY" id="nBJ-uh-fT7"/>
                                 <constraint firstItem="nVR-uI-uIf" firstAttribute="leading" secondItem="1dG-Op-GKW" secondAttribute="trailing" constant="5" id="zMl-Fe-AL3"/>
                             </constraints>
@@ -1873,7 +1864,6 @@
         <image name="login_password.png" width="42" height="42"/>
         <image name="login_person.png" width="42" height="42"/>
         <image name="picon" width="45" height="45"/>
-        <image name="timelog.png" width="220" height="220"/>
         <image name="top_backbtn" width="12" height="20"/>
         <image name="user_icon.png" width="13" height="14"/>
     </resources>
