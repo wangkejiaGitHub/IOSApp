@@ -5,15 +5,15 @@
 //  Created by 天一文化 on 16/4/11.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
-
 #import "StartDoTopicViewController.h"
 #import "PatersTopicViewController.h"
-@interface StartDoTopicViewController ()<UIScrollViewDelegate>
+@interface StartDoTopicViewController ()<UIScrollViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
 //所有展示试题的容器
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
 @property (weak, nonatomic) IBOutlet UIButton *lastButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UILabel *labTime;
+@property (weak, nonatomic) IBOutlet UILabel *labSurplus;
 
 //本地信息存储
 @property (nonatomic,strong) NSUserDefaults *tyUser;
@@ -23,7 +23,9 @@
 @property (nonatomic,strong) NSArray *arrayPaterData;
 //scrollview 的宽度，单位是以屏宽的个数去计算
 @property (nonatomic,assign) NSInteger scrollContentWidth;
-
+//答题卡
+@property (nonatomic,strong) UICollectionView *collectionViewTopicCard;
+@property (nonatomic,assign) BOOL isShowTopicCard;
 @property (nonatomic,strong) NSTimer *timeLong;
 @property (nonatomic,assign) NSInteger timeHo;
 @property (nonatomic,assign) NSInteger timeMin;
@@ -55,20 +57,27 @@
     }
     _timeSe = 0;
     NSLog(@"%ld",timeLong);
-//    _timeHo = 5;
-//    _timeMin = 5;
-//    _timeSe = 0;
+    //    _timeHo = 5;
+    //    _timeMin = 5;
+    //    _timeSe = 0;
 }
-- (void)viewDidAppear:(BOOL)animated{
+/**
+ 添加试卷剩余时间定时器
+ */
+- (void)addTimerForPater{
     if (!_timeLong) {
         _timeLong = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeClick:) userInfo:nil repeats:YES];
     }
     _timeLong.fireDate = [NSDate distantPast];
+    _labSurplus.text = @"剩余时间";
 }
 - (void)viewDidDisappear:(BOOL)animated{
     _timeLong = nil;
     NSLog(@"fadsffasfsadfaf");
 }
+/**
+ 时间倒计时
+ */
 - (void)timeClick:(NSTimer*)timer{
     //先判断秒为0
     if (_timeSe == 0) {
@@ -88,7 +97,7 @@
             }
         }
         else{
-             _timeSe =59;
+            _timeSe =59;
             _timeMin = _timeMin - 1;
         }
     }
@@ -114,7 +123,15 @@
 }
 //答题卡
 - (IBAction)topicCardClick:(UIBarButtonItem *)sender {
+    _isShowTopicCard = !_isShowTopicCard;
+    if (_isShowTopicCard) {
+        [self topicCardShow];
+    }
+    else{
+        [self topicCardHiden];
+    }
 }
+
 //pop
 - (IBAction)popButtonClick:(UIBarButtonItem *)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -132,7 +149,7 @@
     if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
         _lastButton.userInteractionEnabled = NO;
         _nextButton.userInteractionEnabled =NO;
-         [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
+        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
     }
 }
 /**
@@ -141,7 +158,7 @@
 - (void)getPaterDatas{
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
     NSInteger paterId = [_dicPater[@"Id"] integerValue];
-     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/IOSGetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
@@ -152,21 +169,15 @@
             _scrollContentWidth = _scrollContentWidth + arrayDic.count;
         }
         _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
-        [self testScrollView];
-        
         [self addChildViewWithTopicForSelf];
+        
+        [self addTimerForPater];
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
 }
-- (void)testScrollView{
-    for (int i = 0; i<_scrollContentWidth; i++) {
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(Scr_Width*i, 0, Scr_Width, Scr_Height - 50)];
-        view.backgroundColor = colorSuiJi;
-        [_scrollViewPater addSubview:view];
-    }
-}
+
 //添加子试图，（每一个子试图相当于一道题）并依次在scrollView中显示出来
 - (void)addChildViewWithTopicForSelf{
     for (int i =0; i<_scrollContentWidth; i++) {
@@ -177,7 +188,7 @@
         PatersTopicViewController *paterVc = self.childViewControllers[i];
         paterVc.dicTopic = [self getTopicDictionary:i];
         paterVc.topicIndex = i+1;
-        paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, Scr_Height);
+        paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, Scr_Height - 64 - 45);
         [_scrollViewPater addSubview:paterVc.view];
     }
 }
@@ -204,19 +215,139 @@
     _lastButton.userInteractionEnabled = YES;
     _nextButton.userInteractionEnabled =YES;
 }
+
+/**
+ 添加、显示答题卡
+ */
+- (void)topicCardShow{
+    if (!_collectionViewTopicCard) {
+        UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
+        //        [la setScrollDirection:UICollectionViewScrollDirectionVertical];
+        _collectionViewTopicCard = [[UICollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la];
+        [_collectionViewTopicCard registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellcard"];
+        [_collectionViewTopicCard registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"cellview"];
+        _collectionViewTopicCard.backgroundColor = ColorWithRGBWithAlpp(200, 225, 225, 0.6);
+        _collectionViewTopicCard.delegate = self;
+        _collectionViewTopicCard.dataSource =self;
+        [self.view addSubview:_collectionViewTopicCard];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rect = _collectionViewTopicCard.frame;
+        rect.origin.x = 0;
+        _collectionViewTopicCard.frame = rect;
+    }];
+}
+/**
+ 隐藏答题卡
+ */
+- (void)topicCardHiden{
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rect = _collectionViewTopicCard.frame;
+        rect.origin.x = Scr_Width;
+        _collectionViewTopicCard.frame = rect;
+    }];
+}
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    NSDictionary *dicPater = _arrayPaterData[section];
+    NSArray *arrayTop = dicPater[@"Questions"];
+    return arrayTop.count;
+}
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return _arrayPaterData.count;
+}
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    return UIEdgeInsetsMake(10, 10, 10, 10);
+}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake((Scr_Width-20-5*10)/6, (Scr_Width-20-5*10)/6);
+}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return CGSizeMake(Scr_Width, 80);
+    }
+    return CGSizeMake(Scr_Width, 40);
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
+    return 10;
+}
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
+    return 10;
+}
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        UICollectionReusableView *reView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"cellview" forIndexPath:indexPath];
+        for (id subView in reView.subviews) {
+            [subView removeFromSuperview];
+        }
+        reView.backgroundColor = ColorWithRGBWithAlpp(80, 200, 250, 0.8);
+        NSDictionary *dicCurr = _arrayPaterData[indexPath.section];
+        NSDictionary *dicCaption = dicCurr[@"Caption"];
+        UILabel *labCaptionTypeName = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width-10, reView.bounds.size.height)];
+        labCaptionTypeName.text = dicCaption[@"CaptionTypeName"];
+        labCaptionTypeName.font = [UIFont systemFontOfSize:16.0];
+        labCaptionTypeName.textColor = [UIColor blueColor];
+        if (indexPath.section == 0) {
+            labCaptionTypeName.frame = CGRectMake(10, 40, Scr_Width-10, 40);
+            UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
+            viewTitle.backgroundColor = [UIColor groupTableViewBackgroundColor];
+            [reView addSubview:viewTitle];
+            
+            UILabel *labDone = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 70, 30)];
+            labDone.text = @"做过的题";
+            labDone.font = [UIFont systemFontOfSize:14.0];
+            [viewTitle addSubview:labDone];
+            
+            UIView *viewDone = [[UIView alloc]initWithFrame:CGRectMake(90, 15, 10, 10)];
+            viewDone.backgroundColor = ColorWithRGBWithAlpp(0, 233, 0, 0.5);
+            [viewTitle addSubview:viewDone];
+            
+            UIView *viewNo = [[UIView alloc]initWithFrame:CGRectMake(Scr_Width - 30, 15, 10, 10)];
+            viewNo.backgroundColor = ColorWithRGB(200, 200, 200);
+            [viewTitle addSubview:viewNo];
+            
+            UILabel *labNo = [[UILabel alloc]initWithFrame:CGRectMake(Scr_Width-100, 5, 70, 30)];
+            labNo.font = [UIFont systemFontOfSize:14.0];
+            labNo.text = @"未做的题";
+            [viewTitle addSubview:labNo];
+           
+        }
+        [reView addSubview:labCaptionTypeName];
+        return reView;
+    }
+    return nil;
+}
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellcard" forIndexPath:indexPath];
+    for (id subView in cell.contentView.subviews) {
+        [subView removeFromSuperview];
+    }
+    UILabel *labNumber =[[UILabel alloc]initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.width)];
+    labNumber.text = [NSString stringWithFormat:@"%ld",indexPath.row + 1];
+    labNumber.textAlignment = NSTextAlignmentCenter;
+    labNumber.font = [UIFont systemFontOfSize:15.0];
+    labNumber.backgroundColor = [UIColor clearColor];
+    [cell.contentView addSubview:labNumber];
+    cell.backgroundColor = ColorWithRGB(200, 200, 200);
+    cell.layer.borderWidth = 1;
+    cell.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    return cell;
+}
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"fsfd");
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

@@ -225,8 +225,8 @@ customTool;
         tableView.tableHeaderView = view;
         [_viewDroupDownList addSubview:tableView];
     }
-    _imageViewHeard.image = [UIImage imageNamed:@"arrow_up"];
     [self.view addSubview:_viewDroupDownList];
+    _imageViewHeard.image = [UIImage imageNamed:@"arrow_up"];
     [UIView animateWithDuration:0.3 animations:^{
         CGRect rect = _viewDroupDownList.frame;
         rect.origin.y = 64;
@@ -273,14 +273,22 @@ customTool;
     NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,subId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        _arraySubject = dicSubject[@"datas"];
-        _tableHeight = _arraySubject.count*30+20;
-        if (_tableHeight > Scr_Height) {
-            _tableHeight = Scr_Height - 153;
+        NSInteger codeId = [dicSubject[@"code"] integerValue];
+        if (codeId == 1) {
+            _arraySubject = dicSubject[@"datas"];
+            _tableHeight = _arraySubject.count*30+20;
+            if (_tableHeight > Scr_Height) {
+                _tableHeight = Scr_Height - 153;
+            }
+            [SVProgressHUD dismiss];
+
         }
-        [SVProgressHUD dismiss];
-        _buttonHeard.enabled = YES;
+        else{
+            [SVProgressHUD showInfoWithStatus:dicSubject[@"errmsg"]];
+        }
+               _buttonHeard.enabled = YES;
     } RequestFaile:^(NSError *error) {
+        NSLog(@"%@",error);
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
@@ -319,6 +327,7 @@ customTool;
     if (_buttonString.length > 15) {
         _buttonHeard.titleLabel.font = [UIFont systemFontOfSize:13.0];
     }
+    [_viewDroupDownList removeFromSuperview];
     [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
     _buttonLayoutWidth.constant = size.width;
     [self hideViewDroupDownListMenu];
