@@ -319,13 +319,13 @@
 		1D064E431CBB69E2007BD4E4 /* ChildView */ = {
 			isa = PBXGroup;
 			children = (
-				1DEB17481CBC7AE000C82293 /* PaterTopic */,
 				1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */,
 				1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */,
 				1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */,
 				1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */,
 				1D064E011CBB3303007BD4E4 /* StartDoTopicViewController.h */,
 				1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */,
+				1DEB17481CBC7AE000C82293 /* PaterTopic */,
 			);
 			name = ChildView;
 			sourceTree = "<group>";

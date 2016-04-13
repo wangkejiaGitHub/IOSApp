@@ -1112,15 +1112,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FzN-f4-2Iw">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FzN-f4-2Iw">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="celltopic" rowHeight="100" id="J6O-pa-PmV" customClass="PaterTopicTableViewCell">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="100"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="celltopic" rowHeight="120" id="J6O-pa-PmV" customClass="PaterTopicTableViewCell">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="J6O-pa-PmV" id="wmf-sE-trv">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1、" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nns-8U-eVd">
@@ -1148,17 +1148,26 @@
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="C63-H5-wm3"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ATl-Df-8sb">
                                                     <rect key="frame" x="10" y="78" width="355" height="1"/>
-                                                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="backgroundColor" red="0.82416421247818494" green="0.82416421247818494" blue="0.82416421247818494" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="1" id="Lu4-Z8-JK0"/>
                                                     </constraints>
                                                 </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Zl-12-5x6">
+                                                    <rect key="frame" x="20" y="89" width="345" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="Evv-Jr-zwD"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="1Nb-4W-wix" secondAttribute="trailing" constant="20" id="3mX-EA-py0"/>
@@ -1169,12 +1178,17 @@
                                                 <constraint firstItem="1Nb-4W-wix" firstAttribute="leading" secondItem="wmf-sE-trv" secondAttribute="leading" constant="15" id="NCk-bh-lcH"/>
                                                 <constraint firstAttribute="trailing" secondItem="ATl-Df-8sb" secondAttribute="trailing" constant="10" id="UbL-jB-XRh"/>
                                                 <constraint firstItem="nns-8U-eVd" firstAttribute="top" secondItem="wmf-sE-trv" secondAttribute="top" constant="20" id="UnT-23-Dd7"/>
+                                                <constraint firstAttribute="trailing" secondItem="8Zl-12-5x6" secondAttribute="trailing" constant="10" id="rhb-6x-cc3"/>
                                                 <constraint firstItem="1Nb-4W-wix" firstAttribute="top" secondItem="WRa-bm-ZGc" secondAttribute="bottom" constant="10" id="tIc-8U-fcm"/>
+                                                <constraint firstItem="8Zl-12-5x6" firstAttribute="top" secondItem="ATl-Df-8sb" secondAttribute="bottom" constant="10" id="tPJ-X8-u6P"/>
+                                                <constraint firstItem="8Zl-12-5x6" firstAttribute="leading" secondItem="wmf-sE-trv" secondAttribute="leading" constant="20" id="vwy-YI-sGB"/>
                                                 <constraint firstItem="WRa-bm-ZGc" firstAttribute="bottom" secondItem="nns-8U-eVd" secondAttribute="bottom" id="z5l-OE-Wct"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="labNumberWidth" destination="53m-ny-YiZ" id="0R1-ZL-Dnr"/>
+                                            <outlet property="labSelectHeight" destination="Evv-Jr-zwD" id="XNd-WM-PQn"/>
+                                            <outlet property="labSelectOp" destination="8Zl-12-5x6" id="zQ1-o3-DPl"/>
                                             <outlet property="labTitleHeight" destination="C63-H5-wm3" id="7o7-Nb-fA7"/>
                                             <outlet property="labTopicNumber" destination="nns-8U-eVd" id="2rK-oN-Vx7"/>
                                             <outlet property="labTopicTitle" destination="1Nb-4W-wix" id="d8f-Xv-KNe"/>

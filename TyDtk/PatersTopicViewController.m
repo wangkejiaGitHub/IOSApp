@@ -11,7 +11,10 @@
 #import "PaterTopicTableViewCell.h"
 @interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
+//需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellHeight;
+//需要返回的tableView头的高
+@property (nonatomic,assign) CGFloat cellHeardHeight;
 @end
 
 @implementation PatersTopicViewController
@@ -20,15 +23,41 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _tableViewPater.tableFooterView = [UIView new];
-    _cellHeight = 100;
+    _tableViewPater.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _cellHeight = 120;
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
-//- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (_topicTitle!=nil) {
+        UILabel *lab = [[UILabel alloc]init];
+        lab.numberOfLines = 0;
+        lab.font = [UIFont systemFontOfSize:15.0];
+        lab.text = _topicTitle;
+        CGSize labSize = [lab sizeThatFits:CGSizeMake(Scr_Width-10, MAXFLOAT)];
+        _cellHeardHeight = labSize.height;
+        lab = nil;
+        return _cellHeardHeight+20;
+    }
+    return 0;
+}
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    if (_topicTitle!=nil) {
+        UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _cellHeardHeight+20)];
+        viewTitle.backgroundColor = ColorWithRGB(210, 210, 205);
+        
+        UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, Scr_Width-20, _cellHeardHeight)];
+        labTitle.numberOfLines = 0;
+        labTitle.font = [UIFont systemFontOfSize:15.0];
+        labTitle.text = _topicTitle;
+        [viewTitle addSubview:labTitle];
+        return viewTitle;
+    }
+    return nil;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return _cellHeight;
 }

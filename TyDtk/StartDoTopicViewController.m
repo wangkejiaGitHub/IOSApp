@@ -51,7 +51,6 @@
  获取模拟试卷试题
  */
 - (void)getPaterDatas{
-    
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
     NSInteger paterId = [_dicPater[@"Id"] integerValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/IOSGetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
@@ -192,14 +191,16 @@
         paterVc.dicTopic = [self getTopicDictionary:i];
         paterVc.topicIndex = i+1;
         paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, Scr_Height - 64 - 45);
+        NSString *topString = [self topicTitle:i];
+        paterVc.topicTitle = nil;
+        if (topString != nil) {
+            paterVc.topicTitle = topString;
+        }
         [_scrollViewPater addSubview:paterVc.view];
-        
-        NSArray *arr = [self topicTitle:i];
-        NSLog(@"%@",arr);
     }
 }
 //传递题干信息，每一类试题的第一道题，传递题干信息
-- (NSArray *)topicTitle:(NSInteger)topicIndex{
+- (NSString *)topicTitle:(NSInteger)topicIndex{
     NSInteger countDicF = 0;
     NSInteger countDicL = 0;
     for (NSDictionary *dic in _arrayPaterData) {
@@ -207,12 +208,13 @@
         countDicL = array.count + countDicF;
         if (topicIndex >= countDicF && topicIndex <= countDicL-1) {
             if (topicIndex == countDicF) {
-                return array;
+                NSDictionary *dicCaption = dic[@"Caption"];
+                NSString *topicTitle = dicCaption[@"Names"];
+                return topicTitle;
             }
         }
         countDicF = countDicL;
     }
-
     return nil;
 }
 
@@ -244,22 +246,14 @@
  添加、显示答题卡
  */
 - (void)topicCardShow{
-    if (!_collectionViewTopicCard) {
-//        UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
-//        //        [la setScrollDirection:UICollectionViewScrollDirectionVertical];
-//        _collectionViewTopicCard = [[UICollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la];
-//        [_collectionViewTopicCard registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellcard"];
-//        [_collectionViewTopicCard registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"cellview"];
-//        _collectionViewTopicCard.backgroundColor = [UIColor groupTableViewBackgroundColor];
-//        _collectionViewTopicCard.delegate = self;
-//        _collectionViewTopicCard.dataSource =self;
-        
+    if (!_collectionViewTopicCard) {        
         UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
         _collectionViewTopicCard = [[TopicCardCollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la withTopicArray:_arrayPaterData];
         _collectionViewTopicCard.delegateCellClick = self;
         [self.view addSubview:_collectionViewTopicCard];
     }
     [_buttonRight setTitle:@"隐藏答题卡" forState:UIControlStateNormal];
+    [_collectionViewTopicCard setContentOffset:CGPointMake(0, 0) animated:YES];
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rect = _collectionViewTopicCard.frame;
         rect.origin.x = 0;

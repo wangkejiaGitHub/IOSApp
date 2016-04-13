@@ -62,16 +62,16 @@
 #define systemHttpImgs @"http://static.kaola100.com"
 
 /**
- 专业下科目
+ 每道题需要显示的图片
  */
-#define systemHttpsKaoLaKeMu @"http://www.kaola100.com/ty/mobile/order/"
+#define systemHttpsKaoLaTopicImg @"http://www.kaola100.com"
 //会员中心
 #define systemHttpsTyUser @"http://www.tydlk.cn/tyuser/"
 //首页背景图片
 #define systemBackGrdImg [[UIImage imageNamed:@"mainbg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)]
 //"更多" 图片地址
 #define systemMoreImg @"http://mobile.kaola100.com/images/more.png"
-
+#define systemTiKuKeMu @"http://www.kaola100.com/ty/mobile/order/"
 /**********************
   NSUserDefaults 信息储存字段
  *********************/

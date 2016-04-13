@@ -14,6 +14,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *labTopicType;
 @property (weak, nonatomic) IBOutlet UILabel *labTopicTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labTitleHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labSelectHeight;
 
+@property (weak, nonatomic) IBOutlet UILabel *labSelectOp;
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @end
