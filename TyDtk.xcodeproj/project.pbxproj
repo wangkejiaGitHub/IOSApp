@@ -11,6 +11,7 @@
 		1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */; };
 		1D064E8B1CBB738F007BD4E4 /* PaterTopicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E8A1CBB738F007BD4E4 /* PaterTopicTableViewCell.m */; };
 		1D10C9891CB3A74C00040913 /* UserIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D10C9881CB3A74C00040913 /* UserIndexViewController.m */; };
+		1D1626931CBDD5CC0050784B /* TopicCardCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */; };
 		1D18A02D1CAB7D690022642C /* CustomTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02C1CAB7D690022642C /* CustomTools.m */; };
 		1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */; };
 		1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */; };
@@ -123,6 +124,8 @@
 		1D064E8A1CBB738F007BD4E4 /* PaterTopicTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicTableViewCell.m; sourceTree = "<group>"; };
 		1D10C9871CB3A74C00040913 /* UserIndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserIndexViewController.h; sourceTree = "<group>"; };
 		1D10C9881CB3A74C00040913 /* UserIndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserIndexViewController.m; sourceTree = "<group>"; };
+		1D1626911CBDD5CC0050784B /* TopicCardCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicCardCollectionView.h; sourceTree = "<group>"; };
+		1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicCardCollectionView.m; sourceTree = "<group>"; };
 		1D18A02B1CAB7D690022642C /* CustomTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTools.h; sourceTree = "<group>"; };
 		1D18A02C1CAB7D690022642C /* CustomTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTools.m; sourceTree = "<group>"; };
 		1D18A02E1CABB0E00022642C /* SubjectInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectInfoViewController.h; sourceTree = "<group>"; };
@@ -665,6 +668,8 @@
 				1DF898591CA53D2B00D726E3 /* MZView.m */,
 				1D18A02B1CAB7D690022642C /* CustomTools.h */,
 				1D18A02C1CAB7D690022642C /* CustomTools.m */,
+				1D1626911CBDD5CC0050784B /* TopicCardCollectionView.h */,
+				1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -876,6 +881,7 @@
 				1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */,
 				1DC18F0D1CB795D50006D642 /* UIScrollView+MJExtension.m in Sources */,
 				1DEFF1E01CA0E5D800994E2C /* ChineseToPinyin.m in Sources */,
+				1D1626931CBDD5CC0050784B /* TopicCardCollectionView.m in Sources */,
 				1DEDC85F1C9FA2920083B394 /* UIButton+WebCache.m in Sources */,
 				1DEDC8571C9FA2920083B394 /* NSData+ImageContentType.m in Sources */,
 				1DC18F061CB795D50006D642 /* MJRefreshBackNormalFooter.m in Sources */,

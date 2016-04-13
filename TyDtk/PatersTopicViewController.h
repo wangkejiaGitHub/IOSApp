@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface PatersTopicViewController : UIViewController
+//题干信息
+@property (nonatomic,strong) NSString *topicTitle;
 @property (nonatomic,strong) NSDictionary *dicTopic;
 @property (nonatomic,assign) NSInteger topicIndex;
 @end

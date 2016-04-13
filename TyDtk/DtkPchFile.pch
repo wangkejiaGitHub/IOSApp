@@ -38,6 +38,7 @@
 //刷新
 #import "MJRefresh.h"
 #import "StartDoTopicViewController.h"
+#import "TopicCardCollectionView.h"
 /**********************
  自定义字段（简化代码）
  *********************/

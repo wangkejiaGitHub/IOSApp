@@ -26,6 +26,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
+//- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    
+//}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return _cellHeight;
 }

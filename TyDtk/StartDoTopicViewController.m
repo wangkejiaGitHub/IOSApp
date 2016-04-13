@@ -7,9 +7,11 @@
 //
 #import "StartDoTopicViewController.h"
 #import "PatersTopicViewController.h"
-@interface StartDoTopicViewController ()<UIScrollViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
+@interface StartDoTopicViewController ()<UIScrollViewDelegate,TopicCardDelegate>
 //所有展示试题的容器
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
+@property (weak, nonatomic) IBOutlet UIButton *buttonRight;
+
 @property (weak, nonatomic) IBOutlet UIButton *lastButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UILabel *labTime;
@@ -24,7 +26,9 @@
 //scrollview 的宽度，单位是以屏宽的个数去计算
 @property (nonatomic,assign) NSInteger scrollContentWidth;
 //答题卡
-@property (nonatomic,strong) UICollectionView *collectionViewTopicCard;
+//@property (nonatomic,strong) UICollectionView *collectionViewTopicCard;
+
+@property (nonatomic,strong) TopicCardCollectionView *collectionViewTopicCard;
 @property (nonatomic,assign) BOOL isShowTopicCard;
 @property (nonatomic,strong) NSTimer *timeLong;
 @property (nonatomic,assign) NSInteger timeHo;
@@ -38,10 +42,37 @@
     [super viewDidLoad];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
     // Do any additional setup after loading the view.
     [self setTimeForTopic];
     [self getPaterDatas];
 }
+/**
+ 获取模拟试卷试题
+ */
+- (void)getPaterDatas{
+    
+    [SVProgressHUD showWithStatus:@"试卷加载中..."];
+    NSInteger paterId = [_dicPater[@"Id"] integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/IOSGetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        _arrayPaterData = dicPater[@"datas"];
+        NSLog(@"%ld == %@",paterId,_accessToken);
+        _scrollContentWidth = 0;
+        for (NSDictionary *dicNum in _arrayPaterData) {
+            NSArray *arrayDic = dicNum[@"Questions"];
+            _scrollContentWidth = _scrollContentWidth + arrayDic.count;
+        }
+        _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
+        [self addChildViewWithTopicForSelf];
+        [self addTimerForPater];
+        [SVProgressHUD dismiss];
+    } RequestFaile:^(NSError *error) {
+        [SVProgressHUD dismiss];
+    }];
+}
+//倒计时时间事件
 - (void)setTimeForTopic{
     NSInteger timeLong = [_dicPater[@"TimeLong"] integerValue];
     if (timeLong % 60 == 0) {
@@ -56,10 +87,6 @@
         _timeMin = timeLong%60;
     }
     _timeSe = 0;
-    NSLog(@"%ld",timeLong);
-    //    _timeHo = 5;
-    //    _timeMin = 5;
-    //    _timeSe = 0;
 }
 /**
  添加试卷剩余时间定时器
@@ -73,7 +100,6 @@
 }
 - (void)viewDidDisappear:(BOOL)animated{
     _timeLong = nil;
-    NSLog(@"fadsffasfsadfaf");
 }
 /**
  时间倒计时
@@ -121,8 +147,8 @@
     }
     _labTime.text = [NSString stringWithFormat:@"%@:%@:%@",hTime,MinTime,seTIme];
 }
-//答题卡
-- (IBAction)topicCardClick:(UIBarButtonItem *)sender {
+//打开答题卡
+- (IBAction)topicCardClick:(UIButton *)sender {
     _isShowTopicCard = !_isShowTopicCard;
     if (_isShowTopicCard) {
         [self topicCardShow];
@@ -143,6 +169,7 @@
         _nextButton.userInteractionEnabled =NO;
         [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x - Scr_Width, 0) animated:YES];
     }
+    [self topicCardHiden];
 }
 //下一题
 - (IBAction)nextBtnClick:(UIButton *)sender {
@@ -151,31 +178,7 @@
         _nextButton.userInteractionEnabled =NO;
         [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
     }
-}
-/**
- 获取模拟试卷试题
- */
-- (void)getPaterDatas{
-    [SVProgressHUD showWithStatus:@"试卷加载中..."];
-    NSInteger paterId = [_dicPater[@"Id"] integerValue];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/IOSGetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        _arrayPaterData = dicPater[@"datas"];
-        NSLog(@"%ld == %@",paterId,_accessToken);
-        _scrollContentWidth = 0;
-        for (NSDictionary *dicNum in _arrayPaterData) {
-            NSArray *arrayDic = dicNum[@"Questions"];
-            _scrollContentWidth = _scrollContentWidth + arrayDic.count;
-        }
-        _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
-        [self addChildViewWithTopicForSelf];
-        
-        [self addTimerForPater];
-        [SVProgressHUD dismiss];
-    } RequestFaile:^(NSError *error) {
-        [SVProgressHUD dismiss];
-    }];
+    [self topicCardHiden];
 }
 
 //添加子试图，（每一个子试图相当于一道题）并依次在scrollView中显示出来
@@ -190,8 +193,29 @@
         paterVc.topicIndex = i+1;
         paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, Scr_Height - 64 - 45);
         [_scrollViewPater addSubview:paterVc.view];
+        
+        NSArray *arr = [self topicTitle:i];
+        NSLog(@"%@",arr);
     }
 }
+//传递题干信息，每一类试题的第一道题，传递题干信息
+- (NSArray *)topicTitle:(NSInteger)topicIndex{
+    NSInteger countDicF = 0;
+    NSInteger countDicL = 0;
+    for (NSDictionary *dic in _arrayPaterData) {
+        NSArray *array = dic[@"Questions"];
+        countDicL = array.count + countDicF;
+        if (topicIndex >= countDicF && topicIndex <= countDicL-1) {
+            if (topicIndex == countDicF) {
+                return array;
+            }
+        }
+        countDicF = countDicL;
+    }
+
+    return nil;
+}
+
 /**
  根据索引获取所对应的题目字典
  */
@@ -221,16 +245,21 @@
  */
 - (void)topicCardShow{
     if (!_collectionViewTopicCard) {
+//        UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
+//        //        [la setScrollDirection:UICollectionViewScrollDirectionVertical];
+//        _collectionViewTopicCard = [[UICollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la];
+//        [_collectionViewTopicCard registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellcard"];
+//        [_collectionViewTopicCard registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"cellview"];
+//        _collectionViewTopicCard.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//        _collectionViewTopicCard.delegate = self;
+//        _collectionViewTopicCard.dataSource =self;
+        
         UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
-        //        [la setScrollDirection:UICollectionViewScrollDirectionVertical];
-        _collectionViewTopicCard = [[UICollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la];
-        [_collectionViewTopicCard registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cellcard"];
-        [_collectionViewTopicCard registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"cellview"];
-        _collectionViewTopicCard.backgroundColor = ColorWithRGBWithAlpp(200, 225, 225, 0.6);
-        _collectionViewTopicCard.delegate = self;
-        _collectionViewTopicCard.dataSource =self;
+        _collectionViewTopicCard = [[TopicCardCollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la withTopicArray:_arrayPaterData];
+        _collectionViewTopicCard.delegateCellClick = self;
         [self.view addSubview:_collectionViewTopicCard];
     }
+    [_buttonRight setTitle:@"隐藏答题卡" forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rect = _collectionViewTopicCard.frame;
         rect.origin.x = 0;
@@ -241,100 +270,121 @@
  隐藏答题卡
  */
 - (void)topicCardHiden{
+    _isShowTopicCard = NO;
+    [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rect = _collectionViewTopicCard.frame;
         rect.origin.x = Scr_Width;
         _collectionViewTopicCard.frame = rect;
     }];
 }
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    NSDictionary *dicPater = _arrayPaterData[section];
-    NSArray *arrayTop = dicPater[@"Questions"];
-    return arrayTop.count;
+- (void)topicCollectonViewCellClick:(NSInteger)indexScroll{
+    [_scrollViewPater setContentOffset:CGPointMake((indexScroll-1)*Scr_Width, 0) animated:YES];
+    [self topicCardHiden];
+    NSLog(@"fasfaf");
 }
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return _arrayPaterData.count;
-}
-- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(10, 10, 10, 10);
-}
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake((Scr_Width-20-5*10)/6, (Scr_Width-20-5*10)/6);
-}
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return CGSizeMake(Scr_Width, 80);
-    }
-    return CGSizeMake(Scr_Width, 40);
-}
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-    return 10;
-}
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-    return 10;
-}
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-        UICollectionReusableView *reView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"cellview" forIndexPath:indexPath];
-        for (id subView in reView.subviews) {
-            [subView removeFromSuperview];
-        }
-        reView.backgroundColor = ColorWithRGBWithAlpp(80, 200, 250, 0.8);
-        NSDictionary *dicCurr = _arrayPaterData[indexPath.section];
-        NSDictionary *dicCaption = dicCurr[@"Caption"];
-        UILabel *labCaptionTypeName = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width-10, reView.bounds.size.height)];
-        labCaptionTypeName.text = dicCaption[@"CaptionTypeName"];
-        labCaptionTypeName.font = [UIFont systemFontOfSize:16.0];
-        labCaptionTypeName.textColor = [UIColor blueColor];
-        if (indexPath.section == 0) {
-            labCaptionTypeName.frame = CGRectMake(10, 40, Scr_Width-10, 40);
-            UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
-            viewTitle.backgroundColor = [UIColor groupTableViewBackgroundColor];
-            [reView addSubview:viewTitle];
-            
-            UILabel *labDone = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 70, 30)];
-            labDone.text = @"做过的题";
-            labDone.font = [UIFont systemFontOfSize:14.0];
-            [viewTitle addSubview:labDone];
-            
-            UIView *viewDone = [[UIView alloc]initWithFrame:CGRectMake(90, 15, 10, 10)];
-            viewDone.backgroundColor = ColorWithRGBWithAlpp(0, 233, 0, 0.5);
-            [viewTitle addSubview:viewDone];
-            
-            UIView *viewNo = [[UIView alloc]initWithFrame:CGRectMake(Scr_Width - 30, 15, 10, 10)];
-            viewNo.backgroundColor = ColorWithRGB(200, 200, 200);
-            [viewTitle addSubview:viewNo];
-            
-            UILabel *labNo = [[UILabel alloc]initWithFrame:CGRectMake(Scr_Width-100, 5, 70, 30)];
-            labNo.font = [UIFont systemFontOfSize:14.0];
-            labNo.text = @"未做的题";
-            [viewTitle addSubview:labNo];
-           
-        }
-        [reView addSubview:labCaptionTypeName];
-        return reView;
-    }
-    return nil;
-}
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellcard" forIndexPath:indexPath];
-    for (id subView in cell.contentView.subviews) {
-        [subView removeFromSuperview];
-    }
-    UILabel *labNumber =[[UILabel alloc]initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.width)];
-    labNumber.text = [NSString stringWithFormat:@"%ld",indexPath.row + 1];
-    labNumber.textAlignment = NSTextAlignmentCenter;
-    labNumber.font = [UIFont systemFontOfSize:15.0];
-    labNumber.backgroundColor = [UIColor clearColor];
-    [cell.contentView addSubview:labNumber];
-    cell.backgroundColor = ColorWithRGB(200, 200, 200);
-    cell.layer.borderWidth = 1;
-    cell.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    return cell;
-}
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"fsfd");
-}
+//////////////////////
+//
+//////////////////////
+//- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+//    NSDictionary *dicPater = _arrayPaterData[section];
+//    NSArray *arrayTop = dicPater[@"Questions"];
+//    return arrayTop.count;
+//}
+//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+//    return _arrayPaterData.count;
+//}
+//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+//    return UIEdgeInsetsMake(10, 10, 10, 10);
+//}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+//    return CGSizeMake((Scr_Width-20-5*10)/6, (Scr_Width-20-5*10)/6);
+//}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+//    if (section == 0) {
+//        return CGSizeMake(Scr_Width, 80);
+//    }
+//    return CGSizeMake(Scr_Width, 40);
+//}
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
+//    return 10;
+//}
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
+//    return 10;
+//}
+//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+//    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+//        UICollectionReusableView *reView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"cellview" forIndexPath:indexPath];
+//        for (id subView in reView.subviews) {
+//            [subView removeFromSuperview];
+//        }
+//        reView.backgroundColor = ColorWithRGBWithAlpp(80, 200, 250, 0.8);
+//        NSDictionary *dicCurr = _arrayPaterData[indexPath.section];
+//        NSDictionary *dicCaption = dicCurr[@"Caption"];
+//        UILabel *labCaptionTypeName = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width-10, reView.bounds.size.height)];
+//        labCaptionTypeName.text = dicCaption[@"CaptionTypeName"];
+//        labCaptionTypeName.font = [UIFont systemFontOfSize:16.0];
+//        labCaptionTypeName.textColor = [UIColor blueColor];
+//        if (indexPath.section == 0) {
+//            labCaptionTypeName.frame = CGRectMake(10, 40, Scr_Width-10, 40);
+//            UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
+//            viewTitle.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//            [reView addSubview:viewTitle];
+//            
+//            UILabel *labDone = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 70, 30)];
+//            labDone.text = @"做过的题";
+//            labDone.font = [UIFont systemFontOfSize:14.0];
+//            [viewTitle addSubview:labDone];
+//            
+//            UIView *viewDone = [[UIView alloc]initWithFrame:CGRectMake(90, 15, 10, 10)];
+//            viewDone.backgroundColor = ColorWithRGBWithAlpp(0, 233, 0, 0.5);
+//            [viewTitle addSubview:viewDone];
+//            
+//            UIView *viewNo = [[UIView alloc]initWithFrame:CGRectMake(Scr_Width - 30, 15, 10, 10)];
+//            viewNo.backgroundColor = ColorWithRGB(200, 200, 200);
+//            [viewTitle addSubview:viewNo];
+//            
+//            UILabel *labNo = [[UILabel alloc]initWithFrame:CGRectMake(Scr_Width-100, 5, 70, 30)];
+//            labNo.font = [UIFont systemFontOfSize:14.0];
+//            labNo.text = @"未做的题";
+//            [viewTitle addSubview:labNo];
+//           
+//        }
+//        [reView addSubview:labCaptionTypeName];
+//        return reView;
+//    }
+//    return nil;
+//}
+//- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+//    
+//    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellcard" forIndexPath:indexPath];
+//    for (id subView in cell.contentView.subviews) {
+//        [subView removeFromSuperview];
+//    }
+//    UILabel *labNumber =[[UILabel alloc]initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.width)];
+//    labNumber.text = [NSString stringWithFormat:@"%ld",indexPath.row + 1];
+//    labNumber.textAlignment = NSTextAlignmentCenter;
+//    labNumber.font = [UIFont systemFontOfSize:15.0];
+//    labNumber.backgroundColor = [UIColor clearColor];
+//    [cell.contentView addSubview:labNumber];
+//    if (indexPath.section != 0) {
+//        NSInteger indexRow = 0;
+//        for (int i = 0; i < indexPath.section; i++) {
+//            NSDictionary *dicPater = _arrayPaterData[i];
+//            NSArray *arrayTop = dicPater[@"Questions"];
+//            indexRow = indexRow+arrayTop.count;
+//        }
+//        
+//         labNumber.text = [NSString stringWithFormat:@"%ld",indexPath.row + 1+indexRow];
+//    }
+//    cell.backgroundColor = ColorWithRGB(200, 200, 200);
+//    cell.layer.borderWidth = 1;
+//    cell.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+//    return cell;
+//}
+//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+//    NSLog(@"fsfd");
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

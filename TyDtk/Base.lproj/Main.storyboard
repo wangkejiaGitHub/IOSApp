@@ -1015,7 +1015,7 @@
                                 </constraints>
                             </view>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MfY-j0-f7u">
-                                <rect key="frame" x="0.0" y="64" width="375" height="558"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="602"/>
                                 <connections>
                                     <outlet property="delegate" destination="psZ-67-bwE" id="gYK-ze-eji"/>
                                 </connections>
@@ -1040,7 +1040,7 @@
                             </connections>
                         </barButtonItem>
                         <view key="titleView" contentMode="scaleToFill" id="acp-6y-00J">
-                            <rect key="frame" x="103" y="6" width="170" height="33"/>
+                            <rect key="frame" x="100" y="6" width="170" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nVR-uI-uIf">
@@ -1072,14 +1072,23 @@
                                 <constraint firstItem="nVR-uI-uIf" firstAttribute="leading" secondItem="1dG-Op-GKW" secondAttribute="trailing" constant="5" id="zMl-Fe-AL3"/>
                             </constraints>
                         </view>
-                        <barButtonItem key="rightBarButtonItem" title="答题卡" id="gxU-k1-7wb">
-                            <connections>
-                                <action selector="topicCardClick:" destination="psZ-67-bwE" id="2BL-yu-ZWR"/>
-                            </connections>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="aRQ-H3-rLz">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Vjw-PU-uh5">
+                                <rect key="frame" x="276" y="7" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <state key="normal">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="topicCardClick:" destination="psZ-67-bwE" eventType="touchUpInside" id="aMf-h7-0Fu"/>
+                                </connections>
+                            </button>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="buttonRight" destination="Vjw-PU-uh5" id="VtL-1l-5ng"/>
                         <outlet property="labSurplus" destination="1dG-Op-GKW" id="6ff-tm-9MZ"/>
                         <outlet property="labTime" destination="nVR-uI-uIf" id="pA9-6g-s8F"/>
                         <outlet property="lastButton" destination="H4o-p0-GJj" id="eLF-g1-BCk"/>
