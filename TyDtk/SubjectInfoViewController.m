@@ -265,6 +265,7 @@ customTool;
 }
 /**
  获取专业下所有科目
+ getTikuSubjects?classId=
  */
 - (void)getAllSubject{
     [SVProgressHUD show];

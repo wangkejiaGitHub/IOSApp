@@ -20,6 +20,9 @@
     // Configure the view for the selected state
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+    if (index == 13) {
+        NSLog(@"fsf");
+    }
     //判断视图是否有图片
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
@@ -45,18 +48,16 @@
         selectOptions = [selectOptions stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
         NSData *dataSting = [selectOptions dataUsingEncoding:NSUTF8StringEncoding];
         NSArray *arrayOptions = [NSJSONSerialization JSONObjectWithData:dataSting options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",arrayOptions);
         
         NSString *arraySelect = [arrayOptions componentsJoinedByString:@""];
         arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n\n"];
-
+        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br />" withString:@"\n\n"];
         _labSelectOp.text = arraySelect;
-        
         CGSize sizeLabSelect = [_labSelectOp sizeThatFits:CGSizeMake(Scr_Width-30, MAXFLOAT)];
         _labSelectHeight.constant = sizeLabSelect.height;
         
     }
-    
+    NSLog(@"topic =========== %ld",index);
     return _labTopicTitle.frame.origin.y + _labTitleHeight.constant + 30+_labSelectHeight.constant;
 }
 @end
