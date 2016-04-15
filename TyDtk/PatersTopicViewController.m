@@ -9,7 +9,7 @@
 
 #import "PatersTopicViewController.h"
 #import "PaterTopicTableViewCell.h"
-@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
 //需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellHeight;
@@ -77,6 +77,8 @@
         if (_dicTopic.allKeys > 0) {
             _cellHeight = [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
             cellSelect.topicType = topicType;
+            cellSelect.indexTopic = _topicIndex;
+            cellSelect.delegateCellClick = self;
         }
     }
     else if (topicType == 6){
@@ -84,6 +86,9 @@
         return cellSubQu;
     }
     return cellSelect;
+}
+- (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSString *)selectString{
+    NSLog(@"%ld == %@",indexTpoic,selectString);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -117,6 +117,7 @@
 - (void)buttonSelectClick:(UIButton *)sender{
     if (_topicType == 1) {
         NSLog(@"fafsfa");
+        [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
     }
 }
 @end

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @protocol TopicCellDelegate<NSObject>
-- (void)topicCellSelectClick:(NSInteger *)idnexTpoic selectDone:(NSString*)selectString;
+- (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSString*)selectString;
 @end
 @interface PaterTopicTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *labTopicNumber;
@@ -17,8 +17,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *labTopicTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labTitleHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labSelectHeight;
-
 @property (weak, nonatomic) IBOutlet UILabel *labSelectOp;
+@property (nonatomic,assign) NSInteger indexTopic;
+@property (nonatomic,assign) id <TopicCellDelegate> delegateCellClick;
 @property (nonatomic,assign) NSInteger topicType;
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @end
