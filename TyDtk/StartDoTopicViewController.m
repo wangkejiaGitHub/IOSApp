@@ -42,6 +42,7 @@
     [super viewDidLoad];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    _buttonRight.userInteractionEnabled = NO;
     [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
     // Do any additional setup after loading the view.
     [self setTimeForTopic];
@@ -66,6 +67,7 @@
         _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
         [self addChildViewWithTopicForSelf];
         [self addTimerForPater];
+        _buttonRight.userInteractionEnabled = YES;
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD dismiss];

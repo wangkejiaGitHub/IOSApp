@@ -319,6 +319,7 @@
 		1D064E431CBB69E2007BD4E4 /* ChildView */ = {
 			isa = PBXGroup;
 			children = (
+				1DC18ECC1CB77D540006D642 /* TableViewTopicCell */,
 				1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */,
 				1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */,
 				1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */,
@@ -330,13 +331,13 @@
 			name = ChildView;
 			sourceTree = "<group>";
 		};
-		1DC18ECC1CB77D540006D642 /* TableViewCell */ = {
+		1DC18ECC1CB77D540006D642 /* TableViewTopicCell */ = {
 			isa = PBXGroup;
 			children = (
 				1D064E891CBB738F007BD4E4 /* PaterTopicTableViewCell.h */,
 				1D064E8A1CBB738F007BD4E4 /* PaterTopicTableViewCell.m */,
 			);
-			name = TableViewCell;
+			name = TableViewTopicCell;
 			sourceTree = "<group>";
 		};
 		1DC18ED01CB795D50006D642 /* MJRefresh */ = {
@@ -572,7 +573,6 @@
 			isa = PBXGroup;
 			children = (
 				1D064E431CBB69E2007BD4E4 /* ChildView */,
-				1DC18ECC1CB77D540006D642 /* TableViewCell */,
 				1DD2E6F61CB5F1C800423484 /* XibForTk */,
 				1DEDC8141C9F880E0083B394 /* IndexViewController.h */,
 				1DEDC8151C9F880E0083B394 /* IndexViewController.m */,

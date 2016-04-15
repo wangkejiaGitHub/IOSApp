@@ -24,14 +24,17 @@
     // Do any additional setup after loading the view.
     _tableViewPater.tableFooterView = [UIView new];
     _tableViewPater.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _cellHeight = 120;
+    _tableViewPater.backgroundColor = [UIColor whiteColor];
+    _cellHeight = 130;
     
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
+//section头的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    //topicTitle 通过参数传递
     if (_topicTitle!=nil) {
         UILabel *lab = [[UILabel alloc]init];
         lab.numberOfLines = 0;
@@ -42,7 +45,10 @@
         lab = nil;
         return _cellHeardHeight+20;
     }
-    return 0;
+    return 1;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 1;
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (_topicTitle!=nil) {
@@ -62,12 +68,22 @@
     return _cellHeight;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    PaterTopicTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"celltopic" forIndexPath:indexPath];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (_dicTopic.allKeys > 0) {
-        _cellHeight = [cell setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+    //先判断题的类型
+    NSInteger topicType = [_dicTopic[@"qtype"] integerValue];
+    PaterTopicTableViewCell *cellSelect;
+    if (topicType == 1 | topicType == 2) {
+        cellSelect= [tableView dequeueReusableCellWithIdentifier:@"celltopic" forIndexPath:indexPath];
+        cellSelect.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (_dicTopic.allKeys > 0) {
+            _cellHeight = [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+            cellSelect.topicType = topicType;
+        }
     }
-    return cell;
+    else if (topicType == 6){
+        UITableViewCell *cellSubQu = [tableView dequeueReusableCellWithIdentifier:@"cell2" forIndexPath:indexPath];
+        return cellSubQu;
+    }
+    return cellSelect;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

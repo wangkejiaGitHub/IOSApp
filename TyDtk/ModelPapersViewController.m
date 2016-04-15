@@ -259,10 +259,10 @@
     NSLog(@"%@",urlString);
     
     
-    [self performSegueWithIdentifier:@"test" sender:diccc];
+    [self performSegueWithIdentifier:@"topicStar" sender:diccc];
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"test"]) {
+    if ([segue.identifier isEqualToString:@"topicStar"]) {
         StartDoTopicViewController *topicVc = segue.destinationViewController;
         topicVc.dicPater = sender;
     }
