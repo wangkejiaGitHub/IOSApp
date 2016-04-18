@@ -254,11 +254,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *diccc = _arrayPapers[indexPath.row];
-    NSInteger paterId =[diccc[@"Id"] integerValue];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
-    NSLog(@"%@",urlString);
-    
-    
     [self performSegueWithIdentifier:@"topicStar" sender:diccc];
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{

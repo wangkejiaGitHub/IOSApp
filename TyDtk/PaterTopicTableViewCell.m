@@ -19,25 +19,25 @@
     
     // Configure the view for the selected state
 }
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     CGFloat allowRet = 0;
     
-//    for (NSString *keys in dic.allKeys) {
-//        NSLog(@"%@ == %@",keys,dic[keys]);
-//    }
+    //    for (NSString *keys in dic.allKeys) {
+    //        NSLog(@"%@ == %@",keys,dic[keys]);
+    //    }
     
-//    NSInteger topicType = [dic[@"qtype"] integerValue];
-//    NSLog(@"%ld",topicType);
+    //    NSInteger topicType = [dic[@"qtype"] integerValue];
+    //    NSLog(@"%ld",topicType);
     if (index == 1) {
-//        NSInteger topicType = [dic[@"qtype"] integerValue];
-//        NSLog(@"%ld",topicType);
-//        NSLog(@"fsf");
-//        NSLog(@"%f",Scr_Width);
+        //        NSInteger topicType = [dic[@"qtype"] integerValue];
+        //        NSLog(@"%ld",topicType);
+        //        NSLog(@"fsf");
+        //        NSLog(@"%f",Scr_Width);
     }
     //判断视图是否有图片
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
-
+    
     for (int i =0 ; i<4; i++) {
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
@@ -75,7 +75,6 @@
             selectStr = [selectStr substringToIndex:1];
             [arraySelectLetter addObject:selectStr];
         }
-        NSLog(@"%@",arraySelectLetter);
         /**************************************/
         NSString *arraySelect = [arrayOptions componentsJoinedByString:@""];
         arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -94,10 +93,10 @@
                 [subView removeFromSuperview];
             }
         }
-//        NSLog(@"%f",_labSelectOp.frame.origin.y);
+        //        NSLog(@"%f",_labSelectOp.frame.origin.y);
         //button 按钮的Y坐标起点
         CGFloat btnSelectOriginy =_labTopicTitle.frame.origin.y + _labTitleHeight.constant+25+_labSelectHeight.constant+10;
-        allowRet = btnSelectOriginy+88;
+        allowRet = btnSelectOriginy+30 +50;
         //开始添加button按钮
         CGFloat btnSpa = 10;
         CGFloat btn_W = (Scr_Width - 20 - (arraySelectLetter.count-1)*btnSpa)/arraySelectLetter.count;
@@ -115,14 +114,35 @@
             [button addTarget:self action:@selector(buttonSelectClick:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:button];
         }
+        
+        //添加笔记，纠错，收藏按钮
+        for (int i = 0; i<3; i++) {
+            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+            btn.frame = CGRectMake(10+(10+60)*i, btnSelectOriginy+30+20, 60, 20);
+            if (i == 0) {
+                [btn setTitle:@"笔记" forState:UIControlStateNormal];
+            }
+            else if (i == 1){
+                [btn setTitle:@"纠错" forState:UIControlStateNormal];
+            }
+            else{
+                [btn setTitle:@"收藏" forState:UIControlStateNormal];
+            }
+            
+            btn.titleLabel.font = [UIFont systemFontOfSize:13.0];
+            [btn setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+            btn.tag = 10+i;
+            [btn addTarget:self action:@selector(buttonUserClick:) forControlEvents:UIControlEventTouchUpInside];
+            [self.contentView addSubview:btn];
+        }
+        
     }
-    
-    return allowRet;
+    self.backgroundColor = [UIColor clearColor];
+    _selfHeight = allowRet;
 }
 //点击选项按钮 11 141 240
 - (void)buttonSelectClick:(UIButton *)sender{
     if (_topicType == 1) {
-        NSLog(@"fafsfa");
         
         for (id subView in self.contentView.subviews) {
             if ([subView isKindOfClass:[UIButton class]]) {
@@ -137,5 +157,52 @@
         }
         [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
     }
+}
+//点击 笔记、纠错、收藏按钮
+- (void)buttonUserClick:(UIButton *)sender{
+    [self.delegateCellClick cellHetghtChangeWithNE:sender.tag - 10];
+}
+/**
+ 添加笔记试图
+ */
+- (void)addNotesView:(CGFloat)viewOY{
+    if (!_viewNotes) {
+        _viewNotes = [[UIView alloc]initWithFrame:CGRectMake(10, viewOY - 120, Scr_Width - 20, 120)];
+        _viewNotes.backgroundColor = [UIColor clearColor];
+        UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, 50, 20)];
+        labText.text = @"笔记>>";
+        labText.font = [UIFont systemFontOfSize:12.0];
+        [_viewNotes addSubview:labText];
+        UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 30, _viewNotes.frame.size.width, 60)];
+        textView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        textView.layer.masksToBounds = YES;
+        textView.layer.cornerRadius = 5;
+        textView.layer.borderWidth = 1;
+        textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        [_viewNotes addSubview:textView];
+    }
+    [self.contentView addSubview:_viewNotes];
+}
+/**
+ 添加纠错试图
+ */
+- (void)addErrorView:(CGFloat)viewOY{
+    if (!_viewError) {
+        _viewError = [[UIView alloc]initWithFrame:CGRectMake(10, viewOY-120, Scr_Width-20, 120)];
+        _viewError.backgroundColor= [UIColor clearColor];
+        UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, 50, 20)];
+        labText.text = @"纠错>>";
+        labText.font = [UIFont systemFontOfSize:12.0];
+        [_viewError addSubview:labText];
+        UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 30, _viewError.frame.size.width, 60)];
+        textView.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        textView.layer.masksToBounds = YES;
+        textView.layer.cornerRadius = 5;
+        textView.layer.borderWidth = 1;
+        textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        [_viewError addSubview:textView];
+        
+    }
+    [self.contentView addSubview:_viewError];
 }
 @end

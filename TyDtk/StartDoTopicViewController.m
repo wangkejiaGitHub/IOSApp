@@ -111,8 +111,6 @@
         _timeMin = 0;
     }
     else{
-        NSLog(@"%ld",timeLong/60);
-        NSLog(@"%ld",timeLong%60);
         _timeHo = timeLong/60;
         _timeMin = timeLong%60;
     }
@@ -301,7 +299,6 @@
 - (void)topicCollectonViewCellClick:(NSInteger)indexScroll{
     [_scrollViewPater setContentOffset:CGPointMake((indexScroll-1)*Scr_Width, 0) animated:YES];
     [self topicCardHiden];
-    NSLog(@"fasfaf");
 }
 ////刷新设置答题信息，用于显示做过的题和未做题的信息
 - (void)refreshTopicCard:(NSInteger)topicIndex selectString:(NSString *)selectString{

@@ -15,12 +15,23 @@
 @property (nonatomic,assign) CGFloat cellHeight;
 //需要返回的tableView头的高
 @property (nonatomic,assign) CGFloat cellHeardHeight;
+//判断是否是第一次加载
+@property (nonatomic,assign) BOOL isFirstLoad;
+@property (nonatomic,assign) BOOL isNotes;
+@property (nonatomic,assign) CGFloat viewNotesOY;
+@property (nonatomic,assign) BOOL isError;
+@property (nonatomic,assign) CGFloat viewErrorOY;
+//笔记试图
+@property (nonatomic,strong) UIView *viewNotes;
+//纠错试图
+@property (nonatomic,strong) UIView *viewError;
 @end
 
 @implementation PatersTopicViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _isFirstLoad = YES;
     // Do any additional setup after loading the view.
     _tableViewPater.tableFooterView = [UIView new];
     _tableViewPater.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -75,10 +86,26 @@
         cellSelect= [tableView dequeueReusableCellWithIdentifier:@"celltopic" forIndexPath:indexPath];
         cellSelect.selectionStyle = UITableViewCellSelectionStyleNone;
         if (_dicTopic.allKeys > 0) {
-            _cellHeight = [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+            [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+            if (_isFirstLoad) {
+                _cellHeight = cellSelect.selfHeight;
+            }
             cellSelect.topicType = topicType;
             cellSelect.indexTopic = _topicIndex;
             cellSelect.delegateCellClick = self;
+            
+            if (_isNotes) {
+                [cellSelect addNotesView:_viewNotesOY];
+            }
+            else{
+                [cellSelect.viewNotes removeFromSuperview];
+            }
+            if (_isError) {
+                [cellSelect addErrorView:_viewErrorOY];
+            }
+            else{
+                [cellSelect.viewError removeFromSuperview];
+            }
         }
         return cellSelect;
     }
@@ -98,6 +125,39 @@
 
 //    NSLog(@"%ld == %@",indexTpoic,selectString);
 }
+- (void)cellHetghtChangeWithNE:(NSInteger)indexStep{
+    _isFirstLoad = NO;
+    if (indexStep == 0) {
+        _isNotes = !_isNotes;
+        if (_isNotes) {
+            _viewNotesOY = _cellHeight + 120;
+            _cellHeight = _cellHeight + 120;
+            
+        }
+        else{
+            _cellHeight = _cellHeight - 120;
+            _viewNotesOY = _cellHeight - 120;
+            
+        }
+        NSLog(@"_viewNotesOY == %f",_viewNotesOY);
+    }
+    else if (indexStep == 1){
+        _isError = !_isError;
+        if (_isError) {
+            
+            _viewErrorOY = _cellHeight + 120;
+            _cellHeight = _cellHeight + 120;
+        }
+        else{
+            _cellHeight = _cellHeight - 120;
+            _viewErrorOY = _cellHeight - 120;
+        }
+        NSLog(@"_viewErrorOY == %f",_viewNotesOY);
+    }
+    
+    [_tableViewPater reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
