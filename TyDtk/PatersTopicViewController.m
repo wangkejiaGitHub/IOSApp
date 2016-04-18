@@ -80,15 +80,23 @@
             cellSelect.indexTopic = _topicIndex;
             cellSelect.delegateCellClick = self;
         }
+        return cellSelect;
     }
     else if (topicType == 6){
         UITableViewCell *cellSubQu = [tableView dequeueReusableCellWithIdentifier:@"cell2" forIndexPath:indexPath];
         return cellSubQu;
     }
-    return cellSelect;
+    return nil;
 }
+//cell上的点击选项按钮代理回调
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSString *)selectString{
-    NSLog(@"%ld == %@",indexTpoic,selectString);
+    for (NSString *keys in _dicTopic.allKeys) {
+        NSLog(@"%@ == %@",keys,_dicTopic[keys]);
+    }
+    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectString:selectString];
+
+
+//    NSLog(@"%ld == %@",indexTpoic,selectString);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

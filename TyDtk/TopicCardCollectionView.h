@@ -14,6 +14,8 @@
 @interface TopicCardCollectionView : UICollectionView
 //所有类型试题数组（单选，多选，一题多问等）
 @property (nonatomic,strong) NSArray *arrayTopic;
+//用于筛选是否做过该题
+@property (nonatomic,strong) NSMutableArray *arrayisMakeTopic;
 @property (nonatomic,assign) id <TopicCardDelegate> delegateCellClick;
 //重写是实例化方法
 - (id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout withTopicArray:(NSArray *)arrayTopic;

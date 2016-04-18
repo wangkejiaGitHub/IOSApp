@@ -14,6 +14,7 @@
 - (id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout withTopicArray:(NSArray *)arrayTopic{
     self = [super initWithFrame:frame collectionViewLayout:layout];
     if (self) {
+        _arrayisMakeTopic = [NSMutableArray array];
         _arrayTopic = arrayTopic;
         [self setSelfFrameWithData];
     }
@@ -22,7 +23,7 @@
 - (void)setSelfFrameWithData{
     [self registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"heardview"];
-    self.backgroundColor = ColorWithRGBWithAlpp(200, 200, 200, 0.7);
+    self.backgroundColor = ColorWithRGBWithAlpp(200, 200, 200, 0.8);
     self.delegate = self;
     self.dataSource =self;
 }
@@ -81,7 +82,7 @@
             [viewTitle addSubview:labDone];
             
             UIView *viewDone = [[UIView alloc]initWithFrame:CGRectMake(90, 15, 10, 10)];
-            viewDone.backgroundColor = ColorWithRGBWithAlpp(0, 233, 0, 0.5);
+            viewDone.backgroundColor = [UIColor brownColor];
             [viewTitle addSubview:viewDone];
             
             UIView *viewNo = [[UIView alloc]initWithFrame:CGRectMake(Scr_Width - 30, 15, 10, 10)];
@@ -118,10 +119,14 @@
             NSArray *arrayTop = dicPater[@"Questions"];
             indexRow = indexRow+arrayTop.count;
         }
-        
         labNumber.text = [NSString stringWithFormat:@"%ld",indexPath.row + 1+indexRow];
     }
     cell.backgroundColor = ColorWithRGB(200, 200, 200);
+    NSString *topicNumber = labNumber.text;
+    if ([_arrayisMakeTopic containsObject:topicNumber]) {
+        cell.backgroundColor = [UIColor brownColor];
+    }
+    
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     return cell;

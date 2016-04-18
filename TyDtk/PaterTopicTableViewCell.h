@@ -18,6 +18,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labTitleHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labSelectHeight;
 @property (weak, nonatomic) IBOutlet UILabel *labSelectOp;
+//笔记试图
+@property (nonatomic,strong) UIView *viewNotes;
+//纠错试图
+@property (nonatomic,strong) UIView *viewError;
 @property (nonatomic,assign) NSInteger indexTopic;
 @property (nonatomic,assign) id <TopicCellDelegate> delegateCellClick;
 @property (nonatomic,assign) NSInteger topicType;

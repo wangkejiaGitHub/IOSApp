@@ -21,13 +21,18 @@
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     CGFloat allowRet = 0;
-    NSInteger topicType = [dic[@"qtype"] integerValue];
-    NSLog(@"%ld",topicType);
+    
+//    for (NSString *keys in dic.allKeys) {
+//        NSLog(@"%@ == %@",keys,dic[keys]);
+//    }
+    
+//    NSInteger topicType = [dic[@"qtype"] integerValue];
+//    NSLog(@"%ld",topicType);
     if (index == 1) {
-        NSInteger topicType = [dic[@"qtype"] integerValue];
-        NSLog(@"%ld",topicType);
-        NSLog(@"fsf");
-        NSLog(@"%f",Scr_Width);
+//        NSInteger topicType = [dic[@"qtype"] integerValue];
+//        NSLog(@"%ld",topicType);
+//        NSLog(@"fsf");
+//        NSLog(@"%f",Scr_Width);
     }
     //判断视图是否有图片
     NSDictionary *dicImg = dic[@"ImageDictionary"];
@@ -89,7 +94,7 @@
                 [subView removeFromSuperview];
             }
         }
-        NSLog(@"%f",_labSelectOp.frame.origin.y);
+//        NSLog(@"%f",_labSelectOp.frame.origin.y);
         //button 按钮的Y坐标起点
         CGFloat btnSelectOriginy =_labTopicTitle.frame.origin.y + _labTitleHeight.constant+25+_labSelectHeight.constant+10;
         allowRet = btnSelectOriginy+88;
@@ -99,6 +104,7 @@
         for (int i =0; i<arraySelectLetter.count; i++) {
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.frame = CGRectMake(10+(btn_W+btnSpa)*i, btnSelectOriginy, btn_W, 30);
+            button.tag = 100+i;
             [button setTitle:arraySelectLetter[i] forState:UIControlStateNormal];
             [button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
             button.backgroundColor = ColorWithRGB(200, 200, 200);
@@ -113,10 +119,22 @@
     
     return allowRet;
 }
-//点击选项按钮
+//点击选项按钮 11 141 240
 - (void)buttonSelectClick:(UIButton *)sender{
     if (_topicType == 1) {
         NSLog(@"fafsfa");
+        
+        for (id subView in self.contentView.subviews) {
+            if ([subView isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)subView;
+                if (btn.tag == sender.tag) {
+                    btn.backgroundColor = ColorWithRGB(11, 141, 240);
+                }
+                else{
+                    btn.backgroundColor = ColorWithRGB(200, 200, 200);
+                }
+            }
+        }
         [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
     }
 }
