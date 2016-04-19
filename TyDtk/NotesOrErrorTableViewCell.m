@@ -18,6 +18,12 @@
     [_button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
     [_buttonClear setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
     _textVIew.delegate = self;
+    _button.layer.masksToBounds = YES;
+    _button.layer.cornerRadius = 5;
+    _button.backgroundColor = ColorWithRGB(218, 218, 218);
+    _buttonClear.layer.masksToBounds = YES;
+    _buttonClear.layer.cornerRadius = 5;
+    _buttonClear.backgroundColor = ColorWithRGB(218, 218, 218);
 }
 - (IBAction)buttonClick:(UIButton *)sender {
     

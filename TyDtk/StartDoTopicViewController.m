@@ -60,10 +60,12 @@
     CGRect keyboardRect = [aValue CGRectValue];
     //键盘高度
     CGFloat keyBoardHeight = keyboardRect.size.height;
-    
     CGRect rect = self.view.frame;
-    rect.origin.y = rect.origin.y - keyBoardHeight+45;
-    self.navigationController.tabBarController.view.frame = rect;
+    if (keyBoardHeight!=0) {
+        rect.origin.y = rect.origin.y - keyBoardHeight+45;
+    }
+    
+    self.navigationController.view.frame = rect;
 
 }
 /////////////
@@ -71,7 +73,7 @@
 ////键盘消失//
 - (void)keyboardHide:(NSNotification *)note{
     CGRect rect = self.view.frame;
-    self.navigationController.tabBarController.view.frame = rect;
+    self.navigationController.view.frame = rect;
 }
 
 /**

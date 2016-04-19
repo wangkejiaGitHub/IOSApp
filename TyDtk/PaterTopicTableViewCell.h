@@ -15,11 +15,15 @@
 @property (weak, nonatomic) IBOutlet UILabel *labTopicNumber;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labNumberWidth;
 @property (weak, nonatomic) IBOutlet UILabel *labTopicType;
-@property (weak, nonatomic) IBOutlet UILabel *labTopicTitle;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labTitleHeight;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labSelectHeight;
-@property (weak, nonatomic) IBOutlet UILabel *labSelectOp;
+@property (weak, nonatomic) IBOutlet UIWebView *webViewTitle;
+@property (weak, nonatomic) IBOutlet UIWebView *webVIewSelect;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webTitleHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webSelectHeight;
+
 @property (nonatomic,assign) NSInteger indexTopic;
+@property (weak, nonatomic) IBOutlet UIButton *buttonCollect;
+@property (weak, nonatomic) IBOutlet UIImageView *imageVIewCollect;
+
 @property (nonatomic,assign) id <TopicCellDelegate> delegateCellClick;
 @property (nonatomic,assign) NSInteger topicType;
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;

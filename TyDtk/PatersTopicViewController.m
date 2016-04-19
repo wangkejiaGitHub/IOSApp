@@ -10,6 +10,7 @@
 #import "PatersTopicViewController.h"
 #import "PaterTopicTableViewCell.h"
 #import "NotesOrErrorTableViewCell.h"
+#import "PaterTopicQtype6TableViewCell.h"
 @interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
 //需要返回的cell的高
@@ -41,6 +42,7 @@
     else if (section == 1){
         if (_isNotes) {
             return 1;
+            
         }
         return 0;
     }
@@ -155,7 +157,7 @@
         NSInteger topicType = [_dicTopic[@"qtype"] integerValue];
         PaterTopicTableViewCell *cellSelect;
         if (topicType == 1 | topicType == 2) {
-            cellSelect= [tableView dequeueReusableCellWithIdentifier:@"celltopicSelect" forIndexPath:indexPath];
+            cellSelect= [tableView dequeueReusableCellWithIdentifier:@"celltopicqtype1" forIndexPath:indexPath];
             cellSelect.selectionStyle = UITableViewCellSelectionStyleNone;
             if (_dicTopic.allKeys > 0) {
                 _cellHeight = [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
@@ -167,8 +169,9 @@
             return cellSelect;
         }
         else if (topicType == 6){
-            UITableViewCell *cellSubQu = [tableView dequeueReusableCellWithIdentifier:@"cellTest" forIndexPath:indexPath];
+            PaterTopicQtype6TableViewCell *cellSubQu = [tableView dequeueReusableCellWithIdentifier:@"celltopicqtype6" forIndexPath:indexPath];
             cellSubQu.selectionStyle = UITableViewCellSelectionStyleNone;
+            _cellHeight = [cellSubQu setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
             return cellSubQu;
         }
         return nil;
@@ -177,6 +180,7 @@
     else{
         NotesOrErrorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellNotes" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//        cell.backgroundColor = ColorWithRGB(218, 218, 218);
         return cell;
     }
 }
@@ -190,6 +194,9 @@
         _isError = !_isError;
     }
     [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+    CGFloat ccc = _tableViewPater.contentSize.height;
+    CGFloat ddd = Scr_Height - 69 - 45;
+    NSLog(@"%f == %f",ddd,ccc);
 }
 //cell上的点击选项按钮代理回调
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSString *)selectString{
