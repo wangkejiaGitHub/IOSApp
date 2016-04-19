@@ -48,6 +48,32 @@
     [self setTimeForTopic];
     [self getPaterDatas];
 }
+
+- (void)viewWillAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)keyboardShow:(NSNotification *)note{
+    NSDictionary *userInfo = [note userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    //键盘高度
+    CGFloat keyBoardHeight = keyboardRect.size.height;
+    
+    CGRect rect = self.view.frame;
+    rect.origin.y = rect.origin.y - keyBoardHeight+45;
+    self.navigationController.tabBarController.view.frame = rect;
+
+}
+/////////////
+////键盘监听//
+////键盘消失//
+- (void)keyboardHide:(NSNotification *)note{
+    CGRect rect = self.view.frame;
+    self.navigationController.tabBarController.view.frame = rect;
+}
+
 /**
  获取模拟试卷试题
  */
@@ -89,7 +115,7 @@
         [self addTimerForPater];
         _buttonRight.userInteractionEnabled = YES;
         //////////////////////////////////////////
-        //实例化答题卡
+//        实例化答题卡
         if (!_collectionViewTopicCard) {
             UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
             _collectionViewTopicCard = [[TopicCardCollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la withTopicArray:_arrayPaterData];
@@ -220,7 +246,7 @@
         paterVc.delegateRefreshTiopicCard =self;
         paterVc.dicTopic = [self getTopicDictionary:i];
         paterVc.topicIndex = i+1;
-        paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, Scr_Height - 64 - 45);
+        paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, self.view.frame.size.height - 64 - 45);
         NSString *topString = [self topicTitle:i];
         paterVc.topicTitle = nil;
         if (topString != nil) {

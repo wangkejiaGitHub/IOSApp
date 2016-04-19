@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D03B24D1CC5BF1E00DCE77A /* NotesOrErrorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D03B24C1CC5BF1E00DCE77A /* NotesOrErrorTableViewCell.m */; };
 		1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */; };
 		1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */; };
 		1D064E8B1CBB738F007BD4E4 /* PaterTopicTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E8A1CBB738F007BD4E4 /* PaterTopicTableViewCell.m */; };
@@ -116,6 +117,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D03B24B1CC5BF1E00DCE77A /* NotesOrErrorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesOrErrorTableViewCell.h; sourceTree = "<group>"; };
+		1D03B24C1CC5BF1E00DCE77A /* NotesOrErrorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesOrErrorTableViewCell.m; sourceTree = "<group>"; };
 		1D064E011CBB3303007BD4E4 /* StartDoTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartDoTopicViewController.h; sourceTree = "<group>"; };
 		1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartDoTopicViewController.m; sourceTree = "<group>"; };
 		1D064E441CBB6A4B007BD4E4 /* PatersTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatersTopicViewController.h; sourceTree = "<group>"; };
@@ -336,6 +339,8 @@
 			children = (
 				1D064E891CBB738F007BD4E4 /* PaterTopicTableViewCell.h */,
 				1D064E8A1CBB738F007BD4E4 /* PaterTopicTableViewCell.m */,
+				1D03B24B1CC5BF1E00DCE77A /* NotesOrErrorTableViewCell.h */,
+				1D03B24C1CC5BF1E00DCE77A /* NotesOrErrorTableViewCell.m */,
 			);
 			name = TableViewTopicCell;
 			sourceTree = "<group>";
@@ -863,6 +868,7 @@
 			files = (
 				1DEDC8101C9F86400083B394 /* RegisterViewController.m in Sources */,
 				1DEDC85D1C9FA2920083B394 /* SDWebImageManager.m in Sources */,
+				1D03B24D1CC5BF1E00DCE77A /* NotesOrErrorTableViewCell.m in Sources */,
 				1DD2E6FB1CB5F25800423484 /* ActiveVIew.m in Sources */,
 				1DC18F011CB795D50006D642 /* MJRefreshHeader.m in Sources */,
 				1DC18F021CB795D50006D642 /* MJRefreshAutoGifFooter.m in Sources */,

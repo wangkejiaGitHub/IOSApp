@@ -19,7 +19,7 @@
     
     // Configure the view for the selected state
 }
-- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     CGFloat allowRet = 0;
     
     //    for (NSString *keys in dic.allKeys) {
@@ -28,12 +28,12 @@
     
     //    NSInteger topicType = [dic[@"qtype"] integerValue];
     //    NSLog(@"%ld",topicType);
-    if (index == 1) {
-        //        NSInteger topicType = [dic[@"qtype"] integerValue];
-        //        NSLog(@"%ld",topicType);
-        //        NSLog(@"fsf");
-        //        NSLog(@"%f",Scr_Width);
-    }
+//    if (index == 34) {
+//                NSInteger topicType = [dic[@"qtype"] integerValue];
+//                NSLog(@"%ld",topicType);
+//                NSLog(@"fsf");
+//                NSLog(@"%f",Scr_Width);
+//    }
     //判断视图是否有图片
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
@@ -115,30 +115,9 @@
             [self.contentView addSubview:button];
         }
         
-        //添加笔记，纠错，收藏按钮
-        for (int i = 0; i<3; i++) {
-            UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-            btn.frame = CGRectMake(10+(10+60)*i, btnSelectOriginy+30+20, 60, 20);
-            if (i == 0) {
-                [btn setTitle:@"笔记" forState:UIControlStateNormal];
-            }
-            else if (i == 1){
-                [btn setTitle:@"纠错" forState:UIControlStateNormal];
-            }
-            else{
-                [btn setTitle:@"收藏" forState:UIControlStateNormal];
-            }
-            
-            btn.titleLabel.font = [UIFont systemFontOfSize:13.0];
-            [btn setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-            btn.tag = 10+i;
-            [btn addTarget:self action:@selector(buttonUserClick:) forControlEvents:UIControlEventTouchUpInside];
-            [self.contentView addSubview:btn];
-        }
-        
     }
     self.backgroundColor = [UIColor clearColor];
-    _selfHeight = allowRet;
+     return allowRet;
 }
 //点击选项按钮 11 141 240
 - (void)buttonSelectClick:(UIButton *)sender{
@@ -158,51 +137,5 @@
         [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
     }
 }
-//点击 笔记、纠错、收藏按钮
-- (void)buttonUserClick:(UIButton *)sender{
-    [self.delegateCellClick cellHetghtChangeWithNE:sender.tag - 10];
-}
-/**
- 添加笔记试图
- */
-- (void)addNotesView:(CGFloat)viewOY{
-    if (!_viewNotes) {
-        _viewNotes = [[UIView alloc]initWithFrame:CGRectMake(10, viewOY - 120, Scr_Width - 20, 120)];
-        _viewNotes.backgroundColor = [UIColor clearColor];
-        UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, 50, 20)];
-        labText.text = @"笔记>>";
-        labText.font = [UIFont systemFontOfSize:12.0];
-        [_viewNotes addSubview:labText];
-        UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 30, _viewNotes.frame.size.width, 60)];
-        textView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        textView.layer.masksToBounds = YES;
-        textView.layer.cornerRadius = 5;
-        textView.layer.borderWidth = 1;
-        textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        [_viewNotes addSubview:textView];
-    }
-    [self.contentView addSubview:_viewNotes];
-}
-/**
- 添加纠错试图
- */
-- (void)addErrorView:(CGFloat)viewOY{
-    if (!_viewError) {
-        _viewError = [[UIView alloc]initWithFrame:CGRectMake(10, viewOY-120, Scr_Width-20, 120)];
-        _viewError.backgroundColor= [UIColor clearColor];
-        UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(0, 5, 50, 20)];
-        labText.text = @"纠错>>";
-        labText.font = [UIFont systemFontOfSize:12.0];
-        [_viewError addSubview:labText];
-        UITextView *textView = [[UITextView alloc]initWithFrame:CGRectMake(0, 30, _viewError.frame.size.width, 60)];
-        textView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        textView.layer.masksToBounds = YES;
-        textView.layer.cornerRadius = 5;
-        textView.layer.borderWidth = 1;
-        textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        [_viewError addSubview:textView];
-        
-    }
-    [self.contentView addSubview:_viewError];
-}
+
 @end

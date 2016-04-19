@@ -55,7 +55,6 @@
     _arrayPapers = [NSMutableArray array];
 }
 - (void)viewDidAppear:(BOOL)animated{
-    NSLog(@"出现");
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
@@ -83,7 +82,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
      _refreshFooter = nil;
-     NSLog(@"消失");
 }
 /**
  授权，收取令牌
