@@ -16,7 +16,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (weak, nonatomic) IBOutlet UILabel *labTime;
 @property (weak, nonatomic) IBOutlet UILabel *labSurplus;
-
+/**
+ 用户储存用户每道试题的答案
+ */
+@property (nonatomic,strong) NSMutableArray *arrayUserAnswer;
 //本地信息存储
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //令牌
@@ -40,6 +43,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _arrayUserAnswer = [NSMutableArray array];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _buttonRight.userInteractionEnabled = NO;
@@ -86,26 +90,26 @@
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
-        /////////////////////////////////////////////////////////////////////////////
-        //在每一道题中，加一个是否已经做过该题的key（isMake:0(未做),1(做过)），用于刷新答题卡信息
-        NSMutableArray *arrayNewPaterData = [NSMutableArray array];
-        for (NSDictionary *dic in _arrayPaterData) {
-            //去除每一个字典中的第一个key,待存贮
-            NSDictionary *dicCaption = dic[@"Caption"];
-            NSArray *arrayQuestions = dic[@"Questions"];
-            //新的Questions数组
-            NSMutableArray *arrayNewDic = [NSMutableArray array];
-            for (NSDictionary *dicTopic in arrayQuestions) {
-                NSMutableDictionary *dicNewTopic = [NSMutableDictionary dictionaryWithDictionary:dicTopic];
-                [dicNewTopic setValue:@"0" forKey:@"isMake"];
-                [arrayNewDic addObject:dicNewTopic];
-            }
-            NSDictionary *diccc = @{@"Caption":dicCaption,@"Questions":arrayNewDic};
-            [arrayNewPaterData addObject:diccc];
-        }
-        _arrayPaterData = arrayNewPaterData;
-        //修改原数据添加新key：isMake完成
-        ///////////////////////////////////////
+//        /////////////////////////////////////////////////////////////////////////////
+//        //在每一道题中，加一个是否已经做过该题的key（isMake:0(未做),1(做过)），用于刷新答题卡信息
+//        NSMutableArray *arrayNewPaterData = [NSMutableArray array];
+//        for (NSDictionary *dic in _arrayPaterData) {
+//            //去除每一个字典中的第一个key,待存贮
+//            NSDictionary *dicCaption = dic[@"Caption"];
+//            NSArray *arrayQuestions = dic[@"Questions"];
+//            //新的Questions数组
+//            NSMutableArray *arrayNewDic = [NSMutableArray array];
+//            for (NSDictionary *dicTopic in arrayQuestions) {
+//                NSMutableDictionary *dicNewTopic = [NSMutableDictionary dictionaryWithDictionary:dicTopic];
+//                [dicNewTopic setValue:@"0" forKey:@"isMake"];
+//                [arrayNewDic addObject:dicNewTopic];
+//            }
+//            NSDictionary *diccc = @{@"Caption":dicCaption,@"Questions":arrayNewDic};
+//            [arrayNewPaterData addObject:diccc];
+//        }
+//        _arrayPaterData = arrayNewPaterData;
+//        //修改原数据添加新key：isMake完成
+//        ///////////////////////////////////////
         NSLog(@"%ld == %@",paterId,_accessToken);
         _scrollContentWidth = 0;
         for (NSDictionary *dicNum in _arrayPaterData) {
@@ -324,26 +328,41 @@
         _collectionViewTopicCard.frame = rect;
     }];
 }
+//点击答题卡题号跳到对应试题
 - (void)topicCollectonViewCellClick:(NSInteger)indexScroll{
     [_scrollViewPater setContentOffset:CGPointMake((indexScroll-1)*Scr_Width, 0) animated:YES];
     [self topicCardHiden];
 }
-////刷新设置答题信息，用于显示做过的题和未做题的信息
-- (void)refreshTopicCard:(NSInteger)topicIndex selectString:(NSString *)selectString{
-    NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
-    if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
-        [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
-    }
+////刷新设置答题信息，用于显示做过的题和未做题的信息 并保存用户试题答案信息
+//- (void)refreshTopicCard:(NSInteger)topicIndex selectString:(NSString *)selectString{
+//    NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
+//    if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
+//        [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
+//    }
+//    
+//    if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
+//        _lastButton.userInteractionEnabled = NO;
+//        _nextButton.userInteractionEnabled =NO;
+//        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
+//    }
+//
+//    [_collectionViewTopicCard reloadData];
+////    NSMutableDictionary *dicTopic = [self getTopicDictionary:topicIndex - 1];
+//    
+//}
+- (void)refreshTopicCard:(NSInteger)topicIndex selectDone:(NSDictionary *)dicUserAnswer{
+        NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
+        if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
+            [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
+        }
     
-    if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
-        _lastButton.userInteractionEnabled = NO;
-        _nextButton.userInteractionEnabled =NO;
-        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
-    }
-
-    [_collectionViewTopicCard reloadData];
-//    NSMutableDictionary *dicTopic = [self getTopicDictionary:topicIndex - 1];
+        if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
+            _lastButton.userInteractionEnabled = NO;
+            _nextButton.userInteractionEnabled =NO;
+            [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
+        }
     
+        [_collectionViewTopicCard reloadData];
 }
 //////////////////////
 //

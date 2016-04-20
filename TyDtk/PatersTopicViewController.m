@@ -199,14 +199,16 @@
     NSLog(@"%f == %f",ddd,ccc);
 }
 //cell上的点击选项按钮代理回调
-- (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSString *)selectString{
-    for (NSString *keys in _dicTopic.allKeys) {
-        NSLog(@"%@ == %@",keys,_dicTopic[keys]);
-    }
-    
-    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectString:selectString];
+//- (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSString *)selectString{
+////    for (NSString *keys in _dicTopic.allKeys) {
+////        NSLog(@"%@ == %@",keys,_dicTopic[keys]);
+////    }
+//    
+//    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectString:selectString];
+//}
+- (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
+    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:nil];
 }
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

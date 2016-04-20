@@ -8,6 +8,7 @@
 
 #import "PaterTopicTableViewCell.h"
 @interface PaterTopicTableViewCell()
+
 @end
 @implementation PaterTopicTableViewCell
 
@@ -49,7 +50,7 @@
     labTest.numberOfLines = 0;
     labTest.font = [UIFont systemFontOfSize:17.0];
     if (Scr_Width > 320) {
-        labTest.font = [UIFont systemFontOfSize:21.0];
+        labTest.font = [UIFont systemFontOfSize:19.0];
     }
     labTest.text = topicTitle;
     //试题编号
@@ -59,10 +60,8 @@
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     CGSize labSize = [labTest sizeThatFits:CGSizeMake(labTest.frame.size.width, MAXFLOAT)];
     [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
-    NSLog(@" =========%f",labSize.height);
     _webTitleHeight.constant = labSize.height;
-    NSLog(@"%f",Scr_Width);
-    if (Scr_Width < 330) {
+    if (Scr_Width > 330) {
         _webTitleHeight.constant = _webTitleHeight.constant+20;
     }
     //添加选项(添加之前先删除所有手动添加的控件)
@@ -146,12 +145,14 @@
             allowRet = btnSelectOriginy+30 +20;
         }
     }
+    
     self.backgroundColor = [UIColor clearColor];
+     _dicTopic = dic;
      return allowRet;
 }
 //多项选择题的提交按钮
 - (void)buttonSubmit:(UIButton *)sender{
-    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
+//    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
 }
 //点击选项按钮 11 141 240
 - (void)buttonSelectClick:(UIButton *)sender{
@@ -169,7 +170,20 @@
                 }
             }
         }
-        [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
+        //试题Id
+        NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+        //试题类型
+        NSInteger qtype = [_dicTopic[@"qtype"] integerValue];
+        //正确答案
+        NSString *answer = _dicTopic[@"answer"];
+        //用户答案
+        NSString *userAnswer = sender.titleLabel.text;
+        
+        NSDictionary *dicUserAnswer = @{@"QuestionID":@"",@"QType":@"",@"UserAnswer":@"",@"TrueAnswer":@"",@"Score":@""};
+//        NSInteger ewf = _topicType[@"questionId"]
+//        [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
+        [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:nil];
+        
     }
     //多选模式
     else{

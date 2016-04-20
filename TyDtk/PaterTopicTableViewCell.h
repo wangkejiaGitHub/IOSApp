@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @protocol TopicCellDelegate<NSObject>
 //传递选项参数，用于同步答题卡
-- (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSString*)selectString;
+- (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary*)dicUserAnswer;
 @end
 @interface PaterTopicTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *labTopicNumber;
@@ -23,7 +23,7 @@
 @property (nonatomic,assign) NSInteger indexTopic;
 @property (weak, nonatomic) IBOutlet UIButton *buttonCollect;
 @property (weak, nonatomic) IBOutlet UIImageView *imageVIewCollect;
-
+@property (nonatomic,strong) NSDictionary *dicTopic;
 @property (nonatomic,assign) id <TopicCellDelegate> delegateCellClick;
 @property (nonatomic,assign) NSInteger topicType;
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
