@@ -15,6 +15,7 @@
     // Initialization code
     _textVIew.layer.masksToBounds = YES;
     _textVIew.layer.cornerRadius = 2;
+    _textVIew.backgroundColor = ColorWithRGB(232, 223, 220);
     [_button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
     [_buttonClear setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
     _textVIew.delegate = self;
@@ -39,6 +40,14 @@
         return NO;
     }
     return YES;
+}
+- (void)textViewDidBeginEditing:(UITextView *)textView{
+    textView.layer.borderWidth = 1;
+    textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+}
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    textView.layer.borderWidth = 0;
+    textView.layer.borderColor = [[UIColor clearColor] CGColor];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

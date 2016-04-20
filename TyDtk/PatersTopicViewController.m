@@ -207,7 +207,7 @@
 //    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectString:selectString];
 //}
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
-    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:nil];
+    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

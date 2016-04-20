@@ -20,10 +20,11 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *webTitleHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *webSelectHeight;
 
-@property (nonatomic,assign) NSInteger indexTopic;
 @property (weak, nonatomic) IBOutlet UIButton *buttonCollect;
 @property (weak, nonatomic) IBOutlet UIImageView *imageVIewCollect;
+@property (nonatomic,assign) NSInteger indexTopic;
 @property (nonatomic,strong) NSDictionary *dicTopic;
+@property (nonatomic,strong) NSString *selectContentQtype2;
 @property (nonatomic,assign) id <TopicCellDelegate> delegateCellClick;
 @property (nonatomic,assign) NSInteger topicType;
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;

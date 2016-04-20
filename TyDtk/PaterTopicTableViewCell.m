@@ -8,7 +8,6 @@
 
 #import "PaterTopicTableViewCell.h"
 @interface PaterTopicTableViewCell()
-
 @end
 @implementation PaterTopicTableViewCell
 
@@ -22,6 +21,7 @@
     _webVIewSelect.opaque = NO;
     _webViewTitle.backgroundColor =[UIColor clearColor];
     _webVIewSelect.backgroundColor = [UIColor clearColor];
+    _selectContentQtype2 = @"";
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -63,6 +63,9 @@
     _webTitleHeight.constant = labSize.height;
     if (Scr_Width > 330) {
         _webTitleHeight.constant = _webTitleHeight.constant+20;
+    }
+    else{
+        _webTitleHeight.constant = _webTitleHeight.constant+40;
     }
     //添加选项(添加之前先删除所有手动添加的控件)
     //开始添加
@@ -125,6 +128,7 @@
             button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
             button.layer.masksToBounds = YES;
             button.layer.cornerRadius = 3;
+            button.titleLabel.font = [UIFont systemFontOfSize:19.0];
             [button addTarget:self action:@selector(buttonSelectClick:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:button];
         }
@@ -133,10 +137,12 @@
         if (topicType == 2) {
             allowRet = btnSelectOriginy+30 +50;
             UIButton *btnSubmit = [UIButton buttonWithType:UIButtonTypeCustom];
-            btnSubmit.frame = CGRectMake(Scr_Width-140, btnSelectOriginy+30+15, 130, 20);
-            [btnSubmit setTitle:@"提交并跳到下一题" forState:UIControlStateNormal];
+            btnSubmit.frame = CGRectMake(Scr_Width-140, btnSelectOriginy+30+15, 120, 25);
+            [btnSubmit setTitle:@"保存并跳到下一题" forState:UIControlStateNormal];
+            btnSubmit.layer.masksToBounds = YES;
+            btnSubmit.layer.cornerRadius = 3;
+            btnSubmit.backgroundColor = [UIColor groupTableViewBackgroundColor];
             btnSubmit.titleLabel.font = [UIFont systemFontOfSize:13.0];
-            btnSubmit.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
             [btnSubmit setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
             [btnSubmit addTarget:self action:@selector(buttonSubmit:) forControlEvents:UIControlEventTouchUpInside];
             [self.contentView addSubview:btnSubmit];
@@ -153,6 +159,16 @@
 //多项选择题的提交按钮
 - (void)buttonSubmit:(UIButton *)sender{
 //    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
+    //试题Id
+    NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
+    //试题类型
+    NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
+    //正确答案
+    NSString *answer = _dicTopic[@"answer"];
+    
+    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":_selectContentQtype2,@"TrueAnswer":answer,@"Score":@"0"};
+
+    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:dicUserAnswer];
 }
 //点击选项按钮 11 141 240
 - (void)buttonSelectClick:(UIButton *)sender{
@@ -164,35 +180,41 @@
                 UIButton *btn = (UIButton *)subView;
                 if (btn.tag == sender.tag) {
                     btn.backgroundColor = ColorWithRGB(11, 141, 240);
+                    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 }
                 else{
                     btn.backgroundColor = ColorWithRGB(200, 200, 200);
+                    [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
                 }
             }
         }
         //试题Id
-        NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+        NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
         //试题类型
-        NSInteger qtype = [_dicTopic[@"qtype"] integerValue];
+        NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
         //正确答案
         NSString *answer = _dicTopic[@"answer"];
         //用户答案
         NSString *userAnswer = sender.titleLabel.text;
         
-        NSDictionary *dicUserAnswer = @{@"QuestionID":@"",@"QType":@"",@"UserAnswer":@"",@"TrueAnswer":@"",@"Score":@""};
-//        NSInteger ewf = _topicType[@"questionId"]
-//        [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
-        [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:nil];
+        NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":@"0"};
+        [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:dicUserAnswer];
         
     }
     //多选模式
     else{
+
         sender.selected = !sender.selected;
         if (sender.selected) {
             sender.backgroundColor = ColorWithRGB(11, 141, 240);
+            [sender setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            _selectContentQtype2 = [_selectContentQtype2 stringByAppendingString:sender.titleLabel.text];
+            
         }
         else{
+            [sender setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
             sender.backgroundColor = ColorWithRGB(200, 200, 200);
+            _selectContentQtype2 = [_selectContentQtype2 stringByReplacingOccurrencesOfString:sender.titleLabel.text withString:@""];
         }
     }
 }

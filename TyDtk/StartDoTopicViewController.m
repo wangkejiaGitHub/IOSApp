@@ -28,9 +28,9 @@
 @property (nonatomic,strong) NSArray *arrayPaterData;
 //scrollview 的宽度，单位是以屏宽的个数去计算
 @property (nonatomic,assign) NSInteger scrollContentWidth;
-//答题卡
-//@property (nonatomic,strong) UICollectionView *collectionViewTopicCard;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSubPater;
 
+//答题卡
 @property (nonatomic,strong) TopicCardCollectionView *collectionViewTopicCard;
 @property (nonatomic,assign) BOOL isShowTopicCard;
 @property (nonatomic,strong) NSTimer *timeLong;
@@ -49,6 +49,8 @@
     _buttonRight.userInteractionEnabled = NO;
     [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
     // Do any additional setup after loading the view.
+    _buttonSubPater.layer.masksToBounds = YES;
+    _buttonSubPater.layer.cornerRadius = 3;
     [self setTimeForTopic];
     [self getPaterDatas];
 }
@@ -70,7 +72,7 @@
     }
     
     self.navigationController.view.frame = rect;
-
+    
 }
 /////////////
 ////键盘监听//
@@ -90,26 +92,26 @@
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
-//        /////////////////////////////////////////////////////////////////////////////
-//        //在每一道题中，加一个是否已经做过该题的key（isMake:0(未做),1(做过)），用于刷新答题卡信息
-//        NSMutableArray *arrayNewPaterData = [NSMutableArray array];
-//        for (NSDictionary *dic in _arrayPaterData) {
-//            //去除每一个字典中的第一个key,待存贮
-//            NSDictionary *dicCaption = dic[@"Caption"];
-//            NSArray *arrayQuestions = dic[@"Questions"];
-//            //新的Questions数组
-//            NSMutableArray *arrayNewDic = [NSMutableArray array];
-//            for (NSDictionary *dicTopic in arrayQuestions) {
-//                NSMutableDictionary *dicNewTopic = [NSMutableDictionary dictionaryWithDictionary:dicTopic];
-//                [dicNewTopic setValue:@"0" forKey:@"isMake"];
-//                [arrayNewDic addObject:dicNewTopic];
-//            }
-//            NSDictionary *diccc = @{@"Caption":dicCaption,@"Questions":arrayNewDic};
-//            [arrayNewPaterData addObject:diccc];
-//        }
-//        _arrayPaterData = arrayNewPaterData;
-//        //修改原数据添加新key：isMake完成
-//        ///////////////////////////////////////
+        //        /////////////////////////////////////////////////////////////////////////////
+        //        //在每一道题中，加一个是否已经做过该题的key（isMake:0(未做),1(做过)），用于刷新答题卡信息
+        //        NSMutableArray *arrayNewPaterData = [NSMutableArray array];
+        //        for (NSDictionary *dic in _arrayPaterData) {
+        //            //去除每一个字典中的第一个key,待存贮
+        //            NSDictionary *dicCaption = dic[@"Caption"];
+        //            NSArray *arrayQuestions = dic[@"Questions"];
+        //            //新的Questions数组
+        //            NSMutableArray *arrayNewDic = [NSMutableArray array];
+        //            for (NSDictionary *dicTopic in arrayQuestions) {
+        //                NSMutableDictionary *dicNewTopic = [NSMutableDictionary dictionaryWithDictionary:dicTopic];
+        //                [dicNewTopic setValue:@"0" forKey:@"isMake"];
+        //                [arrayNewDic addObject:dicNewTopic];
+        //            }
+        //            NSDictionary *diccc = @{@"Caption":dicCaption,@"Questions":arrayNewDic};
+        //            [arrayNewPaterData addObject:diccc];
+        //        }
+        //        _arrayPaterData = arrayNewPaterData;
+        //        //修改原数据添加新key：isMake完成
+        //        ///////////////////////////////////////
         NSLog(@"%ld == %@",paterId,_accessToken);
         _scrollContentWidth = 0;
         for (NSDictionary *dicNum in _arrayPaterData) {
@@ -121,7 +123,7 @@
         [self addTimerForPater];
         _buttonRight.userInteractionEnabled = YES;
         //////////////////////////////////////////
-//        实例化答题卡
+        //        实例化答题卡
         if (!_collectionViewTopicCard) {
             UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
             _collectionViewTopicCard = [[TopicCardCollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la withTopicArray:_arrayPaterData];
@@ -240,7 +242,6 @@
     }
     [self topicCardHiden];
 }
-
 //添加子试图，（每一个子试图相当于一道题）并依次在scrollView中显示出来
 - (void)addChildViewWithTopicForSelf{
     for (int i =0; i<_scrollContentWidth; i++) {
@@ -334,151 +335,131 @@
     [self topicCardHiden];
 }
 ////刷新设置答题信息，用于显示做过的题和未做题的信息 并保存用户试题答案信息
-//- (void)refreshTopicCard:(NSInteger)topicIndex selectString:(NSString *)selectString{
-//    NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
-//    if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
-//        [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
-//    }
-//    
-//    if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
-//        _lastButton.userInteractionEnabled = NO;
-//        _nextButton.userInteractionEnabled =NO;
-//        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
-//    }
-//
-//    [_collectionViewTopicCard reloadData];
-////    NSMutableDictionary *dicTopic = [self getTopicDictionary:topicIndex - 1];
-//    
-//}
 - (void)refreshTopicCard:(NSInteger)topicIndex selectDone:(NSDictionary *)dicUserAnswer{
-        NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
-        if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
-            [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
-        }
+    NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
+    if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
+        [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
+    }
     
-        if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
-            _lastButton.userInteractionEnabled = NO;
-            _nextButton.userInteractionEnabled =NO;
-            [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
-        }
+    if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
+        _lastButton.userInteractionEnabled = NO;
+        _nextButton.userInteractionEnabled =NO;
+        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
+    }
     
-        [_collectionViewTopicCard reloadData];
+    [_collectionViewTopicCard reloadData];
+    
+    NSLog(@"%@",dicUserAnswer);
+    NSString *QuestionID = dicUserAnswer[@"QuestionID"];
+    for (NSDictionary *dicUaerAns in _arrayUserAnswer) {
+        NSString *dicQuestionID = dicUaerAns[@"QuestionID"];
+        if ([QuestionID isEqualToString:dicQuestionID]) {
+            [_arrayUserAnswer removeObject:dicUaerAns];
+            //防止数组被枚举出错
+            break;
+        }
+    }
+    
+    [_arrayUserAnswer addObject:dicUserAnswer];
+    
+    NSLog(@"%@",_arrayUserAnswer);
 }
-//////////////////////
-//
-//////////////////////
-//- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-//    NSDictionary *dicPater = _arrayPaterData[section];
-//    NSArray *arrayTop = dicPater[@"Questions"];
-//    return arrayTop.count;
-//}
-//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-//    return _arrayPaterData.count;
-//}
-//- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-//    return UIEdgeInsetsMake(10, 10, 10, 10);
-//}
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    return CGSizeMake((Scr_Width-20-5*10)/6, (Scr_Width-20-5*10)/6);
-//}
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-//    if (section == 0) {
-//        return CGSizeMake(Scr_Width, 80);
-//    }
-//    return CGSizeMake(Scr_Width, 40);
-//}
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section{
-//    return 10;
-//}
-//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
-//    return 10;
-//}
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-//    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-//        UICollectionReusableView *reView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"cellview" forIndexPath:indexPath];
-//        for (id subView in reView.subviews) {
-//            [subView removeFromSuperview];
-//        }
-//        reView.backgroundColor = ColorWithRGBWithAlpp(80, 200, 250, 0.8);
-//        NSDictionary *dicCurr = _arrayPaterData[indexPath.section];
-//        NSDictionary *dicCaption = dicCurr[@"Caption"];
-//        UILabel *labCaptionTypeName = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width-10, reView.bounds.size.height)];
-//        labCaptionTypeName.text = dicCaption[@"CaptionTypeName"];
-//        labCaptionTypeName.font = [UIFont systemFontOfSize:16.0];
-//        labCaptionTypeName.textColor = [UIColor blueColor];
-//        if (indexPath.section == 0) {
-//            labCaptionTypeName.frame = CGRectMake(10, 40, Scr_Width-10, 40);
-//            UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
-//            viewTitle.backgroundColor = [UIColor groupTableViewBackgroundColor];
-//            [reView addSubview:viewTitle];
-//            
-//            UILabel *labDone = [[UILabel alloc]initWithFrame:CGRectMake(20, 5, 70, 30)];
-//            labDone.text = @"做过的题";
-//            labDone.font = [UIFont systemFontOfSize:14.0];
-//            [viewTitle addSubview:labDone];
-//            
-//            UIView *viewDone = [[UIView alloc]initWithFrame:CGRectMake(90, 15, 10, 10)];
-//            viewDone.backgroundColor = ColorWithRGBWithAlpp(0, 233, 0, 0.5);
-//            [viewTitle addSubview:viewDone];
-//            
-//            UIView *viewNo = [[UIView alloc]initWithFrame:CGRectMake(Scr_Width - 30, 15, 10, 10)];
-//            viewNo.backgroundColor = ColorWithRGB(200, 200, 200);
-//            [viewTitle addSubview:viewNo];
-//            
-//            UILabel *labNo = [[UILabel alloc]initWithFrame:CGRectMake(Scr_Width-100, 5, 70, 30)];
-//            labNo.font = [UIFont systemFontOfSize:14.0];
-//            labNo.text = @"未做的题";
-//            [viewTitle addSubview:labNo];
-//           
-//        }
-//        [reView addSubview:labCaptionTypeName];
-//        return reView;
-//    }
-//    return nil;
-//}
-//- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    
-//    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellcard" forIndexPath:indexPath];
-//    for (id subView in cell.contentView.subviews) {
-//        [subView removeFromSuperview];
-//    }
-//    UILabel *labNumber =[[UILabel alloc]initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.width)];
-//    labNumber.text = [NSString stringWithFormat:@"%ld",indexPath.row + 1];
-//    labNumber.textAlignment = NSTextAlignmentCenter;
-//    labNumber.font = [UIFont systemFontOfSize:15.0];
-//    labNumber.backgroundColor = [UIColor clearColor];
-//    [cell.contentView addSubview:labNumber];
-//    if (indexPath.section != 0) {
-//        NSInteger indexRow = 0;
-//        for (int i = 0; i < indexPath.section; i++) {
-//            NSDictionary *dicPater = _arrayPaterData[i];
-//            NSArray *arrayTop = dicPater[@"Questions"];
-//            indexRow = indexRow+arrayTop.count;
-//        }
-//        
-//         labNumber.text = [NSString stringWithFormat:@"%ld",indexPath.row + 1+indexRow];
-//    }
-//    cell.backgroundColor = ColorWithRGB(200, 200, 200);
-//    cell.layer.borderWidth = 1;
-//    cell.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-//    return cell;
-//}
-//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-//    NSLog(@"fsfd");
-//}
+//////////////////////////////////
+//////////////////////////////////
+///？？？？？？？交卷测试？？？？？？
+//交卷按钮
+- (IBAction)subButtonClick:(UIButton *)sender {
+    [self submitPaterAlert];
+}
+/**
+ 交卷提示
+ */
+- (void)submitPaterAlert{
+    NSInteger topicCount = 0;
+    for (NSDictionary *dicTopicType in _arrayPaterData) {
+        NSArray *array = dicTopicType[@"Questions"];
+        topicCount = topicCount + array.count;
+    }
+    //aleat View 提示框
+    UIAlertController *alertSubmit;
+    //题未做完提示
+    if (topicCount != _arrayUserAnswer.count) {
+        NSInteger sTopic = topicCount - _arrayUserAnswer.count;
+        NSString *alertMessage = [NSString stringWithFormat:@"您还有%ld道题没有做，确认交卷吗?",sTopic];
+        NSLog(@"%ld",sTopic);
+        
+        alertSubmit = [UIAlertController alertControllerWithTitle:@"温馨提示" message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
+        //交卷
+        UIAlertAction *acSubmit = [UIAlertAction actionWithTitle:@"交卷" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSLog(@"%@",_dicPater);
+            [self submitPater];
+        }];
+        [alertSubmit addAction:acSubmit];
+        //继续做题(不错任何操作)
+        UIAlertAction *acContinue = [UIAlertAction actionWithTitle:@"继续做题" style:UIAlertActionStyleDestructive handler:nil];
+        [alertSubmit addAction:acContinue];
+        
+        [self presentViewController:alertSubmit animated:YES completion:nil];
+    }
+    //交卷提示
+    else{
+        alertSubmit = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"确认交卷吗?" preferredStyle:UIAlertControllerStyleAlert];
+        //交卷
+        UIAlertAction *acSubmit = [UIAlertAction actionWithTitle:@"交卷" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alertSubmit addAction:acSubmit];
+        //取消(不做任何操作)
+        UIAlertAction *acCen = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alertSubmit addAction:acCen];
+        
+        [self presentViewController:alertSubmit animated:YES completion:nil];
+    }
+}
+/**
+ 交卷
+ */
+- (void)submitPater{
+    [SVProgressHUD showWithStatus:@"正在提交..."];
+    // api/Paper/SubmitPaper?access_token={access_token}?Id=?Title=?PostStr=
+    //试卷id
+    NSString *paterId =[NSString stringWithFormat:@"%ld",[_dicPater[@"Id"] integerValue]];
+    //试卷标题
+    NSString *paterTitle = _dicPater[@"Names"];
+    //讲用户答过的试题信息进行编码转json
+    NSData *dataPostStr = [NSJSONSerialization dataWithJSONObject:_arrayUserAnswer options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *postStr = [[NSString alloc]initWithData:dataPostStr encoding:NSUTF8StringEncoding];
+    //参数字典
+    NSDictionary *dicPost = @{@"Id":paterId,@"Title":paterTitle,@"PostStr":postStr};
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/SubmitPaper?access_token=%@",systemHttps,_accessToken];
+    [HttpTools postHttpRequestURL:urlString RequestPram:dicPost RequestSuccess:^(id respoes) {
+        NSDictionary *dic =(NSDictionary *)respoes;
+        NSInteger codeId = [dic[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dic[@"datas"];
+            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            NSString *rId = dicDatas[@"rid"];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"提交失败"];
+        }
+        NSLog(@"%@",dic);
+    } RequestFaile:^(NSError *erro) {
+        NSLog(@"%@",erro);
+    }];
+    
+    NSLog(@"%@ == %@",postStr,_accessToken);
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
  #pragma mark - Navigation
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
+     
  }
- */
 
 @end
