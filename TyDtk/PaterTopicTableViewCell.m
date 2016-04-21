@@ -7,7 +7,7 @@
 //
 
 #import "PaterTopicTableViewCell.h"
-@interface PaterTopicTableViewCell()
+@interface PaterTopicTableViewCell()<UIWebViewDelegate>
 @end
 @implementation PaterTopicTableViewCell
 
@@ -21,7 +21,11 @@
     _webVIewSelect.opaque = NO;
     _webViewTitle.backgroundColor =[UIColor clearColor];
     _webVIewSelect.backgroundColor = [UIColor clearColor];
+    //多选答案默认为空
     _selectContentQtype2 = @"";
+    _webViewTitle.delegate = self;
+    _webVIewSelect.delegate = self;
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -34,7 +38,7 @@
     //判断视图是否有图片
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
-
+    
     for (int i =0 ; i<4; i++) {
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
@@ -75,7 +79,7 @@
         selectOptions = [selectOptions stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
         NSData *dataSting = [selectOptions dataUsingEncoding:NSUTF8StringEncoding];
         NSArray *arrayOptions = [NSJSONSerialization JSONObjectWithData:dataSting options:NSJSONReadingMutableLeaves error:nil];
-
+        
         NSString *arraySelect = [arrayOptions componentsJoinedByString:@""];
         
         arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -92,7 +96,7 @@
         _webSelectHeight.constant = labSize.height;
         arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
         [_webVIewSelect loadHTMLString:arraySelect baseURL:nil];
-//        //添加button按钮选项
+        //        //添加button按钮选项
         /****先删除所有的button按钮，防止叠加*****/
         for (id subView in self.contentView.subviews) {
             if ([subView isKindOfClass:[UIButton class]]) {
@@ -100,7 +104,7 @@
                 if (btn.tag!=1111) {
                     [subView removeFromSuperview];
                 }
-               
+                
             }
         }
         //button 按钮的Y坐标起点
@@ -153,12 +157,12 @@
     }
     
     self.backgroundColor = [UIColor clearColor];
-     _dicTopic = dic;
-     return allowRet;
+    _dicTopic = dic;
+    return allowRet;
 }
 //多项选择题的提交按钮
 - (void)buttonSubmit:(UIButton *)sender{
-//    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
+    //    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
     //试题Id
     NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
     //试题类型
@@ -167,7 +171,7 @@
     NSString *answer = _dicTopic[@"answer"];
     
     NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":_selectContentQtype2,@"TrueAnswer":answer,@"Score":@"0"};
-
+    
     [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:dicUserAnswer];
 }
 //点击选项按钮 11 141 240
@@ -178,13 +182,16 @@
         for (id subView in self.contentView.subviews) {
             if ([subView isKindOfClass:[UIButton class]]) {
                 UIButton *btn = (UIButton *)subView;
-                if (btn.tag == sender.tag) {
-                    btn.backgroundColor = ColorWithRGB(11, 141, 240);
-                    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                }
-                else{
-                    btn.backgroundColor = ColorWithRGB(200, 200, 200);
-                    [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+                if (btn.tag != 1111) {
+                    if (btn.tag == sender.tag) {
+                        btn.backgroundColor = ColorWithRGB(11, 141, 240);
+                        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    }
+                    else{
+                        btn.backgroundColor = ColorWithRGB(200, 200, 200);
+                        [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+                    }
+                    
                 }
             }
         }
@@ -203,7 +210,7 @@
     }
     //多选模式
     else{
-
+        
         sender.selected = !sender.selected;
         if (sender.selected) {
             sender.backgroundColor = ColorWithRGB(11, 141, 240);
@@ -222,5 +229,12 @@
 - (IBAction)collectBtnClick:(id)sender {
     NSLog(@"fsfsffsfdsff");
 }
-
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+    if (webView.tag == 10) {
+        _webTitleHeight.constant = webView.scrollView.contentSize.height;
+    }
+    else if (webView.tag == 11){
+        _webSelectHeight.constant = webView.scrollView.contentSize.height;
+    }
+}
 @end

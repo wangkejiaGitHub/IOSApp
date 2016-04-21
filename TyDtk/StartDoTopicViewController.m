@@ -231,6 +231,9 @@
         _nextButton.userInteractionEnabled =NO;
         [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x - Scr_Width, 0) animated:YES];
     }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"前面没有试题了~"];
+    }
     [self topicCardHiden];
 }
 //下一题
@@ -239,6 +242,9 @@
         _lastButton.userInteractionEnabled = NO;
         _nextButton.userInteractionEnabled =NO;
         [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"已经到最后一题了~"];
     }
     [self topicCardHiden];
 }

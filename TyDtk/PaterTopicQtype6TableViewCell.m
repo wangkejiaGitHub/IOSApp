@@ -7,7 +7,8 @@
 //
 
 #import "PaterTopicQtype6TableViewCell.h"
-
+@interface PaterTopicQtype6TableViewCell()<UIWebViewDelegate>
+@end
 @implementation PaterTopicQtype6TableViewCell
 
 - (void)awakeFromNib {
@@ -15,6 +16,7 @@
     _webViewTitle.backgroundColor = [UIColor clearColor];
     _webViewTitle.scrollView.scrollEnabled = NO;
     _webViewTitle.opaque = NO;
+    _webViewTitle.delegate = self;
 }
 
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
@@ -34,13 +36,40 @@
 //        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\r" withString:@""];
 //    }
     if (dicImg.allKeys.count>0) {
-        NSString *keysFirst = [dicImg.allKeys firstObject];
-        NSRange ran = [topicTitle rangeOfString:keysFirst];
-        topicTitle = [topicTitle substringToIndex:ran.location-4];
+//        NSString *keysFirst = [dicImg.allKeys firstObject];
+//        NSRange ran = [topicTitle rangeOfString:keysFirst];
+//        topicTitle = [topicTitle substringToIndex:ran.location-4];
+        //获取参数字符串长度
+        NSInteger imgCount = 0;
+        for (NSString *keyLength in dicImg.allKeys) {
+            imgCount = imgCount + keyLength.length + 2;
+        }
+        //第一个需要去除的位置和长度
+        NSString *keyImageFirst = [dicImg.allKeys firstObject];
+        keyImageFirst = [keyImageFirst stringByReplacingOccurrencesOfString:@"[" withString:@""];
+        keyImageFirst = [keyImageFirst stringByReplacingOccurrencesOfString:@"]" withString:@""];
+        keyImageFirst = [NSString stringWithFormat:@"[%@]",keyImageFirst];
+        NSRange ranFirst = [topicTitle rangeOfString:keyImageFirst];
+        //最后一个需要去除的位置和长度
+        NSString *keyImageLast = [dicImg.allKeys lastObject];
+        keyImageLast = [keyImageLast stringByReplacingOccurrencesOfString:@"[" withString:@""];
+        keyImageLast = [keyImageLast stringByReplacingOccurrencesOfString:@"]" withString:@""];
+        keyImageLast = [NSString stringWithFormat:@"[%@]",keyImageLast];
+        NSRange ranLast = [topicTitle rangeOfString:keyImageLast];
+        
+        NSRange str = NSMakeRange(ranFirst.location - 6, ranLast.location-ranFirst.location+keyImageLast.length+6);
+        //试题题目里面只有image标签
+        if (ranFirst.location == 0) {
+            str.location = 0;
+            str.length = ranLast.location - ranFirst.location + keyImageLast.length;
+        }
+        topicTitle = [topicTitle stringByReplacingCharactersInRange:str withString:@""];
+        
+        NSLog(@"%@",topicTitle);
     }
     //主要针对医学题目进行适配
     NSInteger leng = topicTitle.length;
-    if ([topicTitle rangeOfString:@"A"].location == 0 && [topicTitle rangeOfString:@"B"].length>0) {
+    if ([topicTitle rangeOfString:@"A"].location == 0 && [topicTitle rangeOfString:@"B"].length>0 && [topicTitle rangeOfString:@"C"].length>0 && [topicTitle rangeOfString:@"C"].length>0) {
         if (leng>80) {
             _webTitleHeight.constant = 153;
         }
@@ -64,9 +93,11 @@
     }
     
     [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
-    if (Scr_Width > 330) {
-        _webTitleHeight.constant = _webTitleHeight.constant+20;
-    }
+    
+    
+//    if (Scr_Width > 330) {
+//        _webTitleHeight.constant = _webTitleHeight.constant+20;
+//    }
 
     //试题编号
     _labNumber.text = [NSString stringWithFormat:@"%ld、",index];
@@ -74,6 +105,7 @@
     //试题类型（案例分析）
     _labTitleType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     
+    //？？？？？随时记录要返回的cell的高度??????????????
     allowRet = _webViewTitle.frame.origin.y+_webTitleHeight.constant+50;
     
 //    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet, Scr_Width-20, 30)];
@@ -99,6 +131,9 @@
     UIView *viewImage =[[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width-30, 50)];
     viewImage.backgroundColor =[UIColor clearColor];
     viewImage.tag = 6666;
+    /**
+     有关cell的高 viewImgsH
+     */
     CGFloat viewImgsH = 0;
     if (dicImg.allKeys.count>0) {
         for (NSString *keyImg in dicImg.allKeys) {
@@ -107,26 +142,35 @@
             UIImage *imageTop = [UIImage imageWithData:dataImg];
             CGSize sizeImg = imageTop.size;
             
-            if (sizeImg.width>Scr_Width) {
+            if (sizeImg.width>Scr_Width - 30) {
                 CGFloat wHBL = sizeImg.height/sizeImg.width;
-                sizeImg.width = Scr_Width;
-                sizeImg.height = Scr_Width*wHBL;
+                sizeImg.width = Scr_Width-30;
+                sizeImg.height = (Scr_Width-30)*wHBL;
             }
             UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
             imgViewTop.image = imageTop;
             [viewImage addSubview:imgViewTop];
             viewImgsH = viewImgsH+sizeImg.height;
         }
-        viewImage.frame = CGRectMake(15, allowRet, Scr_Width - 30, viewImgsH);
+        viewImage.frame = CGRectMake(15, allowRet - 10, Scr_Width - 30, viewImgsH);
         [self.contentView addSubview:viewImage];
-        allowRet = allowRet + viewImgsH + 20;
+        
+        UIView *viewLineImgDown = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet+viewImgsH+10, Scr_Width-20, 1)];
+        viewLineImgDown.backgroundColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:viewLineImgDown];
+        //？？？？？随时记录要返回的cell的高度
+        allowRet = allowRet + viewImgsH + 30;
     }
     else{
         viewImage = nil;
     }
-
-    
+    //？？？？？随时记录要返回的cell的高度
     return allowRet;
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    CGFloat webViewScrolHeight = webView.scrollView.contentSize.height;
+    _webTitleHeight.constant = webViewScrolHeight +5;
+    NSLog(@"%f",webViewScrolHeight);
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

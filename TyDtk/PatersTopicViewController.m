@@ -160,6 +160,7 @@
             cellSelect= [tableView dequeueReusableCellWithIdentifier:@"celltopicqtype1" forIndexPath:indexPath];
             cellSelect.selectionStyle = UITableViewCellSelectionStyleNone;
             if (_dicTopic.allKeys > 0) {
+            
                 _cellHeight = [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
                 cellSelect.topicType = topicType;
                 cellSelect.indexTopic = _topicIndex;
@@ -199,13 +200,6 @@
     NSLog(@"%f == %f",ddd,ccc);
 }
 //cell上的点击选项按钮代理回调
-//- (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSString *)selectString{
-////    for (NSString *keys in _dicTopic.allKeys) {
-////        NSLog(@"%@ == %@",keys,_dicTopic[keys]);
-////    }
-//    
-//    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectString:selectString];
-//}
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
     [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer];
 }
