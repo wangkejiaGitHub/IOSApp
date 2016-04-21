@@ -21,9 +21,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonActive;
 @property (weak, nonatomic) IBOutlet UILabel *labGetActiveAcc;
 
-@property (weak, nonatomic) IBOutlet UILabel *labSubjectNumber;
-
-@property (weak, nonatomic) IBOutlet UILabel *labPersonNumber;
+//@property (weak, nonatomic) IBOutlet UILabel *labSubjectNumber;
+//
+//@property (weak, nonatomic) IBOutlet UILabel *labPersonNumber;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidth;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageHeight;

@@ -93,21 +93,26 @@
     //获取储存的专业信息
     NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
     _dicUserClass = [_tyUser objectForKey:tyUserClass];
-    if (!_hearhVIew) {
-        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
-        _hearhVIew.delegateAtive = self;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 + 20)];
-        [view addSubview:_hearhVIew];
-        view.backgroundColor = [UIColor clearColor];
-        _myTableView.tableHeaderView = view;
-    }
-    [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpImgs,_dicUserClass[@"ImageUrl"]]]];
-    _hearhVIew.labTitle.text = _dicUserClass[@"Names"];
-    _hearhVIew.labRemark.text = _dicUserClass[@"Names"];
-    NSInteger personNum = [_dicUserClass[@"CourseNum"] integerValue];
-    _hearhVIew.labSubjectNumber.text = [NSString stringWithFormat:@"%ld",personNum];
-    _hearhVIew.labPersonNumber.text = @"0";
-    _hearhVIew.labPrice.text = @"0.0";
+    
+//    [self addHeardViewForPaterList];
+//    if (!_hearhVIew) {
+//        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
+//        _hearhVIew.delegateAtive = self;
+//        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 + 20)];
+//        [view addSubview:_hearhVIew];
+//        view.backgroundColor = [UIColor clearColor];
+//        _myTableView.tableHeaderView = view;
+//    }
+//    
+//    
+//    
+//    [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpImgs,_dicUserClass[@"ImageUrl"]]]];
+//    _hearhVIew.labTitle.text = _dicUserClass[@"Names"];
+//    _hearhVIew.labRemark.text = _dicUserClass[@"Names"];
+//    NSInteger personNum = [_dicUserClass[@"CourseNum"] integerValue];
+//    _hearhVIew.labSubjectNumber.text = [NSString stringWithFormat:@"%ld",personNum];
+//    _hearhVIew.labPersonNumber.text = @"0";
+//    _hearhVIew.labPrice.text = @"0.0";
     
     if (!_mzView) {
         _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
@@ -115,6 +120,34 @@
     //授权并收取令牌
     NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
     [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
+}
+/**
+ 试卷信息列表的头试图
+ */
+- (void)addHeardViewForPaterList{
+    if (!_hearhVIew) {
+        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
+        _hearhVIew.delegateAtive = self;
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10)];
+        [view addSubview:_hearhVIew];
+        view.backgroundColor = [UIColor clearColor];
+        _myTableView.tableHeaderView = view;
+    }
+    
+    NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSubject];
+    NSString *imgsUrlSub = dicCurrSubject[@"productImageListStore"];
+    [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:imgsUrlSub]];
+    _hearhVIew.labTitle.text = dicCurrSubject[@"Names"];
+    NSString *remarkPriceSub =[NSString stringWithFormat:@"￥ %ld",[dicCurrSubject[@"marketPrice"] integerValue]];
+    //市场价格用属性字符串添加删除线
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:remarkPriceSub];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleSingle | NSUnderlineStyleSingle) range:NSMakeRange(2,remarkPriceSub.length -2)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(2,remarkPriceSub.length-2)];
+//    _hearhVIew.labRemark.text = remarkPriceSub;
+    [_hearhVIew.labRemark setAttributedText:attri];
+    NSString *priceSub = [NSString stringWithFormat:@"￥ %ld",[dicCurrSubject[@"price"] integerValue]];
+    _hearhVIew.labPrice.text = priceSub;
+
 }
 /**
  头试图回调代理
@@ -152,6 +185,9 @@
             return;
         }
     }
+    
+    //添加试卷列表的头试图 科目信息
+    [self addHeardViewForPaterList];
     [SVProgressHUD show];
     //获取试卷级别
     [self.view addSubview:_mzView];

@@ -19,7 +19,7 @@
 
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     CGFloat allowRet = 0;
-    
+
     //判断视图是否有图片
 
     NSDictionary *dicImg = dic[@"ImageDictionary"];
@@ -75,6 +75,57 @@
     _labTitleType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     
     allowRet = _webViewTitle.frame.origin.y+_webTitleHeight.constant+50;
+    
+//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet, Scr_Width-20, 30)];
+//    view.backgroundColor = [UIColor redColor];
+//    [self.contentView addSubview:view];
+    //http://www.kaola100.com/tiku/common/getAttachment?filePath=img/20151229/20151229095609_916.png
+    
+    NSLog(@"%@",dic);
+////////////////////////////////////////////
+///////////////////////////////////////////
+/// 如果试题有图片，就加载图片显示
+////////////////////////////////////////////
+    //防止图片试图复用时重复加载
+    for (id subView in self.contentView.subviews) {
+        if ([subView isKindOfClass:[UIView class]]) {
+            UIView *vvv = (UIView *)subView;
+            if (vvv.tag == 6666) {
+                [vvv removeFromSuperview];
+            }
+        }
+    }
+    //用于展示图片的view层
+    UIView *viewImage =[[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width-30, 50)];
+    viewImage.backgroundColor =[UIColor clearColor];
+    viewImage.tag = 6666;
+    CGFloat viewImgsH = 0;
+    if (dicImg.allKeys.count>0) {
+        for (NSString *keyImg in dicImg.allKeys) {
+            NSString *imagUrl = dicImg[keyImg];
+            NSData *dataImg = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]]];
+            UIImage *imageTop = [UIImage imageWithData:dataImg];
+            CGSize sizeImg = imageTop.size;
+            
+            if (sizeImg.width>Scr_Width) {
+                CGFloat wHBL = sizeImg.height/sizeImg.width;
+                sizeImg.width = Scr_Width;
+                sizeImg.height = Scr_Width*wHBL;
+            }
+            UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
+            imgViewTop.image = imageTop;
+            [viewImage addSubview:imgViewTop];
+            viewImgsH = viewImgsH+sizeImg.height;
+        }
+        viewImage.frame = CGRectMake(15, allowRet, Scr_Width - 30, viewImgsH);
+        [self.contentView addSubview:viewImage];
+        allowRet = allowRet + viewImgsH + 20;
+    }
+    else{
+        viewImage = nil;
+    }
+
+    
     return allowRet;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

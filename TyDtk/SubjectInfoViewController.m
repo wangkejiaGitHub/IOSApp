@@ -140,8 +140,8 @@ customTool;
     [_chapterVc.view removeFromSuperview];
     [_modelPapersVc.view removeFromSuperview];
     
+     //章节考点
     if (_indexCurrChildView == 0) {
-        //章节考点
         if (!_chapterVc) {
             _chapterVc = self.childViewControllers[_indexCurrChildView];
             _chapterVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49-64);
@@ -149,8 +149,9 @@ customTool;
         _chapterVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
         [self.view addSubview:_chapterVc.view];
     }
+    
+    //模拟试卷
     else if (_indexCurrChildView == 1){
-        //模拟试卷
         if (!_modelPapersVc) {
             _modelPapersVc = self.childViewControllers[_indexCurrChildView];
             _modelPapersVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
@@ -194,7 +195,7 @@ customTool;
 - (void)viewTapTextRfr{
     [self hideViewDroupDownListMenu];
 }
-
+//navigation button
 - (IBAction)heardButtonClick:(UIButton *)sender {
     _allowMenu = !_allowMenu;
     if (_allowMenu) {
@@ -320,6 +321,12 @@ customTool;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (!_tyUser) {
+        _tyUser = [NSUserDefaults standardUserDefaults];
+    }
+    NSDictionary *dicCurrSubject = _arraySubject[indexPath.row];
+    [_tyUser setObject:dicCurrSubject forKey:tyUserSubject];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     _dicCurrSubject = _arraySubject[indexPath.row];
     _buttonString = _dicCurrSubject[@"Names"];
@@ -333,6 +340,8 @@ customTool;
     _buttonLayoutWidth.constant = size.width;
     [self hideViewDroupDownListMenu];
     [self showSelfChildViewWithViewIndex];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {

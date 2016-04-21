@@ -18,18 +18,18 @@
 }
 */
 - (void)awakeFromNib{
-    self.frame = CGRectMake(0, 0, Scr_Width, Scr_Width/2+20);
+    self.frame = CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10);
     _buttonActive.layer.masksToBounds = YES;
     _buttonActive.layer.cornerRadius = 3;
     _labTitle.adjustsFontSizeToFitWidth = YES;
     _labRemark.adjustsFontSizeToFitWidth = YES;
 //    _imageView.layer.masksToBounds = YES;
 //    _imageView.layer.cornerRadius = 5;
-    _labSubjectNumber.textColor = [UIColor purpleColor];
-    _labPersonNumber.textColor = [UIColor purpleColor];
+//    _labSubjectNumber.textColor = [UIColor purpleColor];
+//    _labPersonNumber.textColor = [UIColor purpleColor];
     _labPrice.textColor = [UIColor redColor];
     _imageWidth.constant = Scr_Width/2 - 10;
-    _imageHeight.constant = _imageWidth.constant - 50;
+    _imageHeight.constant = _imageWidth.constant - 40;
     NSLog(@"%f",Scr_Width);
     //iPhone5以上的设备
     if (Scr_Width > 323) {

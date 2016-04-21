@@ -123,7 +123,7 @@
         [self addTimerForPater];
         _buttonRight.userInteractionEnabled = YES;
         //////////////////////////////////////////
-        //        实例化答题卡
+        //实例化答题卡 
         if (!_collectionViewTopicCard) {
             UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
             _collectionViewTopicCard = [[TopicCardCollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la withTopicArray:_arrayPaterData];
@@ -310,7 +310,7 @@
  */
 - (void)topicCardShow{
     [_buttonRight setTitle:@"隐藏答题卡" forState:UIControlStateNormal];
-    [_collectionViewTopicCard setContentOffset:CGPointMake(0, 0) animated:YES];
+//    [_collectionViewTopicCard setContentOffset:CGPointMake(0, 0) animated:YES];
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rect = _collectionViewTopicCard.frame;
         rect.origin.x = 0;
@@ -438,7 +438,7 @@
         if (codeId == 1) {
             NSDictionary *dicDatas = dic[@"datas"];
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
-            NSString *rId = dicDatas[@"rid"];
+//            NSString *rId = dicDatas[@"rid"];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"提交失败"];

@@ -71,9 +71,9 @@
     [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpImgs,_dicUserClass[@"ImageUrl"]]]];
     _hearhVIew.labTitle.text = _dicUserClass[@"Names"];
     _hearhVIew.labRemark.text = _dicUserClass[@"Names"];
-    NSInteger personNum = [_dicUserClass[@"CourseNum"] integerValue];
-    _hearhVIew.labSubjectNumber.text = [NSString stringWithFormat:@"%ld",personNum];
-    _hearhVIew.labPersonNumber.text = @"0";
+//    NSInteger personNum = [_dicUserClass[@"CourseNum"] integerValue];
+//    _hearhVIew.labSubjectNumber.text = [NSString stringWithFormat:@"%ld",personNum];
+//    _hearhVIew.labPersonNumber.text = @"0";
     _hearhVIew.labPrice.text = @"0.0";
     
     

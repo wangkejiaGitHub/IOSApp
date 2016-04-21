@@ -14,8 +14,10 @@
 - (void)awakeFromNib {
     // Initialization code
     _textVIew.layer.masksToBounds = YES;
-    _textVIew.layer.cornerRadius = 2;
-    _textVIew.backgroundColor = ColorWithRGB(232, 223, 220);
+    _textVIew.layer.cornerRadius = 3;
+//    _textVIew.backgroundColor = ColorWithRGB(232, 223, 200);
+    _textVIew.layer.borderWidth = 1;
+    _textVIew.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     [_button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
     [_buttonClear setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
     _textVIew.delegate = self;
@@ -27,7 +29,7 @@
     _buttonClear.backgroundColor = ColorWithRGB(218, 218, 218);
 }
 - (IBAction)buttonClick:(UIButton *)sender {
-    
+    NSLog(@"submitButton");
 }
 - (IBAction)clearButtonClick:(UIButton *)sender {
     _textVIew.text = @"";
@@ -42,12 +44,12 @@
     return YES;
 }
 - (void)textViewDidBeginEditing:(UITextView *)textView{
-    textView.layer.borderWidth = 1;
-    textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+//    textView.layer.borderWidth = 1;
+    textView.layer.borderColor = [[UIColor grayColor] CGColor];
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
-    textView.layer.borderWidth = 0;
-    textView.layer.borderColor = [[UIColor clearColor] CGColor];
+//    textView.layer.borderWidth = 0;
+    textView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
