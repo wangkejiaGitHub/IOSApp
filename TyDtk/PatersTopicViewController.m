@@ -195,9 +195,9 @@
         _isError = !_isError;
     }
     [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-    CGFloat ccc = _tableViewPater.contentSize.height;
-    CGFloat ddd = Scr_Height - 69 - 45;
-    NSLog(@"%f == %f",ddd,ccc);
+//    CGFloat ccc = _tableViewPater.contentSize.height;
+//    CGFloat ddd = Scr_Height - 69 - 45;
+//    NSLog(@"%f == %f",ddd,ccc);
 }
 //cell上的点击选项按钮代理回调
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{

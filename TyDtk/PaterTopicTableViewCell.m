@@ -8,6 +8,7 @@
 
 #import "PaterTopicTableViewCell.h"
 @interface PaterTopicTableViewCell()<UIWebViewDelegate>
+@property (nonatomic,strong) UIWebView *webViewSelectCustom;
 @end
 @implementation PaterTopicTableViewCell
 
@@ -34,21 +35,31 @@
     // Configure the view for the selected state
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+    if (index == 33) {
+        NSLog(@"%@",dic);
+    }
+    NSLog(@"topicIndex == %ld",index);
     CGFloat allowRet = 0;
     //判断视图是否有图片
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
-    
     for (int i =0 ; i<4; i++) {
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\r" withString:@""];
     }
+    
+    
+    
     if (dicImg.allKeys.count>0) {
-        NSString *keysFirst = [dicImg.allKeys firstObject];
-        NSRange ran = [topicTitle rangeOfString:keysFirst];
-        topicTitle = [topicTitle substringToIndex:ran.location-4];
+        NSString *keysFirst = [NSString stringWithFormat:@"[%@]",[dicImg.allKeys firstObject]];
+        NSRange ranFirst = [topicTitle rangeOfString:keysFirst];
+        NSString *keysLast = [NSString stringWithFormat:@"[%@]",[dicImg.allKeys lastObject]];
+        NSRange ranLast = [topicTitle rangeOfString:keysLast];
+        topicTitle = [topicTitle stringByReplacingCharactersInRange:NSMakeRange(ranFirst.location, ranLast.location - ranFirst.location + keysLast.length) withString:@""];
     }
+    
+    ///////////////////////////////
     //题目
     UILabel *labTest = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 30, 30)];
     labTest.numberOfLines = 0;
@@ -71,6 +82,59 @@
     else{
         _webTitleHeight.constant = _webTitleHeight.constant+40;
     }
+    allowRet = _webTitleHeight.constant + 50 +20;
+    ////////////////////////////////////////////
+    ///////////////////////////////////////////
+    /// 如果试题有图片，就加载图片显示
+    ////////////////////////////////////////////
+    //防止图片试图复用时重复加载
+    for (id subView in self.contentView.subviews) {
+        if ([subView isKindOfClass:[UIView class]]) {
+            UIView *vvv = (UIView *)subView;
+            if (vvv.tag == 6666) {
+                [vvv removeFromSuperview];
+            }
+        }
+    }
+    //用于展示图片的view层
+    UIView *viewImage =[[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width-30, 50)];
+    viewImage.backgroundColor =[UIColor clearColor];
+    viewImage.tag = 6666;
+    
+    /**
+     有关cell的高 viewImgsH
+     */
+    CGFloat viewImgsH = 0;
+    if (dicImg.allKeys.count>0) {
+        for (NSString *keyImg in dicImg.allKeys) {
+            NSString *imagUrl = dicImg[keyImg];
+            NSData *dataImg = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]]];
+            UIImage *imageTop = [UIImage imageWithData:dataImg];
+            CGSize sizeImg = imageTop.size;
+            
+            if (sizeImg.width>Scr_Width - 30) {
+                CGFloat wHBL = sizeImg.height/sizeImg.width;
+                sizeImg.width = Scr_Width-30;
+                sizeImg.height = (Scr_Width-30)*wHBL;
+            }
+            UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
+            imgViewTop.image = imageTop;
+            [viewImage addSubview:imgViewTop];
+            viewImgsH = viewImgsH+sizeImg.height;
+        }
+        viewImage.frame = CGRectMake(15, allowRet - 10, Scr_Width - 30, viewImgsH);
+        [self.contentView addSubview:viewImage];
+        //
+        //        UIView *viewLineImgDown = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet+viewImgsH+10, Scr_Width-20, 1)];
+        //        viewLineImgDown.backgroundColor = [UIColor lightGrayColor];
+        //        [self.contentView addSubview:viewLineImgDown];
+        //        //？？？？？随时记录要返回的cell的高度
+        allowRet = allowRet + viewImgsH + 30;
+    }
+    else{
+        viewImage = nil;
+    }
+    
     //添加选项(添加之前先删除所有手动添加的控件)
     //开始添加
     NSInteger seleNum = [dic[@"SelectNum"] integerValue];
@@ -79,53 +143,68 @@
         selectOptions = [selectOptions stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
         NSData *dataSting = [selectOptions dataUsingEncoding:NSUTF8StringEncoding];
         NSArray *arrayOptions = [NSJSONSerialization JSONObjectWithData:dataSting options:NSJSONReadingMutableLeaves error:nil];
-        
-        NSString *arraySelect = [arrayOptions componentsJoinedByString:@""];
-        
-        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@" " withString:@""];
-        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br />" withString:@""];
-        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n\n"];
-        UILabel *labTestSelect = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-40, 30)];
-        labTestSelect.numberOfLines = 0;
-        labTestSelect.text = arraySelect;
-        CGSize labSize = [labTestSelect sizeThatFits:CGSizeMake(labTestSelect.frame.size.width, MAXFLOAT)];
-        
-        _webSelectHeight.constant = labSize.height;
-        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
-        [_webVIewSelect loadHTMLString:arraySelect baseURL:nil];
-        //        //添加button按钮选项
-        /****先删除所有的button按钮，防止叠加*****/
-        for (id subView in self.contentView.subviews) {
-            if ([subView isKindOfClass:[UIButton class]]) {
-                UIButton *btn = (UIButton*)subView;
-                if (btn.tag!=1111) {
-                    [subView removeFromSuperview];
+        //如果既有图片，也有选项的话，就用自己自定义的webView
+        if (dicImg.allKeys>0 && arrayOptions.count > 0) {
+            
+//            _webViewSelectCustom = 
+        }//有图片或者只有选项的时候用原来的
+        else{
+            
+            NSString *arraySelect = [arrayOptions componentsJoinedByString:@""];
+            
+            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@" " withString:@""];
+            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br />" withString:@""];
+            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n\n"];
+            UILabel *labTestSelect = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-40, 30)];
+            labTestSelect.numberOfLines = 0;
+            labTestSelect.text = arraySelect;
+            CGSize labSize = [labTestSelect sizeThatFits:CGSizeMake(labTestSelect.frame.size.width, MAXFLOAT)];
+            
+            _webSelectHeight.constant = labSize.height;
+            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
+            [_webVIewSelect loadHTMLString:arraySelect baseURL:nil];
+            //        //添加button按钮选项
+            /****先删除所有的button按钮，防止叠加*****/
+            for (id subView in self.contentView.subviews) {
+                if ([subView isKindOfClass:[UIButton class]]) {
+                    UIButton *btn = (UIButton*)subView;
+                    if (btn.tag!=1111) {
+                        [subView removeFromSuperview];
+                    }
+                    
                 }
-                
             }
+            allowRet = allowRet + _webSelectHeight.constant+20;
         }
         //button 按钮的Y坐标起点
-        CGFloat btnSelectOriginy =_webViewTitle.frame.origin.y + _webTitleHeight.constant+25+_webSelectHeight.constant+20;
-        
+        CGFloat btnSelectOriginy = allowRet;
+        NSArray *arraySelectOp;
         /****获取选项的首字母集合（A,B,C,D...）****/
-        NSMutableArray *arraySelectLetter = [NSMutableArray array];
-        for (int i = 0; i<arrayOptions.count; i++) {
-            NSString *selectStr = arrayOptions[i];
-            selectStr = [selectStr substringToIndex:1];
-            [arraySelectLetter addObject:selectStr];
+        //选择题以图片形式展现，以文字形式展现的选项文字
+        if (arrayOptions.count < 1) {
+            arraySelectOp = @[@"A",@"B",@"C",@"D",@"E",@"F"];
+        }
+        else{
+            NSMutableArray *arraySelectLetter = [NSMutableArray array];
+            for (int i = 0; i<arrayOptions.count; i++) {
+                NSString *selectStr = arrayOptions[i];
+                selectStr = [selectStr substringToIndex:1];
+                [arraySelectLetter addObject:selectStr];
+            }
+            arraySelectOp = arraySelectLetter;
         }
         /**************************************/
         //开始添加button按钮
         CGFloat btnSpa = 10;
-        CGFloat btn_W = (Scr_Width - 20 - (arraySelectLetter.count-1)*btnSpa)/arraySelectLetter.count;
-        for (int i =0; i<arraySelectLetter.count; i++) {
+        CGFloat btn_W = (Scr_Width - 20 - (seleNum-1)*btnSpa)/seleNum;
+        for (int i =0; i<seleNum; i++) {
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.frame = CGRectMake(10+(btn_W+btnSpa)*i, btnSelectOriginy, btn_W, 30);
             button.tag = 100+i;
-            [button setTitle:arraySelectLetter[i] forState:UIControlStateNormal];
+            [button setTitle:arraySelectOp[i] forState:UIControlStateNormal];
             [button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
             button.backgroundColor = ColorWithRGB(200, 200, 200);
             button.layer.borderWidth = 1;
@@ -227,7 +306,7 @@
 }
 //收藏按钮
 - (IBAction)collectBtnClick:(id)sender {
-    NSLog(@"fsfsffsfdsff");
+    //    NSLog(@"fsfsffsfdsff");
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     if (webView.tag == 10) {

@@ -21,16 +21,25 @@
 
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     CGFloat allowRet = 0;
-
+    if (index == 63) {
+        NSLog(@"fsf");
+    }
+    NSLog(@"topicIndex = %ld",index);
     //判断视图是否有图片
-
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
-    topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n\r" withString:@"\n"];
-    topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n\n" withString:@"<br/>"];
-    topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
-    topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@" " withString:@""];
-//    for (int i =0 ; i<4; i++) {
+    for (int i =0 ; i<4; i++) {
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n\r\n\t" withString:@""];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\r\n\n" withString:@"\n"];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n\r" withString:@"\n"];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n\n" withString:@"<br/>"];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@" " withString:@""];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"<br/><br/>" withString:@"<br/>"];
+
+    }
+    //    for (int i =0 ; i<4; i++) {
 //        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@""];
 //        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
 //        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\r" withString:@""];
@@ -59,13 +68,18 @@
         
         NSRange str = NSMakeRange(ranFirst.location - 6, ranLast.location-ranFirst.location+keyImageLast.length+6);
         //试题题目里面只有image标签
-        if (ranFirst.location == 0) {
-            str.location = 0;
-            str.length = ranLast.location - ranFirst.location + keyImageLast.length;
+        if (ranFirst.location < 25) {
+            for (NSString *keys in dicImg.allKeys) {
+                NSString *keysS = [NSString stringWithFormat:@"[%@]",keys];
+                topicTitle = [topicTitle stringByReplacingOccurrencesOfString:keysS withString:@""];
+            }
         }
-        topicTitle = [topicTitle stringByReplacingCharactersInRange:str withString:@""];
+        else{
+            topicTitle = [topicTitle stringByReplacingCharactersInRange:str withString:@""];
+        }
+       
         
-        NSLog(@"%@",topicTitle);
+//        NSLog(@"%@",topicTitle);
     }
     //主要针对医学题目进行适配
     NSInteger leng = topicTitle.length;
@@ -81,7 +95,7 @@
         //题目
         UILabel *labTitleTest = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-30, 0)];
         labTitleTest.text = topicTitle;
-        NSLog(@"%@ ====== %ld",topicTitle,topicTitle.length);
+//        NSLog(@"%@ ====== %ld",topicTitle,topicTitle.length);
         labTitleTest.numberOfLines = 0;
         labTitleTest.font = [UIFont systemFontOfSize:19];
         if (Scr_Width > 320) {
@@ -113,7 +127,7 @@
 //    [self.contentView addSubview:view];
     //http://www.kaola100.com/tiku/common/getAttachment?filePath=img/20151229/20151229095609_916.png
     
-    NSLog(@"%@",dic);
+//    NSLog(@"%@",dic);
 ////////////////////////////////////////////
 ///////////////////////////////////////////
 /// 如果试题有图片，就加载图片显示
@@ -170,7 +184,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     CGFloat webViewScrolHeight = webView.scrollView.contentSize.height;
     _webTitleHeight.constant = webViewScrolHeight +5;
-    NSLog(@"%f",webViewScrolHeight);
+//    NSLog(@"%f",webViewScrolHeight);
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
