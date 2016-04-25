@@ -11,12 +11,16 @@
 #import "PaterTopicTableViewCell.h"
 #import "NotesOrErrorTableViewCell.h"
 #import "PaterTopicQtype6TableViewCell.h"
-@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegate>
+@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegate,ErrorDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
 //需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellHeight;
 //需要返回的tableView头的高
 @property (nonatomic,assign) CGFloat cellHeardHeight;
+//纠错参数字典
+@property (nonatomic,strong) NSMutableDictionary *dicError;
+//所有错误类别数组
+@property (nonatomic,strong) NSArray *arrayErrorType;
 //判断是否是第一次加载
 @property (nonatomic,assign) BOOL isFirstLoad;
 @property (nonatomic,assign) BOOL isNotes;
@@ -152,6 +156,7 @@
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSInteger topicQuestionId = [_dicTopic[@"questionId"] integerValue];
     if (indexPath.section == 0) {
         //先判断题的类型
         NSInteger topicType = [_dicTopic[@"qtype"] integerValue];
@@ -180,7 +185,18 @@
     }
     else{
         NotesOrErrorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellNotes" forIndexPath:indexPath];
+        cell.questionId = topicQuestionId;
+        cell.delegateError = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //笔记
+        if (indexPath.section == 1) {
+            cell.isNoteses = 1;
+        }
+        else{
+            cell.isNoteses = 0;
+        }
+        
+        
 //        cell.backgroundColor = ColorWithRGB(218, 218, 218);
         return cell;
     }
@@ -195,9 +211,24 @@
         _isError = !_isError;
     }
     [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-//    CGFloat ccc = _tableViewPater.contentSize.height;
-//    CGFloat ddd = Scr_Height - 69 - 45;
-//    NSLog(@"%f == %f",ddd,ccc);
+}
+//提交纠错回调
+- (void)submitError:(NSDictionary *)dicError{
+    _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    NSArray *array = [tyUser objectForKey:tyUserErrorTopic];
+    ErrorTopicView *viewError = [[ErrorTopicView alloc]initWithFrame:CGRectMake(50, Scr_Height+(Scr_Height - 200)/2,Scr_Width - 100, 30*array.count) errorTypeArray:array];
+    [self.view addSubview:viewError];
+//    [self.view.superview addSubview:viewError];
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rect = viewError.frame;
+        rect.origin.y = rect.origin.y - Scr_Height;
+        viewError.frame = rect;
+    }];
+}
+
+- (void)addAlertSelectErrorType{
+    
 }
 //cell上的点击选项按钮代理回调
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{

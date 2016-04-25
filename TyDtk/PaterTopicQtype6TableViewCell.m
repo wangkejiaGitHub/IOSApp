@@ -21,7 +21,7 @@
 
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     CGFloat allowRet = 0;
-    if (index == 63) {
+    if (index == 86) {
         NSLog(@"fsf");
     }
     NSLog(@"topicIndex = %ld",index);
@@ -39,15 +39,7 @@
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"<br/><br/>" withString:@"<br/>"];
 
     }
-    //    for (int i =0 ; i<4; i++) {
-//        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-//        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-//    }
     if (dicImg.allKeys.count>0) {
-//        NSString *keysFirst = [dicImg.allKeys firstObject];
-//        NSRange ran = [topicTitle rangeOfString:keysFirst];
-//        topicTitle = [topicTitle substringToIndex:ran.location-4];
         //获取参数字符串长度
         NSInteger imgCount = 0;
         for (NSString *keyLength in dicImg.allKeys) {
@@ -78,8 +70,6 @@
             topicTitle = [topicTitle stringByReplacingCharactersInRange:str withString:@""];
         }
        
-        
-//        NSLog(@"%@",topicTitle);
     }
     //主要针对医学题目进行适配
     NSInteger leng = topicTitle.length;
@@ -103,16 +93,8 @@
         }
         CGSize labSize = [labTitleTest sizeThatFits:CGSizeMake(labTitleTest.frame.size.width, MAXFLOAT)];
         _webTitleHeight.constant = labSize.height;
-
     }
-    
     [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
-    
-    
-//    if (Scr_Width > 330) {
-//        _webTitleHeight.constant = _webTitleHeight.constant+20;
-//    }
-
     //试题编号
     _labNumber.text = [NSString stringWithFormat:@"%ld、",index];
     _labNumberWidth.constant = _labNumber.text.length*10+15;

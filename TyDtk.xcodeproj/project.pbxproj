@@ -18,6 +18,7 @@
 		1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */; };
 		1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */; };
 		1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */; };
+		1D86FA331CCDFC23007DF87C /* ErrorTopicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */; };
 		1DC18EFD1CB795D50006D642 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ED31CB795D50006D642 /* MJRefreshAutoFooter.m */; };
 		1DC18EFE1CB795D50006D642 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ED51CB795D50006D642 /* MJRefreshBackFooter.m */; };
 		1DC18EFF1CB795D50006D642 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ED71CB795D50006D642 /* MJRefreshComponent.m */; };
@@ -140,6 +141,8 @@
 		1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChaptersViewController.m; sourceTree = "<group>"; };
 		1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelPapersViewController.h; sourceTree = "<group>"; };
 		1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelPapersViewController.m; sourceTree = "<group>"; };
+		1D86FA311CCDFC23007DF87C /* ErrorTopicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorTopicView.h; sourceTree = "<group>"; };
+		1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorTopicView.m; sourceTree = "<group>"; };
 		1DC18ED21CB795D50006D642 /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
 		1DC18ED31CB795D50006D642 /* MJRefreshAutoFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshAutoFooter.m; sourceTree = "<group>"; };
 		1DC18ED41CB795D50006D642 /* MJRefreshBackFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshBackFooter.h; sourceTree = "<group>"; };
@@ -680,6 +683,8 @@
 				1D18A02C1CAB7D690022642C /* CustomTools.m */,
 				1D1626911CBDD5CC0050784B /* TopicCardCollectionView.h */,
 				1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */,
+				1D86FA311CCDFC23007DF87C /* ErrorTopicView.h */,
+				1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -923,6 +928,7 @@
 				1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */,
 				1DEDC8591C9FA2920083B394 /* SDWebImageCompat.m in Sources */,
 				1DEDC87B1C9FA66B0083B394 /* AFURLResponseSerialization.m in Sources */,
+				1D86FA331CCDFC23007DF87C /* ErrorTopicView.m in Sources */,
 				1DE695D51CA8C75100ED1DA3 /* TestViewController.m in Sources */,
 				1DC18F0F1CB795D50006D642 /* UIView+MJExtension.m in Sources */,
 				1DEDC87A1C9FA66B0083B394 /* AFURLRequestSerialization.m in Sources */,

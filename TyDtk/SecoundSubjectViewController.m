@@ -27,6 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getTopicErrorType];
     // Do any additional setup after loading the view.
     [self viewLoad];
 }
@@ -44,6 +45,30 @@
     
     [self currSelectSubject];
 }
+/****************************************
+ ****************************************
+ 提前获取试题的纠错类型，并存在 NSUserDefaults
+ 
+ ****************************************
+ ****************************************/
+- (void)getTopicErrorType{
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Correct/GetCorrectLevels",systemHttps];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dic[@"code"] integerValue];
+        if (codeId == 1) {
+            NSArray *arrayError = dic[@"datas"];
+            NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+            [tyUser setObject:arrayError forKey:tyUserErrorTopic];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/***************************************
+****************************************/
+
 - (void)viewDidAppear:(BOOL)animated{
     [SVProgressHUD dismiss];
 }

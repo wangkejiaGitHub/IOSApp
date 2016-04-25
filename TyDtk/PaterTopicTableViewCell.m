@@ -35,7 +35,7 @@
     // Configure the view for the selected state
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-    if (index == 33) {
+    if (index == 9) {
         NSLog(@"%@",dic);
     }
     NSLog(@"topicIndex == %ld",index);
@@ -44,12 +44,12 @@
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
     for (int i =0 ; i<4; i++) {
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n A" withString:@"<br/>A."];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\nA" withString:@"<br/>A."];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\r" withString:@""];
     }
-    
-    
     
     if (dicImg.allKeys.count>0) {
         NSString *keysFirst = [NSString stringWithFormat:@"[%@]",[dicImg.allKeys firstObject]];
@@ -124,11 +124,6 @@
         }
         viewImage.frame = CGRectMake(15, allowRet - 10, Scr_Width - 30, viewImgsH);
         [self.contentView addSubview:viewImage];
-        //
-        //        UIView *viewLineImgDown = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet+viewImgsH+10, Scr_Width-20, 1)];
-        //        viewLineImgDown.backgroundColor = [UIColor lightGrayColor];
-        //        [self.contentView addSubview:viewLineImgDown];
-        //        //？？？？？随时记录要返回的cell的高度
         allowRet = allowRet + viewImgsH + 30;
     }
     else{
@@ -143,59 +138,54 @@
         selectOptions = [selectOptions stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
         NSData *dataSting = [selectOptions dataUsingEncoding:NSUTF8StringEncoding];
         NSArray *arrayOptions = [NSJSONSerialization JSONObjectWithData:dataSting options:NSJSONReadingMutableLeaves error:nil];
+        NSString *arraySelect = [arrayOptions componentsJoinedByString:@""];
+        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@" " withString:@""];
+        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br />" withString:@""];
+        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n\n"];
+        UILabel *labTestSelect = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-40, 30)];
+        labTestSelect.numberOfLines = 0;
+        labTestSelect.text = arraySelect;
+        CGSize labSize = [labTestSelect sizeThatFits:CGSizeMake(labTestSelect.frame.size.width, MAXFLOAT)];
+        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
         //如果既有图片，也有选项的话，就用自己自定义的webView
-        if (dicImg.allKeys>0 && arrayOptions.count > 0) {
-            
+        if (dicImg.allKeys.count>0 && arrayOptions.count > 0) {
+            [_webViewSelectCustom removeFromSuperview];
+            [_webVIewSelect removeFromSuperview];
+            _webViewSelectCustom = [[UIWebView alloc]initWithFrame:CGRectMake(10, allowRet, Scr_Width - 20, labSize.height)];
+            _webViewSelectCustom.opaque = NO;
+            _webViewSelectCustom.scrollView.scrollEnabled = NO;
+            _webViewSelectCustom.backgroundColor = [UIColor clearColor];
+            [_webViewSelectCustom loadHTMLString:arraySelect baseURL:nil];
+            [self.contentView addSubview:_webViewSelectCustom];
+            allowRet = _webViewSelectCustom.frame.origin.y + labSize.height+10;
+            NSLog(@"fsffdsfs");
 //            _webViewSelectCustom = 
         }//有图片或者只有选项的时候用原来的
         else{
             
-            NSString *arraySelect = [arrayOptions componentsJoinedByString:@""];
-            
-            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@" " withString:@""];
-            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br />" withString:@""];
-            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n\n"];
-            UILabel *labTestSelect = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-40, 30)];
-            labTestSelect.numberOfLines = 0;
-            labTestSelect.text = arraySelect;
-            CGSize labSize = [labTestSelect sizeThatFits:CGSizeMake(labTestSelect.frame.size.width, MAXFLOAT)];
-            
             _webSelectHeight.constant = labSize.height;
-            arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
             [_webVIewSelect loadHTMLString:arraySelect baseURL:nil];
-            //        //添加button按钮选项
-            /****先删除所有的button按钮，防止叠加*****/
-            for (id subView in self.contentView.subviews) {
-                if ([subView isKindOfClass:[UIButton class]]) {
-                    UIButton *btn = (UIButton*)subView;
-                    if (btn.tag!=1111) {
-                        [subView removeFromSuperview];
-                    }
-                    
+                       allowRet = allowRet + _webSelectHeight.constant+20;
+        }
+        //        //添加button按钮选项
+        /****先删除所有的button按钮，防止叠加*****/
+        for (id subView in self.contentView.subviews) {
+            if ([subView isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton*)subView;
+                if (btn.tag!=1111) {
+                    [subView removeFromSuperview];
                 }
+                
             }
-            allowRet = allowRet + _webSelectHeight.constant+20;
         }
         //button 按钮的Y坐标起点
         CGFloat btnSelectOriginy = allowRet;
-        NSArray *arraySelectOp;
         /****获取选项的首字母集合（A,B,C,D...）****/
         //选择题以图片形式展现，以文字形式展现的选项文字
-        if (arrayOptions.count < 1) {
-            arraySelectOp = @[@"A",@"B",@"C",@"D",@"E",@"F"];
-        }
-        else{
-            NSMutableArray *arraySelectLetter = [NSMutableArray array];
-            for (int i = 0; i<arrayOptions.count; i++) {
-                NSString *selectStr = arrayOptions[i];
-                selectStr = [selectStr substringToIndex:1];
-                [arraySelectLetter addObject:selectStr];
-            }
-            arraySelectOp = arraySelectLetter;
-        }
+        NSArray *arraySelectOp = @[@"A",@"B",@"C",@"D",@"E",@"F",@"G",@"H",@"I",@"J",@"K",@"L",@"M",@"N",@"O",@"P",@"Q",@"R",@"S",@"T",@"U",@"V",@"W",@"X",@"Y",@"Z"];
         /**************************************/
         //开始添加button按钮
         CGFloat btnSpa = 10;
@@ -315,5 +305,8 @@
     else if (webView.tag == 11){
         _webSelectHeight.constant = webView.scrollView.contentSize.height;
     }
+}
+- (void)submitNotes{
+    NSLog(@"submit");
 }
 @end

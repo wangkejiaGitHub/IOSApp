@@ -30,11 +30,55 @@
 }
 - (IBAction)buttonClick:(UIButton *)sender {
     NSLog(@"submitButton");
+    //笔记
+    if (_isNoteses == 1) {
+        if (![_textVIew.text isEqualToString:@""]) {
+            [self saveNotes:_textVIew.text];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"笔记信息不能为空哦"];
+        }
+    }
+    //纠错
+    else{
+        if (![_textVIew.text isEqualToString:@""]) {
+            NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+            NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
+            NSDictionary *dicNotes = @{@"access_token":accessToken,@"QuestionId":[NSString stringWithFormat:@"%ld",_questionId],@"Content":_textVIew.text};
+            [self.delegateError submitError:dicNotes];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"纠错信息不能为空哦"];
+        }
+
+    }
+ 
 }
 - (IBAction)clearButtonClick:(UIButton *)sender {
     _textVIew.text = @"";
 }
-
+/**
+ 保存笔记
+ */
+- (void)saveNotes:(NSString *)notes{
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/Save",systemHttps];
+    NSDictionary *dicNotes = @{@"access_token":accessToken,@"id":[NSString stringWithFormat:@"%ld",_questionId],@"note":notes};
+    [HttpTools postHttpRequestURL:urlString RequestPram:dicNotes RequestSuccess:^(id respoes) {
+        
+        NSLog(@"%@",respoes);
+        
+    } RequestFaile:^(NSError *erro) {
+    
+    }];
+}
+/**
+ 提交纠错
+ */
+-(void)submitError:(NSString *)error{
+    
+}
 //换行时失去焦点
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
     if ([text isEqualToString:@"\n"]) {

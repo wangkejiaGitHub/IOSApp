@@ -264,6 +264,7 @@ customTool;
 - (IBAction)leftButtonClick:(UIBarButtonItem *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 /**
  获取专业下所有科目
  getTikuSubjects?classId=
@@ -283,7 +284,6 @@ customTool;
                 _tableHeight = Scr_Height - 153;
             }
             [SVProgressHUD dismiss];
-
         }
         else{
             [SVProgressHUD showInfoWithStatus:dicSubject[@"errmsg"]];

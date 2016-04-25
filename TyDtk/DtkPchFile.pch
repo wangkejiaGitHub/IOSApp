@@ -39,6 +39,7 @@
 #import "MJRefresh.h"
 #import "StartDoTopicViewController.h"
 #import "TopicCardCollectionView.h"
+#import "ErrorTopicView.h"
 /**********************
  自定义字段（简化代码）
  *********************/
@@ -85,4 +86,6 @@
 #define tyUserClass @"tyClass"
 //科目
 #define tyUserSubject @"tySubject"
+//纠错类型
+#define tyUserErrorTopic @"errorTopic"
 #endif /* DtkPchFile_pch */
