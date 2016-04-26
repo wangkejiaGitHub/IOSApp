@@ -42,9 +42,7 @@
     //纠错
     else{
         if (![_textVIew.text isEqualToString:@""]) {
-            NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-            NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
-            NSDictionary *dicNotes = @{@"access_token":accessToken,@"QuestionId":[NSString stringWithFormat:@"%ld",_questionId],@"Content":_textVIew.text};
+            NSDictionary *dicNotes = @{@"QuestionId":[NSString stringWithFormat:@"%ld",_questionId],@"Content":_textVIew.text};
             [self.delegateError submitError:dicNotes];
         }
         else{

@@ -11,7 +11,7 @@
 #import "PaterTopicTableViewCell.h"
 #import "NotesOrErrorTableViewCell.h"
 #import "PaterTopicQtype6TableViewCell.h"
-@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegate,ErrorDelegate>
+@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegate,ErrorDelegate,ErrorViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
 //需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellHeight;
@@ -25,6 +25,8 @@
 @property (nonatomic,assign) BOOL isFirstLoad;
 @property (nonatomic,assign) BOOL isNotes;
 @property (nonatomic,assign) BOOL isError;
+//添加朦层
+@property (nonatomic,strong) MZView *viewMz;
 @end
 
 @implementation PatersTopicViewController
@@ -184,21 +186,22 @@
 
     }
     else{
-        NotesOrErrorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellNotes" forIndexPath:indexPath];
-        cell.questionId = topicQuestionId;
-        cell.delegateError = self;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        //笔记
         if (indexPath.section == 1) {
-            cell.isNoteses = 1;
+            NotesOrErrorTableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"cellNotes" forIndexPath:indexPath];
+            cell1.questionId = topicQuestionId;
+            cell1.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell1.isNoteses = 1;
+            return cell1;
         }
         else{
-            cell.isNoteses = 0;
+            NotesOrErrorTableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"cellNotes" forIndexPath:indexPath];
+            cell2.questionId = topicQuestionId;
+            cell2.isNoteses = 0;
+            cell2.delegateError = self;
+            cell2.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell2;
         }
-        
-        
 //        cell.backgroundColor = ColorWithRGB(218, 218, 218);
-        return cell;
     }
 }
 //点击笔记或者纠错触发
@@ -214,23 +217,62 @@
 }
 //提交纠错回调
 - (void)submitError:(NSDictionary *)dicError{
+    if (!_viewMz) {
+        _viewMz = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    }
+    [self.view.superview addSubview:_viewMz];
     _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     NSArray *array = [tyUser objectForKey:tyUserErrorTopic];
-    ErrorTopicView *viewError = [[ErrorTopicView alloc]initWithFrame:CGRectMake(50, Scr_Height+(Scr_Height - 200)/2,Scr_Width - 100, 30*array.count) errorTypeArray:array];
-    [self.view addSubview:viewError];
-//    [self.view.superview addSubview:viewError];
+    ErrorTopicView *viewError = [[ErrorTopicView alloc]initWithFrame:CGRectMake(50, Scr_Height+(Scr_Height - (40*(array.count+2)+20))/2,Scr_Width - 100, 40*(array.count+2)+20) errorTypeArray:array];
+    viewError.delegateViewError  = self;
+//    [self.view addSubview:viewError];
+    [self.view.superview addSubview:viewError];
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rect = viewError.frame;
-        rect.origin.y = rect.origin.y - Scr_Height;
+        rect.origin.y =(Scr_Height - (40*(array.count+2)+20) - 45)/2;
         viewError.frame = rect;
     }];
 }
-
-- (void)addAlertSelectErrorType{
-    
+//点击弹出纠错类型回调
+- (void)viewCellClick:(NSString *)selectType{
+    if (selectType != nil) {
+        //提交
+        [_dicError setObject:selectType forKey:@"Levels"];
+        [self submitErrorRequest];
+    }
+    else{
+        //取消提交
+         [_viewMz removeFromSuperview];
+    }
 }
-//cell上的点击选项按钮代理回调
+/**
+ 提交纠错，请求服务器
+ */
+- (void)submitErrorRequest{
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Correct/Submit?access_token=%@",systemHttps,accessToken];
+    [HttpTools postHttpRequestURL:urlString RequestPram:_dicError RequestSuccess:^(id respoes) {
+        NSDictionary *dic = (NSDictionary *)respoes;
+        
+        NSInteger codeId = [dic[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicData = dic[@"datas"];
+            [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
+            _isError = NO;
+            [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationFade];
+//            [_tableViewPater reloadData];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"操作失败"];
+        }
+         [_viewMz removeFromSuperview];
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+}
+//self.cell上的点击选项按钮代理回调
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
     [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer];
 }
