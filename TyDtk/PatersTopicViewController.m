@@ -25,6 +25,8 @@
 @property (nonatomic,assign) BOOL isFirstLoad;
 @property (nonatomic,assign) BOOL isNotes;
 @property (nonatomic,assign) BOOL isError;
+@property (nonatomic,strong) NSString *stringNotes;
+@property (nonatomic,strong) NSString *stringError;
 //添加朦层
 @property (nonatomic,strong) MZView *viewMz;
 @end
@@ -35,6 +37,8 @@
     [super viewDidLoad];
     _isFirstLoad = YES;
     // Do any additional setup after loading the view.
+    _stringError = @"";
+    _stringNotes = @"";
     _tableViewPater.tableFooterView = [UIView new];
     _tableViewPater.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableViewPater.backgroundColor = [UIColor whiteColor];
@@ -81,7 +85,7 @@
     else{
         return 30;
     }
-   
+    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 1;
@@ -110,19 +114,19 @@
         UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake(Scr_Width-30, 10, 16, 8)];
         if (section == 1) {
             if (_isNotes) {
-                 imageV.image = [UIImage imageNamed:@"arrow_up"];
+                imageV.image = [UIImage imageNamed:@"arrow_up"];
             }
             else{
-                 imageV.image = [UIImage imageNamed:@"arrow_down"];
+                imageV.image = [UIImage imageNamed:@"arrow_down"];
             }
         }
         else
         {
             if (_isError) {
-                 imageV.image = [UIImage imageNamed:@"arrow_up"];
+                imageV.image = [UIImage imageNamed:@"arrow_up"];
             }
             else{
-                 imageV.image = [UIImage imageNamed:@"arrow_down"];
+                imageV.image = [UIImage imageNamed:@"arrow_down"];
             }
         }
         
@@ -167,7 +171,7 @@
             cellSelect= [tableView dequeueReusableCellWithIdentifier:@"celltopicqtype1" forIndexPath:indexPath];
             cellSelect.selectionStyle = UITableViewCellSelectionStyleNone;
             if (_dicTopic.allKeys > 0) {
-            
+                
                 _cellHeight = [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
                 cellSelect.topicType = topicType;
                 cellSelect.indexTopic = _topicIndex;
@@ -183,28 +187,32 @@
             return cellSubQu;
         }
         return nil;
-
+        
     }
     else{
         if (indexPath.section == 1) {
             NotesOrErrorTableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"cellNotes" forIndexPath:indexPath];
+            UITextView *textView = [cell1.contentView viewWithTag:10];
+            textView.text = _stringNotes;
             cell1.questionId = topicQuestionId;
+            cell1.delegateError = self;
             cell1.selectionStyle = UITableViewCellSelectionStyleNone;
             cell1.isNoteses = 1;
             return cell1;
         }
         else{
             NotesOrErrorTableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"cellNotes" forIndexPath:indexPath];
+            UITextView *textView = [cell2.contentView viewWithTag:10];
+            textView.text = _stringError;
             cell2.questionId = topicQuestionId;
             cell2.isNoteses = 0;
             cell2.delegateError = self;
             cell2.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell2;
         }
-//        cell.backgroundColor = ColorWithRGB(218, 218, 218);
     }
 }
-//点击笔记或者纠错触发
+//点击section笔记或者纠错触发
 - (void)sectionBtnClick:(UIButton*)sender{
     NSInteger sectionIndex = sender.tag - 100;
     if (sectionIndex == 1) {
@@ -216,34 +224,45 @@
     [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
 }
 //提交纠错回调
-- (void)submitError:(NSDictionary *)dicError{
+- (void)submitError:(NSDictionary *)dicError isNotes:(NSInteger)isNotes{
     if (!_viewMz) {
         _viewMz = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
     }
-    [self.view.superview addSubview:_viewMz];
-    _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
-    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    NSArray *array = [tyUser objectForKey:tyUserErrorTopic];
-    ErrorTopicView *viewError = [[ErrorTopicView alloc]initWithFrame:CGRectMake(50, Scr_Height+(Scr_Height - (40*(array.count+2)+20))/2,Scr_Width - 100, 40*(array.count+2)+20) errorTypeArray:array];
-    viewError.delegateViewError  = self;
-//    [self.view addSubview:viewError];
-    [self.view.superview addSubview:viewError];
-    [UIView animateWithDuration:0.2 animations:^{
-        CGRect rect = viewError.frame;
-        rect.origin.y =(Scr_Height - (40*(array.count+2)+20) - 45)/2;
-        viewError.frame = rect;
-    }];
+    //笔记
+    if (isNotes == 1) {
+        _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
+        _stringNotes = _dicError[@"note"];
+        [self saveNotesRequest];
+    }
+    //纠错
+    else{
+        [self.view.superview addSubview:_viewMz];
+        _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
+        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+        NSArray *array = [tyUser objectForKey:tyUserErrorTopic];
+        ErrorTopicView *viewError = [[ErrorTopicView alloc]initWithFrame:CGRectMake(50, Scr_Height+(Scr_Height - (40*(array.count+2)+20))/2,Scr_Width - 100, 40*(array.count+2)+20) errorTypeArray:array];
+        viewError.delegateViewError  = self;
+        //    [self.view addSubview:viewError];
+        [self.view.superview addSubview:viewError];
+        [UIView animateWithDuration:0.2 animations:^{
+            CGRect rect = viewError.frame;
+            rect.origin.y =(Scr_Height - (40*(array.count+2)+20) - 45)/2;
+            viewError.frame = rect;
+        }];
+        
+    }
 }
 //点击弹出纠错类型回调
 - (void)viewCellClick:(NSString *)selectType{
     if (selectType != nil) {
         //提交
         [_dicError setObject:selectType forKey:@"Levels"];
+        _stringError = _dicError[@"Content"];
         [self submitErrorRequest];
     }
     else{
         //取消提交
-         [_viewMz removeFromSuperview];
+        [_viewMz removeFromSuperview];
     }
 }
 /**
@@ -262,15 +281,38 @@
             [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
             _isError = NO;
             [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationFade];
-//            [_tableViewPater reloadData];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"操作失败"];
         }
-         [_viewMz removeFromSuperview];
+        [_viewMz removeFromSuperview];
     } RequestFaile:^(NSError *erro) {
         
     }];
+}
+/**
+ 保存笔记，请求服务器
+ */
+- (void)saveNotesRequest{
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/Save?access_token=%@",systemHttps,accessToken];
+    [HttpTools postHttpRequestURL:urlString RequestPram:_dicError RequestSuccess:^(id respoes) {
+        NSDictionary *dic = (NSDictionary *)respoes;
+        NSInteger codeId = [dic[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicData = dic[@"datas"];
+            [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
+            _isNotes = NO;
+            [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"操作失败"];
+        }
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+    
 }
 //self.cell上的点击选项按钮代理回调
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
@@ -282,13 +324,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

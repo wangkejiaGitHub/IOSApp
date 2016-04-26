@@ -112,6 +112,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == _arrayErrorType.count) {
         //提交
+        if (_arrraySelectError.count  == 0) {
+            [SVProgressHUD showInfoWithStatus:@"请选择至少一种错误类型"];
+            return;
+        }
         NSString *selectError = [_arrraySelectError componentsJoinedByString:@","];
         [self.delegateViewError viewCellClick:selectError];
         [self removeFromSuperview];

@@ -7,8 +7,16 @@
 //
 
 #import "PaterTopicTableViewCell.h"
-@interface PaterTopicTableViewCell()<UIWebViewDelegate>
+@interface PaterTopicTableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong) UIWebView *webViewSelectCustom;
+//??????????????????????????????????????????????????????
+@property (weak, nonatomic) UIScrollView *scrollView;
+@property (weak, nonatomic) UIImageView *lastImageView;
+@property (nonatomic, assign)CGRect originalFrame;
+@property (nonatomic, assign)BOOL isDoubleTap;
+
+@property (nonatomic,strong) UIImageView *selectTapView;
+//??????????????????????????????????????????????????????
 @end
 @implementation PaterTopicTableViewCell
 
@@ -119,6 +127,11 @@
             }
             UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
             imgViewTop.image = imageTop;
+            //??????????????????????????????
+            UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showZoomImageView:)];
+            imgViewTop.userInteractionEnabled = YES;
+            [imgViewTop addGestureRecognizer:tapImage];
+            //??????????????????????????????
             [viewImage addSubview:imgViewTop];
             viewImgsH = viewImgsH+sizeImg.height;
         }
@@ -229,6 +242,11 @@
     _dicTopic = dic;
     return allowRet;
 }
+//????????????????????????????????
+//????????????????????????????????
+- (void)imageVIewTap:(UITapGestureRecognizer *)tap{
+    NSLog(@"fasfafasfasf");
+}
 //多项选择题的提交按钮
 - (void)buttonSubmit:(UIButton *)sender{
     //    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
@@ -309,4 +327,86 @@
 - (void)submitNotes{
     NSLog(@"submit");
 }
+//??????????????????????????????????????????????????
+-(void)showZoomImageView:(UITapGestureRecognizer *)tap
+{
+    if (![(UIImageView *)tap.view image]) {
+        return;
+    }
+    _selectTapView = (UIImageView *)tap.view;
+    
+    //scrollView作为背景
+    UIScrollView *bgView = [[UIScrollView alloc] init];
+    bgView.frame = [UIScreen mainScreen].bounds;
+    bgView.backgroundColor = [UIColor blackColor];
+    UITapGestureRecognizer *tapBg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBgView:)];
+    //
+    UILongPressGestureRecognizer *tapmy = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longGestTap:)];
+    tapmy.minimumPressDuration = 1.0;
+    //    tapmy.numberOfTapsRequired = 1;
+    tapmy.numberOfTouchesRequired = 1;
+    [bgView addGestureRecognizer:tapmy];
+    //
+    [bgView addGestureRecognizer:tapBg];
+    
+    UIImageView *picView = (UIImageView *)tap.view;
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = picView.image;
+    imageView.frame = [bgView convertRect:picView.frame fromView:self.contentView];
+    [bgView addSubview:imageView];
+    
+    [[[UIApplication sharedApplication] keyWindow] addSubview:bgView];
+    
+    self.lastImageView = imageView;
+    self.originalFrame = imageView.frame;
+    self.scrollView = bgView;
+    //最大放大比例
+    self.scrollView.maximumZoomScale = 1.5;
+    self.scrollView.delegate = self;
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        CGRect frame = imageView.frame;
+        frame.size.width = bgView.frame.size.width;
+        frame.size.height = frame.size.width * (imageView.image.size.height / imageView.image.size.width);
+        frame.origin.x = 0;
+        frame.origin.y = (bgView.frame.size.height - frame.size.height) * 0.5;
+        imageView.frame = frame;
+    }];
+}
+
+-(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer
+{
+    self.scrollView.contentOffset = CGPointZero;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.lastImageView.frame = self.originalFrame;
+        tapBgRecognizer.view.backgroundColor = [UIColor clearColor];
+    } completion:^(BOOL finished) {
+        [tapBgRecognizer.view removeFromSuperview];
+        self.scrollView = nil;
+        self.lastImageView = nil;
+    }];
+}
+//长按保存图片
+- (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
+    if (longTap.state == UIGestureRecognizerStateBegan) {
+        UIImageWriteToSavedPhotosAlbum(_selectTapView.image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+    }
+}
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    if (error == nil) {
+        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"保存失败！"];
+    }
+}
+//返回可缩放的视图
+-(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return self.lastImageView;
+}
+
+//??????????????????????????????????????????????????
+
 @end

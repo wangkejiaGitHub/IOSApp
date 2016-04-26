@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @protocol ErrorDelegate<NSObject>
-- (void)submitError:(NSDictionary *)dicError;
+- (void)submitError:(NSDictionary *)dicError isNotes:(NSInteger)isNotes;
 @end
 @interface NotesOrErrorTableViewCell : UITableViewCell
 

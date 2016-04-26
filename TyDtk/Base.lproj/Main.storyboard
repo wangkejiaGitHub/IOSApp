@@ -1267,7 +1267,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="119"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zOy-Cm-hIk">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="10" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zOy-Cm-hIk">
                                                     <rect key="frame" x="5" y="5" width="365" height="80"/>
                                                     <color key="backgroundColor" red="0.92218177359999998" green="0.90175128199999999" blue="0.87757860519999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>

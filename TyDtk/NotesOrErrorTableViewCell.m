@@ -33,7 +33,9 @@
     //笔记
     if (_isNoteses == 1) {
         if (![_textVIew.text isEqualToString:@""]) {
-            [self saveNotes:_textVIew.text];
+            NSDictionary *dicNotes = @{@"id":[NSString stringWithFormat:@"%ld",_questionId],@"note":_textVIew.text};
+            [self.delegateError submitError:dicNotes isNotes:_isNoteses];
+            
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"笔记信息不能为空哦"];
@@ -43,7 +45,7 @@
     else{
         if (![_textVIew.text isEqualToString:@""]) {
             NSDictionary *dicNotes = @{@"QuestionId":[NSString stringWithFormat:@"%ld",_questionId],@"Content":_textVIew.text};
-            [self.delegateError submitError:dicNotes];
+            [self.delegateError submitError:dicNotes isNotes:_isNoteses];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"纠错信息不能为空哦"];
@@ -61,8 +63,8 @@
 - (void)saveNotes:(NSString *)notes{
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/Save",systemHttps];
-    NSDictionary *dicNotes = @{@"access_token":accessToken,@"id":[NSString stringWithFormat:@"%ld",_questionId],@"note":notes};
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/Save?access_token=%@",systemHttps,accessToken];
+    NSDictionary *dicNotes = @{@"id":[NSString stringWithFormat:@"%ld",_questionId],@"note":notes};
     [HttpTools postHttpRequestURL:urlString RequestPram:dicNotes RequestSuccess:^(id respoes) {
         
         NSLog(@"%@",respoes);
