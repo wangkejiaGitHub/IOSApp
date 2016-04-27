@@ -157,6 +157,7 @@ customTool;
             _modelPapersVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
         }
         _modelPapersVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
+        _modelPapersVc.allowToken = YES;
         [self.view addSubview:_modelPapersVc.view];
     }
     else if (_indexCurrChildView == 2){

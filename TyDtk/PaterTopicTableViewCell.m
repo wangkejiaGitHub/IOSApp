@@ -17,6 +17,7 @@
 
 @property (nonatomic,strong) UIImageView *selectTapView;
 //??????????????????????????????????????????????????????
+@property (nonatomic,assign) CGFloat viewImageOy;
 @end
 @implementation PaterTopicTableViewCell
 
@@ -126,6 +127,7 @@
                 sizeImg.height = (Scr_Width-30)*wHBL;
             }
             UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
+            [imgViewTop sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]]];
             imgViewTop.image = imageTop;
             //??????????????????????????????
             UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showZoomImageView:)];
@@ -136,6 +138,7 @@
             viewImgsH = viewImgsH+sizeImg.height;
         }
         viewImage.frame = CGRectMake(15, allowRet - 10, Scr_Width - 30, viewImgsH);
+        _viewImageOy = viewImage.frame.origin.y;
         [self.contentView addSubview:viewImage];
         allowRet = allowRet + viewImgsH + 30;
     }
@@ -244,9 +247,7 @@
 }
 //????????????????????????????????
 //????????????????????????????????
-- (void)imageVIewTap:(UITapGestureRecognizer *)tap{
-    NSLog(@"fasfafasfasf");
-}
+
 //多项选择题的提交按钮
 - (void)buttonSubmit:(UIButton *)sender{
     //    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
@@ -330,6 +331,7 @@
 //??????????????????????????????????????????????????
 -(void)showZoomImageView:(UITapGestureRecognizer *)tap
 {
+    
     if (![(UIImageView *)tap.view image]) {
         return;
     }
@@ -354,6 +356,10 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = picView.image;
     imageView.frame = [bgView convertRect:picView.frame fromView:self.contentView];
+    CGRect rectImg = imageView.frame;
+    rectImg.origin.y = rectImg.origin.y + _viewImageOy;
+    rectImg.origin.x = 15.0;
+    imageView.frame = rectImg;
     [bgView addSubview:imageView];
     
     [[[UIApplication sharedApplication] keyWindow] addSubview:bgView];
@@ -390,15 +396,8 @@
 //长按保存图片
 - (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
     if (longTap.state == UIGestureRecognizerStateBegan) {
-        UIImageWriteToSavedPhotosAlbum(_selectTapView.image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
-    }
-}
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-    if (error == nil) {
-        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
-    }
-    else{
-        [SVProgressHUD showInfoWithStatus:@"保存失败！"];
+        [_scrollView removeFromSuperview];
+        [self.delegateCellClick imageSaveQtype1:_selectTapView.image];
     }
 }
 //返回可缩放的视图

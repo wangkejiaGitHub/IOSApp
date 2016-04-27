@@ -7,7 +7,16 @@
 //
 
 #import "PaterTopicQtype6TableViewCell.h"
-@interface PaterTopicQtype6TableViewCell()<UIWebViewDelegate>
+@interface PaterTopicQtype6TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
+//??????????????????????????????????????????????????????
+@property (weak, nonatomic) UIScrollView *scrollView;
+@property (weak, nonatomic) UIImageView *lastImageView;
+@property (nonatomic, assign)CGRect originalFrame;
+@property (nonatomic, assign)BOOL isDoubleTap;
+
+@property (nonatomic,strong) UIImageView *selectTapView;
+//??????????????????????????????????????????????????????
+@property (nonatomic,assign) CGFloat viewImageOy;
 @end
 @implementation PaterTopicQtype6TableViewCell
 
@@ -145,6 +154,13 @@
             }
             UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
             imgViewTop.image = imageTop;
+            
+            //??????????????????????????????
+            UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showZoomImageView:)];
+            imgViewTop.userInteractionEnabled = YES;
+            [imgViewTop addGestureRecognizer:tapImage];
+            //??????????????????????????????
+            
             [viewImage addSubview:imgViewTop];
             viewImgsH = viewImgsH+sizeImg.height;
         }
@@ -155,6 +171,7 @@
         viewLineImgDown.backgroundColor = [UIColor lightGrayColor];
         [self.contentView addSubview:viewLineImgDown];
         //？？？？？随时记录要返回的cell的高度
+        _viewImageOy = viewImage.frame.origin.y;
         allowRet = allowRet + viewImgsH + 30;
     }
     else{
@@ -162,6 +179,81 @@
     }
     //？？？？？随时记录要返回的cell的高度
     return allowRet;
+}
+//??????????????????????????????????????????????????
+-(void)showZoomImageView:(UITapGestureRecognizer *)tap
+{
+    if (![(UIImageView *)tap.view image]) {
+        return;
+    }
+    _selectTapView = (UIImageView *)tap.view;
+    
+    //scrollView作为背景
+    UIScrollView *bgView = [[UIScrollView alloc] init];
+    bgView.frame = [UIScreen mainScreen].bounds;
+    bgView.backgroundColor = [UIColor blackColor];
+    UITapGestureRecognizer *tapBg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBgView:)];
+    //
+    UILongPressGestureRecognizer *tapmy = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longGestTap:)];
+    tapmy.minimumPressDuration = 1.0;
+    //    tapmy.numberOfTapsRequired = 1;
+    tapmy.numberOfTouchesRequired = 1;
+    [bgView addGestureRecognizer:tapmy];
+    //
+    [bgView addGestureRecognizer:tapBg];
+    
+    UIImageView *picView = (UIImageView *)tap.view;
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.image = picView.image;
+    imageView.frame = [bgView convertRect:picView.frame fromView:self.contentView];
+    CGRect rectImg = imageView.frame;
+    rectImg.origin.y = rectImg.origin.y + _viewImageOy;
+    rectImg.origin.x = 15.0;
+    imageView.frame = rectImg;
+    [bgView addSubview:imageView];
+    [[[UIApplication sharedApplication] keyWindow] addSubview:bgView];
+    
+    self.lastImageView = imageView;
+    self.originalFrame = imageView.frame;
+    self.scrollView = bgView;
+    //最大放大比例
+    self.scrollView.maximumZoomScale = 2.0;
+    self.scrollView.delegate = self;
+    
+    [UIView animateWithDuration:0.5 animations:^{
+        CGRect frame = imageView.frame;
+        frame.size.width = bgView.frame.size.width;
+        frame.size.height = frame.size.width * (imageView.image.size.height / imageView.image.size.width);
+        frame.origin.x = 0;
+        frame.origin.y = (bgView.frame.size.height - frame.size.height) * 0.5;
+        imageView.frame = frame;
+    }];
+}
+
+-(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer
+{
+    self.scrollView.contentOffset = CGPointZero;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.lastImageView.frame = self.originalFrame;
+        tapBgRecognizer.view.backgroundColor = [UIColor clearColor];
+    } completion:^(BOOL finished) {
+        [tapBgRecognizer.view removeFromSuperview];
+        self.scrollView = nil;
+        self.lastImageView = nil;
+    }];
+}
+//长按保存图片
+- (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
+    if (longTap.state == UIGestureRecognizerStateBegan) {
+        [_scrollView removeFromSuperview];
+        [self.delegateTopic imageSaveQtype1:_selectTapView.image];
+    }
+}
+//返回可缩放的视图
+-(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
+{
+    return self.lastImageView;
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     CGFloat webViewScrolHeight = webView.scrollView.contentSize.height;

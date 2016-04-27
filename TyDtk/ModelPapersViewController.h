@@ -9,4 +9,6 @@
 #import <UIKit/UIKit.h>
 @interface ModelPapersViewController : UIViewController
 @property (nonatomic,strong) NSString *subjectId;
+//是否允许授权
+@property (nonatomic,assign) BOOL allowToken;
 @end

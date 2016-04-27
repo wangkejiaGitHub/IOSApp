@@ -10,6 +10,7 @@
 @protocol TopicCellDelegate<NSObject>
 //传递选项参数，用于同步答题卡
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary*)dicUserAnswer;
+- (void)imageSaveQtype1:(UIImage *)image;
 @end
 @interface PaterTopicTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *labTopicNumber;

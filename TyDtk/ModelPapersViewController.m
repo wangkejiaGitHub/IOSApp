@@ -22,8 +22,7 @@
 @property (nonatomic,strong)NSString *accessToken;
 //储存的专业信息
 @property (nonatomic,strong) NSDictionary *dicUserClass;
-//是否允许授权
-@property (nonatomic,assign) BOOL allowToken;
+
 //请求的试卷的年份
 @property (nonatomic,assign) NSString *paterYear;
 //请求的试卷类型
@@ -67,14 +66,16 @@
     if (_allowToken) {
         _paterLevel = @"0";
         _paterYear =@"0";
-        [self getAccessToken];
-    }
-    else{
-        //新数据从传递的科目Id中请求获取
         _paterPages = 0;
         _paterIndexPage = 1;
         [_arrayPapers removeAllObjects];
-        [self getModelPapersData];
+        [self getAccessToken];
+    }
+    else{
+//        //新数据从传递的科目Id中请求获取
+
+
+//        [self getModelPapersData];
     }
     _allowToken = NO;
 

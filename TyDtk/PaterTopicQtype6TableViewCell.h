@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "PaterTopicTableViewCell.h"
 @interface PaterTopicQtype6TableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *labNumber;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labNumberWidth;
@@ -16,6 +16,6 @@
 
 @property (weak, nonatomic) IBOutlet UIWebView *webViewTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *webTitleHeight;
-
+@property (nonatomic,assign) id <TopicCellDelegate> delegateTopic;
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @end

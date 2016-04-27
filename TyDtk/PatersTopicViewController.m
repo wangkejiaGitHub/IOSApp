@@ -182,6 +182,7 @@
         }
         else if (topicType == 6){
             PaterTopicQtype6TableViewCell *cellSubQu = [tableView dequeueReusableCellWithIdentifier:@"celltopicqtype6" forIndexPath:indexPath];
+            cellSubQu.delegateTopic = self;
             cellSubQu.selectionStyle = UITableViewCellSelectionStyleNone;
             _cellHeight = [cellSubQu setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
             return cellSubQu;
@@ -236,14 +237,14 @@
     }
     //纠错
     else{
-        [self.view.superview addSubview:_viewMz];
+        [self.view addSubview:_viewMz];
         _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
         NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
         NSArray *array = [tyUser objectForKey:tyUserErrorTopic];
         ErrorTopicView *viewError = [[ErrorTopicView alloc]initWithFrame:CGRectMake(50, Scr_Height+(Scr_Height - (40*(array.count+2)+20))/2,Scr_Width - 100, 40*(array.count+2)+20) errorTypeArray:array];
         viewError.delegateViewError  = self;
         //    [self.view addSubview:viewError];
-        [self.view.superview addSubview:viewError];
+        [self.view addSubview:viewError];
         [UIView animateWithDuration:0.2 animations:^{
             CGRect rect = viewError.frame;
             rect.origin.y =(Scr_Height - (40*(array.count+2)+20) - 45)/2;
@@ -314,7 +315,30 @@
     }];
     
 }
-//self.cell上的点击选项按钮代理回调
+//保存图片回调
+- (void)imageSaveQtype1:(UIImage *)image{
+    [self imageTopicSave:image];
+}
+//
+-(void)imageTopicSave:(UIImage *)image{
+    UIAlertController *alertSaveImage = [UIAlertController alertControllerWithTitle:@"图片保存" message:@"保存到本地相册？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *actionSa = [UIAlertAction actionWithTitle:@"保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+    }];
+    [alertSaveImage addAction:actionSa];
+    UIAlertAction *actionCe = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alertSaveImage addAction:actionCe];
+    [self presentViewController:alertSaveImage animated:YES completion:nil];
+}
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    if (error == nil) {
+        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"保存失败！"];
+    }
+}
+//self.cell上的点击选项按钮（A、B、C、D..）代理回调
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
     [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer];
 }
