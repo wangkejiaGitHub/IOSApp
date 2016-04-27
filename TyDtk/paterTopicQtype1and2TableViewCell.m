@@ -1,13 +1,13 @@
 //
-//  PaterTopicTableViewCell.m
+//  paterTopicQtype1and2TableViewCell.m
 //  TyDtk
-//  单选和多选的试题展示cell类，用于试题信息展示，cell上的控件适配
-//  Created by 天一文化 on 16/4/11.
+//
+//  Created by 天一文化 on 16/4/27.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
-#import "PaterTopicTableViewCell.h"
-@interface PaterTopicTableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
+#import "paterTopicQtype1and2TableViewCell.h"
+@interface paterTopicQtype1and2TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong) UIWebView *webViewSelectCustom;
 //??????????????????????????????????????????????????????
 @property (weak, nonatomic) UIScrollView *scrollView;
@@ -19,7 +19,7 @@
 //??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
 @end
-@implementation PaterTopicTableViewCell
+@implementation paterTopicQtype1and2TableViewCell
 
 - (void)awakeFromNib {
     // Initialization code
@@ -35,13 +35,6 @@
     _selectContentQtype2 = @"";
     _webViewTitle.delegate = self;
     _webVIewSelect.delegate = self;
-    
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     if (index == 9) {
@@ -178,13 +171,13 @@
             [self.contentView addSubview:_webViewSelectCustom];
             allowRet = _webViewSelectCustom.frame.origin.y + labSize.height+10;
             NSLog(@"fsffdsfs");
-//            _webViewSelectCustom = 
+            //            _webViewSelectCustom =
         }//有图片或者只有选项的时候用原来的
         else{
             
             _webSelectHeight.constant = labSize.height;
             [_webVIewSelect loadHTMLString:arraySelect baseURL:nil];
-                       allowRet = allowRet + _webSelectHeight.constant+20;
+            allowRet = allowRet + _webSelectHeight.constant+20;
         }
         //        //添加button按钮选项
         /****先删除所有的button按钮，防止叠加*****/
@@ -260,7 +253,7 @@
     
     NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":_selectContentQtype2,@"TrueAnswer":answer,@"Score":@"0"};
     
-    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:dicUserAnswer];
+    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer];
 }
 //点击选项按钮 11 141 240
 - (void)buttonSelectClick:(UIButton *)sender{
@@ -293,7 +286,7 @@
         NSString *userAnswer = sender.titleLabel.text;
         
         NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":@"0"};
-        [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:dicUserAnswer];
+        [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer];
         
     }
     //多选模式
@@ -397,7 +390,7 @@
 - (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
     if (longTap.state == UIGestureRecognizerStateBegan) {
         [_scrollView removeFromSuperview];
-        [self.delegateCellClick imageSaveQtype1:_selectTapView.image];
+        [self.delegateCellClick imageSaveQtype1Test:_selectTapView.image];
     }
 }
 //返回可缩放的视图
@@ -407,5 +400,11 @@
 }
 
 //??????????????????????????????????????????????????
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
 
 @end

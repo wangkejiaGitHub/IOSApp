@@ -1,13 +1,13 @@
 //
-//  PaterTopicQtype6TableViewCell.m
+//  paterTopicQtype5TableViewCell.m
 //  TyDtk
 //
-//  Created by 天一文化 on 16/4/19.
+//  Created by 天一文化 on 16/4/27.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
-#import "PaterTopicQtype6TableViewCell.h"
-@interface PaterTopicQtype6TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
+#import "paterTopicQtype5TableViewCell.h"
+@interface paterTopicQtype5TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
 //??????????????????????????????????????????????????????
 @property (weak, nonatomic) UIScrollView *scrollView;
 @property (weak, nonatomic) UIImageView *lastImageView;
@@ -18,113 +18,68 @@
 //??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
 @end
-@implementation PaterTopicQtype6TableViewCell
+@implementation paterTopicQtype5TableViewCell
 
 - (void)awakeFromNib {
     // Initialization code
-    _webViewTitle.backgroundColor = [UIColor clearColor];
+    _imageCollect.layer.masksToBounds = YES;
+    _imageCollect.layer.cornerRadius = 2;
     _webViewTitle.scrollView.scrollEnabled = NO;
     _webViewTitle.opaque = NO;
+    _webViewTitle.backgroundColor =[UIColor clearColor];
+    //多选答案默认为空
     _webViewTitle.delegate = self;
-    _imageViewCollect.layer.masksToBounds = YES;
-    _imageViewCollect.layer.cornerRadius = 2;
 }
-
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     CGFloat allowRet = 0;
-    if (index == 86) {
-        NSLog(@"fsf");
-    }
-    NSLog(@"topicIndex = %ld",index);
     //判断视图是否有图片
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
     for (int i =0 ; i<4; i++) {
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n\r\n\t" withString:@""];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\r\n\n" withString:@"\n"];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n\r" withString:@"\n"];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n\n" withString:@"<br/>"];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@" " withString:@""];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n A" withString:@"<br/>A."];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\nA" withString:@"<br/>A."];
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@""];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"<br/><br/>" withString:@"<br/>"];
-
+        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\r" withString:@""];
     }
+    
     if (dicImg.allKeys.count>0) {
-        //获取参数字符串长度
-        NSInteger imgCount = 0;
-        for (NSString *keyLength in dicImg.allKeys) {
-            imgCount = imgCount + keyLength.length + 2;
-        }
-        //第一个需要去除的位置和长度
-        NSString *keyImageFirst = [dicImg.allKeys firstObject];
-        keyImageFirst = [keyImageFirst stringByReplacingOccurrencesOfString:@"[" withString:@""];
-        keyImageFirst = [keyImageFirst stringByReplacingOccurrencesOfString:@"]" withString:@""];
-        keyImageFirst = [NSString stringWithFormat:@"[%@]",keyImageFirst];
-        NSRange ranFirst = [topicTitle rangeOfString:keyImageFirst];
-        //最后一个需要去除的位置和长度
-        NSString *keyImageLast = [dicImg.allKeys lastObject];
-        keyImageLast = [keyImageLast stringByReplacingOccurrencesOfString:@"[" withString:@""];
-        keyImageLast = [keyImageLast stringByReplacingOccurrencesOfString:@"]" withString:@""];
-        keyImageLast = [NSString stringWithFormat:@"[%@]",keyImageLast];
-        NSRange ranLast = [topicTitle rangeOfString:keyImageLast];
-        
-        NSRange str = NSMakeRange(ranFirst.location - 6, ranLast.location-ranFirst.location+keyImageLast.length+6);
-        //试题题目里面只有image标签
-        if (ranFirst.location < 25) {
-            for (NSString *keys in dicImg.allKeys) {
-                NSString *keysS = [NSString stringWithFormat:@"[%@]",keys];
-                topicTitle = [topicTitle stringByReplacingOccurrencesOfString:keysS withString:@""];
-            }
-        }
-        else{
-            topicTitle = [topicTitle stringByReplacingCharactersInRange:str withString:@""];
-        }
-       
+        NSString *keysFirst = [NSString stringWithFormat:@"[%@]",[dicImg.allKeys firstObject]];
+        NSRange ranFirst = [topicTitle rangeOfString:keysFirst];
+        NSString *keysLast = [NSString stringWithFormat:@"[%@]",[dicImg.allKeys lastObject]];
+        NSRange ranLast = [topicTitle rangeOfString:keysLast];
+        topicTitle = [topicTitle stringByReplacingCharactersInRange:NSMakeRange(ranFirst.location, ranLast.location - ranFirst.location + keysLast.length) withString:@""];
     }
-    //主要针对医学题目进行适配
-    NSInteger leng = topicTitle.length;
-    if ([topicTitle rangeOfString:@"A"].location == 0 && [topicTitle rangeOfString:@"B"].length>0 && [topicTitle rangeOfString:@"C"].length>0 && [topicTitle rangeOfString:@"C"].length>0) {
-        if (leng>80) {
-            _webTitleHeight.constant = 153;
-        }
-        else{
-            _webTitleHeight.constant = 130;
-        }
+    
+    ///////////////////////////////
+    //题目
+    UILabel *labTest = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 30, 30)];
+    labTest.numberOfLines = 0;
+    labTest.font = [UIFont systemFontOfSize:17.0];
+    if (Scr_Width > 320) {
+        labTest.font = [UIFont systemFontOfSize:19.0];
     }
-    else{
-        //题目
-        UILabel *labTitleTest = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-30, 0)];
-        labTitleTest.text = topicTitle;
-//        NSLog(@"%@ ====== %ld",topicTitle,topicTitle.length);
-        labTitleTest.numberOfLines = 0;
-        labTitleTest.font = [UIFont systemFontOfSize:19];
-        if (Scr_Width > 320) {
-            labTitleTest.font = [UIFont systemFontOfSize:18.5];
-        }
-        CGSize labSize = [labTitleTest sizeThatFits:CGSizeMake(labTitleTest.frame.size.width, MAXFLOAT)];
-        _webTitleHeight.constant = labSize.height;
-    }
-    [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
+    labTest.text = topicTitle;
+    
     //试题编号
     _labNumber.text = [NSString stringWithFormat:@"%ld、",index];
     _labNumberWidth.constant = _labNumber.text.length*10+15;
-    //试题类型（案例分析）
-    _labTitleType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     
-    //？？？？？随时记录要返回的cell的高度??????????????
-    allowRet = _webViewTitle.frame.origin.y+_webTitleHeight.constant+50;
+    //试题类型
+    _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
+    CGSize labSize = [labTest sizeThatFits:CGSizeMake(labTest.frame.size.width, MAXFLOAT)];
+    [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
+    _webViewTitleHeight.constant = labSize.height;
     
-//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet, Scr_Width-20, 30)];
-//    view.backgroundColor = [UIColor redColor];
-//    [self.contentView addSubview:view];
-    //http://www.kaola100.com/tiku/common/getAttachment?filePath=img/20151229/20151229095609_916.png
-    
-//    NSLog(@"%@",dic);
-////////////////////////////////////////////
-///////////////////////////////////////////
-/// 如果试题有图片，就加载图片显示
-////////////////////////////////////////////
+    if (Scr_Width > 330) {
+        _webViewTitleHeight.constant = _webViewTitleHeight.constant+20;
+    }
+    else{
+        _webViewTitleHeight.constant = _webViewTitleHeight.constant+40;
+    }
+    allowRet = _webViewTitleHeight.constant + 50 +20;
+    /// 如果试题有图片，就加载图片显示
+    ////////////////////////////////////////////
     //防止图片试图复用时重复加载
     for (id subView in self.contentView.subviews) {
         if ([subView isKindOfClass:[UIView class]]) {
@@ -138,10 +93,12 @@
     UIView *viewImage =[[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width-30, 50)];
     viewImage.backgroundColor =[UIColor clearColor];
     viewImage.tag = 6666;
+    
     /**
      有关cell的高 viewImgsH
      */
     CGFloat viewImgsH = 0;
+
     if (dicImg.allKeys.count>0) {
         for (NSString *keyImg in dicImg.allKeys) {
             NSString *imagUrl = dicImg[keyImg];
@@ -155,36 +112,32 @@
                 sizeImg.height = (Scr_Width-30)*wHBL;
             }
             UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
+            [imgViewTop sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]]];
             imgViewTop.image = imageTop;
-            
             //??????????????????????????????
             UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showZoomImageView:)];
             imgViewTop.userInteractionEnabled = YES;
             [imgViewTop addGestureRecognizer:tapImage];
             //??????????????????????????????
-            
             [viewImage addSubview:imgViewTop];
             viewImgsH = viewImgsH+sizeImg.height;
         }
         viewImage.frame = CGRectMake(15, allowRet - 10, Scr_Width - 30, viewImgsH);
-        [self.contentView addSubview:viewImage];
-        
-        UIView *viewLineImgDown = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet+viewImgsH+10, Scr_Width-20, 1)];
-        viewLineImgDown.backgroundColor = [UIColor lightGrayColor];
-        [self.contentView addSubview:viewLineImgDown];
-        //？？？？？随时记录要返回的cell的高度
         _viewImageOy = viewImage.frame.origin.y;
+        [self.contentView addSubview:viewImage];
         allowRet = allowRet + viewImgsH + 30;
     }
     else{
         viewImage = nil;
     }
-    //？？？？？随时记录要返回的cell的高度
+    
     return allowRet;
 }
+
 //??????????????????????????????????????????????????
 -(void)showZoomImageView:(UITapGestureRecognizer *)tap
 {
+    
     if (![(UIImageView *)tap.view image]) {
         return;
     }
@@ -214,13 +167,14 @@
     rectImg.origin.x = 15.0;
     imageView.frame = rectImg;
     [bgView addSubview:imageView];
+    
     [[[UIApplication sharedApplication] keyWindow] addSubview:bgView];
     
     self.lastImageView = imageView;
     self.originalFrame = imageView.frame;
     self.scrollView = bgView;
     //最大放大比例
-    self.scrollView.maximumZoomScale = 2.0;
+    self.scrollView.maximumZoomScale = 1.5;
     self.scrollView.delegate = self;
     
     [UIView animateWithDuration:0.5 animations:^{
@@ -247,21 +201,17 @@
 }
 //长按保存图片
 - (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
-    if (longTap.state == UIGestureRecognizerStateBegan) {
-        [_scrollView removeFromSuperview];
-        [self.delegateTopic imageSaveQtype1Test:_selectTapView.image];
-    }
+//    if (longTap.state == UIGestureRecognizerStateBegan) {
+//        [_scrollView removeFromSuperview];
+//        [self.delegateCellClick imageSaveQtype1:_selectTapView.image];
+//    }
 }
 //返回可缩放的视图
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return self.lastImageView;
 }
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    CGFloat webViewScrolHeight = webView.scrollView.contentSize.height;
-    _webTitleHeight.constant = webViewScrolHeight +5;
-//    NSLog(@"%f",webViewScrolHeight);
-}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

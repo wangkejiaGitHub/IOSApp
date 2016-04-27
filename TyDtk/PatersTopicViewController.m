@@ -8,19 +8,24 @@
 //
 
 #import "PatersTopicViewController.h"
-#import "PaterTopicTableViewCell.h"
 #import "NotesOrErrorTableViewCell.h"
 #import "PaterTopicQtype6TableViewCell.h"
-@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegate,ErrorDelegate,ErrorViewDelegate>
+#import "paterTopicQtype5TableViewCell.h"
+#import "paterTopicQtype1and2TableViewCell.h"
+@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,ErrorDelegate,ErrorViewDelegate,TopicCellDelegateTest>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
 //需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellHeight;
+//需要返回的cell的高
+@property (nonatomic,assign) CGFloat cellSubHeight;
 //需要返回的tableView头的高
 @property (nonatomic,assign) CGFloat cellHeardHeight;
 //纠错参数字典
 @property (nonatomic,strong) NSMutableDictionary *dicError;
 //所有错误类别数组
 @property (nonatomic,strong) NSArray *arrayErrorType;
+@property (nonatomic,strong) NSArray *arraySubQuestion;
+@property (nonatomic,assign) NSInteger qType;
 //判断是否是第一次加载
 @property (nonatomic,assign) BOOL isFirstLoad;
 @property (nonatomic,assign) BOOL isNotes;
@@ -42,11 +47,22 @@
     _tableViewPater.tableFooterView = [UIView new];
     _tableViewPater.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableViewPater.backgroundColor = [UIColor whiteColor];
+    _qType = [_dicTopic[@"qtype"] integerValue];
+    if (_qType == 6) {
+        _arraySubQuestion = _dicTopic[@"subQuestion"];
+    }
+    NSLog(@"fsfsfaf");
     _cellHeight = 130;
+    _cellSubHeight = 50;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    //第一段
     if (section == 0) {
+        //如果是一题多问
+        if (_qType == 6) {
+            return _arraySubQuestion.count + 1;
+        }
         return 1;
     }
     else if (section == 1){
@@ -64,7 +80,13 @@
     }
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    if (_qType == 6) {
+        return 1;
+    }
+    else{
+        return 3;
+    }
+    
 }
 //section头的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -91,6 +113,7 @@
     return 1;
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
     if (section == 0) {
         if (_topicTitle!=nil) {
             UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _cellHeardHeight+20)];
@@ -154,7 +177,17 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
-        return _cellHeight;
+        if (_qType == 6) {
+            if (indexPath.row == 0) {
+                return _cellHeight;
+            }
+            else{
+                return _cellSubHeight;
+            }
+        }
+        else{
+            return _cellHeight;
+        }
     }
     else{
         return 120;
@@ -165,27 +198,41 @@
     NSInteger topicQuestionId = [_dicTopic[@"questionId"] integerValue];
     if (indexPath.section == 0) {
         //先判断题的类型
-        NSInteger topicType = [_dicTopic[@"qtype"] integerValue];
-        PaterTopicTableViewCell *cellSelect;
-        if (topicType == 1 | topicType == 2) {
-            cellSelect= [tableView dequeueReusableCellWithIdentifier:@"celltopicqtype1" forIndexPath:indexPath];
+//        PaterTopicTableViewCell *cellSelect;
+        //选择题
+        if (_qType == 1 | _qType == 2) {
+//            cellSelect= [tableView dequeueReusableCellWithIdentifier:@"celltopicqtype1" forIndexPath:indexPath];
+            paterTopicQtype1and2TableViewCell *cellSelect = [[[NSBundle mainBundle] loadNibNamed:@"TopicQtype1and2Cell" owner:self options:nil]lastObject];
             cellSelect.selectionStyle = UITableViewCellSelectionStyleNone;
             if (_dicTopic.allKeys > 0) {
                 
                 _cellHeight = [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
-                cellSelect.topicType = topicType;
+                cellSelect.topicType = _qType;
                 cellSelect.indexTopic = _topicIndex;
                 cellSelect.delegateCellClick = self;
             }
             cellSelect.selectionStyle = UITableViewCellSelectionStyleNone;
             return cellSelect;
         }
-        else if (topicType == 6){
-            PaterTopicQtype6TableViewCell *cellSubQu = [tableView dequeueReusableCellWithIdentifier:@"celltopicqtype6" forIndexPath:indexPath];
-            cellSubQu.delegateTopic = self;
-            cellSubQu.selectionStyle = UITableViewCellSelectionStyleNone;
-            _cellHeight = [cellSubQu setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
-            return cellSubQu;
+        //一题多问题
+        else if (_qType == 6){
+            //第一个cell用于显示试题题目和相关图片
+            if (indexPath.row == 0) {
+                PaterTopicQtype6TableViewCell *cellSubQu = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype6Cell" owner:self options:nil]lastObject];
+                cellSubQu.delegateTopic = self;
+                cellSubQu.selectionStyle = UITableViewCellSelectionStyleNone;
+                _cellHeight = [cellSubQu setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+                return cellSubQu;
+            }
+            else{
+                //一题多问下面的小题
+                NSDictionary *dicSubQues = _arraySubQuestion[indexPath.row - 1];
+//                NSInteger qtypeSub = [dicSubQues[@"qtype"] integerValue];
+                paterTopicQtype5TableViewCell *cellQtype5 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype5Cell" owner:self options:nil]lastObject];
+                cellQtype5.selectionStyle = UITableViewCellSelectionStyleNone;
+                _cellSubHeight = [cellQtype5 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
+                return cellQtype5;
+            }
         }
         return nil;
         
@@ -211,6 +258,7 @@
             cell2.selectionStyle = UITableViewCellSelectionStyleNone;
             return cell2;
         }
+        
     }
 }
 //点击section笔记或者纠错触发
@@ -319,6 +367,9 @@
 - (void)imageSaveQtype1:(UIImage *)image{
     [self imageTopicSave:image];
 }
+- (void)imageSaveQtype1Test:(UIImage *)image{
+    [self imageTopicSave:image];
+}
 //
 -(void)imageTopicSave:(UIImage *)image{
     UIAlertController *alertSaveImage = [UIAlertController alertControllerWithTitle:@"图片保存" message:@"保存到本地相册？" preferredStyle:UIAlertControllerStyleAlert];
@@ -340,6 +391,9 @@
 }
 //self.cell上的点击选项按钮（A、B、C、D..）代理回调
 - (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
+    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer];
+}
+- (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
     [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer];
 }
 - (void)didReceiveMemoryWarning {

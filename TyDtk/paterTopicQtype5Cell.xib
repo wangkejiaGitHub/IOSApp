@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="184" id="EeF-ew-NsC" customClass="paterTopicQtype5TableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="397" height="184"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EeF-ew-NsC" id="u3v-SX-Oqf">
+                <rect key="frame" x="0.0" y="0.0" width="397" height="183"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1、" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rWP-pa-utE">
+                        <rect key="frame" x="15" y="15" width="30" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="o4c-kb-huO"/>
+                            <constraint firstAttribute="height" constant="20" id="u5w-hB-RZw"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="题型" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2k-V3-G9T">
+                        <rect key="frame" x="47" y="15" width="133" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="dl0-Oi-ZJB"/>
+                            <constraint firstAttribute="width" constant="133" id="xOg-gc-Fuc"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="1" green="0.58331439269999996" blue="0.12216659539999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grzx_icon2" translatesAutoresizingMaskIntoConstraints="NO" id="LeC-LR-57k">
+                        <rect key="frame" x="321" y="15" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="BLE-Ct-e8d"/>
+                            <constraint firstAttribute="height" constant="20" id="zlA-Qj-P9h"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" tag="1111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTP-z9-VQh">
+                        <rect key="frame" x="342" y="15" width="45" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="45" id="0Lr-Wl-Hnm"/>
+                            <constraint firstAttribute="height" constant="20" id="QGo-KG-dyw"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="收藏">
+                            <color key="titleColor" red="1" green="0.58331439269999996" blue="0.12216659539999999" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                    <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6cj-JF-kPS">
+                        <rect key="frame" x="10" y="45" width="377" height="10"/>
+                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="10" id="LLN-G4-6rV"/>
+                        </constraints>
+                    </webView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="rWP-pa-utE" firstAttribute="top" secondItem="u3v-SX-Oqf" secondAttribute="top" constant="15" id="BUz-on-aSR"/>
+                    <constraint firstItem="m2k-V3-G9T" firstAttribute="leading" secondItem="rWP-pa-utE" secondAttribute="trailing" constant="2" id="DpG-JB-QZK"/>
+                    <constraint firstItem="6cj-JF-kPS" firstAttribute="top" secondItem="m2k-V3-G9T" secondAttribute="bottom" constant="10" id="Fad-4Z-wLR"/>
+                    <constraint firstItem="rWP-pa-utE" firstAttribute="leading" secondItem="u3v-SX-Oqf" secondAttribute="leading" constant="15" id="I3I-ob-QBv"/>
+                    <constraint firstItem="m2k-V3-G9T" firstAttribute="bottom" secondItem="rWP-pa-utE" secondAttribute="bottom" id="KnN-wW-Mek"/>
+                    <constraint firstItem="6cj-JF-kPS" firstAttribute="leading" secondItem="u3v-SX-Oqf" secondAttribute="leading" constant="10" id="R4m-07-B6M"/>
+                    <constraint firstAttribute="trailing" secondItem="6cj-JF-kPS" secondAttribute="trailing" constant="10" id="Sv8-Fy-vqV"/>
+                    <constraint firstAttribute="trailing" secondItem="aTP-z9-VQh" secondAttribute="trailing" constant="10" id="fCF-Je-ctf"/>
+                    <constraint firstItem="aTP-z9-VQh" firstAttribute="top" secondItem="m2k-V3-G9T" secondAttribute="top" id="fD5-E9-FTF"/>
+                    <constraint firstItem="aTP-z9-VQh" firstAttribute="leading" secondItem="LeC-LR-57k" secondAttribute="trailing" constant="1" id="qvv-6U-vF0"/>
+                    <constraint firstItem="LeC-LR-57k" firstAttribute="top" secondItem="m2k-V3-G9T" secondAttribute="top" id="uwK-wi-c6P"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="buttonCollect" destination="aTP-z9-VQh" id="ZZg-3A-u7C"/>
+                <outlet property="imageCollect" destination="LeC-LR-57k" id="ykp-dl-Mkf"/>
+                <outlet property="labNumber" destination="rWP-pa-utE" id="hvC-bq-Rlb"/>
+                <outlet property="labNumberWidth" destination="o4c-kb-huO" id="TPx-c4-h3j"/>
+                <outlet property="labTopicType" destination="m2k-V3-G9T" id="pgr-bm-L9c"/>
+                <outlet property="webViewTitle" destination="6cj-JF-kPS" id="2bS-Ph-XMZ"/>
+                <outlet property="webViewTitleHeight" destination="LLN-G4-6rV" id="UgQ-Tb-lFF"/>
+            </connections>
+            <point key="canvasLocation" x="433.5" y="268"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="grzx_icon2" width="20" height="20"/>
+    </resources>
+</document>
