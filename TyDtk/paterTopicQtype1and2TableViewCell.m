@@ -18,6 +18,7 @@
 @property (nonatomic,strong) UIImageView *selectTapView;
 //??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
+
 @end
 @implementation paterTopicQtype1and2TableViewCell
 
@@ -35,6 +36,7 @@
     _selectContentQtype2 = @"";
     _webViewTitle.delegate = self;
     _webVIewSelect.delegate = self;
+    _dicSelectDone = [NSMutableDictionary dictionary];
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     if (index == 9) {
@@ -159,6 +161,7 @@
         labTestSelect.text = arraySelect;
         CGSize labSize = [labTestSelect sizeThatFits:CGSizeMake(labTestSelect.frame.size.width, MAXFLOAT)];
         arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
+        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br/><br/>" withString:@"<br/>"];
         //如果既有图片，也有选项的话，就用自己自定义的webView
         if (dicImg.allKeys.count>0 && arrayOptions.count > 0) {
             [_webViewSelectCustom removeFromSuperview];
@@ -212,6 +215,18 @@
             button.layer.cornerRadius = 3;
             button.titleLabel.font = [UIFont systemFontOfSize:19.0];
             [button addTarget:self action:@selector(buttonSelectClick:) forControlEvents:UIControlEventTouchUpInside];
+            //?????????????????????????????????????
+            //是否有选过的选项
+            NSString *indexString = [NSString stringWithFormat:@"%ld",index];
+            if ([_dicSelectDone.allKeys containsObject:indexString]) {
+                NSString *selectString = _dicSelectDone[indexString];
+                if ([button.titleLabel.text isEqualToString:selectString]) {
+                    button.backgroundColor = ColorWithRGB(11, 141, 240);
+                    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                }
+            }
+            //?????????????????????????????????????
+            ///////////////////////////////////////
             [self.contentView addSubview:button];
         }
         //如果是多项选择题，多添加一个提交多选答案的按钮
@@ -253,7 +268,8 @@
     
     NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":_selectContentQtype2,@"TrueAnswer":answer,@"Score":@"0"};
     
-    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer];
+    //    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer];
+    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:YES];
 }
 //点击选项按钮 11 141 240
 - (void)buttonSelectClick:(UIButton *)sender{
@@ -276,6 +292,22 @@
                 }
             }
         }
+        
+        //????????????????????????????????????
+        //添加已经选过的选项数组
+        NSString *btnString = sender.titleLabel.text;
+        //        [_arraySelectDone removeAllObjects];
+        //        [_arraySelectDone addObject:btnString];
+        [_dicSelectDone setValue:btnString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
+        [self.delegateCellClick saveUserAnswerUseDictonary:_dicSelectDone];
+        //////////////////////////////////////
+        //判断是否是一题多问下面的选择题
+        NSInteger topicParentId = [_dicTopic[@"parentId"] integerValue];
+        BOOL isRefresh = NO;
+        if (topicParentId == 0) {
+            isRefresh = YES;
+        }
+        
         //试题Id
         NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
         //试题类型
@@ -286,7 +318,8 @@
         NSString *userAnswer = sender.titleLabel.text;
         
         NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":@"0"};
-        [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer];
+        //        [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer       ];
+        [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
         
     }
     //多选模式
@@ -403,7 +436,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

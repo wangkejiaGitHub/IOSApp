@@ -76,8 +76,8 @@
     _labText.textColor = [UIColor grayColor];
     _labText.font = [UIFont systemFontOfSize:16.0];
     _labText.textAlignment = NSTextAlignmentCenter;
-    [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
     [self.view addSubview:_labText];
+    [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
 }
 //选择城市按钮
 - (IBAction)cityBtnClick:(UIButton *)sender {

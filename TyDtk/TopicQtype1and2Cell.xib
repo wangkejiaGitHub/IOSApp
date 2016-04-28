@@ -103,6 +103,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="buttonCollect" destination="9U5-Bq-HjU" id="MLo-Yb-DXI"/>
+                <outlet property="imageVIewCollect" destination="ble-1I-FrS" id="nsJ-Vb-bxa"/>
                 <outlet property="labNumberWidth" destination="Nfs-xV-q5d" id="oLR-kh-rpx"/>
                 <outlet property="labTopicNumber" destination="RAm-F8-rct" id="WKT-k1-bQb"/>
                 <outlet property="labTopicType" destination="h0D-gs-ABw" id="s8m-pH-ZkH"/>

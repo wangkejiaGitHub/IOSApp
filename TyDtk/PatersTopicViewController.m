@@ -34,6 +34,8 @@
 @property (nonatomic,strong) NSString *stringError;
 //添加朦层
 @property (nonatomic,strong) MZView *viewMz;
+//暂时保存用户答案，cell复用
+@property (nonatomic,strong) NSDictionary *dicUserAnswer;
 @end
 
 @implementation PatersTopicViewController
@@ -50,6 +52,9 @@
     _qType = [_dicTopic[@"qtype"] integerValue];
     if (_qType == 6) {
         _arraySubQuestion = _dicTopic[@"subQuestion"];
+    }
+    if (_qType == 3) {
+        NSLog(@"%@",_dicTopic);
     }
     NSLog(@"fsfsfaf");
     _cellHeight = 130;
@@ -198,18 +203,19 @@
     NSInteger topicQuestionId = [_dicTopic[@"questionId"] integerValue];
     if (indexPath.section == 0) {
         //先判断题的类型
-//        PaterTopicTableViewCell *cellSelect;
         //选择题
         if (_qType == 1 | _qType == 2) {
-//            cellSelect= [tableView dequeueReusableCellWithIdentifier:@"celltopicqtype1" forIndexPath:indexPath];
-            paterTopicQtype1and2TableViewCell *cellSelect = [[[NSBundle mainBundle] loadNibNamed:@"TopicQtype1and2Cell" owner:self options:nil]lastObject];
-            cellSelect.selectionStyle = UITableViewCellSelectionStyleNone;
+            paterTopicQtype1and2TableViewCell *cellSelect = (paterTopicQtype1and2TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicQtype1and2Cell"];
+            if (cellSelect == nil) {
+                cellSelect = [[[NSBundle mainBundle] loadNibNamed:@"TopicQtype1and2Cell" owner:self options:nil]lastObject];
+            }
+            //            paterTopicQtype1and2TableViewCell *cellSelect = [[[NSBundle mainBundle] loadNibNamed:@"TopicQtype1and2Cell" owner:self options:nil]lastObject];
+            
             if (_dicTopic.allKeys > 0) {
-                
-                _cellHeight = [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
                 cellSelect.topicType = _qType;
                 cellSelect.indexTopic = _topicIndex;
                 cellSelect.delegateCellClick = self;
+                _cellHeight = [cellSelect setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
             }
             cellSelect.selectionStyle = UITableViewCellSelectionStyleNone;
             return cellSelect;
@@ -226,12 +232,29 @@
             }
             else{
                 //一题多问下面的小题
+                //先判断小题的类型
                 NSDictionary *dicSubQues = _arraySubQuestion[indexPath.row - 1];
-//                NSInteger qtypeSub = [dicSubQues[@"qtype"] integerValue];
-                paterTopicQtype5TableViewCell *cellQtype5 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype5Cell" owner:self options:nil]lastObject];
-                cellQtype5.selectionStyle = UITableViewCellSelectionStyleNone;
-                _cellSubHeight = [cellQtype5 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
-                return cellQtype5;
+                NSInteger qtypeSubQues = [dicSubQues[@"qtype"] integerValue];
+                //小题类型为选择题
+                if (qtypeSubQues == 1 | qtypeSubQues == 2) {
+                    paterTopicQtype1and2TableViewCell *cellSelectTopic = (paterTopicQtype1and2TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicQtype1and2Cell"];
+                    if (cellSelectTopic == nil) {
+                        cellSelectTopic = [[[NSBundle mainBundle] loadNibNamed:@"TopicQtype1and2Cell" owner:self options:nil]lastObject];
+                    }
+                    cellSelectTopic.topicType = qtypeSubQues;
+                    cellSelectTopic.indexTopic = indexPath.row;
+                    cellSelectTopic.delegateCellClick = self;
+                    cellSelectTopic.dicSelectDone = [NSMutableDictionary dictionaryWithDictionary: _dicUserAnswer];
+                    cellSelectTopic.selectionStyle = UITableViewCellSelectionStyleNone;
+                    _cellSubHeight = [cellSelectTopic setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
+                    return cellSelectTopic;
+                }
+                else{
+                    paterTopicQtype5TableViewCell *cellQtype5 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype5Cell" owner:self options:nil]lastObject];
+                    cellQtype5.selectionStyle = UITableViewCellSelectionStyleNone;
+                    _cellSubHeight = [cellQtype5 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
+                    return cellQtype5;
+                }
             }
         }
         return nil;
@@ -389,13 +412,17 @@
         [SVProgressHUD showInfoWithStatus:@"保存失败！"];
     }
 }
+//暂时保存用户答案，用于cell复用使用
+- (void)saveUserAnswerUseDictonary:(NSDictionary *)dic{
+    _dicUserAnswer = dic;
+    
+    NSLog(@"%@",_dicUserAnswer);
+}
 //self.cell上的点击选项按钮（A、B、C、D..）代理回调
-- (void)topicCellSelectClick:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
-    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer];
+- (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer isRefresh:(BOOL)isResfresh{
+    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer isRefresh:isResfresh];
 }
-- (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer{
-    [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer];
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @protocol TopicCardRefreshDelegate<NSObject>
 //刷新设置答题信息，用于显示做过的题和未做题的信息
-- (void)refreshTopicCard:(NSInteger)topicIndex selectDone:(NSDictionary *)dicUserAnswer;
+- (void)refreshTopicCard:(NSInteger)topicIndex selectDone:(NSDictionary *)dicUserAnswer isRefresh:(BOOL)isRefresh;
 @end
 @interface PatersTopicViewController : UIViewController
 //题干信息

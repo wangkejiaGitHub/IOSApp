@@ -123,7 +123,7 @@
         [self addTimerForPater];
         _buttonRight.userInteractionEnabled = YES;
         //////////////////////////////////////////
-        //实例化答题卡 
+        //实例化答题卡
         if (!_collectionViewTopicCard) {
             UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
             _collectionViewTopicCard = [[TopicCardCollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la withTopicArray:_arrayPaterData];
@@ -316,7 +316,7 @@
  */
 - (void)topicCardShow{
     [_buttonRight setTitle:@"隐藏答题卡" forState:UIControlStateNormal];
-//    [_collectionViewTopicCard setContentOffset:CGPointMake(0, 0) animated:YES];
+    //    [_collectionViewTopicCard setContentOffset:CGPointMake(0, 0) animated:YES];
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rect = _collectionViewTopicCard.frame;
         rect.origin.x = 0;
@@ -340,36 +340,71 @@
     [_scrollViewPater setContentOffset:CGPointMake((indexScroll-1)*Scr_Width, 0) animated:YES];
     [self topicCardHiden];
 }
-////刷新设置答题信息，用于显示做过的题和未做题的信息 并保存用户试题答案信息
-- (void)refreshTopicCard:(NSInteger)topicIndex selectDone:(NSDictionary *)dicUserAnswer{
+/**
+ ////刷新设置答题信息，用于显示做过的题和未做题的信息 并保存用户试题答案信息
+ */
+- (void)refreshTopicCard:(NSInteger)topicIndex selectDone:(NSDictionary *)dicUserAnswer isRefresh:(BOOL)isRefresh{
     NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
-    if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
-        [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
-    }
-    
-    if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
-        _lastButton.userInteractionEnabled = NO;
-        _nextButton.userInteractionEnabled =NO;
-        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
-    }
-    
-    [_collectionViewTopicCard reloadData];
-    
-    NSLog(@"%@",dicUserAnswer);
-    NSString *QuestionID = dicUserAnswer[@"QuestionID"];
-    for (NSDictionary *dicUaerAns in _arrayUserAnswer) {
-        NSString *dicQuestionID = dicUaerAns[@"QuestionID"];
-        if ([QuestionID isEqualToString:dicQuestionID]) {
-            [_arrayUserAnswer removeObject:dicUaerAns];
-            //防止数组被枚举出错
-            break;
+    //是否刷新答题卡，并自动跳到下一题
+    if (isRefresh) {
+        if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
+            [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
+        }
+        if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
+            _lastButton.userInteractionEnabled = NO;
+            _nextButton.userInteractionEnabled =NO;
+            [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
         }
     }
-    
-    [_arrayUserAnswer addObject:dicUserAnswer];
-    
-    NSLog(@"%@",_arrayUserAnswer);
+    [_collectionViewTopicCard reloadData];
+    if (dicUserAnswer != nil) {
+//        NSLog(@"%@",dicUserAnswer);
+        NSString *QuestionID = dicUserAnswer[@"QuestionID"];
+        for (NSDictionary *dicUaerAns in _arrayUserAnswer) {
+            NSString *dicQuestionID = dicUaerAns[@"QuestionID"];
+            if ([QuestionID isEqualToString:dicQuestionID]) {
+                [_arrayUserAnswer removeObject:dicUaerAns];
+                //防止数组被枚举出错
+                break;
+            }
+        }
+        
+        [_arrayUserAnswer addObject:dicUserAnswer];
+    }
+//    
+//    NSLog(@"%@",dicUserAnswer);
+//    NSLog(@"已做了 %ld 道题",_arrayUserAnswer.count);
 }
+////刷新设置答题信息，用于显示做过的题和未做题的信息 并保存用户试题答案信息
+//- (void)refreshTopicCard:(NSInteger)topicIndex selectDone:(NSDictionary *)dicUserAnswer{
+//    NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
+//    if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
+//        [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
+//    }
+//    
+//    if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
+//        _lastButton.userInteractionEnabled = NO;
+//        _nextButton.userInteractionEnabled =NO;
+//        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
+//    }
+//    
+//    [_collectionViewTopicCard reloadData];
+//    
+//    NSLog(@"%@",dicUserAnswer);
+//    NSString *QuestionID = dicUserAnswer[@"QuestionID"];
+//    for (NSDictionary *dicUaerAns in _arrayUserAnswer) {
+//        NSString *dicQuestionID = dicUaerAns[@"QuestionID"];
+//        if ([QuestionID isEqualToString:dicQuestionID]) {
+//            [_arrayUserAnswer removeObject:dicUaerAns];
+//            //防止数组被枚举出错
+//            break;
+//        }
+//    }
+//    
+//    [_arrayUserAnswer addObject:dicUserAnswer];
+//    
+//    NSLog(@"%@",_arrayUserAnswer);
+//}
 //////////////////////////////////
 //////////////////////////////////
 ///？？？？？？？交卷测试？？？？？？
@@ -444,7 +479,7 @@
         if (codeId == 1) {
             NSDictionary *dicDatas = dic[@"datas"];
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
-//            NSString *rId = dicDatas[@"rid"];
+            //            NSString *rId = dicDatas[@"rid"];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"提交失败"];
@@ -461,11 +496,11 @@
     // Dispose of any resources that can be recreated.
 }
 
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-     
- }
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+}
 
 @end

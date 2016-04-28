@@ -9,10 +9,18 @@
 #import <UIKit/UIKit.h>
 @protocol TopicCellDelegateTest<NSObject>
 //传递选项参数，用于同步答题卡
-- (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary*)dicUserAnswer;
+/**
+ indexTpoic 需要刷新的答题卡索引
+ dicUserAnswer 试题id，用户答案等信息
+ isResfresh 是否刷新答题卡
+ */
+- (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary*)dicUserAnswer isRefresh:(BOOL)isResfresh;
 - (void)imageSaveQtype1Test:(UIImage *)image;
+- (void)saveUserAnswerUseDictonary:(NSDictionary *)dic;
 @end
 @interface paterTopicQtype1and2TableViewCell : UITableViewCell
+//已经选过的选项
+@property (nonatomic,strong) NSMutableDictionary *dicSelectDone;
 @property (weak, nonatomic) IBOutlet UILabel *labTopicNumber;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labNumberWidth;
 @property (weak, nonatomic) IBOutlet UILabel *labTopicType;
