@@ -36,7 +36,6 @@
     _selectContentQtype2 = @"";
     _webViewTitle.delegate = self;
     _webVIewSelect.delegate = self;
-    _dicSelectDone = [NSMutableDictionary dictionary];
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     if (index == 9) {
@@ -248,14 +247,47 @@
             allowRet = btnSelectOriginy+30 +20;
         }
     }
-    
+    //最后分别添加笔记和纠错按钮
+    //添加笔记按钮
+    UIButton *buttonNotes = [UIButton buttonWithType:UIButtonTypeCustom];
+    buttonNotes.frame = CGRectMake(Scr_Width - 70, allowRet, 60, 25);
+    buttonNotes.backgroundColor = ColorWithRGB(200, 200, 200);
+    buttonNotes.layer.masksToBounds = YES;
+    buttonNotes.layer.cornerRadius = 2;
+    [buttonNotes setTitle:@"笔记" forState:UIControlStateNormal];
+    buttonNotes.titleLabel.font = [UIFont systemFontOfSize:15.0];
+    [buttonNotes setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [buttonNotes addTarget:self action:@selector(buttonNotesClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:buttonNotes];
+    //添加纠错按钮
+    UIButton *buttonError = [UIButton buttonWithType:UIButtonTypeCustom];
+    buttonError.frame = CGRectMake(10, allowRet, 60, 25);
+    buttonError.backgroundColor = ColorWithRGB(200, 200, 200);
+    buttonError.layer.masksToBounds = YES;
+    buttonError.layer.cornerRadius = 2;
+    [buttonError setTitle:@"纠错" forState:UIControlStateNormal];
+    buttonError.titleLabel.font = [UIFont systemFontOfSize:15.0];
+    [buttonError setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [buttonError addTarget:self action:@selector(buttonErrorClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:buttonError];
+    allowRet = allowRet + 40;
     self.backgroundColor = [UIColor clearColor];
     _dicTopic = dic;
     return allowRet;
 }
-//????????????????????????????????
-//????????????????????????????????
 
+//????????????????????????????????
+//????????????????????????????????
+// 笔记按钮
+- (void)buttonNotesClick:(UIButton *)sender{
+    NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+    [self.delegateCellClick saveNotesOrErrorClick:questionId executeParameter:1];
+}
+// 纠错按钮
+- (void)buttonErrorClick:(UIButton *)sender{
+    NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+    [self.delegateCellClick saveNotesOrErrorClick:questionId executeParameter:0];
+}
 //多项选择题的提交按钮
 - (void)buttonSubmit:(UIButton *)sender{
     //    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
@@ -299,7 +331,10 @@
         //        [_arraySelectDone removeAllObjects];
         //        [_arraySelectDone addObject:btnString];
         [_dicSelectDone setValue:btnString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
-        [self.delegateCellClick saveUserAnswerUseDictonary:_dicSelectDone];
+        NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
+        NSLog(@"%@",dicTest);
+        [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
+        
         //////////////////////////////////////
         //判断是否是一题多问下面的选择题
         NSInteger topicParentId = [_dicTopic[@"parentId"] integerValue];

@@ -8,11 +8,11 @@
 //
 
 #import "PatersTopicViewController.h"
-#import "NotesOrErrorTableViewCell.h"
 #import "PaterTopicQtype6TableViewCell.h"
 #import "paterTopicQtype5TableViewCell.h"
 #import "paterTopicQtype1and2TableViewCell.h"
-@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,ErrorDelegate,ErrorViewDelegate,TopicCellDelegateTest>
+
+@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegateTest>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
 //需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellHeight;
@@ -24,18 +24,20 @@
 @property (nonatomic,strong) NSMutableDictionary *dicError;
 //所有错误类别数组
 @property (nonatomic,strong) NSArray *arrayErrorType;
+//一题多问下面的小题数组
 @property (nonatomic,strong) NSArray *arraySubQuestion;
+//当前题的题型
 @property (nonatomic,assign) NSInteger qType;
 //判断是否是第一次加载
 @property (nonatomic,assign) BOOL isFirstLoad;
-@property (nonatomic,assign) BOOL isNotes;
-@property (nonatomic,assign) BOOL isError;
-@property (nonatomic,strong) NSString *stringNotes;
-@property (nonatomic,strong) NSString *stringError;
 //添加朦层
 @property (nonatomic,strong) MZView *viewMz;
 //暂时保存用户答案，cell复用
-@property (nonatomic,strong) NSDictionary *dicUserAnswer;
+@property (nonatomic,strong) NSMutableDictionary *dicUserAnswer;
+//笔记
+@property (nonatomic,strong) NotesView *notesView;
+//纠错
+@property (nonatomic,strong) ErrorView *errorView;
 @end
 
 @implementation PatersTopicViewController
@@ -44,8 +46,6 @@
     [super viewDidLoad];
     _isFirstLoad = YES;
     // Do any additional setup after loading the view.
-    _stringError = @"";
-    _stringNotes = @"";
     _tableViewPater.tableFooterView = [UIView new];
     _tableViewPater.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableViewPater.backgroundColor = [UIColor whiteColor];
@@ -59,43 +59,25 @@
     NSLog(@"fsfsfaf");
     _cellHeight = 130;
     _cellSubHeight = 50;
+    _dicUserAnswer = [NSMutableDictionary dictionary];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     //第一段
-    if (section == 0) {
+//    if (section == 0) {
         //如果是一题多问
         if (_qType == 6) {
             return _arraySubQuestion.count + 1;
         }
         return 1;
-    }
-    else if (section == 1){
-        if (_isNotes) {
-            return 1;
-            
-        }
-        return 0;
-    }
-    else{
-        if (_isError) {
-            return 1;
-        }
-        return 0;
-    }
+//    }
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    if (_qType == 6) {
-        return 1;
-    }
-    else{
-        return 3;
-    }
-    
+    return 1;
 }
 //section头的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
+//    if (section == 0) {
         //topicTitle 通过参数传递
         if (_topicTitle!=nil) {
             UILabel *lab = [[UILabel alloc]init];
@@ -108,18 +90,14 @@
             return _cellHeardHeight+20;
         }
         return 1;
-    }
-    else{
-        return 30;
-    }
-    
+//    }
+
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 1;
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
-    if (section == 0) {
         if (_topicTitle!=nil) {
             UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _cellHeardHeight+20)];
             viewTitle.backgroundColor = ColorWithRGB(210, 210, 205);
@@ -132,56 +110,56 @@
             return viewTitle;
         }
         return nil;
-    }
-    else{
-        //  arrow_right   arrow_down arrow_up
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 30)];
-        view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        view.layer.masksToBounds = YES;
-        view.layer.cornerRadius = 5;
-        UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake(Scr_Width-30, 10, 16, 8)];
-        if (section == 1) {
-            if (_isNotes) {
-                imageV.image = [UIImage imageNamed:@"arrow_up"];
-            }
-            else{
-                imageV.image = [UIImage imageNamed:@"arrow_down"];
-            }
-        }
-        else
-        {
-            if (_isError) {
-                imageV.image = [UIImage imageNamed:@"arrow_up"];
-            }
-            else{
-                imageV.image = [UIImage imageNamed:@"arrow_down"];
-            }
-        }
-        
-        [view addSubview:imageV];
-        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(0, 0, Scr_Width, 30);
-        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        button.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
-        button.backgroundColor = [UIColor clearColor];
-        button.titleLabel.font = [UIFont systemFontOfSize:13.0];
-        if (section == 1) {
-            [button setTitle:@"笔记 >>" forState:UIControlStateNormal];
-        }
-        else{
-            [button setTitle:@"纠错 >>" forState:UIControlStateNormal];
-        }
-        button.tag = 100+section;
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(sectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:button];
-        return view;
-    }
+//    }
+//    else{
+//        //  arrow_right   arrow_down arrow_up
+//        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 30)];
+//        view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+//        view.layer.masksToBounds = YES;
+//        view.layer.cornerRadius = 5;
+//        UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake(Scr_Width-30, 10, 16, 8)];
+//        if (section == 1) {
+//            if (_isNotes) {
+//                imageV.image = [UIImage imageNamed:@"arrow_up"];
+//            }
+//            else{
+//                imageV.image = [UIImage imageNamed:@"arrow_down"];
+//            }
+//        }
+//        else
+//        {
+//            if (_isError) {
+//                imageV.image = [UIImage imageNamed:@"arrow_up"];
+//            }
+//            else{
+//                imageV.image = [UIImage imageNamed:@"arrow_down"];
+//            }
+//        }
+//        
+//        [view addSubview:imageV];
+//        
+//        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//        button.frame = CGRectMake(0, 0, Scr_Width, 30);
+//        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+//        button.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
+//        button.backgroundColor = [UIColor clearColor];
+//        button.titleLabel.font = [UIFont systemFontOfSize:13.0];
+//        if (section == 1) {
+//            [button setTitle:@"笔记 >>" forState:UIControlStateNormal];
+//        }
+//        else{
+//            [button setTitle:@"纠错 >>" forState:UIControlStateNormal];
+//        }
+//        button.tag = 100+section;
+//        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//        [button addTarget:self action:@selector(sectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//        [view addSubview:button];
+//        return view;
+//        return nil;
+//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
         if (_qType == 6) {
             if (indexPath.row == 0) {
                 return _cellHeight;
@@ -193,15 +171,10 @@
         else{
             return _cellHeight;
         }
-    }
-    else{
-        return 120;
-    }
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSInteger topicQuestionId = [_dicTopic[@"questionId"] integerValue];
-    if (indexPath.section == 0) {
         //先判断题的类型
         //选择题
         if (_qType == 1 | _qType == 2) {
@@ -244,7 +217,7 @@
                     cellSelectTopic.topicType = qtypeSubQues;
                     cellSelectTopic.indexTopic = indexPath.row;
                     cellSelectTopic.delegateCellClick = self;
-                    cellSelectTopic.dicSelectDone = [NSMutableDictionary dictionaryWithDictionary: _dicUserAnswer];
+                    cellSelectTopic.dicSelectDone = _dicUserAnswer;
                     cellSelectTopic.selectionStyle = UITableViewCellSelectionStyleNone;
                     _cellSubHeight = [cellSelectTopic setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
                     return cellSelectTopic;
@@ -257,86 +230,106 @@
                 }
             }
         }
-        return nil;
-        
-    }
-    else{
-        if (indexPath.section == 1) {
-            NotesOrErrorTableViewCell *cell1 = [tableView dequeueReusableCellWithIdentifier:@"cellNotes" forIndexPath:indexPath];
-            UITextView *textView = [cell1.contentView viewWithTag:10];
-            textView.text = _stringNotes;
-            cell1.questionId = topicQuestionId;
-            cell1.delegateError = self;
-            cell1.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell1.isNoteses = 1;
-            return cell1;
-        }
-        else{
-            NotesOrErrorTableViewCell *cell2 = [tableView dequeueReusableCellWithIdentifier:@"cellNotes" forIndexPath:indexPath];
-            UITextView *textView = [cell2.contentView viewWithTag:10];
-            textView.text = _stringError;
-            cell2.questionId = topicQuestionId;
-            cell2.isNoteses = 0;
-            cell2.delegateError = self;
-            cell2.selectionStyle = UITableViewCellSelectionStyleNone;
-            return cell2;
-        }
-        
-    }
+    return nil;
 }
-//点击section笔记或者纠错触发
-- (void)sectionBtnClick:(UIButton*)sender{
-    NSInteger sectionIndex = sender.tag - 100;
-    if (sectionIndex == 1) {
-        _isNotes = !_isNotes;
-    }
-    else{
-        _isError = !_isError;
-    }
-    [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-}
+
+////点击section笔记或者纠错触发
+//- (void)sectionBtnClick:(UIButton*)sender{
+//    NSInteger sectionIndex = sender.tag - 100;
+//    if (sectionIndex == 1) {
+//        _isNotes = !_isNotes;
+//    }
+//    else{
+//        _isError = !_isError;
+//    }
+//    [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+//}
 //提交纠错回调
-- (void)submitError:(NSDictionary *)dicError isNotes:(NSInteger)isNotes{
-    if (!_viewMz) {
-        _viewMz = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-    }
-    //笔记
-    if (isNotes == 1) {
-        _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
-        _stringNotes = _dicError[@"note"];
-        [self saveNotesRequest];
-    }
-    //纠错
-    else{
-        [self.view addSubview:_viewMz];
-        _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
-        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-        NSArray *array = [tyUser objectForKey:tyUserErrorTopic];
-        ErrorTopicView *viewError = [[ErrorTopicView alloc]initWithFrame:CGRectMake(50, Scr_Height+(Scr_Height - (40*(array.count+2)+20))/2,Scr_Width - 100, 40*(array.count+2)+20) errorTypeArray:array];
-        viewError.delegateViewError  = self;
-        //    [self.view addSubview:viewError];
-        [self.view addSubview:viewError];
-        [UIView animateWithDuration:0.2 animations:^{
-            CGRect rect = viewError.frame;
-            rect.origin.y =(Scr_Height - (40*(array.count+2)+20) - 45)/2;
-            viewError.frame = rect;
-        }];
-        
-    }
-}
+//- (void)submitError:(NSDictionary *)dicError isNotes:(NSInteger)isNotes{
+//    if (!_viewMz) {
+//        _viewMz = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+//    }
+//    //笔记
+//    if (isNotes == 1) {
+//        _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
+//        _stringNotes = _dicError[@"note"];
+//        [self saveNotesRequest];
+//    }
+//    //纠错
+//    else{
+//        [self.view addSubview:_viewMz];
+//        _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
+//        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+//        NSArray *array = [tyUser objectForKey:tyUserErrorTopic];
+//        ErrorTopicView *viewError = [[ErrorTopicView alloc]initWithFrame:CGRectMake(50, Scr_Height+(Scr_Height - (40*(array.count+2)+20))/2,Scr_Width - 100, 40*(array.count+2)+20) errorTypeArray:array];
+//        viewError.delegateViewError  = self;
+//        //    [self.view addSubview:viewError];
+//        [self.view addSubview:viewError];
+//        [UIView animateWithDuration:0.2 animations:^{
+//            CGRect rect = viewError.frame;
+//            rect.origin.y =(Scr_Height - (40*(array.count+2)+20) - 45)/2;
+//            viewError.frame = rect;
+//        }];
+//        
+//    }
+//}
 //点击弹出纠错类型回调
-- (void)viewCellClick:(NSString *)selectType{
-    if (selectType != nil) {
-        //提交
-        [_dicError setObject:selectType forKey:@"Levels"];
-        _stringError = _dicError[@"Content"];
-        [self submitErrorRequest];
+//- (void)viewCellClick:(NSString *)selectType{
+//    if (selectType != nil) {
+//        //提交
+//        [_dicError setObject:selectType forKey:@"Levels"];
+//        _stringError = _dicError[@"Content"];
+//        [self submitErrorRequest];
+//    }
+//    else{
+//        //取消提交
+//        [_viewMz removeFromSuperview];
+//    }
+//}
+
+/**
+ 点击笔记或纠错回调
+ */
+- (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId{
+    [_errorView removeFromSuperview];
+    [_notesView removeFromSuperview];
+    if (parameterId == 0) {
+        _errorView = nil;
+        if (!_errorView) {
+            _errorView = [[[NSBundle mainBundle] loadNibNamed:@"ErrorView" owner:self options:nil] lastObject];
+        }
+        _errorView.layer.masksToBounds = YES;
+        _errorView.layer.cornerRadius = 5;
+        _errorView.questionId = questionId;
+        _errorView.frame = CGRectMake(30, -200, Scr_Width - 60, 200);
+        [self.view addSubview:_errorView];
+        [UIView animateWithDuration:0.2 animations:^{
+            CGRect rect = _errorView.frame;
+            rect.origin.y = (Scr_Height-200)/2 - 30;
+            _errorView.frame = rect;
+        }];
+
     }
     else{
-        //取消提交
-        [_viewMz removeFromSuperview];
+        NSLog(@"%ld == %ld",questionId,parameterId);
+        _notesView = nil;
+        if (!_notesView) {
+            _notesView = [[[NSBundle mainBundle] loadNibNamed:@"NotesView" owner:self options:nil]lastObject];
+        }
+        _notesView.layer.masksToBounds = YES;
+        _notesView.layer.cornerRadius = 5;
+        _notesView.questionId = questionId;
+        _notesView.frame = CGRectMake(30, -200, Scr_Width - 60, 200);
+        [self.view addSubview:_notesView];
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            CGRect rect = _notesView.frame;
+            rect.origin.y = (Scr_Height-200)/2 - 30;
+            _notesView.frame = rect;
+        }];
     }
 }
+
 /**
  提交纠错，请求服务器
  */
@@ -351,7 +344,6 @@
         if (codeId == 1) {
             NSDictionary *dicData = dic[@"datas"];
             [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
-            _isError = NO;
             [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationFade];
         }
         else{
@@ -375,7 +367,6 @@
         if (codeId == 1) {
             NSDictionary *dicData = dic[@"datas"];
             [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
-            _isNotes = NO;
             [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
         }
         else{
@@ -414,9 +405,12 @@
 }
 //暂时保存用户答案，用于cell复用使用
 - (void)saveUserAnswerUseDictonary:(NSDictionary *)dic{
-    _dicUserAnswer = dic;
-    
+    [_dicUserAnswer setValue:dic.allValues.firstObject forKey:dic.allKeys.firstObject];
     NSLog(@"%@",_dicUserAnswer);
+    
+    NotesView *text = [[[NSBundle mainBundle] loadNibNamed:@"NotesView" owner:self options:nil]lastObject];
+    text.frame = CGRectMake(0, 100, Scr_Width, 200);
+    [self.view addSubview:text];
 }
 //self.cell上的点击选项按钮（A、B、C、D..）代理回调
 - (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer isRefresh:(BOOL)isResfresh{

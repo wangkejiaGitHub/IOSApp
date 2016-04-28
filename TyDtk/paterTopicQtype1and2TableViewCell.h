@@ -17,10 +17,11 @@
 - (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary*)dicUserAnswer isRefresh:(BOOL)isResfresh;
 - (void)imageSaveQtype1Test:(UIImage *)image;
 - (void)saveUserAnswerUseDictonary:(NSDictionary *)dic;
+- (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
 @end
 @interface paterTopicQtype1and2TableViewCell : UITableViewCell
 //已经选过的选项
-@property (nonatomic,strong) NSMutableDictionary *dicSelectDone;
+@property (nonatomic,strong) NSDictionary *dicSelectDone;
 @property (weak, nonatomic) IBOutlet UILabel *labTopicNumber;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labNumberWidth;
 @property (weak, nonatomic) IBOutlet UILabel *labTopicType;
