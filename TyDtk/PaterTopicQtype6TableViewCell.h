@@ -16,6 +16,9 @@
 
 @property (weak, nonatomic) IBOutlet UIWebView *webViewTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *webTitleHeight;
-@property (nonatomic,assign) id <TopicCellDelegateTest> delegateTopic;
+@property (nonatomic,assign) NSInteger indexTopic;
+@property (nonatomic,strong) NSDictionary *dicTopic;
+@property (nonatomic,assign) BOOL isFirstLoad;
+@property (nonatomic,assign) id <TopicCellDelegateTest> delegateCellClick;
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @end

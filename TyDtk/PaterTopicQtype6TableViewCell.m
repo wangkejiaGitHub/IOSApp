@@ -17,6 +17,8 @@
 @property (nonatomic,strong) UIImageView *selectTapView;
 //??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
+////
+
 @end
 @implementation PaterTopicQtype6TableViewCell
 
@@ -145,8 +147,20 @@
     if (dicImg.allKeys.count>0) {
         for (NSString *keyImg in dicImg.allKeys) {
             NSString *imagUrl = dicImg[keyImg];
-            NSData *dataImg = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]]];
-            UIImage *imageTop = [UIImage imageWithData:dataImg];
+            __block UIImage *imageTop = [[UIImage alloc]init];
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            
+            [manager downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                
+                NSLog(@"显示当前进度");
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                imageTop = image;
+                NSLog(@"下载完成");
+                
+            }];
+            
+//            NSData *dataImg = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]]];
+//            UIImage *imageTop = [UIImage imageWithData:dataImg];
             CGSize sizeImg = imageTop.size;
             
             if (sizeImg.width>Scr_Width - 30) {
@@ -154,6 +168,11 @@
                 sizeImg.width = Scr_Width-30;
                 sizeImg.height = (Scr_Width-30)*wHBL;
             }
+//            dispatch_sync(dispatch_get_main_queue(), ^{
+//                //Update UI in UI thread here
+//                
+//                
+//            });
             UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
             imgViewTop.image = imageTop;
             
@@ -168,8 +187,12 @@
         }
         viewImage.frame = CGRectMake(15, allowRet - 10, Scr_Width - 30, viewImgsH);
         [self.contentView addSubview:viewImage];
-        
+        UIView *viewLi = (UIView *)[self.contentView viewWithTag:101];
+        if (viewLi) {
+            [viewLi removeFromSuperview];
+        }
         UIView *viewLineImgDown = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet+viewImgsH+10, Scr_Width-20, 1)];
+        viewLineImgDown.tag = 101;
         viewLineImgDown.backgroundColor = [UIColor lightGrayColor];
         [self.contentView addSubview:viewLineImgDown];
         //？？？？？随时记录要返回的cell的高度
@@ -179,8 +202,43 @@
     else{
         viewImage = nil;
     }
+    //添加保存试题按钮，主要用同步答题卡
+    UIButton *buttonSave = (UIButton *)[self.contentView viewWithTag:102];
+    if (buttonSave) {
+        [buttonSave removeFromSuperview];
+    }
+    UIButton *buttonSaveAnswer = [UIButton buttonWithType:UIButtonTypeCustom];
+    buttonSaveAnswer.tag = 102;
+    buttonSaveAnswer.frame = CGRectMake(Scr_Width-170, allowRet, 160, 25);
+    [buttonSaveAnswer setTitle:@"保存本题答案并跳转下一题" forState:UIControlStateNormal];
+    buttonSaveAnswer.titleLabel.font = [UIFont systemFontOfSize:13.0];
+    buttonSaveAnswer.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [buttonSaveAnswer setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+    buttonSaveAnswer.layer.masksToBounds = YES;
+    buttonSaveAnswer.layer.cornerRadius = 3;
+    [buttonSaveAnswer addTarget:self action:@selector(buttonSubmitClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:buttonSaveAnswer];
+    allowRet = allowRet + 35;
     //？？？？？随时记录要返回的cell的高度
+    if (_isFirstLoad) {
+        [self.delegateCellClick IsFirstload:NO];
+    }
     return allowRet;
+}
+//保存答案按钮
+- (void)buttonSubmitClick:(UIButton *)button{
+//    //试题Id
+//    NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
+//    //试题类型
+//    NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
+//    //正确答案
+//    NSString *answer = _dicTopic[@"answer"];
+//    
+//    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":_selectContentQtype2,@"TrueAnswer":answer,@"Score":@"0"};
+    
+    //    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer];
+    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:nil isRefresh:YES];
+
 }
 //??????????????????????????????????????????????????
 -(void)showZoomImageView:(UITapGestureRecognizer *)tap
@@ -261,7 +319,7 @@
 - (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
     if (longTap.state == UIGestureRecognizerStateBegan) {
         [_scrollView removeFromSuperview];
-        [self.delegateTopic imageSaveQtype1Test:_selectTapView.image];
+        [self.delegateCellClick imageSaveQtype1Test:_selectTapView.image];
     }
 }
 //返回可缩放的视图

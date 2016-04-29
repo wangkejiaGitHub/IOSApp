@@ -18,6 +18,7 @@
 - (void)imageSaveQtype1Test:(UIImage *)image;
 - (void)saveUserAnswerUseDictonary:(NSDictionary *)dic;
 - (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
+- (void)IsFirstload:(BOOL)isFirstLoad;
 @end
 @interface paterTopicQtype1and2TableViewCell : UITableViewCell
 //已经选过的选项

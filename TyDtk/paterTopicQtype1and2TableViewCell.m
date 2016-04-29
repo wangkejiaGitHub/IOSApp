@@ -250,7 +250,7 @@
     //最后分别添加笔记和纠错按钮
     //添加笔记按钮
     UIButton *buttonNotes = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonNotes.frame = CGRectMake(Scr_Width - 70, allowRet - 5, 60, 23);
+    buttonNotes.frame = CGRectMake(Scr_Width - 75, allowRet + 5, 60, 23);
     buttonNotes.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonNotes.layer.masksToBounds = YES;
     buttonNotes.layer.cornerRadius = 2;
@@ -262,7 +262,7 @@
     [self.contentView addSubview:buttonNotes];
     //添加纠错按钮
     UIButton *buttonError = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonError.frame = CGRectMake(10, allowRet - 5, 60, 23);
+    buttonError.frame = CGRectMake(15, allowRet + 5, 60, 23);
     buttonError.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonError.layer.masksToBounds = YES;
     buttonError.layer.cornerRadius = 2;

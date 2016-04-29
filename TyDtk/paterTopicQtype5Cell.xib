@@ -58,22 +58,48 @@
                             <constraint firstAttribute="height" constant="10" id="LLN-G4-6rV"/>
                         </constraints>
                     </webView>
-                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bCj-nF-06A">
-                        <rect key="frame" x="8" y="146" width="367" height="1"/>
-                        <color key="backgroundColor" red="0.82416421250000005" green="0.82416421250000005" blue="0.82416421250000005" alpha="1" colorSpace="calibratedRGB"/>
-                    </view>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="82r-5j-hn6">
-                        <rect key="frame" x="308" y="109" width="55" height="30"/>
+                    <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMo-13-jlr">
+                        <rect key="frame" x="332" y="70" width="50" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="23" id="4Nf-f5-u5Y"/>
+                            <constraint firstAttribute="width" constant="50" id="ivY-Zt-ws7"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="不会做"/>
+                        <state key="normal" title="会作答">
+                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="buttonDoTopicClick:" destination="EeF-ew-NsC" eventType="touchUpInside" id="V6I-Zm-42S"/>
+                        </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfI-NJ-7zt">
-                        <rect key="frame" x="312" y="71" width="46" height="30"/>
+                    <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9FN-G3-tHX">
+                        <rect key="frame" x="322" y="103" width="60" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="Daw-tI-i4x"/>
+                            <constraint firstAttribute="height" constant="23" id="fo9-Hx-2cL"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="能作答"/>
+                        <state key="normal" title="不会作答">
+                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="buttonDoTopicClick:" destination="EeF-ew-NsC" eventType="touchUpInside" id="SBN-ey-Nj2"/>
+                        </connections>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本题为作答确认题，如果您会作答，请选择&lt;会作答&gt;,不会作答请选择&lt;不会作答&gt;" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcN-WN-JKV">
+                        <rect key="frame" x="15" y="70" width="270" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="270" id="giZ-Yv-v2g"/>
+                            <constraint firstAttribute="height" constant="40" id="veh-1l-7Ct"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="mcN-WN-JKV" firstAttribute="top" secondItem="6cj-JF-kPS" secondAttribute="bottom" constant="15" id="6KB-3a-Xhl"/>
+                    <constraint firstItem="9FN-G3-tHX" firstAttribute="trailing" secondItem="JMo-13-jlr" secondAttribute="trailing" id="7p9-8D-9nw"/>
                     <constraint firstItem="rWP-pa-utE" firstAttribute="top" secondItem="u3v-SX-Oqf" secondAttribute="top" constant="15" id="BUz-on-aSR"/>
                     <constraint firstItem="m2k-V3-G9T" firstAttribute="leading" secondItem="rWP-pa-utE" secondAttribute="trailing" constant="2" id="DpG-JB-QZK"/>
                     <constraint firstItem="6cj-JF-kPS" firstAttribute="top" secondItem="m2k-V3-G9T" secondAttribute="bottom" constant="10" id="Fad-4Z-wLR"/>
@@ -81,13 +107,19 @@
                     <constraint firstItem="m2k-V3-G9T" firstAttribute="bottom" secondItem="rWP-pa-utE" secondAttribute="bottom" id="KnN-wW-Mek"/>
                     <constraint firstItem="6cj-JF-kPS" firstAttribute="leading" secondItem="u3v-SX-Oqf" secondAttribute="leading" constant="10" id="R4m-07-B6M"/>
                     <constraint firstAttribute="trailing" secondItem="6cj-JF-kPS" secondAttribute="trailing" constant="10" id="Sv8-Fy-vqV"/>
+                    <constraint firstAttribute="trailing" secondItem="JMo-13-jlr" secondAttribute="trailing" constant="15" id="WBM-oc-WKH"/>
                     <constraint firstAttribute="trailing" secondItem="aTP-z9-VQh" secondAttribute="trailing" constant="10" id="fCF-Je-ctf"/>
                     <constraint firstItem="aTP-z9-VQh" firstAttribute="top" secondItem="m2k-V3-G9T" secondAttribute="top" id="fD5-E9-FTF"/>
+                    <constraint firstItem="9FN-G3-tHX" firstAttribute="top" secondItem="JMo-13-jlr" secondAttribute="bottom" constant="10" id="fnN-Mj-Hrv"/>
+                    <constraint firstItem="JMo-13-jlr" firstAttribute="top" secondItem="6cj-JF-kPS" secondAttribute="bottom" constant="15" id="hho-Lf-ELa"/>
                     <constraint firstItem="aTP-z9-VQh" firstAttribute="leading" secondItem="LeC-LR-57k" secondAttribute="trailing" constant="1" id="qvv-6U-vF0"/>
                     <constraint firstItem="LeC-LR-57k" firstAttribute="top" secondItem="m2k-V3-G9T" secondAttribute="top" id="uwK-wi-c6P"/>
+                    <constraint firstItem="mcN-WN-JKV" firstAttribute="leading" secondItem="u3v-SX-Oqf" secondAttribute="leading" constant="15" id="xMI-Hh-hli"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="buttonCanDo" destination="JMo-13-jlr" id="Ief-Ov-lpM"/>
+                <outlet property="buttonCanDonot" destination="9FN-G3-tHX" id="VYS-b1-pZ5"/>
                 <outlet property="buttonCollect" destination="aTP-z9-VQh" id="ZZg-3A-u7C"/>
                 <outlet property="imageCollect" destination="LeC-LR-57k" id="ykp-dl-Mkf"/>
                 <outlet property="labNumber" destination="rWP-pa-utE" id="hvC-bq-Rlb"/>

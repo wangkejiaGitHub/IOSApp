@@ -182,6 +182,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置界面的按钮显示 根据自己需求设置
                 [_buttonGetYzm setTitle:[NSString stringWithFormat:@"%@秒后重新获取",strTime] forState:UIControlStateNormal];
+//                _buttonGetYzm.backgroundColor = [UIColor groupTableViewBackgroundColor];
                 _buttonGetYzm.userInteractionEnabled = NO;
             });
             timeout--;

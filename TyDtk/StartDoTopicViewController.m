@@ -60,8 +60,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 - (void)viewWillDisappear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter] removeObserver:UIKeyboardWillShowNotification];
-    [[NSNotificationCenter defaultCenter] removeObserver:UIKeyboardWillHideNotification];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillShowNotification];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillHideNotification];
 }
 - (void)keyboardShow:(NSNotification *)note{
     NSDictionary *userInfo = [note userInfo];
@@ -74,7 +74,7 @@
 //    }
     if (keyBoardHeight != 0) {
         CGRect rect = self.view.frame;;
-        if (Scr_Width == 320) {
+        if (Scr_Width <= 320) {
             rect.origin.y = rect.origin.y - 100;
         }
         else if (Scr_Width == 375){
@@ -350,7 +350,7 @@
     [self topicCardHiden];
 }
 /**
- ////刷新设置答题信息，用于显示做过的题和未做题的信息 并保存用户试题答案信息
+ 刷新设置答题信息，用于显示做过的题和未做题的信息 并保存用户试题答案信息
  */
 - (void)refreshTopicCard:(NSInteger)topicIndex selectDone:(NSDictionary *)dicUserAnswer isRefresh:(BOOL)isRefresh{
     NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
@@ -380,40 +380,9 @@
         
         [_arrayUserAnswer addObject:dicUserAnswer];
     }
-//    
-//    NSLog(@"%@",dicUserAnswer);
-//    NSLog(@"已做了 %ld 道题",_arrayUserAnswer.count);
+    NSLog(@"已做了 %ld 道题",_arrayUserAnswer.count);
 }
-////刷新设置答题信息，用于显示做过的题和未做题的信息 并保存用户试题答案信息
-//- (void)refreshTopicCard:(NSInteger)topicIndex selectDone:(NSDictionary *)dicUserAnswer{
-//    NSString *indexString = [NSString stringWithFormat:@"%ld",topicIndex];
-//    if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
-//        [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
-//    }
-//    
-//    if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
-//        _lastButton.userInteractionEnabled = NO;
-//        _nextButton.userInteractionEnabled =NO;
-//        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
-//    }
-//    
-//    [_collectionViewTopicCard reloadData];
-//    
-//    NSLog(@"%@",dicUserAnswer);
-//    NSString *QuestionID = dicUserAnswer[@"QuestionID"];
-//    for (NSDictionary *dicUaerAns in _arrayUserAnswer) {
-//        NSString *dicQuestionID = dicUaerAns[@"QuestionID"];
-//        if ([QuestionID isEqualToString:dicQuestionID]) {
-//            [_arrayUserAnswer removeObject:dicUaerAns];
-//            //防止数组被枚举出错
-//            break;
-//        }
-//    }
-//    
-//    [_arrayUserAnswer addObject:dicUserAnswer];
-//    
-//    NSLog(@"%@",_arrayUserAnswer);
-//}
+
 //////////////////////////////////
 //////////////////////////////////
 ///？？？？？？？交卷测试？？？？？？
@@ -431,40 +400,29 @@
         topicCount = topicCount + array.count;
     }
     //aleat View 提示框
-    UIAlertController *alertSubmit;
+    LXAlertView *alertSubmit;
     //题未做完提示
     if (topicCount != _arrayUserAnswer.count) {
         NSInteger sTopic = topicCount - _arrayUserAnswer.count;
-        NSString *alertMessage = [NSString stringWithFormat:@"您还有%ld道题没有做，确认交卷吗?",sTopic];
-        NSLog(@"%ld",sTopic);
-        
-        alertSubmit = [UIAlertController alertControllerWithTitle:@"温馨提示" message:alertMessage preferredStyle:UIAlertControllerStyleAlert];
-        //交卷
-        UIAlertAction *acSubmit = [UIAlertAction actionWithTitle:@"交卷" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSLog(@"%@",_dicPater);
-            [self submitPater];
+        NSString *alertMessage = [NSString stringWithFormat:@"您还有【%ld】道题没有做，确认交卷吗?",sTopic];
+    
+        alertSubmit = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:alertMessage cancelBtnTitle:@"交卷" otherBtnTitle:@"继续做题" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 0) {
+                [self submitPater];
+            }
         }];
-        [alertSubmit addAction:acSubmit];
-        //继续做题(不错任何操作)
-        UIAlertAction *acContinue = [UIAlertAction actionWithTitle:@"继续做题" style:UIAlertActionStyleDestructive handler:nil];
-        [alertSubmit addAction:acContinue];
-        
-        [self presentViewController:alertSubmit animated:YES completion:nil];
     }
     //交卷提示
     else{
-        alertSubmit = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"确认交卷吗?" preferredStyle:UIAlertControllerStyleAlert];
-        //交卷
-        UIAlertAction *acSubmit = [UIAlertAction actionWithTitle:@"交卷" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
+        alertSubmit = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"确认提交试卷吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"交卷" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 1) {
+                [self submitPater];
+            }
         }];
-        [alertSubmit addAction:acSubmit];
-        //取消(不做任何操作)
-        UIAlertAction *acCen = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alertSubmit addAction:acCen];
-        
-        [self presentViewController:alertSubmit animated:YES completion:nil];
     }
+    
+    alertSubmit.animationStyle = LXASAnimationTopShake;
+    [alertSubmit showLXAlertView];
 }
 /**
  交卷

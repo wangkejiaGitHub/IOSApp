@@ -47,7 +47,7 @@
     _isFirstLoad = YES;
     // Do any additional setup after loading the view.
     _tableViewPater.tableFooterView = [UIView new];
-    _tableViewPater.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    _tableViewPater.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableViewPater.backgroundColor = [UIColor whiteColor];
     _qType = [_dicTopic[@"qtype"] integerValue];
     if (_qType == 6) {
@@ -152,7 +152,9 @@
             //第一个cell用于显示试题题目和相关图片
             if (indexPath.row == 0) {
                 PaterTopicQtype6TableViewCell *cellSubQu = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype6Cell" owner:self options:nil]lastObject];
-                cellSubQu.delegateTopic = self;
+                cellSubQu.delegateCellClick = self;
+                cellSubQu.indexTopic = _topicIndex;
+                cellSubQu.isFirstLoad = _isFirstLoad;
                 cellSubQu.selectionStyle = UITableViewCellSelectionStyleNone;
                 _cellHeight = [cellSubQu setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
                 return cellSubQu;
@@ -178,6 +180,9 @@
                 }
                 else{
                     paterTopicQtype5TableViewCell *cellQtype5 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype5Cell" owner:self options:nil]lastObject];
+                    cellQtype5.delegateCellClick = self;
+                    cellQtype5.dicSelectDone = _dicUserAnswer;
+                    cellQtype5.indexTopic = indexPath.row;
                     cellQtype5.selectionStyle = UITableViewCellSelectionStyleNone;
                     _cellSubHeight = [cellQtype5 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
                     return cellQtype5;
@@ -210,7 +215,6 @@
 
     }
     else{
-        NSLog(@"%ld == %ld",questionId,parameterId);
         _notesView = nil;
         if (!_notesView) {
             _notesView = [[[NSBundle mainBundle] loadNibNamed:@"NotesView" owner:self options:nil]lastObject];
@@ -229,53 +233,53 @@
     }
 }
 
-/**
- 提交纠错，请求服务器
- */
-- (void)submitErrorRequest{
-    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Correct/Submit?access_token=%@",systemHttps,accessToken];
-    [HttpTools postHttpRequestURL:urlString RequestPram:_dicError RequestSuccess:^(id respoes) {
-        NSDictionary *dic = (NSDictionary *)respoes;
-        
-        NSInteger codeId = [dic[@"code"] integerValue];
-        if (codeId == 1) {
-            NSDictionary *dicData = dic[@"datas"];
-            [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
-            [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationFade];
-        }
-        else{
-            [SVProgressHUD showInfoWithStatus:@"操作失败"];
-        }
-        [_viewMz removeFromSuperview];
-    } RequestFaile:^(NSError *erro) {
-        
-    }];
-}
-/**
- 保存笔记，请求服务器
- */
-- (void)saveNotesRequest{
-    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/Save?access_token=%@",systemHttps,accessToken];
-    [HttpTools postHttpRequestURL:urlString RequestPram:_dicError RequestSuccess:^(id respoes) {
-        NSDictionary *dic = (NSDictionary *)respoes;
-        NSInteger codeId = [dic[@"code"] integerValue];
-        if (codeId == 1) {
-            NSDictionary *dicData = dic[@"datas"];
-            [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
-            [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
-        }
-        else{
-            [SVProgressHUD showInfoWithStatus:@"操作失败"];
-        }
-    } RequestFaile:^(NSError *erro) {
-        
-    }];
-    
-}
+///**
+// 提交纠错，请求服务器
+// */
+//- (void)submitErrorRequest{
+//    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+//    NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Correct/Submit?access_token=%@",systemHttps,accessToken];
+//    [HttpTools postHttpRequestURL:urlString RequestPram:_dicError RequestSuccess:^(id respoes) {
+//        NSDictionary *dic = (NSDictionary *)respoes;
+//        
+//        NSInteger codeId = [dic[@"code"] integerValue];
+//        if (codeId == 1) {
+//            NSDictionary *dicData = dic[@"datas"];
+//            [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
+//            [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationFade];
+//        }
+//        else{
+//            [SVProgressHUD showInfoWithStatus:@"操作失败"];
+//        }
+//        [_viewMz removeFromSuperview];
+//    } RequestFaile:^(NSError *erro) {
+//        
+//    }];
+//}
+///**
+// 保存笔记，请求服务器
+// */
+//- (void)saveNotesRequest{
+//    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+//    NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/Save?access_token=%@",systemHttps,accessToken];
+//    [HttpTools postHttpRequestURL:urlString RequestPram:_dicError RequestSuccess:^(id respoes) {
+//        NSDictionary *dic = (NSDictionary *)respoes;
+//        NSInteger codeId = [dic[@"code"] integerValue];
+//        if (codeId == 1) {
+//            NSDictionary *dicData = dic[@"datas"];
+//            [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
+//            [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+//        }
+//        else{
+//            [SVProgressHUD showInfoWithStatus:@"操作失败"];
+//        }
+//    } RequestFaile:^(NSError *erro) {
+//        
+//    }];
+//    
+//}
 //保存图片回调
 - (void)imageSaveQtype1Test:(UIImage *)image{
     [self imageTopicSave:image];
@@ -303,9 +307,13 @@
 //暂时保存用户答案，用于cell复用使用
 - (void)saveUserAnswerUseDictonary:(NSDictionary *)dic{
     [_dicUserAnswer setValue:dic.allValues.firstObject forKey:dic.allKeys.firstObject];
-    NSLog(@"%@",_dicUserAnswer);
+    NSLog(@"用户暂时答案 == %@",_dicUserAnswer);
 }
-//self.cell上的点击选项按钮（A、B、C、D..）代理回调
+- (void)IsFirstload:(BOOL)isFirstLoad{
+    _isFirstLoad = isFirstLoad;
+    [_tableViewPater reloadData];
+}
+//self.cell上的点击选项按钮（A、B、C、D..）代理回调 点击保存并跳转下一题回调 // 用于刷新答题卡
 - (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer isRefresh:(BOOL)isResfresh{
     [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer isRefresh:isResfresh];
 }
