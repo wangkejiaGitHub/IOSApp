@@ -197,20 +197,24 @@
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPapers?access_token=%@&courseId=%@&page=%ld&level=%@&year=%@",systemHttps,_accessToken,_subjectId,_paterIndexPage,_paterLevel,_paterYear];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicModelPapers = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        //获取最大页数
-        NSDictionary *dicPage =dicModelPapers[@"page"];
-        _paterPages = [dicPage[@"pages"] integerValue];
-        //当前页数增加1
-        _paterIndexPage = _paterIndexPage+1;
-        //追加数据
-        NSArray *arrayPaters = dicModelPapers[@"datas"];
-        for (NSDictionary *dicPater in arrayPaters) {
-            [_arrayPapers addObject:dicPater];
+        NSInteger codeId = [dicModelPapers[@"code"] integerValue];
+        if (codeId == 1) {
+            //获取最大页数
+            NSDictionary *dicPage =dicModelPapers[@"page"];
+            _paterPages = [dicPage[@"pages"] integerValue];
+            //当前页数增加1
+            _paterIndexPage = _paterIndexPage+1;
+            //追加数据
+            NSArray *arrayPaters = dicModelPapers[@"datas"];
+            for (NSDictionary *dicPater in arrayPaters) {
+                [_arrayPapers addObject:dicPater];
+            }
+            [_mzView removeFromSuperview];
+            [SVProgressHUD dismiss];
+            [_refreshFooter endRefreshing];
+            [_myTableView reloadData];
+
         }
-        [_mzView removeFromSuperview];
-        [SVProgressHUD dismiss];
-        [_refreshFooter endRefreshing];
-        [_myTableView reloadData];
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];

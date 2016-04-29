@@ -231,6 +231,18 @@
         frame.origin.y = (bgView.frame.size.height - frame.size.height) * 0.5;
         imageView.frame = frame;
     }];
+    
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    if (![tyUser objectForKey:tyUserShowSaveImgAlert]) {
+        LXAlertView *alertIms = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"长按图片可将图片保存到手机相册哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不在提醒" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 1) {
+                [tyUser setObject:@"yes" forKey:tyUserShowSaveImgAlert];
+            }
+        }];
+        alertIms.animationStyle = LXASAnimationLeftShake;
+        [alertIms showLXAlertView];
+    }
+
 }
 
 -(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer

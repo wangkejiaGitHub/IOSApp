@@ -250,24 +250,26 @@
     //最后分别添加笔记和纠错按钮
     //添加笔记按钮
     UIButton *buttonNotes = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonNotes.frame = CGRectMake(Scr_Width - 70, allowRet, 60, 25);
+    buttonNotes.frame = CGRectMake(Scr_Width - 70, allowRet - 5, 60, 23);
     buttonNotes.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonNotes.layer.masksToBounds = YES;
     buttonNotes.layer.cornerRadius = 2;
     [buttonNotes setTitle:@"笔记" forState:UIControlStateNormal];
     buttonNotes.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonNotes setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    buttonNotes.tag = 1111;
     [buttonNotes addTarget:self action:@selector(buttonNotesClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:buttonNotes];
     //添加纠错按钮
     UIButton *buttonError = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonError.frame = CGRectMake(10, allowRet, 60, 25);
+    buttonError.frame = CGRectMake(10, allowRet - 5, 60, 23);
     buttonError.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonError.layer.masksToBounds = YES;
     buttonError.layer.cornerRadius = 2;
     [buttonError setTitle:@"纠错" forState:UIControlStateNormal];
     buttonError.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonError setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    buttonError.tag = 1111;
     [buttonError addTarget:self action:@selector(buttonErrorClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:buttonError];
     allowRet = allowRet + 40;
@@ -440,6 +442,17 @@
         frame.origin.y = (bgView.frame.size.height - frame.size.height) * 0.5;
         imageView.frame = frame;
     }];
+    
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    if (![tyUser objectForKey:tyUserShowSaveImgAlert]) {
+        LXAlertView *alertIms = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"长按图片可将图片保存到手机相册哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不在提醒" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 1) {
+                [tyUser setObject:@"yes" forKey:tyUserShowSaveImgAlert];
+            }
+        }];
+        alertIms.animationStyle = LXASAnimationLeftShake;
+        [alertIms showLXAlertView];
+    }
 }
 
 -(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer

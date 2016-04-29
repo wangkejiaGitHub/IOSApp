@@ -87,7 +87,7 @@
             CGSize labSize = [lab sizeThatFits:CGSizeMake(Scr_Width-10, MAXFLOAT)];
             _cellHeardHeight = labSize.height;
             lab = nil;
-            return _cellHeardHeight+20;
+            return _cellHeardHeight+30;
         }
         return 1;
 //    }
@@ -99,64 +99,18 @@
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
         if (_topicTitle!=nil) {
-            UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _cellHeardHeight+20)];
+            UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _cellHeardHeight+30)];
             viewTitle.backgroundColor = ColorWithRGB(210, 210, 205);
             
-            UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, Scr_Width-20, _cellHeardHeight)];
+            UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, Scr_Width-20, _cellHeardHeight+10)];
             labTitle.numberOfLines = 0;
             labTitle.font = [UIFont systemFontOfSize:15.0];
             labTitle.text = _topicTitle;
+            labTitle.adjustsFontSizeToFitWidth = YES;
             [viewTitle addSubview:labTitle];
             return viewTitle;
         }
         return nil;
-//    }
-//    else{
-//        //  arrow_right   arrow_down arrow_up
-//        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 30)];
-//        view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-//        view.layer.masksToBounds = YES;
-//        view.layer.cornerRadius = 5;
-//        UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake(Scr_Width-30, 10, 16, 8)];
-//        if (section == 1) {
-//            if (_isNotes) {
-//                imageV.image = [UIImage imageNamed:@"arrow_up"];
-//            }
-//            else{
-//                imageV.image = [UIImage imageNamed:@"arrow_down"];
-//            }
-//        }
-//        else
-//        {
-//            if (_isError) {
-//                imageV.image = [UIImage imageNamed:@"arrow_up"];
-//            }
-//            else{
-//                imageV.image = [UIImage imageNamed:@"arrow_down"];
-//            }
-//        }
-//        
-//        [view addSubview:imageV];
-//        
-//        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//        button.frame = CGRectMake(0, 0, Scr_Width, 30);
-//        button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//        button.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 10);
-//        button.backgroundColor = [UIColor clearColor];
-//        button.titleLabel.font = [UIFont systemFontOfSize:13.0];
-//        if (section == 1) {
-//            [button setTitle:@"笔记 >>" forState:UIControlStateNormal];
-//        }
-//        else{
-//            [button setTitle:@"纠错 >>" forState:UIControlStateNormal];
-//        }
-//        button.tag = 100+section;
-//        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//        [button addTarget:self action:@selector(sectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-//        [view addSubview:button];
-//        return view;
-//        return nil;
-//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -232,61 +186,6 @@
         }
     return nil;
 }
-
-////点击section笔记或者纠错触发
-//- (void)sectionBtnClick:(UIButton*)sender{
-//    NSInteger sectionIndex = sender.tag - 100;
-//    if (sectionIndex == 1) {
-//        _isNotes = !_isNotes;
-//    }
-//    else{
-//        _isError = !_isError;
-//    }
-//    [_tableViewPater reloadSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-//}
-//提交纠错回调
-//- (void)submitError:(NSDictionary *)dicError isNotes:(NSInteger)isNotes{
-//    if (!_viewMz) {
-//        _viewMz = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-//    }
-//    //笔记
-//    if (isNotes == 1) {
-//        _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
-//        _stringNotes = _dicError[@"note"];
-//        [self saveNotesRequest];
-//    }
-//    //纠错
-//    else{
-//        [self.view addSubview:_viewMz];
-//        _dicError = [NSMutableDictionary dictionaryWithDictionary:dicError];
-//        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-//        NSArray *array = [tyUser objectForKey:tyUserErrorTopic];
-//        ErrorTopicView *viewError = [[ErrorTopicView alloc]initWithFrame:CGRectMake(50, Scr_Height+(Scr_Height - (40*(array.count+2)+20))/2,Scr_Width - 100, 40*(array.count+2)+20) errorTypeArray:array];
-//        viewError.delegateViewError  = self;
-//        //    [self.view addSubview:viewError];
-//        [self.view addSubview:viewError];
-//        [UIView animateWithDuration:0.2 animations:^{
-//            CGRect rect = viewError.frame;
-//            rect.origin.y =(Scr_Height - (40*(array.count+2)+20) - 45)/2;
-//            viewError.frame = rect;
-//        }];
-//        
-//    }
-//}
-//点击弹出纠错类型回调
-//- (void)viewCellClick:(NSString *)selectType{
-//    if (selectType != nil) {
-//        //提交
-//        [_dicError setObject:selectType forKey:@"Levels"];
-//        _stringError = _dicError[@"Content"];
-//        [self submitErrorRequest];
-//    }
-//    else{
-//        //取消提交
-//        [_viewMz removeFromSuperview];
-//    }
-//}
-
 /**
  点击笔记或纠错回调
  */
@@ -378,23 +277,21 @@
     
 }
 //保存图片回调
-- (void)imageSaveQtype1:(UIImage *)image{
-    [self imageTopicSave:image];
-}
 - (void)imageSaveQtype1Test:(UIImage *)image{
     [self imageTopicSave:image];
 }
-//
+//保存图片
 -(void)imageTopicSave:(UIImage *)image{
-    UIAlertController *alertSaveImage = [UIAlertController alertControllerWithTitle:@"图片保存" message:@"保存到本地相册？" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *actionSa = [UIAlertAction actionWithTitle:@"保存" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+    LXAlertView *alertDSaveImg = [[LXAlertView alloc]initWithTitle:@"图片保存" message:@"要将图片保存到手机相册吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"保存" clickIndexBlock:^(NSInteger clickIndex) {
+        //保存
+        if (clickIndex == 1) {
+            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+        }
     }];
-    [alertSaveImage addAction:actionSa];
-    UIAlertAction *actionCe = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    [alertSaveImage addAction:actionCe];
-    [self presentViewController:alertSaveImage animated:YES completion:nil];
+    
+    [alertDSaveImg showLXAlertView];
 }
+//保存到本地手机后回调
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
     if (error == nil) {
         [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
@@ -407,10 +304,6 @@
 - (void)saveUserAnswerUseDictonary:(NSDictionary *)dic{
     [_dicUserAnswer setValue:dic.allValues.firstObject forKey:dic.allKeys.firstObject];
     NSLog(@"%@",_dicUserAnswer);
-    
-    NotesView *text = [[[NSBundle mainBundle] loadNibNamed:@"NotesView" owner:self options:nil]lastObject];
-    text.frame = CGRectMake(0, 100, Scr_Width, 200);
-    [self.view addSubview:text];
 }
 //self.cell上的点击选项按钮（A、B、C、D..）代理回调
 - (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer isRefresh:(BOOL)isResfresh{

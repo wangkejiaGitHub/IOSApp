@@ -58,6 +58,20 @@
                             <constraint firstAttribute="height" constant="10" id="LLN-G4-6rV"/>
                         </constraints>
                     </webView>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bCj-nF-06A">
+                        <rect key="frame" x="8" y="146" width="367" height="1"/>
+                        <color key="backgroundColor" red="0.82416421250000005" green="0.82416421250000005" blue="0.82416421250000005" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="82r-5j-hn6">
+                        <rect key="frame" x="308" y="109" width="55" height="30"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <state key="normal" title="不会做"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bfI-NJ-7zt">
+                        <rect key="frame" x="312" y="71" width="46" height="30"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <state key="normal" title="能作答"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="rWP-pa-utE" firstAttribute="top" secondItem="u3v-SX-Oqf" secondAttribute="top" constant="15" id="BUz-on-aSR"/>

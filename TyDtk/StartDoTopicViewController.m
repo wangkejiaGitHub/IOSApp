@@ -59,20 +59,29 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
 }
-
+- (void)viewWillDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] removeObserver:UIKeyboardWillShowNotification];
+    [[NSNotificationCenter defaultCenter] removeObserver:UIKeyboardWillHideNotification];
+}
 - (void)keyboardShow:(NSNotification *)note{
     NSDictionary *userInfo = [note userInfo];
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect keyboardRect = [aValue CGRectValue];
     //键盘高度
     CGFloat keyBoardHeight = keyboardRect.size.height;
-    CGRect rect = self.view.frame;
-    if (keyBoardHeight!=0) {
-        rect.origin.y = rect.origin.y - keyBoardHeight+45;
+//    if (keyBoardHeight!=0) {
+//        rect.origin.y = rect.origin.y - keyBoardHeight+45;
+//    }
+    if (keyBoardHeight != 0) {
+        CGRect rect = self.view.frame;;
+        if (Scr_Width == 320) {
+            rect.origin.y = rect.origin.y - 100;
+        }
+        else if (Scr_Width == 375){
+            rect.origin.y = rect.origin.y - 50;
+        }
+        self.navigationController.view.frame = rect;
     }
-    
-    self.navigationController.view.frame = rect;
-    
 }
 /////////////
 ////键盘监听//

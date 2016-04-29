@@ -27,14 +27,29 @@
 }
 //保存笔记
 - (IBAction)buttonSaveClick:(UIButton *)sender {
+    //笔记信息是否为空
     if ([_textVIewNote.text isEqualToString:@""]) {
         [SVProgressHUD showInfoWithStatus:@"笔记信息不能为空"];
         return;
     }
+    LXAlertView *alert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"要保存笔记信息吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"保存" clickIndexBlock:^(NSInteger clickIndex) {
+        if (clickIndex == 1) {
+            [self saveNotesMessage];
+        }
+    }];
+    [alert showLXAlertView];
+    //保存笔记
 }
 //清空笔记内容
 - (IBAction)buttonClearClick:(UIButton *)sender {
-    _textVIewNote.text = @"";
+    if (_textVIewNote.text.length > 0) {
+        LXAlertView *alert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"要清空笔记信息吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"清空" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 1) {
+                _textVIewNote.text = @"";
+            }
+        }];
+        [alert showLXAlertView];
+    }
 }
 //取消
 - (IBAction)buttonCenterClick:(UIButton *)sender {
@@ -43,7 +58,8 @@
 /**
  保存笔记，请求服务器
  */
-- (void)saveNotesRequest{
+- (void)saveNotesMessage{
+    [SVProgressHUD showWithStatus:@"保存中..."];
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     NSString *accessToken = [tyUser objectForKey:tyUserAccessToken];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Note/Save?access_token=%@",systemHttps,accessToken];
@@ -54,6 +70,7 @@
         if (codeId == 1) {
             NSDictionary *dicData = dic[@"datas"];
             [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
+            [self removeFromSuperview];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"操作失败"];

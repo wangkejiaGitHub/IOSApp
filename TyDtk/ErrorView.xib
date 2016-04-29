@@ -11,12 +11,12 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="纠错信息" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hfC-Pp-MTG">
-                    <rect key="frame" x="172" y="15" width="100" height="20"/>
+                    <rect key="frame" x="182" y="15" width="80" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="4Su-3W-Zm0"/>
-                        <constraint firstAttribute="width" constant="100" id="7d7-dk-Zmn"/>
+                        <constraint firstAttribute="width" constant="80" id="7d7-dk-Zmn"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -30,26 +30,19 @@
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XZq-aZ-lKo">
-                    <rect key="frame" x="373" y="20" width="60" height="20"/>
+                    <rect key="frame" x="378" y="20" width="55" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="fKl-gW-HNY"/>
-                        <constraint firstAttribute="width" constant="60" id="gRA-jb-qzB"/>
+                        <constraint firstAttribute="width" constant="55" id="gRA-jb-qzB"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
                     <state key="normal" title="错误类型">
-                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="buttonTypeClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="8MN-de-Z2j"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fenlei" translatesAutoresizingMaskIntoConstraints="NO" id="2kW-oL-kGZ">
-                    <rect key="frame" x="352" y="20" width="20" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="20" id="MOZ-pl-xTX"/>
-                        <constraint firstAttribute="height" constant="20" id="kus-MH-doh"/>
-                    </constraints>
-                </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lga-8c-wxE">
                     <rect key="frame" x="10" y="145" width="60" height="25"/>
                     <color key="backgroundColor" red="0.89188701920000002" green="0.89188701920000002" blue="0.89188701920000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -90,6 +83,13 @@
                         <action selector="buttonSubmitClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="dWe-UY-zeJ"/>
                     </connections>
                 </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="fenlei" translatesAutoresizingMaskIntoConstraints="NO" id="2kW-oL-kGZ">
+                    <rect key="frame" x="362" y="22" width="15" height="15"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="15" id="MOZ-pl-xTX"/>
+                        <constraint firstAttribute="height" constant="15" id="kus-MH-doh"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.84801682690000002" green="0.84758275679999995" blue="0.7809274759" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -99,7 +99,7 @@
                 <constraint firstItem="hfC-Pp-MTG" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="QIP-2V-3QJ"/>
                 <constraint firstAttribute="trailing" secondItem="EAN-Kn-te9" secondAttribute="trailing" constant="10" id="Tq1-M5-CCG"/>
                 <constraint firstItem="IjB-xs-P6S" firstAttribute="leading" secondItem="lga-8c-wxE" secondAttribute="trailing" constant="15" id="Vs8-Xr-MEH"/>
-                <constraint firstItem="EAN-Kn-te9" firstAttribute="top" secondItem="2kW-oL-kGZ" secondAttribute="bottom" constant="10" id="bJQ-so-rXQ"/>
+                <constraint firstItem="EAN-Kn-te9" firstAttribute="top" secondItem="2kW-oL-kGZ" secondAttribute="bottom" constant="13" id="bJQ-so-rXQ"/>
                 <constraint firstItem="EAN-Kn-te9" firstAttribute="top" secondItem="hfC-Pp-MTG" secondAttribute="bottom" constant="15" id="iyE-um-TAM"/>
                 <constraint firstItem="XZq-aZ-lKo" firstAttribute="leading" secondItem="2kW-oL-kGZ" secondAttribute="trailing" constant="1" id="nHW-56-tzL"/>
                 <constraint firstItem="EAN-Kn-te9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="nn8-ce-btz"/>
