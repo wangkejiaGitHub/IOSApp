@@ -12,8 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *labNumber;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labNumberWidth;
 @property (weak, nonatomic) IBOutlet UILabel *labTitleType;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewCollect;
-
 @property (weak, nonatomic) IBOutlet UIWebView *webViewTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *webTitleHeight;
 @property (nonatomic,assign) NSInteger indexTopic;

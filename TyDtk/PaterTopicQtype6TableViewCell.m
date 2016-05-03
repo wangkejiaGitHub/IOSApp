@@ -28,8 +28,6 @@
     _webViewTitle.scrollView.scrollEnabled = NO;
     _webViewTitle.opaque = NO;
     _webViewTitle.delegate = self;
-    _imageViewCollect.layer.masksToBounds = YES;
-    _imageViewCollect.layer.cornerRadius = 2;
 }
 
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
@@ -98,7 +96,6 @@
         //题目
         UILabel *labTitleTest = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-30, 0)];
         labTitleTest.text = topicTitle;
-//        NSLog(@"%@ ====== %ld",topicTitle,topicTitle.length);
         labTitleTest.numberOfLines = 0;
         labTitleTest.font = [UIFont systemFontOfSize:19];
         if (Scr_Width > 320) {
@@ -113,16 +110,8 @@
     _labNumberWidth.constant = _labNumber.text.length*10+15;
     //试题类型（案例分析）
     _labTitleType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
-    
-    //？？？？？随时记录要返回的cell的高度??????????????
+    //随时记录要返回的cell的高度
     allowRet = _webViewTitle.frame.origin.y+_webTitleHeight.constant+50;
-    
-//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet, Scr_Width-20, 30)];
-//    view.backgroundColor = [UIColor redColor];
-//    [self.contentView addSubview:view];
-    //http://www.kaola100.com/tiku/common/getAttachment?filePath=img/20151229/20151229095609_916.png
-    
-//    NSLog(@"%@",dic);
 ////////////////////////////////////////////
 ///////////////////////////////////////////
 /// 如果试题有图片，就加载图片显示
@@ -152,15 +141,10 @@
             
             [manager downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 
-                NSLog(@"显示当前进度");
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                 imageTop = image;
-                NSLog(@"下载完成");
-                
             }];
             
-//            NSData *dataImg = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]]];
-//            UIImage *imageTop = [UIImage imageWithData:dataImg];
             CGSize sizeImg = imageTop.size;
             
             if (sizeImg.width>Scr_Width - 30) {
@@ -168,19 +152,14 @@
                 sizeImg.width = Scr_Width-30;
                 sizeImg.height = (Scr_Width-30)*wHBL;
             }
-//            dispatch_sync(dispatch_get_main_queue(), ^{
-//                //Update UI in UI thread here
-//                
-//                
-//            });
             UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
             imgViewTop.image = imageTop;
             
-            //??????????????????????????????
+            //???????????图片手势???????????????????
             UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showZoomImageView:)];
             imgViewTop.userInteractionEnabled = YES;
             [imgViewTop addGestureRecognizer:tapImage];
-            //??????????????????????????????
+            //???????????图片手势??????????????????？
             
             [viewImage addSubview:imgViewTop];
             viewImgsH = viewImgsH+sizeImg.height;
@@ -219,7 +198,8 @@
     [buttonSaveAnswer addTarget:self action:@selector(buttonSubmitClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:buttonSaveAnswer];
     allowRet = allowRet + 35;
-    //？？？？？随时记录要返回的cell的高度
+    //随时记录要返回的cell的高度
+    //如果是第一次加载，再次刷新ui让图片显示出来
     if (_isFirstLoad) {
         [self.delegateCellClick IsFirstload:NO];
     }
@@ -227,20 +207,10 @@
 }
 //保存答案按钮
 - (void)buttonSubmitClick:(UIButton *)button{
-//    //试题Id
-//    NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
-//    //试题类型
-//    NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
-//    //正确答案
-//    NSString *answer = _dicTopic[@"answer"];
-//    
-//    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":_selectContentQtype2,@"TrueAnswer":answer,@"Score":@"0"};
-    
-    //    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer];
+    //保存答案，刷新答题卡
     [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:nil isRefresh:YES];
-
 }
-//??????????????????????????????????????????????????
+//图片的点击手势
 -(void)showZoomImageView:(UITapGestureRecognizer *)tap
 {
     if (![(UIImageView *)tap.view image]) {
@@ -253,17 +223,12 @@
     bgView.frame = [UIScreen mainScreen].bounds;
     bgView.backgroundColor = [UIColor blackColor];
     UITapGestureRecognizer *tapBg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBgView:)];
-    //
     UILongPressGestureRecognizer *tapmy = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longGestTap:)];
     tapmy.minimumPressDuration = 1.0;
-    //    tapmy.numberOfTapsRequired = 1;
     tapmy.numberOfTouchesRequired = 1;
     [bgView addGestureRecognizer:tapmy];
-    //
     [bgView addGestureRecognizer:tapBg];
-    
     UIImageView *picView = (UIImageView *)tap.view;
-    
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = picView.image;
     imageView.frame = [bgView convertRect:picView.frame fromView:self.contentView];
@@ -302,7 +267,6 @@
     }
 
 }
-
 -(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer
 {
     self.scrollView.contentOffset = CGPointZero;

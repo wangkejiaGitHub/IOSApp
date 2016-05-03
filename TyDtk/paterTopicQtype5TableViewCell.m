@@ -8,6 +8,7 @@
 
 #import "paterTopicQtype5TableViewCell.h"
 @interface paterTopicQtype5TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
+@property (nonatomic,strong) NSUserDefaults *tyUser;
 //??????????????????????????????????????????????????????
 @property (weak, nonatomic) UIScrollView *scrollView;
 @property (weak, nonatomic) UIImageView *lastImageView;
@@ -24,10 +25,11 @@
     // Initialization code
     _imageCollect.layer.masksToBounds = YES;
     _imageCollect.layer.cornerRadius = 2;
+    _buttonCollect.layer.masksToBounds = YES;
+    _buttonCollect.layer.cornerRadius = 2;
     _webViewTitle.scrollView.scrollEnabled = NO;
     _webViewTitle.opaque = NO;
     _webViewTitle.backgroundColor =[UIColor clearColor];
-    //多选答案默认为空
     _webViewTitle.delegate = self;
     _buttonCanDo.layer.masksToBounds = YES;
     _buttonCanDo.layer.cornerRadius = 3;
@@ -37,9 +39,11 @@
     _buttonCanDonot.layer.cornerRadius = 3;
     _buttonCanDonot.backgroundColor = [UIColor groupTableViewBackgroundColor];
     [_buttonCanDonot setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+    _tyUser = [NSUserDefaults standardUserDefaults];
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     CGFloat allowRet = 0;
+    
     //判断视图是否有图片
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
@@ -60,7 +64,7 @@
     }
     
     ///////////////////////////////
-    //题目
+    //题目size
     UILabel *labTest = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 30, 30)];
     labTest.numberOfLines = 0;
     labTest.font = [UIFont systemFontOfSize:17.0];
@@ -71,7 +75,15 @@
     
     //试题编号
     _labNumber.text = [NSString stringWithFormat:@"%ld、",index];
-    _labNumberWidth.constant = _labNumber.text.length*10+15;
+    //判断是否为一题多问下面的简答题
+    NSInteger parentId = [dic[@"parentId"] integerValue];
+    //一题多问下面的小题
+    if (parentId != 0) {
+        _labNumber.text = [NSString stringWithFormat:@"(%ld)、",index];
+        _labNumber.textColor = [UIColor orangeColor];
+    }
+    
+    _labNumberWidth.constant = _labNumber.text.length*10+10;
     
     //试题类型
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
@@ -110,8 +122,16 @@
     if (dicImg.allKeys.count>0) {
         for (NSString *keyImg in dicImg.allKeys) {
             NSString *imagUrl = dicImg[keyImg];
-            NSData *dataImg = [NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]]];
-            UIImage *imageTop = [UIImage imageWithData:dataImg];
+            __block UIImage *imageTop = [[UIImage alloc]init];
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            
+            [manager downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                
+            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                imageTop = image;
+                
+            }];
+            
             CGSize sizeImg = imageTop.size;
             
             if (sizeImg.width>Scr_Width - 30) {
@@ -120,7 +140,6 @@
                 sizeImg.height = (Scr_Width-30)*wHBL;
             }
             UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
-            [imgViewTop sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]]];
             imgViewTop.image = imageTop;
             //??????????????????????????????
             UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showZoomImageView:)];
@@ -138,8 +157,8 @@
     else{
         viewImage = nil;
     }
-    //?????????????????????????????????????
-    //是否有选过的选项
+    ///////////////////////////////////////////////
+    //是否有做过的试题，防止cell复用的时候做过的试题标记消失
     for (id subView in self.contentView.subviews) {
         if ([subView isKindOfClass:[UIButton class]]) {
             UIButton *button = (UIButton *)subView;
@@ -157,8 +176,6 @@
             }
         }
     }
-    
-    //?????????????????????????????????????
     ///////////////////////////////////////
     
     allowRet = allowRet + 75;
@@ -190,6 +207,40 @@
     allowRet = allowRet + 40;
     self.backgroundColor = [UIColor clearColor];
     _dicTopic = dic;
+    //如果是第一次加载，再次刷新ui让图片显示出来
+    if (parentId == 0) {
+        if (_isFirstLoad) {
+            [self.delegateCellClick IsFirstload:NO];
+        }
+    }
+    
+    //判断是否已经收藏试题
+    NSInteger collectId = [dic[@"collectId"] integerValue];
+    //已收藏
+    if (collectId>0) {
+        _buttonCollect.backgroundColor = [UIColor orangeColor];
+        [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
+        _buttonCollectWidth.constant = 50;
+    }
+    
+    /////////////////////////////////////
+    if ([_dicCollectDone.allKeys containsObject:[NSString stringWithFormat:@"%ld",_indexTopic]]) {
+        NSString *collectString = _dicCollectDone[[NSString stringWithFormat:@"%ld",_indexTopic]];
+        if ([collectString isEqualToString:@"已收藏"]) {
+            _buttonCollect.backgroundColor = [UIColor orangeColor];
+            [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
+            _buttonCollectWidth.constant = 50;
+        }
+        else{
+            _buttonCollect.backgroundColor = [UIColor whiteColor];
+            [_buttonCollect setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+            [_buttonCollect setTitle:@"收藏" forState:UIControlStateNormal];
+            _buttonCollectWidth.constant = 40;
+        }
+        
+    }
     return allowRet;
 }
 //????????????????????????????????
@@ -204,6 +255,102 @@
     NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
     [self.delegateCellClick saveNotesOrErrorClick:questionId executeParameter:0];
 }
+//收藏按钮
+- (IBAction)buttonCollectClick:(UIButton *)sender {
+    
+    NSString *buttonString = sender.titleLabel.text;
+    //收藏
+    if ([buttonString isEqualToString:@"收藏"]) {
+        [self collectTopic];
+    }
+    //取消收藏
+    else{
+        [self cancelCollectTopic];
+    }
+    
+}
+/**
+ 收藏试题
+ */
+- (void)collectTopic{
+    NSString *accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/Add/%ld?access_token=%@",systemHttps,questionId,accessToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicCollect[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicCollect[@"datas"];
+            _buttonCollect.backgroundColor = [UIColor orangeColor];
+            [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
+            _buttonCollectWidth.constant = 50;
+            
+            //////////////////////////////////
+            //保存临时收藏状态
+            NSString *btnString = _buttonCollect.titleLabel.text;
+            NSDictionary *dicColl = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
+            [self.delegateCellClick saveUserCollectTiopic:dicColl];
+            ///////////////////////////////////
+            
+            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            if (![_tyUser objectForKey:tyUserShowCollectAlert]) {
+                LXAlertView *collectAlert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"再次点击'已收藏'可取消收藏哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不再提示" clickIndexBlock:^(NSInteger clickIndex) {
+                    if (clickIndex == 1) {
+                        [_tyUser setObject:@"yes" forKey:tyUserShowCollectAlert];
+                    }
+                }];
+                collectAlert.animationStyle = LXASAnimationTopShake;
+                [collectAlert showLXAlertView];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"操作失败!"];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/**
+ 取消收藏
+ */
+- (void)cancelCollectTopic{
+    
+    NSString *accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/Del/%ld?access_token=%@",systemHttps,questionId,accessToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicCollect[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicCollect[@"datas"];
+            _buttonCollect.backgroundColor = [UIColor whiteColor];
+            [_buttonCollect setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+            [_buttonCollect setTitle:@"收藏" forState:UIControlStateNormal];
+            _buttonCollectWidth.constant = 40;
+            
+            //////////////////////////////////
+            //保存临时收藏状态
+            NSString *btnString = _buttonCollect.titleLabel.text;
+            NSDictionary *dicColl = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
+            [self.delegateCellClick saveUserCollectTiopic:dicColl];
+            ///////////////////////////////////
+            
+            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"操作失败!"];
+        }
+        
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+    
+    
+}
+
+
+//‘会做’和‘不会做’按钮
 - (IBAction)buttonDoTopicClick:(UIButton *)sender {
     for (id subView in self.contentView.subviews) {
         if ([subView isKindOfClass:[UIButton class]]) {
@@ -223,10 +370,8 @@
     
     
     //????????????????????????????????????
-    //添加已经选过的选项数组
+    //添加或设置已经做过的试题答案
     NSString *btnString = sender.titleLabel.text;
-    //        [_arraySelectDone removeAllObjects];
-    //        [_arraySelectDone addObject:btnString];
     [_dicSelectDone setValue:btnString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
     NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
     [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
@@ -245,7 +390,7 @@
     //试题类型
     NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
     //正确答案
-//    NSString *answer = _dicTopic[@"answer"];
+    //    NSString *answer = _dicTopic[@"answer"];
     //用户答案
     NSString *userAnswer = sender.titleLabel.text;
     if ([userAnswer isEqualToString:@"会作答"]) {
@@ -255,10 +400,7 @@
         userAnswer = @"0";
     }
     NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"Score":@"0"};
-    //        [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer       ];
     [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
-    
-
 }
 
 //??????????????????????????????????????????????????
@@ -312,6 +454,17 @@
         frame.origin.y = (bgView.frame.size.height - frame.size.height) * 0.5;
         imageView.frame = frame;
     }];
+    
+    if (![_tyUser objectForKey:tyUserShowSaveImgAlert]) {
+        LXAlertView *alertIms = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"长按图片可将图片保存到手机相册哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不在提醒" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 1) {
+                [_tyUser setObject:@"yes" forKey:tyUserShowSaveImgAlert];
+            }
+        }];
+        alertIms.animationStyle = LXASAnimationLeftShake;
+        [alertIms showLXAlertView];
+    }
+    
 }
 
 -(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer
@@ -328,10 +481,10 @@
 }
 //长按保存图片
 - (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
-    //    if (longTap.state == UIGestureRecognizerStateBegan) {
-    //        [_scrollView removeFromSuperview];
-    //        [self.delegateCellClick imageSaveQtype1:_selectTapView.image];
-    //    }
+    if (longTap.state == UIGestureRecognizerStateBegan) {
+        [_scrollView removeFromSuperview];
+        [self.delegateCellClick imageSaveQtype1Test:_selectTapView.image];
+    }
 }
 //返回可缩放的视图
 -(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView

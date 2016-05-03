@@ -23,6 +23,8 @@
 		1D1CD88E1CD2EE4800A80E88 /* UILabel+LXAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1CD88C1CD2EE4800A80E88 /* UILabel+LXAdd.m */; };
 		1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */; };
 		1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */; };
+		1D31827B1CD8352D00AD4773 /* paterTopicQtype3Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D31827A1CD8352D00AD4773 /* paterTopicQtype3Cell.xib */; };
+		1D31827E1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D31827D1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m */; };
 		1D86FA331CCDFC23007DF87C /* ErrorTopicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */; };
 		1DC18EFD1CB795D50006D642 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ED31CB795D50006D642 /* MJRefreshAutoFooter.m */; };
 		1DC18EFE1CB795D50006D642 /* MJRefreshBackFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ED51CB795D50006D642 /* MJRefreshBackFooter.m */; };
@@ -159,6 +161,9 @@
 		1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChaptersViewController.m; sourceTree = "<group>"; };
 		1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelPapersViewController.h; sourceTree = "<group>"; };
 		1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModelPapersViewController.m; sourceTree = "<group>"; };
+		1D31827A1CD8352D00AD4773 /* paterTopicQtype3Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = paterTopicQtype3Cell.xib; sourceTree = "<group>"; };
+		1D31827C1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype3TableViewCell.h; sourceTree = "<group>"; };
+		1D31827D1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicQtype3TableViewCell.m; sourceTree = "<group>"; };
 		1D86FA311CCDFC23007DF87C /* ErrorTopicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorTopicView.h; sourceTree = "<group>"; };
 		1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorTopicView.m; sourceTree = "<group>"; };
 		1DC18ED21CB795D50006D642 /* MJRefreshAutoFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshAutoFooter.h; sourceTree = "<group>"; };
@@ -381,15 +386,18 @@
 			children = (
 				1D03B24B1CC5BF1E00DCE77A /* NotesOrErrorTableViewCell.h */,
 				1D03B24C1CC5BF1E00DCE77A /* NotesOrErrorTableViewCell.m */,
-				1DE5F8DC1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib */,
-				1D03B2901CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.h */,
-				1D03B2911CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m */,
-				1DE5F8D21CD092BD0046CD8A /* paterTopicQtype5Cell.xib */,
-				1DE5F8D41CD093190046CD8A /* paterTopicQtype5TableViewCell.h */,
-				1DE5F8D51CD093190046CD8A /* paterTopicQtype5TableViewCell.m */,
 				1DE5F8DA1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib */,
 				1DE5F8D71CD0B3F60046CD8A /* paterTopicQtype1and2TableViewCell.h */,
 				1DE5F8D81CD0B3F60046CD8A /* paterTopicQtype1and2TableViewCell.m */,
+				1D31827A1CD8352D00AD4773 /* paterTopicQtype3Cell.xib */,
+				1D31827C1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.h */,
+				1D31827D1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m */,
+				1DE5F8D21CD092BD0046CD8A /* paterTopicQtype5Cell.xib */,
+				1DE5F8D41CD093190046CD8A /* paterTopicQtype5TableViewCell.h */,
+				1DE5F8D51CD093190046CD8A /* paterTopicQtype5TableViewCell.m */,
+				1DE5F8DC1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib */,
+				1D03B2901CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.h */,
+				1D03B2911CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m */,
 				1D165E671CD1DA1E00F61EAE /* NotesView.xib */,
 				1D165E691CD1DA4800F61EAE /* NotesView.h */,
 				1D165E6A1CD1DA4800F61EAE /* NotesView.m */,
@@ -895,6 +903,7 @@
 				1DC18F0B1CB795D50006D642 /* MJRefresh.bundle in Resources */,
 				1DE5F8DB1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib in Resources */,
 				1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */,
+				1D31827B1CD8352D00AD4773 /* paterTopicQtype3Cell.xib in Resources */,
 				1DF9506E1CA3BFC500104597 /* SVProgressHUD.bundle in Resources */,
 				1DEDC8311C9F9F770083B394 /* login_password.png in Resources */,
 				1DEDC8671C9FA40A0083B394 /* mainbg.png in Resources */,
@@ -998,6 +1007,7 @@
 				1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */,
 				1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */,
+				1D31827E1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m in Sources */,
 				1DC18F031CB795D50006D642 /* MJRefreshAutoNormalFooter.m in Sources */,
 				1D165E6B1CD1DA4800F61EAE /* NotesView.m in Sources */,
 				1DEDC7D81C9F817B0083B394 /* main.m in Sources */,

@@ -94,4 +94,8 @@
 #define tyUserErrorTopic @"errorTopic"
 //试题中点击图片提示长按可保存提示
 #define tyUserShowSaveImgAlert @"saveImg"
+//提示可以修改试题答案
+#define tyUserShowUpdateAnswer @"updateAnswer"
+//提示再次点击收藏可取消收藏
+#define tyUserShowCollectAlert @"collectAlert"
 #endif /* DtkPchFile_pch */

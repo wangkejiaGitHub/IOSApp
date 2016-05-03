@@ -130,7 +130,6 @@
         [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
                 [_arrayErrorTypeSelect removeObject:[NSString stringWithFormat:@"%ld",typeId]];
     }
-    
     NSLog(@"%@",_arrayErrorTypeSelect);
 }
 /**

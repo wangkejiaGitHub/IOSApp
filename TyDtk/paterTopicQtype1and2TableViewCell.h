@@ -17,12 +17,14 @@
 - (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary*)dicUserAnswer isRefresh:(BOOL)isResfresh;
 - (void)imageSaveQtype1Test:(UIImage *)image;
 - (void)saveUserAnswerUseDictonary:(NSDictionary *)dic;
+- (void)saveUserCollectTiopic:(NSDictionary *)dic;
 - (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
 - (void)IsFirstload:(BOOL)isFirstLoad;
 @end
 @interface paterTopicQtype1and2TableViewCell : UITableViewCell
 //已经选过的选项
 @property (nonatomic,strong) NSDictionary *dicSelectDone;
+@property (nonatomic,strong) NSDictionary *dicCollectDone;
 @property (weak, nonatomic) IBOutlet UILabel *labTopicNumber;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labNumberWidth;
 @property (weak, nonatomic) IBOutlet UILabel *labTopicType;
@@ -32,7 +34,12 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *webSelectHeight;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonCollect;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonCollectWidth;
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageVIewCollect;
+
+@property (weak, nonatomic) IBOutlet UIView *viewLiness;
+@property (nonatomic,assign) BOOL isFirstLoad;
 @property (nonatomic,assign) NSInteger indexTopic;
 @property (nonatomic,strong) NSDictionary *dicTopic;
 @property (nonatomic,strong) NSString *selectContentQtype2;

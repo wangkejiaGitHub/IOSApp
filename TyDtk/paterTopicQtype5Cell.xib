@@ -40,7 +40,7 @@
                             <constraint firstAttribute="height" constant="20" id="zlA-Qj-P9h"/>
                         </constraints>
                     </imageView>
-                    <button opaque="NO" tag="1111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTP-z9-VQh">
+                    <button opaque="NO" tag="1111" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTP-z9-VQh">
                         <rect key="frame" x="342" y="15" width="45" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="45" id="0Lr-Wl-Hnm"/>
@@ -50,6 +50,9 @@
                         <state key="normal" title="收藏">
                             <color key="titleColor" red="1" green="0.58331439269999996" blue="0.12216659539999999" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <connections>
+                            <action selector="buttonCollectClick:" destination="EeF-ew-NsC" eventType="touchUpInside" id="p7c-de-QtF"/>
+                        </connections>
                     </button>
                     <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6cj-JF-kPS">
                         <rect key="frame" x="10" y="45" width="377" height="10"/>
@@ -58,20 +61,6 @@
                             <constraint firstAttribute="height" constant="10" id="LLN-G4-6rV"/>
                         </constraints>
                     </webView>
-                    <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMo-13-jlr">
-                        <rect key="frame" x="332" y="70" width="50" height="23"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="23" id="4Nf-f5-u5Y"/>
-                            <constraint firstAttribute="width" constant="50" id="ivY-Zt-ws7"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="会作答">
-                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        </state>
-                        <connections>
-                            <action selector="buttonDoTopicClick:" destination="EeF-ew-NsC" eventType="touchUpInside" id="V6I-Zm-42S"/>
-                        </connections>
-                    </button>
                     <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9FN-G3-tHX">
                         <rect key="frame" x="322" y="103" width="60" height="23"/>
                         <constraints>
@@ -87,7 +76,7 @@
                         </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本题为作答确认题，如果您会作答，请选择&lt;会作答&gt;,不会作答请选择&lt;不会作答&gt;" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mcN-WN-JKV">
-                        <rect key="frame" x="15" y="70" width="270" height="40"/>
+                        <rect key="frame" x="15" y="70" width="297" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="270" id="giZ-Yv-v2g"/>
                             <constraint firstAttribute="height" constant="40" id="veh-1l-7Ct"/>
@@ -95,7 +84,26 @@
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="giZ-Yv-v2g"/>
+                            </mask>
+                        </variation>
                     </label>
+                    <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMo-13-jlr">
+                        <rect key="frame" x="332" y="70" width="50" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="23" id="4Nf-f5-u5Y"/>
+                            <constraint firstAttribute="width" constant="50" id="ivY-Zt-ws7"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <state key="normal" title="会作答">
+                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="buttonDoTopicClick:" destination="EeF-ew-NsC" eventType="touchUpInside" id="V6I-Zm-42S"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="mcN-WN-JKV" firstAttribute="top" secondItem="6cj-JF-kPS" secondAttribute="bottom" constant="15" id="6KB-3a-Xhl"/>
@@ -103,6 +111,7 @@
                     <constraint firstItem="rWP-pa-utE" firstAttribute="top" secondItem="u3v-SX-Oqf" secondAttribute="top" constant="15" id="BUz-on-aSR"/>
                     <constraint firstItem="m2k-V3-G9T" firstAttribute="leading" secondItem="rWP-pa-utE" secondAttribute="trailing" constant="2" id="DpG-JB-QZK"/>
                     <constraint firstItem="6cj-JF-kPS" firstAttribute="top" secondItem="m2k-V3-G9T" secondAttribute="bottom" constant="10" id="Fad-4Z-wLR"/>
+                    <constraint firstItem="9FN-G3-tHX" firstAttribute="leading" secondItem="mcN-WN-JKV" secondAttribute="trailing" constant="10" id="GJy-IB-PiM"/>
                     <constraint firstItem="rWP-pa-utE" firstAttribute="leading" secondItem="u3v-SX-Oqf" secondAttribute="leading" constant="15" id="I3I-ob-QBv"/>
                     <constraint firstItem="m2k-V3-G9T" firstAttribute="bottom" secondItem="rWP-pa-utE" secondAttribute="bottom" id="KnN-wW-Mek"/>
                     <constraint firstItem="6cj-JF-kPS" firstAttribute="leading" secondItem="u3v-SX-Oqf" secondAttribute="leading" constant="10" id="R4m-07-B6M"/>
@@ -121,6 +130,7 @@
                 <outlet property="buttonCanDo" destination="JMo-13-jlr" id="Ief-Ov-lpM"/>
                 <outlet property="buttonCanDonot" destination="9FN-G3-tHX" id="VYS-b1-pZ5"/>
                 <outlet property="buttonCollect" destination="aTP-z9-VQh" id="ZZg-3A-u7C"/>
+                <outlet property="buttonCollectWidth" destination="0Lr-Wl-Hnm" id="LRy-NB-yzE"/>
                 <outlet property="imageCollect" destination="LeC-LR-57k" id="ykp-dl-Mkf"/>
                 <outlet property="labNumber" destination="rWP-pa-utE" id="hvC-bq-Rlb"/>
                 <outlet property="labNumberWidth" destination="o4c-kb-huO" id="TPx-c4-h3j"/>

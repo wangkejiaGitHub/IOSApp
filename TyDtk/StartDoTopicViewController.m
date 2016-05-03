@@ -58,6 +58,16 @@
 - (void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
+    if (![_tyUser objectForKey:tyUserShowUpdateAnswer]) {
+        LXAlertView *alert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"在未交卷之前，您可以修改已经做过或者已保存答案的试题" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不在提醒" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 1) {
+                [_tyUser setObject:@"yes" forKey:tyUserShowUpdateAnswer];
+            }
+        }];
+        alert.animationStyle = LXASAnimationTopShake;
+        [alert showLXAlertView];
+    }
+
 }
 - (void)viewWillDisappear:(BOOL)animated{
 //    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillShowNotification];
