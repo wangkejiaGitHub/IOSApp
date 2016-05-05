@@ -11,9 +11,6 @@
 #import "UIView+WebCacheOperation.h"
 
 static char imageURLKey;
-static char TAG_ACTIVITY_INDICATOR;
-static char TAG_ACTIVITY_STYLE;
-static char TAG_ACTIVITY_SHOW;
 
 @implementation UIImageView (WebCache)
 
@@ -42,39 +39,38 @@ static char TAG_ACTIVITY_SHOW;
 }
 
 - (void)sd_setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
+    // 取消当前图像下载
     [self sd_cancelCurrentImageLoad];
+    // 利用运行时retain url
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
     if (!(options & SDWebImageDelayPlaceholder)) {
         dispatch_main_async_safe(^{
+            // 设置占位图像
             self.image = placeholder;
         });
     }
     
     if (url) {
-
-        // check if activityView is enabled or not
-        if ([self showActivityIndicatorView]) {
-            [self addActivityIndicator];
-        }
-
-        __weak __typeof(self)wself = self;
+        __weak UIImageView *wself = self;
+        // 实例化 SDWebImageOperation 操作
         id <SDWebImageOperation> operation = [SDWebImageManager.sharedManager downloadImageWithURL:url options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-            [wself removeActivityIndicator];
             if (!wself) return;
             dispatch_main_sync_safe(^{
                 if (!wself) return;
-                if (image && (options & SDWebImageAvoidAutoSetImage) && completedBlock)
-                {
-                    completedBlock(image, error, cacheType, url);
-                    return;
-                }
-                else if (image) {
+                // 如果得到图像
+                if (image) {
+                    // 记录图像
                     wself.image = image;
+                    // 重绘视图
                     [wself setNeedsLayout];
                 } else {
+                    // 如果没有得到图像
+                    // 如果设置了 SDWebImageDelayPlaceholder 选项
                     if ((options & SDWebImageDelayPlaceholder)) {
+                        // 设置占位图像
                         wself.image = placeholder;
+                        // 重绘视图
                         [wself setNeedsLayout];
                     }
                 }
@@ -86,16 +82,15 @@ static char TAG_ACTIVITY_SHOW;
         [self sd_setImageLoadOperation:operation forKey:@"UIImageViewImageLoad"];
     } else {
         dispatch_main_async_safe(^{
-            [self removeActivityIndicator];
+            NSError *error = [NSError errorWithDomain:@"SDWebImageErrorDomain" code:-1 userInfo:@{NSLocalizedDescriptionKey : @"Trying to load a nil url"}];
             if (completedBlock) {
-                NSError *error = [NSError errorWithDomain:SDWebImageErrorDomain code:-1 userInfo:@{NSLocalizedDescriptionKey : @"Trying to load a nil url"}];
                 completedBlock(nil, error, SDImageCacheTypeNone, url);
             }
         });
     }
 }
 
-- (void)sd_setImageWithPreviousCachedImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
+- (void)sd_setImageWithPreviousCachedImageWithURL:(NSURL *)url andPlaceholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletionBlock)completedBlock {
     NSString *key = [[SDWebImageManager sharedManager] cacheKeyForURL:url];
     UIImage *lastPreviousCachedImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:key];
     
@@ -108,7 +103,7 @@ static char TAG_ACTIVITY_SHOW;
 
 - (void)sd_setAnimationImagesWithURLs:(NSArray *)arrayOfURLs {
     [self sd_cancelCurrentAnimationImagesLoad];
-    __weak __typeof(self)wself = self;
+    __weak UIImageView *wself = self;
 
     NSMutableArray *operationsArray = [[NSMutableArray alloc] init];
 
@@ -143,135 +138,6 @@ static char TAG_ACTIVITY_SHOW;
 
 - (void)sd_cancelCurrentAnimationImagesLoad {
     [self sd_cancelImageLoadOperationWithKey:@"UIImageViewAnimationImages"];
-}
-
-
-#pragma mark -
-- (UIActivityIndicatorView *)activityIndicator {
-    return (UIActivityIndicatorView *)objc_getAssociatedObject(self, &TAG_ACTIVITY_INDICATOR);
-}
-
-- (void)setActivityIndicator:(UIActivityIndicatorView *)activityIndicator {
-    objc_setAssociatedObject(self, &TAG_ACTIVITY_INDICATOR, activityIndicator, OBJC_ASSOCIATION_RETAIN);
-}
-
-- (void)setShowActivityIndicatorView:(BOOL)show{
-    objc_setAssociatedObject(self, &TAG_ACTIVITY_SHOW, [NSNumber numberWithBool:show], OBJC_ASSOCIATION_RETAIN);
-}
-
-- (BOOL)showActivityIndicatorView{
-    return [objc_getAssociatedObject(self, &TAG_ACTIVITY_SHOW) boolValue];
-}
-
-- (void)setIndicatorStyle:(UIActivityIndicatorViewStyle)style{
-    objc_setAssociatedObject(self, &TAG_ACTIVITY_STYLE, [NSNumber numberWithInt:style], OBJC_ASSOCIATION_RETAIN);
-}
-
-- (int)getIndicatorStyle{
-    return [objc_getAssociatedObject(self, &TAG_ACTIVITY_STYLE) intValue];
-}
-
-- (void)addActivityIndicator {
-    if (!self.activityIndicator) {
-        self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:[self getIndicatorStyle]];
-        self.activityIndicator.translatesAutoresizingMaskIntoConstraints = NO;
-
-        dispatch_main_async_safe(^{
-            [self addSubview:self.activityIndicator];
-
-            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.activityIndicator
-                                                             attribute:NSLayoutAttributeCenterX
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:self
-                                                             attribute:NSLayoutAttributeCenterX
-                                                            multiplier:1.0
-                                                              constant:0.0]];
-            [self addConstraint:[NSLayoutConstraint constraintWithItem:self.activityIndicator
-                                                             attribute:NSLayoutAttributeCenterY
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:self
-                                                             attribute:NSLayoutAttributeCenterY
-                                                            multiplier:1.0
-                                                              constant:0.0]];
-        });
-    }
-
-    dispatch_main_async_safe(^{
-        [self.activityIndicator startAnimating];
-    });
-
-}
-
-- (void)removeActivityIndicator {
-    if (self.activityIndicator) {
-        [self.activityIndicator removeFromSuperview];
-        self.activityIndicator = nil;
-    }
-}
-
-@end
-
-
-@implementation UIImageView (WebCacheDeprecated)
-
-- (NSURL *)imageURL {
-    return [self sd_imageURL];
-}
-
-- (void)setImageWithURL:(NSURL *)url {
-    [self sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:nil];
-}
-
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder {
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:nil];
-}
-
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options {
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:options progress:nil completed:nil];
-}
-
-- (void)setImageWithURL:(NSURL *)url completed:(SDWebImageCompletedBlock)completedBlock {
-    [self sd_setImageWithURL:url placeholderImage:nil options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (completedBlock) {
-            completedBlock(image, error, cacheType);
-        }
-    }];
-}
-
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completed:(SDWebImageCompletedBlock)completedBlock {
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (completedBlock) {
-            completedBlock(image, error, cacheType);
-        }
-    }];
-}
-
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options completed:(SDWebImageCompletedBlock)completedBlock {
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:options progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (completedBlock) {
-            completedBlock(image, error, cacheType);
-        }
-    }];
-}
-
-- (void)setImageWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options progress:(SDWebImageDownloaderProgressBlock)progressBlock completed:(SDWebImageCompletedBlock)completedBlock {
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:options progress:progressBlock completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (completedBlock) {
-            completedBlock(image, error, cacheType);
-        }
-    }];
-}
-
-- (void)cancelCurrentArrayLoad {
-    [self sd_cancelCurrentAnimationImagesLoad];
-}
-
-- (void)cancelCurrentImageLoad {
-    [self sd_cancelCurrentImageLoad];
-}
-
-- (void)setAnimationImagesWithURLs:(NSArray *)arrayOfURLs {
-    [self sd_setAnimationImagesWithURLs:arrayOfURLs];
 }
 
 @end

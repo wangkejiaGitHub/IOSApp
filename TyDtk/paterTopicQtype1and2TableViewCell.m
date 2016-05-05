@@ -48,6 +48,7 @@
     NSLog(@"topicIndex == %ld",index);
     CGFloat allowRet = 0;
     //判断视图是否有图片
+    NSInteger qtypeTopic = [dic[@"qtype"] integerValue];
     NSDictionary *dicImg = dic[@"ImageDictionary"];
     NSString *topicTitle = dic[@"title"];
     for (int i =0 ; i<4; i++) {
@@ -124,13 +125,30 @@
         for (NSString *keyImg in dicImg.allKeys) {
             NSString *imagUrl = dicImg[keyImg];
             __block UIImage *imageTop = [[UIImage alloc]init];
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
             
+            //            SDWebImageDownloader *downloader = [SDWebImageDownloader sharedDownloader];
+            //            [downloader downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            //
+            //
+            //            }completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
+            //                if (image && finished) {
+            //                    imageTop = image;
+            //                }
+            //            }];
+            
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
             [manager downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                
+                NSLog(@"dsfasffasf");
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                imageTop = image;
-                
+                NSLog(@"fsfafafaf");
+                if (image) {
+                    imageTop = image;
+                    //如果是第一次加载，再次刷新ui让图片显示出来
+                    if (_isFirstLoad) {
+                        [self.delegateCellClick IsFirstload:NO];
+                    }
+
+                }
             }];
             
             CGSize sizeImg = imageTop.size;
@@ -236,12 +254,27 @@
             //?????????????????????????????????????
             //是否有选过的选项
             NSString *indexString = [NSString stringWithFormat:@"%ld",index];
-            if ([_dicSelectDone.allKeys containsObject:indexString]) {
-                NSString *selectString = _dicSelectDone[indexString];
-                if ([button.titleLabel.text isEqualToString:selectString]) {
-                    button.backgroundColor = ColorWithRGB(11, 141, 240);
-                    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            //单选判断是否已选
+            if (qtypeTopic == 1) {
+                if ([_dicSelectDone.allKeys containsObject:indexString]) {
+                    NSString *selectString = _dicSelectDone[indexString];
+                    if ([button.titleLabel.text isEqualToString:selectString]) {
+                        button.backgroundColor = ColorWithRGB(11, 141, 240);
+                        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    }
                 }
+            }
+            //多选判断是否已选
+            else{
+                if ([_dicSelectDone.allKeys containsObject:indexString]) {
+                    NSString *selectString = _dicSelectDone[indexString];
+                    NSRange ranSelect = [selectString rangeOfString:button.titleLabel.text];
+                    if (ranSelect.length > 0) {
+                        button.backgroundColor = ColorWithRGB(11, 141, 240);
+                        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    }
+                }
+                
             }
             //?????????????????????????????????????
             ///////////////////////////////////////
@@ -252,8 +285,8 @@
         if (topicType == 2) {
             allowRet = btnSelectOriginy+30 +50;
             UIButton *btnSubmit = [UIButton buttonWithType:UIButtonTypeCustom];
-            btnSubmit.frame = CGRectMake(Scr_Width-140, btnSelectOriginy+30+15, 120, 25);
-            [btnSubmit setTitle:@"保存并跳到下一题" forState:UIControlStateNormal];
+            btnSubmit.frame = CGRectMake(Scr_Width-75, btnSelectOriginy+30+15, 60, 25);
+            [btnSubmit setTitle:@"保存答案" forState:UIControlStateNormal];
             btnSubmit.layer.masksToBounds = YES;
             btnSubmit.layer.cornerRadius = 3;
             btnSubmit.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -299,11 +332,7 @@
     if (topicParentId != 0) {
         [_viewLiness removeFromSuperview];
     }
-    //如果是第一次加载，再次刷新ui让图片显示出来
-    if (_isFirstLoad) {
-        [self.delegateCellClick IsFirstload:NO];
-    }
-    //判断是否已经收藏试题
+       //判断是否已经收藏试题
     NSInteger collectId = [dic[@"collectId"] integerValue];
     //已收藏
     if (collectId>0) {
@@ -349,6 +378,20 @@
 - (void)buttonSubmit:(UIButton *)sender{
     //    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
     //试题Id
+    //????????????????????????????????????
+    //添加已经选过的选项数组
+    NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:_selectContentQtype2};
+    NSLog(@"%@",dicTest);
+    [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
+    
+    //////////////////////////////////////
+    //////////////////////////////////////
+    //判断是否是一题多问下面的选择题
+    NSInteger topicParentId = [_dicTopic[@"parentId"] integerValue];
+    BOOL isRefresh = NO;
+    if (topicParentId == 0) {
+        isRefresh = YES;
+    }
     NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
     //试题类型
     NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
@@ -356,7 +399,7 @@
     NSString *answer = _dicTopic[@"answer"];
     
     NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":_selectContentQtype2,@"TrueAnswer":answer,@"Score":@"0"};
-    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:YES];
+    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
 }
 //点击选项按钮 11 141 240
 - (void)buttonSelectClick:(UIButton *)sender{
@@ -385,7 +428,7 @@
         NSString *btnString = sender.titleLabel.text;
         //        [_arraySelectDone removeAllObjects];
         //        [_arraySelectDone addObject:btnString];
-        [_dicSelectDone setValue:btnString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
+        //        [_dicSelectDone setValue:btnString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
         NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
         NSLog(@"%@",dicTest);
         [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
@@ -603,8 +646,7 @@
     }
 }
 //返回可缩放的视图
--(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
+-(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return self.lastImageView;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{

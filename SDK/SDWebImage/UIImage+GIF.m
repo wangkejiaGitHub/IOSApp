@@ -16,8 +16,10 @@
         return nil;
     }
 
+    // 创建图像源
     CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
 
+    // 获取图片帧数
     size_t count = CGImageSourceGetCount(source);
 
     UIImage *animatedImage;
@@ -30,14 +32,14 @@
 
         NSTimeInterval duration = 0.0f;
 
+        // 遍历并且提取所有的动画帧
         for (size_t i = 0; i < count; i++) {
             CGImageRef image = CGImageSourceCreateImageAtIndex(source, i, NULL);
-            if (!image) {
-                continue;
-            }
 
+            // 累加动画时长
             duration += [self sd_frameDurationAtIndex:i source:source];
 
+            // 将图像添加到动画数组
             [images addObject:[UIImage imageWithCGImage:image scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp]];
 
             CGImageRelease(image);
@@ -47,6 +49,7 @@
             duration = (1.0f / 10.0f) * count;
         }
 
+        // 建立可动画图像
         animatedImage = [UIImage animatedImageWithImages:images duration:duration];
     }
 
@@ -144,17 +147,17 @@
 
     NSMutableArray *scaledImages = [NSMutableArray array];
 
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+
     for (UIImage *image in self.images) {
-        UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
-        
         [image drawInRect:CGRectMake(thumbnailPoint.x, thumbnailPoint.y, scaledSize.width, scaledSize.height)];
         UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
 
         [scaledImages addObject:newImage];
-
-        UIGraphicsEndImageContext();
     }
- 
+
+    UIGraphicsEndImageContext();
+
     return [UIImage animatedImageWithImages:scaledImages duration:self.duration];
 }
 

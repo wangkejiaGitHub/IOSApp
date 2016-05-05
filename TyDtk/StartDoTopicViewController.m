@@ -20,6 +20,8 @@
  用户储存用户每道试题的答案
  */
 @property (nonatomic,strong) NSMutableArray *arrayUserAnswer;
+//用户已做过的题的数量
+@property (nonatomic,assign) NSInteger intUserDidTopic;
 //本地信息存储
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //令牌
@@ -368,6 +370,7 @@
     if (isRefresh) {
         if (![_collectionViewTopicCard.arrayisMakeTopic containsObject:indexString]) {
             [_collectionViewTopicCard.arrayisMakeTopic addObject:indexString];
+            _intUserDidTopic = _intUserDidTopic + 1;
         }
         if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
             _lastButton.userInteractionEnabled = NO;
@@ -390,6 +393,7 @@
         
         [_arrayUserAnswer addObject:dicUserAnswer];
     }
+    NSLog(@"_intUserDidTopic = %ld",_intUserDidTopic);
     NSLog(@"已做了 %ld 道题",_arrayUserAnswer.count);
 }
 
@@ -412,8 +416,8 @@
     //aleat View 提示框
     LXAlertView *alertSubmit;
     //题未做完提示
-    if (topicCount != _arrayUserAnswer.count) {
-        NSInteger sTopic = topicCount - _arrayUserAnswer.count;
+    if (topicCount != _intUserDidTopic) {
+        NSInteger sTopic = topicCount - _intUserDidTopic;
         NSString *alertMessage = [NSString stringWithFormat:@"您还有【%ld】道题没有做，确认交卷吗?",sTopic];
     
         alertSubmit = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:alertMessage cancelBtnTitle:@"交卷" otherBtnTitle:@"继续做题" clickIndexBlock:^(NSInteger clickIndex) {

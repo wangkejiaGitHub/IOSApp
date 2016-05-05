@@ -48,7 +48,7 @@
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@" " withString:@""];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
         topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"<br/><br/>" withString:@"<br/>"];
-
+        
     }
     if (dicImg.allKeys.count>0) {
         //获取参数字符串长度
@@ -80,7 +80,7 @@
         else{
             topicTitle = [topicTitle stringByReplacingCharactersInRange:str withString:@""];
         }
-       
+        
     }
     //主要针对医学题目进行适配
     NSInteger leng = topicTitle.length;
@@ -112,10 +112,10 @@
     _labTitleType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     //随时记录要返回的cell的高度
     allowRet = _webViewTitle.frame.origin.y+_webTitleHeight.constant+50;
-////////////////////////////////////////////
-///////////////////////////////////////////
-/// 如果试题有图片，就加载图片显示
-////////////////////////////////////////////
+    ////////////////////////////////////////////
+    ///////////////////////////////////////////
+    /// 如果试题有图片，就加载图片显示
+    ////////////////////////////////////////////
     //防止图片试图复用时重复加载
     for (id subView in self.contentView.subviews) {
         if ([subView isKindOfClass:[UIView class]]) {
@@ -143,6 +143,10 @@
                 
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                 imageTop = image;
+                //如果是第一次加载，再次刷新ui让图片显示出来
+                if (_isFirstLoad) {
+                    [self.delegateCellClick IsFirstload:NO];
+                }
             }];
             
             CGSize sizeImg = imageTop.size;
@@ -199,10 +203,6 @@
     [self.contentView addSubview:buttonSaveAnswer];
     allowRet = allowRet + 35;
     //随时记录要返回的cell的高度
-    //如果是第一次加载，再次刷新ui让图片显示出来
-    if (_isFirstLoad) {
-        [self.delegateCellClick IsFirstload:NO];
-    }
     return allowRet;
 }
 //保存答案按钮
@@ -265,7 +265,7 @@
         alertIms.animationStyle = LXASAnimationLeftShake;
         [alertIms showLXAlertView];
     }
-
+    
 }
 -(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer
 {
@@ -294,11 +294,11 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     CGFloat webViewScrolHeight = webView.scrollView.contentSize.height;
     _webTitleHeight.constant = webViewScrolHeight +5;
-//    NSLog(@"%f",webViewScrolHeight);
+    //    NSLog(@"%f",webViewScrolHeight);
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

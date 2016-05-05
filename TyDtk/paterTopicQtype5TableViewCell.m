@@ -129,7 +129,12 @@
                 
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                 imageTop = image;
-                
+                //如果是第一次加载，再次刷新ui让图片显示出来
+                if (parentId == 0) {
+                    if (_isFirstLoad) {
+                        [self.delegateCellClick IsFirstload:NO];
+                    }
+                }
             }];
             
             CGSize sizeImg = imageTop.size;
@@ -207,12 +212,6 @@
     allowRet = allowRet + 40;
     self.backgroundColor = [UIColor clearColor];
     _dicTopic = dic;
-    //如果是第一次加载，再次刷新ui让图片显示出来
-    if (parentId == 0) {
-        if (_isFirstLoad) {
-            [self.delegateCellClick IsFirstload:NO];
-        }
-    }
     
     //判断是否已经收藏试题
     NSInteger collectId = [dic[@"collectId"] integerValue];

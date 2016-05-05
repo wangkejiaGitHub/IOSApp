@@ -100,6 +100,8 @@
 		1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC8841C9FEDDE0083B394 /* LocationViewController.m */; };
 		1DEFF1E01CA0E5D800994E2C /* ChineseToPinyin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */; };
 		1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */; };
+		1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF27B4B1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m */; };
+		1DF27B4E1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF27B4D1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib */; };
 		1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */; };
 		1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1DF8984C1CA5218000D726E3 /* loginBrg.jpeg */; };
 		1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF898591CA53D2B00D726E3 /* MZView.m */; };
@@ -308,6 +310,9 @@
 		1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseToPinyin.m; sourceTree = "<group>"; };
 		1DEFF1E11CA122D200994E2C /* SecoundSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecoundSubjectViewController.h; sourceTree = "<group>"; };
 		1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecoundSubjectViewController.m; sourceTree = "<group>"; };
+		1DF27B4A1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype4TableViewCell.h; sourceTree = "<group>"; };
+		1DF27B4B1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicQtype4TableViewCell.m; sourceTree = "<group>"; };
+		1DF27B4D1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = paterTopicQtype4Cell.xib; sourceTree = "<group>"; };
 		1DF898491CA4C3E800D726E3 /* ViewNullData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewNullData.h; sourceTree = "<group>"; };
 		1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewNullData.m; sourceTree = "<group>"; };
 		1DF8984C1CA5218000D726E3 /* loginBrg.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loginBrg.jpeg; sourceTree = "<group>"; };
@@ -392,6 +397,9 @@
 				1D31827A1CD8352D00AD4773 /* paterTopicQtype3Cell.xib */,
 				1D31827C1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.h */,
 				1D31827D1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m */,
+				1DF27B4D1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib */,
+				1DF27B4A1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.h */,
+				1DF27B4B1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m */,
 				1DE5F8D21CD092BD0046CD8A /* paterTopicQtype5Cell.xib */,
 				1DE5F8D41CD093190046CD8A /* paterTopicQtype5TableViewCell.h */,
 				1DE5F8D51CD093190046CD8A /* paterTopicQtype5TableViewCell.m */,
@@ -911,6 +919,7 @@
 				1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */,
 				1DD2E6F81CB5F21700423484 /* ActiveView.xib in Resources */,
 				1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */,
+				1DF27B4E1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib in Resources */,
 				1DE5F8DD1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib in Resources */,
 				1D165E6F1CD1F84700F61EAE /* ErrorView.xib in Resources */,
 				1DF950591CA38F5800104597 /* km_icon.png in Resources */,
@@ -986,6 +995,7 @@
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
 				1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */,
 				1DE5F8D91CD0B3F60046CD8A /* paterTopicQtype1and2TableViewCell.m in Sources */,
+				1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */,
 				1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */,
 				1D1CD88E1CD2EE4800A80E88 /* UILabel+LXAdd.m in Sources */,
 				1DEDC8561C9FA2920083B394 /* MKAnnotationView+WebCache.m in Sources */,

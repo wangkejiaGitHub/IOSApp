@@ -1,13 +1,13 @@
 //
-//  PaterTopicQtype3TableViewCell.m
+//  PaterTopicQtype4TableViewCell.m
 //  TyDtk
 //
-//  Created by 天一文化 on 16/5/3.
+//  Created by 天一文化 on 16/5/5.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
-#import "PaterTopicQtype3TableViewCell.h"
-@interface PaterTopicQtype3TableViewCell()<UIScrollViewDelegate,UIWebViewDelegate>
+#import "PaterTopicQtype4TableViewCell.h"
+@interface PaterTopicQtype4TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //??????????????????????????????????????????????????????
 @property (weak, nonatomic) UIScrollView *scrollView;
@@ -19,26 +19,19 @@
 //??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
 @end
-@implementation PaterTopicQtype3TableViewCell
+@implementation PaterTopicQtype4TableViewCell
 
 - (void)awakeFromNib {
+    // Initialization code
     _imageCollect.layer.masksToBounds = YES;
     _imageCollect.layer.cornerRadius = 2;
     _buttonCollect.layer.masksToBounds = YES;
     _buttonCollect.layer.cornerRadius = 2;
-    _buttonRight.layer.masksToBounds = YES;
-    _buttonRight.layer.cornerRadius = 3;
-    _buttonRight.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    [_buttonRight setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
-    _buttonWrong.layer.masksToBounds = YES;
-    _buttonWrong.layer.cornerRadius = 3;
-    _buttonWrong.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    [_buttonWrong setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
     _webViewTitle.backgroundColor = [UIColor clearColor];
     _webViewTitle.scrollView.scrollEnabled = NO;
     _webViewTitle.opaque = NO;
-    _tyUser = [NSUserDefaults standardUserDefaults];
     
+    _tyUser = [NSUserDefaults standardUserDefaults];
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     CGFloat allowRet = 0;
@@ -82,7 +75,6 @@
     _webViewTitleHeight.constant = labSize.height;
     _webViewTitleHeight.constant = _webViewTitleHeight.constant + 50;
     allowRet = _webViewTitleHeight.constant + 50 +20;
-    
     /// 如果试题有图片，就加载图片显示
     ////////////////////////////////////////////
     //防止图片试图复用时重复加载
@@ -149,28 +141,6 @@
         viewImage = nil;
     }
     
-    ///////////////////////////////////////////////
-    //是否有做过的试题，防止cell复用的时候做过的试题标记消失
-    for (id subView in self.contentView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) {
-            UIButton *button = (UIButton *)subView;
-            if (button.tag != 1111) {
-                
-                NSString *indexString = [NSString stringWithFormat:@"%ld",index];
-                if ([_dicSelectDone.allKeys containsObject:indexString]) {
-                    NSString *selectString = _dicSelectDone[indexString];
-                    if ([button.titleLabel.text isEqualToString:selectString]) {
-                        button.backgroundColor = ColorWithRGB(11, 141, 240);
-                        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                    }
-                }
-                
-            }
-        }
-    }
-    ///////////////////////////////////////
-    
-    allowRet = allowRet + 75;
     //最后分别添加笔记和纠错按钮
     //添加笔记按钮
     UIButton *buttonNotes = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -226,62 +196,14 @@
         }
         
     }
+    
+    //判断是否已经做过该题
+    if ([_dicSelectDone.allKeys containsObject:[NSString stringWithFormat:@"%ld",index]]) {
+        NSString *textString = _dicSelectDone[[NSString stringWithFormat:@"%ld",index]];
+        _textViewAnswer.text = textString;
+    }
+    
     return allowRet;
-}
-//'对','错'的选项按钮
-- (IBAction)buttonSelect:(UIButton *)sender {
-    
-    for (id subView in self.contentView.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) {
-            UIButton *btn = (UIButton *)subView;
-            if (btn.tag != 1111) {
-                if (btn.tag == sender.tag) {
-                    btn.backgroundColor = ColorWithRGB(11, 141, 240);
-                    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                }
-                else{
-                    btn.backgroundColor = [UIColor groupTableViewBackgroundColor];
-                    [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
-                }
-            }
-        }
-    }
-    
-    //????????????????????????????????????
-    //添加已经选过的选项数组
-    NSString *btnString = sender.titleLabel.text;
-    //        [_arraySelectDone removeAllObjects];
-    //        [_arraySelectDone addObject:btnString];
-    [_dicSelectDone setValue:btnString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
-    NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
-    NSLog(@"%@",dicTest);
-    [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
-    
-    //////////////////////////////////////
-    //判断是否是一题多问下面的选择题
-    NSInteger topicParentId = [_dicTopic[@"parentId"] integerValue];
-    BOOL isRefresh = NO;
-    if (topicParentId == 0) {
-        isRefresh = YES;
-    }
-    
-    //试题Id
-    NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
-    //试题类型
-    NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
-    //正确答案
-    //    NSString *answer = _dicTopic[@"answer"];
-    //用户答案
-    NSString *userAnswer = sender.titleLabel.text;
-    if ([userAnswer isEqualToString:@"√"]) {
-        userAnswer = @"1";
-    }
-    else{
-        userAnswer = @"0";
-    }
-    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"Score":@"0"};
-    //        [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer       ];
-    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
 }
 //收藏按钮
 - (IBAction)buttonCollectClick:(UIButton *)sender {
@@ -371,7 +293,6 @@
     
     
 }
-
 //????????????????????????????????
 //????????????????????????????????
 // 笔记按钮
@@ -384,7 +305,6 @@
     NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
     [self.delegateCellClick saveNotesOrErrorClick:questionId executeParameter:0];
 }
-
 
 //??????????????????????????????????????????????????
 -(void)showZoomImageView:(UITapGestureRecognizer *)tap
@@ -479,6 +399,37 @@
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     _webViewTitleHeight.constant = webView.scrollView.contentSize.height;
 }
+
+//保存答案按钮
+- (IBAction)buttonSaveAnswerClick:(UIButton *)sender {
+    //????????????????????????????????????
+    //添加已经选过的选项数组
+    NSString *answerString = _textViewAnswer.text;
+    //    [_dicSelectDone setValue:answerString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
+    NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:answerString};
+    NSLog(@"%@",dicTest);
+    [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
+    
+    //////////////////////////////////////
+    //判断是否是一题多问下面的选择题
+    NSInteger topicParentId = [_dicTopic[@"parentId"] integerValue];
+    BOOL isRefresh = NO;
+    if (topicParentId == 0) {
+        isRefresh = YES;
+    }
+    
+    //试题Id
+    NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
+    //试题类型
+    NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
+    //正确答案
+    NSString *answer = _dicTopic[@"answer"];
+    
+    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":answerString,@"TrueAnswer":answer,@"Score":@"0"};
+    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
+    
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     

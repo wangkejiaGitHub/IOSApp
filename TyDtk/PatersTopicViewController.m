@@ -12,6 +12,7 @@
 #import "paterTopicQtype5TableViewCell.h"
 #import "paterTopicQtype1and2TableViewCell.h"
 #import "PaterTopicQtype3TableViewCell.h"
+#import "PaterTopicQtype4TableViewCell.h"
 @interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegateTest>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
 //需要返回的cell的高
@@ -47,7 +48,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _isFirstLoad = YES;
-    _isFirstLoadSub = YES;
     // Do any additional setup after loading the view.
     _tableViewPater.tableFooterView = [UIView new];
     //    _tableViewPater.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -65,7 +65,6 @@
     _dicUserAnswer = [NSMutableDictionary dictionary];
     _dicUserCollectTopic = [NSMutableDictionary dictionary];
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     //第一段
     //    if (section == 0) {
@@ -132,7 +131,6 @@
     
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSInteger topicQuestionId = [_dicTopic[@"questionId"] integerValue];
     //先判断题的类型
     //选择题（单选和多选）
     if (_qType == 1 | _qType == 2) {
@@ -164,6 +162,35 @@
         cell3.selectionStyle = UITableViewCellSelectionStyleNone;
         _cellHeight = [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell3;
+    }
+    //填空题
+    else if (_qType == 4){
+        PaterTopicQtype4TableViewCell *cell4 = (PaterTopicQtype4TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"paterTopicQtype4Cell"];
+        if (cell4 == nil) {
+            cell4 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype4Cell" owner:self options:nil] lastObject];
+        }
+        cell4.delegateCellClick = self;
+        cell4.isFirstLoad = _isFirstLoad;
+        cell4.indexTopic = _topicIndex;
+        cell4.dicCollectDone = _dicUserCollectTopic;
+        cell4.selectionStyle = UITableViewCellSelectionStyleNone;
+        _cellHeight = [cell4 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+        return cell4;
+    }
+    //简答题
+    else if (_qType == 5){
+        paterTopicQtype5TableViewCell *cell5 = (paterTopicQtype5TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"paterTopicQtype5Cell"];
+        if (cell5 == nil) {
+            cell5 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype5Cell" owner:self options:nil]lastObject];
+        }
+        cell5.isFirstLoad = _isFirstLoad;
+        cell5.delegateCellClick = self;
+        cell5.indexTopic = _topicIndex;
+        cell5.dicCollectDone = _dicUserCollectTopic;
+        cell5.selectionStyle = UITableViewCellSelectionStyleNone;
+        _cellHeight = [cell5 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+        return cell5;
+        
     }
     //一题多问题
     else if (_qType == 6){
@@ -286,8 +313,8 @@
     [_dicUserCollectTopic setValue:dic.allValues.firstObject forKey:dic.allKeys.firstObject];
      NSLog(@"用户已收藏试题 == %@",_dicUserCollectTopic);
 }
-- (void)isFirstLoadSub:(BOOL)isForstLoadSub{
-//    _isFirstLoadSub = isForstLoadSub;
+- (void)IsFirstload:(BOOL)isFirstLoad{
+    _isFirstLoad = isFirstLoad;
     [_tableViewPater reloadData];
 }
 //self.cell上的点击选项按钮（A、B、C、D..）代理回调 点击保存并跳转下一题回调 // 用于刷新答题卡
