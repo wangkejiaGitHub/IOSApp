@@ -211,13 +211,11 @@
     [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:nil isRefresh:YES];
 }
 //图片的点击手势
--(void)showZoomImageView:(UITapGestureRecognizer *)tap
-{
+-(void)showZoomImageView:(UITapGestureRecognizer *)tap{
     if (![(UIImageView *)tap.view image]) {
         return;
     }
     _selectTapView = (UIImageView *)tap.view;
-    
     //scrollView作为背景
     UIScrollView *bgView = [[UIScrollView alloc] init];
     bgView.frame = [UIScreen mainScreen].bounds;
@@ -238,7 +236,6 @@
     imageView.frame = rectImg;
     [bgView addSubview:imageView];
     [[[UIApplication sharedApplication] keyWindow] addSubview:bgView];
-    
     self.lastImageView = imageView;
     self.originalFrame = imageView.frame;
     self.scrollView = bgView;
@@ -267,8 +264,7 @@
     }
     
 }
--(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer
-{
+-(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer{
     self.scrollView.contentOffset = CGPointZero;
     [UIView animateWithDuration:0.5 animations:^{
         self.lastImageView.frame = self.originalFrame;
@@ -287,8 +283,7 @@
     }
 }
 //返回可缩放的视图
--(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
+-(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return self.lastImageView;
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{

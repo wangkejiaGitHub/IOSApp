@@ -50,7 +50,6 @@
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _buttonRight.userInteractionEnabled = NO;
     [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
-    // Do any additional setup after loading the view.
     _buttonSubPater.layer.masksToBounds = YES;
     _buttonSubPater.layer.cornerRadius = 3;
     [self setTimeForTopic];
@@ -71,19 +70,19 @@
     }
 
 }
-- (void)viewWillDisappear:(BOOL)animated{
-//    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillShowNotification];
-//    [[NSNotificationCenter defaultCenter] removeObserver:self forKeyPath:UIKeyboardWillHideNotification];
+- (void)viewDidDisappear:(BOOL)animated{
+    NSLog(@"fsf");
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    _timeLong = nil;
 }
+//键盘出现
 - (void)keyboardShow:(NSNotification *)note{
     NSDictionary *userInfo = [note userInfo];
     NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGRect keyboardRect = [aValue CGRectValue];
     //键盘高度
     CGFloat keyBoardHeight = keyboardRect.size.height;
-//    if (keyBoardHeight!=0) {
-//        rect.origin.y = rect.origin.y - keyBoardHeight+45;
-//    }
     if (keyBoardHeight != 0) {
         CGRect rect = self.view.frame;;
         if (Scr_Width <= 320) {
@@ -180,9 +179,6 @@
     }
     _timeLong.fireDate = [NSDate distantPast];
     _labSurplus.text = @"剩余时间";
-}
-- (void)viewDidDisappear:(BOOL)animated{
-    _timeLong = nil;
 }
 /**
  时间倒计时
@@ -398,8 +394,6 @@
 }
 
 //////////////////////////////////
-//////////////////////////////////
-///？？？？？？？交卷测试？？？？？？
 //交卷按钮
 - (IBAction)subButtonClick:(UIButton *)sender {
     [self submitPaterAlert];
@@ -460,6 +454,8 @@
         if (codeId == 1) {
             NSDictionary *dicDatas = dic[@"datas"];
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            NSString *rId = dicDatas[@"rid"];
+            [self paterAnalysis:rId];
             //            NSString *rId = dicDatas[@"rid"];
         }
         else{
@@ -471,6 +467,17 @@
     }];
     
     NSLog(@"%@ == %@",postStr,_accessToken);
+}
+- (void)paterAnalysis:(NSString *)rId{
+    //api/Resolve/GetPaperResolveQuestions/{id}?access_token={access_token}&rid={rid}
+    NSInteger paterId = [_dicPater[@"Id"] integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,paterId,_accessToken,rId];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicAnalysis);
+    } RequestFaile:^(NSError *error) {
+        
+    }];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

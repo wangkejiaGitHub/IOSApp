@@ -42,7 +42,7 @@
     _tyUser = [NSUserDefaults standardUserDefaults];
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-    if (index == 9) {
+    if (index == 83) {
         NSLog(@"%@",dic);
     }
     NSLog(@"topicIndex == %ld",index);
@@ -178,7 +178,7 @@
     }
     
     //添加选项(添加之前先删除所有手动添加的控件)
-    //开始添加
+    //开始添加 http://www.kaola100.com/tiku/common/getAttachment?filePath=1403600642784_image40.jpeg
     NSInteger seleNum = [dic[@"SelectNum"] integerValue];
     if (seleNum > 0) {
         NSString *selectOptions = dic[@"options"];
@@ -306,6 +306,8 @@
     buttonNotes.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonNotes.layer.masksToBounds = YES;
     buttonNotes.layer.cornerRadius = 2;
+    [buttonNotes setImage:[UIImage imageNamed:@"bj01"] forState:UIControlStateNormal];
+    [buttonNotes setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
     [buttonNotes setTitle:@"笔记" forState:UIControlStateNormal];
     buttonNotes.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonNotes setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
@@ -318,6 +320,8 @@
     buttonError.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonError.layer.masksToBounds = YES;
     buttonError.layer.cornerRadius = 2;
+    [buttonError setImage:[UIImage imageNamed:@"jc01"] forState:UIControlStateNormal];
+    [buttonError setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
     [buttonError setTitle:@"纠错" forState:UIControlStateNormal];
     buttonError.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonError setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
@@ -376,14 +380,10 @@
 }
 //多项选择题的提交按钮
 - (void)buttonSubmit:(UIButton *)sender{
-    //    [self.delegateCellClick topicCellSelectClick:_indexTopic selectDone:sender.titleLabel.text];
-    //试题Id
-    //????????????????????????????????????
     //添加已经选过的选项数组
     NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:_selectContentQtype2};
     NSLog(@"%@",dicTest);
     [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
-    
     //////////////////////////////////////
     //////////////////////////////////////
     //判断是否是一题多问下面的选择题
@@ -563,31 +563,23 @@
     
     
 }
-//??????????????????????????????????????????????????
--(void)showZoomImageView:(UITapGestureRecognizer *)tap
-{
-    
+//图片点击手势，放大图片
+-(void)showZoomImageView:(UITapGestureRecognizer *)tap{
     if (![(UIImageView *)tap.view image]) {
         return;
     }
     _selectTapView = (UIImageView *)tap.view;
-    
     //scrollView作为背景
     UIScrollView *bgView = [[UIScrollView alloc] init];
     bgView.frame = [UIScreen mainScreen].bounds;
     bgView.backgroundColor = [UIColor blackColor];
     UITapGestureRecognizer *tapBg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBgView:)];
-    //
     UILongPressGestureRecognizer *tapmy = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longGestTap:)];
     tapmy.minimumPressDuration = 1.0;
-    //    tapmy.numberOfTapsRequired = 1;
     tapmy.numberOfTouchesRequired = 1;
     [bgView addGestureRecognizer:tapmy];
-    //
     [bgView addGestureRecognizer:tapBg];
-    
     UIImageView *picView = (UIImageView *)tap.view;
-    
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = picView.image;
     imageView.frame = [bgView convertRect:picView.frame fromView:self.contentView];
@@ -596,9 +588,7 @@
     rectImg.origin.x = 15.0;
     imageView.frame = rectImg;
     [bgView addSubview:imageView];
-    
     [[[UIApplication sharedApplication] keyWindow] addSubview:bgView];
-    
     self.lastImageView = imageView;
     self.originalFrame = imageView.frame;
     self.scrollView = bgView;
@@ -625,9 +615,8 @@
         [alertIms showLXAlertView];
     }
 }
-
--(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer
-{
+//再次点击图片
+-(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer{
     self.scrollView.contentOffset = CGPointZero;
     [UIView animateWithDuration:0.5 animations:^{
         self.lastImageView.frame = self.originalFrame;

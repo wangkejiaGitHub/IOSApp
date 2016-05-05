@@ -271,7 +271,6 @@
         _notesView.questionId = questionId;
         _notesView.frame = CGRectMake(30, -200, Scr_Width - 60, 200);
         [self.view addSubview:_notesView];
-        
         [UIView animateWithDuration:0.2 animations:^{
             CGRect rect = _notesView.frame;
             rect.origin.y = (Scr_Height-200)/2 - 30;
@@ -325,15 +324,4 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 @end

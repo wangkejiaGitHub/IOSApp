@@ -192,6 +192,8 @@
     buttonNotes.layer.masksToBounds = YES;
     buttonNotes.layer.cornerRadius = 2;
     [buttonNotes setTitle:@"笔记" forState:UIControlStateNormal];
+    [buttonNotes setImage:[UIImage imageNamed:@"bj01"] forState:UIControlStateNormal];
+    [buttonNotes setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
     buttonNotes.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonNotes setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     buttonNotes.tag = 1111;
@@ -204,6 +206,8 @@
     buttonError.layer.masksToBounds = YES;
     buttonError.layer.cornerRadius = 2;
     [buttonError setTitle:@"纠错" forState:UIControlStateNormal];
+    [buttonError setImage:[UIImage imageNamed:@"jc01"] forState:UIControlStateNormal];
+    [buttonError setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
     buttonError.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonError setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     buttonError.tag = 1111;
@@ -402,31 +406,23 @@
     [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
 }
 
-//??????????????????????????????????????????????????
--(void)showZoomImageView:(UITapGestureRecognizer *)tap
-{
-    
+//图片的点击事件
+-(void)showZoomImageView:(UITapGestureRecognizer *)tap{
     if (![(UIImageView *)tap.view image]) {
         return;
     }
     _selectTapView = (UIImageView *)tap.view;
-    
     //scrollView作为背景
     UIScrollView *bgView = [[UIScrollView alloc] init];
     bgView.frame = [UIScreen mainScreen].bounds;
     bgView.backgroundColor = [UIColor blackColor];
     UITapGestureRecognizer *tapBg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBgView:)];
-    //
     UILongPressGestureRecognizer *tapmy = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longGestTap:)];
     tapmy.minimumPressDuration = 1.0;
-    //    tapmy.numberOfTapsRequired = 1;
     tapmy.numberOfTouchesRequired = 1;
     [bgView addGestureRecognizer:tapmy];
-    //
     [bgView addGestureRecognizer:tapBg];
-    
     UIImageView *picView = (UIImageView *)tap.view;
-    
     UIImageView *imageView = [[UIImageView alloc] init];
     imageView.image = picView.image;
     imageView.frame = [bgView convertRect:picView.frame fromView:self.contentView];
@@ -435,16 +431,14 @@
     rectImg.origin.x = 15.0;
     imageView.frame = rectImg;
     [bgView addSubview:imageView];
-    
     [[[UIApplication sharedApplication] keyWindow] addSubview:bgView];
-    
     self.lastImageView = imageView;
     self.originalFrame = imageView.frame;
     self.scrollView = bgView;
     //最大放大比例
     self.scrollView.maximumZoomScale = 1.5;
     self.scrollView.delegate = self;
-    
+    //试图变化
     [UIView animateWithDuration:0.5 animations:^{
         CGRect frame = imageView.frame;
         frame.size.width = bgView.frame.size.width;
@@ -453,7 +447,7 @@
         frame.origin.y = (bgView.frame.size.height - frame.size.height) * 0.5;
         imageView.frame = frame;
     }];
-    
+    //提示可保存到手机
     if (![_tyUser objectForKey:tyUserShowSaveImgAlert]) {
         LXAlertView *alertIms = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"长按图片可将图片保存到手机相册哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不在提醒" clickIndexBlock:^(NSInteger clickIndex) {
             if (clickIndex == 1) {
@@ -466,8 +460,7 @@
     
 }
 
--(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer
-{
+-(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer{
     self.scrollView.contentOffset = CGPointZero;
     [UIView animateWithDuration:0.5 animations:^{
         self.lastImageView.frame = self.originalFrame;
@@ -486,8 +479,7 @@
     }
 }
 //返回可缩放的视图
--(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
+-(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return self.lastImageView;
 }
 
