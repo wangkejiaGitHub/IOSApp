@@ -100,9 +100,7 @@
     }
     allowRet = _webTitleHeight.constant + 50 +20;
     ////////////////////////////////////////////
-    ///////////////////////////////////////////
     /// 如果试题有图片，就加载图片显示
-    ////////////////////////////////////////////
     //防止图片试图复用时重复加载
     for (id subView in self.contentView.subviews) {
         if ([subView isKindOfClass:[UIView class]]) {
@@ -116,7 +114,6 @@
     UIView *viewImage =[[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width-30, 50)];
     viewImage.backgroundColor =[UIColor clearColor];
     viewImage.tag = 6666;
-    
     /**
      有关cell的高 viewImgsH
      */
@@ -125,16 +122,6 @@
         for (NSString *keyImg in dicImg.allKeys) {
             NSString *imagUrl = dicImg[keyImg];
             __block UIImage *imageTop = [[UIImage alloc]init];
-            
-            //            SDWebImageDownloader *downloader = [SDWebImageDownloader sharedDownloader];
-            //            [downloader downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-            //
-            //
-            //            }completed:^(UIImage *image, NSData *data, NSError *error, BOOL finished) {
-            //                if (image && finished) {
-            //                    imageTop = image;
-            //                }
-            //            }];
             
             SDWebImageManager *manager = [SDWebImageManager sharedManager];
             [manager downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {

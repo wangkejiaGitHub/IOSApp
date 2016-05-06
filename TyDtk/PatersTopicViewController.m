@@ -14,24 +14,19 @@
 #import "PaterTopicQtype3TableViewCell.h"
 #import "PaterTopicQtype4TableViewCell.h"
 @interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegateTest>
-@property (weak, nonatomic) IBOutlet UITableView *tableViewPater;
+@property (nonatomic,strong) UITableView *tableViewPater;
 //需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellHeight;
 //需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellSubHeight;
 //需要返回的tableView头的高
 @property (nonatomic,assign) CGFloat cellHeardHeight;
-//纠错参数字典
-@property (nonatomic,strong) NSMutableDictionary *dicError;
-//所有错误类别数组
-@property (nonatomic,strong) NSArray *arrayErrorType;
 //一题多问下面的小题数组
 @property (nonatomic,strong) NSArray *arraySubQuestion;
 //当前题的题型
 @property (nonatomic,assign) NSInteger qType;
 //判断是否是第一次加载
 @property (nonatomic,assign) BOOL isFirstLoad;
-@property (nonatomic,assign) BOOL isFirstLoadSub;
 //添加朦层
 @property (nonatomic,strong) MZView *viewMz;
 //暂时保存用户答案，cell复用
@@ -47,6 +42,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _tableViewPater = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 45) style:UITableViewStyleGrouped];
+    _tableViewPater.delegate = self;
+    _tableViewPater.dataSource = self;
+    [self.view addSubview:_tableViewPater];
+    
     _isFirstLoad = YES;
     // Do any additional setup after loading the view.
     _tableViewPater.tableFooterView = [UIView new];
@@ -56,9 +56,6 @@
     if (_qType == 6) {
         _arraySubQuestion = _dicTopic[@"subQuestion"];
     }
-    if (_qType == 3) {
-        NSLog(@"%@",_dicTopic);
-    }
     NSLog(@"fsfsfaf");
     _cellHeight = 130;
     _cellSubHeight = 50;
@@ -66,21 +63,18 @@
     _dicUserCollectTopic = [NSMutableDictionary dictionary];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    //第一段
-    //    if (section == 0) {
     //如果是一题多问
     if (_qType == 6) {
         return _arraySubQuestion.count + 1;
     }
     return 1;
-    //    }
+    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 //section头的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    //    if (section == 0) {
     //topicTitle 通过参数传递
     if (_topicTitle!=nil) {
         UILabel *lab = [[UILabel alloc]init];
@@ -93,8 +87,6 @@
         return _cellHeardHeight+30;
     }
     return 1;
-    //    }
-    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 1;
@@ -153,7 +145,7 @@
     else if (_qType == 3){
         PaterTopicQtype3TableViewCell *cell3 = (PaterTopicQtype3TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"paterTopicQtype3Cell"];
         if (cell3 == nil) {
-             cell3 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype3Cell" owner:self options:nil]lastObject];
+            cell3 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype3Cell" owner:self options:nil]lastObject];
         }
         cell3.delegateCellClick = self;
         cell3.isFirstLoad = _isFirstLoad;
@@ -290,7 +282,6 @@
             UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
         }
     }];
-    
     [alertDSaveImg showLXAlertView];
 }
 //保存到本地手机后回调
@@ -310,7 +301,7 @@
 //暂时保存用户收藏的试题
 - (void)saveUserCollectTiopic:(NSDictionary *)dic{
     [_dicUserCollectTopic setValue:dic.allValues.firstObject forKey:dic.allKeys.firstObject];
-     NSLog(@"用户已收藏试题 == %@",_dicUserCollectTopic);
+    NSLog(@"用户已收藏试题 == %@",_dicUserCollectTopic);
 }
 - (void)IsFirstload:(BOOL)isFirstLoad{
     _isFirstLoad = isFirstLoad;

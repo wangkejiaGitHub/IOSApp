@@ -7,6 +7,7 @@
 //
 #import "StartDoTopicViewController.h"
 #import "PatersTopicViewController.h"
+#import "StartAnalysisTopicViewController.h"
 @interface StartDoTopicViewController ()<UIScrollViewDelegate,TopicCardDelegate,TopicCardRefreshDelegate>
 //所有展示试题的容器
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
@@ -268,7 +269,8 @@
 //添加子试图，（每一个子试图相当于一道题）并依次在scrollView中显示出来
 - (void)addChildViewWithTopicForSelf{
     for (int i =0; i<_scrollContentWidth; i++) {
-        UIViewController *chVc = [self.storyboard instantiateViewControllerWithIdentifier:@"PatersTopicViewController"];
+//        UIViewController *chVc = [self.storyboard instantiateViewControllerWithIdentifier:@"PatersTopicViewController"];
+        PatersTopicViewController *chVc = [[PatersTopicViewController alloc]init];
         [self addChildViewController:chVc];
     }
     for (int i = 0; i<_scrollContentWidth; i++) {
@@ -453,10 +455,11 @@
         NSInteger codeId = [dic[@"code"] integerValue];
         if (codeId == 1) {
             NSDictionary *dicDatas = dic[@"datas"];
+             NSString *rId = dicDatas[@"rid"];
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
-            NSString *rId = dicDatas[@"rid"];
-            [self paterAnalysis:rId];
-            //            NSString *rId = dicDatas[@"rid"];
+            [self performSegueWithIdentifier:@"topicAnalysis" sender:rId];
+//            [self paterAnalysis:rId];
+            //  NSString *rId = dicDatas[@"rid"];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"提交失败"];
@@ -468,27 +471,25 @@
     
     NSLog(@"%@ == %@",postStr,_accessToken);
 }
-- (void)paterAnalysis:(NSString *)rId{
-    //api/Resolve/GetPaperResolveQuestions/{id}?access_token={access_token}&rid={rid}
-    NSInteger paterId = [_dicPater[@"Id"] integerValue];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,paterId,_accessToken,rId];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dicAnalysis);
-    } RequestFaile:^(NSError *error) {
-        
-    }];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    StartAnalysisTopicViewController *analysisVc = segue.destinationViewController;
+    analysisVc.PaperId = [_dicPater[@"Id"] integerValue];
+    analysisVc.rId = sender;
 }
+//- (void)paterAnalysis:(NSString *)rId{
+//    //api/Resolve/GetPaperResolveQuestions/{id}?access_token={access_token}&rid={rid}
+//    NSInteger paterId = [_dicPater[@"Id"] integerValue];
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,paterId,_accessToken,rId];
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        NSLog(@"%@",dicAnalysis);
+//    } RequestFaile:^(NSError *error) {
+//        
+//    }];
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
 }
 
 @end

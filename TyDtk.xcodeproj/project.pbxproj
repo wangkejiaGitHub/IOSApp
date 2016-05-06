@@ -47,6 +47,9 @@
 		1DD2E6F81CB5F21700423484 /* ActiveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD2E6F71CB5F21600423484 /* ActiveView.xib */; };
 		1DD2E6FB1CB5F25800423484 /* ActiveVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */; };
 		1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */; };
+		1DDA96D21CDC3551001A7DAE /* StartAnalysisTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDA96D11CDC3551001A7DAE /* StartAnalysisTopicViewController.m */; };
+		1DDA96D61CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDA96D51CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m */; };
+		1DDA96D81CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDA96D71CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib */; };
 		1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */; };
 		1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE066A1CAA296A00FA1505 /* EmailForPwdViewController.m */; };
 		1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */; };
@@ -209,6 +212,11 @@
 		1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveVIew.m; sourceTree = "<group>"; };
 		1DDA96CB1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperTopicAnalysisViewController.h; sourceTree = "<group>"; };
 		1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperTopicAnalysisViewController.m; sourceTree = "<group>"; };
+		1DDA96D01CDC3551001A7DAE /* StartAnalysisTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAnalysisTopicViewController.h; sourceTree = "<group>"; };
+		1DDA96D11CDC3551001A7DAE /* StartAnalysisTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartAnalysisTopicViewController.m; sourceTree = "<group>"; };
+		1DDA96D41CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisQtype1And2TableViewCell.h; sourceTree = "<group>"; };
+		1DDA96D51CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisQtype1And2TableViewCell.m; sourceTree = "<group>"; };
+		1DDA96D71CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnalysisQtype1And2Cell.xib; sourceTree = "<group>"; };
 		1DDE06661CAA295B00FA1505 /* PhoneForPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneForPwdViewController.h; sourceTree = "<group>"; };
 		1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneForPwdViewController.m; sourceTree = "<group>"; };
 		1DDE06691CAA296A00FA1505 /* EmailForPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailForPwdViewController.h; sourceTree = "<group>"; };
@@ -503,11 +511,11 @@
 		1DDA96CE1CDC34A6001A7DAE /* AnswerTopic */ = {
 			isa = PBXGroup;
 			children = (
+				1DF27B4F1CDB39E200F35BB1 /* TopicTypeCell */,
 				1D064E011CBB3303007BD4E4 /* StartDoTopicViewController.h */,
 				1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */,
 				1D064E441CBB6A4B007BD4E4 /* PatersTopicViewController.h */,
 				1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */,
-				1DF27B4F1CDB39E200F35BB1 /* QtypeCell */,
 			);
 			name = AnswerTopic;
 			sourceTree = "<group>";
@@ -515,10 +523,23 @@
 		1DDA96CF1CDC34D2001A7DAE /* AnalysisTopic */ = {
 			isa = PBXGroup;
 			children = (
+				1DDA96D31CDC355E001A7DAE /* TopicTypeCell */,
 				1DDA96CB1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.h */,
 				1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */,
+				1DDA96D01CDC3551001A7DAE /* StartAnalysisTopicViewController.h */,
+				1DDA96D11CDC3551001A7DAE /* StartAnalysisTopicViewController.m */,
 			);
 			name = AnalysisTopic;
+			sourceTree = "<group>";
+		};
+		1DDA96D31CDC355E001A7DAE /* TopicTypeCell */ = {
+			isa = PBXGroup;
+			children = (
+				1DDA96D71CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib */,
+				1DDA96D41CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.h */,
+				1DDA96D51CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m */,
+			);
+			name = TopicTypeCell;
 			sourceTree = "<group>";
 		};
 		1DDE06651CAA28FB00FA1505 /* UserFindPwd */ = {
@@ -768,7 +789,7 @@
 			name = FrameWork;
 			sourceTree = "<group>";
 		};
-		1DF27B4F1CDB39E200F35BB1 /* QtypeCell */ = {
+		1DF27B4F1CDB39E200F35BB1 /* TopicTypeCell */ = {
 			isa = PBXGroup;
 			children = (
 				1DE5F8DA1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib */,
@@ -787,7 +808,7 @@
 				1D03B2901CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.h */,
 				1D03B2911CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m */,
 			);
-			name = QtypeCell;
+			name = TopicTypeCell;
 			sourceTree = "<group>";
 		};
 		1DF27B501CDB3AB700F35BB1 /* ChapterTestPaper */ = {
@@ -944,6 +965,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DDA96D81CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib in Resources */,
 				1DF950571CA38F4D00104597 /* user_icon.png in Resources */,
 				1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */,
 				1D165E681CD1DA1E00F61EAE /* NotesView.xib in Resources */,
@@ -1014,6 +1036,7 @@
 				1DEDC8571C9FA2920083B394 /* NSData+ImageContentType.m in Sources */,
 				1DC18F061CB795D50006D642 /* MJRefreshBackNormalFooter.m in Sources */,
 				1DEDC85E1C9FA2920083B394 /* SDWebImagePrefetcher.m in Sources */,
+				1DDA96D21CDC3551001A7DAE /* StartAnalysisTopicViewController.m in Sources */,
 				1D165E721CD1F85800F61EAE /* ErrorView.m in Sources */,
 				1DEDC85B1C9FA2920083B394 /* SDWebImageDownloader.m in Sources */,
 				1DEDC80D1C9F86170083B394 /* LoginViewController.m in Sources */,
@@ -1055,6 +1078,7 @@
 				1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */,
 				1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */,
 				1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */,
+				1DDA96D61CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m in Sources */,
 				1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */,
 				1D31827E1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m in Sources */,

@@ -9,5 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface PaperTopicAnalysisViewController : UIViewController
-
+//题干信息
+@property (nonatomic,strong) NSString *topicTitle;
+//每道题的字典
+@property (nonatomic,strong) NSDictionary *dicTopic;
+//每道题的索引
+@property (nonatomic,assign) NSInteger topicIndex;
 @end
