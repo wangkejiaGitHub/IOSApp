@@ -158,13 +158,11 @@
             }
             UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
             imgViewTop.image = imageTop;
-            
             //???????????图片手势???????????????????
             UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showZoomImageView:)];
             imgViewTop.userInteractionEnabled = YES;
             [imgViewTop addGestureRecognizer:tapImage];
             //???????????图片手势??????????????????？
-            
             [viewImage addSubview:imgViewTop];
             viewImgsH = viewImgsH+sizeImg.height;
         }
