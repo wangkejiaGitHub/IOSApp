@@ -110,7 +110,7 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OP6-gQ-nNr">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OP6-gQ-nNr">
                         <rect key="frame" x="95" y="142" width="60" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="OKs-jk-EwA"/>
@@ -120,7 +120,7 @@
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="B" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bF5-PO-Pg4">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="B" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bF5-PO-Pg4">
                         <rect key="frame" x="280" y="142" width="60" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="12f-o3-QhO"/>
@@ -140,14 +140,14 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="该题解析:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uiQ-0J-LTM">
-                        <rect key="frame" x="20" y="182" width="70" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="试题解析&gt;&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uiQ-0J-LTM">
+                        <rect key="frame" x="20" y="182" width="75" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="E7g-QR-tJR"/>
-                            <constraint firstAttribute="width" constant="70" id="cMa-Fz-DLP"/>
+                            <constraint firstAttribute="width" constant="75" id="cMa-Fz-DLP"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="试题解析" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wnW-Lp-ZSL">
@@ -156,7 +156,7 @@
                             <constraint firstAttribute="height" constant="20" id="FPO-vZ-grM"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -210,7 +210,9 @@
                 <outlet property="labTopicType" destination="acg-N2-H8L" id="UDN-d5-YZz"/>
                 <outlet property="labTureAnswer" destination="bF5-PO-Pg4" id="0bd-wf-Xcv"/>
                 <outlet property="labUserAnswer" destination="OP6-gQ-nNr" id="14Q-af-KT1"/>
+                <outlet property="viewLine" destination="h7p-L7-FWe" id="Zgk-No-T6D"/>
                 <outlet property="webSelectHeight" destination="cSu-ca-3dq" id="esT-ek-VOJ"/>
+                <outlet property="webSelectUpLaout" destination="RAl-ES-zYt" id="7lI-Ld-aaj"/>
                 <outlet property="webTitleHeight" destination="J4G-UX-bwK" id="Zel-bC-Ky3"/>
                 <outlet property="webVIewSelect" destination="wTZ-gj-7c2" id="Imt-5l-BZs"/>
                 <outlet property="webViewTitle" destination="rDc-6y-g8q" id="dH7-LK-Jlc"/>

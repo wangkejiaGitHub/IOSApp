@@ -37,8 +37,12 @@
     _tyUser = [NSUserDefaults standardUserDefaults];
     _webViewTitle.delegate = self;
     _webVIewSelect.delegate = self;
+    _labAnswerStatus.textColor = [UIColor redColor];
+    _labUserAnswer.textColor = [UIColor redColor];
+    _labTureAnswer.textColor = [UIColor purpleColor];
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+
     if (index == 3) {
         NSLog(@"%@",dic);
     }
@@ -94,7 +98,8 @@
     else{
         _webTitleHeight.constant = _webTitleHeight.constant+40;
     }
-    allowRet = _webTitleHeight.constant + 50 +20;
+    //记录返回或者用到的高
+    allowRet = _webTitleHeight.constant +_webViewTitle.frame.origin.y + 15;
     ////////////////////////////////////////////
     /// 如果试题有图片，就加载图片显示
     //防止图片试图复用时重复加载
@@ -151,17 +156,17 @@
             [viewImage addSubview:imgViewTop];
             viewImgsH = viewImgsH+sizeImg.height;
         }
-        viewImage.frame = CGRectMake(15, allowRet - 10, Scr_Width - 30, viewImgsH);
+        viewImage.frame = CGRectMake(15, allowRet, Scr_Width - 30, viewImgsH);
         _viewImageOy = viewImage.frame.origin.y;
         [self.contentView addSubview:viewImage];
-        allowRet = allowRet + viewImgsH + 30;
+        _webSelectUpLaout.constant = viewImage.frame.size.height;
+        allowRet = allowRet + viewImage.frame.size.height + 60;
     }
     else{
         viewImage = nil;
+        
     }
     
-    //添加选项(添加之前先删除所有手动添加的控件)
-    //开始添加 http://www.kaola100.com/tiku/common/getAttachment?filePath=1403600642784_image40.jpeg
     NSInteger seleNum = [dic[@"SelectNum"] integerValue];
     if (seleNum > 0) {
         NSString *selectOptions = dic[@"options"];
@@ -197,12 +202,38 @@
         }//有图片或者只有选项的时候用原来的
         else{
             
-            _webSelectHeight.constant = labSize.height;
+            _webSelectHeight.constant = labSize.height - 50;
             [_webVIewSelect loadHTMLString:arraySelect baseURL:nil];
-            allowRet = allowRet + _webSelectHeight.constant+20;
+            allowRet = allowRet + _webSelectHeight.constant;
         }
 
     }
+    // 135 目前选项下面的内容
+    allowRet = allowRet+135+20;
+    //设置答题状态和解析数据
+    //正确答案
+    _labTureAnswer.text = dic[@"answer"];
+    //用户答案
+    _labUserAnswer.text = dic[@"userAnswer"];
+    //作答状态
+    NSInteger levelTopic = [dic[@"level"] integerValue];
+    if (levelTopic == 0) {
+        _labAnswerStatus.text = @"未作答";
+        _labUserAnswer.text = @"未作答";
+    }
+    else if (levelTopic == 1){
+        _labAnswerStatus.text = @"答题正确";
+        _labAnswerStatus.textColor = [UIColor purpleColor];
+        _labUserAnswer.textColor = [UIColor purpleColor];
+    }
+    else if (levelTopic == 2){
+        _labAnswerStatus.text = @"答题错误";
+    }
+    //试题解析
+    _labAnalysisData.text = dic[@"analysis"];
+    CGSize labAnalysisSize = [_labAnalysisData sizeThatFits:CGSizeMake(_labAnalysisData.frame.size.width, MAXFLOAT)];
+    _labAnalysisHeight.constant = labAnalysisSize.height+33;
+    allowRet = allowRet + _labAnalysisHeight.constant;
     return allowRet;
     
 }

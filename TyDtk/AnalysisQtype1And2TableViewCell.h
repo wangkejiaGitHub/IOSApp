@@ -54,6 +54,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *labAnalysisData;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labAnalysisHeight;
+@property (weak, nonatomic) IBOutlet UIView *viewLine;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webSelectUpLaout;
 
 //下划线
 //@property (weak, nonatomic) IBOutlet UIView *viewLiness;

@@ -32,7 +32,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _scrollViewPater = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, Scr_Height - 45 - 64)];
-    _scrollViewPater.backgroundColor = [UIColor redColor];
     _scrollViewPater.pagingEnabled = YES;
     [self.view addSubview:_scrollViewPater];
      _tyUser = [NSUserDefaults standardUserDefaults];
@@ -186,7 +185,6 @@
             paterVc.topicTitle = topString;
         }
         paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, Scr_Height - 45 - 64);
-        paterVc.view.backgroundColor = colorSuiJi;
         [_scrollViewPater addSubview:paterVc.view];
     }
 }

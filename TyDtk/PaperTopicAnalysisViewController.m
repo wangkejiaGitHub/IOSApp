@@ -40,9 +40,10 @@
 //页面加载
 - (void)viewLoad{
     _isFirstLoad = YES;
-    _tableViewPater = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) style:UITableViewStyleGrouped];
+    _tableViewPater = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 45) style:UITableViewStyleGrouped];
     _tableViewPater.delegate = self;
     _tableViewPater.dataSource = self;
+    _tableViewPater.backgroundColor = [UIColor clearColor];
     [self.view addSubview:_tableViewPater];
     
     _qType = [_dicTopic[@"qtype"] integerValue];
@@ -53,6 +54,7 @@
     _cellHeight = 130;
     _cellSubHeight = 50;
     _dicUserCollectTopic = [NSMutableDictionary dictionary];
+    self.view.backgroundColor = [UIColor clearColor];
 
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -121,6 +123,7 @@
         AnalysisQtype1And2TableViewCell *cell1 = (AnalysisQtype1And2TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"AnalysisQtype1And2Cell"];
         if (cell1 == nil) {
             cell1 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype1And2Cell" owner:self options:nil]lastObject];
+            cell1.selectionStyle = UITableViewCellSelectionStyleNone;
             cell1.dicTopic = _dicTopic;
             cell1.topicType = _qType;
             cell1.indexTopic = _topicIndex;

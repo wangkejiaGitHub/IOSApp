@@ -12,6 +12,13 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    _imageVIewCollect.layer.masksToBounds = YES;
+    _imageVIewCollect.layer.cornerRadius = 2;
+    _buttonCollect.layer.masksToBounds = YES;
+    _buttonCollect.layer.cornerRadius = 2;
+    _webViewTitle.scrollView.scrollEnabled = NO;
+    _webViewTitle.backgroundColor = [UIColor clearColor];
+    _webViewTitle.opaque = NO;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
