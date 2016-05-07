@@ -8,13 +8,17 @@
 
 #import "StartAnalysisTopicViewController.h"
 #import "PaperTopicAnalysisViewController.h"
-@interface StartAnalysisTopicViewController ()
+@interface StartAnalysisTopicViewController ()<TopicAnalysisCardDelegate>
 //所有展示试题的容器
 //@property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
+@property (weak, nonatomic) IBOutlet UIButton *buttonRight;
+
 @property (nonatomic,strong) UIScrollView *scrollViewPater;
 @property (weak, nonatomic) IBOutlet UIButton *lastButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
+@property (nonatomic,strong) TopicAnalysisCardView *cardCollection;
+@property (nonatomic,assign) BOOL isShowTopicCard;
 //令牌
 @property (nonatomic,strong) NSString *accessToken;
 //试卷所有试题数组
@@ -32,6 +36,7 @@
     _scrollViewPater.pagingEnabled = YES;
     [self.view addSubview:_scrollViewPater];
      _tyUser = [NSUserDefaults standardUserDefaults];
+    _buttonRight.userInteractionEnabled = NO;
     [self getTopicAnalysisPaper];
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -72,6 +77,7 @@
  获取试卷分析
  */
 - (void)getTopicAnalysisPaper{
+    [SVProgressHUD showSuccessWithStatus:@"正在获取试题分析..."];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -86,12 +92,61 @@
         _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
         
         [self addChildViewWithTopicForSelf];
+        _buttonRight.userInteractionEnabled = YES;
+        [self addAnalysisTpoicCard];
+        [SVProgressHUD dismiss];
         
         NSLog(@"%@",dicAnalysis);
     } RequestFaile:^(NSError *error) {
         
     }];
 
+}
+//隐藏或显示答题卡
+- (IBAction)buttonRightClick:(UIButton *)sender {
+    _isShowTopicCard = !_isShowTopicCard;
+    if (_isShowTopicCard) {
+        [self topicCardShow];
+    }
+    else{
+        [self topicCardHiden];
+    }
+}
+
+/**
+ 添加解析答题卡信息
+ */
+- (void)addAnalysisTpoicCard{
+    if (!_cardCollection) {
+//        UICollectionViewLayout *ly = [[UICollectionViewLayout alloc]init];
+        _cardCollection = [[TopicAnalysisCardView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) arrayTopic:_arrayPaterAnalysisData];
+        _cardCollection.delegateCellClick = self;
+        [self.view addSubview:_cardCollection];
+    }
+}
+/**
+ 显示答题卡
+ */
+- (void)topicCardShow{
+    [_buttonRight setTitle:@"隐藏答题卡" forState:UIControlStateNormal];
+    //    [_collectionViewTopicCard setContentOffset:CGPointMake(0, 0) animated:YES];
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rect = _cardCollection.frame;
+        rect.origin.x = 0;
+        _cardCollection.frame = rect;
+    }];
+}
+/**
+ 隐藏答题卡
+ */
+- (void)topicCardHiden{
+    _isShowTopicCard = NO;
+    [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rect = _cardCollection.frame;
+        rect.origin.x = Scr_Width;
+        _cardCollection.frame = rect;
+    }];
 }
 /**
  添加子试图，（每一个子试图相当于一道题）并依次在scrollView中显示出来
@@ -151,6 +206,12 @@
         countDicF = countDicL;
     }
     return nil;
+}
+//点击答题卡上，转到指定试题
+- (void)topicCollectonViewCellClick:(NSInteger)indexScroll{
+    [_scrollViewPater setContentOffset:CGPointMake((indexScroll-1)*Scr_Width, 0) animated:YES];
+    [self topicCardHiden];
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

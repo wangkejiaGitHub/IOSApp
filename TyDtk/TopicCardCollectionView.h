@@ -17,6 +17,6 @@
 //用于筛选是否做过该题
 @property (nonatomic,strong) NSMutableArray *arrayisMakeTopic;
 @property (nonatomic,assign) id <TopicCardDelegate> delegateCellClick;
-//重写是实例化方法
+//重写实例化方法
 - (id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout withTopicArray:(NSArray *)arrayTopic;
 @end

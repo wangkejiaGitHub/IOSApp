@@ -11,6 +11,7 @@
 		1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */; };
 		1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */; };
 		1D10C9891CB3A74C00040913 /* UserIndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D10C9881CB3A74C00040913 /* UserIndexViewController.m */; };
+		1D122B981CDD8F7300A0BA08 /* TopicAnalysisCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D122B971CDD8F7300A0BA08 /* TopicAnalysisCardView.m */; };
 		1D1626931CBDD5CC0050784B /* TopicCardCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */; };
 		1D165E681CD1DA1E00F61EAE /* NotesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D165E671CD1DA1E00F61EAE /* NotesView.xib */; };
 		1D165E6B1CD1DA4800F61EAE /* NotesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D165E6A1CD1DA4800F61EAE /* NotesView.m */; };
@@ -144,6 +145,8 @@
 		1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatersTopicViewController.m; sourceTree = "<group>"; };
 		1D10C9871CB3A74C00040913 /* UserIndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserIndexViewController.h; sourceTree = "<group>"; };
 		1D10C9881CB3A74C00040913 /* UserIndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserIndexViewController.m; sourceTree = "<group>"; };
+		1D122B961CDD8F7300A0BA08 /* TopicAnalysisCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicAnalysisCardView.h; sourceTree = "<group>"; };
+		1D122B971CDD8F7300A0BA08 /* TopicAnalysisCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicAnalysisCardView.m; sourceTree = "<group>"; };
 		1D1626911CBDD5CC0050784B /* TopicCardCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicCardCollectionView.h; sourceTree = "<group>"; };
 		1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicCardCollectionView.m; sourceTree = "<group>"; };
 		1D165E671CD1DA1E00F61EAE /* NotesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesView.xib; sourceTree = "<group>"; };
@@ -752,10 +755,12 @@
 				1DF898591CA53D2B00D726E3 /* MZView.m */,
 				1D18A02B1CAB7D690022642C /* CustomTools.h */,
 				1D18A02C1CAB7D690022642C /* CustomTools.m */,
-				1D1626911CBDD5CC0050784B /* TopicCardCollectionView.h */,
-				1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */,
 				1D86FA311CCDFC23007DF87C /* ErrorTopicView.h */,
 				1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */,
+				1D1626911CBDD5CC0050784B /* TopicCardCollectionView.h */,
+				1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */,
+				1D122B961CDD8F7300A0BA08 /* TopicAnalysisCardView.h */,
+				1D122B971CDD8F7300A0BA08 /* TopicAnalysisCardView.m */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -1079,6 +1084,7 @@
 				1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */,
 				1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */,
 				1DDA96D61CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m in Sources */,
+				1D122B981CDD8F7300A0BA08 /* TopicAnalysisCardView.m in Sources */,
 				1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */,
 				1D31827E1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m in Sources */,

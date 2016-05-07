@@ -513,6 +513,7 @@
                         <outlet property="imageViewHeard" destination="vbU-oe-jTV" id="FhF-Ds-yWQ"/>
                         <outlet property="viewFooter" destination="vs4-X0-c4U" id="bnd-86-clO"/>
                         <outlet property="viewNaviTitle" destination="c23-Ou-32H" id="1ji-fx-YYF"/>
+                        <segue destination="JFo-P8-nFS" kind="show" id="KUc-s8-Mpf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bSL-Ul-io5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -818,7 +819,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellmodel" rowHeight="120" id="xAY-on-F6p">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="92" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xAY-on-F6p" id="FAv-py-55w">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="119"/>
@@ -1181,8 +1182,21 @@
                             <constraint firstAttribute="trailing" secondItem="LFQ-yU-oJq" secondAttribute="trailing" id="T4Q-5x-Vlk"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="u5R-Nc-TGj">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="bVK-AV-k2M">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t9B-Or-TBA">
+                                <rect key="frame" x="276" y="7" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="buttonRightClick:" destination="sNW-13-Bm9" eventType="touchUpInside" id="m7r-zs-yuN"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="buttonRight" destination="t9B-Or-TBA" id="zga-WI-pGT"/>
                         <outlet property="lastButton" destination="dmf-vY-IHM" id="WqV-sd-cli"/>
                         <outlet property="nextButton" destination="76m-uC-ybw" id="vZm-2X-PKw"/>
                     </connections>

@@ -40,7 +40,10 @@
 //自定义提示框
 #import "LXAlertView.h"
 #import "StartDoTopicViewController.h"
+//试卷答题卡
 #import "TopicCardCollectionView.h"
+//解析答题卡
+#import "TopicAnalysisCardView.h"
 #import "ErrorTopicView.h"
 #import "NotesView.h"
 #import "ErrorView.h"
