@@ -6,11 +6,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="262" id="Bjh-Rm-Ubk" customClass="AnalysisQtype1And2TableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="447" height="262"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="279" id="Bjh-Rm-Ubk" customClass="AnalysisQtype1And2TableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="447" height="279"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Bjh-Rm-Ubk" id="h7p-L7-FWe">
-                <rect key="frame" x="0.0" y="0.0" width="447" height="261"/>
+                <rect key="frame" x="0.0" y="0.0" width="447" height="278"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1、" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y21-DR-bCd">
@@ -147,7 +147,7 @@
                             <constraint firstAttribute="width" constant="70" id="cMa-Fz-DLP"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" red="0.84857772435897427" green="0.27847770695191271" blue="0.78235884316072957" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="试题解析" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wnW-Lp-ZSL">
@@ -156,7 +156,7 @@
                             <constraint firstAttribute="height" constant="20" id="FPO-vZ-grM"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" red="0.17486774338372688" green="0.19239363635460965" blue="0.82371794871794857" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
@@ -215,7 +215,7 @@
                 <outlet property="webVIewSelect" destination="wTZ-gj-7c2" id="Imt-5l-BZs"/>
                 <outlet property="webViewTitle" destination="rDc-6y-g8q" id="dH7-LK-Jlc"/>
             </connections>
-            <point key="canvasLocation" x="321.5" y="266"/>
+            <point key="canvasLocation" x="321.5" y="274.5"/>
         </tableViewCell>
     </objects>
     <resources>

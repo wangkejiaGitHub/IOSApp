@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *lastButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
-@property (nonatomic,strong) TopicAnalysisCardView *cardCollection;
+@property (nonatomic,strong) TopicAnalysisCardView *cardView;
 @property (nonatomic,assign) BOOL isShowTopicCard;
 //令牌
 @property (nonatomic,strong) NSString *accessToken;
@@ -37,6 +37,7 @@
     [self.view addSubview:_scrollViewPater];
      _tyUser = [NSUserDefaults standardUserDefaults];
     _buttonRight.userInteractionEnabled = NO;
+    [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
     [self getTopicAnalysisPaper];
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -44,7 +45,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 - (void)viewDidDisappear:(BOOL)animated{
-    NSLog(@"fsf");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -79,9 +79,9 @@
 - (void)getTopicAnalysisPaper{
     [SVProgressHUD showSuccessWithStatus:@"正在获取试题分析..."];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/IOSGetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *dicAnalysis = (NSDictionary *)respoes;
         _arrayPaterAnalysisData = dicAnalysis[@"datas"];
         _scrollContentWidth = 0;
         for (NSDictionary *dicNum in _arrayPaterAnalysisData) {
@@ -97,9 +97,29 @@
         [SVProgressHUD dismiss];
         
         NSLog(@"%@",dicAnalysis);
-    } RequestFaile:^(NSError *error) {
+    } RequestFaile:^(NSError *erro) {
         
     }];
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        _arrayPaterAnalysisData = dicAnalysis[@"datas"];
+//        _scrollContentWidth = 0;
+//        for (NSDictionary *dicNum in _arrayPaterAnalysisData) {
+//            NSArray *arrayDic = dicNum[@"Questions"];
+//            _scrollContentWidth = _scrollContentWidth + arrayDic.count;
+//        }
+//        //设置scrollView的容量
+//        _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
+//        
+//        [self addChildViewWithTopicForSelf];
+//        _buttonRight.userInteractionEnabled = YES;
+//        [self addAnalysisTpoicCard];
+//        [SVProgressHUD dismiss];
+//        
+//        NSLog(@"%@",dicAnalysis);
+//    } RequestFaile:^(NSError *error) {
+//        
+//    }];
 
 }
 //隐藏或显示答题卡
@@ -117,11 +137,11 @@
  添加解析答题卡信息
  */
 - (void)addAnalysisTpoicCard{
-    if (!_cardCollection) {
+    if (!_cardView) {
 //        UICollectionViewLayout *ly = [[UICollectionViewLayout alloc]init];
-        _cardCollection = [[TopicAnalysisCardView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) arrayTopic:_arrayPaterAnalysisData];
-        _cardCollection.delegateCellClick = self;
-        [self.view addSubview:_cardCollection];
+        _cardView = [[TopicAnalysisCardView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) arrayTopic:_arrayPaterAnalysisData];
+        _cardView.delegateCellClick = self;
+        [self.view addSubview:_cardView];
     }
 }
 /**
@@ -131,9 +151,9 @@
     [_buttonRight setTitle:@"隐藏答题卡" forState:UIControlStateNormal];
     //    [_collectionViewTopicCard setContentOffset:CGPointMake(0, 0) animated:YES];
     [UIView animateWithDuration:0.2 animations:^{
-        CGRect rect = _cardCollection.frame;
+        CGRect rect = _cardView.frame;
         rect.origin.x = 0;
-        _cardCollection.frame = rect;
+        _cardView.frame = rect;
     }];
 }
 /**
@@ -143,9 +163,9 @@
     _isShowTopicCard = NO;
     [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
     [UIView animateWithDuration:0.2 animations:^{
-        CGRect rect = _cardCollection.frame;
+        CGRect rect = _cardView.frame;
         rect.origin.x = Scr_Width;
-        _cardCollection.frame = rect;
+        _cardView.frame = rect;
     }];
 }
 /**
