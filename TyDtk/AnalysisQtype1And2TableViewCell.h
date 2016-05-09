@@ -21,7 +21,7 @@
 //保存用户已经收藏过的试题
 - (void)saveUserCollectTiopic:(NSDictionary *)dic;
 //提交笔记或纠错
-//- (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
+- (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
 //第一次加载
 - (void)IsFirstload:(BOOL)isFirstLoad;
 @end
@@ -46,16 +46,20 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonCollectWidth;
 //收藏图片
 @property (weak, nonatomic) IBOutlet UIImageView *imageVIewCollect;
+@property (weak, nonatomic) IBOutlet UIButton *buttonNote;
+@property (weak, nonatomic) IBOutlet UIButton *buttonError;
+
 //显示是否答题正确
 @property (weak, nonatomic) IBOutlet UILabel *labAnswerStatus;
+//用户答案
 @property (weak, nonatomic) IBOutlet UILabel *labUserAnswer;
+//正确答案
 @property (weak, nonatomic) IBOutlet UILabel *labTureAnswer;
-@property (weak, nonatomic) IBOutlet UILabel *labAnalysis;
-@property (weak, nonatomic) IBOutlet UILabel *labAnalysisData;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labAnalysisHeight;
+//试题解析
+@property (weak, nonatomic) IBOutlet UIWebView *webAnalysis;
+//试题解析高度
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webAnalysisHeight;
 @property (weak, nonatomic) IBOutlet UIView *viewLine;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *webSelectUpLaout;
 
 //下划线
@@ -70,5 +74,5 @@
 //试题类型
 @property (nonatomic,assign) NSInteger topicType;
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
-@property (nonatomic,assign) id <TopicAnalysisCellDelegateTest> delegateCellClick;
+@property (nonatomic,assign) id <TopicAnalysisCellDelegateTest> delegateAnalysisCellClick;
 @end

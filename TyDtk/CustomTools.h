@@ -1,7 +1,7 @@
 //
 //  CustomTools.h
 //  TyDtk
-//
+//  用户授权，并执行授权成功或者授权失败的操作
 //  Created by 天一文化 on 16/3/30.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //

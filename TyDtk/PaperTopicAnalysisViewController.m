@@ -128,7 +128,7 @@
             cell1.topicType = _qType;
             cell1.indexTopic = _topicIndex;
             cell1.isFirstLoad = _isFirstLoad;
-            cell1.delegateCellClick = self;
+            cell1.delegateAnalysisCellClick = self;
             _cellHeight = [cell1 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
             return cell1;
         }
@@ -137,6 +137,7 @@
     }
     return nil;
 }
+//cell代理
 - (void)IsFirstload:(BOOL)isFirstLoad{
     _isFirstLoad = isFirstLoad;
     [_tableViewPater reloadData];
@@ -150,6 +151,32 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+//提交笔记或纠错
+- (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId{
+    [_errorView removeFromSuperview];
+    //纠错
+    if (parameterId == 0) {
+        _errorView = nil;
+        if (!_errorView) {
+            _errorView = [[[NSBundle mainBundle] loadNibNamed:@"ErrorView" owner:self options:nil] lastObject];
+        }
+        _errorView.layer.masksToBounds = YES;
+        _errorView.layer.cornerRadius = 5;
+        _errorView.questionId = questionId;
+        _errorView.frame = CGRectMake(30, -200, Scr_Width - 60, 200);
+        [self.view addSubview:_errorView];
+        [UIView animateWithDuration:0.2 animations:^{
+            CGRect rect = _errorView.frame;
+            rect.origin.y = (Scr_Height-200)/2 - 30;
+            _errorView.frame = rect;
+        }];
+
+    }
+    //试卷分析笔记
+    else{
+        
+    }
 }
 
 /*

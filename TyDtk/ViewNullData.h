@@ -1,7 +1,7 @@
 //
 //  ViewNullData.h
 //  TyDtk
-//
+//  数据为空时显示的view层
 //  Created by 天一文化 on 16/3/25.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //

@@ -1,7 +1,7 @@
 //
 //  ErrorTopicView.h
 //  TyDtk
-//
+//  试题的错误类型试图
 //  Created by 天一文化 on 16/4/25.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //

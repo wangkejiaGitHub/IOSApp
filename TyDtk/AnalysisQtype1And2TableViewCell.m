@@ -28,10 +28,19 @@
     _imageVIewCollect.layer.cornerRadius = 2;
     _buttonCollect.layer.masksToBounds = YES;
     _buttonCollect.layer.cornerRadius = 2;
+    _buttonNote.backgroundColor = ColorWithRGB(200, 200, 200);
+    _buttonNote.layer.masksToBounds = YES;
+    _buttonNote.layer.cornerRadius = 2;
+    _buttonError.backgroundColor = ColorWithRGB(200, 200, 200);
+    _buttonError.layer.masksToBounds = YES;
+    _buttonError.layer.cornerRadius = 2;
     _webViewTitle.scrollView.scrollEnabled = NO;
     _webVIewSelect.scrollView.scrollEnabled = NO;
     _webViewTitle.opaque = NO;
     _webVIewSelect.opaque = NO;
+    _webAnalysis.backgroundColor = [UIColor clearColor];
+    _webAnalysis.scrollView.scrollEnabled = NO;
+    _webAnalysis.opaque = NO;
     _webViewTitle.backgroundColor =[UIColor clearColor];
     _webVIewSelect.backgroundColor = [UIColor clearColor];
     _tyUser = [NSUserDefaults standardUserDefaults];
@@ -42,7 +51,8 @@
     _labTureAnswer.textColor = [UIColor purpleColor];
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-
+    _dicTopic = dic;
+    _indexTopic = index;
     if (index == 3) {
         NSLog(@"%@",dic);
     }
@@ -133,7 +143,7 @@
                     imageTop = image;
                     //如果是第一次加载，再次刷新ui让图片显示出来
                     if (_isFirstLoad) {
-                        [self.delegateCellClick IsFirstload:NO];
+                        [self.delegateAnalysisCellClick IsFirstload:NO];
                     }
                     
                 }
@@ -189,7 +199,6 @@
         //如果既有图片，也有选项的话，就用自己自定义的webView
         if (dicImg.allKeys.count>0 && arrayOptions.count > 0) {
             [_webViewSelectCustom removeFromSuperview];
-            [_webVIewSelect removeFromSuperview];
             _webViewSelectCustom = [[UIWebView alloc]initWithFrame:CGRectMake(10, allowRet, Scr_Width - 20, labSize.height)];
             _webViewSelectCustom.opaque = NO;
             _webViewSelectCustom.scrollView.scrollEnabled = NO;
@@ -197,6 +206,7 @@
             [_webViewSelectCustom loadHTMLString:arraySelect baseURL:nil];
             [self.contentView addSubview:_webViewSelectCustom];
             allowRet = _webViewSelectCustom.frame.origin.y + labSize.height+10;
+            _webSelectHeight.constant = _webViewSelectCustom.frame.size.height;
             NSLog(@"fsffdsfs");
             //            _webViewSelectCustom =
         }//有图片或者只有选项的时候用原来的
@@ -208,8 +218,8 @@
         }
 
     }
-    // 135 目前选项下面的内容
-    allowRet = allowRet+135+20;
+    // 160 目前选项下面的内容
+    allowRet = allowRet+160+20;
     //设置答题状态和解析数据
     //正确答案
     _labTureAnswer.text = dic[@"answer"];
@@ -230,13 +240,27 @@
         _labAnswerStatus.text = @"答题错误";
     }
     //试题解析
-    _labAnalysisData.text = dic[@"analysis"];
-    CGSize labAnalysisSize = [_labAnalysisData sizeThatFits:CGSizeMake(_labAnalysisData.frame.size.width, MAXFLOAT)];
-    _labAnalysisHeight.constant = labAnalysisSize.height+33;
-    allowRet = allowRet + _labAnalysisHeight.constant;
+    UILabel *labWebAna = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width - 40, 30)];
+    labWebAna.numberOfLines = 0;
+    labWebAna.text = dic[@"analysis"];
+    CGSize labWebAnaSize = [labWebAna sizeThatFits:CGSizeMake(labWebAna.bounds.size.width, MAXFLOAT)];
+    _webAnalysisHeight.constant = labWebAnaSize.height+ 30+40;
+    NSString *webString = [NSString stringWithFormat:@"<font color='#8080c0' size = '2'>试题解析>></font><br/><br/><font color='#8080c0' size = '3'>%@</font>",labWebAna.text];
+    [_webAnalysis loadHTMLString:webString baseURL:nil];
+    
+    allowRet = allowRet + _webAnalysisHeight.constant - 30;
     return allowRet;
     
 }
+//笔记按钮
+- (IBAction)buttonNoteClick:(UIButton *)sender {
+}
+//纠错按钮
+- (IBAction)buttonErrorClick:(UIButton *)sender {
+    NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+    [self.delegateAnalysisCellClick saveNotesOrErrorClick:questionId executeParameter:0];
+}
+
 //图片点击手势，放大图片
 -(void)showZoomImageView:(UITapGestureRecognizer *)tap{
     if (![(UIImageView *)tap.view image]) {
@@ -305,7 +329,7 @@
 - (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
     if (longTap.state == UIGestureRecognizerStateBegan) {
         [_scrollView removeFromSuperview];
-        [self.delegateCellClick imageSaveQtype1Test:_selectTapView.image];
+        [self.delegateAnalysisCellClick imageSaveQtype1Test:_selectTapView.image];
     }
 }
 //返回可缩放的视图

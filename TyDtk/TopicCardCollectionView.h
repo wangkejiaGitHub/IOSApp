@@ -1,7 +1,7 @@
 //
 //  TopicCardCollectionView.h
 //  TyDtk
-//  **封装答题卡**
+//  模拟试卷答题卡
 //  Created by 天一文化 on 16/4/13.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //

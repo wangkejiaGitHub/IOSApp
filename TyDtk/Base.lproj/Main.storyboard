@@ -513,7 +513,6 @@
                         <outlet property="imageViewHeard" destination="vbU-oe-jTV" id="FhF-Ds-yWQ"/>
                         <outlet property="viewFooter" destination="vs4-X0-c4U" id="bnd-86-clO"/>
                         <outlet property="viewNaviTitle" destination="c23-Ou-32H" id="1ji-fx-YYF"/>
-                        <segue destination="JFo-P8-nFS" kind="show" id="KUc-s8-Mpf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bSL-Ul-io5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -819,7 +818,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellmodel" rowHeight="120" id="xAY-on-F6p">
-                                        <rect key="frame" x="0.0" y="92" width="375" height="120"/>
+                                        <rect key="frame" x="0.0" y="28" width="375" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xAY-on-F6p" id="FAv-py-55w">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="119"/>
@@ -1199,11 +1198,63 @@
                         <outlet property="buttonRight" destination="t9B-Or-TBA" id="zga-WI-pGT"/>
                         <outlet property="lastButton" destination="dmf-vY-IHM" id="WqV-sd-cli"/>
                         <outlet property="nextButton" destination="76m-uC-ybw" id="vZm-2X-PKw"/>
+                        <segue destination="e0n-zO-FfA" kind="show" identifier="notesdata" id="iSk-q2-3te"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="evg-hd-MkM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1090.5" y="627.5"/>
+        </scene>
+        <!--Notes Data View Controller-->
+        <scene sceneID="60f-db-nn6">
+            <objects>
+                <viewController id="e0n-zO-FfA" customClass="NotesDataViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8iQ-5w-iZx"/>
+                        <viewControllerLayoutGuide type="bottom" id="H8m-Nu-seg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="krv-jc-hKz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4nR-0w-Tom">
+                                <rect key="frame" x="87" y="40" width="200" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="65Z-8G-5Ho"/>
+                                    <constraint firstAttribute="height" constant="30" id="lJ4-Ot-iVB"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="我的笔记"/>
+                                    <segment title="网友笔记"/>
+                                    <segment title="添加笔记"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentNotesClick:" destination="e0n-zO-FfA" eventType="valueChanged" id="c8C-Q3-oVN"/>
+                                </connections>
+                            </segmentedControl>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avf-Q5-GGg">
+                                <rect key="frame" x="0.0" y="75" width="375" height="592"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="avf-Q5-GGg" firstAttribute="top" secondItem="4nR-0w-Tom" secondAttribute="bottom" constant="5" id="2qd-zN-gnY"/>
+                            <constraint firstAttribute="trailing" secondItem="avf-Q5-GGg" secondAttribute="trailing" id="Lmh-gp-dIn"/>
+                            <constraint firstItem="H8m-Nu-seg" firstAttribute="top" secondItem="avf-Q5-GGg" secondAttribute="bottom" id="OrJ-Bg-l2J"/>
+                            <constraint firstItem="avf-Q5-GGg" firstAttribute="leading" secondItem="krv-jc-hKz" secondAttribute="leading" id="hIJ-lj-PVn"/>
+                            <constraint firstItem="4nR-0w-Tom" firstAttribute="top" secondItem="8iQ-5w-iZx" secondAttribute="bottom" constant="20" id="qnB-Qc-SLW"/>
+                            <constraint firstItem="4nR-0w-Tom" firstAttribute="centerX" secondItem="krv-jc-hKz" secondAttribute="centerX" id="yru-DZ-b5C"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="scrolViewNotes" destination="avf-Q5-GGg" id="aHH-gT-7Dy"/>
+                        <outlet property="segmentedNots" destination="4nR-0w-Tom" id="xP2-K2-HCW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="mA9-91-oqH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1526.5" y="627.5"/>
         </scene>
         <!--Test View Controller-->
         <scene sceneID="b9G-sh-2Yo">

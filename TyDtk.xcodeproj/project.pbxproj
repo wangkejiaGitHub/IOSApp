@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D0327AD1CE014E600F33072 /* CollectTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0327AC1CE014E600F33072 /* CollectTopic.m */; };
+		1D0327B01CE038CE00F33072 /* NotesAllData.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D0327AF1CE038CD00F33072 /* NotesAllData.xib */; };
+		1D0327B31CE0391500F33072 /* NotesAllDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0327B21CE0391500F33072 /* NotesAllDataView.m */; };
+		1D0327B61CE03D3000F33072 /* NotesDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0327B51CE03D3000F33072 /* NotesDataViewController.m */; };
 		1D03B2921CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D03B2911CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m */; };
 		1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */; };
 		1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */; };
@@ -143,6 +147,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1D0327AB1CE014E600F33072 /* CollectTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectTopic.h; sourceTree = "<group>"; };
+		1D0327AC1CE014E600F33072 /* CollectTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectTopic.m; sourceTree = "<group>"; };
+		1D0327AF1CE038CD00F33072 /* NotesAllData.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesAllData.xib; sourceTree = "<group>"; };
+		1D0327B11CE0391500F33072 /* NotesAllDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesAllDataView.h; sourceTree = "<group>"; };
+		1D0327B21CE0391500F33072 /* NotesAllDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesAllDataView.m; sourceTree = "<group>"; };
+		1D0327B41CE03D3000F33072 /* NotesDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesDataViewController.h; sourceTree = "<group>"; };
+		1D0327B51CE03D3000F33072 /* NotesDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesDataViewController.m; sourceTree = "<group>"; };
 		1D03B2901CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype6TableViewCell.h; sourceTree = "<group>"; };
 		1D03B2911CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicQtype6TableViewCell.m; sourceTree = "<group>"; };
 		1D064E011CBB3303007BD4E4 /* StartDoTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartDoTopicViewController.h; sourceTree = "<group>"; };
@@ -386,6 +397,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D0327AE1CE015B000F33072 /* CustomTools */ = {
+			isa = PBXGroup;
+			children = (
+				1DF898491CA4C3E800D726E3 /* ViewNullData.h */,
+				1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */,
+				1DF898581CA53D2B00D726E3 /* MZView.h */,
+				1DF898591CA53D2B00D726E3 /* MZView.m */,
+				1D18A02B1CAB7D690022642C /* CustomTools.h */,
+				1D18A02C1CAB7D690022642C /* CustomTools.m */,
+				1D86FA311CCDFC23007DF87C /* ErrorTopicView.h */,
+				1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */,
+				1D1626911CBDD5CC0050784B /* TopicCardCollectionView.h */,
+				1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */,
+				1D122B961CDD8F7300A0BA08 /* TopicAnalysisCardView.h */,
+				1D122B971CDD8F7300A0BA08 /* TopicAnalysisCardView.m */,
+				1D0327AB1CE014E600F33072 /* CollectTopic.h */,
+				1D0327AC1CE014E600F33072 /* CollectTopic.m */,
+			);
+			name = CustomTools;
+			sourceTree = "<group>";
+		};
 		1D064E431CBB69E2007BD4E4 /* TyDtkTestCenter */ = {
 			isa = PBXGroup;
 			children = (
@@ -546,6 +578,11 @@
 				1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */,
 				1DDA96D01CDC3551001A7DAE /* StartAnalysisTopicViewController.h */,
 				1DDA96D11CDC3551001A7DAE /* StartAnalysisTopicViewController.m */,
+				1D0327AF1CE038CD00F33072 /* NotesAllData.xib */,
+				1D0327B11CE0391500F33072 /* NotesAllDataView.h */,
+				1D0327B21CE0391500F33072 /* NotesAllDataView.m */,
+				1D0327B41CE03D3000F33072 /* NotesDataViewController.h */,
+				1D0327B51CE03D3000F33072 /* NotesDataViewController.m */,
 			);
 			name = AnalysisTopic;
 			sourceTree = "<group>";
@@ -767,24 +804,13 @@
 		1DEDC8681C9FA6460083B394 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				1D0327AE1CE015B000F33072 /* CustomTools */,
 				1DEFF1DE1CA0E5D800994E2C /* ChineseToPinyin.h */,
 				1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */,
 				1DEDC87D1C9FA6810083B394 /* HttpTools.h */,
 				1DEDC87E1C9FA6810083B394 /* HttpTools.m */,
 				1DF950731CA3C52200104597 /* Reachability.h */,
 				1DF950741CA3C52200104597 /* Reachability.m */,
-				1DF898491CA4C3E800D726E3 /* ViewNullData.h */,
-				1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */,
-				1DF898581CA53D2B00D726E3 /* MZView.h */,
-				1DF898591CA53D2B00D726E3 /* MZView.m */,
-				1D18A02B1CAB7D690022642C /* CustomTools.h */,
-				1D18A02C1CAB7D690022642C /* CustomTools.m */,
-				1D86FA311CCDFC23007DF87C /* ErrorTopicView.h */,
-				1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */,
-				1D1626911CBDD5CC0050784B /* TopicCardCollectionView.h */,
-				1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */,
-				1D122B961CDD8F7300A0BA08 /* TopicAnalysisCardView.h */,
-				1D122B971CDD8F7300A0BA08 /* TopicAnalysisCardView.m */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -997,6 +1023,7 @@
 				1DDA96D81CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib in Resources */,
 				1DF950571CA38F4D00104597 /* user_icon.png in Resources */,
 				1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */,
+				1D0327B01CE038CE00F33072 /* NotesAllData.xib in Resources */,
 				1D122B9D1CDDBB9800A0BA08 /* AnalysisQtype3Cell.xib in Resources */,
 				1D165E681CD1DA1E00F61EAE /* NotesView.xib in Resources */,
 				1DE5F8D31CD092BD0046CD8A /* paterTopicQtype5Cell.xib in Resources */,
@@ -1058,6 +1085,7 @@
 				1DF9506F1CA3BFC500104597 /* SVProgressHUD.m in Sources */,
 				1D1CD88D1CD2EE4800A80E88 /* LXAlertView.m in Sources */,
 				1DEDC8161C9F880E0083B394 /* IndexViewController.m in Sources */,
+				1D0327B31CE0391500F33072 /* NotesAllDataView.m in Sources */,
 				1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */,
 				1DEDC8791C9FA66B0083B394 /* AFSecurityPolicy.m in Sources */,
 				1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */,
@@ -1091,6 +1119,7 @@
 				1DEDC87C1C9FA66B0083B394 /* AFURLSessionManager.m in Sources */,
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
 				1D122BA71CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m in Sources */,
+				1D0327AD1CE014E600F33072 /* CollectTopic.m in Sources */,
 				1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */,
 				1DE5F8D91CD0B3F60046CD8A /* paterTopicQtype1and2TableViewCell.m in Sources */,
 				1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */,
@@ -1119,6 +1148,7 @@
 				1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */,
 				1D31827E1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m in Sources */,
 				1DC18F031CB795D50006D642 /* MJRefreshAutoNormalFooter.m in Sources */,
+				1D0327B61CE03D3000F33072 /* NotesDataViewController.m in Sources */,
 				1D165E6B1CD1DA4800F61EAE /* NotesView.m in Sources */,
 				1DEDC7D81C9F817B0083B394 /* main.m in Sources */,
 				1DC18EFE1CB795D50006D642 /* MJRefreshBackFooter.m in Sources */,

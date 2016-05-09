@@ -31,6 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"试卷解析";
     _scrollViewPater = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, Scr_Height - 45 - 64)];
     _scrollViewPater.pagingEnabled = YES;
     [self.view addSubview:_scrollViewPater];
