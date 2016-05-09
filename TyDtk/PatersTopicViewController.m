@@ -21,12 +21,16 @@
 @property (nonatomic,assign) CGFloat cellSubHeight;
 //需要返回的tableView头的高
 @property (nonatomic,assign) CGFloat cellHeardHeight;
+//通过webview加载后计算出的高度
+@property (nonatomic,assign) CGFloat cellWebLoadingheight;
 //一题多问下面的小题数组
 @property (nonatomic,strong) NSArray *arraySubQuestion;
 //当前题的题型
 @property (nonatomic,assign) NSInteger qType;
 //判断是否是第一次加载
 @property (nonatomic,assign) BOOL isFirstLoad;
+@property (nonatomic,assign) BOOL isWebFirstLoading;
+@property (nonatomic,assign) CGFloat imageOy;
 //添加朦层
 @property (nonatomic,strong) MZView *viewMz;
 //暂时保存用户答案，cell复用
@@ -36,12 +40,16 @@
 @property (nonatomic,strong) NotesView *notesView;
 //纠错
 @property (nonatomic,strong) ErrorView *errorView;
+//朦层
+@property (nonatomic,strong) MZView *mzView;
 @end
 
 @implementation PatersTopicViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _isWebFirstLoading = YES;
+    _cellWebLoadingheight= 0;
     _tableViewPater = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 45) style:UITableViewStyleGrouped];
     _tableViewPater.delegate = self;
     _tableViewPater.dataSource = self;
@@ -111,7 +119,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_qType == 6) {
         if (indexPath.row == 0) {
-            return _cellHeight;
+//            if (_cellWebLoadingheight != 0) {
+//                return _cellWebLoadingheight;
+//            }
+            return _cellWebLoadingheight;
+            
         }
         else{
             return _cellSubHeight;
@@ -192,8 +204,10 @@
             cellSubQu.delegateCellClick = self;
             cellSubQu.indexTopic = _topicIndex;
             cellSubQu.isFirstLoad = _isFirstLoad;
+            cellSubQu.imageOy = _imageOy;
+            cellSubQu.isWebFirstLoading = _isWebFirstLoading;
             cellSubQu.selectionStyle = UITableViewCellSelectionStyleNone;
-            _cellHeight = [cellSubQu setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+            [cellSubQu setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
             return cellSubQu;
         }
         else{
@@ -305,6 +319,14 @@
 }
 - (void)IsFirstload:(BOOL)isFirstLoad{
     _isFirstLoad = isFirstLoad;
+    [_tableViewPater reloadData];
+    [_tableViewPater reloadData];
+}
+
+- (void)isWebLoadingCellHeight:(CGFloat)cellHeight withImageOy:(CGFloat)imageOy{
+    _cellWebLoadingheight = cellHeight;
+    _isWebFirstLoading = NO;
+    _imageOy = imageOy;
     [_tableViewPater reloadData];
 }
 //self.cell上的点击选项按钮（A、B、C、D..）代理回调 点击保存并跳转下一题回调 // 用于刷新答题卡

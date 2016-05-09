@@ -175,18 +175,16 @@
     }
     //试卷分析笔记
     else{
-        
+        //跳转到笔记界面
+        [self.delegatePersent persentNotesViewController:[NSString stringWithFormat:@"%ld",questionId]];
     }
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+// 
+//}
 
 @end

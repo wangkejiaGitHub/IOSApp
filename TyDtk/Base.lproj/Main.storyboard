@@ -1218,7 +1218,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4nR-0w-Tom">
-                                <rect key="frame" x="87" y="40" width="200" height="31"/>
+                                <rect key="frame" x="87" y="30" width="200" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="65Z-8G-5Ho"/>
                                     <constraint firstAttribute="height" constant="30" id="lJ4-Ot-iVB"/>
@@ -1233,7 +1233,7 @@
                                 </connections>
                             </segmentedControl>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avf-Q5-GGg">
-                                <rect key="frame" x="0.0" y="75" width="375" height="592"/>
+                                <rect key="frame" x="0.0" y="65" width="375" height="602"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1242,7 +1242,7 @@
                             <constraint firstAttribute="trailing" secondItem="avf-Q5-GGg" secondAttribute="trailing" id="Lmh-gp-dIn"/>
                             <constraint firstItem="H8m-Nu-seg" firstAttribute="top" secondItem="avf-Q5-GGg" secondAttribute="bottom" id="OrJ-Bg-l2J"/>
                             <constraint firstItem="avf-Q5-GGg" firstAttribute="leading" secondItem="krv-jc-hKz" secondAttribute="leading" id="hIJ-lj-PVn"/>
-                            <constraint firstItem="4nR-0w-Tom" firstAttribute="top" secondItem="8iQ-5w-iZx" secondAttribute="bottom" constant="20" id="qnB-Qc-SLW"/>
+                            <constraint firstItem="4nR-0w-Tom" firstAttribute="top" secondItem="8iQ-5w-iZx" secondAttribute="bottom" constant="10" id="qnB-Qc-SLW"/>
                             <constraint firstItem="4nR-0w-Tom" firstAttribute="centerX" secondItem="krv-jc-hKz" secondAttribute="centerX" id="yru-DZ-b5C"/>
                         </constraints>
                     </view>

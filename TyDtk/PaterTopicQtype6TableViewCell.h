@@ -25,6 +25,9 @@
 @property (nonatomic,strong) NSDictionary *dicTopic;
 //是否第一次加载
 @property (nonatomic,assign) BOOL isFirstLoad;
+//第一次加载webview
+@property (nonatomic,assign) BOOL isWebFirstLoading;
+@property (nonatomic,assign) CGFloat imageOy;
 @property (nonatomic,assign) id <TopicCellDelegateTest> delegateCellClick;
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @end

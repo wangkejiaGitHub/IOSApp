@@ -16,9 +16,10 @@
 
 @property (nonatomic,strong) UIImageView *selectTapView;
 //??????????????????????????????????????????????????????
+//存放图片的view的高度
 @property (nonatomic,assign) CGFloat viewImageOy;
-////
-
+//存放图片的view
+@property (nonatomic,strong) UIView *viewImage;
 @end
 @implementation PaterTopicQtype6TableViewCell
 
@@ -28,11 +29,11 @@
     _webViewTitle.scrollView.scrollEnabled = NO;
     _webViewTitle.opaque = NO;
     _webViewTitle.delegate = self;
+    _viewImage = nil;
 }
 
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-    CGFloat allowRet = 0;
-    if (index == 86) {
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+    if (index == 7) {
         NSLog(@"fsf");
     }
     NSLog(@"topicIndex = %ld",index);
@@ -94,25 +95,24 @@
     }
     else{
         //题目
-        UILabel *labTitleTest = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-30, 0)];
+        UILabel *labTitleTest = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-30, 30)];
         labTitleTest.text = topicTitle;
         labTitleTest.numberOfLines = 0;
         labTitleTest.font = [UIFont systemFontOfSize:19];
         if (Scr_Width > 320) {
             labTitleTest.font = [UIFont systemFontOfSize:18.5];
         }
-        CGSize labSize = [labTitleTest sizeThatFits:CGSizeMake(labTitleTest.frame.size.width, MAXFLOAT)];
-        _webTitleHeight.constant = labSize.height;
+        //        CGSize labSize = [labTitleTest sizeThatFits:CGSizeMake(labTitleTest.frame.size.width, MAXFLOAT)];
+        //        _webTitleHeight.constant = labSize.height;
     }
-    [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
+    NSString *htmlString = [NSString stringWithFormat:@"<html><body><div style='word-break:break-all;'>%@</div></body></html>",topicTitle];
+    [_webViewTitle loadHTMLString:htmlString baseURL:nil];
+    
     //试题编号
     _labNumber.text = [NSString stringWithFormat:@"%ld、",index];
     _labNumberWidth.constant = _labNumber.text.length*10+15;
     //试题类型（案例分析）
     _labTitleType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
-    //随时记录要返回的cell的高度
-    allowRet = _webViewTitle.frame.origin.y+_webTitleHeight.constant+50;
-    ////////////////////////////////////////////
     ///////////////////////////////////////////
     /// 如果试题有图片，就加载图片显示
     ////////////////////////////////////////////
@@ -126,9 +126,9 @@
         }
     }
     //用于展示图片的view层
-    UIView *viewImage =[[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width-30, 50)];
-    viewImage.backgroundColor =[UIColor clearColor];
-    viewImage.tag = 6666;
+    _viewImage =[[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width-30, 50)];
+    _viewImage.backgroundColor =[UIColor clearColor];
+    _viewImage.tag = 6666;
     /**
      有关cell的高 viewImgsH
      */
@@ -163,25 +163,21 @@
             imgViewTop.userInteractionEnabled = YES;
             [imgViewTop addGestureRecognizer:tapImage];
             //???????????图片手势??????????????????？
-            [viewImage addSubview:imgViewTop];
+            [_viewImage addSubview:imgViewTop];
             viewImgsH = viewImgsH+sizeImg.height;
         }
-        viewImage.frame = CGRectMake(15, allowRet - 10, Scr_Width - 30, viewImgsH);
-        [self.contentView addSubview:viewImage];
-        UIView *viewLi = (UIView *)[self.contentView viewWithTag:101];
-        if (viewLi) {
-            [viewLi removeFromSuperview];
-        }
-        UIView *viewLineImgDown = [[UIView alloc]initWithFrame:CGRectMake(10, allowRet+viewImgsH+10, Scr_Width-20, 1)];
-        viewLineImgDown.tag = 101;
+        UIView *viewLineImgDown = [[UIView alloc]initWithFrame:CGRectMake(10,_imageOy+5, Scr_Width-20, 1)];
         viewLineImgDown.backgroundColor = [UIColor lightGrayColor];
         [self.contentView addSubview:viewLineImgDown];
+
+        _viewImage.frame = CGRectMake(15, _imageOy+10, Scr_Width - 30, viewImgsH);
+        [self.contentView addSubview:_viewImage];
+
         //？？？？？随时记录要返回的cell的高度
-        _viewImageOy = viewImage.frame.origin.y;
-        allowRet = allowRet + viewImgsH + 30;
+        _viewImageOy = _viewImage.frame.origin.y;
     }
     else{
-        viewImage = nil;
+        _viewImage = nil;
     }
     //添加保存试题按钮，主要用同步答题卡
     UIButton *buttonSave = (UIButton *)[self.contentView viewWithTag:102];
@@ -190,7 +186,7 @@
     }
     UIButton *buttonSaveAnswer = [UIButton buttonWithType:UIButtonTypeCustom];
     buttonSaveAnswer.tag = 102;
-    buttonSaveAnswer.frame = CGRectMake(Scr_Width-170, allowRet, 160, 25);
+    buttonSaveAnswer.frame = CGRectMake(Scr_Width-170, _imageOy + _viewImage.bounds.size.height+20, 160, 25);
     [buttonSaveAnswer setTitle:@"保存本题答案并跳转下一题" forState:UIControlStateNormal];
     buttonSaveAnswer.titleLabel.font = [UIFont systemFontOfSize:13.0];
     buttonSaveAnswer.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -199,9 +195,8 @@
     buttonSaveAnswer.layer.cornerRadius = 3;
     [buttonSaveAnswer addTarget:self action:@selector(buttonSubmitClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:buttonSaveAnswer];
-    allowRet = allowRet + 35;
     //随时记录要返回的cell的高度
-    return allowRet;
+    
 }
 //保存答案按钮
 - (void)buttonSubmitClick:(UIButton *)button{
@@ -286,8 +281,16 @@
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     CGFloat webViewScrolHeight = webView.scrollView.contentSize.height;
-    _webTitleHeight.constant = webViewScrolHeight +5;
-    //    NSLog(@"%f",webViewScrolHeight);
+    _webTitleHeight.constant = webViewScrolHeight;
+    CGFloat cellHeightL = _webViewTitle.frame.origin.y + webViewScrolHeight;
+    NSLog(@"_indexTopic_indexTopic = %ld",_indexTopic);
+    if (_isWebFirstLoading) {
+        if (_indexTopic == 7) {
+            NSLog(@"faas");
+        }
+        [self.delegateCellClick isWebLoadingCellHeight:cellHeightL+_viewImage.frame.size.height + 60 withImageOy:cellHeightL];
+    }
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

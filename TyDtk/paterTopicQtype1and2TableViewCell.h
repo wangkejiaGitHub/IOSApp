@@ -25,6 +25,7 @@
 - (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
 //第一次加载
 - (void)IsFirstload:(BOOL)isFirstLoad;
+- (void)isWebLoadingCellHeight:(CGFloat)cellHeight withImageOy:(CGFloat)imageOy;
 @end
 @interface paterTopicQtype1and2TableViewCell : UITableViewCell
 //已经做过的试题

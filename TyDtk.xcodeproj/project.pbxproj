@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1D0327AD1CE014E600F33072 /* CollectTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0327AC1CE014E600F33072 /* CollectTopic.m */; };
-		1D0327B01CE038CE00F33072 /* NotesAllData.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D0327AF1CE038CD00F33072 /* NotesAllData.xib */; };
-		1D0327B31CE0391500F33072 /* NotesAllDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0327B21CE0391500F33072 /* NotesAllDataView.m */; };
 		1D0327B61CE03D3000F33072 /* NotesDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0327B51CE03D3000F33072 /* NotesDataViewController.m */; };
 		1D03B2921CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D03B2911CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m */; };
 		1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */; };
@@ -149,9 +147,6 @@
 /* Begin PBXFileReference section */
 		1D0327AB1CE014E600F33072 /* CollectTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectTopic.h; sourceTree = "<group>"; };
 		1D0327AC1CE014E600F33072 /* CollectTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectTopic.m; sourceTree = "<group>"; };
-		1D0327AF1CE038CD00F33072 /* NotesAllData.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesAllData.xib; sourceTree = "<group>"; };
-		1D0327B11CE0391500F33072 /* NotesAllDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesAllDataView.h; sourceTree = "<group>"; };
-		1D0327B21CE0391500F33072 /* NotesAllDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesAllDataView.m; sourceTree = "<group>"; };
 		1D0327B41CE03D3000F33072 /* NotesDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesDataViewController.h; sourceTree = "<group>"; };
 		1D0327B51CE03D3000F33072 /* NotesDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesDataViewController.m; sourceTree = "<group>"; };
 		1D03B2901CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype6TableViewCell.h; sourceTree = "<group>"; };
@@ -578,9 +573,6 @@
 				1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */,
 				1DDA96D01CDC3551001A7DAE /* StartAnalysisTopicViewController.h */,
 				1DDA96D11CDC3551001A7DAE /* StartAnalysisTopicViewController.m */,
-				1D0327AF1CE038CD00F33072 /* NotesAllData.xib */,
-				1D0327B11CE0391500F33072 /* NotesAllDataView.h */,
-				1D0327B21CE0391500F33072 /* NotesAllDataView.m */,
 				1D0327B41CE03D3000F33072 /* NotesDataViewController.h */,
 				1D0327B51CE03D3000F33072 /* NotesDataViewController.m */,
 			);
@@ -1023,7 +1015,6 @@
 				1DDA96D81CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib in Resources */,
 				1DF950571CA38F4D00104597 /* user_icon.png in Resources */,
 				1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */,
-				1D0327B01CE038CE00F33072 /* NotesAllData.xib in Resources */,
 				1D122B9D1CDDBB9800A0BA08 /* AnalysisQtype3Cell.xib in Resources */,
 				1D165E681CD1DA1E00F61EAE /* NotesView.xib in Resources */,
 				1DE5F8D31CD092BD0046CD8A /* paterTopicQtype5Cell.xib in Resources */,
@@ -1085,7 +1076,6 @@
 				1DF9506F1CA3BFC500104597 /* SVProgressHUD.m in Sources */,
 				1D1CD88D1CD2EE4800A80E88 /* LXAlertView.m in Sources */,
 				1DEDC8161C9F880E0083B394 /* IndexViewController.m in Sources */,
-				1D0327B31CE0391500F33072 /* NotesAllDataView.m in Sources */,
 				1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */,
 				1DEDC8791C9FA66B0083B394 /* AFSecurityPolicy.m in Sources */,
 				1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */,

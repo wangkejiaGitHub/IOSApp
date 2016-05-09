@@ -8,7 +8,8 @@
 
 #import "StartAnalysisTopicViewController.h"
 #import "PaperTopicAnalysisViewController.h"
-@interface StartAnalysisTopicViewController ()<TopicAnalysisCardDelegate>
+#import "NotesDataViewController.h"
+@interface StartAnalysisTopicViewController ()<TopicAnalysisCardDelegate,persentNotesDelegate>
 //所有展示试题的容器
 //@property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRight;
@@ -180,6 +181,7 @@
         PaperTopicAnalysisViewController *paterVc = self.childViewControllers[i];
         paterVc.dicTopic = [self getTopicDictionary:i];
         paterVc.topicIndex = i+1;
+        paterVc.delegatePersent = self;
         NSString *topString = [self topicTitle:i];
         paterVc.topicTitle = nil;
         if (topString != nil) {
@@ -231,6 +233,15 @@
     [_scrollViewPater setContentOffset:CGPointMake((indexScroll-1)*Scr_Width, 0) animated:YES];
     [self topicCardHiden];
 
+}
+//跳转到笔记界面代理
+- (void)persentNotesViewController:(NSString *)questionId{
+    [self performSegueWithIdentifier:@"notesdata" sender:questionId];
+}
+//跳转到笔记界面
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    NotesDataViewController *notesVc = segue.destinationViewController;
+    notesVc.questionId = sender;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

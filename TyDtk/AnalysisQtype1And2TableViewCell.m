@@ -254,6 +254,8 @@
 }
 //笔记按钮
 - (IBAction)buttonNoteClick:(UIButton *)sender {
+        NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+    [self.delegateAnalysisCellClick saveNotesOrErrorClick:questionId executeParameter:1];
 }
 //纠错按钮
 - (IBAction)buttonErrorClick:(UIButton *)sender {
