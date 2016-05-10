@@ -114,6 +114,10 @@
 		1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */; };
 		1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF27B4B1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m */; };
 		1DF27B4E1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF27B4D1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib */; };
+		1DF7658D1CE16E11002DE129 /* NotesUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF7658C1CE16E11002DE129 /* NotesUserViewController.m */; };
+		1DF765901CE16E32002DE129 /* NotesElseUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF7658F1CE16E32002DE129 /* NotesElseUserViewController.m */; };
+		1DF765921CE183B2002DE129 /* NotesUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF765911CE183B2002DE129 /* NotesUserCell.xib */; };
+		1DF765951CE183C8002DE129 /* NotesUserTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF765941CE183C8002DE129 /* NotesUserTableViewCell.m */; };
 		1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */; };
 		1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1DF8984C1CA5218000D726E3 /* loginBrg.jpeg */; };
 		1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF898591CA53D2B00D726E3 /* MZView.m */; };
@@ -345,6 +349,13 @@
 		1DF27B4A1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype4TableViewCell.h; sourceTree = "<group>"; };
 		1DF27B4B1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicQtype4TableViewCell.m; sourceTree = "<group>"; };
 		1DF27B4D1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = paterTopicQtype4Cell.xib; sourceTree = "<group>"; };
+		1DF7658B1CE16E11002DE129 /* NotesUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesUserViewController.h; sourceTree = "<group>"; };
+		1DF7658C1CE16E11002DE129 /* NotesUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesUserViewController.m; sourceTree = "<group>"; };
+		1DF7658E1CE16E32002DE129 /* NotesElseUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesElseUserViewController.h; sourceTree = "<group>"; };
+		1DF7658F1CE16E32002DE129 /* NotesElseUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesElseUserViewController.m; sourceTree = "<group>"; };
+		1DF765911CE183B2002DE129 /* NotesUserCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesUserCell.xib; sourceTree = "<group>"; };
+		1DF765931CE183C8002DE129 /* NotesUserTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesUserTableViewCell.h; sourceTree = "<group>"; };
+		1DF765941CE183C8002DE129 /* NotesUserTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesUserTableViewCell.m; sourceTree = "<group>"; };
 		1DF898491CA4C3E800D726E3 /* ViewNullData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewNullData.h; sourceTree = "<group>"; };
 		1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewNullData.m; sourceTree = "<group>"; };
 		1DF8984C1CA5218000D726E3 /* loginBrg.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loginBrg.jpeg; sourceTree = "<group>"; };
@@ -568,13 +579,12 @@
 		1DDA96CF1CDC34D2001A7DAE /* AnalysisTopic */ = {
 			isa = PBXGroup;
 			children = (
+				1DF7658A1CE16DF8002DE129 /* Notes */,
 				1DDA96D31CDC355E001A7DAE /* TopicTypeCell */,
 				1DDA96CB1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.h */,
 				1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */,
 				1DDA96D01CDC3551001A7DAE /* StartAnalysisTopicViewController.h */,
 				1DDA96D11CDC3551001A7DAE /* StartAnalysisTopicViewController.m */,
-				1D0327B41CE03D3000F33072 /* NotesDataViewController.h */,
-				1D0327B51CE03D3000F33072 /* NotesDataViewController.m */,
 			);
 			name = AnalysisTopic;
 			sourceTree = "<group>";
@@ -890,6 +900,22 @@
 			name = TyProgramMain;
 			sourceTree = "<group>";
 		};
+		1DF7658A1CE16DF8002DE129 /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				1D0327B41CE03D3000F33072 /* NotesDataViewController.h */,
+				1D0327B51CE03D3000F33072 /* NotesDataViewController.m */,
+				1DF7658B1CE16E11002DE129 /* NotesUserViewController.h */,
+				1DF7658C1CE16E11002DE129 /* NotesUserViewController.m */,
+				1DF7658E1CE16E32002DE129 /* NotesElseUserViewController.h */,
+				1DF7658F1CE16E32002DE129 /* NotesElseUserViewController.m */,
+				1DF765911CE183B2002DE129 /* NotesUserCell.xib */,
+				1DF765931CE183C8002DE129 /* NotesUserTableViewCell.h */,
+				1DF765941CE183C8002DE129 /* NotesUserTableViewCell.m */,
+			);
+			name = Notes;
+			sourceTree = "<group>";
+		};
 		1DF950641CA3BFC500104597 /* SVProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -1018,6 +1044,7 @@
 				1D122B9D1CDDBB9800A0BA08 /* AnalysisQtype3Cell.xib in Resources */,
 				1D165E681CD1DA1E00F61EAE /* NotesView.xib in Resources */,
 				1DE5F8D31CD092BD0046CD8A /* paterTopicQtype5Cell.xib in Resources */,
+				1DF765921CE183B2002DE129 /* NotesUserCell.xib in Resources */,
 				1DC18F0B1CB795D50006D642 /* MJRefresh.bundle in Resources */,
 				1DE5F8DB1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib in Resources */,
 				1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */,
@@ -1077,6 +1104,7 @@
 				1D1CD88D1CD2EE4800A80E88 /* LXAlertView.m in Sources */,
 				1DEDC8161C9F880E0083B394 /* IndexViewController.m in Sources */,
 				1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */,
+				1DF7658D1CE16E11002DE129 /* NotesUserViewController.m in Sources */,
 				1DEDC8791C9FA66B0083B394 /* AFSecurityPolicy.m in Sources */,
 				1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */,
 				1D122BA21CDDBE4C00A0BA08 /* AnalysisQtype5TableViewCell.m in Sources */,
@@ -1115,6 +1143,7 @@
 				1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */,
 				1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */,
 				1D1CD88E1CD2EE4800A80E88 /* UILabel+LXAdd.m in Sources */,
+				1DF765901CE16E32002DE129 /* NotesElseUserViewController.m in Sources */,
 				1DEDC8561C9FA2920083B394 /* MKAnnotationView+WebCache.m in Sources */,
 				1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */,
 				1DC18F0E1CB795D50006D642 /* UIScrollView+MJRefresh.m in Sources */,
@@ -1140,6 +1169,7 @@
 				1DC18F031CB795D50006D642 /* MJRefreshAutoNormalFooter.m in Sources */,
 				1D0327B61CE03D3000F33072 /* NotesDataViewController.m in Sources */,
 				1D165E6B1CD1DA4800F61EAE /* NotesView.m in Sources */,
+				1DF765951CE183C8002DE129 /* NotesUserTableViewCell.m in Sources */,
 				1DEDC7D81C9F817B0083B394 /* main.m in Sources */,
 				1DC18EFE1CB795D50006D642 /* MJRefreshBackFooter.m in Sources */,
 				1DEDC8611C9FA2920083B394 /* UIImage+MultiFormat.m in Sources */,

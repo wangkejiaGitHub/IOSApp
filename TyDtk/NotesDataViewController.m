@@ -7,7 +7,7 @@
 //
 
 #import "NotesDataViewController.h"
-
+#import "NotesUserViewController.h"
 @interface NotesDataViewController ()
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedNots;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrolViewNotes;
@@ -19,6 +19,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"试题笔记";
+    _segmentedNots.selectedSegmentIndex = 1;
+    _scrolViewNotes.contentSize = CGSizeMake(Scr_Width * 3, _scrolViewNotes.bounds.size.height - 64);
+    
+    NotesUserViewController *notesUsvc = [[NotesUserViewController alloc]init];
+    [self addChildViewController:notesUsvc];
+    
+    NotesUserViewController *userVc = self.childViewControllers[0];
+    userVc.questionId = [_questionId integerValue];
+    userVc.view.frame = CGRectMake(0, 0, Scr_Width, _scrolViewNotes.bounds.size.height - 64);
+    [_scrolViewNotes addSubview:userVc.view];
 }
 - (IBAction)segmentNotesClick:(UISegmentedControl *)sender {
     NSInteger index = sender.selectedSegmentIndex;
@@ -33,7 +43,6 @@
     }
     
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

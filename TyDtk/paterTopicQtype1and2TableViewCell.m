@@ -89,7 +89,8 @@
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     CGSize labSize = [labTest sizeThatFits:CGSizeMake(labTest.frame.size.width, MAXFLOAT)];
-    [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
+    NSString *htmlString = [NSString stringWithFormat:@"<html><body><div style='word-break:break-all;'>%@</div></body></html>",topicTitle];
+    [_webViewTitle loadHTMLString:htmlString baseURL:nil];
     _webTitleHeight.constant = labSize.height;
     if (Scr_Width > 330) {
         _webTitleHeight.constant = _webTitleHeight.constant+20;
@@ -185,6 +186,7 @@
         arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
         arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br/><br/>" withString:@"<br/>"];
         //如果既有图片，也有选项的话，就用自己自定义的webView
+        NSString *htmlStringSelect = [NSString stringWithFormat:@"<html><body><div style='word-break:break-all;'>%@</div></body></html>",arraySelect];
         if (dicImg.allKeys.count>0 && arrayOptions.count > 0) {
             [_webViewSelectCustom removeFromSuperview];
             [_webVIewSelect removeFromSuperview];
@@ -192,7 +194,7 @@
             _webViewSelectCustom.opaque = NO;
             _webViewSelectCustom.scrollView.scrollEnabled = NO;
             _webViewSelectCustom.backgroundColor = [UIColor clearColor];
-            [_webViewSelectCustom loadHTMLString:arraySelect baseURL:nil];
+            [_webViewSelectCustom loadHTMLString:htmlStringSelect baseURL:nil];
             [self.contentView addSubview:_webViewSelectCustom];
             allowRet = _webViewSelectCustom.frame.origin.y + labSize.height+10;
             NSLog(@"fsffdsfs");
@@ -201,7 +203,7 @@
         else{
             
             _webSelectHeight.constant = labSize.height;
-            [_webVIewSelect loadHTMLString:arraySelect baseURL:nil];
+            [_webVIewSelect loadHTMLString:htmlStringSelect baseURL:nil];
             allowRet = allowRet + _webSelectHeight.constant+20;
         }
         //        //添加button按钮选项
