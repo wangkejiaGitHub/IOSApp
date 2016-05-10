@@ -14,6 +14,9 @@
     // Initialization code
     _imageUser.layer.masksToBounds = YES;
     _imageUser.layer.cornerRadius = 20;
+    _buttonDelete.layer.masksToBounds = YES;
+    _buttonDelete.layer.cornerRadius = 2;
+    _buttonDelete.backgroundColor = ColorWithRGB(200, 200, 200);
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic{
     _dicNotes = dic;
@@ -25,7 +28,10 @@
     CGSize labNotesSize = [_labNotes sizeThatFits:CGSizeMake(_labNotes.bounds.size.width, MAXFLOAT)];
     _labNotesHeight.constant = labNotesSize.height;
     cellHeight = _labNotes.frame.origin.y + _labNotesHeight.constant;
-    return cellHeight;
+    if (_userParameter == 0) {
+        [_buttonDelete removeFromSuperview];
+    }
+    return cellHeight+20;
 }
 - (void)setUserImage{
     //c1c8a307-697d-4bce-86ad-27d928c64854
@@ -39,6 +45,11 @@
     }];
     
 }
+- (IBAction)buttonDeleteClick:(UIButton *)sender {
+    NSInteger noteId = [_dicNotes[@"Id"] integerValue];
+    [self.delegateNotes deleteNoteWithNoteId:noteId cell:self];
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

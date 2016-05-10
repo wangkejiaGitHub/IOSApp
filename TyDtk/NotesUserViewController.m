@@ -7,8 +7,8 @@
 //
 
 #import "NotesUserViewController.h"
-
-@interface NotesUserViewController ()<UITableViewDelegate,UITableViewDataSource>
+#import "NotesUserTableViewCell.h"
+@interface NotesUserViewController ()<UITableViewDelegate,UITableViewDataSource,NotesDelegateDelete>
 //tableView 笔记
 @property (nonatomic,strong) UITableView *tableViewNotes;
 //返回cell的高
@@ -23,26 +23,44 @@
 @property (nonatomic,strong) NSMutableArray *arrayNotes;
 //刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
+@property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
 @end
 
 @implementation NotesUserViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _cellHeight = 50;
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [tyUser objectForKey:tyUserAccessToken];
-    // Do any additional setup after loading the view.
-    _tableViewNotes = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width,self.view.bounds.size.height) style:UITableViewStylePlain];
+    _arrayNotes = [NSMutableArray array];
+    _tableViewNotes = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width,self.view.bounds.size.height-64 - 45) style:UITableViewStylePlain];
     _tableViewNotes.backgroundColor = [UIColor clearColor];
     _tableViewNotes.delegate = self;
     _tableViewNotes.dataSource = self;
+    _tableViewNotes.userInteractionEnabled = YES;
+    _tableViewNotes.tableFooterView = [UIView new];
     [self.view addSubview:_tableViewNotes];
 }
+
 - (void)viewWillAppear:(BOOL)animated{
-    [_arrayNotes removeAllObjects];
+    //设置tableView的上拉控件
+    _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
+    [_refreshFooter setTitle:@"上拉查看更多笔记" forState:MJRefreshStateIdle];
+    [_refreshFooter setTitle:@"松开加载更多笔记" forState:MJRefreshStatePulling];
+    [_refreshFooter setTitle:@"正在为您加载更多笔记..." forState:MJRefreshStateRefreshing];
+    [_refreshFooter setTitle:@"笔记已全部加载完毕" forState:MJRefreshStateNoMoreData];
+    _tableViewNotes.mj_footer = _refreshFooter;
+    
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefreshClick:)];
+    _tableViewNotes.mj_header = _refreshHeader;
+
     _pageCurrIndex = 1;
     _pages = 0;
     [self getUserNotes];
+}
+- (void)viewDidDisappear:(BOOL)animated{
+    _refreshFooter = nil;
 }
 - (void)getUserNotes{
     if (_pages != 0) {
@@ -51,27 +69,82 @@
             return;
         }
     }
-    //api/Note/GetMyExamNotes/{id}?access_token={access_token}&page={page}&size={size}
     NSString *urlString = [NSString stringWithFormat:@"%@api/Note/GetMyExamNotes/%ld?access_token=%@&page=%ld&size=20",systemHttps,_questionId,_accessToken,_pageCurrIndex];
     
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicNotes = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicNotes[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicPages = dicNotes[@"page"];
+            _pages = [dicPages[@"pages"] integerValue];
+            _pageCurrIndex = _pageCurrIndex + 1;
+            NSArray *arrayNotes = dicNotes[@"datas"];
+            for (NSDictionary *dicN in arrayNotes) {
+                [_arrayNotes addObject:dicN];
+            }
+            [_tableViewNotes reloadData];
+            [_refreshFooter endRefreshing];
+            [_refreshHeader endRefreshing];
+        }
         NSLog(@"%@",dicNotes);
     } RequestFaile:^(NSError *error) {
         
     }];
     
 }
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 8;
+- (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
+    [self getUserNotes];
 }
+- (void)headerRefreshClick:(MJRefreshNormalHeader *)header{
+    _pageCurrIndex = 1;
+    _pages = 0;
+    [_arrayNotes removeAllObjects];
+    [self getUserNotes];
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return _arrayNotes.count;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return _cellHeight;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
-    }
-    cell.textLabel.text = @"fsfa";
+    NotesUserTableViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"NotesUserCell" owner:self options:nil] lastObject];
+    cell.userParameter = 1;
+    cell.delegateNotes = self;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    NSDictionary *dic = _arrayNotes[indexPath.row];
+   _cellHeight = [cell setvalueForCellModel:dic];
+    cell.userInteractionEnabled = YES;
     return cell;
+}
+
+- (void)deleteNoteWithNoteId:(NSInteger)noteId cell:(UITableViewCell *)cell{
+        LXAlertView *alertDelete = [[LXAlertView alloc]initWithTitle:@"删除提示" message:@"确认删除这条笔记吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"删除" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 1) {
+                [self deleteUserNote:noteId];
+            }
+        }];
+        [alertDelete showLXAlertView];
+}
+- (void)deleteUserNote:(NSInteger)noteId{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/Del/%ld?access_token=%@",systemHttps,noteId,_accessToken];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *dicDele = (NSDictionary *)respoes;
+        NSInteger codeId = [dicDele[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicccc = dicDele[@"datas"];
+            _pageCurrIndex = 1;
+            _pages = 0;
+            [_arrayNotes removeAllObjects];
+            [self getUserNotes];
+            [SVProgressHUD showSuccessWithStatus:dicccc[@"msg"]];
+        }
+        NSLog(@"%@",dicDele);
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

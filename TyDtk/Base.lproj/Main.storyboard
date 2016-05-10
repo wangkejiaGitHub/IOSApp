@@ -1234,6 +1234,9 @@
                             </segmentedControl>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="avf-Q5-GGg">
                                 <rect key="frame" x="0.0" y="65" width="375" height="602"/>
+                                <connections>
+                                    <outlet property="delegate" destination="e0n-zO-FfA" id="9F2-IF-UBm"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
