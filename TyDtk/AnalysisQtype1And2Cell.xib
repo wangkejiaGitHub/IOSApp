@@ -58,6 +58,9 @@
                         <state key="normal" title="收藏">
                             <color key="titleColor" red="1" green="0.58331439269999996" blue="0.12216659539999999" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <connections>
+                            <action selector="buttonCollectClick:" destination="Bjh-Rm-Ubk" eventType="touchUpInside" id="n5s-fb-ZeE"/>
+                        </connections>
                     </button>
                     <webView tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rDc-6y-g8q">
                         <rect key="frame" x="15" y="45" width="417" height="10"/>
@@ -155,11 +158,11 @@
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="笔记" image="bj01">
+                        <state key="normal" title="纠错" image="jc01">
                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
-                            <action selector="buttonNoteClick:" destination="Bjh-Rm-Ubk" eventType="touchUpInside" id="PcV-82-u8o"/>
+                            <action selector="buttonErrorClick:" destination="Bjh-Rm-Ubk" eventType="touchUpInside" id="b8K-Vs-lmz"/>
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DqU-Ha-UTl">
@@ -170,11 +173,11 @@
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="纠错" image="jc01">
+                        <state key="normal" title="笔记" image="bj01">
                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
-                            <action selector="buttonErrorClick:" destination="Bjh-Rm-Ubk" eventType="touchUpInside" id="1tz-AO-tge"/>
+                            <action selector="buttonNoteClick:" destination="Bjh-Rm-Ubk" eventType="touchUpInside" id="4hJ-Vt-GBh"/>
                         </connections>
                     </button>
                 </subviews>
@@ -220,8 +223,8 @@
             <connections>
                 <outlet property="buttonCollect" destination="VCj-ud-OJr" id="clS-U1-Bpd"/>
                 <outlet property="buttonCollectWidth" destination="AeF-lb-2ol" id="T3V-gz-18Z"/>
-                <outlet property="buttonError" destination="DqU-Ha-UTl" id="IEx-ZK-Ipa"/>
-                <outlet property="buttonNote" destination="K2T-gk-YJE" id="3Gv-6D-Mm2"/>
+                <outlet property="buttonError" destination="K2T-gk-YJE" id="yBn-oq-r48"/>
+                <outlet property="buttonNote" destination="DqU-Ha-UTl" id="ChF-8v-gmZ"/>
                 <outlet property="imageVIewCollect" destination="OIB-4n-Kcz" id="iLD-Eo-rqV"/>
                 <outlet property="labAnswerStatus" destination="PpK-IQ-qKR" id="Eoc-17-Dfe"/>
                 <outlet property="labNumberWidth" destination="QwK-JZ-A7t" id="mvE-tb-OGF"/>

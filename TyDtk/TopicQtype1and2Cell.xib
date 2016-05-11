@@ -119,6 +119,7 @@
                 <outlet property="labTopicType" destination="h0D-gs-ABw" id="s8m-pH-ZkH"/>
                 <outlet property="viewLiness" destination="0Ti-m9-pOh" id="0n9-Bj-4Pf"/>
                 <outlet property="webSelectHeight" destination="V74-QP-u2E" id="CuS-Zu-OAy"/>
+                <outlet property="webSelectUpLatyout" destination="UKO-mb-q76" id="fWw-rw-12Z"/>
                 <outlet property="webTitleHeight" destination="oDK-st-h1J" id="y7b-vW-JeW"/>
                 <outlet property="webVIewSelect" destination="Dk4-R0-8ZK" id="7Q8-CJ-n72"/>
                 <outlet property="webViewTitle" destination="y8X-mC-LqD" id="ACp-Uy-9fD"/>

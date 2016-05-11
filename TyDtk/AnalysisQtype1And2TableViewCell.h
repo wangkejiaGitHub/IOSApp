@@ -24,6 +24,7 @@
 - (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
 //第一次加载
 - (void)IsFirstload:(BOOL)isFirstLoad;
+- (void)isWebLoadingCellHeight:(CGFloat)cellHeight withImageOy:(CGFloat)imageOy;
 @end
 @interface AnalysisQtype1And2TableViewCell : UITableViewCell
 //试题编号
@@ -46,6 +47,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonCollectWidth;
 //收藏图片
 @property (weak, nonatomic) IBOutlet UIImageView *imageVIewCollect;
+//已经收藏的试题
+@property (nonatomic,strong) NSDictionary *dicCollectDone;
 @property (weak, nonatomic) IBOutlet UIButton *buttonNote;
 @property (weak, nonatomic) IBOutlet UIButton *buttonError;
 

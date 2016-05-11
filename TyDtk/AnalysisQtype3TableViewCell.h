@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "AnalysisQtype1And2TableViewCell.h"
 @interface AnalysisQtype3TableViewCell : UITableViewCell
 //试题编号
 @property (weak, nonatomic) IBOutlet UILabel *labTopicNumber;
@@ -29,7 +29,20 @@
 @property (weak, nonatomic) IBOutlet UILabel *labAnswerStatus;
 @property (weak, nonatomic) IBOutlet UILabel *labUserAnswer;
 @property (weak, nonatomic) IBOutlet UILabel *labTureAnswer;
-@property (weak, nonatomic) IBOutlet UILabel *labAnalysis;
-@property (weak, nonatomic) IBOutlet UILabel *labAnalysisData;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *labAnalysisHeight;
+@property (weak, nonatomic) IBOutlet UIButton *buttonNotes;
+@property (weak, nonatomic) IBOutlet UIButton *buttonError;
+@property (weak, nonatomic) IBOutlet UIWebView *webAnalysis;
+//是否是第一次加载，用于第二次刷新ui
+@property (nonatomic,assign) BOOL isFirstLoad;
+//试题索引，用于显示试题编号
+@property (nonatomic,assign) NSInteger indexTopic;
+//试题信息
+@property (nonatomic,strong) NSDictionary *dicTopic;
+//已经收藏的试题
+@property (nonatomic,strong) NSDictionary *dicCollectDone;
+//试题类型
+@property (nonatomic,assign) NSInteger topicType;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webAnalysisHeight;
+- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
+@property (nonatomic,assign) id <TopicAnalysisCellDelegateTest> delegateAnalysisCellClick;
 @end

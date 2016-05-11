@@ -217,18 +217,31 @@
             NSInteger qtypeSubQues = [dicSubQues[@"qtype"] integerValue];
             //小题类型为选择题
             if (qtypeSubQues == 1 | qtypeSubQues == 2) {
-                paterTopicQtype1and2TableViewCell *cellSelectTopic = (paterTopicQtype1and2TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicQtype1and2Cell"];
-                if (cellSelectTopic == nil) {
-                    cellSelectTopic = [[[NSBundle mainBundle] loadNibNamed:@"TopicQtype1and2Cell" owner:self options:nil]lastObject];
+                paterTopicQtype1and2TableViewCell *cell1 = (paterTopicQtype1and2TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicQtype1and2Cell"];
+                if (cell1 == nil) {
+                    cell1 = [[[NSBundle mainBundle] loadNibNamed:@"TopicQtype1and2Cell" owner:self options:nil]lastObject];
                 }
-                cellSelectTopic.topicType = qtypeSubQues;
-                cellSelectTopic.indexTopic = indexPath.row;
-                cellSelectTopic.delegateCellClick = self;
-                cellSelectTopic.dicSelectDone = _dicUserAnswer;
-                cellSelectTopic.dicCollectDone = _dicUserCollectTopic;
-                cellSelectTopic.selectionStyle = UITableViewCellSelectionStyleNone;
-                _cellSubHeight = [cellSelectTopic setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
-                return cellSelectTopic;
+                cell1.topicType = qtypeSubQues;
+                cell1.indexTopic = indexPath.row;
+                cell1.delegateCellClick = self;
+                cell1.dicSelectDone = _dicUserAnswer;
+                cell1.dicCollectDone = _dicUserCollectTopic;
+                cell1.selectionStyle = UITableViewCellSelectionStyleNone;
+                _cellSubHeight = [cell1 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
+                return cell1;
+            }
+            else if (_qType == 3){
+                PaterTopicQtype3TableViewCell *cell3 = (PaterTopicQtype3TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"paterTopicQtype3Cell"];
+                if (cell3 == nil) {
+                    cell3 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype3Cell" owner:self options:nil]lastObject];
+                }
+                cell3.delegateCellClick = self;
+                cell3.indexTopic = indexPath.row;
+                cell3.dicSelectDone = _dicUserAnswer;
+                cell3.dicCollectDone = _dicUserCollectTopic;
+                cell3.selectionStyle = UITableViewCellSelectionStyleNone;
+                _cellSubHeight = [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+                return cell3;
             }
             else{
                 paterTopicQtype5TableViewCell *cellQtype5 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype5Cell" owner:self options:nil]lastObject];

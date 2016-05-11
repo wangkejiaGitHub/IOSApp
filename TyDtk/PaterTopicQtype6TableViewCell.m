@@ -283,7 +283,6 @@
     CGFloat webViewScrolHeight = webView.scrollView.contentSize.height;
     _webTitleHeight.constant = webViewScrolHeight;
     CGFloat cellHeightL = _webViewTitle.frame.origin.y + webViewScrolHeight;
-    NSLog(@"_indexTopic_indexTopic = %ld",_indexTopic);
     if (_isWebFirstLoading) {
         if (_indexTopic == 7) {
             NSLog(@"faas");

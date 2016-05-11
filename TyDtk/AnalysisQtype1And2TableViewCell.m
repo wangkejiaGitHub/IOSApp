@@ -218,6 +218,35 @@
         }
 
     }
+    //判断是否已经收藏试题
+    NSInteger collectId = [dic[@"collectId"] integerValue];
+    //已收藏
+    if (collectId>0) {
+        _buttonCollect.backgroundColor = [UIColor orangeColor];
+        [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
+        _buttonCollectWidth.constant = 50;
+    }
+    
+    /////////////////////////////////////
+    if ([_dicCollectDone.allKeys containsObject:[NSString stringWithFormat:@"%ld",_indexTopic]]) {
+        NSString *collectString = _dicCollectDone[[NSString stringWithFormat:@"%ld",_indexTopic]];
+        if ([collectString isEqualToString:@"已收藏"]) {
+            _buttonCollect.backgroundColor = [UIColor orangeColor];
+            [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
+            _buttonCollectWidth.constant = 50;
+        }
+        else{
+            _buttonCollect.backgroundColor = [UIColor whiteColor];
+            [_buttonCollect setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+            [_buttonCollect setTitle:@"收藏" forState:UIControlStateNormal];
+            _buttonCollectWidth.constant = 40;
+        }
+        
+    }
+
+    
     // 160 目前选项下面的内容
     allowRet = allowRet+160+20;
     //设置答题状态和解析数据
@@ -244,11 +273,11 @@
     labWebAna.numberOfLines = 0;
     labWebAna.text = dic[@"analysis"];
     CGSize labWebAnaSize = [labWebAna sizeThatFits:CGSizeMake(labWebAna.bounds.size.width, MAXFLOAT)];
-    _webAnalysisHeight.constant = labWebAnaSize.height+ 30+40;
+    _webAnalysisHeight.constant = labWebAnaSize.height+ 30+50;
     NSString *webString = [NSString stringWithFormat:@"<font color='#8080c0' size = '2'>试题解析>></font><br/><br/><font color='#8080c0' size = '3'>%@</font>",labWebAna.text];
     [_webAnalysis loadHTMLString:webString baseURL:nil];
     
-    allowRet = allowRet + _webAnalysisHeight.constant - 30;
+    allowRet = allowRet + _webAnalysisHeight.constant - 10;
     return allowRet;
     
 }
@@ -261,6 +290,97 @@
 - (IBAction)buttonErrorClick:(UIButton *)sender {
     NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
     [self.delegateAnalysisCellClick saveNotesOrErrorClick:questionId executeParameter:0];
+}
+//收藏按钮
+- (IBAction)buttonCollectClick:(UIButton *)sender {
+    NSString *buttonString = sender.titleLabel.text;
+    //收藏
+    if ([buttonString isEqualToString:@"收藏"]) {
+        [self collectTopic];
+    }
+    //取消收藏
+    else{
+        [self cancelCollectTopic];
+    }
+
+}
+/**
+ 收藏试题
+ */
+- (void)collectTopic{
+    NSString *accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/Add/%ld?access_token=%@",systemHttps,questionId,accessToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicCollect[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicCollect[@"datas"];
+            _buttonCollect.backgroundColor = [UIColor orangeColor];
+            [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
+            _buttonCollectWidth.constant = 50;
+            //////////////////////////////////
+            //保存临时收藏状态
+            NSString *btnString = _buttonCollect.titleLabel.text;
+            NSDictionary *dicColl = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
+            [self.delegateAnalysisCellClick saveUserCollectTiopic:dicColl];
+            ///////////////////////////////////
+            
+            
+            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            if (![_tyUser objectForKey:tyUserShowCollectAlert]) {
+                LXAlertView *collectAlert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"再次点击'已收藏'可取消收藏哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不再提示" clickIndexBlock:^(NSInteger clickIndex) {
+                    if (clickIndex == 1) {
+                        [_tyUser setObject:@"yes" forKey:tyUserShowCollectAlert];
+                    }
+                }];
+                collectAlert.animationStyle = LXASAnimationTopShake;
+                [collectAlert showLXAlertView];
+            }
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"操作失败!"];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/**
+ 取消收藏
+ */
+- (void)cancelCollectTopic{
+    
+    NSString *accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/Del/%ld?access_token=%@",systemHttps,questionId,accessToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicCollect[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicCollect[@"datas"];
+            _buttonCollect.backgroundColor = [UIColor whiteColor];
+            [_buttonCollect setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+            [_buttonCollect setTitle:@"收藏" forState:UIControlStateNormal];
+            _buttonCollectWidth.constant = 40;
+            //////////////////////////////////
+            //保存临时收藏状态
+            NSString *btnString = _buttonCollect.titleLabel.text;
+            NSDictionary *dicColl = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
+            [self.delegateAnalysisCellClick saveUserCollectTiopic:dicColl];
+            ///////////////////////////////////
+            
+            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"操作失败!"];
+        }
+        
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+    
+    
 }
 
 //图片点击手势，放大图片

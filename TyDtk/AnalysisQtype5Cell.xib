@@ -63,6 +63,9 @@
                         <state key="normal" title="收藏">
                             <color key="titleColor" red="1" green="0.58331439269999996" blue="0.12216659539999999" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
+                        <connections>
+                            <action selector="buttonCollectClick:" destination="dgV-ME-dOM" eventType="touchUpInside" id="d0h-n9-L94"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="答题状态:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b27-6r-X8x">
                         <rect key="frame" x="10" y="70" width="70" height="20"/>
@@ -96,25 +99,43 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="该题解析:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WaO-Sp-50i">
-                        <rect key="frame" x="10" y="110" width="70" height="20"/>
+                    <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zhq-YL-oTo">
+                        <rect key="frame" x="15" y="148" width="370" height="20"/>
+                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="4NN-Ne-TNN"/>
-                            <constraint firstAttribute="width" constant="70" id="EKF-Yu-Bep"/>
+                            <constraint firstAttribute="height" constant="20" id="w2u-Sf-0vO"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="试题解析" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OVU-r2-IbI">
-                        <rect key="frame" x="10" y="140" width="375" height="20"/>
+                    </webView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O2V-sF-dZe">
+                        <rect key="frame" x="10" y="110" width="60" height="23"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="aYV-dN-gsx"/>
+                            <constraint firstAttribute="width" constant="60" id="COd-Ze-GAj"/>
+                            <constraint firstAttribute="height" constant="23" id="llF-5J-kms"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                        <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="纠错" image="jc01">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="buttonErrorClick:" destination="dgV-ME-dOM" eventType="touchUpInside" id="WPH-0T-kGm"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qo6-I5-jjJ">
+                        <rect key="frame" x="330" y="110" width="60" height="23"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="23" id="mk5-oO-rrq"/>
+                            <constraint firstAttribute="width" constant="60" id="oFb-QQ-hUJ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="笔记" image="bj01">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="buttonNoteClick:" destination="dgV-ME-dOM" eventType="touchUpInside" id="iSN-MO-CU1"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="hVJ-Qb-Cer" secondAttribute="trailing" constant="10" id="0b2-5n-FOj"/>
@@ -124,32 +145,35 @@
                     <constraint firstItem="fE0-Tr-NZT" firstAttribute="bottom" secondItem="ph3-eP-XQg" secondAttribute="bottom" id="McS-p4-k0R"/>
                     <constraint firstItem="Par-rx-jc2" firstAttribute="top" secondItem="b27-6r-X8x" secondAttribute="top" id="N3O-t0-q8u"/>
                     <constraint firstItem="4df-VW-KLm" firstAttribute="leading" secondItem="990-1n-Mte" secondAttribute="leading" constant="10" id="N6P-vn-7qk"/>
+                    <constraint firstAttribute="trailing" secondItem="zhq-YL-oTo" secondAttribute="trailing" constant="15" id="OUY-bB-yBr"/>
+                    <constraint firstItem="zhq-YL-oTo" firstAttribute="leading" secondItem="990-1n-Mte" secondAttribute="leading" constant="15" id="RXZ-pa-gUE"/>
                     <constraint firstItem="b27-6r-X8x" firstAttribute="top" secondItem="4df-VW-KLm" secondAttribute="bottom" constant="15" id="WjI-wx-7Ma"/>
-                    <constraint firstAttribute="trailing" secondItem="OVU-r2-IbI" secondAttribute="trailing" constant="15" id="YYp-vG-0WN"/>
-                    <constraint firstItem="WaO-Sp-50i" firstAttribute="top" secondItem="b27-6r-X8x" secondAttribute="bottom" constant="20" id="byV-KY-KI3"/>
                     <constraint firstItem="fE0-Tr-NZT" firstAttribute="leading" secondItem="ph3-eP-XQg" secondAttribute="trailing" id="eYh-ig-7Mt"/>
+                    <constraint firstItem="O2V-sF-dZe" firstAttribute="top" secondItem="b27-6r-X8x" secondAttribute="bottom" constant="20" id="h4E-2t-IuD"/>
                     <constraint firstItem="Par-rx-jc2" firstAttribute="leading" secondItem="b27-6r-X8x" secondAttribute="trailing" constant="5" id="hwD-MJ-pLS"/>
-                    <constraint firstItem="WaO-Sp-50i" firstAttribute="leading" secondItem="b27-6r-X8x" secondAttribute="leading" id="jrc-cH-3Xf"/>
-                    <constraint firstItem="OVU-r2-IbI" firstAttribute="top" secondItem="WaO-Sp-50i" secondAttribute="bottom" constant="10" id="juj-Jf-Al3"/>
+                    <constraint firstItem="qo6-I5-jjJ" firstAttribute="trailing" secondItem="4df-VW-KLm" secondAttribute="trailing" id="iN0-RN-quw"/>
+                    <constraint firstItem="zhq-YL-oTo" firstAttribute="top" secondItem="qo6-I5-jjJ" secondAttribute="bottom" constant="15" id="jDt-cf-iDz"/>
                     <constraint firstItem="AqN-uQ-Js4" firstAttribute="top" secondItem="fE0-Tr-NZT" secondAttribute="top" id="l1H-oZ-qT0"/>
                     <constraint firstItem="hVJ-Qb-Cer" firstAttribute="top" secondItem="fE0-Tr-NZT" secondAttribute="top" id="ld3-4o-Jtg"/>
                     <constraint firstItem="ph3-eP-XQg" firstAttribute="leading" secondItem="990-1n-Mte" secondAttribute="leading" constant="15" id="o31-QF-N6n"/>
+                    <constraint firstItem="O2V-sF-dZe" firstAttribute="leading" secondItem="b27-6r-X8x" secondAttribute="leading" id="oOw-Ia-voL"/>
+                    <constraint firstItem="qo6-I5-jjJ" firstAttribute="top" secondItem="O2V-sF-dZe" secondAttribute="top" id="pbE-VQ-Ncf"/>
                     <constraint firstItem="4df-VW-KLm" firstAttribute="top" secondItem="hVJ-Qb-Cer" secondAttribute="bottom" constant="10" id="rLo-7E-ZTb"/>
-                    <constraint firstItem="OVU-r2-IbI" firstAttribute="leading" secondItem="WaO-Sp-50i" secondAttribute="leading" id="reO-kb-uZl"/>
                     <constraint firstAttribute="trailing" secondItem="4df-VW-KLm" secondAttribute="trailing" constant="10" id="xU2-oR-z1X"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="buttonCollect" destination="hVJ-Qb-Cer" id="uVo-W6-dNR"/>
                 <outlet property="buttonCollectWidth" destination="lgT-Aw-W9I" id="gCb-B0-6ts"/>
+                <outlet property="buttonError" destination="O2V-sF-dZe" id="LJd-oU-EEE"/>
+                <outlet property="buttonNotes" destination="qo6-I5-jjJ" id="Xik-xF-jeY"/>
                 <outlet property="imageVIewCollect" destination="AqN-uQ-Js4" id="QNn-hT-ca9"/>
-                <outlet property="labAnalysis" destination="WaO-Sp-50i" id="uMR-CE-UoP"/>
-                <outlet property="labAnalysisData" destination="OVU-r2-IbI" id="n10-b9-TBe"/>
-                <outlet property="labAnalysisHeight" destination="aYV-dN-gsx" id="YRu-n4-tL1"/>
                 <outlet property="labAnswerStatus" destination="Par-rx-jc2" id="Kuc-w4-Ckt"/>
                 <outlet property="labNumberWidth" destination="YQM-HW-ppF" id="4oX-fa-Ihe"/>
                 <outlet property="labTopicNumber" destination="ph3-eP-XQg" id="e5Y-Vc-r8g"/>
                 <outlet property="labTopicType" destination="fE0-Tr-NZT" id="rRZ-IW-eN3"/>
+                <outlet property="webAnalysis" destination="zhq-YL-oTo" id="fHs-xc-z8x"/>
+                <outlet property="webAnalysisHeight" destination="w2u-Sf-0vO" id="XjG-hf-H8n"/>
                 <outlet property="webTitleHeight" destination="sGQ-lV-nwi" id="8Qh-vo-TZ6"/>
                 <outlet property="webViewTitle" destination="4df-VW-KLm" id="Wr0-rz-a39"/>
             </connections>
@@ -157,6 +181,8 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="bj01" width="16" height="16"/>
         <image name="grzx_icon2" width="20" height="20"/>
+        <image name="jc01" width="13" height="16"/>
     </resources>
 </document>

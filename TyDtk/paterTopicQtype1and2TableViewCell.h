@@ -54,8 +54,13 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageVIewCollect;
 //下划线
 @property (weak, nonatomic) IBOutlet UIView *viewLiness;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webSelectUpLatyout;
+
 //是否是第一次加载，用于第二次刷新ui
 @property (nonatomic,assign) BOOL isFirstLoad;
+//第一次加载webview
+@property (nonatomic,assign) BOOL isWebFirstLoading;
+@property (nonatomic,assign) CGFloat imageOy;
 //试题索引，用于显示试题编号
 @property (nonatomic,assign) NSInteger indexTopic;
 //试题信息
