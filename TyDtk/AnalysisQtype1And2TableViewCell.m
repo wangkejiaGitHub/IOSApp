@@ -268,13 +268,14 @@
     else if (levelTopic == 2){
         _labAnswerStatus.text = @"答题错误";
     }
-    //试题解析
+    //试题解析 /tiku/common/getAttachment?filePath=img/20151228/20151228155715_712.png
     UILabel *labWebAna = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width - 40, 30)];
     labWebAna.numberOfLines = 0;
     labWebAna.text = dic[@"analysis"];
     CGSize labWebAnaSize = [labWebAna sizeThatFits:CGSizeMake(labWebAna.bounds.size.width, MAXFLOAT)];
+    NSString *stringAna = [labWebAna.text stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:@"http://www.kaola100.com/tiku/common/getAttachment"];
     _webAnalysisHeight.constant = labWebAnaSize.height+ 30+50;
-    NSString *webString = [NSString stringWithFormat:@"<font color='#8080c0' size = '2'>试题解析>></font><br/><br/><font color='#8080c0' size = '3'>%@</font>",labWebAna.text];
+    NSString *webString = [NSString stringWithFormat:@"<font color='#8080c0' size = '2'>试题解析>></font><br/><br/><font color='#8080c0' size = '3'>%@</font>",stringAna];
     [_webAnalysis loadHTMLString:webString baseURL:nil];
     
     allowRet = allowRet + _webAnalysisHeight.constant - 10;

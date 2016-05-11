@@ -169,50 +169,6 @@
         viewImage = nil;
         
     }
-    
-    //    NSInteger seleNum = [dic[@"SelectNum"] integerValue];
-    //    if (seleNum > 0) {
-    //        NSString *selectOptions = dic[@"options"];
-    //        selectOptions = [selectOptions stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
-    //        NSData *dataSting = [selectOptions dataUsingEncoding:NSUTF8StringEncoding];
-    //        NSArray *arrayOptions = [NSJSONSerialization JSONObjectWithData:dataSting options:NSJSONReadingMutableLeaves error:nil];
-    //        NSString *arraySelect = [arrayOptions componentsJoinedByString:@""];
-    //        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@" " withString:@""];
-    //        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    //        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    //        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    //        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br />" withString:@""];
-    //        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br/>" withString:@"\n\n"];
-    //        UILabel *labTestSelect = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-40, 30)];
-    //        labTestSelect.numberOfLines = 0;
-    //        labTestSelect.text = arraySelect;
-    //        CGSize labSize = [labTestSelect sizeThatFits:CGSizeMake(labTestSelect.frame.size.width, MAXFLOAT)];
-    //        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
-    //        arraySelect = [arraySelect stringByReplacingOccurrencesOfString:@"<br/><br/>" withString:@"<br/>"];
-    //        //如果既有图片，也有选项的话，就用自己自定义的webView
-    //        if (dicImg.allKeys.count>0 && arrayOptions.count > 0) {
-    //            [_webViewSelectCustom removeFromSuperview];
-    //            _webViewSelectCustom = [[UIWebView alloc]initWithFrame:CGRectMake(10, allowRet, Scr_Width - 20, labSize.height)];
-    //            _webViewSelectCustom.opaque = NO;
-    //            _webViewSelectCustom.scrollView.scrollEnabled = NO;
-    //            _webViewSelectCustom.backgroundColor = [UIColor clearColor];
-    //            [_webViewSelectCustom loadHTMLString:arraySelect baseURL:nil];
-    //            [self.contentView addSubview:_webViewSelectCustom];
-    //            allowRet = _webViewSelectCustom.frame.origin.y + labSize.height+10;
-    //            _webSelectHeight.constant = _webViewSelectCustom.frame.size.height;
-    //            NSLog(@"fsffdsfs");
-    //            //            _webViewSelectCustom =
-    //        }//有图片或者只有选项的时候用原来的
-    //        else{
-    //
-    //            _webSelectHeight.constant = labSize.height - 50;
-    //            [_webVIewSelect loadHTMLString:arraySelect baseURL:nil];
-    //            allowRet = allowRet + _webSelectHeight.constant;
-    //        }
-    //
-    //    }
-    
-    
     //判断是否已经收藏试题
     NSInteger collectId = [dic[@"collectId"] integerValue];
     //已收藏
@@ -252,8 +208,7 @@
 //    //作答状态
     NSInteger levelTopic = [dic[@"level"] integerValue];
     if (levelTopic == 0) {
-//        _labAnswerStatus.text = @"未作答";
-//        _labUserAnswer.text = @"未作答";
+        _labAnswerStatus.text = @"未作答";
     }
     else if (levelTopic == 1){
         _labAnswerStatus.text = @"答题正确";

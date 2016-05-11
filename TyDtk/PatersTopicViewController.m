@@ -217,10 +217,7 @@
             NSInteger qtypeSubQues = [dicSubQues[@"qtype"] integerValue];
             //小题类型为选择题
             if (qtypeSubQues == 1 | qtypeSubQues == 2) {
-                paterTopicQtype1and2TableViewCell *cell1 = (paterTopicQtype1and2TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicQtype1and2Cell"];
-                if (cell1 == nil) {
-                    cell1 = [[[NSBundle mainBundle] loadNibNamed:@"TopicQtype1and2Cell" owner:self options:nil]lastObject];
-                }
+                paterTopicQtype1and2TableViewCell *cell1 = [[[NSBundle mainBundle] loadNibNamed:@"TopicQtype1and2Cell" owner:self options:nil]lastObject];
                 cell1.topicType = qtypeSubQues;
                 cell1.indexTopic = indexPath.row;
                 cell1.delegateCellClick = self;
@@ -231,10 +228,7 @@
                 return cell1;
             }
             else if (_qType == 3){
-                PaterTopicQtype3TableViewCell *cell3 = (PaterTopicQtype3TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"paterTopicQtype3Cell"];
-                if (cell3 == nil) {
-                    cell3 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype3Cell" owner:self options:nil]lastObject];
-                }
+                PaterTopicQtype3TableViewCell *cell3 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype3Cell" owner:self options:nil]lastObject];
                 cell3.delegateCellClick = self;
                 cell3.indexTopic = indexPath.row;
                 cell3.dicSelectDone = _dicUserAnswer;

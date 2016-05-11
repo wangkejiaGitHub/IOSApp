@@ -78,7 +78,7 @@
  获取试卷分析
  */
 - (void)getTopicAnalysisPaper{
-    [SVProgressHUD showSuccessWithStatus:@"正在获取试题分析..."];
+    [SVProgressHUD showWithStatus:@"正在获取试题分析..."];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/IOSGetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
     [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
@@ -101,27 +101,6 @@
     } RequestFaile:^(NSError *erro) {
         
     }];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        _arrayPaterAnalysisData = dicAnalysis[@"datas"];
-//        _scrollContentWidth = 0;
-//        for (NSDictionary *dicNum in _arrayPaterAnalysisData) {
-//            NSArray *arrayDic = dicNum[@"Questions"];
-//            _scrollContentWidth = _scrollContentWidth + arrayDic.count;
-//        }
-//        //设置scrollView的容量
-//        _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
-//        
-//        [self addChildViewWithTopicForSelf];
-//        _buttonRight.userInteractionEnabled = YES;
-//        [self addAnalysisTpoicCard];
-//        [SVProgressHUD dismiss];
-//        
-//        NSLog(@"%@",dicAnalysis);
-//    } RequestFaile:^(NSError *error) {
-//        
-//    }];
-
 }
 //隐藏或显示答题卡
 - (IBAction)buttonRightClick:(UIButton *)sender {
@@ -139,7 +118,6 @@
  */
 - (void)addAnalysisTpoicCard{
     if (!_cardView) {
-//        UICollectionViewLayout *ly = [[UICollectionViewLayout alloc]init];
         _cardView = [[TopicAnalysisCardView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) arrayTopic:_arrayPaterAnalysisData];
         _cardView.delegateCellClick = self;
         [self.view addSubview:_cardView];

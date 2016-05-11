@@ -110,6 +110,8 @@
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
     NSInteger paterId = [_dicPater[@"Id"] integerValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/IOSGetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+    //api/Paper/GetPaperInfo/{id}?access_token={access_token}
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
@@ -378,7 +380,6 @@
     }
     [_collectionViewTopicCard reloadData];
     if (dicUserAnswer != nil) {
-//        NSLog(@"%@",dicUserAnswer);
         NSString *QuestionID = dicUserAnswer[@"QuestionID"];
         for (NSDictionary *dicUaerAns in _arrayUserAnswer) {
             NSString *dicQuestionID = dicUaerAns[@"QuestionID"];
@@ -391,8 +392,7 @@
         
         [_arrayUserAnswer addObject:dicUserAnswer];
     }
-    NSLog(@"_intUserDidTopic = %ld",_intUserDidTopic);
-    NSLog(@"已做了 %ld 道题",_arrayUserAnswer.count);
+
 }
 
 //////////////////////////////////
@@ -456,10 +456,8 @@
         if (codeId == 1) {
             NSDictionary *dicDatas = dic[@"datas"];
              NSString *rId = dicDatas[@"rid"];
-            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            [SVProgressHUD dismiss];
             [self performSegueWithIdentifier:@"topicAnalysis" sender:rId];
-//            [self paterAnalysis:rId];
-            //  NSString *rId = dicDatas[@"rid"];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"提交失败"];

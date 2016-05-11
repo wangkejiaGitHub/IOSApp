@@ -44,10 +44,7 @@
     _tyUser = [NSUserDefaults standardUserDefaults];
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-    if (index == 83) {
-        NSLog(@"%@",dic);
-    }
-    NSLog(@"topicIndex == %ld",index);
+
     CGFloat allowRet = 0;
     //判断视图是否有图片
     NSInteger qtypeTopic = [dic[@"qtype"] integerValue];
@@ -128,9 +125,7 @@
             
             SDWebImageManager *manager = [SDWebImageManager sharedManager];
             [manager downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                NSLog(@"dsfasffasf");
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                NSLog(@"fsfafafaf");
                 if (image) {
                     imageTop = image;
                     //如果是第一次加载，再次刷新ui让图片显示出来
@@ -373,7 +368,6 @@
 - (void)buttonSubmit:(UIButton *)sender{
     //添加已经选过的选项数组
     NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:_selectContentQtype2};
-    NSLog(@"%@",dicTest);
     [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
     //////////////////////////////////////
     //////////////////////////////////////
@@ -421,7 +415,6 @@
         //        [_arraySelectDone addObject:btnString];
         //        [_dicSelectDone setValue:btnString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
         NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
-        NSLog(@"%@",dicTest);
         [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
         
         //////////////////////////////////////

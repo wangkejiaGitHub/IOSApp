@@ -164,7 +164,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="buttonCollect" destination="hVJ-Qb-Cer" id="uVo-W6-dNR"/>
-                <outlet property="buttonCollectWidth" destination="lgT-Aw-W9I" id="gCb-B0-6ts"/>
+                <outlet property="buttonCollectWidth" destination="q2e-E3-fKz" id="XmS-Rl-gu6"/>
                 <outlet property="buttonError" destination="O2V-sF-dZe" id="LJd-oU-EEE"/>
                 <outlet property="buttonNotes" destination="qo6-I5-jjJ" id="Xik-xF-jeY"/>
                 <outlet property="imageVIewCollect" destination="AqN-uQ-Js4" id="QNn-hT-ca9"/>

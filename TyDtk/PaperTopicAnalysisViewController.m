@@ -183,10 +183,7 @@
             NSInteger qtypeSubQues = [dicSubQues[@"qtype"] integerValue];
             //小题类型为选择题
             if (qtypeSubQues == 1 | qtypeSubQues == 2) {
-                AnalysisQtype1And2TableViewCell *cell1 = (AnalysisQtype1And2TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"AnalysisQtype1And2Cell"];
-                if (cell1 == nil) {
-                    cell1 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype1And2Cell" owner:self options:nil]lastObject];
-                }
+                AnalysisQtype1And2TableViewCell *cell1 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype1And2Cell" owner:self options:nil]lastObject];
                 cell1.topicType = qtypeSubQues;
                 cell1.indexTopic = indexPath.row;
                 cell1.delegateAnalysisCellClick = self;
