@@ -94,11 +94,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_qType == 6) {
         if (indexPath.row == 0) {
-            //            if (_cellWebLoadingheight != 0) {
-            //                return _cellWebLoadingheight;
-            //            }
             return _cellWebLoadingheight;
-            
         }
         else{
             return _cellSubHeight;
