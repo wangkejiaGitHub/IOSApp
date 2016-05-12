@@ -9,7 +9,7 @@
 #import "StartAnalysisTopicViewController.h"
 #import "PaperTopicAnalysisViewController.h"
 #import "NotesDataViewController.h"
-@interface StartAnalysisTopicViewController ()<TopicAnalysisCardDelegate,persentNotesDelegate>
+@interface StartAnalysisTopicViewController ()<TopicAnalysisCardDelegate,persentNotesDelegate,UIScrollViewDelegate>
 //所有展示试题的容器
 //@property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRight;
@@ -34,6 +34,7 @@
     [super viewDidLoad];
     self.title = @"试卷解析";
     _scrollViewPater = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, Scr_Height - 45 - 64)];
+    _scrollViewPater.delegate = self;
     _scrollViewPater.pagingEnabled = YES;
     [self.view addSubview:_scrollViewPater];
      _tyUser = [NSUserDefaults standardUserDefaults];
@@ -45,7 +46,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
 }
-- (void)viewDidDisappear:(BOOL)animated{
+
+- (void)viewWillDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
@@ -102,6 +104,31 @@
         
     }];
 }
+//上一题
+- (IBAction)buttonLastClick:(UIButton *)sender {
+    if (_scrollViewPater.contentOffset.x>=Scr_Width) {
+        _lastButton.userInteractionEnabled = NO;
+        _nextButton.userInteractionEnabled =NO;
+        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x - Scr_Width, 0) animated:YES];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"前面没有试题了~"];
+    }
+    [self topicCardHiden];
+}
+//下一题
+- (IBAction)buttonNextClick:(UIButton *)sender {
+    if (_scrollViewPater.contentOffset.x < _scrollContentWidth*Scr_Width - Scr_Width) {
+        _lastButton.userInteractionEnabled = NO;
+        _nextButton.userInteractionEnabled =NO;
+        [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.contentOffset.x + Scr_Width, 0) animated:YES];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"已经到最后一题了~"];
+    }
+    [self topicCardHiden];
+}
+
 //隐藏或显示答题卡
 - (IBAction)buttonRightClick:(UIButton *)sender {
     _isShowTopicCard = !_isShowTopicCard;
@@ -220,6 +247,12 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     NotesDataViewController *notesVc = segue.destinationViewController;
     notesVc.questionId = sender;
+}
+//scrollView代理
+//动画结束，控制不让‘上一题’，‘下一题’连续点击
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
+    _lastButton.userInteractionEnabled = YES;
+    _nextButton.userInteractionEnabled =YES;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

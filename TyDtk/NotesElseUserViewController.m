@@ -8,7 +8,7 @@
 
 #import "NotesElseUserViewController.h"
 #import "NotesUserTableViewCell.h"
-@interface NotesElseUserViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface NotesElseUserViewController ()<UITableViewDelegate,UITableViewDataSource,ViewNullDataDelegate>
 //tableView 笔记
 @property (nonatomic,strong) UITableView *tableViewNotes;
 //返回cell的高
@@ -23,6 +23,9 @@
 @property (nonatomic,strong) NSMutableArray *arrayNotes;
 //刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
+@property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
+//没有笔记时显示的view
+@property (nonatomic,strong) ViewNullData *viewNilData;
 @end
 
 @implementation NotesElseUserViewController
@@ -34,7 +37,7 @@
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [tyUser objectForKey:tyUserAccessToken];
     _arrayNotes = [NSMutableArray array];
-    _tableViewNotes = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width,self.view.bounds.size.height-64 - 45) style:UITableViewStylePlain];
+    _tableViewNotes = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width,Scr_Height - 64 -44) style:UITableViewStylePlain];
     _tableViewNotes.backgroundColor = [UIColor clearColor];
     _tableViewNotes.delegate = self;
     _tableViewNotes.dataSource = self;
@@ -50,6 +53,10 @@
     [_refreshFooter setTitle:@"正在为您加载更多笔记..." forState:MJRefreshStateRefreshing];
     [_refreshFooter setTitle:@"笔记已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _tableViewNotes.mj_footer = _refreshFooter;
+    
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefreshClick:)];
+    _tableViewNotes.mj_header = _refreshHeader;
+    
     _pageCurrIndex = 1;
     _pages = 0;
     [_arrayNotes removeAllObjects];
@@ -73,10 +80,21 @@
             _pages = [dicPages[@"pages"] integerValue];
             _pageCurrIndex = _pageCurrIndex + 1;
             NSArray *arrayNotes = dicNotes[@"datas"];
-            for (NSDictionary *dicN in arrayNotes) {
-                [_arrayNotes addObject:dicN];
+            [_viewNilData removeFromSuperview];
+            if (arrayNotes.count == 0) {
+                if (!_viewNilData) {
+                    _viewNilData = [[ViewNullData alloc]initWithFrame:_tableViewNotes.frame showText:@"暂时没有其他用户笔记，点击刷新试试"];
+                    _viewNilData.delegateNullData = self;
+                }
+                [self.view addSubview:_viewNilData];
+            }
+            else{
+                for (NSDictionary *dicN in arrayNotes) {
+                    [_arrayNotes addObject:dicN];
+                }
             }
             [_tableViewNotes reloadData];
+            [_refreshHeader endRefreshing];
             [_refreshFooter endRefreshing];
         }
         NSLog(@"%@",dicNotes);
@@ -85,7 +103,23 @@
     }];
 
 }
+//上拉刷新
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
+    [self getElseNotes];
+}
+//下拉刷新
+- (void)headerRefreshClick:(MJRefreshNormalHeader *)header{
+    _pageCurrIndex = 1;
+    _pages = 0;
+    [_arrayNotes removeAllObjects];
+    [self getElseNotes];
+}
+//空数据时点击屏幕触发
+- (void)nullDataTapGestClick{
+    _pageCurrIndex = 1;
+    _pages = 0;
+    [_arrayNotes removeAllObjects];
+    [_viewNilData removeFromSuperview];
     [self getElseNotes];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

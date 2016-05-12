@@ -37,9 +37,8 @@ static CGRect oldframe;
     
     [UIView animateWithDuration:0.3 animations:^{
         
-//        imageView.frame=CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
-        imageView.frame = CGRectMake(0, 200, 375, 200);
-        
+    imageView.frame=CGRectMake(0,([UIScreen mainScreen].bounds.size.height-image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width)/2, [UIScreen mainScreen].bounds.size.width, image.size.height*[UIScreen mainScreen].bounds.size.width/image.size.width);
+
         backgroundView.alpha=1;
         
     } completion:^(BOOL finished) {

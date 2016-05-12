@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
 @property (weak, nonatomic) IBOutlet UIButton *buttonClear;
 @property (weak, nonatomic) IBOutlet UIButton *buttonCenter;
+@property (nonatomic,assign) BOOL isHiden;
 @property (nonatomic,assign) NSInteger questionId;
 @end

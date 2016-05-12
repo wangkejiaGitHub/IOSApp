@@ -33,7 +33,7 @@
     UIImageView *imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, scrW, scrH)];
     imgView.image = systemBackGrdImg;
     [self addSubview:imgView];
-    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(20, (scrH - 30)/2, scrW - 40, 30)];
+    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(40, (scrH - 50)/2, scrW - 80, 50)];
     if (showText == nil) {
         labText.text = @"点击屏幕刷新";
     }
@@ -43,6 +43,7 @@
     labText.textColor = [UIColor grayColor];
     labText.textAlignment = NSTextAlignmentCenter;
     labText.font = [UIFont systemFontOfSize:16.0];
+    labText.numberOfLines = 0;
     [self addSubview:labText];
     
     UITapGestureRecognizer *viewTapGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestClick:)];

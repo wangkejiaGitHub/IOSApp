@@ -557,6 +557,15 @@
 			path = Header;
 			sourceTree = "<group>";
 		};
+		1DC9B8F71CE42FE700A2E9A8 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				1DEDC80B1C9F86170083B394 /* LoginViewController.h */,
+				1DEDC80C1C9F86170083B394 /* LoginViewController.m */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
 		1DD2E6F61CB5F1C800423484 /* XibForTk */ = {
 			isa = PBXGroup;
 			children = (
@@ -614,6 +623,8 @@
 		1DDE06651CAA28FB00FA1505 /* UserFindPwd */ = {
 			isa = PBXGroup;
 			children = (
+				1DEDC8111C9F866C0083B394 /* ForgetPwdViewController.h */,
+				1DEDC8121C9F866C0083B394 /* ForgetPwdViewController.m */,
 				1DDE06661CAA295B00FA1505 /* PhoneForPwdViewController.h */,
 				1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */,
 				1DDE06691CAA296A00FA1505 /* EmailForPwdViewController.h */,
@@ -634,6 +645,8 @@
 		1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */ = {
 			isa = PBXGroup;
 			children = (
+				1DEDC80E1C9F86400083B394 /* RegisterViewController.h */,
+				1DEDC80F1C9F86400083B394 /* RegisterViewController.m */,
 				1DE695DD1CA8D28100ED1DA3 /* PhoneReViewController.h */,
 				1DE695DE1CA8D28100ED1DA3 /* PhoneReViewController.m */,
 				1DE695E01CA8D39200ED1DA3 /* EmailReViewController.h */,
@@ -713,16 +726,11 @@
 		1DEDC8091C9F85AF0083B394 /* TyUser */ = {
 			isa = PBXGroup;
 			children = (
+				1DC9B8F71CE42FE700A2E9A8 /* Login */,
 				1DDE06651CAA28FB00FA1505 /* UserFindPwd */,
 				1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */,
 				1D10C9871CB3A74C00040913 /* UserIndexViewController.h */,
 				1D10C9881CB3A74C00040913 /* UserIndexViewController.m */,
-				1DEDC80B1C9F86170083B394 /* LoginViewController.h */,
-				1DEDC80C1C9F86170083B394 /* LoginViewController.m */,
-				1DEDC80E1C9F86400083B394 /* RegisterViewController.h */,
-				1DEDC80F1C9F86400083B394 /* RegisterViewController.m */,
-				1DEDC8111C9F866C0083B394 /* ForgetPwdViewController.h */,
-				1DEDC8121C9F866C0083B394 /* ForgetPwdViewController.m */,
 			);
 			name = TyUser;
 			sourceTree = "<group>";

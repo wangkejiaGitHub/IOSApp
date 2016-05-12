@@ -19,7 +19,6 @@
 
     _buttonCenter.layer.masksToBounds = YES;
     _buttonCenter.layer.cornerRadius = 3;
-    
     _textVIewNote.layer.masksToBounds = YES;
     _textVIewNote.layer.cornerRadius = 5;
     _textVIewNote.textColor = [UIColor brownColor];
@@ -70,7 +69,13 @@
         if (codeId == 1) {
             NSDictionary *dicData = dic[@"datas"];
             [SVProgressHUD showSuccessWithStatus:dicData[@"msg"]];
-            [self removeFromSuperview];
+            _textVIewNote.text = @"";
+            if (!_isHiden) {
+                [self removeFromSuperview];
+            }
+            else{
+                [_textVIewNote becomeFirstResponder];
+            }
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"操作失败"];
