@@ -113,6 +113,7 @@
             <connections>
                 <outlet property="buttonCenter" destination="lga-8c-wxE" id="qNV-dg-XeY"/>
                 <outlet property="buttonClear" destination="IjB-xs-P6S" id="rK3-r2-Ps0"/>
+                <outlet property="buttonErrorType" destination="XZq-aZ-lKo" id="JuX-Hd-xyC"/>
                 <outlet property="buttonSubmit" destination="gC4-lM-dww" id="IBD-TL-4JS"/>
                 <outlet property="textViewError" destination="EAN-Kn-te9" id="8sQ-em-F6C"/>
             </connections>

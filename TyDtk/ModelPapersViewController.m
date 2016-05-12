@@ -10,6 +10,9 @@
 @interface ModelPapersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate,UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (weak, nonatomic) IBOutlet UIButton *buttonLeveles;
+@property (weak, nonatomic) IBOutlet UIButton *buttonYear;
+
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
 //本地信息存储
@@ -38,6 +41,10 @@
 
 //回到顶部的按钮
 @property (nonatomic,strong) UIButton *buttonTopTable;
+//试卷级别（试卷类型）
+@property (nonatomic,strong) NSArray *arrayLevels;
+//试卷年份
+@property (nonatomic,strong) NSArray *arrayYears;
 @end
 
 @implementation ModelPapersViewController
@@ -52,8 +59,10 @@
     _paterPages = 0;
     _paterIndexPage = 1;
     _arrayPapers = [NSMutableArray array];
+    _myTableView.tableFooterView = [UIView new];
 }
 - (void)viewDidAppear:(BOOL)animated{
+     [self getPaperYears];
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
@@ -70,12 +79,6 @@
         _paterIndexPage = 1;
         [_arrayPapers removeAllObjects];
         [self getAccessToken];
-    }
-    else{
-//        //新数据从传递的科目Id中请求获取
-
-
-//        [self getModelPapersData];
     }
     _allowToken = NO;
 
@@ -168,7 +171,7 @@
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     //获取试卷信息
     [self getModelPapersData];
-    
+    [self getPaperLevels];
 }
 /**
  授权失败
@@ -186,7 +189,6 @@
             return;
         }
     }
-    
     //添加试卷列表的头试图 科目信息
     [self addHeardViewForPaterList];
     [SVProgressHUD show];
@@ -221,17 +223,37 @@
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
+
 /**
- 获取当前专业下的试卷级别,
+ 获取试卷级别
  */
-//- (void)getModelPaterLevel{
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetLevels?access_token=%@",systemHttps,_accessToken];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicPaterLevel = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//    } RequestFaile:^(NSError *error) {
-//        
-//    }];
-//}
+- (void)getPaperLevels{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetLevels?access_token=%@",systemHttps,_accessToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicLevels = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicLevels[@"code"] integerValue];
+        if (codeId == 1) {
+            _arrayLevels = dicLevels[@"datas"];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/**
+ 获取试卷年份
+ */
+- (void)getPaperYears{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperYear",systemHttps];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicYesrs = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicYesrs[@"code"] integerValue];
+        if (codeId == 1) {
+            _arrayYears = dicYesrs[@"datas"];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
     [self getModelPapersData];
 }
@@ -263,43 +285,147 @@
     [_myTableView setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 ///////////////////////////////////////
-//tableview 代理
+// tableview 代理
 ///////////////////////////////////////
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (_arrayPapers.count > 0) {
         return _arrayPapers.count;
     }
-    return 0;
+    return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 120;
+    if (_arrayPapers.count > 0) {
+        return 120;
+    }
+    return 100;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellmodel" forIndexPath:indexPath];
-    NSDictionary *dicCurrPater = _arrayPapers[indexPath.row];
-    UILabel *labName = (UILabel *)[cell.contentView viewWithTag:10];
-    UILabel *labQuantity = (UILabel *)[cell.contentView viewWithTag:11];
-    UILabel *labTime= (UILabel *)[cell.contentView viewWithTag:12];
-    UILabel *labScore = (UILabel *)[cell.contentView viewWithTag:13];
-    UILabel *labPerson = (UILabel *)[cell.contentView viewWithTag:14];
-    
-    labName.text = dicCurrPater[@"Names"];
-    labQuantity.text =[NSString stringWithFormat:@"%ld 题",[dicCurrPater[@"Quantity"] integerValue]];
-    labTime.text = [NSString stringWithFormat:@"%ld 分钟",[dicCurrPater[@"TimeLong"] integerValue]];
-    labScore.text =[NSString stringWithFormat:@"%ld 分",[dicCurrPater[@"Score"] integerValue]];
-    labPerson.text = @"0人参与";
-    return cell;
+    if (_arrayPapers.count > 0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellmodel" forIndexPath:indexPath];
+        NSDictionary *dicCurrPater = _arrayPapers[indexPath.row];
+        UILabel *labName = (UILabel *)[cell.contentView viewWithTag:10];
+        UILabel *labQuantity = (UILabel *)[cell.contentView viewWithTag:11];
+        UILabel *labTime= (UILabel *)[cell.contentView viewWithTag:12];
+        UILabel *labScore = (UILabel *)[cell.contentView viewWithTag:13];
+        UILabel *labPerson = (UILabel *)[cell.contentView viewWithTag:14];
+        
+        labName.text = dicCurrPater[@"Names"];
+        labQuantity.text =[NSString stringWithFormat:@"%ld 题",[dicCurrPater[@"Quantity"] integerValue]];
+        labTime.text = [NSString stringWithFormat:@"%ld 分钟",[dicCurrPater[@"TimeLong"] integerValue]];
+        labScore.text =[NSString stringWithFormat:@"%ld 分",[dicCurrPater[@"Score"] integerValue]];
+        labPerson.text = @"0人参与";
+        return cell;
+
+    }
+    else{
+        UITableViewCell *cellNull = [tableView dequeueReusableCellWithIdentifier:@"nullcell" forIndexPath:indexPath];
+        cellNull.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cellNull;
+    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary *diccc = _arrayPapers[indexPath.row];
-    [self performSegueWithIdentifier:@"topicStar" sender:diccc];
+    if (_arrayPapers.count > 0) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        NSDictionary *diccc = _arrayPapers[indexPath.row];
+        [self performSegueWithIdentifier:@"topicStar" sender:diccc];
+    }
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"topicStar"]) {
         StartDoTopicViewController *topicVc = segue.destinationViewController;
         topicVc.dicPater = sender;
     }
+}
+//试题类型按钮
+- (IBAction)buttonTypeClick:(UIButton *)sender {
+    [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
+    [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
+    [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
+    ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self LevelsMenuItemArray]];
+    CGRect rectBtn = sender.frame;
+    rectBtn.origin.y = rectBtn.origin.y + 60;
+    rectBtn.origin.x = rectBtn.origin.x - 10;
+    [popupMenu showInView:self.navigationController.view fromRect:rectBtn layoutType:Vertical];
+    [self.navigationController.view addSubview:popupMenu];
+}
+//试题年份按钮
+- (IBAction)buttonYearClick:(UIButton *)sender {
+    [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
+    [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
+    [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
+    ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self yearMenuItemArray]];
+    CGRect rectBtn = sender.frame;
+    rectBtn.origin.y = rectBtn.origin.y + 60;
+    rectBtn.origin.x = rectBtn.origin.x - 10;
+    [popupMenu showInView:self.navigationController.view fromRect:rectBtn layoutType:Vertical];
+    [self.navigationController.view addSubview:popupMenu];
+}
+//返回试题类型菜单item数组
+- (NSArray *)LevelsMenuItemArray{
+    NSMutableArray *arrayLevelMuen = [NSMutableArray array];
+    ZFPopupMenuItem *itemA = [ZFPopupMenuItem initWithMenuName:@"全部" image:nil action:@selector(menuLevelsClick:) target:self];
+    itemA.tag = 100 + 0;
+    [arrayLevelMuen addObject:itemA];
+    for (int i = 0; i<_arrayLevels.count; i++) {
+        NSDictionary *dicLevels = _arrayLevels[i];
+        ZFPopupMenuItem *item = [ZFPopupMenuItem initWithMenuName:dicLevels[@"Names"] image:nil action:@selector(menuLevelsClick:) target:self];
+        item.tag = 100 + i + 1;
+        [arrayLevelMuen addObject:item];
+    }
+    return arrayLevelMuen;
+}
+//返回年份菜单item数组
+- (NSArray *)yearMenuItemArray{
+    NSMutableArray *arrayYearMuen = [NSMutableArray array];
+    ZFPopupMenuItem *itemA = [ZFPopupMenuItem initWithMenuName:@"全部" image:nil action:@selector(menuYearClick:) target:self];
+    itemA.tag = 1000 + 0;
+    [arrayYearMuen addObject:itemA];
+    for (int i =0; i<_arrayYears.count; i++) {
+        NSDictionary *dicYear = _arrayYears[i];
+        ZFPopupMenuItem *item = [ZFPopupMenuItem initWithMenuName:dicYear[@"Value"] image:nil action:@selector(menuYearClick:) target:self];
+        item.tag = 1000 + i + 1;
+        [arrayYearMuen addObject:item];
+    }
+    return arrayYearMuen;
+}
+//点击年份菜单事件
+- (void)menuYearClick:(ZFPopupMenuItem *)item{
+    NSInteger itemIndex = item.tag - 1000;
+    if (itemIndex == 0) {
+        _paterYear = @"0";
+        [_buttonYear setTitle:@"全部" forState:UIControlStateNormal];
+    }
+    else{
+        NSDictionary *dicYear = _arrayYears[itemIndex - 1];
+        _paterYear = dicYear[@"Value"];
+        [_buttonYear setTitle:dicYear[@"Value"] forState:UIControlStateNormal];
+    }
+    
+    _paterIndexPage = 1;
+    _paterPages = 0;
+    [_arrayPapers removeAllObjects];
+    
+    [self getModelPapersData];
+    
+}
+//点击试卷类型菜单事件
+- (void)menuLevelsClick:(ZFPopupMenuItem *)item{
+    NSInteger itemIndex = item.tag - 100;
+    if (itemIndex == 0) {
+        _paterLevel = @"0";
+        [_buttonLeveles setTitle:@"全部" forState:UIControlStateNormal];
+    }
+    else{
+        NSDictionary *dicLevels = _arrayLevels[itemIndex - 1];
+        _paterLevel = [NSString stringWithFormat:@"%ld",[dicLevels[@"Id"] integerValue]];
+            [_buttonLeveles setTitle:dicLevels[@"Names"] forState:UIControlStateNormal];
+    }
+    _paterIndexPage = 1;
+    _paterPages = 0;
+    [_arrayPapers removeAllObjects];
+    
+    [self getModelPapersData];
+    NSLog(@"%ld",item.tag);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

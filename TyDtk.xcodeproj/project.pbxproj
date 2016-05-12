@@ -53,6 +53,9 @@
 		1DC18F0D1CB795D50006D642 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18EF81CB795D50006D642 /* UIScrollView+MJExtension.m */; };
 		1DC18F0E1CB795D50006D642 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18EFA1CB795D50006D642 /* UIScrollView+MJRefresh.m */; };
 		1DC18F0F1CB795D50006D642 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18EFC1CB795D50006D642 /* UIView+MJExtension.m */; };
+		1DC9B9081CE46A9E00A2E9A8 /* ZFPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9031CE46A9E00A2E9A8 /* ZFPopupMenu.m */; };
+		1DC9B9091CE46A9E00A2E9A8 /* ZFPopupMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9051CE46A9E00A2E9A8 /* ZFPopupMenuItem.m */; };
+		1DC9B90A1CE46A9E00A2E9A8 /* ZFPopupOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */; };
 		1DD2E6F81CB5F21700423484 /* ActiveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD2E6F71CB5F21600423484 /* ActiveView.xib */; };
 		1DD2E6FB1CB5F25800423484 /* ActiveVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */; };
 		1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */; };
@@ -236,6 +239,12 @@
 		1DC18EFA1CB795D50006D642 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		1DC18EFB1CB795D50006D642 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		1DC18EFC1CB795D50006D642 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		1DC9B9021CE46A9E00A2E9A8 /* ZFPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPopupMenu.h; sourceTree = "<group>"; };
+		1DC9B9031CE46A9E00A2E9A8 /* ZFPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopupMenu.m; sourceTree = "<group>"; };
+		1DC9B9041CE46A9E00A2E9A8 /* ZFPopupMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPopupMenuItem.h; sourceTree = "<group>"; };
+		1DC9B9051CE46A9E00A2E9A8 /* ZFPopupMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopupMenuItem.m; sourceTree = "<group>"; };
+		1DC9B9061CE46A9E00A2E9A8 /* ZFPopupOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPopupOverlayView.h; sourceTree = "<group>"; };
+		1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopupOverlayView.m; sourceTree = "<group>"; };
 		1DD2E6F71CB5F21600423484 /* ActiveView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActiveView.xib; sourceTree = "<group>"; };
 		1DD2E6F91CB5F25800423484 /* ActiveVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveVIew.h; sourceTree = "<group>"; };
 		1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveVIew.m; sourceTree = "<group>"; };
@@ -566,6 +575,19 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
+		1DC9B9011CE46A9E00A2E9A8 /* ZFPopupMenu */ = {
+			isa = PBXGroup;
+			children = (
+				1DC9B9021CE46A9E00A2E9A8 /* ZFPopupMenu.h */,
+				1DC9B9031CE46A9E00A2E9A8 /* ZFPopupMenu.m */,
+				1DC9B9041CE46A9E00A2E9A8 /* ZFPopupMenuItem.h */,
+				1DC9B9051CE46A9E00A2E9A8 /* ZFPopupMenuItem.m */,
+				1DC9B9061CE46A9E00A2E9A8 /* ZFPopupOverlayView.h */,
+				1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */,
+			);
+			path = ZFPopupMenu;
+			sourceTree = "<group>";
+		};
 		1DD2E6F61CB5F1C800423484 /* XibForTk */ = {
 			isa = PBXGroup;
 			children = (
@@ -826,6 +848,7 @@
 				1DF950741CA3C52200104597 /* Reachability.m */,
 				1DFF8E151CE335C800BC4A68 /* hhhhhhh.h */,
 				1DFF8E161CE335C800BC4A68 /* hhhhhhh.m */,
+				1DC9B9011CE46A9E00A2E9A8 /* ZFPopupMenu */,
 			);
 			name = Tools;
 			sourceTree = "<group>";
@@ -1167,8 +1190,10 @@
 				1DEDC87B1C9FA66B0083B394 /* AFURLResponseSerialization.m in Sources */,
 				1D86FA331CCDFC23007DF87C /* ErrorTopicView.m in Sources */,
 				1DE695D51CA8C75100ED1DA3 /* TestViewController.m in Sources */,
+				1DC9B9081CE46A9E00A2E9A8 /* ZFPopupMenu.m in Sources */,
 				1DC18F0F1CB795D50006D642 /* UIView+MJExtension.m in Sources */,
 				1DEDC87A1C9FA66B0083B394 /* AFURLRequestSerialization.m in Sources */,
+				1DC9B90A1CE46A9E00A2E9A8 /* ZFPopupOverlayView.m in Sources */,
 				1DC18F051CB795D50006D642 /* MJRefreshBackGifFooter.m in Sources */,
 				1DE695E21CA8D39200ED1DA3 /* EmailReViewController.m in Sources */,
 				1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */,
@@ -1178,6 +1203,7 @@
 				1DDA96D61CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m in Sources */,
 				1D122B981CDD8F7300A0BA08 /* TopicAnalysisCardView.m in Sources */,
 				1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
+				1DC9B9091CE46A9E00A2E9A8 /* ZFPopupMenuItem.m in Sources */,
 				1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */,
 				1D31827E1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m in Sources */,
 				1DC18F031CB795D50006D642 /* MJRefreshAutoNormalFooter.m in Sources */,

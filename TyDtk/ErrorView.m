@@ -23,7 +23,8 @@
     
     _buttonCenter.layer.masksToBounds = YES;
     _buttonCenter.layer.cornerRadius = 3;
-    
+    _buttonErrorType.layer.masksToBounds = YES;
+    _buttonErrorType.layer.cornerRadius = 3;
     _textViewError.layer.masksToBounds = YES;
     _textViewError.layer.cornerRadius = 5;
     _textViewError.textColor = [UIColor brownColor];
@@ -72,9 +73,13 @@
 - (IBAction)buttonTypeClick:(UIButton *)sender {
     sender.selected = !sender.selected;
     if (sender.selected) {
+        [sender setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        sender.backgroundColor = [UIColor purpleColor];
         [self addTableVIewTypeForSelf];
     }
     else{
+        [sender setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        sender.backgroundColor = [UIColor clearColor];
         [UIView animateWithDuration:0.2 animations:^{
             CGRect rect = _viewErrorType.frame;
             rect.origin.x = rect.origin.x + 80;

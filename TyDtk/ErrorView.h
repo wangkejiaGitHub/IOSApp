@@ -13,5 +13,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonClear;
 @property (weak, nonatomic) IBOutlet UIButton *buttonCenter;
 @property (weak, nonatomic) IBOutlet UITextView *textViewError;
+@property (weak, nonatomic) IBOutlet UIButton *buttonErrorType;
+
 @property (nonatomic,assign) NSInteger questionId;
 @end

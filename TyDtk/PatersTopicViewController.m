@@ -268,7 +268,7 @@
         _errorView.questionId = questionId;
         _errorView.frame = CGRectMake(30, -200, Scr_Width - 60, 200);
         [self.view addSubview:_errorView];
-        [UIView animateWithDuration:0.2 animations:^{
+        [UIView animateWithDuration:0.15 animations:^{
             CGRect rect = _errorView.frame;
             rect.origin.y = (Scr_Height-200)/2 - 30;
             _errorView.frame = rect;
@@ -284,7 +284,7 @@
         _notesView.questionId = questionId;
         _notesView.frame = CGRectMake(30, -200, Scr_Width - 60, 200);
         [self.view addSubview:_notesView];
-        [UIView animateWithDuration:0.2 animations:^{
+        [UIView animateWithDuration:0.15 animations:^{
             CGRect rect = _notesView.frame;
             rect.origin.y = (Scr_Height-200)/2 - 30;
             _notesView.frame = rect;
