@@ -26,6 +26,18 @@
 @property (nonatomic,strong) NSArray *arrayPaterAnalysisData;
 //scrollview 的宽度，单位是以屏宽的个数去计算(所有试题的个数)
 @property (nonatomic,assign) NSInteger scrollContentWidth;
+/////////////////////////////////////////////////////////
+//试卷做题情况
+//总做题数
+@property (nonatomic,assign) NSInteger intDoTopic;
+//做错题数
+@property (nonatomic,assign) NSInteger intWrongTopic;
+//做对题数
+@property (nonatomic,assign) NSInteger intRightTopic;
+//正确率
+@property (nonatomic,assign) NSInteger intAccuracy;
+//总的得分
+@property (nonatomic,assign) NSInteger intScore;
 @end
 
 @implementation StartAnalysisTopicViewController
@@ -38,9 +50,11 @@
     _scrollViewPater.pagingEnabled = YES;
     [self.view addSubview:_scrollViewPater];
      _tyUser = [NSUserDefaults standardUserDefaults];
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _buttonRight.userInteractionEnabled = NO;
     [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
     [self getTopicAnalysisPaper];
+    [self getAnalysisReportInfo];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -77,11 +91,10 @@
     self.navigationController.view.frame = rect;
 }
 /**
- 获取试卷分析
+ 获取试卷试题分析
  */
 - (void)getTopicAnalysisPaper{
     [SVProgressHUD showWithStatus:@"正在获取试题分析..."];
-    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/IOSGetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
     [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
         NSDictionary *dicAnalysis = (NSDictionary *)respoes;
@@ -104,6 +117,30 @@
         
     }];
 }
+///////////2016-05-13进度记录 /////试题分析报告
+/**
+ 获取试卷分析报告
+ */
+- (void)getAnalysisReportInfo{
+    //api/Paper/LookReportInfo?access_token={access_token}&rid={rid}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/LookReportInfo?access_token=%@&rid=%@",systemHttps,_accessToken,_rId];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *dicReport = (NSDictionary *)respoes;
+        NSInteger codeId = [dicReport[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicReport[@"datas"];
+            _intDoTopic = [dicDatas[@"DoneNum"] integerValue];
+            _intRightTopic = [dicDatas[@"RightNum"]integerValue];
+            _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
+            _intAccuracy = [dicReport[@"Accuracy"] integerValue];
+            _intScore = [dicReport[@"Score"] integerValue];
+        }
+        NSLog(@"%@",dicReport);
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+}
+///////////2016-05-13进度记录
 //上一题
 - (IBAction)buttonLastClick:(UIButton *)sender {
     if (_scrollViewPater.contentOffset.x>=Scr_Width) {
