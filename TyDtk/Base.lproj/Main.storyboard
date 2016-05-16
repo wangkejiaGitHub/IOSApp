@@ -1259,16 +1259,32 @@
                                             <action selector="nextBtnClick:" destination="psZ-67-bwE" eventType="touchUpInside" id="ZbM-cG-pPg"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iAn-P2-98g">
+                                        <rect key="frame" x="150" y="10" width="75" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="KqY-uX-ZpX"/>
+                                            <constraint firstAttribute="width" constant="75" id="LO4-nZ-Tpw"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="分析报告">
+                                            <color key="titleColor" red="1" green="0.13595605046873427" blue="0.1467080903553426" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="buttonAnalysisClick:" destination="sNW-13-Bm9" eventType="touchUpInside" id="Y5V-f3-bSs"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92218177359999998" green="0.90175128199999999" blue="0.87757860519999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="dmf-vY-IHM" firstAttribute="leading" secondItem="LFQ-yU-oJq" secondAttribute="leading" id="6MI-k6-664"/>
                                     <constraint firstAttribute="trailing" secondItem="76m-uC-ybw" secondAttribute="trailing" id="7gI-0C-UIe"/>
                                     <constraint firstAttribute="bottom" secondItem="76m-uC-ybw" secondAttribute="bottom" id="KGr-an-iCa"/>
+                                    <constraint firstItem="iAn-P2-98g" firstAttribute="centerY" secondItem="LFQ-yU-oJq" secondAttribute="centerY" id="Osg-Jk-fuv"/>
                                     <constraint firstAttribute="bottom" secondItem="dmf-vY-IHM" secondAttribute="bottom" id="RMZ-SY-GEN"/>
                                     <constraint firstItem="dmf-vY-IHM" firstAttribute="top" secondItem="LFQ-yU-oJq" secondAttribute="top" id="Yov-KQ-KMg"/>
                                     <constraint firstAttribute="height" constant="45" id="iBK-Vb-3HQ"/>
                                     <constraint firstItem="76m-uC-ybw" firstAttribute="top" secondItem="LFQ-yU-oJq" secondAttribute="top" id="qoH-Xr-XUL"/>
+                                    <constraint firstItem="iAn-P2-98g" firstAttribute="centerX" secondItem="LFQ-yU-oJq" secondAttribute="centerX" id="zIY-hq-LQe"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -1293,6 +1309,7 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="buttonAnalysis" destination="iAn-P2-98g" id="zRc-Ew-jFY"/>
                         <outlet property="buttonRight" destination="t9B-Or-TBA" id="zga-WI-pGT"/>
                         <outlet property="lastButton" destination="dmf-vY-IHM" id="WqV-sd-cli"/>
                         <outlet property="nextButton" destination="76m-uC-ybw" id="vZm-2X-PKw"/>

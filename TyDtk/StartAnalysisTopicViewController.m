@@ -17,6 +17,8 @@
 @property (nonatomic,strong) UIScrollView *scrollViewPater;
 @property (weak, nonatomic) IBOutlet UIButton *lastButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
+
+@property (weak, nonatomic) IBOutlet UIButton *buttonAnalysis;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) TopicAnalysisCardView *cardView;
 @property (nonatomic,assign) BOOL isShowTopicCard;
@@ -30,6 +32,7 @@
 //试卷做题情况
 //总做题数
 @property (nonatomic,assign) NSInteger intDoTopic;
+
 //做错题数
 @property (nonatomic,assign) NSInteger intWrongTopic;
 //做对题数
@@ -38,6 +41,8 @@
 @property (nonatomic,assign) NSInteger intAccuracy;
 //总的得分
 @property (nonatomic,assign) NSInteger intScore;
+//用于展示试卷分析数据的view（总题，错题，对题，正确率等概要）
+@property (nonatomic,strong) UIView *viewAnalysis;
 @end
 
 @implementation StartAnalysisTopicViewController
@@ -45,6 +50,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"试卷解析";
+    _intRightTopic = 0;
+    _intWrongTopic = 0;
+    _intDoTopic = 0;
+    _intAccuracy = 0;
+    _intScore = 0;
     _scrollViewPater = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, Scr_Height - 45 - 64)];
     _scrollViewPater.delegate = self;
     _scrollViewPater.pagingEnabled = YES;
@@ -53,6 +63,9 @@
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _buttonRight.userInteractionEnabled = NO;
     [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
+    _buttonAnalysis.layer.masksToBounds = YES;
+    _buttonAnalysis.layer.cornerRadius = 5;
+    _buttonAnalysis.backgroundColor = ColorWithRGB(200, 200, 200);
     [self getTopicAnalysisPaper];
     [self getAnalysisReportInfo];
 }
@@ -134,10 +147,60 @@
             _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
             _intAccuracy = [dicReport[@"Accuracy"] integerValue];
             _intScore = [dicReport[@"Score"] integerValue];
+            
+            [self addViewAnalysisForAnalysis];
         }
         NSLog(@"%@",dicReport);
     } RequestFaile:^(NSError *erro) {
         
+    }];
+}
+/**
+添加数据分析报告试图
+ */
+- (void)addViewAnalysisForAnalysis{
+    if (!_viewAnalysis) {
+        _viewAnalysis = [[UIView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height - 200)];
+        _viewAnalysis.backgroundColor = [UIColor lightGrayColor];
+        UIButton *btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnCancel.frame = CGRectMake(Scr_Width - 50, 0, 50, 30);
+        btnCancel.backgroundColor = [UIColor redColor];
+        [btnCancel addTarget:self action:@selector(buttonHidenViewAnalysisClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_viewAnalysis addSubview:btnCancel];
+        //添加绘制图表
+        ZFPieChart *pieChartAnalysis = [[ZFPieChart alloc]initWithFrame:CGRectMake(0, 0, Scr_Width - 100, _viewAnalysis.frame.size.height - 100)];
+        pieChartAnalysis.title = @"试卷试题分析";
+        pieChartAnalysis.valueArray = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%ld",_intRightTopic], [NSString stringWithFormat:@"%ld",_intWrongTopic], nil];
+        pieChartAnalysis.nameArray = [NSMutableArray arrayWithObjects:@"对题", @"错题", nil];
+        pieChartAnalysis.colorArray = [NSMutableArray arrayWithObjects:ZFColor(71, 204, 255, 1), ZFColor(253, 203, 76, 1), ZFColor(214, 205, 153, 1), ZFColor(78, 250, 188, 1), ZFColor(16, 140, 39, 1), ZFColor(45, 92, 34, 1), nil];
+        [_viewAnalysis addSubview:pieChartAnalysis];
+        [self.view addSubview:_viewAnalysis];
+            [pieChartAnalysis strokePath];
+    }
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rectAna =_viewAnalysis.frame;
+        rectAna.origin.y =200;
+        _viewAnalysis.frame = rectAna;
+    }];
+    
+}
+//显示分析报告试图
+- (IBAction)buttonAnalysisClick:(UIButton *)sender {
+    [self addViewAnalysisForAnalysis];
+}
+
+//隐藏试卷解析报告试图
+- (void)buttonHidenViewAnalysisClick:(UIButton *)sender{
+    [self hidenViewAnalysis];
+}
+/**
+ 隐藏数据分析报告试图
+ */
+- (void)hidenViewAnalysis{
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rectAna =_viewAnalysis.frame;
+        rectAna.origin.y = Scr_Height;
+        _viewAnalysis.frame = rectAna;
     }];
 }
 ///////////2016-05-13进度记录

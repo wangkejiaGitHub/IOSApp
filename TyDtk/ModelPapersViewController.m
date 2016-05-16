@@ -46,7 +46,6 @@
 //试卷年份
 @property (nonatomic,strong) NSArray *arrayYears;
 @end
-
 @implementation ModelPapersViewController
 
 - (void)viewDidLoad {
@@ -97,27 +96,6 @@
     //获取储存的专业信息
     NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
     _dicUserClass = [_tyUser objectForKey:tyUserClass];
-    
-//    [self addHeardViewForPaterList];
-//    if (!_hearhVIew) {
-//        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
-//        _hearhVIew.delegateAtive = self;
-//        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 + 20)];
-//        [view addSubview:_hearhVIew];
-//        view.backgroundColor = [UIColor clearColor];
-//        _myTableView.tableHeaderView = view;
-//    }
-//    
-//    
-//    
-//    [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpImgs,_dicUserClass[@"ImageUrl"]]]];
-//    _hearhVIew.labTitle.text = _dicUserClass[@"Names"];
-//    _hearhVIew.labRemark.text = _dicUserClass[@"Names"];
-//    NSInteger personNum = [_dicUserClass[@"CourseNum"] integerValue];
-//    _hearhVIew.labSubjectNumber.text = [NSString stringWithFormat:@"%ld",personNum];
-//    _hearhVIew.labPersonNumber.text = @"0";
-//    _hearhVIew.labPrice.text = @"0.0";
-    
     if (!_mzView) {
         _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
     }
@@ -431,15 +409,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

@@ -15,7 +15,6 @@
 /**********************
  头文件宏引用
  *********************/
-#import "hhhhhhh.h"
 //图片请求
 #import "UIImageView+WebCache.h"
 //网络请求
@@ -48,6 +47,8 @@
 //点击button弹出button下面的菜单的选项
 #import "ZFPopupMenu.h"
 #import "ZFPopupMenuItem.h"
+//图表
+#import "ZFChart.h"
 #import "ErrorTopicView.h"
 #import "NotesView.h"
 #import "ErrorView.h"
