@@ -30,9 +30,10 @@
 @property (nonatomic,assign) NSInteger scrollContentWidth;
 /////////////////////////////////////////////////////////
 //试卷做题情况
+//试题总数（只包含大题）
+@property (nonatomic,assign) NSInteger intTpoicCount;
 //总做题数
 @property (nonatomic,assign) NSInteger intDoTopic;
-
 //做错题数
 @property (nonatomic,assign) NSInteger intWrongTopic;
 //做对题数
@@ -67,7 +68,6 @@
     _buttonAnalysis.layer.cornerRadius = 5;
     _buttonAnalysis.backgroundColor = ColorWithRGB(200, 200, 200);
     [self getTopicAnalysisPaper];
-    [self getAnalysisReportInfo];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -117,12 +117,14 @@
             NSArray *arrayDic = dicNum[@"Questions"];
             _scrollContentWidth = _scrollContentWidth + arrayDic.count;
         }
+        _intTpoicCount = _scrollContentWidth;
         //设置scrollView的容量
         _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
         
         [self addChildViewWithTopicForSelf];
         _buttonRight.userInteractionEnabled = YES;
         [self addAnalysisTpoicCard];
+        [self getAnalysisReportInfo];
         [SVProgressHUD dismiss];
         
         NSLog(@"%@",dicAnalysis);
@@ -145,8 +147,8 @@
             _intDoTopic = [dicDatas[@"DoneNum"] integerValue];
             _intRightTopic = [dicDatas[@"RightNum"]integerValue];
             _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
-            _intAccuracy = [dicReport[@"Accuracy"] integerValue];
-            _intScore = [dicReport[@"Score"] integerValue];
+            _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
+            _intScore = [dicDatas[@"Score"] integerValue];
             
             [self addViewAnalysisForAnalysis];
         }
@@ -159,30 +161,116 @@
 添加数据分析报告试图
  */
 - (void)addViewAnalysisForAnalysis{
-    if (!_viewAnalysis) {
-        _viewAnalysis = [[UIView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height - 200)];
-        _viewAnalysis.backgroundColor = [UIColor lightGrayColor];
-        UIButton *btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
-        btnCancel.frame = CGRectMake(Scr_Width - 50, 0, 50, 30);
-        btnCancel.backgroundColor = [UIColor redColor];
-        [btnCancel addTarget:self action:@selector(buttonHidenViewAnalysisClick:) forControlEvents:UIControlEventTouchUpInside];
-        [_viewAnalysis addSubview:btnCancel];
-        //添加绘制图表
-        ZFPieChart *pieChartAnalysis = [[ZFPieChart alloc]initWithFrame:CGRectMake(0, 0, Scr_Width - 100, _viewAnalysis.frame.size.height - 100)];
-        pieChartAnalysis.title = @"试卷试题分析";
-        pieChartAnalysis.valueArray = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%ld",_intRightTopic], [NSString stringWithFormat:@"%ld",_intWrongTopic], nil];
-        pieChartAnalysis.nameArray = [NSMutableArray arrayWithObjects:@"对题", @"错题", nil];
-        pieChartAnalysis.colorArray = [NSMutableArray arrayWithObjects:ZFColor(71, 204, 255, 1), ZFColor(253, 203, 76, 1), ZFColor(214, 205, 153, 1), ZFColor(78, 250, 188, 1), ZFColor(16, 140, 39, 1), ZFColor(45, 92, 34, 1), nil];
-        [_viewAnalysis addSubview:pieChartAnalysis];
-        [self.view addSubview:_viewAnalysis];
-            [pieChartAnalysis strokePath];
+    [_viewAnalysis removeFromSuperview];
+    //试题统计总试图
+    _viewAnalysis = [[UIView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height - 190)];
+    _viewAnalysis.layer.masksToBounds = YES;
+    _viewAnalysis.layer.cornerRadius = 10;
+    _viewAnalysis.backgroundColor = ColorWithRGBWithAlpp(200, 200, 200, 1);
+    //添加关闭按钮
+    UIButton *btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnCancel.frame = CGRectMake(Scr_Width - 30, 0, 30, 30);
+    btnCancel.layer.masksToBounds = YES;
+    btnCancel.layer.cornerRadius = 15;
+    btnCancel.backgroundColor = [UIColor blackColor];
+    [btnCancel setTitle:@"x" forState:UIControlStateNormal];
+    [btnCancel addTarget:self action:@selector(buttonHidenViewAnalysisClick:) forControlEvents:UIControlEventTouchUpInside];
+    [_viewAnalysis addSubview:btnCancel];
+    //添加绘制图表
+    ZFPieChart *pieChartAnalysis = [[ZFPieChart alloc]initWithFrame:CGRectMake(Scr_Width/2, 70, Scr_Width/2, _viewAnalysis.frame.size.height - 233)];
+//    pieChartAnalysis.title = @"试题分析";
+    pieChartAnalysis.valueArray = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%ld",_intRightTopic], [NSString stringWithFormat:@"%ld",_intWrongTopic], nil];
+    pieChartAnalysis.nameArray = [NSMutableArray arrayWithObjects:@"对题", @"错题", nil];
+    pieChartAnalysis.colorArray = [NSMutableArray arrayWithObjects:ZFColor(71, 204, 255, 1), ZFColor(253, 203, 76, 1), ZFColor(214, 205, 153, 1), ZFColor(78, 250, 188, 1), ZFColor(16, 140, 39, 1), ZFColor(45, 92, 34, 1), nil];
+    [_viewAnalysis addSubview:pieChartAnalysis];
+    [pieChartAnalysis strokePath];
+    //添加正确率等数据
+    //试题总数
+    UILabel *labTopicCount = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, Scr_Width - 20, 25)];
+    labTopicCount.font = [UIFont systemFontOfSize:15.0];
+//    labTopicCount.textAlignment = NSTextAlignmentCenter;
+    //属性字符串试题的总数
+    NSMutableAttributedString *attrTopicCount = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"该试卷共【%ld】题(所指大题数)",_intTpoicCount]];
+    [attrTopicCount addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%ld",_intTpoicCount].length)];
+    [labTopicCount setAttributedText:attrTopicCount];
+    [_viewAnalysis addSubview:labTopicCount];
+    //做题数
+    UILabel *labDoTopic = [[UILabel alloc]initWithFrame:CGRectMake(20, 50, Scr_Width - 20, 25)];
+    labDoTopic.font = [UIFont systemFontOfSize:15.0];
+    //属性字符串试题的总数
+    NSMutableAttributedString *attrDoTopic = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"您共做了【%ld】题(包含所有大题下面的小题)",_intDoTopic]];
+    [attrDoTopic addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%ld",_intDoTopic].length)];
+    [labDoTopic setAttributedText:attrDoTopic];
+    [_viewAnalysis addSubview:labDoTopic];
+    
+    //正确率试图
+    NSLog(@"%f",Scr_Width);
+    UIView *viewAccuracy = [[UIView alloc]initWithFrame:CGRectMake(20, 123, Scr_Width/2 - 60, Scr_Width/2 - 60)];
+    CGRect rectVV = viewAccuracy.frame;
+    if (Scr_Width == 320) {
+        rectVV.origin.y = 90;
     }
+    else if (Scr_Width == 375){
+        rectVV.origin.y = 123;
+    }
+    else{
+        rectVV.origin.y = 150;
+    }
+    viewAccuracy.frame = rectVV;
+    viewAccuracy.layer.masksToBounds = YES;
+    viewAccuracy.layer.cornerRadius = viewAccuracy.frame.size.height/2;
+    viewAccuracy.backgroundColor = [UIColor clearColor];
+    viewAccuracy.layer.borderWidth = 5;
+    viewAccuracy.layer.borderColor = [[UIColor orangeColor] CGColor];
+    [_viewAnalysis addSubview:viewAccuracy];
+    //试图中的数字，显示百分比
+    CGFloat labX = viewAccuracy.frame.origin.x+(viewAccuracy.frame.size.width)/2;
+    CGFloat labY = viewAccuracy.frame.origin.y + (viewAccuracy.frame.size.width)/2;
+    UILabel *labViewAccuracy = [[UILabel alloc]initWithFrame:CGRectMake(labX - 25, labY - 15, 50, 30)];
+    labViewAccuracy.text = [NSString stringWithFormat:@"%ld",_intAccuracy];
+    labViewAccuracy.font = [UIFont systemFontOfSize:18.0];
+    labViewAccuracy.textAlignment = NSTextAlignmentCenter;
+    [_viewAnalysis addSubview:labViewAccuracy];
+    //百分号
+    UILabel *labBfh = [[UILabel alloc] initWithFrame:CGRectMake(viewAccuracy.frame.origin.x+viewAccuracy.frame.size.width - 40, viewAccuracy.frame.origin.y+viewAccuracy.frame.size.height - 40, 40, 40)];
+    labBfh.layer.masksToBounds = YES;
+    labBfh.layer.cornerRadius = 20;
+    labBfh.backgroundColor =[UIColor orangeColor];
+    labBfh.textColor = [UIColor whiteColor];
+    labBfh.textAlignment = NSTextAlignmentCenter;
+    labBfh.text = @"%";
+    labBfh.font = [UIFont systemFontOfSize:23.0];
+    [_viewAnalysis addSubview:labBfh];
+    
+    //正确率
+    UILabel *labAccuracy = [[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 50, Scr_Width/2 - 40, 30)];
+    labAccuracy.font = [UIFont systemFontOfSize:15.0];
+    NSMutableAttributedString *attrAccuracy = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"正确率：%ld%%",_intAccuracy]];
+    [attrAccuracy addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intAccuracy].length+1)];
+    [labAccuracy setAttributedText:attrAccuracy];
+    [_viewAnalysis addSubview:labAccuracy];
+    //所用时间
+    UILabel *labTime =[[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 90, Scr_Width/2 - 40, 30)];
+    labTime.font = [UIFont systemFontOfSize:15.0];
+    NSMutableAttributedString *attrTime = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"答题时间：%@",@"0"]];
+    [attrTime addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5,1)];
+    [labTime setAttributedText:attrTime];
+    [_viewAnalysis addSubview:labTime];
+    [self.view addSubview:_viewAnalysis];
+    UISwipeGestureRecognizer *swipeView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(viewAnalysisHiden:)];
+    swipeView.direction = UISwipeGestureRecognizerDirectionDown;
+    [_viewAnalysis addGestureRecognizer:swipeView];
+    //
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rectAna =_viewAnalysis.frame;
         rectAna.origin.y =200;
         _viewAnalysis.frame = rectAna;
     }];
     
+}
+//向下滑动隐藏试题分析
+- (void)viewAnalysisHiden:(UISwipeGestureRecognizer *)swipe{
+     [self hidenViewAnalysis];
 }
 //显示分析报告试图
 - (IBAction)buttonAnalysisClick:(UIButton *)sender {

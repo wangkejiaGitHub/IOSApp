@@ -90,15 +90,15 @@
         [self commonInit];
         
         //标题Label
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 30)];
-        self.titleLabel.font = [UIFont boldSystemFontOfSize:18.f];
+        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, self.frame.size.width, 30)];
+        self.titleLabel.font = [UIFont boldSystemFontOfSize:16.f];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.textColor = [UIColor redColor];
         [self addSubview:self.titleLabel];
         
         //数值Label
         self.valueLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _radius, _radius * 0.5)];
-        self.valueLabel.font = [UIFont boldSystemFontOfSize:13.f];
+        self.valueLabel.font = [UIFont boldSystemFontOfSize:11.f];
         self.valueLabel.textAlignment = NSTextAlignmentCenter;
         self.valueLabel.textColor = [UIColor blueColor];
         self.valueLabel.center = self.pieCenter;
@@ -136,11 +136,13 @@
         //数值
         UILabel * value = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(name.frame) + 10, 0, width, 20)];
         value.text = [NSString stringWithFormat:@"%@题",_valueArray[i]];
+
         value.font = [UIFont boldSystemFontOfSize:16.f];
         [background addSubview:value];
         
         //百分比
         UILabel * percent = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(value.frame) + 10, 0, width, 20)];
+        percent.adjustsFontSizeToFitWidth = YES;
         percent.text = [self getPercent:i];
         percent.font = [UIFont boldSystemFontOfSize:16.f];
         [background addSubview:percent];
@@ -320,8 +322,7 @@
             [self.layer addSublayer:[self translucencePathShapeLayerWithStartAngle:startAngle endAngle:endAngle index:i]];
             UILabel * percentLabel = [self viewWithTag:PercentLabelTag + i];
             [self bringSubviewToFront:percentLabel];
-            self.valueLabel.text = [NSString stringWithFormat:@"%@题", _valueArray[i]];
-            
+            self.valueLabel.text = [NSString stringWithFormat:@"[%@]题", _valueArray[i]];
             return;
         }
     }
@@ -342,7 +343,7 @@
     [self.layer addSublayer:[self translucencePathShapeLayerWithStartAngle:startAngle endAngle:endAngle index:index]];
     UILabel * percentLabel = [self viewWithTag:PercentLabelTag + index];
     [self bringSubviewToFront:percentLabel];
-    self.valueLabel.text = [NSString stringWithFormat:@"%@题",_valueArray[index]];
+    self.valueLabel.text = [NSString stringWithFormat:@"[%@]题",_valueArray[index]];
 }
 
 #pragma mark - 获取每个item所占百分比

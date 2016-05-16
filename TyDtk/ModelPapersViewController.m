@@ -57,6 +57,8 @@
     _allowToken = YES;
     _paterPages = 0;
     _paterIndexPage = 1;
+    _paterYear = @"0";
+    _paterLevel = @"0";
     _arrayPapers = [NSMutableArray array];
     _myTableView.tableFooterView = [UIView new];
 }
@@ -72,8 +74,8 @@
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //试卷授权一次
     if (_allowToken) {
-        _paterLevel = @"0";
-        _paterYear =@"0";
+//        _paterLevel = @"0";
+//        _paterYear =@"0";
         _paterPages = 0;
         _paterIndexPage = 1;
         [_arrayPapers removeAllObjects];
@@ -203,10 +205,10 @@
 }
 
 /**
- 获取试卷级别
+ 获取试卷类型
  */
 - (void)getPaperLevels{
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetLevels?access_token=%@",systemHttps,_accessToken];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperTypes?access_token=%@",systemHttps,_accessToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicLevels = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicLevels[@"code"] integerValue];

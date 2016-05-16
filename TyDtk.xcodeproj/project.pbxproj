@@ -587,6 +587,7 @@
 		1DC18ECC1CB77D540006D642 /* SimulateTestPaper */ = {
 			isa = PBXGroup;
 			children = (
+				1DD2E6F61CB5F1C800423484 /* XibForTk */,
 				1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */,
 				1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */,
 				1DDA96CF1CDC34D2001A7DAE /* AnalysisTopic */,
@@ -1052,7 +1053,6 @@
 		1DF27B521CDB3BA500F35BB1 /* TyProgramMain */ = {
 			isa = PBXGroup;
 			children = (
-				1DD2E6F61CB5F1C800423484 /* XibForTk */,
 				1DEDC8141C9F880E0083B394 /* IndexViewController.h */,
 				1DEDC8151C9F880E0083B394 /* IndexViewController.m */,
 				1DEFF1E11CA122D200994E2C /* SecoundSubjectViewController.h */,

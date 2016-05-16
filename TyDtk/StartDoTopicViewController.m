@@ -411,8 +411,13 @@
     }
     //aleat View 提示框
     LXAlertView *alertSubmit;
+    //  未做题不能交卷
+    if (_intUserDidTopic == 0) {
+        alertSubmit = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"您还没有做题，不能交卷哦" cancelBtnTitle:nil otherBtnTitle:@"确定" clickIndexBlock:nil];
+        
+    }
     //题未做完提示
-    if (topicCount != _intUserDidTopic) {
+    else if (topicCount != _intUserDidTopic) {
         NSInteger sTopic = topicCount - _intUserDidTopic;
         NSString *alertMessage = [NSString stringWithFormat:@"您还有【%ld】道题没有做，确认交卷吗?",sTopic];
     
