@@ -27,6 +27,8 @@
 @property (nonatomic,assign) BOOL allowRegiste;
 //朦层
 @property (nonatomic,strong) MZView *mzView;
+//获取验证码的button的颜色
+@property (nonatomic,strong) UIColor *colorCurr;
 @end
 
 @implementation PhoneReViewController
@@ -38,6 +40,7 @@
 }
 //页面加载
 - (void)viewLoad{
+    _colorCurr = _buttonGetMessage.backgroundColor;
     self.title = @"新用户注册";
     _allowRegiste = NO;
     _buttonGetMessage.layer.masksToBounds = YES;
@@ -144,6 +147,7 @@
             dispatch_source_cancel(_timer);
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置界面的按钮显示 根据自己需求设置
+                _buttonGetMessage.backgroundColor = _colorCurr;
                 [_buttonGetMessage setTitle:@"获取短信验证码" forState:UIControlStateNormal];
                 _buttonGetMessage.userInteractionEnabled = YES;
             });
@@ -157,6 +161,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置界面的按钮显示 根据自己需求设置
                 [_buttonGetMessage setTitle:[NSString stringWithFormat:@"%@秒后重新获取",strTime] forState:UIControlStateNormal];
+                _buttonGetMessage.backgroundColor = [UIColor lightGrayColor];
                 _buttonGetMessage.userInteractionEnabled = NO;
             });
             timeout--;

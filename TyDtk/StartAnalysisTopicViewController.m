@@ -170,10 +170,12 @@
     //添加关闭按钮
     UIButton *btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
     btnCancel.frame = CGRectMake(Scr_Width - 30, 0, 30, 30);
-    btnCancel.layer.masksToBounds = YES;
-    btnCancel.layer.cornerRadius = 15;
-    btnCancel.backgroundColor = [UIColor blackColor];
-    [btnCancel setTitle:@"x" forState:UIControlStateNormal];
+//    btnCancel.layer.masksToBounds = YES;
+//    btnCancel.layer.cornerRadius = 15;
+//    btnCancel.backgroundColor = [UIColor blackColor];
+//    [btnCancel setTitle:@"x" forState:UIControlStateNormal];
+    [btnCancel setImage:[UIImage imageNamed:@"backlog"] forState:UIControlStateNormal];
+    btnCancel.highlighted = YES;
     [btnCancel addTarget:self action:@selector(buttonHidenViewAnalysisClick:) forControlEvents:UIControlEventTouchUpInside];
     [_viewAnalysis addSubview:btnCancel];
     //添加绘制图表

@@ -11,6 +11,8 @@
 #import "ChaptersViewController.h"
 //模拟试卷
 #import "ModelPapersViewController.h"
+//每周精选
+#import "WeekSelectViewController.h"
 @interface SubjectInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *viewNaviTitle;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonLayoutWidth;
@@ -49,6 +51,8 @@ customTool;
 @property (nonatomic,strong) ChaptersViewController *chapterVc;
 //模拟试卷
 @property (nonatomic,strong) ModelPapersViewController *modelPapersVc;
+//每周精选
+@property (nonatomic,strong) WeekSelectViewController *weekSelectVc;
 @end
 
 @implementation SubjectInfoViewController
@@ -81,7 +85,7 @@ customTool;
             UIButton *btn = (UIButton *)subView;
             [btn setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
             if (btn.tag == 0) {
-            [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+                [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
                 btn.titleLabel.font = [UIFont systemFontOfSize:15.0];
             }
         }
@@ -103,8 +107,8 @@ customTool;
             [btn setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
             btn.titleLabel.font = [UIFont systemFontOfSize:13.0];
             if (btn.tag == _indexCurrChildView) {
-            [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
-            btn.titleLabel.font = [UIFont systemFontOfSize:15.0];
+                [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+                btn.titleLabel.font = [UIFont systemFontOfSize:15.0];
             }
         }
     }
@@ -139,8 +143,8 @@ customTool;
     //移除可能显示过的子试图
     [_chapterVc.view removeFromSuperview];
     [_modelPapersVc.view removeFromSuperview];
-    
-     //章节考点
+    [_weekSelectVc.view removeFromSuperview];
+    //章节考点
     if (_indexCurrChildView == 0) {
         if (!_chapterVc) {
             _chapterVc = self.childViewControllers[_indexCurrChildView];
@@ -160,12 +164,18 @@ customTool;
         _modelPapersVc.allowToken = YES;
         [self.view addSubview:_modelPapersVc.view];
     }
+    //每周精选
     else if (_indexCurrChildView == 2){
-
-        //每周精选
+        if (!_weekSelectVc) {
+            _weekSelectVc = self.childViewControllers[_indexCurrChildView];
+            _weekSelectVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
+        }
+        _weekSelectVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
+        _weekSelectVc.allowToken = YES;
+        [self.view addSubview:_weekSelectVc.view];
     }
     else if (_indexCurrChildView == 3){
-
+        
         //练习记录
     }
 }
@@ -184,6 +194,8 @@ customTool;
     UIViewController *mPapersVc = [self.storyboard instantiateViewControllerWithIdentifier:@"ModelPapersViewController"];
     [self addChildViewController:mPapersVc];
     //添加每周精选子试图
+    UIViewController *weekVc = [self.storyboard instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
+    [self addChildViewController:weekVc];
     
     
     
@@ -289,7 +301,7 @@ customTool;
         else{
             [SVProgressHUD showInfoWithStatus:dicSubject[@"errmsg"]];
         }
-               _buttonHeard.enabled = YES;
+        _buttonHeard.enabled = YES;
     } RequestFaile:^(NSError *error) {
         NSLog(@"%@",error);
         [SVProgressHUD showInfoWithStatus:@"网络异常"];

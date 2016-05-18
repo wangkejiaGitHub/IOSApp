@@ -6,11 +6,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="102" id="DOa-yV-cyN" customClass="AnalysisQtype6TableViewCell">
-            <rect key="frame" x="0.0" y="0.0" width="418" height="102"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="100" id="DOa-yV-cyN" customClass="AnalysisQtype6TableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="418" height="100"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DOa-yV-cyN" id="sJR-ok-p16">
-                <rect key="frame" x="0.0" y="0.0" width="418" height="101"/>
+                <rect key="frame" x="0.0" y="0.0" width="418" height="99"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1、" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tFf-tg-7p6">
@@ -64,7 +64,7 @@
                 <outlet property="webTitleHeight" destination="WTc-cc-g19" id="cQh-wD-ca5"/>
                 <outlet property="webViewTitle" destination="WPj-oM-gCD" id="rNl-9v-Uz9"/>
             </connections>
-            <point key="canvasLocation" x="282" y="271"/>
+            <point key="canvasLocation" x="282" y="270"/>
         </tableViewCell>
     </objects>
 </document>

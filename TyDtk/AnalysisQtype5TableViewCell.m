@@ -95,7 +95,7 @@
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     CGSize labSize = [labTest sizeThatFits:CGSizeMake(labTest.frame.size.width, MAXFLOAT)];
     [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
-    _webTitleHeight.constant = labSize.height + 50;
+    _webTitleHeight.constant = labSize.height;
     if (Scr_Width > 330) {
         _webTitleHeight.constant = _webTitleHeight.constant+20;
     }
@@ -226,7 +226,7 @@
     NSString *webString = [NSString stringWithFormat:@"<font color='#8080c0' size = '2'>试题解析>></font><br/><br/><font color='#8080c0' size = '3'>%@</font>",labWebAna.text];
     [_webAnalysis loadHTMLString:webString baseURL:nil];
     
-    allowRet = allowRet + _webAnalysisHeight.constant - 10;
+    allowRet = allowRet + _webAnalysisHeight.constant - 30;
     return allowRet;
     
 }

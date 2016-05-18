@@ -13,7 +13,7 @@
 #import "paterTopicQtype1and2TableViewCell.h"
 #import "PaterTopicQtype3TableViewCell.h"
 #import "PaterTopicQtype4TableViewCell.h"
-@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegateTest>
+@interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegateTest,UIScrollViewDelegate>
 @property (nonatomic,strong) UITableView *tableViewPater;
 //需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellHeight;
@@ -42,6 +42,8 @@
 @property (nonatomic,strong) ErrorView *errorView;
 //朦层
 @property (nonatomic,strong) MZView *mzView;
+//回到顶部的按钮
+@property (nonatomic,strong) UIButton *buttonTopTable;
 @end
 
 @implementation PatersTopicViewController
@@ -339,6 +341,37 @@
 //self.cell上的点击选项按钮（A、B、C、D..）代理回调 点击保存并跳转下一题回调 // 用于刷新答题卡
 - (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer isRefresh:(BOOL)isResfresh{
     [self.delegateRefreshTiopicCard refreshTopicCard:indexTpoic selectDone:dicUserAnswer isRefresh:isResfresh];
+}
+//////////////////////////////
+//添加回到顶部
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (_qType == 6) {
+        if (scrollView.contentOffset.y > Scr_Height - 64 - 50) {
+            [_buttonTopTable removeFromSuperview];
+            if (!_buttonTopTable) {
+                _buttonTopTable = [UIButton buttonWithType:UIButtonTypeCustom];
+                _buttonTopTable.frame = CGRectMake(Scr_Width - 55, Scr_Height - 300, 100, 30);
+                [_buttonTopTable setTitle:@"回到顶部" forState:UIControlStateNormal];
+                _buttonTopTable.titleLabel.font = [UIFont systemFontOfSize:12.0];
+                _buttonTopTable.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+                _buttonTopTable.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+                _buttonTopTable.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.3);
+                [_buttonTopTable setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+                _buttonTopTable.layer.masksToBounds = YES;
+                _buttonTopTable.layer.cornerRadius = 5;
+                [_buttonTopTable addTarget:self action:@selector(topButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            [self.view addSubview:_buttonTopTable];
+        }
+        else{
+            [_buttonTopTable removeFromSuperview];
+        }
+
+    }
+}
+//回到顶部按钮点击事件
+- (void)topButtonClick:(UIButton *)topButton{
+    [_tableViewPater setContentOffset:CGPointMake(0, 0) animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

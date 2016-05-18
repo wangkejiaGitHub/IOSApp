@@ -24,6 +24,8 @@
 @property (nonatomic,strong) MZView *mzView;
 //点击屏幕的手势
 @property (nonatomic,strong) UITapGestureRecognizer *tapGestView;
+//获取验证码的button的颜色
+@property (nonatomic,strong) UIColor *colorCurr;
 @property (nonatomic ,assign) CGFloat rectH;
 @end
 
@@ -169,6 +171,7 @@
             dispatch_source_cancel(_timer);
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置界面的按钮显示 根据自己需求设置
+                _buttonGetYzm.backgroundColor = _colorCurr;
                 [_buttonGetYzm setTitle:@"获取短信验证码" forState:UIControlStateNormal];
                 _buttonGetYzm.userInteractionEnabled = YES;
             });
@@ -182,6 +185,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 //设置界面的按钮显示 根据自己需求设置
                 [_buttonGetYzm setTitle:[NSString stringWithFormat:@"%@秒后重新获取",strTime] forState:UIControlStateNormal];
+                _buttonGetYzm.backgroundColor = [UIColor lightGrayColor];
 //                _buttonGetYzm.backgroundColor = [UIColor groupTableViewBackgroundColor];
                 _buttonGetYzm.userInteractionEnabled = NO;
             });

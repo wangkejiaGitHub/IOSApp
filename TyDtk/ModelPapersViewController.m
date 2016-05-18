@@ -21,6 +21,8 @@
 @property (nonatomic,strong) MZView *mzView;
 //头试图
 @property (nonatomic,strong) ActiveVIew *hearhVIew;
+//空数据显示层
+@property (nonatomic,strong) ViewNullData *viewNilData;
 //令牌
 @property (nonatomic,strong)NSString *accessToken;
 //储存的专业信息
@@ -63,7 +65,7 @@
     _myTableView.tableFooterView = [UIView new];
 }
 - (void)viewDidAppear:(BOOL)animated{
-     [self getPaperYears];
+    [self getPaperYears];
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
@@ -74,19 +76,19 @@
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //试卷授权一次
     if (_allowToken) {
-//        _paterLevel = @"0";
-//        _paterYear =@"0";
+        //        _paterLevel = @"0";
+        //        _paterYear =@"0";
         _paterPages = 0;
         _paterIndexPage = 1;
         [_arrayPapers removeAllObjects];
         [self getAccessToken];
     }
     _allowToken = NO;
-
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-     _refreshFooter = nil;
+    _refreshFooter = nil;
 }
 /**
  授权，收取令牌
@@ -127,11 +129,11 @@
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:remarkPriceSub];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleSingle | NSUnderlineStyleSingle) range:NSMakeRange(2,remarkPriceSub.length -2)];
     [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(2,remarkPriceSub.length-2)];
-//    _hearhVIew.labRemark.text = remarkPriceSub;
+    //    _hearhVIew.labRemark.text = remarkPriceSub;
     [_hearhVIew.labRemark setAttributedText:attri];
     NSString *priceSub = [NSString stringWithFormat:@"￥ %ld",[dicCurrSubject[@"price"] integerValue]];
     _hearhVIew.labPrice.text = priceSub;
-
+    
 }
 /**
  头试图回调代理
@@ -188,19 +190,27 @@
             _paterIndexPage = _paterIndexPage+1;
             //追加数据
             NSArray *arrayPaters = dicModelPapers[@"datas"];
-            for (NSDictionary *dicPater in arrayPaters) {
-                [_arrayPapers addObject:dicPater];
+            if (arrayPaters.count == 0) {
+                
+            _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 40, Scr_Width, Scr_Height - 64 - 40 - 50 - Scr_Width/2+10) showText:@"没有更多试卷"];
+                _myTableView.tableFooterView = _viewNilData;
+            }
+            else{
+                for (NSDictionary *dicPater in arrayPaters) {
+                    [_arrayPapers addObject:dicPater];
+                }
+                _myTableView.tableFooterView = [UIView new];
             }
             [_mzView removeFromSuperview];
             [SVProgressHUD dismiss];
             [_refreshFooter endRefreshing];
             [_myTableView reloadData];
-
+            
         }
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
-        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [SVProgressHUD showInfoWithStatus:@"请求异常"];
     }];
 }
 
@@ -231,7 +241,7 @@
             _arrayYears = dicYesrs[@"datas"];
         }
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"系统异常"];
     }];
 }
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
@@ -268,47 +278,42 @@
 // tableview 代理
 ///////////////////////////////////////
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (_arrayPapers.count > 0) {
-        return _arrayPapers.count;
-    }
-    return 1;
+    
+    return _arrayPapers.count;
+    
+    
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_arrayPapers.count > 0) {
-        return 120;
-    }
-    return 100;
+    
+    return 120;
+    
+    
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_arrayPapers.count > 0) {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellmodel" forIndexPath:indexPath];
-        NSDictionary *dicCurrPater = _arrayPapers[indexPath.row];
-        UILabel *labName = (UILabel *)[cell.contentView viewWithTag:10];
-        UILabel *labQuantity = (UILabel *)[cell.contentView viewWithTag:11];
-        UILabel *labTime= (UILabel *)[cell.contentView viewWithTag:12];
-        UILabel *labScore = (UILabel *)[cell.contentView viewWithTag:13];
-        UILabel *labPerson = (UILabel *)[cell.contentView viewWithTag:14];
-        
-        labName.text = dicCurrPater[@"Names"];
-        labQuantity.text =[NSString stringWithFormat:@"%ld 题",[dicCurrPater[@"Quantity"] integerValue]];
-        labTime.text = [NSString stringWithFormat:@"%ld 分钟",[dicCurrPater[@"TimeLong"] integerValue]];
-        labScore.text =[NSString stringWithFormat:@"%ld 分",[dicCurrPater[@"Score"] integerValue]];
-        labPerson.text = @"0人参与";
-        return cell;
-
-    }
-    else{
-        UITableViewCell *cellNull = [tableView dequeueReusableCellWithIdentifier:@"nullcell" forIndexPath:indexPath];
-        cellNull.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cellNull;
-    }
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellmodel" forIndexPath:indexPath];
+    NSDictionary *dicCurrPater = _arrayPapers[indexPath.row];
+    UILabel *labName = (UILabel *)[cell.contentView viewWithTag:10];
+    UILabel *labQuantity = (UILabel *)[cell.contentView viewWithTag:11];
+    UILabel *labTime= (UILabel *)[cell.contentView viewWithTag:12];
+    UILabel *labScore = (UILabel *)[cell.contentView viewWithTag:13];
+    UILabel *labPerson = (UILabel *)[cell.contentView viewWithTag:14];
+    
+    labName.text = dicCurrPater[@"Names"];
+    labQuantity.text =[NSString stringWithFormat:@"%ld 题",[dicCurrPater[@"Quantity"] integerValue]];
+    labTime.text = [NSString stringWithFormat:@"%ld 分钟",[dicCurrPater[@"TimeLong"] integerValue]];
+    labScore.text =[NSString stringWithFormat:@"%ld 分",[dicCurrPater[@"Score"] integerValue]];
+    labPerson.text = @"0人参与";
+    return cell;
+    
+    
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (_arrayPapers.count > 0) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        NSDictionary *diccc = _arrayPapers[indexPath.row];
-        [self performSegueWithIdentifier:@"topicStar" sender:diccc];
-    }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary *diccc = _arrayPapers[indexPath.row];
+    [self performSegueWithIdentifier:@"topicStar" sender:diccc];
+    
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"topicStar"]) {
@@ -398,7 +403,7 @@
     else{
         NSDictionary *dicLevels = _arrayLevels[itemIndex - 1];
         _paterLevel = [NSString stringWithFormat:@"%ld",[dicLevels[@"Id"] integerValue]];
-            [_buttonLeveles setTitle:dicLevels[@"Names"] forState:UIControlStateNormal];
+        [_buttonLeveles setTitle:dicLevels[@"Names"] forState:UIControlStateNormal];
     }
     _paterIndexPage = 1;
     _paterPages = 0;
