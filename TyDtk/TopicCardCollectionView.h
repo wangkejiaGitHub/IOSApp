@@ -17,6 +17,11 @@
 //用于筛选是否做过该题
 @property (nonatomic,strong) NSMutableArray *arrayisMakeTopic;
 @property (nonatomic,assign) id <TopicCardDelegate> delegateCellClick;
-//重写实例化方法
-- (id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout withTopicArray:(NSArray *)arrayTopic;
+@property (nonatomic,strong) UILabel *labTimeString;
+@property (nonatomic,strong) NSTimer *timerCard;
+/**
+ 重写实例化方法
+ parameter（1章节练习，2模拟试卷，3每周精选，4智能出题）等
+ */
+- (id)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout withTopicArray:(NSArray *)arrayTopic paperParameter:(NSInteger)parameter;
 @end

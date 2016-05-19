@@ -13,4 +13,8 @@
 @property (nonatomic,assign) NSInteger PaperId;
 //记录id
 @property (nonatomic,strong) NSString *rId;
+/**
+ 是哪个模块的试卷（1章节练习，2模拟试卷，3每周精选，4智能出题）等
+ */
+@property (nonatomic,assign) NSInteger paperAnalysisParameter;
 @end

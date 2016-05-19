@@ -67,7 +67,13 @@
     _buttonAnalysis.layer.masksToBounds = YES;
     _buttonAnalysis.layer.cornerRadius = 5;
     _buttonAnalysis.backgroundColor = ColorWithRGB(200, 200, 200);
-    [self getTopicAnalysisPaper];
+    if (_paperAnalysisParameter == 2) {
+        [self getTopicAnalysisPaper];
+    }
+    else if (_paperAnalysisParameter == 3){
+        
+    }
+    
 }
 - (void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -103,6 +109,8 @@
     CGRect rect = self.view.frame;
     self.navigationController.view.frame = rect;
 }
+/////////////////////模拟试卷试题分析//////////////////////////////
+/////////////////////模拟试卷试题分析//////////////////////////////
 /**
  获取试卷试题分析
  */
@@ -132,6 +140,7 @@
         
     }];
 }
+
 ///////////2016-05-13进度记录 /////试题分析报告
 /**
  获取试卷分析报告
@@ -157,6 +166,8 @@
         
     }];
 }
+/////////////////////模拟试卷试题分析//////////////////////////////
+/////////////////////模拟试卷试题分析//////////////////////////////
 /**
 添加数据分析报告试图
  */

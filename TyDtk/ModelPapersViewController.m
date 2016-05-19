@@ -63,6 +63,8 @@
     _paterLevel = @"0";
     _arrayPapers = [NSMutableArray array];
     _myTableView.tableFooterView = [UIView new];
+    [_buttonYear setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+    [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
 }
 - (void)viewDidAppear:(BOOL)animated{
     [self getPaperYears];
@@ -284,10 +286,7 @@
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     return 120;
-    
-    
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -300,10 +299,35 @@
     UILabel *labPerson = (UILabel *)[cell.contentView viewWithTag:14];
     
     labName.text = dicCurrPater[@"Names"];
-    labQuantity.text =[NSString stringWithFormat:@"%ld 题",[dicCurrPater[@"Quantity"] integerValue]];
-    labTime.text = [NSString stringWithFormat:@"%ld 分钟",[dicCurrPater[@"TimeLong"] integerValue]];
-    labScore.text =[NSString stringWithFormat:@"%ld 分",[dicCurrPater[@"Score"] integerValue]];
-    labPerson.text = @"0人参与";
+    //题量
+    NSString *quantityString = [NSString stringWithFormat:@"%ld 题",[dicCurrPater[@"Quantity"] integerValue]];
+    //题量属性字符串
+    NSMutableAttributedString *attriQuantity = [[NSMutableAttributedString alloc] initWithString:quantityString];
+    [attriQuantity addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor]
+                       range:NSMakeRange(0,[NSString stringWithFormat:@"%ld",[dicCurrPater[@"Quantity"] integerValue]].length )];
+    [labQuantity setAttributedText:attriQuantity];
+    
+    //时间
+     NSString *timeString = [NSString stringWithFormat:@"%ld 分钟",[dicCurrPater[@"TimeLong"] integerValue]];
+    //时间属性字符串
+    NSMutableAttributedString *attriTime = [[NSMutableAttributedString alloc] initWithString:timeString];
+    [attriTime addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor]
+                          range:NSMakeRange(0,[NSString stringWithFormat:@"%ld",[dicCurrPater[@"TimeLong"] integerValue]].length )];
+    [labTime setAttributedText:attriTime];
+    //总分
+    NSString *scoreString =[NSString stringWithFormat:@"%ld 分",[dicCurrPater[@"Score"] integerValue]];
+    //总分属性字符串
+    NSMutableAttributedString *attriScore = [[NSMutableAttributedString alloc] initWithString:scoreString];
+    [attriScore addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor]
+                      range:NSMakeRange(0,[NSString stringWithFormat:@"%ld",[dicCurrPater[@"Score"] integerValue]].length )];
+    [labScore setAttributedText:attriScore];
+    //参数人数
+    NSString *personString = [NSString stringWithFormat:@"%ld人参与",[dicCurrPater[@"DoNum"] integerValue]];
+    //参与人数属性字符串
+    NSMutableAttributedString *attriperson = [[NSMutableAttributedString alloc] initWithString:personString];
+    [attriperson addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor]
+                       range:NSMakeRange(0,[NSString stringWithFormat:@"%ld",[dicCurrPater[@"DoNum"] integerValue]].length )];
+    [labPerson setAttributedText:attriperson];
     return cell;
     
     
@@ -318,6 +342,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"topicStar"]) {
         StartDoTopicViewController *topicVc = segue.destinationViewController;
+        topicVc.paperParameter = 2;
         topicVc.dicPater = sender;
     }
 }

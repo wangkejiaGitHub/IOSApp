@@ -9,6 +9,7 @@
 #import "TopicAnalysisCardView.h"
 @interface TopicAnalysisCardView()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
 @property (nonatomic,strong) UICollectionView *collectionCard;
+
 @end
 @implementation TopicAnalysisCardView
 - (id)initWithFrame:(CGRect)frame arrayTopic:(NSArray *)arrayTopic{
@@ -16,6 +17,7 @@
     if (self) {
 //        self.backgroundColor = [UIColor groupTableViewBackgroundColor];
         _arrayTopic = arrayTopic;
+
         [self addCollectionView:frame];
     }
     return self;

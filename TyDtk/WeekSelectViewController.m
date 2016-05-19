@@ -203,17 +203,83 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"weekcell" forIndexPath:indexPath];
     NSDictionary *dicWeek = _arrayPapers[indexPath.row];
     UILabel *labTitle = (UILabel *)[cell.contentView viewWithTag:10];
-    labTitle.text = dicWeek[@"Title"];
+    //标题
+    NSString *titleString = [NSString stringWithFormat:@"%@(每周精选)",dicWeek[@"Title"]];
+    //标题属性字符串
+    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
+    [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
+                          range:NSMakeRange([NSString stringWithFormat:@"%@",dicWeek[@"Title"]].length,6)];
+    UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+    [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                       range:NSMakeRange([NSString stringWithFormat:@"%@",dicWeek[@"Title"]].length,6)];
+    
+    [labTitle setAttributedText:attriTitle];
+//    labTitle.text = dicWeek[@"Title"];
+    
     UILabel *labCount = (UILabel *)[cell.contentView viewWithTag:11];
-    labCount.text = [NSString stringWithFormat:@"%ld题",[dicWeek[@"Quantity"] integerValue]];
+    //题量
+    NSString *quantityString = [NSString stringWithFormat:@"%ld 题",[dicWeek[@"Quantity"] integerValue]];
+    //题量属性字符串
+    NSMutableAttributedString *attriQuantity = [[NSMutableAttributedString alloc] initWithString:quantityString];
+    [attriQuantity addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor]
+                          range:NSMakeRange(0,[NSString stringWithFormat:@"%ld",[dicWeek[@"Quantity"] integerValue]].length )];
+    [labCount setAttributedText:attriQuantity];
+    
     UILabel *labLecel = (UILabel *)[cell.contentView viewWithTag:12];
-    labLecel.text = [NSString stringWithFormat:@"难度系数：%@",dicWeek[@"DifficultyLabel"]];
+    //难度系数
+    NSString *DifficultyLabelString = [NSString stringWithFormat:@"难度系数：%@",dicWeek[@"DifficultyLabel"]];
+    //题量属性字符串
+    NSMutableAttributedString *attriDifficulty = [[NSMutableAttributedString alloc] initWithString:DifficultyLabelString];
+    [attriDifficulty addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor]
+                          range:NSMakeRange(5,[NSString stringWithFormat:@"%@",dicWeek[@"DifficultyLabel"]].length )];
+    [labLecel setAttributedText:attriDifficulty];
+    
     UILabel *labPerson = (UILabel *)[cell.contentView viewWithTag:13];
-    labPerson.text = [NSString stringWithFormat:@"已有%ld人参与此周练",[dicWeek[@"DoNum"] integerValue]];
+    //参与人数
+    NSString *personString = [NSString stringWithFormat:@"已有【%ld】人参与此周练",[dicWeek[@"DoNum"] integerValue]];
+    NSMutableAttributedString *attriPerson = [[NSMutableAttributedString alloc] initWithString:personString];
+    [attriPerson addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor]
+                          range:NSMakeRange(3,[NSString stringWithFormat:@"%ld",[dicWeek[@"DoNum"] integerValue]].length )];
+    [labPerson setAttributedText:attriPerson];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary *dicWeekPaper = _arrayPapers[indexPath.row];
+    [self getWeekPaperRid:dicWeekPaper];
+}
+/**
+ 获取记录id
+ */
+- (void)getWeekPaperRid:(NSDictionary *)dic{
+    [SVProgressHUD show];
+    NSString *titleString = dic[@"Title"];
+    //标题编码
+    titleString = [titleString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    //api/Weekly/MakeWeeklyRecord/{id}?access_token={access_token}&title={title}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/MakeWeeklyRecord/%@?access_token=%@&title=%@",systemHttps,dic[@"Id"],_accessToken,titleString];
+    
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicRid = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicRid[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicRid[@"datas"];
+            NSString *ridString = dicDatas[@"rid"];
+           [self performSegueWithIdentifier:@"topicStar" sender:ridString];
+        }
+        NSLog(@"%@",dicRid);
+
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"topicStar"]) {
+        StartDoTopicViewController *topicVc = segue.destinationViewController;
+        topicVc.paperParameter = 3;
+        topicVc.rIdString = sender;
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
