@@ -129,7 +129,7 @@
 - (void)getPaterDatas{
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
     NSInteger paterId = [_dicPater[@"Id"] integerValue];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/IOSGetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+   NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
     
 //    //章节练习试题
 //    if (self.paperParameter == 1) {
@@ -408,6 +408,12 @@
         }
         else if (_paperParameter == 3){
             paterVc.dicTopic = _arrayPaterData[i];
+        }
+        if (i == _scrollContentWidth - 1) {
+            paterVc.isLastTopic = YES;
+        }
+        else{
+            paterVc.isLastTopic = NO;
         }
         paterVc.topicIndex = i+1;
         paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, self.view.frame.size.height - 64 - 45);

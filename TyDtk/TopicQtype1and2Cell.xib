@@ -61,54 +61,18 @@
                             <action selector="collectBtnClick:" destination="rEa-wQ-A2O" eventType="touchUpInside" id="exc-X2-HW3"/>
                         </connections>
                     </button>
-                    <webView tag="10" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8X-mC-LqD">
-                        <rect key="frame" x="15" y="50" width="412" height="10"/>
-                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="10" id="oDK-st-h1J"/>
-                        </constraints>
-                    </webView>
-                    <webView tag="11" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dk4-R0-8ZK">
-                        <rect key="frame" x="20" y="80" width="402" height="20"/>
-                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="V74-QP-u2E"/>
-                        </constraints>
-                    </webView>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ti-m9-pOh">
-                        <rect key="frame" x="10" y="68" width="422" height="1"/>
-                        <color key="backgroundColor" red="0.82416421250000005" green="0.82416421250000005" blue="0.82416421250000005" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="1" id="gkc-q7-XL9"/>
-                        </constraints>
-                    </view>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="y8X-mC-LqD" secondAttribute="trailing" constant="15" id="5UP-jp-z6V"/>
                     <constraint firstItem="h0D-gs-ABw" firstAttribute="leading" secondItem="RAm-F8-rct" secondAttribute="trailing" id="5w7-hG-dNL"/>
                     <constraint firstItem="9U5-Bq-HjU" firstAttribute="leading" secondItem="ble-1I-FrS" secondAttribute="trailing" constant="2" id="6BP-gK-kQ8"/>
                     <constraint firstItem="h0D-gs-ABw" firstAttribute="bottom" secondItem="RAm-F8-rct" secondAttribute="bottom" id="BUs-I1-cIY"/>
                     <constraint firstItem="ble-1I-FrS" firstAttribute="top" secondItem="h0D-gs-ABw" secondAttribute="top" id="Dyd-Kn-ZWL"/>
                     <constraint firstItem="RAm-F8-rct" firstAttribute="leading" secondItem="iPV-Ir-l8g" secondAttribute="leading" constant="15" id="Khg-YH-Vdd"/>
-                    <constraint firstItem="y8X-mC-LqD" firstAttribute="leading" secondItem="iPV-Ir-l8g" secondAttribute="leading" constant="15" id="NnZ-kX-lG9"/>
-                    <constraint firstItem="Dk4-R0-8ZK" firstAttribute="top" secondItem="0Ti-m9-pOh" secondAttribute="bottom" constant="15" id="OQ6-1S-Ntt"/>
                     <constraint firstItem="RAm-F8-rct" firstAttribute="top" secondItem="iPV-Ir-l8g" secondAttribute="top" constant="20" id="OsB-6Z-Thg"/>
-                    <constraint firstItem="0Ti-m9-pOh" firstAttribute="leading" secondItem="iPV-Ir-l8g" secondAttribute="leading" constant="10" id="SFv-Bq-C5Y"/>
-                    <constraint firstItem="Dk4-R0-8ZK" firstAttribute="top" secondItem="y8X-mC-LqD" secondAttribute="bottom" constant="20" id="UKO-mb-q76"/>
-                    <constraint firstItem="Dk4-R0-8ZK" firstAttribute="leading" secondItem="iPV-Ir-l8g" secondAttribute="leading" constant="20" id="W0P-7p-ggx"/>
                     <constraint firstAttribute="trailing" secondItem="9U5-Bq-HjU" secondAttribute="trailing" constant="10" id="WOE-T6-ybP"/>
-                    <constraint firstAttribute="trailing" secondItem="0Ti-m9-pOh" secondAttribute="trailing" constant="10" id="XtO-iN-O6Y"/>
                     <constraint firstItem="9U5-Bq-HjU" firstAttribute="top" secondItem="h0D-gs-ABw" secondAttribute="top" id="Yha-K8-bjR"/>
-                    <constraint firstAttribute="trailing" secondItem="Dk4-R0-8ZK" secondAttribute="trailing" constant="20" id="jYi-rH-ZTW"/>
                     <constraint firstItem="ble-1I-FrS" firstAttribute="leading" secondItem="h0D-gs-ABw" secondAttribute="trailing" constant="20" id="vkv-aU-L3x"/>
-                    <constraint firstItem="0Ti-m9-pOh" firstAttribute="top" secondItem="y8X-mC-LqD" secondAttribute="bottom" constant="8" id="w2E-Au-Qyh"/>
-                    <constraint firstItem="y8X-mC-LqD" firstAttribute="top" secondItem="9U5-Bq-HjU" secondAttribute="bottom" constant="10" id="y93-NI-NV3"/>
                 </constraints>
-                <variation key="default">
-                    <mask key="constraints">
-                        <exclude reference="OQ6-1S-Ntt"/>
-                    </mask>
-                </variation>
             </tableViewCellContentView>
             <connections>
                 <outlet property="buttonCollect" destination="9U5-Bq-HjU" id="tMQ-oG-3YY"/>
@@ -117,12 +81,6 @@
                 <outlet property="labNumberWidth" destination="Nfs-xV-q5d" id="oLR-kh-rpx"/>
                 <outlet property="labTopicNumber" destination="RAm-F8-rct" id="WKT-k1-bQb"/>
                 <outlet property="labTopicType" destination="h0D-gs-ABw" id="s8m-pH-ZkH"/>
-                <outlet property="viewLiness" destination="0Ti-m9-pOh" id="0n9-Bj-4Pf"/>
-                <outlet property="webSelectHeight" destination="V74-QP-u2E" id="CuS-Zu-OAy"/>
-                <outlet property="webSelectUpLatyout" destination="UKO-mb-q76" id="fWw-rw-12Z"/>
-                <outlet property="webTitleHeight" destination="oDK-st-h1J" id="y7b-vW-JeW"/>
-                <outlet property="webVIewSelect" destination="Dk4-R0-8ZK" id="7Q8-CJ-n72"/>
-                <outlet property="webViewTitle" destination="y8X-mC-LqD" id="ACp-Uy-9fD"/>
             </connections>
             <point key="canvasLocation" x="430" y="211.5"/>
         </tableViewCell>

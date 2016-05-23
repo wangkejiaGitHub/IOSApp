@@ -38,20 +38,10 @@
                             </mask>
                         </variation>
                     </label>
-                    <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ETY-Pc-a3Q">
-                        <rect key="frame" x="15" y="50" width="410" height="20"/>
-                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="vdR-N3-2dk"/>
-                        </constraints>
-                    </webView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="ETY-Pc-a3Q" firstAttribute="top" secondItem="TwM-wL-laH" secondAttribute="bottom" constant="10" id="A0J-f2-uCs"/>
-                    <constraint firstItem="ETY-Pc-a3Q" firstAttribute="leading" secondItem="Zyn-9A-9L8" secondAttribute="leading" constant="15" id="Hgn-th-8rb"/>
                     <constraint firstItem="ije-HR-8B5" firstAttribute="top" secondItem="Zyn-9A-9L8" secondAttribute="top" constant="20" id="Psr-0c-jbg"/>
                     <constraint firstItem="TwM-wL-laH" firstAttribute="bottom" secondItem="ije-HR-8B5" secondAttribute="bottom" id="WeC-0l-QOO"/>
-                    <constraint firstAttribute="trailing" secondItem="ETY-Pc-a3Q" secondAttribute="trailing" constant="15" id="fgQ-m6-Xvb"/>
                     <constraint firstAttribute="trailing" secondItem="TwM-wL-laH" secondAttribute="trailing" constant="95" id="mQL-kl-2vp"/>
                     <constraint firstItem="ije-HR-8B5" firstAttribute="leading" secondItem="Zyn-9A-9L8" secondAttribute="leading" constant="15" id="odT-bi-Buh"/>
                     <constraint firstItem="TwM-wL-laH" firstAttribute="leading" secondItem="ije-HR-8B5" secondAttribute="trailing" id="qRX-hT-ZyN"/>
@@ -61,8 +51,6 @@
                 <outlet property="labNumber" destination="ije-HR-8B5" id="dgf-GM-1dI"/>
                 <outlet property="labNumberWidth" destination="ewZ-ye-08V" id="AWS-I0-bfD"/>
                 <outlet property="labTitleType" destination="TwM-wL-laH" id="nTx-Wc-quW"/>
-                <outlet property="webTitleHeight" destination="vdR-N3-2dk" id="N8q-gb-fa6"/>
-                <outlet property="webViewTitle" destination="ETY-Pc-a3Q" id="K5Y-rV-98O"/>
             </connections>
             <point key="canvasLocation" x="357" y="298.5"/>
         </tableViewCell>

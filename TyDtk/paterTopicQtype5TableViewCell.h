@@ -39,6 +39,18 @@
 @property (nonatomic,strong) NSDictionary *dicCollectDone;
 //是否第一次加载
 @property (nonatomic,assign) BOOL isFirstLoad;
+////////////////////////////////////////////////////
+//是否是第一次加载，用于第二次刷新ui
+//第一次加载webview
+@property (nonatomic,assign) BOOL isWebFirstLoading;
+@property (nonatomic,assign) BOOL isWebSubFirstLoading;
+//是否包含第一次刷新的试题
+@property (nonatomic,strong) NSArray *arrayFirstLoading;
+@property (nonatomic,assign) CGFloat buttonOy;
+@property (nonatomic,assign) CGFloat buttonSubOy;
+////////////////////////////////////////////////////
+//是否是最后一题
+@property (nonatomic,assign) BOOL isLastTopic;
 @property (nonatomic,assign) id <TopicCellDelegateTest> delegateCellClick;
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @end

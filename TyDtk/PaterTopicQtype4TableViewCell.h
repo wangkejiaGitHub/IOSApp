@@ -39,6 +39,8 @@
 @property (nonatomic,assign) BOOL isFirstLoad;
 //已经做过的试题
 @property (nonatomic,strong) NSDictionary *dicSelectDone;
+//是否是最后一题
+@property (nonatomic,assign) BOOL isLastTopic;
 @property (nonatomic,assign) id <TopicCellDelegateTest> delegateCellClick;
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @end

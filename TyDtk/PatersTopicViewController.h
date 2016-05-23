@@ -18,5 +18,7 @@
 @property (nonatomic,strong) NSDictionary *dicTopic;
 //每道题的索引
 @property (nonatomic,assign) NSInteger topicIndex;
+//是否是最后一题
+@property (nonatomic,assign) BOOL isLastTopic;
 @property (nonatomic,assign) id <TopicCardRefreshDelegate> delegateRefreshTiopicCard;
 @end
