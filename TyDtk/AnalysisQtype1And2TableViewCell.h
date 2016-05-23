@@ -24,7 +24,10 @@
 - (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
 //第一次加载
 - (void)IsFirstload:(BOOL)isFirstLoad;
-- (void)isWebLoadingCellHeight:(CGFloat)cellHeight withImageOy:(CGFloat)imageOy;
+//非小题webview二次刷新
+- (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy;
+//小题webview二次刷新
+- (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy withIndex:(NSInteger)index;
 @end
 @interface AnalysisQtype1And2TableViewCell : UITableViewCell
 //试题编号
@@ -35,12 +38,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *labTopicType;
 //试题标题
 @property (weak, nonatomic) IBOutlet UIWebView *webViewTitle;
-//试题选项
-@property (weak, nonatomic) IBOutlet UIWebView *webVIewSelect;
 //试题标题高度
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *webTitleHeight;
-//试题选项高度
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webSelectHeight;
 //收藏按钮
 @property (weak, nonatomic) IBOutlet UIButton *buttonCollect;
 //收藏按钮宽度
@@ -52,23 +51,18 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonNote;
 @property (weak, nonatomic) IBOutlet UIButton *buttonError;
 
-//显示是否答题正确
-@property (weak, nonatomic) IBOutlet UILabel *labAnswerStatus;
-//用户答案
-@property (weak, nonatomic) IBOutlet UILabel *labUserAnswer;
-//正确答案
-@property (weak, nonatomic) IBOutlet UILabel *labTureAnswer;
-//试题解析
-@property (weak, nonatomic) IBOutlet UIWebView *webAnalysis;
-//试题解析高度
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webAnalysisHeight;
 @property (weak, nonatomic) IBOutlet UIView *viewLine;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webSelectUpLaout;
-
 //下划线
 //@property (weak, nonatomic) IBOutlet UIView *viewLiness;
 //是否是第一次加载，用于第二次刷新ui
 @property (nonatomic,assign) BOOL isFirstLoad;
+@property (nonatomic,assign) BOOL isWebFirstLoading;
+@property (nonatomic,assign) BOOL isWebSubFirstLoading;
+//是否包含第一次刷新的试题
+@property (nonatomic,strong) NSArray *arrayFirstLoading;
+@property (nonatomic,assign) CGFloat buttonOy;
+@property (nonatomic,assign) CGFloat buttonSubOy;
+////////////////////////////////////////////////////
 //试题索引，用于显示试题编号
 @property (nonatomic,assign) NSInteger indexTopic;
 //试题信息
@@ -76,6 +70,6 @@
 
 //试题类型
 @property (nonatomic,assign) NSInteger topicType;
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @property (nonatomic,assign) id <TopicAnalysisCellDelegateTest> delegateAnalysisCellClick;
 @end

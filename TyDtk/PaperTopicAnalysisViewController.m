@@ -28,6 +28,15 @@
 //判断是否是第一次加载
 @property (nonatomic,assign) BOOL isFirstLoad;
 @property (nonatomic,assign) BOOL isWebFirstLoading;
+@property (nonatomic,assign) BOOL isWebSubFirstLoading;
+//一题多问下的小题cell高字典
+@property (nonatomic,strong) NSMutableDictionary *dicSubHeight;
+//一题多问下的小题cell选项按钮Y坐标字典
+@property (nonatomic,strong) NSMutableDictionary *dicSubButtonSubOy;
+//是否包含需要第二次刷新的一题多问下的小题cell数组
+@property (nonatomic,strong) NSMutableArray *arrayFirstLoading;
+@property (nonatomic,assign) CGFloat buttonOy;
+@property (nonatomic,assign) CGFloat buttonSubOy;
 @property (nonatomic,assign) CGFloat imageOy;
 //暂时保存用户收藏的试题
 @property (nonatomic,strong) NSMutableDictionary *dicUserCollectTopic;
@@ -48,6 +57,10 @@
 - (void)viewLoad{
     _isFirstLoad = YES;
     _isWebFirstLoading = YES;
+    _cellWebLoadingheight= 0;
+    _arrayFirstLoading = [NSMutableArray array];
+    _dicSubHeight = [NSMutableDictionary dictionary];
+    _dicSubButtonSubOy = [NSMutableDictionary dictionary];
     _tableViewPater = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 45) style:UITableViewStyleGrouped];
     _tableViewPater.delegate = self;
     _tableViewPater.dataSource = self;
@@ -58,8 +71,8 @@
     if (_qType == 6) {
         _arraySubQuestion = _dicTopic[@"subQuestion"];
     }
-    _cellHeight = 130;
-    _cellSubHeight = 50;
+    _cellHeight = 0;
+    _cellSubHeight = 0;
     _dicUserCollectTopic = [NSMutableDictionary dictionary];
     self.view.backgroundColor = [UIColor clearColor];
 
@@ -94,14 +107,25 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_qType == 6) {
         if (indexPath.row == 0) {
+            //            if (_cellWebLoadingheight != 0) {
+            //                return _cellWebLoadingheight;
+            //            }
             return _cellWebLoadingheight;
+            
         }
         else{
+            NSLog(@"%ld",indexPath.row);
+            if ([_dicSubHeight.allKeys containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]]) {
+                return [[_dicSubHeight valueForKey:[NSString stringWithFormat:@"%ld",indexPath.row]] floatValue];
+            }
             return _cellSubHeight;
         }
     }
     else{
-        return _cellHeight;
+        if (_qType ==1 | _qType == 2 | _qType) {
+            return _cellWebLoadingheight;
+        }
+        return _cellHeight = 50;
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -130,8 +154,9 @@
         cell1.indexTopic = _topicIndex;
         cell1.dicCollectDone = _dicUserCollectTopic;
         cell1.isFirstLoad = _isFirstLoad;
+        cell1.isWebFirstLoading = _isWebFirstLoading;
         cell1.delegateAnalysisCellClick = self;
-        _cellHeight = [cell1 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+        [cell1 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
          return cell1;
     }
     else if (_qType == 3){
@@ -144,8 +169,10 @@
         cell3.topicType = _qType;
         cell3.indexTopic = _topicIndex;
         cell3.isFirstLoad = _isFirstLoad;
+        cell3.isWebFirstLoading = _isWebFirstLoading;
+        cell3.buttonOy = _buttonOy;
         cell3.delegateAnalysisCellClick = self;
-        _cellHeight = [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+        [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell3;
 
     }
@@ -159,6 +186,9 @@
         cell5.topicType = _qType;
         cell5.indexTopic = _topicIndex;
         cell5.isFirstLoad = _isFirstLoad;
+        cell5.isWebFirstLoading = _isWebFirstLoading;
+        cell5.buttonOy = _buttonOy;
+
         cell5.delegateAnalysisCellClick = self;
         _cellHeight = [cell5 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell5;
@@ -170,7 +200,7 @@
             cell6.delegateAnalysisCellClick = self;
             cell6.indexTopic = _topicIndex;
             cell6.isFirstLoad = _isFirstLoad;
-            cell6.imageOy = _imageOy;
+            cell6.buttonOy = _buttonOy;
             cell6.isWebFirstLoading = _isWebFirstLoading;
             cell6.selectionStyle = UITableViewCellSelectionStyleNone;
             [cell6 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
@@ -188,8 +218,13 @@
                 cell1.indexTopic = indexPath.row;
                 cell1.delegateAnalysisCellClick = self;
                 cell1.dicCollectDone = _dicUserCollectTopic;
+                cell1.arrayFirstLoading = _arrayFirstLoading;
+                cell1.buttonSubOy = _buttonSubOy;
+                if ([_dicSubButtonSubOy.allKeys containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]]) {
+                    cell1.buttonSubOy = [[_dicSubButtonSubOy valueForKey:[NSString stringWithFormat:@"%ld",indexPath.row]] floatValue];
+                }
                 cell1.selectionStyle = UITableViewCellSelectionStyleNone;
-                _cellSubHeight = [cell1 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
+                [cell1 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
                 return cell1;
             }
             else if (_qType == 3){
@@ -200,8 +235,13 @@
                 cell3.delegateAnalysisCellClick = self;
                 cell3.indexTopic = indexPath.row;
                 cell3.dicCollectDone = _dicUserCollectTopic;
+                cell3.arrayFirstLoading = _arrayFirstLoading;
+                cell3.buttonSubOy = _buttonSubOy;
+                if ([_dicSubButtonSubOy.allKeys containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]]) {
+                    cell3.buttonSubOy = [[_dicSubButtonSubOy valueForKey:[NSString stringWithFormat:@"%ld",indexPath.row]] floatValue];
+                }
                 cell3.selectionStyle = UITableViewCellSelectionStyleNone;
-                _cellSubHeight = [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+                [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
                 return cell3;
             }
             else{
@@ -209,6 +249,12 @@
                 cell5.delegateAnalysisCellClick = self;
                 cell5.dicCollectDone = _dicUserCollectTopic;
                 cell5.indexTopic = indexPath.row;
+                cell5.arrayFirstLoading = _arrayFirstLoading;
+                cell5.buttonSubOy = _buttonSubOy;
+                if ([_dicSubButtonSubOy.allKeys containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]]) {
+                    cell5.buttonSubOy = [[_dicSubButtonSubOy valueForKey:[NSString stringWithFormat:@"%ld",indexPath.row]] floatValue];
+                }
+
                 cell5.selectionStyle = UITableViewCellSelectionStyleNone;
                 _cellSubHeight = [cell5 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
                 return cell5;
@@ -224,11 +270,24 @@
     _isFirstLoad = isFirstLoad;
     [_tableViewPater reloadData];
 }
-- (void)isWebLoadingCellHeight:(CGFloat)cellHeight withImageOy:(CGFloat)imageOy{
+//不是一题多问下的小题二次刷新
+- (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy{
     _cellWebLoadingheight = cellHeight;
     _isWebFirstLoading = NO;
-    _imageOy = imageOy;
     [_tableViewPater reloadData];
+    [_tableViewPater reloadData];
+//    _buttonOy = buttonOy;
+    
+}
+//一题多问下的小题二次刷新
+- (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy withIndex:(NSInteger)index{
+    if (![_arrayFirstLoading containsObject:[NSString stringWithFormat:@"%ld",index]]) {
+        [_arrayFirstLoading addObject:[NSString stringWithFormat:@"%ld",index]];
+    }
+    [_dicSubHeight setValue:[NSString stringWithFormat:@"%f",cellHeight] forKey:[NSString stringWithFormat:@"%ld",index]];
+    [_dicSubButtonSubOy setValue:[NSString stringWithFormat:@"%f",buttonOy] forKey:[NSString stringWithFormat:@"%ld",index]];
+    [_tableViewPater reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:YES];
+    
 }
 - (void)imageSaveQtype1Test:(UIImage *)image{
     [self imageTopicSave:image];

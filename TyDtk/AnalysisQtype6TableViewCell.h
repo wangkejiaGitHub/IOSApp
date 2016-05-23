@@ -15,10 +15,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labNumberWidth;
 //试题类型
 @property (weak, nonatomic) IBOutlet UILabel *labTopicType;
-//试题标题
-@property (weak, nonatomic) IBOutlet UIWebView *webViewTitle;
-//试题标题高度
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webTitleHeight;
 //试题索引
 @property (nonatomic,assign) NSInteger indexTopic;
 //试题信息
@@ -27,6 +23,7 @@
 @property (nonatomic,assign) BOOL isFirstLoad;
 //第一次加载webview
 @property (nonatomic,assign) BOOL isWebFirstLoading;
+@property (nonatomic,assign) CGFloat buttonOy;
 @property (nonatomic,assign) CGFloat imageOy;
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @property (nonatomic,assign) id <TopicAnalysisCellDelegateTest> delegateAnalysisCellClick;

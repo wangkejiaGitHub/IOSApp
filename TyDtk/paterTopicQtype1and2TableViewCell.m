@@ -16,15 +16,13 @@
 @property (nonatomic,strong) UIWebView *webViewTitle;
 //选项按钮起点坐标
 @property (nonatomic,assign) CGFloat buttonOrginY;
-
-
-
 @end
 @implementation paterTopicQtype1and2TableViewCell
 
 - (void)awakeFromNib {
     // Initialization code
     _webViewTitle = [[UIWebView alloc]initWithFrame:CGRectMake(50, 15, Scr_Width - 30, 30)];
+    [_webViewTitle removeFromSuperview];
     [self.contentView addSubview:_webViewTitle];
     _imageVIewCollect.layer.masksToBounds = YES;
     _imageVIewCollect.layer.cornerRadius = 2;
@@ -43,13 +41,13 @@
     _tyUser = [NSUserDefaults standardUserDefaults];
 }
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-
     _indexTopic = index;
     _dicTopic = dic;
     NSLog(@"%@",dic);
     if (index == 19) {
         NSLog(@"11");
     }
+    
     //判断视图是否有图片
     NSInteger qtypeTopic = [dic[@"qtype"] integerValue];
     NSString *topicTitle = dic[@"title"];

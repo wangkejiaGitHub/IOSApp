@@ -38,20 +38,10 @@
                             </mask>
                         </variation>
                     </label>
-                    <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WPj-oM-gCD">
-                        <rect key="frame" x="15" y="45" width="388" height="20"/>
-                        <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="WTc-cc-g19"/>
-                        </constraints>
-                    </webView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="WPj-oM-gCD" secondAttribute="trailing" constant="15" id="2qR-9K-XHj"/>
                     <constraint firstItem="tFf-tg-7p6" firstAttribute="top" secondItem="sJR-ok-p16" secondAttribute="top" constant="15" id="3pc-uq-Jtq"/>
                     <constraint firstItem="RO5-LX-fXD" firstAttribute="leading" secondItem="tFf-tg-7p6" secondAttribute="trailing" id="ASi-mK-ihh"/>
-                    <constraint firstItem="WPj-oM-gCD" firstAttribute="leading" secondItem="sJR-ok-p16" secondAttribute="leading" constant="15" id="BU5-aw-QAf"/>
-                    <constraint firstItem="WPj-oM-gCD" firstAttribute="top" secondItem="RO5-LX-fXD" secondAttribute="bottom" constant="10" id="Gxh-gO-GiH"/>
                     <constraint firstAttribute="trailing" secondItem="RO5-LX-fXD" secondAttribute="trailing" constant="90" id="Uf3-eB-dqs"/>
                     <constraint firstItem="RO5-LX-fXD" firstAttribute="bottom" secondItem="tFf-tg-7p6" secondAttribute="bottom" id="auh-AP-DWW"/>
                     <constraint firstItem="tFf-tg-7p6" firstAttribute="leading" secondItem="sJR-ok-p16" secondAttribute="leading" constant="15" id="x6P-8s-iHB"/>
@@ -61,8 +51,6 @@
                 <outlet property="labNumberWidth" destination="ds5-S3-f5r" id="rMd-hH-8Ye"/>
                 <outlet property="labTopicNumber" destination="tFf-tg-7p6" id="rqr-ia-aLF"/>
                 <outlet property="labTopicType" destination="RO5-LX-fXD" id="lXX-dZ-RGk"/>
-                <outlet property="webTitleHeight" destination="WTc-cc-g19" id="cQh-wD-ca5"/>
-                <outlet property="webViewTitle" destination="WPj-oM-gCD" id="rNl-9v-Uz9"/>
             </connections>
             <point key="canvasLocation" x="282" y="270"/>
         </tableViewCell>

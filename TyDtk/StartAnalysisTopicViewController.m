@@ -116,9 +116,9 @@
  */
 - (void)getTopicAnalysisPaper{
     [SVProgressHUD showWithStatus:@"正在获取试题分析..."];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/IOSGetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
-    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
-        NSDictionary *dicAnalysis = (NSDictionary *)respoes;
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterAnalysisData = dicAnalysis[@"datas"];
         _scrollContentWidth = 0;
         for (NSDictionary *dicNum in _arrayPaterAnalysisData) {
@@ -136,7 +136,7 @@
         [SVProgressHUD dismiss];
         
         NSLog(@"%@",dicAnalysis);
-    } RequestFaile:^(NSError *erro) {
+    } RequestFaile:^(NSError *error) {
         
     }];
 }

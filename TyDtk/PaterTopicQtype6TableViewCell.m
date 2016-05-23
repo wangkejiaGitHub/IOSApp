@@ -8,20 +8,6 @@
 
 #import "PaterTopicQtype6TableViewCell.h"
 @interface PaterTopicQtype6TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
-////??????????????????????????????????????????????????????
-//@property (weak, nonatomic) UIScrollView *scrollView;
-//@property (weak, nonatomic) UIImageView *lastImageView;
-//@property (nonatomic, assign)CGRect originalFrame;
-//@property (nonatomic, assign)BOOL isDoubleTap;
-//
-//@property (nonatomic,strong) UIImageView *selectTapView;
-////??????????????????????????????????????????????????????
-////存放图片的view的高度
-//@property (nonatomic,assign) CGFloat viewImageOy;
-////存放图片的view
-//@property (nonatomic,strong) UIView *viewImage;
-
-
 @property (nonatomic,strong) NSMutableArray *arrayImgUrl;
 @property (nonatomic,strong) UIWebView *webViewTitle;
 @end
@@ -29,8 +15,8 @@
 
 - (void)awakeFromNib {
     // Initialization code
-    [_webViewTitle removeFromSuperview];
     _webViewTitle = [[UIWebView alloc]initWithFrame:CGRectMake(15, 50, Scr_Width - 30, 30)];
+    [_webViewTitle removeFromSuperview];
     [self.contentView addSubview:_webViewTitle];
     _webViewTitle.backgroundColor = [UIColor clearColor];
     _webViewTitle.scrollView.scrollEnabled = NO;
@@ -66,7 +52,7 @@
     //添加保存试题按钮，主要用同步答题卡
     //    UIButton *buttonSave = (UIButton *)[self.contentView viewWithTag:102];
     UIButton *buttonSaveAnswer = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonSaveAnswer.tag = 100;
+    buttonSaveAnswer.tag = 1111;
     buttonSaveAnswer.frame = CGRectMake(Scr_Width-170, _buttonOy + 20, 160, 25);
     [buttonSaveAnswer setTitle:@"保存本题答案并跳转下一题" forState:UIControlStateNormal];
     if (_isLastTopic) {
@@ -170,6 +156,16 @@
         [self.delegateCellClick isWebLoadingCellHeight:cellHeightL + 60 withButtonOy:cellHeightL];
     }
     
+}
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    //预览图片
+    if ([request.URL.scheme isEqualToString:@"image-preview"]) {
+        NSString *path = [request.URL.absoluteString substringFromIndex:[@"image-preview:" length]];
+        //path 就是被点击图片的url
+        NSLog(@"%@",path);
+        return NO;
+    }
+    return YES;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
