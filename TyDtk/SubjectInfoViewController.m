@@ -13,17 +13,19 @@
 #import "ModelPapersViewController.h"
 //每周精选
 #import "WeekSelectViewController.h"
-@interface SubjectInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UIView *viewNaviTitle;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonLayoutWidth;
-@property (weak, nonatomic) IBOutlet UIButton *buttonHeard;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewHeard;
+//智能出题
+#import "IntelligentTopicViewController.h"
+@interface SubjectInfoViewController ()
+//@property (weak, nonatomic) IBOutlet UIView *viewNaviTitle;
+//@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonLayoutWidth;
+//@property (weak, nonatomic) IBOutlet UIButton *buttonHeard;
+//@property (weak, nonatomic) IBOutlet UIImageView *imageViewHeard;
 //view底部试图
 @property (weak, nonatomic) IBOutlet UIView *viewFooter;
 //追踪的下划线
 @property (nonatomic ,strong) UIView *viewFooterLine;
-//titleButton要显示的字段
-@property (nonatomic,strong) NSString *buttonString;
+////titleButton要显示的字段
+//@property (nonatomic,strong) NSString *buttonString;
 //用户信息，以及所需全局信息
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //从tyUser中获取到的用户信息
@@ -33,26 +35,28 @@
 customTool;
 //专业下所有科目科目
 @property (nonatomic,strong) NSArray *arraySubject;
-@property (nonatomic,strong) UIView *viewDroupDownList;
+//@property (nonatomic,strong) UIView *viewDroupDownList;
 @property (nonatomic,assign) BOOL allowMenu;
-@property (nonatomic,assign) CGFloat tableHeight;
+//@property (nonatomic,assign) CGFloat tableHeight;
 //手势层
-@property (nonatomic,strong) UIView *viewDown;
+//@property (nonatomic,strong) UIView *viewDown;
 @property (nonatomic,nonnull) ViewNullData *viewNilData;
-//朦层
-//@property (nonatomic,strong) MZView *mzView;
 
-//当前选择的科目
+///当前选择的科目
 @property (nonatomic,strong) NSDictionary *dicCurrSubject;
 //当前需要显示的子试图的索引
 @property (nonatomic,assign) NSInteger indexCurrChildView;
-
+//下拉菜单
+@property (nonatomic,strong) DTKDropdownMenuView *menuView;
+@property (nonatomic,assign) NSInteger dropDownCurrIndex;
 //章节练习
 @property (nonatomic,strong) ChaptersViewController *chapterVc;
 //模拟试卷
 @property (nonatomic,strong) ModelPapersViewController *modelPapersVc;
 //每周精选
 @property (nonatomic,strong) WeekSelectViewController *weekSelectVc;
+//智能出题
+@property (nonatomic,strong) IntelligentTopicViewController *intelligentVc;
 @end
 
 @implementation SubjectInfoViewController
@@ -60,17 +64,14 @@ customTool;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _dropDownCurrIndex = 0;
     [self viewLoad];
     [self ifDataIsNil];
     [self addChildViewControllerForSelfWithUser];
 }
 
 - (void)viewLoad{
-    _buttonString = @"请选择考试科目";
     _allowMenu = NO;
-    CGSize btnSize = sizeWithStrinfLength(_buttonString, 15.0, 30);
-    _buttonLayoutWidth.constant = btnSize.width;
-    [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
     [self getAllSubject];
     
     //添加追踪下划线
@@ -112,8 +113,14 @@ customTool;
             }
         }
     }
-    if ([self ifDataIsNil]) {
-        _indexCurrChildView = sender.tag;
+    if (sender.tag != 3) {
+        if ([self ifDataIsNil]) {
+            _indexCurrChildView = sender.tag;
+            [self showSelfChildViewWithViewIndex];
+        }
+    }
+    else{
+        [_viewNilData removeFromSuperview];
         [self showSelfChildViewWithViewIndex];
     }
 }
@@ -122,10 +129,11 @@ customTool;
  */
 - (BOOL)ifDataIsNil{
     if (_dicCurrSubject.allKeys == 0) {
+        [_viewNilData removeFromSuperview];
         if (!_viewNilData) {
             _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 49) showText:@"您还没有选择考试科目"];
-            [self.view addSubview:_viewNilData];
         }
+        [self.view addSubview:_viewNilData];
         return NO;
     }
     return YES;
@@ -144,6 +152,7 @@ customTool;
     [_chapterVc.view removeFromSuperview];
     [_modelPapersVc.view removeFromSuperview];
     [_weekSelectVc.view removeFromSuperview];
+    [_intelligentVc.view removeFromSuperview];
     //章节考点
     if (_indexCurrChildView == 0) {
         if (!_chapterVc) {
@@ -174,9 +183,15 @@ customTool;
         _weekSelectVc.allowToken = YES;
         [self.view addSubview:_weekSelectVc.view];
     }
+    //智能出题
     else if (_indexCurrChildView == 3){
-        
-        //练习记录
+        if (!_intelligentVc) {
+            _intelligentVc = self.childViewControllers[_indexCurrChildView];
+            _intelligentVc.view.frame =  CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
+        }
+        _intelligentVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
+        _weekSelectVc.allowToken = YES;
+        [self.view addSubview:_intelligentVc.view];
     }
 }
 
@@ -196,84 +211,12 @@ customTool;
     //添加每周精选子试图
     UIViewController *weekVc = [self.storyboard instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
     [self addChildViewController:weekVc];
-    
-    
-    
-    //添加练习记录子试图
-    
-}
-/**
- 屏幕点击事件
- */
-- (void)viewTapTextRfr{
-    [self hideViewDroupDownListMenu];
-}
-//navigation button
-- (IBAction)heardButtonClick:(UIButton *)sender {
-    _allowMenu = !_allowMenu;
-    if (_allowMenu) {
-        
-        [self addViewDroupDownListMenuForSelf];
-    }
-    else{
-        [self hideViewDroupDownListMenu];
-    }
-}
-/**
- 菜单出现
- */
-- (void)addViewDroupDownListMenuForSelf{
-    UITableView *tableView;
-    if (!_viewDroupDownList) {
-        _viewDroupDownList = [[UIView alloc]initWithFrame:CGRectMake(0, -_tableHeight, Scr_Width, _tableHeight)];
-        _viewDroupDownList.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.5);
-        
-        tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _tableHeight) style:UITableViewStylePlain];
-        tableView.delegate = self;
-        tableView.dataSource =self;
-        tableView.backgroundColor = [UIColor clearColor];
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        UIView *viewF = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 10)];
-        tableView.tableFooterView = viewF;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 10)];
-        tableView.tableHeaderView = view;
-        [_viewDroupDownList addSubview:tableView];
-    }
-    [self.view addSubview:_viewDroupDownList];
-    _imageViewHeard.image = [UIImage imageNamed:@"arrow_up"];
-    [UIView animateWithDuration:0.3 animations:^{
-        CGRect rect = _viewDroupDownList.frame;
-        rect.origin.y = 64;
-        _viewDroupDownList.frame = rect;
-    }];
-    if (!_viewDown) {
-        _viewDown = [[UIView alloc]initWithFrame:CGRectMake(0, _tableHeight+60, Scr_Width, Scr_Height-_tableHeight-40)];
-        _viewDown.backgroundColor =[UIColor clearColor];
-        [self.view addSubview:_viewDown];
-        UITapGestureRecognizer *tapViewDown = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapViewDown)];
-        [_viewDown addGestureRecognizer:tapViewDown];
-    }
-    [self.view addSubview:_viewDown];
+    //添加智能出题子试图
+    UIViewController *intelligentVc = [self.storyboard instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
+    [self addChildViewController:intelligentVc];
     
 }
--(void)tapViewDown{
-    [self hideViewDroupDownListMenu];
-}
-/**
- 隐藏菜单
- */
-- (void)hideViewDroupDownListMenu{
-    if (_viewDown) {
-        [_viewDown removeFromSuperview];
-    }
-    _imageViewHeard.image = [UIImage imageNamed:@"arrow_down"];
-    [UIView animateWithDuration:0.3 animations:^{
-        CGRect rect = _viewDroupDownList.frame;
-        rect.origin.y = - _tableHeight;
-        _viewDroupDownList.frame = rect;
-    }];
-    _allowMenu = NO;
-}
+
 - (IBAction)leftButtonClick:(UIBarButtonItem *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -284,7 +227,7 @@ customTool;
  */
 - (void)getAllSubject{
     [SVProgressHUD show];
-    _buttonHeard.enabled = NO;
+//    _buttonHeard.enabled = NO;
     NSInteger subId = [_dicSubject[@"Id"] intValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,subId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -292,71 +235,75 @@ customTool;
         NSInteger codeId = [dicSubject[@"code"] integerValue];
         if (codeId == 1) {
             _arraySubject = dicSubject[@"datas"];
-            _tableHeight = _arraySubject.count*30+20;
-            if (_tableHeight > Scr_Height) {
-                _tableHeight = Scr_Height - 153;
-            }
+            [self addDropDownListMenu];
             [SVProgressHUD dismiss];
         }
         else{
             [SVProgressHUD showInfoWithStatus:dicSubject[@"errmsg"]];
         }
-        _buttonHeard.enabled = YES;
     } RequestFaile:^(NSError *error) {
         NSLog(@"%@",error);
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
-//菜单上的tableView代理
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _arraySubject.count;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 30;
-}
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell1"];
+///添加下拉菜单
+- (void)addDropDownListMenu{
+    ///菜单item数组
+    NSMutableArray *arrayMenuItem = [NSMutableArray array];
+    ///每个所有item中的字符串最大个数（计算最大宽度）
+    NSInteger menuStringLength = 0;
+    for (NSDictionary *dicSub in _arraySubject) {
+        NSString *name = dicSub[@"Names"];
+        NSInteger nameLength = name.length;
+        if (nameLength > menuStringLength) {
+            menuStringLength = nameLength;
+        }
     }
-    for (id subView in cell.contentView.subviews) {
-        [subView removeFromSuperview];
+    for (int i =0; i<_arraySubject.count + 1; i++) {
+        if (i == 0) {
+            DTKDropdownItem *item = [DTKDropdownItem itemWithTitle:@"--请选择你的科目--" callBack:^(NSUInteger index, id info) {
+                [self itemMenuClick:index];
+            }];
+            [arrayMenuItem addObject:item];
+        }
+        else{
+            NSDictionary *dicSubject = _arraySubject[i - 1];
+            DTKDropdownItem *item = [DTKDropdownItem itemWithTitle:dicSubject[@"Names"] callBack:^(NSUInteger index, id info) {
+                [self itemMenuClick:index];
+            }];
+            [arrayMenuItem addObject:item];
+        }
     }
-    cell.backgroundColor = [UIColor clearColor];
-    NSDictionary *dic = _arraySubject[indexPath.row];
-    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, Scr_Width-20, 20)];
-    labText.textColor = [UIColor whiteColor];
-    labText.font = [UIFont systemFontOfSize:16.0];
-    labText.text = dic[@"Names"];
-    labText.textAlignment = NSTextAlignmentCenter;
-    [cell.contentView addSubview:labText];
     
-    return cell;
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!_tyUser) {
-        _tyUser = [NSUserDefaults standardUserDefaults];
-    }
-    NSDictionary *dicCurrSubject = _arraySubject[indexPath.row];
-    [_tyUser setObject:dicCurrSubject forKey:tyUserSubject];
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    _dicCurrSubject = _arraySubject[indexPath.row];
-    _buttonString = _dicCurrSubject[@"Names"];
-    CGSize size = sizeWithStrinfLength(_buttonString, 15.0, 30);
-    _buttonHeard.titleLabel.font = [UIFont systemFontOfSize:15.0];
-    if (_buttonString.length > 15) {
-        _buttonHeard.titleLabel.font = [UIFont systemFontOfSize:13.0];
-    }
-    [_viewDroupDownList removeFromSuperview];
-    [_buttonHeard setTitle:_buttonString forState:UIControlStateNormal];
-    _buttonLayoutWidth.constant = size.width;
-    [self hideViewDroupDownListMenu];
-    [self showSelfChildViewWithViewIndex];
-    
-    
-}
+    _menuView = [DTKDropdownMenuView dropdownMenuViewForNavbarTitleViewWithFrame:CGRectMake(46, 0, Scr_Width - 92, 44) dropdownItems:arrayMenuItem];
+    _menuView.currentNav = self.navigationController;
+    _menuView.dropWidth = menuStringLength*19 - 25;
+    _menuView.titleFont = [UIFont systemFontOfSize:13.0];
+    _menuView.textColor = [UIColor brownColor];
+    _menuView.titleColor = [UIColor purpleColor];
+    _menuView.textFont = [UIFont systemFontOfSize:13.f];
+    _menuView.cellSeparatorColor = ColorWithRGB(229.f, 229.f, 229.f);
+    _menuView.textFont = [UIFont systemFontOfSize:14.f];
+    _menuView.animationDuration = 0.2f;
+    _menuView.cellSeparatorColor = [UIColor greenColor];
+    self.navigationItem.titleView = _menuView;
 
+}
+- (void)itemMenuClick:(NSInteger)indexItem{
+    _dropDownCurrIndex = indexItem;
+    [_viewNilData removeFromSuperview];
+    if (indexItem!=0) {
+        _dicCurrSubject = _arraySubject[indexItem - 1];
+        [self showSelfChildViewWithViewIndex];
+    }
+    else{
+        _dicCurrSubject = nil;
+        if (_indexCurrChildView != 3) {
+            [self ifDataIsNil];
+        }
+    }
+    NSLog(@"%ld",indexItem);
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

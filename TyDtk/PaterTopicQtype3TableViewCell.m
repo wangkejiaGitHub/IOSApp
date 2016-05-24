@@ -140,12 +140,12 @@
     //判断是否是最一题，给用户提示
     if (_isLastTopic) {
         UIButton *btnLastTopic =[UIButton buttonWithType:UIButtonTypeCustom];
-        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 30 + 25, 100, 23);
+        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 30 + 30, 100, 23);
         btnLastTopic.tag = 1111;
         btnLastTopic.backgroundColor =ColorWithRGB(200, 200, 200);
         btnLastTopic.layer.masksToBounds = YES;
         btnLastTopic.layer.cornerRadius = 2;
-        btnLastTopic.titleLabel.font = [UIFont systemFontOfSize:15.0];
+        btnLastTopic.titleLabel.font = [UIFont systemFontOfSize:12.0];
         [btnLastTopic setTitle:@"已是最后一题了" forState:UIControlStateNormal];
         [btnLastTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
         [self.contentView addSubview:btnLastTopic];
@@ -231,7 +231,8 @@
     else{
         userAnswer = @"0";
     }
-    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"Score":@"0",@"trueAnswer":answer};
+    NSInteger score = [_dicTopic[@"score"] integerValue];
+    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"Score":[NSString stringWithFormat:@"%ld",score],@"trueAnswer":answer};
     //        [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer       ];
     [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
 }
@@ -259,7 +260,6 @@
         NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicCollect[@"code"] integerValue];
         if (codeId == 1) {
-            NSDictionary *dicDatas = dicCollect[@"datas"];
             _buttonCollect.backgroundColor = [UIColor orangeColor];
             [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
@@ -270,7 +270,7 @@
             NSDictionary *dicColl = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
             [self.delegateCellClick saveUserCollectTiopic:dicColl];
             ///////////////////////////////////
-            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
             if (![_tyUser objectForKey:tyUserShowCollectAlert]) {
                 LXAlertView *collectAlert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"再次点击'已收藏'可取消收藏哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不再提示" clickIndexBlock:^(NSInteger clickIndex) {
                     if (clickIndex == 1) {

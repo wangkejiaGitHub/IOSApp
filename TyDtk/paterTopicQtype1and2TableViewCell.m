@@ -141,7 +141,7 @@
         btnSubmit.layer.masksToBounds = YES;
         btnSubmit.layer.cornerRadius = 3;
         btnSubmit.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        btnSubmit.titleLabel.font = [UIFont systemFontOfSize:13.0];
+        btnSubmit.titleLabel.font = [UIFont systemFontOfSize:12.0];
         [btnSubmit setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
         [btnSubmit addTarget:self action:@selector(buttonSubmit:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:btnSubmit];
@@ -257,8 +257,8 @@
     NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
     //正确答案
     NSString *answer = _dicTopic[@"answer"];
-    
-    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":_selectContentQtype2,@"TrueAnswer":answer,@"Score":@"0"};
+    NSInteger score = [_dicTopic[@"score"] integerValue];
+    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":_selectContentQtype2,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
     [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
 }
 //点击选项按钮 11 141 240
@@ -308,8 +308,8 @@
         NSString *answer = _dicTopic[@"answer"];
         //用户答案
         NSString *userAnswer = sender.titleLabel.text;
-        
-        NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":@"0"};
+        NSInteger score = [_dicTopic[@"score"] integerValue];
+        NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
         [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
         
     }
@@ -355,7 +355,6 @@
         NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicCollect[@"code"] integerValue];
         if (codeId == 1) {
-            NSDictionary *dicDatas = dicCollect[@"datas"];
             _buttonCollect.backgroundColor = [UIColor orangeColor];
             [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
@@ -366,9 +365,7 @@
             NSDictionary *dicColl = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
             [self.delegateCellClick saveUserCollectTiopic:dicColl];
             ///////////////////////////////////
-            
-            
-            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
             if (![_tyUser objectForKey:tyUserShowCollectAlert]) {
                 LXAlertView *collectAlert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"再次点击'已收藏'可取消收藏哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不再提示" clickIndexBlock:^(NSInteger clickIndex) {
                     if (clickIndex == 1) {

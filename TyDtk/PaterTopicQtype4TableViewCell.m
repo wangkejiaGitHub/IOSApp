@@ -233,7 +233,6 @@
         NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicCollect[@"code"] integerValue];
         if (codeId == 1) {
-            NSDictionary *dicDatas = dicCollect[@"datas"];
             _buttonCollect.backgroundColor = [UIColor orangeColor];
             [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
@@ -244,7 +243,7 @@
             NSDictionary *dicColl = @{[NSString stringWithFormat:@"%ld",_indexTopic]:btnString};
             [self.delegateCellClick saveUserCollectTiopic:dicColl];
             ///////////////////////////////////
-            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
             if (![_tyUser objectForKey:tyUserShowCollectAlert]) {
                 LXAlertView *collectAlert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"再次点击'已收藏'可取消收藏哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不再提示" clickIndexBlock:^(NSInteger clickIndex) {
                     if (clickIndex == 1) {

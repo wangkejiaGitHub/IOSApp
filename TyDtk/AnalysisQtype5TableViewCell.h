@@ -25,12 +25,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonCollectWidth;
 //收藏图片
 @property (weak, nonatomic) IBOutlet UIImageView *imageVIewCollect;
-//显示是否答题正确
-@property (weak, nonatomic) IBOutlet UILabel *labAnswerStatus;
-@property (weak, nonatomic) IBOutlet UIWebView *webAnalysis;
+
 @property (weak, nonatomic) IBOutlet UIButton *buttonNotes;
 @property (weak, nonatomic) IBOutlet UIButton *buttonError;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *webAnalysisHeight;
 //是否是第一次加载，用于第二次刷新ui
 @property (nonatomic,assign) BOOL isFirstLoad;
 @property (nonatomic,assign) BOOL isWebFirstLoading;
@@ -48,6 +45,6 @@
 @property (nonatomic,assign) NSInteger topicType;
 //已经收藏的试题
 @property (nonatomic,strong) NSDictionary *dicCollectDone;
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @property (nonatomic,assign) id <TopicAnalysisCellDelegateTest> delegateAnalysisCellClick;
 @end

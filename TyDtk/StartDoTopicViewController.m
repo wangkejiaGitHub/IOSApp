@@ -356,6 +356,10 @@
             /////////////////////////////////////////////////////////////
             [SVProgressHUD dismiss];
         }
+        else{
+            
+            [SVProgressHUD showInfoWithStatus:dicWeekPaper[@"errmsg"]];
+        }
         NSLog(@"%@",dicWeekPaper);
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD showInfoWithStatus:@"请求异常"];
@@ -386,7 +390,6 @@
 }
 //////////////////////////////每周精选模块//////////////////////////////
 //////////////////////////////每周精选模块//////////////////////////////
-
 /**
  添加子试图，（每一个子试图相当于一道题）并依次在scrollView中显示出来
  */

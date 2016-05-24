@@ -18,6 +18,7 @@
 @property (nonatomic,strong) UIImageView *selectTapView;
 //??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
+@property (nonatomic,strong) NSMutableArray *arrayImgUrl;
 @end
 @implementation AnalysisQtype5TableViewCell
 
@@ -36,42 +37,15 @@
     _webViewTitle.scrollView.scrollEnabled = NO;
     
     _webViewTitle.opaque = NO;
-    _webAnalysis.backgroundColor = [UIColor clearColor];
-    _webAnalysis.scrollView.scrollEnabled = NO;
-    _webAnalysis.opaque = NO;
     _webViewTitle.backgroundColor =[UIColor clearColor];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _webViewTitle.delegate = self;
-    _labAnswerStatus.textColor = [UIColor redColor];
 }
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     _dicTopic = dic;
     _indexTopic = index;
-    if (index == 3) {
-        NSLog(@"%@",dic);
-    }
-    CGFloat allowRet = 0;
-    //判断视图是否有图片
-    //    NSInteger qtypeTopic = [dic[@"qtype"] integerValue];
-    NSDictionary *dicImg = dic[@"ImageDictionary"];
+
     NSString *topicTitle = dic[@"title"];
-    for (int i =0 ; i<4; i++) {
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n A" withString:@"<br/>A."];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\nA" withString:@"<br/>A."];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-        topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-    }
-    
-    if (dicImg.allKeys.count>0) {
-        NSString *keysFirst = [NSString stringWithFormat:@"[%@]",[dicImg.allKeys firstObject]];
-        NSRange ranFirst = [topicTitle rangeOfString:keysFirst];
-        NSString *keysLast = [NSString stringWithFormat:@"[%@]",[dicImg.allKeys lastObject]];
-        NSRange ranLast = [topicTitle rangeOfString:keysLast];
-        topicTitle = [topicTitle stringByReplacingCharactersInRange:NSMakeRange(ranFirst.location, ranLast.location - ranFirst.location + keysLast.length) withString:@""];
-    }
-    
-    ///////////////////////////////
     //题目
     UILabel *labTest = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 30, 30)];
     labTest.numberOfLines = 0;
@@ -93,83 +67,30 @@
     _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
-    CGSize labSize = [labTest sizeThatFits:CGSizeMake(labTest.frame.size.width, MAXFLOAT)];
-    [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
-    _webTitleHeight.constant = labSize.height;
-    if (Scr_Width > 330) {
-        _webTitleHeight.constant = _webTitleHeight.constant+20;
+    /////////试题标题
+    topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
+    ///用户作答情况
+    NSString *userDo;
+    NSInteger levelTopic = [dic[@"level"] integerValue];
+    if (levelTopic == 0) {
+        userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'red'>未作答</font></p><br/>"];
     }
-    else{
-        _webTitleHeight.constant = _webTitleHeight.constant+40;
+    else if (levelTopic == 1){
+        userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'purple'>答题正确</font></p><br/>"];
     }
-    //记录返回或者用到的高
-    allowRet = _webTitleHeight.constant +_webViewTitle.frame.origin.y + 15;
-    ////////////////////////////////////////////
-    /// 如果试题有图片，就加载图片显示
-    //防止图片试图复用时重复加载
-    for (id subView in self.contentView.subviews) {
-        if ([subView isKindOfClass:[UIView class]]) {
-            UIView *vvv = (UIView *)subView;
-            if (vvv.tag == 6666) {
-                [vvv removeFromSuperview];
-            }
-        }
+    else if (levelTopic == 2){
+        userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'red'>答题错误</font></p><br/>"];
     }
-    //用于展示图片的view层
-    UIView *viewImage =[[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width-30, 50)];
-    viewImage.backgroundColor =[UIColor clearColor];
-    viewImage.tag = 6666;
-    /**
-     有关cell的高 viewImgsH
-     */
-    CGFloat viewImgsH = 0;
-    if (dicImg.allKeys.count>0) {
-        for (NSString *keyImg in dicImg.allKeys) {
-            NSString *imagUrl = dicImg[keyImg];
-            __block UIImage *imageTop = [[UIImage alloc]init];
-            
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            [manager downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                NSLog(@"dsfasffasf");
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                NSLog(@"fsfafafaf");
-                if (image) {
-                    imageTop = image;
-                    //如果是第一次加载，再次刷新ui让图片显示出来
-                    if (_isFirstLoad) {
-                        [self.delegateAnalysisCellClick IsFirstload:NO];
-                    }
-                    
-                }
-            }];
-            
-            CGSize sizeImg = imageTop.size;
-            
-            if (sizeImg.width>Scr_Width - 30) {
-                CGFloat wHBL = sizeImg.height/sizeImg.width;
-                sizeImg.width = Scr_Width-30;
-                sizeImg.height = (Scr_Width-30)*wHBL;
-            }
-            UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
-            imgViewTop.image = imageTop;
-            //??????????????????????????????
-            UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showZoomImageView:)];
-            imgViewTop.userInteractionEnabled = YES;
-            [imgViewTop addGestureRecognizer:tapImage];
-            //??????????????????????????????
-            [viewImage addSubview:imgViewTop];
-            viewImgsH = viewImgsH+sizeImg.height;
-        }
-        viewImage.frame = CGRectMake(15, allowRet, Scr_Width - 30, viewImgsH);
-        _viewImageOy = viewImage.frame.origin.y;
-        [self.contentView addSubview:viewImage];
-        allowRet = allowRet + viewImage.frame.size.height + 60;
-    }
-    else{
-        viewImage = nil;
-        
-    }
-    //判断是否已经收藏试题
+    
+    //////试题解析
+    NSString *analysisString = dic[@"analysis"];
+    analysisString = [analysisString stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
+    analysisString = [NSString stringWithFormat:@"<font color='#8080c0' size = '2'>试题解析>></font><br/><font color='#8080c0' size = '3'>%@</font>",analysisString];
+    //webview加载的HTML
+    NSString *webString = [NSString stringWithFormat:@"<html><body><div id='conten' contenteditable='false' style='word-break:break-all;'>%@%@%@</div></body></html>",topicTitle,userDo,analysisString];
+    [_webViewTitle loadHTMLString:webString baseURL:nil];
+    
+       //判断是否已经收藏试题
     NSInteger collectId = [dic[@"collectId"] integerValue];
     //已收藏
     if (collectId>0) {
@@ -194,41 +115,7 @@
             [_buttonCollect setTitle:@"收藏" forState:UIControlStateNormal];
             _buttonCollectWidth.constant = 40;
         }
-        
     }
-    
-    
-    // 160 目前选项下面的内容
-    allowRet = allowRet+160+20;
-    //设置答题状态和解析数据
-    //正确答案
-//    _labTureAnswer.text = dic[@"answer"];
-    //用户答案
-//    _labUserAnswer.text = dic[@"userAnswer"];
-//    //作答状态
-    NSInteger levelTopic = [dic[@"level"] integerValue];
-    if (levelTopic == 0) {
-        _labAnswerStatus.text = @"未作答";
-    }
-    else if (levelTopic == 1){
-        _labAnswerStatus.text = @"答题正确";
-        _labAnswerStatus.textColor = [UIColor purpleColor];
-    }
-    else if (levelTopic == 2){
-        _labAnswerStatus.text = @"答题错误";
-    }
-    //试题解析
-    UILabel *labWebAna = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width - 40, 30)];
-    labWebAna.numberOfLines = 0;
-    labWebAna.text = dic[@"analysis"];
-    CGSize labWebAnaSize = [labWebAna sizeThatFits:CGSizeMake(labWebAna.bounds.size.width, MAXFLOAT)];
-    _webAnalysisHeight.constant = labWebAnaSize.height+ 30+50;
-    NSString *webString = [NSString stringWithFormat:@"<font color='#8080c0' size = '2'>试题解析>></font><br/><br/><font color='#8080c0' size = '3'>%@</font>",labWebAna.text];
-    [_webAnalysis loadHTMLString:webString baseURL:nil];
-    
-    allowRet = allowRet + _webAnalysisHeight.constant - 30;
-    return allowRet;
-    
 }
 //笔记按钮
 - (IBAction)buttonNoteClick:(UIButton *)sender {
@@ -264,7 +151,6 @@
         NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicCollect[@"code"] integerValue];
         if (codeId == 1) {
-            NSDictionary *dicDatas = dicCollect[@"datas"];
             _buttonCollect.backgroundColor = [UIColor orangeColor];
             [_buttonCollect setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             [_buttonCollect setTitle:@"已收藏" forState:UIControlStateNormal];
@@ -277,7 +163,7 @@
             ///////////////////////////////////
             
             
-            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            [SVProgressHUD showSuccessWithStatus:@"收藏成功！"];
             if (![_tyUser objectForKey:tyUserShowCollectAlert]) {
                 LXAlertView *collectAlert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"再次点击'已收藏'可取消收藏哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不再提示" clickIndexBlock:^(NSInteger clickIndex) {
                     if (clickIndex == 1) {
@@ -331,85 +217,82 @@
     
     
 }
-
-//图片点击手势，放大图片
--(void)showZoomImageView:(UITapGestureRecognizer *)tap{
-    if (![(UIImageView *)tap.view image]) {
-        return;
-    }
-    _selectTapView = (UIImageView *)tap.view;
-    //scrollView作为背景
-    UIScrollView *bgView = [[UIScrollView alloc] init];
-    bgView.frame = [UIScreen mainScreen].bounds;
-    bgView.backgroundColor = [UIColor blackColor];
-    UITapGestureRecognizer *tapBg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBgView:)];
-    UILongPressGestureRecognizer *tapmy = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longGestTap:)];
-    tapmy.minimumPressDuration = 1.0;
-    tapmy.numberOfTouchesRequired = 1;
-    [bgView addGestureRecognizer:tapmy];
-    [bgView addGestureRecognizer:tapBg];
-    UIImageView *picView = (UIImageView *)tap.view;
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = picView.image;
-    imageView.frame = [bgView convertRect:picView.frame fromView:self.contentView];
-    CGRect rectImg = imageView.frame;
-    rectImg.origin.y = rectImg.origin.y + _viewImageOy;
-    rectImg.origin.x = 15.0;
-    imageView.frame = rectImg;
-    [bgView addSubview:imageView];
-    [[[UIApplication sharedApplication] keyWindow] addSubview:bgView];
-    self.lastImageView = imageView;
-    self.originalFrame = imageView.frame;
-    self.scrollView = bgView;
-    //最大放大比例
-    self.scrollView.maximumZoomScale = 1.5;
-    self.scrollView.delegate = self;
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    NSInteger dicpaperId = [_dicTopic[@"parentId"] integerValue];
+    //这里是js，主要目的实现对url的获取
+    static  NSString * const jsGetImages =
+    @"function getImages(){\
+    var objs = document.getElementsByTagName(\"img\");\
+    var imgScr = '';\
+    for(var i=0;i<objs.length;i++){\
+    imgScr = imgScr + objs[i].src + '+';\
+    };\
+    return imgScr;\
+    };";
     
-    [UIView animateWithDuration:0.5 animations:^{
-        CGRect frame = imageView.frame;
-        frame.size.width = bgView.frame.size.width;
-        frame.size.height = frame.size.width * (imageView.image.size.height / imageView.image.size.width);
-        frame.origin.x = 0;
-        frame.origin.y = (bgView.frame.size.height - frame.size.height) * 0.5;
-        imageView.frame = frame;
-    }];
-    
-    if (![_tyUser objectForKey:tyUserShowSaveImgAlert]) {
-        LXAlertView *alertIms = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"长按图片可将图片保存到手机相册哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不在提醒" clickIndexBlock:^(NSInteger clickIndex) {
-            if (clickIndex == 1) {
-                [_tyUser setObject:@"yes" forKey:tyUserShowSaveImgAlert];
-            }
-        }];
-        alertIms.animationStyle = LXASAnimationLeftShake;
-        [alertIms showLXAlertView];
+    [webView stringByEvaluatingJavaScriptFromString:jsGetImages];//注入js方法
+    NSString *urlResurlt = [webView stringByEvaluatingJavaScriptFromString:@"getImages()"];
+    _arrayImgUrl = [NSMutableArray arrayWithArray:[urlResurlt componentsSeparatedByString:@"+"]];
+    if (_arrayImgUrl.count >= 2) {
+        [_arrayImgUrl removeLastObject];
     }
-}
-//再次点击图片
--(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer{
-    self.scrollView.contentOffset = CGPointZero;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.lastImageView.frame = self.originalFrame;
-        tapBgRecognizer.view.backgroundColor = [UIColor clearColor];
-    } completion:^(BOOL finished) {
-        [tapBgRecognizer.view removeFromSuperview];
-        self.scrollView = nil;
-        self.lastImageView = nil;
-    }];
-}
-//长按保存图片
-- (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
-    if (longTap.state == UIGestureRecognizerStateBegan) {
-        [_scrollView removeFromSuperview];
-        [self.delegateAnalysisCellClick imageSaveQtype1Test:_selectTapView.image];
+    //mUrlArray就是所有Url的数组
+    //添加图片可点击js
+    [webView stringByEvaluatingJavaScriptFromString:@"function registerImageClickAction(){\
+     var imgs=document.getElementsByTagName('img');\
+     var length=imgs.length;\
+     for(var i=0;i<length;i++){\
+     img=imgs[i];\
+     img.onclick=function(){\
+     window.location.href='image-preview:'+this.src}\
+     }\
+     }"];
+    [webView stringByEvaluatingJavaScriptFromString:@"registerImageClickAction();"];
+    NSString *imgS = [NSString stringWithFormat:@"var script = document.createElement('script');"
+                      "script.type = 'text/javascript';"
+                      "script.text = \"function ResizeImages() { "
+                      "var myimg,oldwidth,oldheight;"
+                      "var maxwidth=%f;"// 图片宽度(屏宽)
+                      "for(i=0;i <document.images.length;i++){"
+                      "myimg = document.images[i];"
+                      //判断webview上的图片是否超过屏宽，进行适配
+                      "if(myimg.width > maxwidth){"
+                      "myimg.width = maxwidth - 50;"
+                      "}"
+                      "}"
+                      "}\";"
+                      "document.getElementsByTagName('head')[0].appendChild(script);",Scr_Width];
+    [webView stringByEvaluatingJavaScriptFromString:imgS];
+    [webView stringByEvaluatingJavaScriptFromString:@"ResizeImages();"];
+    CGFloat documentHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"conten\").offsetHeight;"] floatValue];
+    CGFloat cellHeightL = _webViewTitle.frame.origin.y + documentHeight;
+    NSLog(@"cellHeightL == %f",cellHeightL);
+    ////////////////////////////////////////////////////////////
+    //获取页面高度（像素）
+    NSString * clientheight_str = [webView stringByEvaluatingJavaScriptFromString: @"document.body.offsetHeight"];
+    float clientheight = [clientheight_str floatValue];
+    //获取WebView最佳尺寸（点）
+    CGSize frame = [webView sizeThatFits:webView.frame.size];
+    //获取内容实际高度（像素）
+    NSString * height_str= [webView stringByEvaluatingJavaScriptFromString: @"document.getElementById('conten').offsetHeight + parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('margin-top'))  + parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('margin-bottom'))"];
+    float height = [height_str floatValue];
+    //内容实际高度（像素）* 点和像素的比
+    height = height * frame.height / clientheight;
+    _webTitleHeight.constant = height;
+    if (dicpaperId == 0) {
+        if (_isWebFirstLoading) {
+            //非小题试题二次刷新
+            [self.delegateAnalysisCellClick isWebLoadingCellHeight:cellHeightL + 123 withButtonOy:cellHeightL];
+        }
     }
+    else{
+        //小题试题二次刷新
+        if (![_arrayFirstLoading containsObject:[NSString stringWithFormat:@"%ld",_indexTopic]]) {
+            [self.delegateAnalysisCellClick isWebLoadingCellHeight:cellHeightL +123 withButtonOy:cellHeightL withIndex:_indexTopic];
+        }
+    }
+
 }
-//返回可缩放的视图
--(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
-    return self.lastImageView;
-}
-
-
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }

@@ -190,7 +190,7 @@
         cell5.buttonOy = _buttonOy;
 
         cell5.delegateAnalysisCellClick = self;
-        _cellHeight = [cell5 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+        [cell5 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell5;
 
     }
@@ -256,7 +256,7 @@
                 }
 
                 cell5.selectionStyle = UITableViewCellSelectionStyleNone;
-                _cellSubHeight = [cell5 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
+                [cell5 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
                 return cell5;
             }
         }
@@ -275,9 +275,6 @@
     _cellWebLoadingheight = cellHeight;
     _isWebFirstLoading = NO;
     [_tableViewPater reloadData];
-    [_tableViewPater reloadData];
-//    _buttonOy = buttonOy;
-    
 }
 //一题多问下的小题二次刷新
 - (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy withIndex:(NSInteger)index{

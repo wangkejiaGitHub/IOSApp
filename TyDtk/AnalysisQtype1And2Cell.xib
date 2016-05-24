@@ -70,7 +70,7 @@
                         </constraints>
                     </webView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="K2T-gk-YJE">
-                        <rect key="frame" x="20" y="85" width="60" height="23"/>
+                        <rect key="frame" x="20" y="75" width="60" height="23"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="23" id="EXi-5X-Fkr"/>
                             <constraint firstAttribute="width" constant="60" id="kdt-kr-5Wq"/>
@@ -85,7 +85,7 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DqU-Ha-UTl">
-                        <rect key="frame" x="367" y="85" width="60" height="23"/>
+                        <rect key="frame" x="367" y="75" width="60" height="23"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="60" id="Z6M-Xj-Se8"/>
                             <constraint firstAttribute="height" constant="23" id="jPo-ms-mD3"/>
@@ -105,7 +105,7 @@
                     <constraint firstItem="acg-N2-H8L" firstAttribute="bottom" secondItem="y21-DR-bCd" secondAttribute="bottom" id="9bu-gf-Afn"/>
                     <constraint firstItem="y21-DR-bCd" firstAttribute="top" secondItem="h7p-L7-FWe" secondAttribute="top" constant="15" id="C0O-zj-rax"/>
                     <constraint firstItem="VCj-ud-OJr" firstAttribute="leading" secondItem="OIB-4n-Kcz" secondAttribute="trailing" constant="2" id="FFa-2Z-UhO"/>
-                    <constraint firstItem="K2T-gk-YJE" firstAttribute="top" secondItem="wTZ-gj-7c2" secondAttribute="bottom" constant="20" id="Jx4-9m-cuJ"/>
+                    <constraint firstItem="K2T-gk-YJE" firstAttribute="top" secondItem="wTZ-gj-7c2" secondAttribute="bottom" constant="10" id="Jx4-9m-cuJ"/>
                     <constraint firstItem="DqU-Ha-UTl" firstAttribute="top" secondItem="K2T-gk-YJE" secondAttribute="top" id="MjU-R9-MLX"/>
                     <constraint firstAttribute="trailing" secondItem="wTZ-gj-7c2" secondAttribute="trailing" constant="20" id="PDC-rP-AVV"/>
                     <constraint firstItem="acg-N2-H8L" firstAttribute="leading" secondItem="y21-DR-bCd" secondAttribute="trailing" id="SAp-rc-Ycb"/>
