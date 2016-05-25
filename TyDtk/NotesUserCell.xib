@@ -96,6 +96,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="dtk" width="80" height="80"/>
+        <image name="dtk" width="211" height="202"/>
     </resources>
 </document>

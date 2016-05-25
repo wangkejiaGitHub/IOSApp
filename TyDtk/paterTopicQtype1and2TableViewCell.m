@@ -43,11 +43,6 @@
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     _indexTopic = index;
     _dicTopic = dic;
-    NSLog(@"%@",dic);
-    if (index == 19) {
-        NSLog(@"11");
-    }
-    
     //判断视图是否有图片
     NSInteger qtypeTopic = [dic[@"qtype"] integerValue];
     NSString *topicTitle = dic[@"title"];
@@ -182,12 +177,12 @@
     //判断是否是最一题，给用户提示
     if (_isLastTopic) {
         UIButton *btnLastTopic =[UIButton buttonWithType:UIButtonTypeCustom];
-        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 110 + 25, 100, 23);
+        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 110 + 30, 100, 23);
         btnLastTopic.tag = 2222;
         btnLastTopic.backgroundColor =ColorWithRGB(200, 200, 200);
         btnLastTopic.layer.masksToBounds = YES;
         btnLastTopic.layer.cornerRadius = 2;
-        btnLastTopic.titleLabel.font = [UIFont systemFontOfSize:15.0];
+        btnLastTopic.titleLabel.font = [UIFont systemFontOfSize:12.0];
         [btnLastTopic setTitle:@"已是最后一题了" forState:UIControlStateNormal];
         [btnLastTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
         [self.contentView addSubview:btnLastTopic];
@@ -342,7 +337,6 @@
     else{
         [self cancelCollectTopic];
     }
-    NSLog(@"%@",_dicTopic);
 }
 /**
  收藏试题
@@ -470,7 +464,6 @@
     CGFloat documentHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"conten\").offsetHeight;"] floatValue];
     webView.frame = CGRectMake(15, 50, Scr_Width - 30, documentHeight + 20);
     CGFloat cellHeightL = _webViewTitle.frame.origin.y + documentHeight;
-    NSLog(@"cellHeightL == %f",cellHeightL);
     NSInteger dicpaperId = [_dicTopic[@"parentId"] integerValue];
     ////////////////////////////////////////////////////////////
     //获取页面高度（像素）
@@ -494,7 +487,7 @@
     if (dicpaperId == 0) {
         if (_isWebFirstLoading) {
             //非小题试题二次刷新
-            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL + 150 withButtonOy:cellHeightL];
+            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL + 160 withButtonOy:cellHeightL];
         }
     }
     else{

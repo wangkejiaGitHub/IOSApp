@@ -41,9 +41,6 @@
     _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapTextRfr)];
     [self.view addGestureRecognizer:_tapGestView];
 }
-//- (void)viewDidAppear:(BOOL)animated{
-//    [_textEmail becomeFirstResponder];
-//}
 - (void)viewWillDisappear:(BOOL)animated{
     [self viewTapTextRfr];
     [_tapGestView removeTarget:self action:@selector(viewTapTextRfr)];
@@ -84,10 +81,7 @@
     [SVProgressHUD showWithStatus:@"请稍后..."];
     NSString *urlString = [NSString stringWithFormat:@"%@register/email/json",systemHttpsTyUser];
     NSDictionary *dicUserInfo = @{@"fromSystem":@"902",@"email":_textEmail.text,@"password":_textPwd.text,@"captcha":_textYzm.text};
-    NSLog(@"%@",dicUserInfo);
     [HttpTools postHttpRequestURL:urlString RequestPram:dicUserInfo RequestSuccess:^(id respoes) {
-        //        NSDictionary *dicRegiste = [NSJSONSerialization JSONObjectWithData:respoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",respoes);
         NSDictionary *dicRe = (NSDictionary *)respoes;
         NSInteger codeId = [dicRe[@"code"] integerValue];
         if (codeId == 1) {
@@ -130,15 +124,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

@@ -275,7 +275,6 @@
     [webView stringByEvaluatingJavaScriptFromString:@"ResizeImages();"];
     CGFloat documentHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"conten\").offsetHeight;"] floatValue];
     CGFloat cellHeightL = _webViewTitle.frame.origin.y + documentHeight;
-    NSLog(@"cellHeightL == %f",cellHeightL);
     ////////////////////////////////////////////////////////////
     //获取页面高度（像素）
     NSString * clientheight_str = [webView stringByEvaluatingJavaScriptFromString: @"document.body.offsetHeight"];

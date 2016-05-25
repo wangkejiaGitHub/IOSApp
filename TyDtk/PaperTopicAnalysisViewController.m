@@ -107,14 +107,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_qType == 6) {
         if (indexPath.row == 0) {
-            //            if (_cellWebLoadingheight != 0) {
-            //                return _cellWebLoadingheight;
-            //            }
             return _cellWebLoadingheight;
-            
         }
         else{
-            NSLog(@"%ld",indexPath.row);
             if ([_dicSubHeight.allKeys containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]]) {
                 return [[_dicSubHeight valueForKey:[NSString stringWithFormat:@"%ld",indexPath.row]] floatValue];
             }

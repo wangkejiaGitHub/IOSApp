@@ -399,7 +399,6 @@
     NSString *answerString = _textViewAnswer.text;
     //    [_dicSelectDone setValue:answerString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
     NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:answerString};
-    NSLog(@"%@",dicTest);
     [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
     
     //////////////////////////////////////

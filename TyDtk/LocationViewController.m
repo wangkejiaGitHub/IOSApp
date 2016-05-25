@@ -209,7 +209,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSArray *array = _dicFirstProvniceFirstLetter[_arrayProvniceFirstLetter[indexPath.section]];
     NSString *provniceName = array[indexPath.row];
-//    NSString *provniceId = [_dicPronice valueForKey:provniceName];
     [_locationDelegate againLocationClick:provniceName];
     [self.navigationController popViewControllerAnimated:YES];
 }

@@ -51,6 +51,5 @@
 }
 - (void)tapGestClick:(UITapGestureRecognizer *)tapGest{
     [self.delegateNullData nullDataTapGestClick];
-    NSLog(@"viewNullData");
 }
 @end

@@ -553,6 +553,10 @@ UITableViewDataSource
         _tableView.tableFooterView = [[UIView alloc] init];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         _tableView.separatorColor = self.cellSeparatorColor;
+        //0525修改者：王可佳
+        _tableView.showsVerticalScrollIndicator = NO;
+        //0525修改者：王可佳
+        _tableView.showsHorizontalScrollIndicator = NO;
     }
     
     return _tableView;

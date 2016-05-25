@@ -39,10 +39,6 @@
     _webViewTitle.delegate = self;
 }
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-    if (index == 31) {
-        NSLog(@"fsf");
-    }
-    NSLog(@"topicIndex = %ld",index);
     NSString *topicTitle = dic[@"title"];
     topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
     NSString *htmlString = [NSString stringWithFormat:@"<html><body><div style='word-break:break-all;' id='content' contenteditable='false' >%@</div></body></html>",topicTitle];

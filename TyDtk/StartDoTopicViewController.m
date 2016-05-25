@@ -66,7 +66,8 @@
     }
     //每周精选
     else if (self.paperParameter == 3){
-        self.title = @"每周精选试题";
+         self.navigationItem.titleView = nil;
+        self.title = @"每周精选";
         [_buttonSubPater setTitle:@"结束答题" forState:UIControlStateNormal];
         [self getWeekPaperData];
     }
@@ -91,7 +92,6 @@
 
 }
 - (void)viewDidDisappear:(BOOL)animated{
-    NSLog(@"fsf");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     _timeLong = nil;
@@ -131,28 +131,9 @@
     NSInteger paterId = [_dicPater[@"Id"] integerValue];
    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
     
-//    //章节练习试题
-//    if (self.paperParameter == 1) {
-//        
-//    }
-//    //模拟试卷试题
-//    else if (self.paperParameter == 2){
-//        
-//    }
-//    //每周精选试题
-//    else if (self.paperParameter == 3){
-//        //api/Weekly/GetWeeklyQuestions?access_token={access_token}&rid={rid}
-////        urlString = [NSString stringWithFormat:@"%@api/Weekly/GetWeeklyQuestions?access_token=%@&rid=%@"];
-//    }
-//    //智能出题试题
-//    else if (self.paperParameter == 4){
-//        
-//    }
-    
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
-        NSLog(@"%ld == %@",paterId,_accessToken);
         _scrollContentWidth = 0;
         for (NSDictionary *dicNum in _arrayPaterData) {
             NSArray *arrayDic = dicNum[@"Questions"];
@@ -212,7 +193,6 @@
             //判断小时是否为0
             if (_timeHo == 0) {
                 //倒计时结束
-                NSLog(@"倒计时结束");
                 _timeLong.fireDate = [NSDate distantFuture];
             }
             else{
@@ -338,11 +318,11 @@
             for (id subView in _viewNaviHeardView.subviews) {
                 [subView removeFromSuperview];
             }
-            UILabel *labTitle =[[UILabel alloc]initWithFrame:CGRectMake((_viewNaviHeardView.frame.size.width-100)/2,(_viewNaviHeardView.frame.size.height-20)/2, 100, 20)];
-            labTitle.text = @"每周精选试题";
-            labTitle.textAlignment = NSTextAlignmentCenter;
-            labTitle.font = [UIFont systemFontOfSize:16.0];
-            [_viewNaviHeardView addSubview:labTitle];
+//            UILabel *labTitle =[[UILabel alloc]initWithFrame:CGRectMake((_viewNaviHeardView.frame.size.width-100)/2,(_viewNaviHeardView.frame.size.height-20)/2, 100, 20)];
+//            labTitle.text = @"每周精选";
+//            labTitle.textAlignment = NSTextAlignmentCenter;
+//            labTitle.font = [UIFont systemFontOfSize:16.0];
+//            [_viewNaviHeardView addSubview:labTitle];
 
             _buttonRight.userInteractionEnabled = YES;
             //////////////////////////////////////////
@@ -360,7 +340,6 @@
             
             [SVProgressHUD showInfoWithStatus:dicWeekPaper[@"errmsg"]];
         }
-        NSLog(@"%@",dicWeekPaper);
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD showInfoWithStatus:@"请求异常"];
     }];
@@ -383,7 +362,6 @@
             NSString *rId = dicDatas[@"rid"];
             [self performSegueWithIdentifier:@"topicAnalysis" sender:rId];
         }
-        NSLog(@"%@",dicWeekR);
     } RequestFaile:^(NSError *erro) {
         [SVProgressHUD showInfoWithStatus:@"操作异常!"];
     }];

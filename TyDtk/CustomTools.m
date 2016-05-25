@@ -31,7 +31,7 @@
      NSArray *arrayDic = [dicUserPar allKeys];
     //所有key按照字母排序后的数组
      NSArray *arrayCompare = [arrayDic sortedArrayUsingSelector:@selector(compare:)];
-    //新建签名字符串我空，以便追加
+    //新建签名字符串为空，以便追加
     NSString *signatureEver = @"";
     for (int i = 0; i<arrayCompare.count; i++) {
         //按照排序后的key对应value的顺序进行追加签名

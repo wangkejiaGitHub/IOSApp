@@ -80,7 +80,6 @@
     if (_qType == 6) {
         _arraySubQuestion = _dicTopic[@"subQuestion"];
     }
-    NSLog(@"fsfsfaf");
     _cellHeight = 130;
     _cellSubHeight = 50;
     _dicUserAnswer = [NSMutableDictionary dictionary];
@@ -142,7 +141,6 @@
             
         }
         else{
-            NSLog(@"%ld",indexPath.row);
             if ([_dicSubHeight.allKeys containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]]) {
                 return [[_dicSubHeight valueForKey:[NSString stringWithFormat:@"%ld",indexPath.row]] floatValue];
             }

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D0327AD1CE014E600F33072 /* CollectTopic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0327AC1CE014E600F33072 /* CollectTopic.m */; };
 		1D0327B61CE03D3000F33072 /* NotesDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0327B51CE03D3000F33072 /* NotesDataViewController.m */; };
 		1D03B2921CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D03B2911CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m */; };
 		1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */; };
@@ -180,8 +179,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1D0327AB1CE014E600F33072 /* CollectTopic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectTopic.h; sourceTree = "<group>"; };
-		1D0327AC1CE014E600F33072 /* CollectTopic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectTopic.m; sourceTree = "<group>"; };
 		1D0327B41CE03D3000F33072 /* NotesDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesDataViewController.h; sourceTree = "<group>"; };
 		1D0327B51CE03D3000F33072 /* NotesDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesDataViewController.m; sourceTree = "<group>"; };
 		1D03B2901CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype6TableViewCell.h; sourceTree = "<group>"; };
@@ -518,8 +515,6 @@
 				1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */,
 				1D122B961CDD8F7300A0BA08 /* TopicAnalysisCardView.h */,
 				1D122B971CDD8F7300A0BA08 /* TopicAnalysisCardView.m */,
-				1D0327AB1CE014E600F33072 /* CollectTopic.h */,
-				1D0327AC1CE014E600F33072 /* CollectTopic.m */,
 			);
 			name = CustomTools;
 			sourceTree = "<group>";
@@ -625,7 +620,8 @@
 				1D579EEB1CE9668100578519 /* ZFLineChart */,
 				1D579EF21CE9668100578519 /* ZFPieChart */,
 			);
-			path = ZFChart;
+			name = ZFChart;
+			path = ../TyDtk/ZFChart;
 			sourceTree = "<group>";
 		};
 		1D579ED21CE9668100578519 /* Category */ = {
@@ -831,7 +827,8 @@
 				1DC9B9061CE46A9E00A2E9A8 /* ZFPopupOverlayView.h */,
 				1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */,
 			);
-			path = ZFPopupMenu;
+			name = ZFPopupMenu;
+			path = ../TyDtk/ZFPopupMenu;
 			sourceTree = "<group>";
 		};
 		1DD2E6F61CB5F1C800423484 /* XibForTk */ = {
@@ -1006,9 +1003,9 @@
 		1DEDC80A1C9F85BD0083B394 /* TyDtk */ = {
 			isa = PBXGroup;
 			children = (
-				1DF27B521CDB3BA500F35BB1 /* TyProgramMain */,
 				1DEDC8091C9F85AF0083B394 /* TyUser */,
 				1DF27B511CDB3B1C00F35BB1 /* TyLocation */,
+				1DF27B521CDB3BA500F35BB1 /* TyProgramMain */,
 				1D064E431CBB69E2007BD4E4 /* TyDtkTestCenter */,
 			);
 			name = TyDtk;
@@ -1031,6 +1028,8 @@
 		1DEDC8331C9FA2920083B394 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				1D579ED11CE9668100578519 /* ZFChart */,
+				1DC9B9011CE46A9E00A2E9A8 /* ZFPopupMenu */,
 				1D1136FF1CF3FD8C0092DF02 /* DTKDropdownMenu */,
 				1DF950641CA3BFC500104597 /* SVProgressHUD */,
 				1D1CD8881CD2EE4800A80E88 /* LXAlertView */,
@@ -1086,8 +1085,6 @@
 		1DEDC8681C9FA6460083B394 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				1DC9B9011CE46A9E00A2E9A8 /* ZFPopupMenu */,
-				1D579ED11CE9668100578519 /* ZFChart */,
 				1D0327AE1CE015B000F33072 /* CustomTools */,
 				1DEFF1DE1CA0E5D800994E2C /* ChineseToPinyin.h */,
 				1DEFF1DF1CA0E5D800994E2C /* ChineseToPinyin.m */,
@@ -1432,7 +1429,6 @@
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
 				1D122BA71CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m in Sources */,
 				1D11372D1CF42D5B0092DF02 /* IntelligentTopicViewController.m in Sources */,
-				1D0327AD1CE014E600F33072 /* CollectTopic.m in Sources */,
 				1D579F001CE9668100578519 /* ZFCirque.m in Sources */,
 				1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */,
 				1D1137261CF3FD8C0092DF02 /* NSArray+MASAdditions.m in Sources */,

@@ -8,22 +8,28 @@
 
 #import "IntelligentTopicViewController.h"
 
-@interface IntelligentTopicViewController ()<UITableViewDataSource,UITableViewDelegate>
-//0.613
+@interface IntelligentTopicViewController ()<UITableViewDataSource,UITableViewDelegate,CustomToolDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewIn;
 @property (nonatomic,assign) CGFloat viewCellWidth;
 @property (nonatomic,strong) NSMutableArray *arraySelectView;
-
+//授权工具
+@property (nonatomic,strong) CustomTools *customTools;
+//本地信息存储
+@property (nonatomic,strong) NSUserDefaults *tyUser;
+//令牌
+@property (nonatomic,strong) NSString *accessToken;
+@property (nonatomic,strong) UIButton *btnStartTopic;
 @end
-
 @implementation IntelligentTopicViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _btnStartTopic = [UIButton buttonWithType:UIButtonTypeCustom];
+    _btnStartTopic.userInteractionEnabled = NO;
+    self.title = @"智能出题";
     _arraySelectView = [NSMutableArray array];
     _viewCellWidth = (Scr_Width-10-10-15-15)/3;
-    // Do any additional setup after loading the view.
     _tableViewIn.separatorStyle = UITableViewCellSeparatorStyleNone;
     UIView *viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 0.613*Scr_Width)];
     viewHeader.backgroundColor = [UIColor clearColor];
@@ -32,7 +38,27 @@
     [viewHeader addSubview:imageV];
     _tableViewIn.tableHeaderView = viewHeader;
     _tableViewIn.tableFooterView = [UIView new];
-//    [self addViewSelectItem];
+    [self getAccessToken];
+}
+///授权
+- (void)getAccessToken{
+    _customTools = [[CustomTools alloc]init];
+    _customTools.delegateTool = self;
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    //获取储存的专业信息
+    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
+    NSDictionary *dicCurrClass = [_tyUser objectForKey:tyUserClass];
+    NSString *classId = [NSString stringWithFormat:@"%@",dicCurrClass[@"Id"]];
+    NSString *subjectId = [NSString stringWithFormat:@"%@",_dicSubject[@"Id"]];
+    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:subjectId];
+}
+- (void)httpSussessReturnClick{
+    _btnStartTopic.userInteractionEnabled = YES;
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    NSLog(@"授权成功！");
+}
+-(void)httpErrorReturnClick{
+    NSLog(@"授权失败！");
 }
 - (void)addViewSelectItem{
     ///试图之间的间隔
@@ -49,13 +75,12 @@
         viewS.layer.borderColor = [[UIColor lightGrayColor]CGColor];
         [cccccc addSubview:viewS];
     }
-//    _tableViewIn.tableHeaderView = cccccc;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100 + _viewCellWidth + 100 + 100;
+    return 270 + _viewCellWidth + 180;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
@@ -68,10 +93,15 @@
             }
         }
     }
+    UIImageView *imageV = (UIImageView *)[cell.contentView viewWithTag:10];
+    UIImage *image = [[UIImage imageNamed:@"sayD"] resizableImageWithCapInsets:UIEdgeInsetsMake(30, 30, 30, 30)];
+    imageV.image = image;
+    UILabel *labTitle = (UILabel *)[cell.contentView viewWithTag:11];
+    labTitle.adjustsFontSizeToFitWidth = YES;
     //间隔
     CGFloat spea = 15;
     for (int i = 0; i<3; i ++) {
-        UIView *viewSele = [[UIView alloc]initWithFrame:CGRectMake(10+(_viewCellWidth+spea)*i, 100, _viewCellWidth, _viewCellWidth)];
+        UIView *viewSele = [[UIView alloc]initWithFrame:CGRectMake(10+(_viewCellWidth+spea)*i, 275, _viewCellWidth, _viewCellWidth)];
         viewSele.backgroundColor = [UIColor whiteColor];
         viewSele.tag = 111 + i;
         viewSele.layer.borderWidth = 1;
@@ -99,28 +129,30 @@
         [viewSele addSubview:labText];
         [viewSele addSubview:imag];
     }
-    UILabel *labAlert = [[UILabel alloc]initWithFrame:CGRectMake(20, 110 + _viewCellWidth + 10, Scr_Width - 40, 60)];
+    UILabel *labAlert = [[UILabel alloc]initWithFrame:CGRectMake(20, 280 + _viewCellWidth + 15, Scr_Width - 40, 60)];
     labAlert.tag = 1000;
     labAlert.numberOfLines = 0;
     labAlert.textColor = [UIColor lightGrayColor];
-    labAlert.font = [UIFont systemFontOfSize:15.0];
-    //    labAlert.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    //    labAlert.layer.masksToBounds = YES;
-    //    labAlert.layer.cornerRadius = 3;
+    labAlert.font = [UIFont systemFontOfSize:14.0];
+    // labAlert.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    // labAlert.layer.masksToBounds = YES;
+    // labAlert.layer.cornerRadius = 3;
     labAlert.text = @"按照你收藏夹里的收藏的经典试题，来进行自由组卷，让你能更好的掌握考试的知识点。";
     [cell.contentView addSubview:labAlert];
     
-    UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDoTopic.frame = CGRectMake(50, labAlert.frame.origin.y + 70, Scr_Width - 100, 40);
-    btnDoTopic.layer.masksToBounds = YES;
-    btnDoTopic.layer.cornerRadius = 5;
-    btnDoTopic.tag = 1111;
-    btnDoTopic.backgroundColor = [UIColor orangeColor];
-    [btnDoTopic setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btnDoTopic setTitle:@"开始做题" forState:UIControlStateNormal];
-    [cell.contentView addSubview:btnDoTopic];
+//    UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
+    _btnStartTopic.frame = CGRectMake(30, labAlert.frame.origin.y + 70, Scr_Width - 60, 40);
+    _btnStartTopic.layer.masksToBounds = YES;
+    _btnStartTopic.layer.cornerRadius = 5;
+    _btnStartTopic.tag = 1111;
+    _btnStartTopic.backgroundColor = [UIColor orangeColor];
+    [_btnStartTopic setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_btnStartTopic setTitle:@"开始做题" forState:UIControlStateNormal];
+    [_btnStartTopic addTarget:self action:@selector(buttonStartTopic:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.contentView addSubview:_btnStartTopic];
     return cell;
 }
+//试图手势
 - (void)viewTapClick:(UITapGestureRecognizer *)tapGest{
     CGRect rectView = tapGest.view.frame;
     NSString *tagString = [NSString stringWithFormat:@"%ld",tapGest.view.tag];
@@ -143,21 +175,25 @@
             tapGest.view.frame = rectView;
         }];
     }
-    
 }
+//开始做题按钮
+- (void)buttonStartTopic:(UIButton *)sender{
+    NSLog(@"buttonStartTopic");
+    [SVProgressHUD showInfoWithStatus:@"暂未开放，我们正在努力~"];
+//    [self getRidMakeTopic];
+}
+///开始做题，获取rid
+//- (void)getRidMakeTopic{
+//    //api/Smart/MakeSmartQuestions?access_token={access_token}
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Smart/MakeSmartQuestions?access_token=%@",systemHttps,_accessToken];
+//    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+//        NSDictionary *dicTopic = (NSDictionary *)respoes;
+//    } RequestFaile:^(NSError *erro) {
+//        
+//    }];
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

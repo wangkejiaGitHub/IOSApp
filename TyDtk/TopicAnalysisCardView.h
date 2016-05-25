@@ -15,5 +15,9 @@
 //所有类型试题数组（单选，多选，一题多问等）
 @property (nonatomic,strong) NSArray *arrayTopic;
 @property (nonatomic,assign) id <TopicAnalysisCardDelegate> delegateCellClick;
-- (id)initWithFrame:(CGRect)frame arrayTopic:(NSArray *)arrayTopic;
+/**
+ 重写实例化方法
+ parameter（1章节练习，2模拟试卷，3每周精选，4智能出题）等
+ */
+- (id)initWithFrame:(CGRect)frame arrayTopic:(NSArray *)arrayTopic paperParameter:(NSInteger)parameter;
 @end

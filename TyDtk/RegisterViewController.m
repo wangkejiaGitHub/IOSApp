@@ -32,13 +32,6 @@
     _viewLine = [[UIView alloc]initWithFrame:CGRectMake(0, 64+48, (Scr_Width/2), 2)];
     _viewLine.backgroundColor = [UIColor redColor];
     [self.view addSubview:_viewLine];
-    
-//    UIViewController *viewC = [self.storyboard instantiateViewControllerWithIdentifier:@"TestViewController"];
-//    [self addChildViewController:viewC];
-//    
-//    TestViewController *tTest= self.childViewControllers[0];
-//    tTest.view.frame = CGRectMake(0, (64+50), Scr_Width, Scr_Height - (64+50));
-//    [self.view addSubview:tTest.view];
     [self addRegistChildViewControllerForSelf];
     
 }

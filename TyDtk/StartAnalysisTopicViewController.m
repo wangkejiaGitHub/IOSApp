@@ -40,7 +40,7 @@
 @property (nonatomic,assign) NSInteger intRightTopic;
 //正确率
 @property (nonatomic,assign) NSInteger intAccuracy;
-//总的得分
+//总的得分（只有模拟试卷有得分）
 @property (nonatomic,assign) NSInteger intScore;
 //用于展示试卷分析数据的view（总题，错题，对题，正确率等概要）
 @property (nonatomic,strong) UIView *viewAnalysis;
@@ -55,7 +55,6 @@
     _intWrongTopic = 0;
     _intDoTopic = 0;
     _intAccuracy = 0;
-    _intScore = 0;
     _scrollViewPater = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, Scr_Height - 45 - 64)];
     _scrollViewPater.delegate = self;
     _scrollViewPater.pagingEnabled = YES;
@@ -64,15 +63,11 @@
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _buttonRight.userInteractionEnabled = NO;
     [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
+    _buttonAnalysis.userInteractionEnabled = NO;
     _buttonAnalysis.layer.masksToBounds = YES;
     _buttonAnalysis.layer.cornerRadius = 5;
     _buttonAnalysis.backgroundColor = ColorWithRGB(200, 200, 200);
-    if (_paperAnalysisParameter == 2) {
-        [self getTopicAnalysisPaper];
-    }
-    else if (_paperAnalysisParameter == 3){
-        
-    }
+    [self getTopicAnalysisPaper];
     
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -109,44 +104,68 @@
     CGRect rect = self.view.frame;
     self.navigationController.view.frame = rect;
 }
-/////////////////////模拟试卷试题分析//////////////////////////////
-/////////////////////模拟试卷试题分析//////////////////////////////
+/////////////////////试卷试题分析（公共）//////////////////////////////
+/////////////////////试卷试题分析（公共）//////////////////////////////
 /**
- 获取试卷试题分析
+ 获取试卷试题分析(章节练习，模拟试卷，每周精选，智能做题)
  */
 - (void)getTopicAnalysisPaper{
     [SVProgressHUD showWithStatus:@"正在获取试题分析..."];
+    ///模拟试卷模块的解析试题
     NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
+    if (_paperAnalysisParameter != 2) {
+        ///章节考点、每周精选、智能出题等板块的解析试题
+        urlString = [NSString stringWithFormat:@"%@api/Resolve/IOSGetResolveQuestions?access_token=%@&rid=%@",systemHttps,_accessToken,_rId];
+    }
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        _arrayPaterAnalysisData = dicAnalysis[@"datas"];
-        _scrollContentWidth = 0;
-        for (NSDictionary *dicNum in _arrayPaterAnalysisData) {
-            NSArray *arrayDic = dicNum[@"Questions"];
-            _scrollContentWidth = _scrollContentWidth + arrayDic.count;
+        NSInteger codeId = [dicAnalysis[@"code"] integerValue];
+        if (codeId == 1) {
+            _arrayPaterAnalysisData = dicAnalysis[@"datas"];
+            _scrollContentWidth = 0;
+            ///模拟试卷模块
+            if (_paperAnalysisParameter == 2) {
+                for (NSDictionary *dicNum in _arrayPaterAnalysisData) {
+                    NSArray *arrayDic = dicNum[@"Questions"];
+                    _scrollContentWidth = _scrollContentWidth + arrayDic.count;
+                }
+            }
+            else if (_paperAnalysisParameter == 3){
+                _scrollContentWidth = _arrayPaterAnalysisData.count;
+            }
+            _intTpoicCount = _scrollContentWidth;
+            //设置scrollView的容量
+            _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
+            
+            [self addChildViewWithTopicForSelf];
+            _buttonRight.userInteractionEnabled = YES;
+            [self addAnalysisTpoicCard];
+            if (_paperAnalysisParameter == 2) {
+                [self getSimulatePaperAnalysisReportInfo];
+            }
+            else if (_paperAnalysisParameter == 3){
+                [self getWeekPaperAnalysisReportInfo];
+            }
+            _buttonAnalysis.userInteractionEnabled = YES;
+            [SVProgressHUD dismiss];
         }
-        _intTpoicCount = _scrollContentWidth;
-        //设置scrollView的容量
-        _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
+        else{
+            [SVProgressHUD showInfoWithStatus:dicAnalysis[@"errmsg"]];
+        }
         
-        [self addChildViewWithTopicForSelf];
-        _buttonRight.userInteractionEnabled = YES;
-        [self addAnalysisTpoicCard];
-        [self getAnalysisReportInfo];
-        [SVProgressHUD dismiss];
-        
-        NSLog(@"%@",dicAnalysis);
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"请求异常！"];
     }];
 }
-
+/////////////////////试卷试题分析（公共）//////////////////////////////
+/////////////////////试卷试题分析（公共）//////////////////////////////
 ///////////2016-05-13进度记录 /////试题分析报告
+
+/////////////////////模拟试卷模块分析报告//////////////////////////////
 /**
- 获取试卷分析报告
+ 获取模拟试卷模块分析报告
  */
-- (void)getAnalysisReportInfo{
-    //api/Paper/LookReportInfo?access_token={access_token}&rid={rid}
+- (void)getSimulatePaperAnalysisReportInfo{
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/LookReportInfo?access_token=%@&rid=%@",systemHttps,_accessToken,_rId];
     [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
         NSDictionary *dicReport = (NSDictionary *)respoes;
@@ -158,16 +177,35 @@
             _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
             _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
             _intScore = [dicDatas[@"Score"] integerValue];
-            
             [self addViewAnalysisForAnalysis];
         }
-        NSLog(@"%@",dicReport);
     } RequestFaile:^(NSError *erro) {
         
     }];
 }
-/////////////////////模拟试卷试题分析//////////////////////////////
-/////////////////////模拟试卷试题分析//////////////////////////////
+/////////////////////模拟试卷模块分析报告//////////////////////////////
+//05-25 0.5记录
+/////////////////////每周精选模块分析报告//////////////////////////////
+- (void)getWeekPaperAnalysisReportInfo{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/GetWeeklyReport?access_token=%@&rid=%@",systemHttps,_accessToken,_rId];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicAnalysis[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicAnalysis[@"datas"];
+            _intDoTopic = [dicDatas[@"DoneNum"] integerValue];
+            _intRightTopic = [dicDatas[@"RightNum"] integerValue];
+            _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
+            _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
+            [self addViewAnalysisForAnalysis];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+    
+}
+/////////////////////每周精选模块分析报告//////////////////////////////
+
 /**
 添加数据分析报告试图
  */
@@ -193,7 +231,7 @@
     ZFPieChart *pieChartAnalysis = [[ZFPieChart alloc]initWithFrame:CGRectMake(Scr_Width/2, 70, Scr_Width/2, _viewAnalysis.frame.size.height - 233)];
 //    pieChartAnalysis.title = @"试题分析";
     pieChartAnalysis.valueArray = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%ld",_intRightTopic], [NSString stringWithFormat:@"%ld",_intWrongTopic], nil];
-    pieChartAnalysis.nameArray = [NSMutableArray arrayWithObjects:@"对题", @"错题", nil];
+    pieChartAnalysis.nameArray = [NSMutableArray arrayWithObjects:@"答对", @"答错", nil];
     pieChartAnalysis.colorArray = [NSMutableArray arrayWithObjects:ZFColor(71, 204, 255, 1), ZFColor(253, 203, 76, 1), ZFColor(214, 205, 153, 1), ZFColor(78, 250, 188, 1), ZFColor(16, 140, 39, 1), ZFColor(45, 92, 34, 1), nil];
     [_viewAnalysis addSubview:pieChartAnalysis];
     [pieChartAnalysis strokePath];
@@ -217,7 +255,6 @@
     [_viewAnalysis addSubview:labDoTopic];
     
     //正确率试图
-    NSLog(@"%f",Scr_Width);
     UIView *viewAccuracy = [[UIView alloc]initWithFrame:CGRectMake(20, 123, Scr_Width/2 - 60, Scr_Width/2 - 60)];
     CGRect rectVV = viewAccuracy.frame;
     if (Scr_Width == 320) {
@@ -259,16 +296,27 @@
     UILabel *labAccuracy = [[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 50, Scr_Width/2 - 40, 30)];
     labAccuracy.font = [UIFont systemFontOfSize:15.0];
     NSMutableAttributedString *attrAccuracy = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"正确率：%ld%%",_intAccuracy]];
-    [attrAccuracy addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intAccuracy].length+1)];
+    [attrAccuracy addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intAccuracy].length+1)];
     [labAccuracy setAttributedText:attrAccuracy];
     [_viewAnalysis addSubview:labAccuracy];
     //所用时间
-    UILabel *labTime =[[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 90, Scr_Width/2 - 40, 30)];
+    UILabel *labTime =[[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 80, Scr_Width/2 - 40, 30)];
     labTime.font = [UIFont systemFontOfSize:15.0];
     NSMutableAttributedString *attrTime = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"答题时间：%@",@"0"]];
-    [attrTime addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5,1)];
+    [attrTime addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(5,1)];
     [labTime setAttributedText:attrTime];
     [_viewAnalysis addSubview:labTime];
+    
+    //如果是模拟试卷做题，添加得分
+    if (_paperAnalysisParameter == 2) {
+        ///得分
+        UILabel *labScore = [[UILabel alloc]initWithFrame:CGRectMake(20, labTime.frame.origin.y+30, Scr_Width/2 - 40, 30)];
+        labScore.font = [UIFont systemFontOfSize:15.0];
+        NSMutableAttributedString *attrScore = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"得分：【%ld】分",_intScore]];
+        [attrScore addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intScore].length)];
+        [labScore setAttributedText:attrScore];
+        [_viewAnalysis addSubview:labScore];
+    }
     [self.view addSubview:_viewAnalysis];
     UISwipeGestureRecognizer *swipeView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(viewAnalysisHiden:)];
     swipeView.direction = UISwipeGestureRecognizerDirectionDown;
@@ -346,7 +394,7 @@
  */
 - (void)addAnalysisTpoicCard{
     if (!_cardView) {
-        _cardView = [[TopicAnalysisCardView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) arrayTopic:_arrayPaterAnalysisData];
+        _cardView = [[TopicAnalysisCardView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) arrayTopic:_arrayPaterAnalysisData paperParameter:_paperAnalysisParameter];
         _cardView.delegateCellClick = self;
         [self.view addSubview:_cardView];
     }
@@ -385,14 +433,28 @@
     }
     for (int i = 0; i<_scrollContentWidth; i++) {
         PaperTopicAnalysisViewController *paterVc = self.childViewControllers[i];
-        paterVc.dicTopic = [self getTopicDictionary:i];
+        paterVc.topicTitle = nil;
+        ///模拟试卷模块
+        if(_paperAnalysisParameter == 2) {
+            paterVc.dicTopic = [self getTopicDictionary:i];
+            NSString *topString = [self topicTitle:i];
+            if (topString != nil) {
+                paterVc.topicTitle = topString;
+            }
+        }
+        //每周精选模块
+        else if (_paperAnalysisParameter == 3){
+            paterVc.dicTopic = _arrayPaterAnalysisData[i];
+        }
+        if (i == _scrollContentWidth - 1) {
+            paterVc.isLastTopic = YES;
+        }
+        else{
+            paterVc.isLastTopic = NO;
+        }
+
         paterVc.topicIndex = i+1;
         paterVc.delegatePersent = self;
-        NSString *topString = [self topicTitle:i];
-        paterVc.topicTitle = nil;
-        if (topString != nil) {
-            paterVc.topicTitle = topString;
-        }
         paterVc.view.frame = CGRectMake(i*Scr_Width, 0, Scr_Width, Scr_Height - 45 - 64);
         [_scrollViewPater addSubview:paterVc.view];
     }

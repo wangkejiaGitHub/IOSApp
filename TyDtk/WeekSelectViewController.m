@@ -36,9 +36,7 @@
 
 //回到顶部的按钮
 @property (nonatomic,strong) UIButton *buttonTopTable;
-
 @end
-
 @implementation WeekSelectViewController
 
 - (void)viewDidLoad {
@@ -46,10 +44,6 @@
     _arrayPapers = [NSMutableArray array];
     _tableViewWeek.tableFooterView = [UIView new];
     // Do any additional setup after loading the view.
-}
-- (void)viewDidAppear:(BOOL)animated{
-   
-    
 }
 - (void)viewWillAppear:(BOOL)animated{
     //设置tableView的上拉控件
@@ -59,7 +53,6 @@
     [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _tableViewWeek.mj_footer = _refreshFooter;
-    _tableViewWeek.separatorStyle = UITableViewCellSeparatorStyleNone;
     //试卷授权一次
     if (_allowToken) {
         //        _paterLevel = @"0";
@@ -186,8 +179,6 @@
             [_refreshFooter endRefreshing];
             [_tableViewWeek reloadData];
         }
-        
-        NSLog(@"%@",dicWeek);
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
         [SVProgressHUD showInfoWithStatus:@"请求异常"];
@@ -256,7 +247,6 @@
     NSString *titleString = dic[@"Title"];
     //标题编码
     titleString = [titleString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
     //api/Weekly/MakeWeeklyRecord/{id}?access_token={access_token}&title={title}
     NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/MakeWeeklyRecord/%@?access_token=%@&title=%@",systemHttps,dic[@"Id"],_accessToken,titleString];
     
@@ -268,8 +258,6 @@
             NSString *ridString = dicDatas[@"rid"];
            [self performSegueWithIdentifier:@"topicStar" sender:ridString];
         }
-        NSLog(@"%@",dicRid);
-
     } RequestFaile:^(NSError *error) {
         
     }];

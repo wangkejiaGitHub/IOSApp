@@ -48,7 +48,6 @@
 /****************************************
  ****************************************
  提前获取试题的纠错类型，并存在 NSUserDefaults
- 
  ****************************************
  ****************************************/
 - (void)getTopicErrorType{
@@ -160,10 +159,10 @@
     //学习人数
     UILabel *labPersonNub = (UILabel *)[cell.contentView viewWithTag:12];
     labPersonNub.adjustsFontSizeToFitWidth = YES;
+    //有待修改？？？？？？？？
     NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:@"0人在学"];
     [labPerson addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 1)];
     labPersonNub.attributedText = labPerson;
-//    cell.backgroundColor = [UIColor clearColor];
     cell.backgroundColor = ColorWithRGBWithAlpp(218, 218, 218, 0.5);
     cell.layer.masksToBounds = YES;
     cell.layer.cornerRadius = 5;
@@ -176,7 +175,6 @@
         [SVProgressHUD showInfoWithStatus:@"暂时还没有科目哟~"];
         return;
     }
-//    [self performSegueWithIdentifier:@"gologin" sender:nil];
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     if (![tyUser objectForKey:tyUserUser]) {
         [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];

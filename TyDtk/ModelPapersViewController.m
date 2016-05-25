@@ -435,7 +435,6 @@
     [_arrayPapers removeAllObjects];
     
     [self getModelPapersData];
-    NSLog(@"%ld",item.tag);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

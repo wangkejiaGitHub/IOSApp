@@ -80,6 +80,7 @@
 //代理
 //////////////////////
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    //根据不同的模块返回
     if (_parameter == 2) {
         NSDictionary *dicPater = _arrayTopic[section];
         NSArray *arrayTop = dicPater[@"Questions"];
@@ -236,6 +237,5 @@
    UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     UILabel *labNumber = (UILabel *)[cell.contentView.subviews firstObject];
     [self.delegateCellClick topicCollectonViewCellClick:[labNumber.text integerValue]];
-    NSLog(@"%ld",[labNumber.text integerValue]);
 }
 @end

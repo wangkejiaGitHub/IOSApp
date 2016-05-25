@@ -49,10 +49,6 @@
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     _indexTopic = index;
     _dicTopic = dic;
-    NSLog(@"%@",dic);
-    if (index == 19) {
-        NSLog(@"11");
-    }
     //判断视图是否有图片
     NSString *topicTitle = dic[@"title"];
     //试题编号
@@ -386,7 +382,6 @@
     CGFloat documentHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"conten\").offsetHeight;"] floatValue];
     //    webView.frame = CGRectMake(15, 50, Scr_Width - 30, documentHeight + 20);
     CGFloat cellHeightL = _webViewTitle.frame.origin.y + documentHeight;
-    NSLog(@"cellHeightL == %f",cellHeightL);
     NSInteger dicpaperId = [_dicTopic[@"parentId"] integerValue];
     ////////////////////////////////////////////////////////////
     //获取页面高度（像素）

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface IntelligentTopicViewController : UIViewController
-@property (nonatomic,strong) NSString *subjectId;
-//是否允许授权
-@property (nonatomic,assign) BOOL allowToken;
+@property (nonatomic,strong) NSDictionary *dicSubject;
+////是否允许授权
+//@property (nonatomic,assign) BOOL allowToken;
 @end

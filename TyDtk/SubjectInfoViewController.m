@@ -31,8 +31,7 @@
 //从tyUser中获取到的用户信息
 @property (nonatomic,strong) NSDictionary *dicUser;
 //科目授权
-@property (nonatomic,strong) CustomTools *
-customTool;
+@property (nonatomic,strong) CustomTools *customTool;
 //专业下所有科目科目
 @property (nonatomic,strong) NSArray *arraySubject;
 //@property (nonatomic,strong) UIView *viewDroupDownList;
@@ -94,7 +93,13 @@ customTool;
 }
 //根据点击的button不同，显示不同的子试图页面
 - (IBAction)downButtonClick:(UIButton *)sender {
-    _indexCurrChildView = sender.tag;
+    if (sender.tag == 3) {
+        if ([self ifDataIsNil]) {
+            [self performSegueWithIdentifier:@"IntelligentView" sender:_dicCurrSubject];
+            return;
+        }
+    }
+     _indexCurrChildView = sender.tag;
     //下划线跟踪
     [UIView animateWithDuration:0.15 animations:^{
         CGRect rectV = _viewFooterLine.frame;
@@ -113,14 +118,8 @@ customTool;
             }
         }
     }
-    if (sender.tag != 3) {
-        if ([self ifDataIsNil]) {
-            _indexCurrChildView = sender.tag;
-            [self showSelfChildViewWithViewIndex];
-        }
-    }
-    else{
-        [_viewNilData removeFromSuperview];
+    if ([self ifDataIsNil]) {
+        _indexCurrChildView = sender.tag;
         [self showSelfChildViewWithViewIndex];
     }
 }
@@ -152,7 +151,6 @@ customTool;
     [_chapterVc.view removeFromSuperview];
     [_modelPapersVc.view removeFromSuperview];
     [_weekSelectVc.view removeFromSuperview];
-    [_intelligentVc.view removeFromSuperview];
     //章节考点
     if (_indexCurrChildView == 0) {
         if (!_chapterVc) {
@@ -183,16 +181,6 @@ customTool;
         _weekSelectVc.allowToken = YES;
         [self.view addSubview:_weekSelectVc.view];
     }
-    //智能出题
-    else if (_indexCurrChildView == 3){
-        if (!_intelligentVc) {
-            _intelligentVc = self.childViewControllers[_indexCurrChildView];
-            _intelligentVc.view.frame =  CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
-        }
-        _intelligentVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
-        _weekSelectVc.allowToken = YES;
-        [self.view addSubview:_intelligentVc.view];
-    }
 }
 
 /////////////////////////////
@@ -211,9 +199,6 @@ customTool;
     //添加每周精选子试图
     UIViewController *weekVc = [self.storyboard instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
     [self addChildViewController:weekVc];
-    //添加智能出题子试图
-    UIViewController *intelligentVc = [self.storyboard instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
-    [self addChildViewController:intelligentVc];
     
 }
 
@@ -227,7 +212,7 @@ customTool;
  */
 - (void)getAllSubject{
     [SVProgressHUD show];
-//    _buttonHeard.enabled = NO;
+    //    _buttonHeard.enabled = NO;
     NSInteger subId = [_dicSubject[@"Id"] intValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,subId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -242,7 +227,6 @@ customTool;
             [SVProgressHUD showInfoWithStatus:dicSubject[@"errmsg"]];
         }
     } RequestFaile:^(NSError *error) {
-        NSLog(@"%@",error);
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
@@ -277,19 +261,26 @@ customTool;
     
     _menuView = [DTKDropdownMenuView dropdownMenuViewForNavbarTitleViewWithFrame:CGRectMake(46, 0, Scr_Width - 92, 44) dropdownItems:arrayMenuItem];
     _menuView.currentNav = self.navigationController;
-    _menuView.dropWidth = menuStringLength*19 - 25;
+    _menuView.dropWidth = menuStringLength*19 - 15;
     _menuView.titleFont = [UIFont systemFontOfSize:13.0];
     _menuView.textColor = [UIColor brownColor];
     _menuView.titleColor = [UIColor purpleColor];
     _menuView.textFont = [UIFont systemFontOfSize:13.f];
-    _menuView.cellSeparatorColor = ColorWithRGB(229.f, 229.f, 229.f);
+    _menuView.cellSeparatorColor = [UIColor lightGrayColor];
     _menuView.textFont = [UIFont systemFontOfSize:14.f];
     _menuView.animationDuration = 0.2f;
-    _menuView.cellSeparatorColor = [UIColor greenColor];
     self.navigationItem.titleView = _menuView;
-
+    
 }
+///下拉菜单中的item点击事件
 - (void)itemMenuClick:(NSInteger)indexItem{
+    if (_indexCurrChildView == 3) {
+        if (indexItem != 0) {
+            _dicCurrSubject = _arraySubject[indexItem - 1];
+            [self performSegueWithIdentifier:@"IntelligentView" sender:_dicCurrSubject];
+        }
+        return;
+    }
     _dropDownCurrIndex = indexItem;
     [_viewNilData removeFromSuperview];
     if (indexItem!=0) {
@@ -298,11 +289,13 @@ customTool;
     }
     else{
         _dicCurrSubject = nil;
-        if (_indexCurrChildView != 3) {
-            [self ifDataIsNil];
-        }
+        [self ifDataIsNil];
     }
-    NSLog(@"%ld",indexItem);
+}
+//页面跳转到智能出题
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    IntelligentTopicViewController *inteVc= segue.destinationViewController;
+    inteVc.dicSubject = sender;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

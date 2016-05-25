@@ -152,11 +152,6 @@
             NSInteger ParentId = [dicArr[@"ParentId"] integerValue];
             if (ParentId==0) {
                 [_arraySubject addObject:dicArr];
-                //                /////
-                //                for (NSString *keys in dicArr.allKeys) {
-                //                    NSLog(@"%@ == %@",keys,dicArr[keys]);
-                //                }
-                //                //////
             }
             else{
                 [_arraySecoundSubject addObject:dicArr];
