@@ -62,11 +62,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _tyUser = [NSUserDefaults standardUserDefaults];
     // Do any additional setup after loading the view.
     _dropDownCurrIndex = 0;
     [self viewLoad];
     [self ifDataIsNil];
     [self addChildViewControllerForSelfWithUser];
+    [SVProgressHUD dismiss];
 }
 
 - (void)viewLoad{
@@ -167,6 +169,7 @@
             _modelPapersVc = self.childViewControllers[_indexCurrChildView];
             _modelPapersVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
         }
+        _modelPapersVc.intPushWhere = 0;
         _modelPapersVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
         _modelPapersVc.allowToken = YES;
         [self.view addSubview:_modelPapersVc.view];
@@ -262,6 +265,9 @@
     _menuView = [DTKDropdownMenuView dropdownMenuViewForNavbarTitleViewWithFrame:CGRectMake(46, 0, Scr_Width - 92, 44) dropdownItems:arrayMenuItem];
     _menuView.currentNav = self.navigationController;
     _menuView.dropWidth = menuStringLength*19 - 15;
+    if (menuStringLength <= 10) {
+        _menuView.dropWidth = 200;
+    }
     _menuView.titleFont = [UIFont systemFontOfSize:13.0];
     _menuView.textColor = [UIColor brownColor];
     _menuView.titleColor = [UIColor purpleColor];
@@ -279,12 +285,16 @@
             _dicCurrSubject = _arraySubject[indexItem - 1];
             [self performSegueWithIdentifier:@"IntelligentView" sender:_dicCurrSubject];
         }
+        [_tyUser setObject:_dicCurrSubject forKey:tyUserSubject];
+        [_tyUser setObject:_dicCurrSubject forKey:tyUserSelectSubject];
         return;
     }
     _dropDownCurrIndex = indexItem;
     [_viewNilData removeFromSuperview];
     if (indexItem!=0) {
         _dicCurrSubject = _arraySubject[indexItem - 1];
+        [_tyUser setObject:_dicCurrSubject forKey:tyUserSubject];
+        [_tyUser setObject:_dicCurrSubject forKey:tyUserSelectSubject];
         [self showSelfChildViewWithViewIndex];
     }
     else{

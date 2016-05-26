@@ -11,4 +11,6 @@
 @property (nonatomic,strong) NSString *subjectId;
 //是否允许授权
 @property (nonatomic,assign) BOOL allowToken;
+//判断从某个页面push过来进行页面适配
+@property (nonatomic,assign) NSInteger intPushWhere;
 @end

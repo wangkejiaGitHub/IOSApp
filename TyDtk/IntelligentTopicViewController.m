@@ -1,7 +1,7 @@
 //
 //  IntelligentTopicViewController.m
 //  TyDtk
-//  智能出题
+//  智能出题（待开发...）
 //  Created by 天一文化 on 16/5/24.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
@@ -60,22 +60,7 @@
 -(void)httpErrorReturnClick{
     NSLog(@"授权失败！");
 }
-- (void)addViewSelectItem{
-    ///试图之间的间隔
-    CGFloat spea = 15;
-    ///试图的宽高适配
-    UIView *cccccc = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 0.613*Scr_Width)];
-    cccccc.backgroundColor = [UIColor lightGrayColor];
-    CGFloat viewWidth = (Scr_Width-10-10-spea-spea)/3;
-    for (int i = 0; i<3; i++) {
-        UIView *viewS = [[UIView alloc]initWithFrame:CGRectMake(10+(viewWidth+spea)*i, 0, viewWidth, viewWidth)];
-        viewS.backgroundColor = [UIColor whiteColor];
-        viewS.tag = 100 + i;
-        viewS.layer.borderWidth = 1;
-        viewS.layer.borderColor = [[UIColor lightGrayColor]CGColor];
-        [cccccc addSubview:viewS];
-    }
-}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }

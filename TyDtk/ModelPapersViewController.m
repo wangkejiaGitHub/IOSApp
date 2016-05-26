@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UIButton *buttonLeveles;
 @property (weak, nonatomic) IBOutlet UIButton *buttonYear;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heardViewLayoutTop;
 
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
@@ -65,6 +66,16 @@
     _myTableView.tableFooterView = [UIView new];
     [_buttonYear setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    //从题库进入
+    if (_intPushWhere == 0) {
+        _heardViewLayoutTop.constant = 0;
+    }
+    //从练习中心进入
+    else{
+        _heardViewLayoutTop.constant = 64;
+    }
 }
 - (void)viewDidAppear:(BOOL)animated{
     [self getPaperYears];

@@ -103,6 +103,8 @@
 #define tyUserClass @"tyClass"
 //科目
 #define tyUserSubject @"tySubject"
+///用户最近一次选择的科目*****
+#define tyUserSelectSubject @"tyUserSelectSubject"
 //纠错类型
 #define tyUserErrorTopic @"errorTopic"
 //试题中点击图片提示长按可保存提示
