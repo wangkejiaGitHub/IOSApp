@@ -11,6 +11,7 @@
 #import "AnalysisQtype3TableViewCell.h"
 #import "AnalysisQtype5TableViewCell.h"
 #import "AnalysisQtype6TableViewCell.h"
+#import "ImageEnlargeViewController.h"
 @interface PaperTopicAnalysisViewController ()<UITableViewDelegate,UITableViewDataSource,TopicAnalysisCellDelegateTest>
 @property (nonatomic,strong) UITableView *tableViewPater;
 //需要返回的cell的高
@@ -281,29 +282,13 @@
     [_tableViewPater reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:YES];
     
 }
-- (void)imageSaveQtype1Test:(UIImage *)image{
-    [self imageTopicSave:image];
+///接受所传递过来的图片数组
+- (void)imageTopicArray:(NSArray *)imageArray withImageIndex:(NSInteger)imageIndex{
+    ImageEnlargeViewController *imageEnlargeVC = [[ImageEnlargeViewController alloc]init];
+    imageEnlargeVC.imageUrlArrays = imageArray;
+    imageEnlargeVC.imageIndex = imageIndex;
+    [self presentViewController:imageEnlargeVC animated:YES completion:nil];
 }
-//保存图片
--(void)imageTopicSave:(UIImage *)image{
-    LXAlertView *alertDSaveImg = [[LXAlertView alloc]initWithTitle:@"图片保存" message:@"要将图片保存到手机相册吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"保存" clickIndexBlock:^(NSInteger clickIndex) {
-        //保存
-        if (clickIndex == 1) {
-            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
-        }
-    }];
-    [alertDSaveImg showLXAlertView];
-}
-//保存到本地手机后回调
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-    if (error == nil) {
-        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
-    }
-    else{
-        [SVProgressHUD showInfoWithStatus:@"保存失败！"];
-    }
-}
-
 - (void)saveUserCollectTiopic:(NSDictionary *)dic{
     [_dicUserCollectTopic setValue:dic.allValues.firstObject forKey:dic.allKeys.firstObject];
 }

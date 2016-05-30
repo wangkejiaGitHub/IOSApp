@@ -145,6 +145,42 @@
                 leave = le;
             }
         }
+        ///////////////////////////////////////////
+        
+        //最后一层的所有字典
+        NSMutableArray *arrayNewLast = [NSMutableArray array];
+        for (NSDictionary *dic in _arrayAllChapter) {
+            if ([dic[@"Level"] integerValue] == leave) {
+                [arrayNewLast addObject:dic];
+            }
+        }
+        //每一层的个数
+        NSMutableDictionary *dicNew = [NSMutableDictionary dictionary];
+        for (int i = 1; i<=leave; i++) {
+            NSMutableArray *arrayN = [NSMutableArray array];
+            for (NSDictionary *dic in _arrayAllChapter) {
+                if ([dic[@"Level"] integerValue] == i) {
+                    [arrayN addObject:dic];
+                }
+            }
+            [dicNew setValue:arrayN forKey:[NSString stringWithFormat:@"%d",i]];
+        }
+//        NSLog(@"%@",arrayNewLast);
+//        NSLog(@"%@",dicNew);
+//        for (NSInteger i = dicNew.allKeys.count; i>0; i--) {
+//            NSArray *arrayL = dicNew[[NSString stringWithFormat:@"%ld",i - 1]];
+//            NSArray *arrayN = dicNew[[NSString stringWithFormat:@"%ld",i]];
+//            for (NSDictionary *dicL in arrayL) {
+//                
+//                for (NSDictionary *dicN in arrayN) {
+//                    
+//                }
+//            }
+//        }
+        ///////////////////////////////////////////
+        
+        
+        
         //获取层级上的Id
         for (int i = 1; i<=leave; i++) {
             NSMutableArray *arrayLea = [NSMutableArray array];
@@ -173,6 +209,10 @@
             }
             [_arrayChapter addObject:dicChapter];
         }
+        
+        for (NSInteger i = _arrayChapter.count - 1; i>0; i--) {
+            
+        }
         ///////////////////////////
         ///////////////////////////
         NSDictionary *dicTest = [_arrayChapter lastObject];
@@ -197,10 +237,15 @@
         //重新刷新数据，让tableView返回到顶部
         [_myTableView reloadData];
         [SVProgressHUD dismiss];
+        [self ddddffff];
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
+}
+- (void)ddddffff{
+    NSLog(@"fsdfs");
+    [self ddddffff];
 }
 /////////////////////////////
 - (NSArray *)getCellArray:(NSInteger)teId{

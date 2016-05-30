@@ -13,6 +13,8 @@
 #import "paterTopicQtype1and2TableViewCell.h"
 #import "PaterTopicQtype3TableViewCell.h"
 #import "PaterTopicQtype4TableViewCell.h"
+#import "UIImageView+SJClickEnlarge.h"
+#import "ImageEnlargeViewController.h"
 @interface PatersTopicViewController ()<UITableViewDelegate,UITableViewDataSource,TopicCellDelegateTest,UIScrollViewDelegate>
 @property (nonatomic,strong) UITableView *tableViewPater;
 //需要返回的cell的高
@@ -338,29 +340,36 @@
         }];
     }
 }
-//保存图片回调
-- (void)imageSaveQtype1Test:(UIImage *)image{
-    [self imageTopicSave:image];
+///获取图片回调
+- (void)imageTopicArray:(NSArray *)imageArray withImageIndex:(NSInteger)imageIndex{
+    ImageEnlargeViewController *imageEnlargeVC = [[ImageEnlargeViewController alloc]init];
+    imageEnlargeVC.imageUrlArrays = imageArray;
+    imageEnlargeVC.imageIndex = imageIndex;
+    [self presentViewController:imageEnlargeVC animated:YES completion:nil];
+    NSLog(@"%@",imageArray);
 }
-//保存图片
--(void)imageTopicSave:(UIImage *)image{
-    LXAlertView *alertDSaveImg = [[LXAlertView alloc]initWithTitle:@"图片保存" message:@"要将图片保存到手机相册吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"保存" clickIndexBlock:^(NSInteger clickIndex) {
-        //保存
-        if (clickIndex == 1) {
-            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
-        }
-    }];
-    [alertDSaveImg showLXAlertView];
-}
-//保存到本地手机后回调
-- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-    if (error == nil) {
-        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
-    }
-    else{
-        [SVProgressHUD showInfoWithStatus:@"保存失败！"];
-    }
-}
+//- (void)imageSaveQtype1Test:(UIImage *)image{
+//    [self imageTopicSave:image];
+//}
+////保存图片
+//-(void)imageTopicSave:(UIImage *)image{
+//    LXAlertView *alertDSaveImg = [[LXAlertView alloc]initWithTitle:@"图片保存" message:@"要将图片保存到手机相册吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"保存" clickIndexBlock:^(NSInteger clickIndex) {
+//        //保存
+//        if (clickIndex == 1) {
+//            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+//        }
+//    }];
+//    [alertDSaveImg showLXAlertView];
+//}
+////保存到本地手机后回调
+//- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+//    if (error == nil) {
+//        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
+//    }
+//    else{
+//        [SVProgressHUD showInfoWithStatus:@"保存失败！"];
+//    }
+//}
 //暂时保存用户答案，用于cell复用使用
 - (void)saveUserAnswerUseDictonary:(NSDictionary *)dic{
     [_dicUserAnswer setValue:dic.allValues.firstObject forKey:dic.allKeys.firstObject];

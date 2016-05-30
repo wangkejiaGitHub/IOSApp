@@ -15,21 +15,23 @@
  isResfresh 是否刷新答题卡
  */
 - (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary*)dicUserAnswer isRefresh:(BOOL)isResfresh;
-//保存试题中的图片
-- (void)imageSaveQtype1Test:(UIImage *)image;
-//保存用户已经做过试题的答案
+/////保存试题中的图片
+//- (void)imageSaveQtype1Test:(UIImage *)image;
+///保存用户已经做过试题的答案
 - (void)saveUserAnswerUseDictonary:(NSDictionary *)dic;
-//保存用户已经收藏过的试题
+///保存用户已经收藏过的试题
 - (void)saveUserCollectTiopic:(NSDictionary *)dic;
-//提交笔记或纠错
+///提交笔记或纠错
 - (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
-//第一次加载
+///第一次加载
 - (void)IsFirstload:(BOOL)isFirstLoad;
 
-//非小题webview二次刷新
+///非小题webview二次刷新
 - (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy;
-//小题webview二次刷新
+///小题webview二次刷新
 - (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy withIndex:(NSInteger)index;
+///将试题中所有的图片数组传递出去
+- (void)imageTopicArray:(NSArray *)imageArray withImageIndex:(NSInteger)imageIndex;
 @end
 @interface paterTopicQtype1and2TableViewCell : UITableViewCell
 //已经做过的试题

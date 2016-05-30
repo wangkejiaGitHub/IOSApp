@@ -400,7 +400,7 @@
     //    webView.frame = CGRectMake(15, 50, Scr_Width - 30, height);
     _webViewTitleHeight.constant = height;
     cellHeightL = _webViewTitle.frame.origin.y+height;
-    CGFloat cellHeightLL = _webViewTitle.frame.origin.y + height;
+//    CGFloat cellHeightLL = _webViewTitle.frame.origin.y + height;
     ////////////////////////////////////////////////////////////
     
     if (dicpaperId == 0) {
@@ -415,6 +415,19 @@
             [self.delegateCellClick isWebLoadingCellHeight:cellHeightL +150 withButtonOy:cellHeightL +50 withIndex:_indexTopic];
         }
     }
+}
+//主要处理试题中的图片问题
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    //预览图片
+    if ([request.URL.scheme isEqualToString:@"image-preview"]) {
+        NSString *path = [request.URL.absoluteString substringFromIndex:[@"image-preview:" length]];
+        //path 就是被点击图片的url
+        NSLog(@"%@",path);
+        NSInteger imageClickIndex = [_arrayImgUrl indexOfObject:path];
+        [self.delegateCellClick imageTopicArray:_arrayImgUrl withImageIndex:imageClickIndex];
+        return NO;
+    }
+    return YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

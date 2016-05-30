@@ -159,6 +159,9 @@
         NSString *path = [request.URL.absoluteString substringFromIndex:[@"image-preview:" length]];
         //path 就是被点击图片的url
         NSLog(@"%@",path);
+        NSInteger imageClickIndex = [_arrayImgUrl indexOfObject:path];
+        NSLog(@"%ld",imageClickIndex);
+        [self.delegateCellClick imageTopicArray:_arrayImgUrl withImageIndex:imageClickIndex];
         return NO;
     }
     return YES;

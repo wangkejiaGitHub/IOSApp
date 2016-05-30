@@ -30,6 +30,7 @@
     _arrayCellTitle = @[@"个人资料",@"我的订单",@"当前科目",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _tyUser = [NSUserDefaults standardUserDefaults];
     [self addTableViewHeardView];
+    [self dddTest];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [_tableViewList reloadData];
@@ -125,6 +126,20 @@
             [self performSegueWithIdentifier:@"login" sender:nil];
         }
     }
+}
+- (void)dddTest{
+    NSDictionary *dic = [_tyUser objectForKey:tyUserUser];
+    NSString *tuJid = dic[@"userId"];
+    NSString *urlString =[NSString stringWithFormat:@"http://www.tydlk.cn/tyuser/finduserinfo?JSESSIONID=%@",tuJid];
+//    NSString *urlString = [NSString stringWithFormat:@"%@front/user/look/json?formSystem=902&id=%@",systemHttpsTyUser,tuJid];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dic);
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+    
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -127,26 +127,14 @@
     if (!_hearhVIew) {
         _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
         _hearhVIew.delegateAtive = self;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10)];
-        [view addSubview:_hearhVIew];
-        view.backgroundColor = [UIColor clearColor];
-        _myTableView.tableHeaderView = view;
     }
-    
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10)];
+    [view addSubview:_hearhVIew];
+    view.backgroundColor = [UIColor clearColor];
     NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSubject];
-    NSString *imgsUrlSub = dicCurrSubject[@"productImageListStore"];
-    [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:imgsUrlSub]];
-    _hearhVIew.labTitle.text = dicCurrSubject[@"Names"];
-    NSString *remarkPriceSub =[NSString stringWithFormat:@"￥ %ld",[dicCurrSubject[@"marketPrice"] integerValue]];
-    //市场价格用属性字符串添加删除线
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:remarkPriceSub];
-    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleSingle | NSUnderlineStyleSingle) range:NSMakeRange(2,remarkPriceSub.length -2)];
-    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(2,remarkPriceSub.length-2)];
-    //    _hearhVIew.labRemark.text = remarkPriceSub;
-    [_hearhVIew.labRemark setAttributedText:attri];
-    NSString *priceSub = [NSString stringWithFormat:@"￥ %ld",[dicCurrSubject[@"price"] integerValue]];
-    _hearhVIew.labPrice.text = priceSub;
-    
+    _hearhVIew.subjectId = _subjectId;
+    [_hearhVIew setActiveValue:dicCurrSubject];
+    _myTableView.tableHeaderView = view;
 }
 /**
  头试图回调代理

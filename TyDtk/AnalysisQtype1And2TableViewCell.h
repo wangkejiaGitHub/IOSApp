@@ -8,26 +8,19 @@
 
 #import <UIKit/UIKit.h>
 @protocol TopicAnalysisCellDelegateTest<NSObject>
-//传递选项参数，用于同步答题卡
-/**
- indexTpoic 需要刷新的答题卡索引
- dicUserAnswer 试题id，用户答案等信息
- isResfresh 是否刷新答题卡
- */
-//保存试题中的图片
-- (void)imageSaveQtype1Test:(UIImage *)image;
-//保存用户已经做过试题的答案
-//- (void)saveUserAnswerUseDictonary:(NSDictionary *)dic;
-//保存用户已经收藏过的试题
+
+///保存用户已经收藏过的试题
 - (void)saveUserCollectTiopic:(NSDictionary *)dic;
-//提交笔记或纠错
+///提交笔记或纠错
 - (void)saveNotesOrErrorClick:(NSInteger)questionId executeParameter:(NSInteger)parameterId;
-//第一次加载
+///第一次加载
 - (void)IsFirstload:(BOOL)isFirstLoad;
-//非小题webview二次刷新
+///非小题webview二次刷新
 - (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy;
-//小题webview二次刷新
+///小题webview二次刷新
 - (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy withIndex:(NSInteger)index;
+///将试题中所有的图片数组传递出去
+- (void)imageTopicArray:(NSArray *)imageArray withImageIndex:(NSInteger)imageIndex;
 @end
 @interface AnalysisQtype1And2TableViewCell : UITableViewCell
 //试题编号

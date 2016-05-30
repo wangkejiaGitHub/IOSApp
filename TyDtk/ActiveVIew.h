@@ -20,14 +20,14 @@
 @property (weak, nonatomic) IBOutlet UILabel *labRemark;
 @property (weak, nonatomic) IBOutlet UIButton *buttonActive;
 @property (weak, nonatomic) IBOutlet UILabel *labGetActiveAcc;
-
 //@property (weak, nonatomic) IBOutlet UILabel *labSubjectNumber;
 //
 //@property (weak, nonatomic) IBOutlet UILabel *labPersonNumber;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageWidth;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageHeight;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonHeight;
+@property (nonatomic,strong) NSString *subjectId;
 @property (nonatomic,assign) id<ActiveDelegate> delegateAtive;
+- (void)setActiveValue:(NSDictionary *)dicSubject;
 @end

@@ -379,7 +379,7 @@
 - (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
     if (longTap.state == UIGestureRecognizerStateBegan) {
         [_scrollView removeFromSuperview];
-        [self.delegateCellClick imageSaveQtype1Test:_selectTapView.image];
+//        [self.delegateCellClick imageSaveQtype1Test:_selectTapView.image];
     }
     
 }
@@ -419,6 +419,18 @@
     NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":answerString,@"TrueAnswer":answer,@"Score":@"0"};
     [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
     
+}
+//主要处理试题中的图片问题
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    //预览图片
+    if ([request.URL.scheme isEqualToString:@"image-preview"]) {
+        NSString *path = [request.URL.absoluteString substringFromIndex:[@"image-preview:" length]];
+        //path 就是被点击图片的url
+        NSLog(@"%@",path);
+        
+        return NO;
+    }
+    return YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

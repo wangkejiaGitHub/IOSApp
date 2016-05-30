@@ -292,6 +292,20 @@
     }
 
 }
+//主要处理试题中的图片问题
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    //预览图片
+    if ([request.URL.scheme isEqualToString:@"image-preview"]) {
+        NSString *path = [request.URL.absoluteString substringFromIndex:[@"image-preview:" length]];
+        //path 就是被点击图片的url
+        NSLog(@"%@",path);
+        NSInteger imageClickIndex = [_arrayImgUrl indexOfObject:path];
+        [self.delegateAnalysisCellClick imageTopicArray:_arrayImgUrl withImageIndex:imageClickIndex];
+        return NO;
+    }
+    return YES;
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }

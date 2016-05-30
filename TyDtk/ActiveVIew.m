@@ -39,10 +39,39 @@
         _buttonActive.layer.cornerRadius = 5;
         _labGetActiveAcc.font = [UIFont systemFontOfSize:11.0];
     }
-    
     [self addgestForlabActive];
     _labGetActiveAcc.userInteractionEnabled = YES;
 }
+//设置显示属性
+- (void)setActiveValue:(NSDictionary *)dicSubject{
+    NSString *imgsUrlSub = dicSubject[@"productImageListStore"];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:imgsUrlSub]];
+    self.labTitle.text = dicSubject[@"Names"];
+    NSString *remarkPriceSub =[NSString stringWithFormat:@"￥ %ld",[dicSubject[@"marketPrice"] integerValue]];
+    //市场价格用属性字符串添加删除线
+    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:remarkPriceSub];
+    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleSingle | NSUnderlineStyleSingle) range:NSMakeRange(2,remarkPriceSub.length -2)];
+    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(2,remarkPriceSub.length-2)];
+    [self.labRemark setAttributedText:attri];
+    NSString *priceSub = [NSString stringWithFormat:@"￥ %ld",[dicSubject[@"price"] integerValue]];
+    self.labPrice.text = priceSub;
+    
+    [self isBuyThisSubject];
+}
+///判断是否已经购买过该科目
+- (void)isBuyThisSubject{
+    //127.0.0.1:8082/ty/mobile/order/productValidate?productId=662
+//    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+//    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+//    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jsessionid=%@",systemHttpsKaoLaTopicImg,_subjectId,dicUser[@"jeeId"]];
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicBuy = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        NSLog(@"%@",dicBuy);
+//    } RequestFaile:^(NSError *error) {
+//        
+//    }];
+}
+
 - (void)addgestForlabActive{
     UITapGestureRecognizer *tapLabGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labClick)];
     [_labGetActiveAcc addGestureRecognizer:tapLabGest];

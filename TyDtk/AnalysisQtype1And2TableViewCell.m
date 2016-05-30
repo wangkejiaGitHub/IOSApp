@@ -19,7 +19,7 @@
 //@property (nonatomic,strong) UIImageView *selectTapView;
 //??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
-////////////////////////////
+///试题中所有图片的数组
 @property (nonatomic,strong) NSMutableArray *arrayImgUrl;
 //选项按钮起点坐标
 @property (nonatomic,assign) CGFloat buttonOrginY;
@@ -325,6 +325,8 @@
         NSString *path = [request.URL.absoluteString substringFromIndex:[@"image-preview:" length]];
         //path 就是被点击图片的url
         NSLog(@"%@",path);
+        NSInteger imageClickIndex = [_arrayImgUrl indexOfObject:path];
+        [self.delegateAnalysisCellClick imageTopicArray:_arrayImgUrl withImageIndex:imageClickIndex];
         return NO;
     }
     return YES;
