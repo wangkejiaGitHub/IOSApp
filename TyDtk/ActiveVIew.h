@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 @protocol ActiveDelegate<NSObject>
-//激活码做题
+///激活码做题
 - (void)activeForPapersClick;
-//获取激活码
+///获取激活码
 - (void)getActiveMaClick;
 @end
 @interface ActiveVIew : UIView

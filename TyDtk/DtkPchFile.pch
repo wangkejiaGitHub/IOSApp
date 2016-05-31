@@ -78,7 +78,6 @@
 #define systemHttps @"http://api.kaola100.com/"
 /**图片地址*/
 #define systemHttpImgs @"http://static.kaola100.com"
-
 /**
  每道题需要显示的图片
  */

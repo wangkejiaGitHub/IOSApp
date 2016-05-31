@@ -69,13 +69,15 @@
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZL6-Dh-Urc">
                     <rect key="frame" x="200" y="132" width="60" height="20"/>
-                    <color key="backgroundColor" red="1" green="0.52107203717932704" blue="0.47580683865704776" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="60" id="0b2-Ce-RSy"/>
                         <constraint firstAttribute="height" constant="20" id="3HP-N7-k3b"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                    <state key="normal" title="用激活码做题"/>
+                    <state key="normal" title="用激活码做题">
+                        <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </state>
                     <connections>
                         <action selector="activeBtnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="fma-Kx-DjB"/>
                     </connections>
@@ -86,7 +88,7 @@
                         <constraint firstAttribute="height" constant="20" id="KcQ-XH-dmL"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                    <color key="textColor" red="0.17333487149999999" green="0.48470761289999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="INM-Bz-2fE">

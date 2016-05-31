@@ -10,9 +10,10 @@
 @interface ModelPapersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate,UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
-@property (weak, nonatomic) IBOutlet UIButton *buttonLeveles;
-@property (weak, nonatomic) IBOutlet UIButton *buttonYear;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *heardViewLayoutTop;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewLayoutTop;
+
+@property (nonatomic, strong) UIButton *buttonLeveles;
+@property (nonatomic, strong) UIButton *buttonYear;
 
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
@@ -48,6 +49,11 @@
 @property (nonatomic,strong) NSArray *arrayLevels;
 //试卷年份
 @property (nonatomic,strong) NSArray *arrayYears;
+///判断是否已购买科目
+@property (nonatomic,assign) BOOL isBuyDidSubject;
+///用户判断tableView的滑动方向
+@property (nonatomic,assign) CGFloat lastContentOffset;
+@property (nonatomic,strong) UIView *viewHeader;
 @end
 @implementation ModelPapersViewController
 
@@ -68,13 +74,50 @@
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    if (!_viewHeader) {
+        _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
+        _viewHeader.backgroundColor =ColorWithRGB(210, 210, 210);
+        UILabel *labTiopicType = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 60, 30)];
+        labTiopicType.font = [UIFont systemFontOfSize:12.0];
+        labTiopicType.text = @"试题类型>";
+        labTiopicType.textColor = [UIColor lightGrayColor];
+        [_viewHeader addSubview:labTiopicType];
+        _buttonLeveles = [UIButton buttonWithType:UIButtonTypeCustom];
+        _buttonLeveles.frame = CGRectMake(70, 5, 100, 30);
+        _buttonLeveles.titleLabel.font =[UIFont systemFontOfSize:15.0];
+        [_buttonLeveles setTitle:@"全部" forState:UIControlStateNormal];
+        [_buttonLeveles setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        _buttonLeveles.backgroundColor = [UIColor clearColor];
+        _buttonLeveles.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [_buttonLeveles addTarget:self action:@selector(buttonTypeClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_viewHeader addSubview:_buttonLeveles];
+        UILabel *labTiopicYear = [[UILabel alloc]initWithFrame:CGRectMake(Scr_Width - 70 - 40, 5, 35, 30)];
+        labTiopicYear.font = [UIFont systemFontOfSize:12.0];
+        labTiopicYear.text = @"年份>";
+        labTiopicYear.textColor = [UIColor lightGrayColor];
+        [_viewHeader addSubview:labTiopicYear];
+        
+        _buttonYear = [UIButton buttonWithType:UIButtonTypeCustom];
+        _buttonYear.frame = CGRectMake(Scr_Width - 70, 5, 60, 30);
+        _buttonYear.titleLabel.font =[UIFont systemFontOfSize:15.0];
+        [_buttonYear setTitle:@"全部" forState:UIControlStateNormal];
+        [_buttonYear setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        _buttonYear.backgroundColor = [UIColor clearColor];
+        _buttonYear.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [_buttonYear addTarget:self action:@selector(buttonYearClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_viewHeader addSubview:_buttonYear];
+        [self.view addSubview:_viewHeader];
+    }
+
     //从题库进入
     if (_intPushWhere == 0) {
-        _heardViewLayoutTop.constant = 0;
+      
+        _viewHeader.frame = CGRectMake(0, 0, Scr_Width, 40);
     }
     //从练习中心进入
     else{
-        _heardViewLayoutTop.constant = 64;
+       
+        _viewHeader.frame = CGRectMake(0, 64, Scr_Width, 40);
     }
 }
 - (void)viewDidAppear:(BOOL)animated{
@@ -87,19 +130,53 @@
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _myTableView.mj_footer = _refreshFooter;
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    //试卷授权一次
-    if (_allowToken) {
-        //        _paterLevel = @"0";
-        //        _paterYear =@"0";
-        _paterPages = 0;
-        _paterIndexPage = 1;
-        [_arrayPapers removeAllObjects];
-        [self getAccessToken];
-    }
-    _allowToken = NO;
     
+    [self isBuySubject];
 }
+//
+///判断是否购买了该科目（是否激活了科目）
+- (void)isBuySubject{
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUser];
+    //ty/mobile/order/productValidate?productId=662
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,_subjectId,dicUser[@"jeeId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicIsBuy = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicIsBuy[@"code"] integerValue];
+        //查看激活状态
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicIsBuy[@"datas"];
+            NSInteger buyStatus = [dicDatas[@"status"] integerValue];
+            //未激活
+            if (buyStatus == 0) {
+                _isBuyDidSubject = NO;
+            }
+            //已激活
+            else{
+                _isBuyDidSubject = YES;
+            }
+            
+            //试卷授权一次
+            if (_allowToken) {
+                //        _paterLevel = @"0";
+                //        _paterYear =@"0";
+                _paterPages = 0;
+                _paterIndexPage = 1;
+                [_arrayPapers removeAllObjects];
+                [self getAccessToken];
+            }
+            _allowToken = NO;
 
+            NSLog(@"%@",dicDatas);
+        }
+        //用户未登录或者登录超时
+        else{
+            
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
 - (void)viewWillDisappear:(BOOL)animated{
     _refreshFooter = nil;
 }
@@ -124,16 +201,27 @@
  试卷信息列表的头试图
  */
 - (void)addHeardViewForPaterList{
-    if (!_hearhVIew) {
-        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
-        _hearhVIew.delegateAtive = self;
-    }
+
+    _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
+    _hearhVIew.delegateAtive = self;
+
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10)];
     [view addSubview:_hearhVIew];
     view.backgroundColor = [UIColor clearColor];
     NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSubject];
     _hearhVIew.subjectId = _subjectId;
     [_hearhVIew setActiveValue:dicCurrSubject];
+    if (_isBuyDidSubject) {
+//        [_hearhVIew.buttonActive setTitle:@"科目已激活" forState:UIControlStateNormal];
+        _hearhVIew.buttonActive.userInteractionEnabled = NO;
+    }
+    else{
+        _hearhVIew.labGetActiveAcc.textColor = [UIColor blueColor];
+            _hearhVIew.buttonActive.backgroundColor = ColorWithRGB(255, 121, 28);
+            [_hearhVIew.buttonActive setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }
+//    _hearhVIew.buttonActive.backgroundColor = ColorWithRGB(255, 121, 28);
+//    [_hearhVIew.buttonActive setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _myTableView.tableHeaderView = view;
 }
 /**
@@ -270,6 +358,58 @@
     else{
         [_buttonTopTable removeFromSuperview];
     }
+    
+    if (_lastContentOffset < scrollView.contentOffset.y) {
+        //从题库进入
+        if (_intPushWhere == 0) {
+            [UIView animateWithDuration:0.3 animations:^{
+                CGRect rect = _viewHeader.frame;
+                rect.origin.y = -40;
+                _viewHeader.frame = rect;
+            }];
+        }
+        //从练习中心进入
+        else{
+            [UIView animateWithDuration:0.3 animations:^{
+                CGRect rect = _viewHeader.frame;
+                rect.origin.y = 24;
+                _viewHeader.frame = rect;
+            }];
+        }
+        _tableViewLayoutTop.constant = 0;
+    }else{
+        //从题库进入
+        if (_intPushWhere == 0) {
+            [UIView animateWithDuration:0.3 animations:^{
+                //             _heardViewLayoutTop.constant = -40;
+                CGRect rect = _viewHeader.frame;
+                rect.origin.y = 0;
+                _viewHeader.frame = rect;
+            }];
+        }
+        //从练习中心进入
+        else{
+            [UIView animateWithDuration:0.3 animations:^{
+                CGRect rect = _viewHeader.frame;
+                rect.origin.y = 64;
+                _viewHeader.frame = rect;
+            }];
+
+        }
+        _tableViewLayoutTop.constant = 40;
+    }
+
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    _lastContentOffset = scrollView.contentOffset.y;
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
+//    if (_lastContentOffset < scrollView.contentOffset.y) {
+//        NSLog(@"向上滚动");
+//    }else{
+//        NSLog(@"向下滚动");
+//    }
 }
 //回到顶部按钮
 - (void)topButtonClick:(UIButton *)topButton{
@@ -327,16 +467,27 @@
     [attriperson addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor]
                        range:NSMakeRange(0,[NSString stringWithFormat:@"%ld",[dicCurrPater[@"DoNum"] integerValue]].length )];
     [labPerson setAttributedText:attriperson];
+    
+    if (!_isBuyDidSubject) {
+        cell.backgroundColor = ColorWithRGB(200, 200, 200);
+    }
+    else{
+        cell.backgroundColor = [UIColor whiteColor];
+    }
     return cell;
     
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    NSDictionary *diccc = _arrayPapers[indexPath.row];
-    [self performSegueWithIdentifier:@"topicStar" sender:diccc];
-    
+    if (_isBuyDidSubject) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        NSDictionary *diccc = _arrayPapers[indexPath.row];
+        [self performSegueWithIdentifier:@"topicStar" sender:diccc];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目！"];
+    }
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"topicStar"]) {
@@ -346,7 +497,7 @@
     }
 }
 //试题类型按钮
-- (IBAction)buttonTypeClick:(UIButton *)sender {
+- (void)buttonTypeClick:(UIButton *)sender {
     [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
     [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
     [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
@@ -358,7 +509,7 @@
     [self.navigationController.view addSubview:popupMenu];
 }
 //试题年份按钮
-- (IBAction)buttonYearClick:(UIButton *)sender {
+- (void)buttonYearClick:(UIButton *)sender {
     [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
     [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
     [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];

@@ -30,10 +30,12 @@
     _arrayCellTitle = @[@"个人资料",@"我的订单",@"当前科目",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _tyUser = [NSUserDefaults standardUserDefaults];
     [self addTableViewHeardView];
-    [self dddTest];
+        [_tyUser removeObjectForKey:tyUserUser];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [_tableViewList reloadData];
+//    [self getUserInfo];
+    [self getUserImage];
 }
 ///添加tableView头试图
 - (void)addTableViewHeardView{
@@ -82,7 +84,7 @@
     return 1;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return 2;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellUser" forIndexPath:indexPath];
@@ -98,12 +100,9 @@
                 labSiubject.text= dicCurrSubject[@"Names"];
             }
             else{
-                labSiubject.text = @"为选择科目";
+                labSiubject.text = @"未选择科目";
             }
         }
-    }
-    else if (indexPath.section == 1){
-        labTitle.text = @"修改密码";
     }
     else{
         labTitle.text = @"关于我们";
@@ -112,14 +111,19 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section!=2) {
+    if (indexPath.section!=1) {
         if ([self loginTest]) {
             if (indexPath.section == 0) {
                 NSLog(@"个人中心");
+                if (indexPath.row == 0) {
+                    [self performSegueWithIdentifier:@"userinfo" sender:nil];
+                }
             }
             else{
                 NSLog(@"修改密码");
                 //修改密码
+//                [self logOut];
+//                [self logOutUser];
             }
         }
         else{
@@ -127,20 +131,40 @@
         }
     }
 }
-- (void)dddTest{
-    NSDictionary *dic = [_tyUser objectForKey:tyUserUser];
-    NSString *tuJid = dic[@"userId"];
-    NSString *urlString =[NSString stringWithFormat:@"http://www.tydlk.cn/tyuser/finduserinfo?JSESSIONID=%@",tuJid];
-//    NSString *urlString = [NSString stringWithFormat:@"%@front/user/look/json?formSystem=902&id=%@",systemHttpsTyUser,tuJid];
+///用户退出登录
+- (void)logOutUser{
+    [SVProgressHUD show];
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+    ///logout/json
+    NSString *urlString = [NSString stringWithFormat:@"%@logout/json?SHAREJSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dic);
+        NSDictionary *dicOut = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicOut[@"code"] integerValue];
+        if (codeId == 1) {
+            [SVProgressHUD showSuccessWithStatus:@"退出成功！"];
+//            [_tyUser removeObjectForKey:tyUserUser];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"操作失败！"];
+        }
+        NSLog(@"%@",dicOut);
+    } RequestFaile:^(NSError *error) {
+        [SVProgressHUD showInfoWithStatus:@"操作失败！"];
+    }];
+}
+///获取用户头像
+- (void)getUserImage{
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+    NSString *urlString = [NSString stringWithFormat:@"%@front/user/findheadimg;JSESSIONID=%@&userId=%@",systemHttpsTyUser,dicUser[@"jeeId"],dicUser[@"userId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSLog(@"%@",repoes);
     } RequestFaile:^(NSError *error) {
         
     }];
-    
-    
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

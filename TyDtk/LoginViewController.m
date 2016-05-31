@@ -62,12 +62,14 @@
     if (!_mzView) {
         _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
     }
+    
     [self.view addSubview:_mzView];
     NSDictionary *dicLogin = @{@"account":_textName.text,@"password":_textPwd.text};
     [HttpTools postHttpRequestURL:@"http://www.tydlk.cn/tyuser/login/json" RequestPram:dicLogin RequestSuccess:^(id respoes) {
         NSDictionary *dic = respoes;
         NSInteger codeUser = [dic[@"code"] integerValue];
         NSDictionary *dicUser = dic[@"datas"];
+        NSLog(@"%@",dicUser);
         if (codeUser == 1) {
             [SVProgressHUD showSuccessWithStatus:@"登录成功"];
             NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
@@ -92,15 +94,4 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

@@ -56,20 +56,6 @@
     NSString *priceSub = [NSString stringWithFormat:@"￥ %ld",[dicSubject[@"price"] integerValue]];
     self.labPrice.text = priceSub;
     
-    [self isBuyThisSubject];
-}
-///判断是否已经购买过该科目
-- (void)isBuyThisSubject{
-    //127.0.0.1:8082/ty/mobile/order/productValidate?productId=662
-//    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-//    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
-//    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jsessionid=%@",systemHttpsKaoLaTopicImg,_subjectId,dicUser[@"jeeId"]];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicBuy = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        NSLog(@"%@",dicBuy);
-//    } RequestFaile:^(NSError *error) {
-//        
-//    }];
 }
 
 - (void)addgestForlabActive{

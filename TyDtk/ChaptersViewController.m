@@ -179,8 +179,6 @@
 //        }
         ///////////////////////////////////////////
         
-        
-        
         //获取层级上的Id
         for (int i = 1; i<=leave; i++) {
             NSMutableArray *arrayLea = [NSMutableArray array];
@@ -210,9 +208,6 @@
             [_arrayChapter addObject:dicChapter];
         }
         
-        for (NSInteger i = _arrayChapter.count - 1; i>0; i--) {
-            
-        }
         ///////////////////////////
         ///////////////////////////
         NSDictionary *dicTest = [_arrayChapter lastObject];
@@ -237,16 +232,12 @@
         //重新刷新数据，让tableView返回到顶部
         [_myTableView reloadData];
         [SVProgressHUD dismiss];
-        [self ddddffff];
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
-- (void)ddddffff{
-    NSLog(@"fsdfs");
-    [self ddddffff];
-}
+
 /////////////////////////////
 - (NSArray *)getCellArray:(NSInteger)teId{
     NSMutableArray *arrayCurrRow = [NSMutableArray array];
@@ -267,7 +258,6 @@
 //    NSArray *arrayChild = [dicFirst objectForKey:perId];
 //    return arrayChild.count;
     NSString *sectionS = [NSString stringWithFormat:@"%ld",section];
-    
     if ([_arraySection containsObject:sectionS]) {
         NSDictionary *dicCurr = _arrayFirstChapter[section];
         NSInteger dicId = [dicCurr[@"Id"] integerValue];
@@ -277,7 +267,6 @@
     else{
         return 0;
     }
-    
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return _arrayFirstChapter.count;

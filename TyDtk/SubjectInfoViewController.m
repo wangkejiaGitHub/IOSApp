@@ -260,8 +260,7 @@
             }];
             [arrayMenuItem addObject:item];
         }
-    }
-    
+    }   
     _menuView = [DTKDropdownMenuView dropdownMenuViewForNavbarTitleViewWithFrame:CGRectMake(46, 0, Scr_Width - 92, 44) dropdownItems:arrayMenuItem];
     _menuView.currentNav = self.navigationController;
     _menuView.dropWidth = menuStringLength*19 - 15;

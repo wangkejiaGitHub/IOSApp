@@ -89,6 +89,7 @@
 		1DC9B9081CE46A9E00A2E9A8 /* ZFPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9031CE46A9E00A2E9A8 /* ZFPopupMenu.m */; };
 		1DC9B9091CE46A9E00A2E9A8 /* ZFPopupMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9051CE46A9E00A2E9A8 /* ZFPopupMenuItem.m */; };
 		1DC9B90A1CE46A9E00A2E9A8 /* ZFPopupOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */; };
+		1DCA16341CFD7DD10045229B /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCA16331CFD7DD10045229B /* UserInfoViewController.m */; };
 		1DD2E6F81CB5F21700423484 /* ActiveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD2E6F71CB5F21600423484 /* ActiveView.xib */; };
 		1DD2E6FB1CB5F25800423484 /* ActiveVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */; };
 		1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */; };
@@ -367,6 +368,8 @@
 		1DC9B9051CE46A9E00A2E9A8 /* ZFPopupMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopupMenuItem.m; sourceTree = "<group>"; };
 		1DC9B9061CE46A9E00A2E9A8 /* ZFPopupOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFPopupOverlayView.h; sourceTree = "<group>"; };
 		1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopupOverlayView.m; sourceTree = "<group>"; };
+		1DCA16321CFD7DD10045229B /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
+		1DCA16331CFD7DD10045229B /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		1DD2E6F71CB5F21600423484 /* ActiveView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActiveView.xib; sourceTree = "<group>"; };
 		1DD2E6F91CB5F25800423484 /* ActiveVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveVIew.h; sourceTree = "<group>"; };
 		1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveVIew.m; sourceTree = "<group>"; };
@@ -1070,6 +1073,8 @@
 				1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */,
 				1D10C9871CB3A74C00040913 /* UserIndexViewController.h */,
 				1D10C9881CB3A74C00040913 /* UserIndexViewController.m */,
+				1DCA16321CFD7DD10045229B /* UserInfoViewController.h */,
+				1DCA16331CFD7DD10045229B /* UserInfoViewController.m */,
 				1DF947331CF6908800CC4759 /* TableHeardViewForUser.xib */,
 				1DF947351CF690CF00CC4759 /* TableHeardView.h */,
 				1DF947361CF690CF00CC4759 /* TableHeardView.m */,
@@ -1561,6 +1566,7 @@
 				1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */,
 				1D579EF71CE9668100578519 /* NSObject+Zirkfied.m in Sources */,
 				1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */,
+				1DCA16341CFD7DD10045229B /* UserInfoViewController.m in Sources */,
 				1D1CD88E1CD2EE4800A80E88 /* UILabel+LXAdd.m in Sources */,
 				1DF947371CF690CF00CC4759 /* TableHeardView.m in Sources */,
 				1DF765901CE16E32002DE129 /* NotesElseUserViewController.m in Sources */,
