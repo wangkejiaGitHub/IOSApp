@@ -26,24 +26,22 @@
     [self viewLoad];
 }
 - (void)viewLoad{
-        self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     _arrayCellTitle = @[@"个人资料",@"我的订单",@"当前科目",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _tyUser = [NSUserDefaults standardUserDefaults];
     [self addTableViewHeardView];
-        [_tyUser removeObjectForKey:tyUserUser];
+//    [_tyUser removeObjectForKey:tyUserUser];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [_tableViewList reloadData];
-//    [self getUserInfo];
-    [self getUserImage];
+    //    [self getUserInfo];
+//    [self getUserImage];
 }
 ///添加tableView头试图
 - (void)addTableViewHeardView{
     _tableHeardView = [[[NSBundle mainBundle] loadNibNamed:@"TableHeardViewForUser" owner:self options:nil]lastObject];
     _tableHeardView.frame = CGRectMake(0, 0, Scr_Width, 200);
     _tableViewList.tableHeaderView = _tableHeardView;
-    //http://www.tydlk.cn/tyuser/front/user/findheadimg;JSESSIONID=af39a65f-4053-4e59-a59d-678fbe3266e4?userId=dd187a90a1894c08801d384f1c663af8
-    ///front/user/look/json?formSystem=902&id=dd187a90a1894c08801d384f1c663af8
     if ([self loginTest]) {
         NSLog(@"%@",_dicUser);
     }
@@ -111,19 +109,11 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.section!=1) {
+    if (indexPath.section == 0) {
         if ([self loginTest]) {
-            if (indexPath.section == 0) {
+            if (indexPath.row == 0) {
                 NSLog(@"个人中心");
-                if (indexPath.row == 0) {
-                    [self performSegueWithIdentifier:@"userinfo" sender:nil];
-                }
-            }
-            else{
-                NSLog(@"修改密码");
-                //修改密码
-//                [self logOut];
-//                [self logOutUser];
+                [self performSegueWithIdentifier:@"userinfo" sender:nil];
             }
         }
         else{
@@ -143,7 +133,7 @@
         NSInteger codeId = [dicOut[@"code"] integerValue];
         if (codeId == 1) {
             [SVProgressHUD showSuccessWithStatus:@"退出成功！"];
-//            [_tyUser removeObjectForKey:tyUserUser];
+            //            [_tyUser removeObjectForKey:tyUserUser];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"操作失败！"];
@@ -153,13 +143,36 @@
         [SVProgressHUD showInfoWithStatus:@"操作失败！"];
     }];
 }
+
+/////获取用户信息
+//- (void)getUserInfo{
+//    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+//    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+//    NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
+//    NSLog(@"%@",urlString);
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSString *ddd = [[NSString alloc]initWithData:repoes encoding:NSUTF8StringEncoding];
+//        NSLog(@"%@",ddd);
+//        NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        _dicUserInfo = dicUserInfo;
+//        [_tableViewUser reloadData];
+//    } RequestFaile:^(NSError *error) {
+//
+//    }];
+//    NSLog(@"%@",dicUser);
+//}
 ///获取用户头像
 - (void)getUserImage{
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+    NSLog(@"%@",dicUser);
     NSString *urlString = [NSString stringWithFormat:@"%@front/user/findheadimg;JSESSIONID=%@&userId=%@",systemHttpsTyUser,dicUser[@"jeeId"],dicUser[@"userId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSLog(@"%@",repoes);
+        NSString *string = [[NSString alloc]initWithData:repoes encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",string);
+        if (string.length > 50) {
+            [self performSegueWithIdentifier:@"login" sender:nil];
+        }
     } RequestFaile:^(NSError *error) {
         
     }];

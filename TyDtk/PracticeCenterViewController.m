@@ -123,7 +123,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    if ([_tyUser objectForKey:tyUserSelectSubject]) {
+    if ([_tyUser objectForKey:tyUserSelectSubject]&&[_tyUser objectForKey:tyUserUser]) {
         if (indexPath.section == 0) {
             //章节练习
             if (indexPath.row == 0) {
@@ -162,7 +162,7 @@
         }
     }
     else{
-        [SVProgressHUD showInfoWithStatus:@"您还没有选过科目~"];
+        [SVProgressHUD showInfoWithStatus:@"您还没有登录或未选过科目~"];
         self.tabBarController.selectedIndex = 0;
     }
 }

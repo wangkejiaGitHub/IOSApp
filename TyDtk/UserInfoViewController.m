@@ -7,7 +7,7 @@
 //
 
 #import "UserInfoViewController.h"
-
+#import "UpdateUserInfoViewController.h"
 @interface UserInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewUser;
 @property (nonatomic,strong) NSArray *arrayListName1;
@@ -24,7 +24,9 @@
     self.title = @"我的信息";
     _arrayListName1 = @[@"用户名",@"手机号",@"邮箱"];
     _arrayListName2 = @[@"修改密码",@"退出登录"];
-    [self updateTest];
+//    [self updateTest];
+}
+- (void)viewWillAppear:(BOOL)animated{
     [self getUserInfo];
 }
 ///获取用户信息
@@ -32,7 +34,10 @@
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
     NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
+    NSLog(@"%@",urlString);
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSString *ddd = [[NSString alloc]initWithData:repoes encoding:NSUTF8StringEncoding];
+//        NSLog(@"%@",ddd);
         NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _dicUserInfo = dicUserInfo;
         [_tableViewUser reloadData];
@@ -105,21 +110,46 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    //修改头像
+    if (indexPath.section == 0&&indexPath.row == 0) {
+        
+    }
+    //修改基本信息（用户名，手机号，邮箱）
+    else if (indexPath.section == 0&&indexPath.row != 0) {
+        [self performSegueWithIdentifier:@"updateinfo" sender:[NSString stringWithFormat:@"%ld",indexPath.row]];
+    }
+    //修改密码
+    else if (indexPath.section == 1&&indexPath.row == 0){
+        [self performSegueWithIdentifier:@"updatepwd" sender:nil];
+    }
+    //退出登录
+    else if (indexPath.section == 1&&indexPath.row != 0){
+        
+    }
+}
+//传递修改参数
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"updateinfo"]) {
+        UpdateUserInfoViewController *updateVc = segue.destinationViewController;
+        updateVc.updateInfoPar =[sender integerValue];
+    }
+    else if ([segue.identifier isEqualToString:@"updatepwd"]){
+        
+    }
 }
 - (void)updateTest{
     //updateuser/json?fromSystem=1
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
     NSString *urlString = [NSString stringWithFormat:@"%@updateuser/json;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
-    NSDictionary *dic =@{@"mobile":@"13536366363",@"id":dicUser[@"userId"],@"fromSystem":@"902",@"name":@"18838263542",@"email":@"1289962804@qq.com"};
+    NSDictionary *dic =@{@"mobile":@"13536366363"};
     [HttpTools postHttpRequestURL:urlString RequestPram:dic RequestSuccess:^(id respoes) {
-        NSDictionary *diccc = respoes;
-        NSLog(@"%@",diccc);
+        NSDictionary *dicUpdate = respoes;
+        NSInteger codeId = [dicUpdate[@"code"] integerValue];
+//        NSLog(@"%@",codeId);
     } RequestFaile:^(NSError *erro) {
         
     }];
-    
 }
 ///用户退出登录
 - (void)logOutUser{

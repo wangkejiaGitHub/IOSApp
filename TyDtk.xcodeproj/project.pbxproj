@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1D0327B61CE03D3000F33072 /* NotesDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0327B51CE03D3000F33072 /* NotesDataViewController.m */; };
 		1D03B2921CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D03B2911CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m */; };
+		1D04BE3A1CFEC3A800BCEFA0 /* UpdateUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D04BE391CFEC3A800BCEFA0 /* UpdateUserInfoViewController.m */; };
 		1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */; };
 		1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */; };
 		1D07941B1CFBCD87009A39E8 /* ImageTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D07941A1CFBCD87009A39E8 /* ImageTopicViewController.m */; };
@@ -38,6 +39,7 @@
 		1D122BA21CDDBE4C00A0BA08 /* AnalysisQtype5TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D122BA11CDDBE4C00A0BA08 /* AnalysisQtype5TableViewCell.m */; };
 		1D122BA41CDDC3DA00A0BA08 /* AnalysisQtype6Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D122BA31CDDC3DA00A0BA08 /* AnalysisQtype6Cell.xib */; };
 		1D122BA71CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D122BA61CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m */; };
+		1D126C5C1CFECC7700BEDA92 /* UpdatePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D126C5B1CFECC7700BEDA92 /* UpdatePwdViewController.m */; };
 		1D1626931CBDD5CC0050784B /* TopicCardCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */; };
 		1D165E681CD1DA1E00F61EAE /* NotesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D165E671CD1DA1E00F61EAE /* NotesView.xib */; };
 		1D165E6B1CD1DA4800F61EAE /* NotesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D165E6A1CD1DA4800F61EAE /* NotesView.m */; };
@@ -208,6 +210,8 @@
 		1D0327B51CE03D3000F33072 /* NotesDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesDataViewController.m; sourceTree = "<group>"; };
 		1D03B2901CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype6TableViewCell.h; sourceTree = "<group>"; };
 		1D03B2911CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicQtype6TableViewCell.m; sourceTree = "<group>"; };
+		1D04BE381CFEC3A800BCEFA0 /* UpdateUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateUserInfoViewController.h; sourceTree = "<group>"; };
+		1D04BE391CFEC3A800BCEFA0 /* UpdateUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateUserInfoViewController.m; sourceTree = "<group>"; };
 		1D064E011CBB3303007BD4E4 /* StartDoTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartDoTopicViewController.h; sourceTree = "<group>"; };
 		1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartDoTopicViewController.m; sourceTree = "<group>"; };
 		1D064E441CBB6A4B007BD4E4 /* PatersTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatersTopicViewController.h; sourceTree = "<group>"; };
@@ -266,6 +270,8 @@
 		1D122BA31CDDC3DA00A0BA08 /* AnalysisQtype6Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnalysisQtype6Cell.xib; sourceTree = "<group>"; };
 		1D122BA51CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisQtype6TableViewCell.h; sourceTree = "<group>"; };
 		1D122BA61CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisQtype6TableViewCell.m; sourceTree = "<group>"; };
+		1D126C5A1CFECC7700BEDA92 /* UpdatePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdatePwdViewController.h; sourceTree = "<group>"; };
+		1D126C5B1CFECC7700BEDA92 /* UpdatePwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdatePwdViewController.m; sourceTree = "<group>"; };
 		1D1626911CBDD5CC0050784B /* TopicCardCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicCardCollectionView.h; sourceTree = "<group>"; };
 		1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicCardCollectionView.m; sourceTree = "<group>"; };
 		1D165E671CD1DA1E00F61EAE /* NotesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesView.xib; sourceTree = "<group>"; };
@@ -576,6 +582,19 @@
 				1D122B971CDD8F7300A0BA08 /* TopicAnalysisCardView.m */,
 			);
 			name = CustomTools;
+			sourceTree = "<group>";
+		};
+		1D04BE341CFEC0B500BCEFA0 /* UserInfo */ = {
+			isa = PBXGroup;
+			children = (
+				1DCA16321CFD7DD10045229B /* UserInfoViewController.h */,
+				1DCA16331CFD7DD10045229B /* UserInfoViewController.m */,
+				1D04BE381CFEC3A800BCEFA0 /* UpdateUserInfoViewController.h */,
+				1D04BE391CFEC3A800BCEFA0 /* UpdateUserInfoViewController.m */,
+				1D126C5A1CFECC7700BEDA92 /* UpdatePwdViewController.h */,
+				1D126C5B1CFECC7700BEDA92 /* UpdatePwdViewController.m */,
+			);
+			name = UserInfo;
 			sourceTree = "<group>";
 		};
 		1D064E431CBB69E2007BD4E4 /* TyDtkTestCenter */ = {
@@ -1068,13 +1087,12 @@
 		1DEDC8091C9F85AF0083B394 /* TyUser */ = {
 			isa = PBXGroup;
 			children = (
+				1D04BE341CFEC0B500BCEFA0 /* UserInfo */,
 				1DC9B8F71CE42FE700A2E9A8 /* Login */,
 				1DDE06651CAA28FB00FA1505 /* UserFindPwd */,
 				1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */,
 				1D10C9871CB3A74C00040913 /* UserIndexViewController.h */,
 				1D10C9881CB3A74C00040913 /* UserIndexViewController.m */,
-				1DCA16321CFD7DD10045229B /* UserInfoViewController.h */,
-				1DCA16331CFD7DD10045229B /* UserInfoViewController.m */,
 				1DF947331CF6908800CC4759 /* TableHeardViewForUser.xib */,
 				1DF947351CF690CF00CC4759 /* TableHeardView.h */,
 				1DF947361CF690CF00CC4759 /* TableHeardView.m */,
@@ -1513,6 +1531,7 @@
 				1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */,
 				1DF7658D1CE16E11002DE129 /* NotesUserViewController.m in Sources */,
 				1DEDC8791C9FA66B0083B394 /* AFSecurityPolicy.m in Sources */,
+				1D04BE3A1CFEC3A800BCEFA0 /* UpdateUserInfoViewController.m in Sources */,
 				1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */,
 				1D0794761CFBD943009A39E8 /* ImageEnlargeViewController.m in Sources */,
 				1D579EFA1CE9668100578519 /* UIView+Zirkfied.m in Sources */,
@@ -1613,6 +1632,7 @@
 				1D165E6B1CD1DA4800F61EAE /* NotesView.m in Sources */,
 				1DF765951CE183C8002DE129 /* NotesUserTableViewCell.m in Sources */,
 				1DEDC7D81C9F817B0083B394 /* main.m in Sources */,
+				1D126C5C1CFECC7700BEDA92 /* UpdatePwdViewController.m in Sources */,
 				1DC18EFE1CB795D50006D642 /* MJRefreshBackFooter.m in Sources */,
 				1DEDC8611C9FA2920083B394 /* UIImage+MultiFormat.m in Sources */,
 				1DEDC8631C9FA2920083B394 /* UIImageView+HighlightedWebCache.m in Sources */,
