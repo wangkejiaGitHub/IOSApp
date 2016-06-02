@@ -314,11 +314,64 @@
                         <outlet property="tableViewList" destination="BAy-av-wrt" id="efp-Vi-4SH"/>
                         <segue destination="MSE-Vr-gXb" kind="show" identifier="login" id="AgN-I9-PGX"/>
                         <segue destination="KKX-fY-zsa" kind="show" identifier="userinfo" id="9fF-yO-D7w"/>
+                        <segue destination="l4l-Z7-g8R" kind="show" identifier="topicR" id="hsz-LZ-hh0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sWf-yf-69a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1282.5" y="2130.5"/>
+        </scene>
+        <!--我的做题记录-->
+        <scene sceneID="9S7-yu-nht">
+            <objects>
+                <viewController id="l4l-Z7-g8R" customClass="ExerciseRecordViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qfa-Z4-wdJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ho2-Pj-b4T"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="5ij-g9-0Ap">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uen-uW-0Lt">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="H32-ZA-jgc">
+                                        <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="H32-ZA-jgc" id="SOs-IN-20f">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="uen-uW-0Lt" firstAttribute="leading" secondItem="5ij-g9-0Ap" secondAttribute="leading" id="4pQ-14-zpp"/>
+                            <constraint firstAttribute="trailing" secondItem="uen-uW-0Lt" secondAttribute="trailing" id="FZH-MY-E66"/>
+                            <constraint firstItem="uen-uW-0Lt" firstAttribute="top" secondItem="qfa-Z4-wdJ" secondAttribute="bottom" id="X9J-8m-eIB"/>
+                            <constraint firstItem="Ho2-Pj-b4T" firstAttribute="top" secondItem="uen-uW-0Lt" secondAttribute="bottom" id="lb6-d9-tcZ"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="我的做题记录" id="4ua-LS-IyA">
+                        <barButtonItem key="rightBarButtonItem" title="做题模式" id="I4c-nG-fpi">
+                            <connections>
+                                <action selector="buttonRightClick:" destination="l4l-Z7-g8R" id="ypE-4X-sLb"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="buttonRight" destination="I4c-nG-fpi" id="t5t-to-yEO"/>
+                        <outlet property="tableViewRe" destination="uen-uW-0Lt" id="uIB-a2-Tz0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MfV-iA-Oq4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1282.5" y="2907.5"/>
         </scene>
         <!--User Info View Controller-->
         <scene sceneID="QZZ-lh-Bhj">
@@ -424,7 +477,6 @@
                     <connections>
                         <outlet property="tableViewUser" destination="5sZ-eF-zbT" id="XFw-4U-6np"/>
                         <segue destination="u0Q-yi-jYk" kind="show" identifier="updateinfo" id="R6e-FO-zg8"/>
-                        <segue destination="dda-EV-34Z" kind="show" identifier="updatepwd" id="0T3-wD-ygW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="95l-pw-nlQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -474,6 +526,9 @@
                                 <state key="normal" title="保  存">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="buttonSaveClick:" destination="u0Q-yi-jYk" eventType="touchUpInside" id="GW0-ql-RoO"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.87678546890286668" green="0.87876142588760675" blue="0.9089142628205128" alpha="1" colorSpace="calibratedRGB"/>
@@ -496,36 +551,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="29P-1d-Pa7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-410.5" y="2130.5"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="cKE-s4-B49">
-            <objects>
-                <viewController id="dda-EV-34Z" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="D1E-wF-z1p"/>
-                        <viewControllerLayoutGuide type="bottom" id="Ofc-pC-w5i"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="zj4-SS-0as">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBrg.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="4Bo-Hp-8vT">
-                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
-                            </imageView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Ofc-pC-w5i" firstAttribute="top" secondItem="4Bo-Hp-8vT" secondAttribute="bottom" id="8ag-ri-EfD"/>
-                            <constraint firstItem="4Bo-Hp-8vT" firstAttribute="top" secondItem="D1E-wF-z1p" secondAttribute="bottom" id="mJv-RJ-JLk"/>
-                            <constraint firstItem="4Bo-Hp-8vT" firstAttribute="leading" secondItem="zj4-SS-0as" secondAttribute="leading" id="rOF-uU-nrF"/>
-                            <constraint firstAttribute="trailing" secondItem="4Bo-Hp-8vT" secondAttribute="trailing" id="sON-QY-UbG"/>
-                        </constraints>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="utz-2J-G8u" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1.5" y="2130.5"/>
         </scene>
         <!--Secound Subject View Controller-->
         <scene sceneID="dq9-6z-fmI">
@@ -1114,7 +1139,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LJU-lJ-Tej" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2578.5" y="-947.5"/>
+            <point key="canvasLocation" x="1306.5" y="-523.5"/>
         </scene>
         <!--Model Papers View Controller-->
         <scene sceneID="V3Q-PL-rpM">
@@ -1281,7 +1306,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qwZ-54-FDC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2596.5" y="-140.5"/>
+            <point key="canvasLocation" x="1324.5" y="283.5"/>
         </scene>
         <!--Week Select View Controller-->
         <scene sceneID="8VP-TM-UVM">
@@ -1409,7 +1434,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kR7-Xg-bxU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2614.5" y="586.5"/>
+            <point key="canvasLocation" x="1342.5" y="1010.5"/>
         </scene>
         <!--Image Topic View Controller-->
         <scene sceneID="Mv2-2d-IaJ">
@@ -1428,7 +1453,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5sD-IT-yhQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3486.5" y="672.5"/>
+            <point key="canvasLocation" x="2214.5" y="1096.5"/>
         </scene>
         <!--Intelligent Topic View Controller-->
         <scene sceneID="wMj-6Y-Pyg">
@@ -1442,7 +1467,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="510" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VIN-vR-vun">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="510" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="VIN-vR-vun">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -1526,7 +1551,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="suk-kK-aFb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2619.5" y="1345.5"/>
+            <point key="canvasLocation" x="1347.5" y="1769.5"/>
         </scene>
         <!--Start Do Topic View Controller-->
         <scene sceneID="g4m-Iz-Sis">
@@ -1686,7 +1711,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kfk-zh-AhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3074.5" y="-88.5"/>
+            <point key="canvasLocation" x="1802.5" y="335.5"/>
         </scene>
         <!--Start Analysis Topic View Controller-->
         <scene sceneID="Oo1-fo-syl">
@@ -1768,7 +1793,6 @@
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t9B-Or-TBA">
                                 <rect key="frame" x="276" y="7" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
                                 <connections>
                                     <action selector="buttonRightClick:" destination="sNW-13-Bm9" eventType="touchUpInside" id="m7r-zs-yuN"/>
                                 </connections>
@@ -1786,7 +1810,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="evg-hd-MkM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3486.5" y="-88.5"/>
+            <point key="canvasLocation" x="2214.5" y="335.5"/>
         </scene>
         <!--Notes Data View Controller-->
         <scene sceneID="60f-db-nn6">
@@ -1841,7 +1865,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mA9-91-oqH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4154.5" y="-454.5"/>
+            <point key="canvasLocation" x="2882.5" y="-30.5"/>
         </scene>
         <!--Test View Controller-->
         <scene sceneID="b9G-sh-2Yo">
@@ -1858,6 +1882,12 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="y_cticon" translatesAutoresizingMaskIntoConstraints="NO" id="USU-xo-mA0">
                                 <rect key="frame" x="124" y="115" width="92" height="84"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="建筑工程技术预测量（技术预测量）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jSp-wU-SXk">
+                                <rect key="frame" x="80" y="311" width="275" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -2515,8 +2545,8 @@
         <image name="y_cticon" width="125" height="124"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Te0-o5-J6N"/>
-        <segue reference="GFd-XB-DRq"/>
-        <segue reference="rlR-Gj-gBN"/>
+        <segue reference="daa-Sr-1Fl"/>
+        <segue reference="Uqq-Jq-m50"/>
+        <segue reference="AgN-I9-PGX"/>
     </inferredMetricsTieBreakers>
 </document>

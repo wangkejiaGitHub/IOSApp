@@ -95,6 +95,7 @@
 //用户信息（字典模型
 // 包含的key对应服务器发送过来的Key
 #define tyNSUserDefaults [NSUserDefaults standardUserDefaults]
+#define tyUserUserInfo @"tyUserAllInfo"
 #define tyUserUser @"tyUserInfo"
 //令牌
 #define tyUserAccessToken @"tyAccessToken"
@@ -112,4 +113,7 @@
 #define tyUserShowUpdateAnswer @"updateAnswer"
 //提示再次点击收藏可取消收藏
 #define tyUserShowCollectAlert @"collectAlert"
+///////////////////////////////////////////////
+///////////////////////////////////////////////
+
 #endif /* DtkPchFile_pch */

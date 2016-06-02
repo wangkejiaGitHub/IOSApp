@@ -11,4 +11,5 @@
 @interface UpdateUserInfoViewController : UIViewController
 ///修改内容参数：1：用户名 2：手机号 3：邮箱
 @property (nonatomic,assign) NSInteger updateInfoPar;
+@property (nonatomic,strong) NSString *stringCurr;
 @end

@@ -74,7 +74,7 @@
             [SVProgressHUD showSuccessWithStatus:@"登录成功"];
             NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
             [tyUser setObject:dicUser forKey:tyUserUser];
-            [self.navigationController popViewControllerAnimated:YES];
+            [self getUserInfo];
         }
         else{
             [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
@@ -85,7 +85,23 @@
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
-
+///获取用户信息
+- (void)getUserInfo{
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+    NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
+    NSLog(@"%@",urlString);
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSMutableDictionary *dicc = [NSMutableDictionary dictionaryWithDictionary:dicUserInfo];
+        [dicc setObject:@"" forKey:@"headImg"];
+        [tyUser setObject:dicc forKey:tyUserUserInfo];
+        [self.navigationController popViewControllerAnimated:YES];
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+    NSLog(@"%@",dicUser);
+}
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;

@@ -7,24 +7,21 @@
 //
 
 #import "UpdateUserInfoViewController.h"
-
-@interface UpdateUserInfoViewController ()
+@interface UpdateUserInfoViewController ()<UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textValue;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
 @property (weak, nonatomic) IBOutlet UIView *viewText;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
-
 @end
 
 @implementation UpdateUserInfoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-//    _textValue.placeholder =
+
     [self showTextPlaceholderString];
 }
-///显示文本框的提示输入文字
+///加载
 - (void)showTextPlaceholderString{
     _tyUser = [NSUserDefaults standardUserDefaults];
     _viewText .layer.masksToBounds = YES;
@@ -43,7 +40,36 @@
         self.title = @"邮箱";
         _textValue.placeholder = @"填写邮箱";
     }
+    //添加手势
+    UITapGestureRecognizer *tapView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
+    [self.view addGestureRecognizer:tapView];
+    //文本框获取焦点
+     [_textValue becomeFirstResponder];
+    _textValue.text = _stringCurr;
 }
+- (void)viewWillDisappear:(BOOL)animated{
+    [_textValue resignFirstResponder];
+}
+//手势点击事件
+- (void)tapClick:(UITapGestureRecognizer *)tap{
+    [_textValue resignFirstResponder];
+}
+//保存按钮
+- (IBAction)buttonSaveClick:(UIButton *)sender {
+    if (self.updateInfoPar == 1) {
+        //用户名
+        [self updateUserName];
+    }
+    else if (self.updateInfoPar ==2){
+        //手机号
+        [self updateUserPhone];
+    }
+    else if (self.updateInfoPar == 3){
+        //邮箱
+        [self updateUserEmail];
+    }
+}
+
 ///修改手机号
 - (void)updateUserPhone{
     if ([self checkTelNumber:_textValue.text]) {
@@ -85,6 +111,11 @@
     } RequestFaile:^(NSError *erro) {
         
     }];
+}
+//textField 代理
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
+    return YES;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
