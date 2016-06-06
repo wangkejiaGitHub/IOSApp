@@ -11,6 +11,7 @@
 #import "ModelPapersViewController.h"
 #import "WeekSelectViewController.h"
 #import "IntelligentTopicViewController.h"
+#import "ExerciseRecordViewController.h"
 @interface PracticeCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCenter;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
@@ -149,6 +150,14 @@
         else{
             //做题记录
             if (indexPath.row == 0) {
+//                if ([_tyUser objectForKey:tyUserClass]) {
+//                    [self performSegueWithIdentifier:@"topicR" sender:nil];
+//                }
+//                else{
+//                    [SVProgressHUD showInfoWithStatus:@"还没有选择相关专业"];
+//                }
+
+                [self performSegueWithIdentifier:@"Exercise" sender:nil];
                  NSLog(@"做题记录");
             }
             //我的收藏
@@ -189,6 +198,11 @@
         chapVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
         chapVc.title = @"章节练习";
     }
+    else if ([segue.identifier isEqualToString:@"Exercise"]){
+//        ExerciseRecordViewController *exerVc = segue.destinationViewController;
+        
+    }
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

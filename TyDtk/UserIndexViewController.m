@@ -147,6 +147,7 @@
         }
     }
 }
+
 ///用户退出登录
 //- (void)logOutUser{
 //    [SVProgressHUD show];
@@ -179,13 +180,16 @@
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if (dicUserInfo != nil) {
-            //
-            //            [self performSegueWithIdentifier:@"login" sender:nil];
             _tableHeardView.labUserName.text = dicUserInfo[@"userName"];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
             _tableHeardView.labUserName.text = @"未登录";
+            [_tyUser removeObjectForKey:tyUserAccessToken];
+            [_tyUser removeObjectForKey:tyUserClass];
+            [_tyUser removeObjectForKey:tyUserSelectSubject];
+            [_tyUser removeObjectForKey:tyUserSubject];
+            [_tyUser removeObjectForKey:tyUserUser];
         }
     } RequestFaile:^(NSError *error) {
         

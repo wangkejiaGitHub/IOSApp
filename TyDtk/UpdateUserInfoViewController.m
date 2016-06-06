@@ -106,7 +106,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{
-            [SVProgressHUD showInfoWithStatus:@"操作失败！"];
+            [SVProgressHUD showInfoWithStatus:dicUpdate[@"errmsg"]];
         }
     } RequestFaile:^(NSError *erro) {
         
