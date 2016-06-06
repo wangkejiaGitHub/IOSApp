@@ -70,7 +70,9 @@
     [self addChildViewControllerForSelfWithUser];
     [SVProgressHUD dismiss];
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = NO;
+}
 - (void)viewLoad{
     _allowMenu = NO;
     [self getAllSubject];

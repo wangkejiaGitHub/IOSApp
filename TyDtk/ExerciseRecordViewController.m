@@ -7,16 +7,17 @@
 //
 
 #import "ExerciseRecordViewController.h"
-
+#import "StartDoTopicViewController.h"
+#import "StartAnalysisTopicViewController.h"
 @interface ExerciseRecordViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollViewHeard;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRe;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonRight;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSubject;
 @property (weak, nonatomic) IBOutlet UIButton *buttonTypeTopic;
 
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSArray *arraySubject;
+@property (nonatomic,strong) NSDictionary *dicSelectSubject;
 ///练习记录
 @property (nonatomic,strong) NSMutableArray *arrayExRe;
 @property (nonatomic,strong) NSString *accToken;
@@ -61,6 +62,9 @@
     _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableViewRe.tableFooterView = [UIView new];
 }
+- (void)viewWillAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = NO;
+}
 - (void)viewDidAppear:(BOOL)animated{
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
@@ -83,7 +87,7 @@
     [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
     [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
     ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self typeMenuItemArray]];
-    [popupMenu showInView:self.navigationController.view fromRect:CGRectMake(Scr_Width - 60, -30, 50, 120) layoutType:Vertical];
+    [popupMenu showInView:self.navigationController.view fromRect:CGRectMake(Scr_Width - 50, -30, 50, 120) layoutType:Vertical];
     [self.navigationController.view addSubview:popupMenu];
 }
 //返回试题类型菜单item数组
@@ -138,7 +142,7 @@
     [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
     [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
     ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self subjectMenuItemArray]];
-    [popupMenu showInView:self.navigationController.view fromRect:CGRectMake(48, -30, 0, 120) layoutType:Vertical];
+    [popupMenu showInView:self.navigationController.view fromRect:CGRectMake(55, -30, 0, 120) layoutType:Vertical];
     [self.navigationController.view addSubview:popupMenu];
 }
 
@@ -271,33 +275,156 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     NSDictionary *dicRx = _arrayExRe[indexPath.row];
-    NSLog(@"%@",dicRx[@"AddTime"]);
+    
+    NSLog(@"%@",dicRx);
     UILabel *labTitle = (UILabel *)[cell.contentView viewWithTag:10];
     labTitle.text = dicRx[@"Title"];
-//   UILabel *labAddTime = (UILabel *)[cell.contentView viewWithTag:11];
-//   UILabel *labRE = (UILabel *)[cell.contentView viewWithTag:12];
-//   cell.backgroundColor = [UIColor lightGrayColor];
-    //获取当前时间，日期（用于计算记录日期）
-    NSDate *currentDate = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"YYYY-MM-dd hh:mm"];
-    NSString *dateString = [dateFormatter stringFromDate:currentDate];
-    NSLog(@"dateString:%@",dateString);
+   UILabel *labAddTime = (UILabel *)[cell.contentView viewWithTag:11];
+    labAddTime.text = [DateStringCompare dataStringCompareWithNowTime:dicRx[@"AddTime"]];
+   UILabel *labRE = (UILabel *)[cell.contentView viewWithTag:12];
+    NSString *labREtext = [NSString stringWithFormat:@"正确数:【%ld】 错误数:【%ld】",[dicRx[@"RightNum"]integerValue],[dicRx[@"ErrorNum"] integerValue]];
+    labRE.text = labREtext;
     return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    _dicSelectSubject = _arrayExRe[indexPath.row];
+    NSInteger stateId = [_dicSelectSubject[@"State"] integerValue];
+    [self showSelectDoTopicOp:stateId];
+}
+/////////////////////////做题/////////////////////////
+/////////////////////////////////////////////////////
+/**
+ （每周精选）
+ 获取记录rid
+ */
+- (void)getWeekPaperRid:(NSDictionary *)dic{
+    [SVProgressHUD show];
+    NSString *titleString = dic[@"Title"];
+    //标题编码
+    titleString = [titleString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/MakeWeeklyRecord/%@?access_token=%@&title=%@",systemHttps,dic[@"ExamId"],_accToken,titleString];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicRid = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicRid[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicRid[@"datas"];
+            NSString *ridString = dicDatas[@"rid"];
+            [self performSegueWithIdentifier:@"startDoTopic" sender:ridString];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+///根据试卷id获取试卷详细信息
+- (void)getPaperInfo{
+    //api/Paper/GetPaperInfo/{id}?access_token={access_token}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperInfo/%ld?access_token=%@",systemHttps,[_dicSelectSubject[@"ExamId"] integerValue],_accToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicPaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicPaper[@"code"] integerValue];
+        if (codeId == 1) {
+            _dicSelectSubject = dicPaper[@"datas"];
+            [self performSegueWithIdentifier:@"startDoTopic" sender:nil];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/////////////////////////做题/////////////////////////
+//////////////////////////////////////////////////////
+/////////////////////////解析/////////////////////////
+
+///根据试卷id获取试卷详细信息(解析)
+- (void)getPaperInfoAnalysisUsePaperId{
+    //api/Paper/GetPaperInfo/{id}?access_token={access_token}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperInfo/%ld?access_token=%@",systemHttps,[_dicSelectSubject[@"ExamId"] integerValue],_accToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicPaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicPaper[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicPaper[@"datas"];
+            [self performSegueWithIdentifier:@"topicAnalysis" sender:[NSString stringWithFormat:@"%ld",[dicDatas[@"Id"] integerValue]]];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/////////////////////////解析/////////////////////////
+///选择记录弹出选项试图
+- (void)showSelectDoTopicOp:(NSInteger)stateId{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"选择你的操作" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *ac1;
+    UIAlertAction *ac2;
+    UIAlertAction *ac3;
+    if (stateId == 0) {
+        
+    }
+    else if (stateId == 1){
+        ac1 = [UIAlertAction actionWithTitle:@"查看解析" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self getPaperInfoAnalysisUsePaperId];
+        }];
+        
+        [alert addAction:ac1];
+        
+        ac2 = [UIAlertAction actionWithTitle:@"再做一次" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            if (_topicModel == 3) {
+                [self getWeekPaperRid:_dicSelectSubject];
+            }
+            else if(_topicModel == 4){
+//                [self performSegueWithIdentifier:@"startDoTopic" sender:nil];
+                [self getPaperInfo];
+            }
+        }];
+        [alert addAction:ac2];
+        ac3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:ac3];
+        [self.navigationController presentViewController:alert animated:YES completion:nil];
+    }
+    else if (stateId == 2){
+        
+    }
+}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    ///1章节练习 2智能出题 3每周精选 4试卷
+    if ([segue.identifier isEqualToString:@"startDoTopic"]) {
+        StartDoTopicViewController *starVc = segue.destinationViewController;
+        starVc.dicPater = _dicSelectSubject;
+        if (sender!=nil) {
+            starVc.rIdString = sender;
+        }
+        if (_topicModel == 2) {
+            //智能出题
+            starVc.paperParameter = 4;
+        }
+        else if (_topicModel == 4){
+            //模拟试卷
+            starVc.paperParameter = 2;
+        }
+        else{
+            starVc.paperParameter = _topicModel;
+        }
+    }
+    else if ([segue.identifier isEqualToString:@"topicAnalysis"]){
+        StartAnalysisTopicViewController *analysisVc = segue.destinationViewController;
+        analysisVc.PaperId = [sender integerValue];
+        analysisVc.rId = _dicSelectSubject[@"Rid"];
+        if (_topicModel == 2) {
+            //智能出题
+            analysisVc.paperAnalysisParameter = 4;
+        }
+        else if (_topicModel == 4){
+            //模拟试卷
+            analysisVc.paperAnalysisParameter = 2;
+        }
+        else{
+            analysisVc.paperAnalysisParameter = _topicModel;
+        }
+
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

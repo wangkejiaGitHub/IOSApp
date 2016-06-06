@@ -53,6 +53,7 @@
 		1D30ED9D1CEC3F97005046DB /* WeekSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D30ED9C1CEC3F97005046DB /* WeekSelectViewController.m */; };
 		1D31827B1CD8352D00AD4773 /* paterTopicQtype3Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D31827A1CD8352D00AD4773 /* paterTopicQtype3Cell.xib */; };
 		1D31827E1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D31827D1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m */; };
+		1D4227041D05879200A9B816 /* DateStringCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4227031D05879200A9B816 /* DateStringCompare.m */; };
 		1D579EF71CE9668100578519 /* NSObject+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */; };
 		1D579EF81CE9668100578519 /* NSString+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED61CE9668100578519 /* NSString+Zirkfied.m */; };
 		1D579EF91CE9668100578519 /* UIColor+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED81CE9668100578519 /* UIColor+Zirkfied.m */; };
@@ -297,6 +298,8 @@
 		1D31827A1CD8352D00AD4773 /* paterTopicQtype3Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = paterTopicQtype3Cell.xib; sourceTree = "<group>"; };
 		1D31827C1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype3TableViewCell.h; sourceTree = "<group>"; };
 		1D31827D1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicQtype3TableViewCell.m; sourceTree = "<group>"; };
+		1D4227021D05879200A9B816 /* DateStringCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateStringCompare.h; sourceTree = "<group>"; };
+		1D4227031D05879200A9B816 /* DateStringCompare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateStringCompare.m; sourceTree = "<group>"; };
 		1D579ED31CE9668100578519 /* NSObject+Zirkfied.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zirkfied.h"; sourceTree = "<group>"; };
 		1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Zirkfied.m"; sourceTree = "<group>"; };
 		1D579ED51CE9668100578519 /* NSString+Zirkfied.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Zirkfied.h"; sourceTree = "<group>"; };
@@ -585,6 +588,8 @@
 				1D1626921CBDD5CC0050784B /* TopicCardCollectionView.m */,
 				1D122B961CDD8F7300A0BA08 /* TopicAnalysisCardView.h */,
 				1D122B971CDD8F7300A0BA08 /* TopicAnalysisCardView.m */,
+				1D4227021D05879200A9B816 /* DateStringCompare.h */,
+				1D4227031D05879200A9B816 /* DateStringCompare.m */,
 			);
 			name = CustomTools;
 			sourceTree = "<group>";
@@ -1638,6 +1643,7 @@
 				1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */,
 				1DDA96D61CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m in Sources */,
 				1D122B981CDD8F7300A0BA08 /* TopicAnalysisCardView.m in Sources */,
+				1D4227041D05879200A9B816 /* DateStringCompare.m in Sources */,
 				1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */,
 				1DC9B9091CE46A9E00A2E9A8 /* ZFPopupMenuItem.m in Sources */,
 				1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */,

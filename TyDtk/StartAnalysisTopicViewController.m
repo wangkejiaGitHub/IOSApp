@@ -50,6 +50,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tabBarController.tabBar.hidden = YES;
     self.title = @"试卷解析";
     _intRightTopic = 0;
     _intWrongTopic = 0;

@@ -52,6 +52,8 @@
 //图表
 #import "ZFChart.h"
 #import "ErrorTopicView.h"
+//时间差值
+#import "dateStringCompare.h"
 //可拖动的button
 
 //#import "UIButton+NMCategory.h"
