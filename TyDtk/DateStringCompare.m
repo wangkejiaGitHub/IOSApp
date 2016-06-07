@@ -23,13 +23,14 @@
     //    [datestring insertString:@" " atIndex:10];
     //    [datestring insertString:@":" atIndex:13];
     //    [datestring insertString:@":" atIndex:16];
-    NSLog(@"datestring==%@",dateString);
+//    NSLog(@"datestring==%@",dateString);
     NSDateFormatter * dm = [[NSDateFormatter alloc]init];
     //指定输出的格式   这里格式必须是和上面定义字符串的格式相同，否则输出空
     [dm setDateFormat:@"YYYY-MM-dd HH:mm"];
     NSDate * newdate = [dm dateFromString:dateString];
     long dd = (long)[datenow timeIntervalSince1970] - [newdate timeIntervalSince1970];
     NSString *timeString=@"";
+//    NSLog(@"%ld",dd/86400);
     if (dd/3600<1){
         timeString = [NSString stringWithFormat:@"%ld", dd/60];
         timeString=[NSString stringWithFormat:@"%@分钟前", timeString];
@@ -38,11 +39,10 @@
         timeString = [NSString stringWithFormat:@"%ld", dd/3600];
         timeString=[NSString stringWithFormat:@"%@小时前", timeString];
     }
-    if (dd/86400>1){
+    if (dd/86400>= 1){
         timeString = [NSString stringWithFormat:@"%ld", dd/86400];
         timeString=[NSString stringWithFormat:@"%@天前", timeString];
     }
     return timeString;
 }
-
 @end

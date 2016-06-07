@@ -15,6 +15,7 @@
 @property (nonatomic,strong) NSDictionary *dicUser;
 @property (nonatomic,strong) NSArray *arrayCellTitle;
 @property (nonatomic,strong) NSArray *arrayCellImage;
+@property (nonatomic,strong) ViewNullData *viewDataNil;
 @end
 
 @implementation UserIndexViewController
@@ -123,11 +124,11 @@
                 
             }
             else if (indexPath.row == 3){
-                if ([_tyUser objectForKey:tyUserClass]) {
+                if ([_tyUser objectForKey:tyUserSubject]) {
                     [self performSegueWithIdentifier:@"topicR" sender:nil];
                 }
                 else{
-                    [SVProgressHUD showInfoWithStatus:@"还没有选择相关专业"];
+                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
                 }
              
             }
@@ -173,6 +174,7 @@
 
 /////获取用户信息
 - (void)getUserInfo{
+//    [SVProgressHUD show];
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
     NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
@@ -191,6 +193,7 @@
             [_tyUser removeObjectForKey:tyUserSubject];
             [_tyUser removeObjectForKey:tyUserUser];
         }
+//        [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
         
     }];

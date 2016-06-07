@@ -9,7 +9,8 @@
 #import "ExerciseRecordViewController.h"
 #import "StartDoTopicViewController.h"
 #import "StartAnalysisTopicViewController.h"
-@interface ExerciseRecordViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "ExerciseTableViewCell.h"
+@interface ExerciseRecordViewController ()<UITableViewDataSource,UITableViewDelegate,ExerciseDelegate>
 @property (nonatomic, strong) UIScrollView *scrollViewHeard;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRe;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSubject;
@@ -31,6 +32,7 @@
 @property (nonatomic,assign) NSInteger subjectId;
 //刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
+@property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic,strong) ViewNullData *viewDataNil;
 @end
 
@@ -73,14 +75,42 @@
     [_refreshFooter setTitle:@"正在为您加载更多记录..." forState:MJRefreshStateRefreshing];
     [_refreshFooter setTitle:@"记录已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _tableViewRe.mj_footer = _refreshFooter;
+    
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
+    _tableViewRe.mj_header = _refreshHeader;
     _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 - (void)viewDidDisappear:(BOOL)animated{
     _refreshFooter = nil;
+    _refreshHeader = nil;
 }
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)reFresh{
     [self getExerciseRe];
 }
+- (void)headerRefereshClick:(MJRefreshNormalHeader *)reFresh{
+//    _topicModel = 1;
+    _pageCurr = 1;
+    _pages = 0;
+    [_arrayExRe removeAllObjects];
+    [self getExerciseRe];
+}
+///获取当前专业下的所有科目
+- (void)getAllSubjectWithClass:(NSInteger)classId{
+    [SVProgressHUD show];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,classId];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicSubject[@"code"] integerValue];
+        if (codeId == 1) {
+            _arraySubject = dicSubject[@"datas"];
+            [self getExerciseRe];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+////////////////////////////////////////////////////
+/////////////////////做题模式////////////////////////
 //做题模式按钮
 - (IBAction)buttonTypeClick:(UIButton *)sender {
     [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
@@ -94,8 +124,6 @@
 //1章节练习 2智能出题 3每周精选 4试卷
 - (NSArray *)typeMenuItemArray{
     NSMutableArray *arrayTypeMuen = [NSMutableArray array];
-//    ZFPopupMenuItem *itemA = [ZFPopupMenuItem initWithMenuName:@"全部" image:nil action:@selector(menuTypeClick:) target:self];
-//    itemA.tag = 100 + 0;
      ZFPopupMenuItem *item1 = [ZFPopupMenuItem initWithMenuName:@"章节练习" image:nil action:@selector(menuTypeClick:) target:self];
     item1.tag = 101;
      ZFPopupMenuItem *item2 = [ZFPopupMenuItem initWithMenuName:@"模拟试卷" image:nil action:@selector(menuTypeClick:) target:self];
@@ -113,29 +141,17 @@
 }
 //做题模式按钮菜单点击事件
 - (void)menuTypeClick:(ZFPopupMenuItem *)item{
-//    NSLog(@"%ld",item.tag);
     [_buttonTypeTopic setTitle:item.itemName forState:UIControlStateNormal];
     _topicModel = item.tag - 100;
     _pageCurr = 1;
     [_arrayExRe removeAllObjects];
     [self getExerciseRe];
 }
-///获取当前专业下的所有科目
-- (void)getAllSubjectWithClass:(NSInteger)classId{
-    NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,classId];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSInteger codeId = [dicSubject[@"code"] integerValue];
-        if (codeId == 1) {
-            _arraySubject = dicSubject[@"datas"];
-//            [self addMenuSubject];
-            [self getExerciseRe];
-        }
-//        NSLog(@"%@",dicSubject);
-    } RequestFaile:^(NSError *error) {
-        
-    }];
-}
+//*******************做题模式////////////////////////
+/////////////////////做题模式////////////////////////
+
+////////////////////////////////////////////////////
+/////////////////////科目选项////////////////////////
 //科目选择按钮
 - (IBAction)buttonSubjectClick:(UIButton *)sender {
     [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
@@ -174,58 +190,10 @@
     _pageCurr = 1;
     [self getExerciseRe];
 }
-///添加科目
-//- (void)addMenuForScrollow{
-//    ///scrollView的内容宽
-//    NSInteger scrollContWith = 0;
-//    for (int i =0; i<_arraySubject.count; i++) {
-//        NSDictionary *dicSub = _arraySubject[i];
-//        NSString *name = dicSub[@"Names"];
-//        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(scrollContWith, 5, name.length*19+10, 40)];
-//        titleLabel.text = name;
-//        titleLabel.tag = i;
-//        titleLabel.font = [UIFont systemFontOfSize:16.0];
-//        titleLabel.textAlignment = NSTextAlignmentCenter;
-//        titleLabel.textColor = [UIColor lightGrayColor];
-//        //允许用户交互
-//        titleLabel.userInteractionEnabled = YES;
-//        [titleLabel addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labClick:)]];
-//        [self.scrollViewHeard addSubview:titleLabel];
-//        scrollContWith = scrollContWith + name.length * 19+10 ;
-//    }
-//    [self.scrollViewHeard setContentSize:CGSizeMake(scrollContWith, 45)];
-//}
-////科目点击事件
-//- (void)labClick:(UITapGestureRecognizer *)recognizer{
-//    UILabel *labClick = (UILabel *)recognizer.view;
-//    for (id subView in _scrollViewHeard.subviews) {
-//        if ([subView isKindOfClass:[UILabel class]]) {
-//            UILabel *lab = (UILabel *)subView;
-//            if (labClick.tag == lab.tag) {
-//                lab.textColor = [UIColor redColor];
-//            }
-//            else{
-//                lab.textColor = [UIColor lightGrayColor];
-//            }
-//        }
-//    }
-//    CGRect rect = labClick.frame;
-//    if (rect.origin.x + rect.size.width/2<Scr_Width/2) {
-//        [_scrollViewHeard setContentOffset:CGPointMake(0, 0) animated:YES];
-//    }
-//    else if (rect.origin.x + rect.size.width/2 > _scrollViewHeard.contentSize.width - Scr_Width/2){
-//        [_scrollViewHeard setContentOffset:CGPointMake(_scrollViewHeard.contentSize.width-Scr_Width, 0) animated:YES];
-//    }
-//    else{
-//        [_scrollViewHeard setContentOffset:CGPointMake(rect.origin.x+rect.size.width/2 - Scr_Width/2, 0) animated:YES];
-//    }
-//    NSDictionary *dicSubject = _arraySubject[labClick.tag];
-//    _subjectId = [dicSubject[@"Id"] integerValue];
-//    _pageCurr = 1;
-//    [_arrayExRe removeAllObjects];
-//    
-//    [self getExerciseRe];
-//}
+//*******************科目选项////////////////////////
+/////////////////////科目选项////////////////////////
+
+///获取练习记录数据
 - (void)getExerciseRe{
     if (_pages != 0) {
         if (_pageCurr> _pages) {
@@ -235,8 +203,7 @@
     }
     [SVProgressHUD showWithStatus:@"正在加载做题记录..."];
    // api/Practice/GetDoRecords?access_token={access_token}&mode={mode}&courseId={courseId}&page={page}&size={size}
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Practice/GetDoRecords?access_token=%@&mode=%ld&courseId=%ld&page=%ld&size=20",systemHttps,_accToken,_topicModel,_subjectId,_pageCurr];
-    NSLog(@"%@",urlString);
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Practice/GetDoRecords?access_token=%@&mode=%ld&courseId=%ld&page=%ld&size=2",systemHttps,_accToken,_topicModel,_subjectId,_pageCurr];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicN = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicN[@"code"] integerValue];
@@ -245,16 +212,37 @@
             NSDictionary *dicPage =dicN[@"page"];
             _pages = [dicPage[@"pages"] integerValue];
             //当前页数增加1
-            _pageCurr = _pageCurr+1;
+            _pageCurr = _pageCurr+1; 
             //追加数据
             NSArray *arrayDatas =dicN[@"datas"];
-            for (NSDictionary *dicPater in arrayDatas) {
-                [_arrayExRe addObject:dicPater];
+//            NSLog(@"%@",arrayDatas);
+            ///////////////////////////////////////////////////////
+            //首先先判断在当前的数组中是否存在新请求的记录，如果存在，不在显示
+            if (_arrayExRe.count != 0) {
+                for (NSDictionary *dicExreCurr in _arrayExRe) {
+                    for (NSDictionary *dicPater in arrayDatas) {
+                        if ([dicExreCurr[@"Rid"] isEqualToString:dicPater[@"Rid"]]) {
+                            [_arrayExRe removeObject:dicExreCurr];
+                        }
+                    }
+                }
+            }
+            for (NSDictionary *dicP in arrayDatas) {
+                [_arrayExRe addObject:dicP];
+            }
+             NSLog(@"%@",_arrayExRe);
+            ///判断第一次加载时是否为空数据
+            if (_arrayExRe.count == 0) {
+                _viewDataNil = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 45, Scr_Width, Scr_Height - 45 - 64- 49) showText:@"没有更多记录了，换个做题试试看~"];
+                _tableViewRe.tableFooterView = _viewDataNil;
+            }
+            else{
+                _tableViewRe.tableFooterView = [UIView new];
             }
             _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
             [_tableViewRe reloadData];
             [_refreshFooter endRefreshing];
-            NSLog(@"%ld",_arrayExRe.count);
+            [_refreshHeader endRefreshing];
         }
         else{
             
@@ -263,34 +251,79 @@
     } RequestFaile:^(NSError *error) {
         
     }];
-    
+}
+///删除记录，单个删除
+- (void)deleteExercise:(NSIndexPath *)dicIndexPath{
+    [SVProgressHUD show];
+    //api/Practice/Del?access_token={access_token}&rid={rid}
+    NSString *urlString =[NSString stringWithFormat:@"%@api/Practice/Del?access_token=%@&rid=%@",systemHttps,_accToken,_dicSelectSubject[@"Rid"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicRe = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicRe[@"code"] integerValue];
+        if (codeId == 1) {
+            [_arrayExRe removeObjectAtIndex:dicIndexPath.row];
+            [_tableViewRe deleteRowsAtIndexPaths:@[dicIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            NSDictionary *dicDatas = dicRe[@"datas"];
+            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"操作失败！"];
+        }
+        NSLog(@"%@",dicRe);
+    } RequestFaile:^(NSError *error) {
+        
+    }];
 }
 //tableView代理
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _arrayExRe.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100;
+    return 140;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    NSDictionary *dicRx = _arrayExRe[indexPath.row];
-    
-    NSLog(@"%@",dicRx);
-    UILabel *labTitle = (UILabel *)[cell.contentView viewWithTag:10];
-    labTitle.text = dicRx[@"Title"];
-   UILabel *labAddTime = (UILabel *)[cell.contentView viewWithTag:11];
-    labAddTime.text = [DateStringCompare dataStringCompareWithNowTime:dicRx[@"AddTime"]];
-   UILabel *labRE = (UILabel *)[cell.contentView viewWithTag:12];
-    NSString *labREtext = [NSString stringWithFormat:@"正确数:【%ld】 错误数:【%ld】",[dicRx[@"RightNum"]integerValue],[dicRx[@"ErrorNum"] integerValue]];
-    labRE.text = labREtext;
+    ExerciseTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"cell1" forIndexPath:indexPath];
+    NSLog(@"indexPath.row = %ld",indexPath.row);
+    if (_arrayExRe.count > 0) {
+        NSDictionary *dicRx = _arrayExRe[indexPath.row];
+        cell.dicExercise = dicRx;
+        cell.delegateExercise = self;
+        [cell setCellModelValueWithDictionary:dicRx];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    }
     return cell;
 }
+- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return @"删除记录";
+}
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    _dicSelectSubject = _arrayExRe[indexPath.row];
+    [self deleteExercise:indexPath];
+//    [_arrayExRe removeObjectAtIndex:indexPath.row];
+//    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    NSLog(@"commitEditingStyle");
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     _dicSelectSubject = _arrayExRe[indexPath.row];
     NSInteger stateId = [_dicSelectSubject[@"State"] integerValue];
     [self showSelectDoTopicOp:stateId];
+}
+///cell上的查看解析按钮回调
+- (void)cellAnalysisWithDictionary:(NSDictionary *)dicModel{
+    _dicSelectSubject = dicModel;
+    [self getPaperInfoAnalysisUsePaperId];
+}
+///cell上的做题按钮回调
+- (void)cellTopicWithDictionary:(NSDictionary *)dicModel parameterInt:(NSInteger)parameter{
+    _dicSelectSubject = dicModel;
+    //继续做题
+    if (parameter == 0 | parameter == 2) {
+        
+    }
+    //再做一次
+    else if (parameter == 1){
+        [self againDoTopicRidClear];
+    }
 }
 /////////////////////////做题/////////////////////////
 /////////////////////////////////////////////////////
@@ -298,24 +331,24 @@
  （每周精选）
  获取记录rid
  */
-- (void)getWeekPaperRid:(NSDictionary *)dic{
-    [SVProgressHUD show];
-    NSString *titleString = dic[@"Title"];
-    //标题编码
-    titleString = [titleString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/MakeWeeklyRecord/%@?access_token=%@&title=%@",systemHttps,dic[@"ExamId"],_accToken,titleString];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicRid = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSInteger codeId = [dicRid[@"code"] integerValue];
-        if (codeId == 1) {
-            NSDictionary *dicDatas = dicRid[@"datas"];
-            NSString *ridString = dicDatas[@"rid"];
-            [self performSegueWithIdentifier:@"startDoTopic" sender:ridString];
-        }
-    } RequestFaile:^(NSError *error) {
-        
-    }];
-}
+//- (void)getWeekPaperRid:(NSDictionary *)dic{
+//    [SVProgressHUD show];
+//    NSString *titleString = dic[@"Title"];
+//    //标题编码
+//    titleString = [titleString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/MakeWeeklyRecord/%@?access_token=%@&title=%@",systemHttps,dic[@"ExamId"],_accToken,titleString];
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicRid = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        NSInteger codeId = [dicRid[@"code"] integerValue];
+//        if (codeId == 1) {
+//            NSDictionary *dicDatas = dicRid[@"datas"];
+//            NSString *ridString = dicDatas[@"rid"];
+//            [self performSegueWithIdentifier:@"startDoTopic" sender:ridString];
+//        }
+//    } RequestFaile:^(NSError *error) {
+//        
+//    }];
+//}
 ///根据试卷id获取试卷详细信息
 - (void)getPaperInfo{
     //api/Paper/GetPaperInfo/{id}?access_token={access_token}
@@ -331,7 +364,7 @@
         
     }];
 }
-/////////////////////////做题/////////////////////////
+//************************做题/////////////////////////
 //////////////////////////////////////////////////////
 /////////////////////////解析/////////////////////////
 
@@ -350,40 +383,52 @@
         
     }];
 }
-/////////////////////////解析/////////////////////////
+//*******************解析/////////////////////////
 ///选择记录弹出选项试图
 - (void)showSelectDoTopicOp:(NSInteger)stateId{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"选择你的操作" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *ac1;
     UIAlertAction *ac2;
     UIAlertAction *ac3;
-    if (stateId == 0) {
+    if (stateId == 0 | stateId == 2) {
         
     }
     else if (stateId == 1){
-        ac1 = [UIAlertAction actionWithTitle:@"查看解析" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        ac1 = [UIAlertAction actionWithTitle:@"查看解析" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self getPaperInfoAnalysisUsePaperId];
         }];
         
         [alert addAction:ac1];
         
-        ac2 = [UIAlertAction actionWithTitle:@"再做一次" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-            if (_topicModel == 3) {
-                [self getWeekPaperRid:_dicSelectSubject];
-            }
-            else if(_topicModel == 4){
-//                [self performSegueWithIdentifier:@"startDoTopic" sender:nil];
-                [self getPaperInfo];
-            }
+        ac2 = [UIAlertAction actionWithTitle:@"再做一次" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self againDoTopicRidClear];
         }];
         [alert addAction:ac2];
         ac3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         [alert addAction:ac3];
         [self.navigationController presentViewController:alert animated:YES completion:nil];
     }
-    else if (stateId == 2){
+}
+///再做一次时重置当前的记录(点击重新做题的一次时间)
+- (void)againDoTopicRidClear{
+    //api/Chapter/ResetRecord?access_token={access_token}&rid={rid}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/ResetRecord?access_token=%@&rid=%@",systemHttps,_accToken,_dicSelectSubject[@"Rid"]];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *diccc = (NSDictionary *)respoes;
+        NSInteger codeId = [diccc[@"code"] integerValue];
+        if (codeId == 1) {
+            if (_topicModel == 3) {
+                NSDictionary *dicDatas = diccc[@"datas"];
+                NSString *ridString = dicDatas[@"rid"];
+                [self performSegueWithIdentifier:@"startDoTopic" sender:ridString];
+            }
+            else if(_topicModel == 4){
+                [self getPaperInfo];
+            }
+        }
+    } RequestFaile:^(NSError *erro) {
         
-    }
+    }];
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     ///1章节练习 2智能出题 3每周精选 4试卷

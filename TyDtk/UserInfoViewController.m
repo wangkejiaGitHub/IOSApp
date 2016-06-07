@@ -165,10 +165,10 @@
         if (codeId == 1) {
             [SVProgressHUD showSuccessWithStatus:@"退出成功！"];
             //            [_tyUser removeObjectForKey:tyUserUser];
-            [_tyUser removeObjectForKey:tyUserAccessToken];
-            [_tyUser removeObjectForKey:tyUserClass];
-            [_tyUser removeObjectForKey:tyUserSelectSubject];
-            [_tyUser removeObjectForKey:tyUserSubject];
+//            [_tyUser removeObjectForKey:tyUserAccessToken];
+//            [_tyUser removeObjectForKey:tyUserClass];
+//            [_tyUser removeObjectForKey:tyUserSelectSubject];
+//            [_tyUser removeObjectForKey:tyUserSubject];
             [_tyUser removeObjectForKey:tyUserUser];
             [self.navigationController popViewControllerAnimated:YES];
         }
