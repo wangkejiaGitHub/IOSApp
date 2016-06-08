@@ -316,11 +316,82 @@
                         <segue destination="MSE-Vr-gXb" kind="show" identifier="login" id="AgN-I9-PGX"/>
                         <segue destination="KKX-fY-zsa" kind="show" identifier="userinfo" id="9fF-yO-D7w"/>
                         <segue destination="l4l-Z7-g8R" kind="show" identifier="topicR" id="hsz-LZ-hh0"/>
+                        <segue destination="h37-GH-raD" kind="show" identifier="collect" id="i4t-ac-L0P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sWf-yf-69a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1282.5" y="2130.5"/>
+        </scene>
+        <!--My Collect View Controller-->
+        <scene sceneID="cAc-vV-zb8">
+            <objects>
+                <viewController id="h37-GH-raD" customClass="MyCollectViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hgU-Vp-YdZ"/>
+                        <viewControllerLayoutGuide type="bottom" id="Lnv-Na-3d5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Wsj-Y8-qjQ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="83" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="hsk-Zg-bop">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="83" id="upO-tb-Dph" customClass="MGSwipeTableCell">
+                                        <rect key="frame" x="0.0" y="114" width="375" height="83"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="upO-tb-Dph" id="BpK-s5-dJo">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="82"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O7o-gc-mvo">
+                                                    <rect key="frame" x="30" y="23" width="227" height="36"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mhy-k6-G7e">
+                                                    <rect key="frame" x="322" y="31" width="50" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <state key="normal" title="做题">
+                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J1R-av-puc">
+                                                    <rect key="frame" x="258" y="31" width="50" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <state key="normal" title="查看">
+                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="h37-GH-raD" id="zc4-b7-HYn"/>
+                                    <outlet property="delegate" destination="h37-GH-raD" id="Gw3-DC-Lib"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hsk-Zg-bop" firstAttribute="top" secondItem="hgU-Vp-YdZ" secondAttribute="bottom" constant="-64" id="742-CR-H4l"/>
+                            <constraint firstItem="Lnv-Na-3d5" firstAttribute="top" secondItem="hsk-Zg-bop" secondAttribute="bottom" constant="-49" id="JqD-bU-0UP"/>
+                            <constraint firstAttribute="trailing" secondItem="hsk-Zg-bop" secondAttribute="trailing" id="e3D-rR-axc"/>
+                            <constraint firstItem="hsk-Zg-bop" firstAttribute="leading" secondItem="Wsj-Y8-qjQ" secondAttribute="leading" id="gUN-WN-wGl"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="tableViewCollect" destination="hsk-Zg-bop" id="ePc-Ii-9T8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Uzf-R6-Tkf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-730.5" y="3346.5"/>
         </scene>
         <!--我的做题记录-->
         <scene sceneID="9S7-yu-nht">
@@ -351,7 +422,7 @@
                                                         <constraint firstAttribute="height" constant="36" id="2P2-FG-tQg"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZPF-lh-R5v">
@@ -499,7 +570,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="LMY-Ds-XHL" firstAttribute="leading" secondItem="QPd-90-XA3" secondAttribute="leading" constant="10" id="2OC-33-gtk"/>
                                     <constraint firstItem="EKH-6d-G82" firstAttribute="centerY" secondItem="QPd-90-XA3" secondAttribute="centerY" id="5P7-uV-JgW"/>
@@ -537,7 +608,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MfV-iA-Oq4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1258.5" y="3019.5"/>
+            <point key="canvasLocation" x="-730.5" y="2595.5"/>
         </scene>
         <!--User Info View Controller-->
         <scene sceneID="QZZ-lh-Bhj">
@@ -647,7 +718,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="95l-pw-nlQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-828.5" y="2130.5"/>
+            <point key="canvasLocation" x="-756.5" y="1794.5"/>
         </scene>
         <!--Update User Info View Controller-->
         <scene sceneID="3Vs-g7-MCi">
@@ -716,7 +787,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="29P-1d-Pa7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-410.5" y="2130.5"/>
+            <point key="canvasLocation" x="-338.5" y="1794.5"/>
         </scene>
         <!--Secound Subject View Controller-->
         <scene sceneID="dq9-6z-fmI">
@@ -2051,7 +2122,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="建筑工程技术预测量（技术预测量）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jSp-wU-SXk">
                                 <rect key="frame" x="80" y="311" width="275" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -2700,7 +2771,7 @@
     <resources>
         <image name="btm_icon1" width="20" height="20"/>
         <image name="btm_icon4" width="20" height="20"/>
-        <image name="ic_business_detail_mark" width="500" height="313"/>
+        <image name="ic_business_detail_mark" width="20" height="20"/>
         <image name="km_icon.png" width="12" height="14"/>
         <image name="loginBrg.jpeg" width="700" height="1308"/>
         <image name="login_password.png" width="42" height="42"/>
@@ -2711,10 +2782,10 @@
         <image name="y_cticon" width="125" height="124"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Te0-o5-J6N"/>
-        <segue reference="daa-Sr-1Fl"/>
-        <segue reference="Lgn-lC-lLr"/>
         <segue reference="xTz-Ds-2vW"/>
+        <segue reference="hsz-LZ-hh0"/>
+        <segue reference="daa-Sr-1Fl"/>
+        <segue reference="AgN-I9-PGX"/>
         <segue reference="T9K-V5-1Ll"/>
     </inferredMetricsTieBreakers>
 </document>

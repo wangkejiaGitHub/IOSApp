@@ -123,6 +123,7 @@
             else if (indexPath.row == 2){
                 
             }
+            //练习记录
             else if (indexPath.row == 3){
                 if ([_tyUser objectForKey:tyUserSubject]) {
                     [self performSegueWithIdentifier:@"topicR" sender:nil];
@@ -132,12 +133,20 @@
                 }
              
             }
+            //我的收藏
             else if (indexPath.row == 4){
-                
+                if ([_tyUser objectForKey:tyUserSubject]) {
+                    [self performSegueWithIdentifier:@"collect" sender:nil];
+                }
+                else{
+                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                }
             }
+            //我的错题
             else if (indexPath.row == 5){
                 
             }
+            //我的笔记
             else if (indexPath.row == 6){
                 
             }
@@ -187,10 +196,10 @@
         else{
             [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
             _tableHeardView.labUserName.text = @"未登录";
-            [_tyUser removeObjectForKey:tyUserAccessToken];
-            [_tyUser removeObjectForKey:tyUserClass];
-            [_tyUser removeObjectForKey:tyUserSelectSubject];
-            [_tyUser removeObjectForKey:tyUserSubject];
+//            [_tyUser removeObjectForKey:tyUserAccessToken];
+//            [_tyUser removeObjectForKey:tyUserClass];
+//            [_tyUser removeObjectForKey:tyUserSelectSubject];
+//            [_tyUser removeObjectForKey:tyUserSubject];
             [_tyUser removeObjectForKey:tyUserUser];
         }
 //        [SVProgressHUD dismiss];

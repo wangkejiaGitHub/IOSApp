@@ -311,7 +311,6 @@
     else{
         [_arraySection addObject:secString];
     }
-    
     [_myTableView reloadSections:[NSIndexSet indexSetWithIndex:sender.tag - 1000] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
