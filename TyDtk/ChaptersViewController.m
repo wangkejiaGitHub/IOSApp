@@ -141,8 +141,7 @@
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         
         _arrayAllChapter = dic[@"datas"];
-        [self leeeeeee];
-        [self test];
+   
         /////////////////////////////////
         _intAllChapterCount = _arrayAllChapter.count;
         //层级（用于获取最大层级）
@@ -322,32 +321,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellsub" forIndexPath:indexPath];
     cell.textLabel.text = [NSString stringWithFormat:@"%ld",indexPath.row];
     return cell;
-}
-- (void)leeeeeee{
-    _Leeeeee = 0;
-    for (NSDictionary *dicArr in _arrayAllChapter) {
-        NSInteger le = [dicArr[@"Level"] integerValue];
-        if (le > _Leeeeee) {
-            _Leeeeee = le;
-        }
-    }
-}
-- (void)test{
-    NSMutableArray *array = [NSMutableArray array];
-    for (NSDictionary *dic1 in _arrayAllChapter) {
-        NSMutableDictionary *diccc = [NSMutableDictionary dictionary];
-        for (NSDictionary *dic2 in _arrayAllChapter) {
-            if ([dic1[@"Id"] integerValue] == [dic2[@"Parsent"] integerValue]) {
-                [array addObject:dic2];
-            }
-        }
-        [diccc setObject:dic1[@"Names"] forKey:@"name"];
-        [diccc setObject:array forKey:@"node"];
-    }
-    [self test];
-}
-- (void)test1{
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
