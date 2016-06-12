@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MyCollectViewController : UIViewController
-
+/// 1:(我的收藏) 2:(我的错题) 3:(我的笔记)
+@property (nonatomic,assign) NSInteger parameterView;
 @end

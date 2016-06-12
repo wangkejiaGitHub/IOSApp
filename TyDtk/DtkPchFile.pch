@@ -49,6 +49,8 @@
 #import "ZFPopupMenuItem.h"
 //下拉菜单
 #import "DTKDropdownMenuView.h"
+//you know
+#import "SDCycleScrollView.h"
 //图表
 #import "ZFChart.h"
 #import "ErrorTopicView.h"

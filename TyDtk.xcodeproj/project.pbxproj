@@ -49,6 +49,17 @@
 		1D1C5DD31D0659B500165ED6 /* ExerciseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C5DD21D0659B500165ED6 /* ExerciseTableViewCell.m */; };
 		1D1CD88D1CD2EE4800A80E88 /* LXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1CD88A1CD2EE4800A80E88 /* LXAlertView.m */; };
 		1D1CD88E1CD2EE4800A80E88 /* UILabel+LXAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1CD88C1CD2EE4800A80E88 /* UILabel+LXAdd.m */; };
+		1D211FC01D0D087600B895C6 /* MyErrorTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FBF1D0D087600B895C6 /* MyErrorTopicViewController.m */; };
+		1D211FD11D0D57C600B895C6 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FC41D0D57C600B895C6 /* TAAbstractDotView.m */; };
+		1D211FD21D0D57C600B895C6 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FC61D0D57C600B895C6 /* TAAnimatedDotView.m */; };
+		1D211FD31D0D57C600B895C6 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FC81D0D57C600B895C6 /* TADotView.m */; };
+		1D211FD41D0D57C600B895C6 /* TAPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FCA1D0D57C600B895C6 /* TAPageControl.m */; };
+		1D211FD51D0D57C600B895C6 /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FCC1D0D57C600B895C6 /* SDCollectionViewCell.m */; };
+		1D211FD61D0D57C600B895C6 /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FCE1D0D57C600B895C6 /* SDCycleScrollView.m */; };
+		1D211FD71D0D57C600B895C6 /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FD01D0D57C600B895C6 /* UIView+SDExtension.m */; };
+		1D211FDC1D0D5C2800B895C6 /* 001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1D211FD91D0D5C2800B895C6 /* 001.jpg */; };
+		1D211FDD1D0D5C2800B895C6 /* 002.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1D211FDA1D0D5C2800B895C6 /* 002.jpg */; };
+		1D211FDE1D0D5C2800B895C6 /* 003.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1D211FDB1D0D5C2800B895C6 /* 003.jpg */; };
 		1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */; };
 		1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */; };
 		1D30ED9D1CEC3F97005046DB /* WeekSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D30ED9C1CEC3F97005046DB /* WeekSelectViewController.m */; };
@@ -329,6 +340,25 @@
 		1D1CD88A1CD2EE4800A80E88 /* LXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXAlertView.m; sourceTree = "<group>"; };
 		1D1CD88B1CD2EE4800A80E88 /* UILabel+LXAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+LXAdd.h"; sourceTree = "<group>"; };
 		1D1CD88C1CD2EE4800A80E88 /* UILabel+LXAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+LXAdd.m"; sourceTree = "<group>"; };
+		1D211FBE1D0D087600B895C6 /* MyErrorTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyErrorTopicViewController.h; sourceTree = "<group>"; };
+		1D211FBF1D0D087600B895C6 /* MyErrorTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyErrorTopicViewController.m; sourceTree = "<group>"; };
+		1D211FC31D0D57C600B895C6 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
+		1D211FC41D0D57C600B895C6 /* TAAbstractDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAbstractDotView.m; sourceTree = "<group>"; };
+		1D211FC51D0D57C600B895C6 /* TAAnimatedDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAnimatedDotView.h; sourceTree = "<group>"; };
+		1D211FC61D0D57C600B895C6 /* TAAnimatedDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAnimatedDotView.m; sourceTree = "<group>"; };
+		1D211FC71D0D57C600B895C6 /* TADotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TADotView.h; sourceTree = "<group>"; };
+		1D211FC81D0D57C600B895C6 /* TADotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TADotView.m; sourceTree = "<group>"; };
+		1D211FC91D0D57C600B895C6 /* TAPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAPageControl.h; sourceTree = "<group>"; };
+		1D211FCA1D0D57C600B895C6 /* TAPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAPageControl.m; sourceTree = "<group>"; };
+		1D211FCB1D0D57C600B895C6 /* SDCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCollectionViewCell.h; sourceTree = "<group>"; };
+		1D211FCC1D0D57C600B895C6 /* SDCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCollectionViewCell.m; sourceTree = "<group>"; };
+		1D211FCD1D0D57C600B895C6 /* SDCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDCycleScrollView.h; sourceTree = "<group>"; };
+		1D211FCE1D0D57C600B895C6 /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
+		1D211FCF1D0D57C600B895C6 /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
+		1D211FD01D0D57C600B895C6 /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
+		1D211FD91D0D5C2800B895C6 /* 001.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 001.jpg; sourceTree = "<group>"; };
+		1D211FDA1D0D5C2800B895C6 /* 002.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 002.jpg; sourceTree = "<group>"; };
+		1D211FDB1D0D5C2800B895C6 /* 003.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 003.jpg; sourceTree = "<group>"; };
 		1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChaptersViewController.h; sourceTree = "<group>"; };
 		1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChaptersViewController.m; sourceTree = "<group>"; };
 		1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelPapersViewController.h; sourceTree = "<group>"; };
@@ -690,7 +720,7 @@
 			name = CustomTools;
 			sourceTree = "<group>";
 		};
-		1D04BE341CFEC0B500BCEFA0 /* UserInfo */ = {
+		1D04BE341CFEC0B500BCEFA0 /* MyUserInfo */ = {
 			isa = PBXGroup;
 			children = (
 				1DCA16321CFD7DD10045229B /* UserInfoViewController.h */,
@@ -701,7 +731,7 @@
 				1DB777411CFFD1F7003AFE28 /* UptadePwdViewController.h */,
 				1DB777421CFFD1F7003AFE28 /* UptadePwdViewController.m */,
 			);
-			name = UserInfo;
+			name = MyUserInfo;
 			sourceTree = "<group>";
 		};
 		1D064E431CBB69E2007BD4E4 /* TyDtkTestCenter */ = {
@@ -802,6 +832,54 @@
 			path = LXAlertView;
 			sourceTree = "<group>";
 		};
+		1D211FBD1D0D081300B895C6 /* MyErrorTopic */ = {
+			isa = PBXGroup;
+			children = (
+				1D211FBE1D0D087600B895C6 /* MyErrorTopicViewController.h */,
+				1D211FBF1D0D087600B895C6 /* MyErrorTopicViewController.m */,
+			);
+			name = MyErrorTopic;
+			sourceTree = "<group>";
+		};
+		1D211FC11D0D57C600B895C6 /* SDCycleScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				1D211FC21D0D57C600B895C6 /* PageControl */,
+				1D211FCB1D0D57C600B895C6 /* SDCollectionViewCell.h */,
+				1D211FCC1D0D57C600B895C6 /* SDCollectionViewCell.m */,
+				1D211FCD1D0D57C600B895C6 /* SDCycleScrollView.h */,
+				1D211FCE1D0D57C600B895C6 /* SDCycleScrollView.m */,
+				1D211FCF1D0D57C600B895C6 /* UIView+SDExtension.h */,
+				1D211FD01D0D57C600B895C6 /* UIView+SDExtension.m */,
+			);
+			path = SDCycleScrollView;
+			sourceTree = "<group>";
+		};
+		1D211FC21D0D57C600B895C6 /* PageControl */ = {
+			isa = PBXGroup;
+			children = (
+				1D211FC31D0D57C600B895C6 /* TAAbstractDotView.h */,
+				1D211FC41D0D57C600B895C6 /* TAAbstractDotView.m */,
+				1D211FC51D0D57C600B895C6 /* TAAnimatedDotView.h */,
+				1D211FC61D0D57C600B895C6 /* TAAnimatedDotView.m */,
+				1D211FC71D0D57C600B895C6 /* TADotView.h */,
+				1D211FC81D0D57C600B895C6 /* TADotView.m */,
+				1D211FC91D0D57C600B895C6 /* TAPageControl.h */,
+				1D211FCA1D0D57C600B895C6 /* TAPageControl.m */,
+			);
+			path = PageControl;
+			sourceTree = "<group>";
+		};
+		1D211FD81D0D5C1B00B895C6 /* ImaTest */ = {
+			isa = PBXGroup;
+			children = (
+				1D211FD91D0D5C2800B895C6 /* 001.jpg */,
+				1D211FDA1D0D5C2800B895C6 /* 002.jpg */,
+				1D211FDB1D0D5C2800B895C6 /* 003.jpg */,
+			);
+			name = ImaTest;
+			sourceTree = "<group>";
+		};
 		1D30ED9E1CEC3FBF005046DB /* WeekSelectTestPaper */ = {
 			isa = PBXGroup;
 			children = (
@@ -898,7 +976,7 @@
 			path = ZFPieChart;
 			sourceTree = "<group>";
 		};
-		1DB777461D000198003AFE28 /* Exercise record */ = {
+		1DB777461D000198003AFE28 /* MyExercise record */ = {
 			isa = PBXGroup;
 			children = (
 				1D1C5DD11D0659B500165ED6 /* ExerciseTableViewCell.h */,
@@ -906,17 +984,17 @@
 				1DB777471D0001E4003AFE28 /* ExerciseRecordViewController.h */,
 				1DB777481D0001E4003AFE28 /* ExerciseRecordViewController.m */,
 			);
-			name = "Exercise record";
+			name = "MyExercise record";
 			sourceTree = "<group>";
 		};
-		1DBD93581D07A3C00050848D /* My Collect */ = {
+		1DBD93581D07A3C00050848D /* MyCollectAndNotesAndError */ = {
 			isa = PBXGroup;
 			children = (
 				1DBD93BA1D0816580050848D /* Cell */,
 				1DBD93591D07A4DF0050848D /* MyCollectViewController.h */,
 				1DBD935A1D07A4DF0050848D /* MyCollectViewController.m */,
 			);
-			name = "My Collect";
+			name = MyCollectAndNotesAndError;
 			sourceTree = "<group>";
 		};
 		1DBD935C1D07C1200050848D /* RATreeView */ = {
@@ -1300,9 +1378,10 @@
 				1DC9B8F71CE42FE700A2E9A8 /* Login */,
 				1DDE06651CAA28FB00FA1505 /* UserFindPwd */,
 				1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */,
-				1DBD93581D07A3C00050848D /* My Collect */,
-				1DB777461D000198003AFE28 /* Exercise record */,
-				1D04BE341CFEC0B500BCEFA0 /* UserInfo */,
+				1D211FBD1D0D081300B895C6 /* MyErrorTopic */,
+				1DBD93581D07A3C00050848D /* MyCollectAndNotesAndError */,
+				1DB777461D000198003AFE28 /* MyExercise record */,
+				1D04BE341CFEC0B500BCEFA0 /* MyUserInfo */,
 				1D10C9871CB3A74C00040913 /* UserIndexViewController.h */,
 				1D10C9881CB3A74C00040913 /* UserIndexViewController.m */,
 				1DF947331CF6908800CC4759 /* TableHeardViewForUser.xib */,
@@ -1327,6 +1406,7 @@
 		1DEDC82E1C9F9F770083B394 /* Imgs */ = {
 			isa = PBXGroup;
 			children = (
+				1D211FD81D0D5C1B00B895C6 /* ImaTest */,
 				1DBD93951D07C24D0050848D /* ImgTree */,
 				1DF9473A1CF6936E00CC4759 /* TouXinagTest.jpg */,
 				1DF947381CF692B700CC4759 /* backImgTest.jpg */,
@@ -1356,6 +1436,7 @@
 		1DEDC8331C9FA2920083B394 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				1D211FC11D0D57C600B895C6 /* SDCycleScrollView */,
 				1DBD937F1D07C1F90050848D /* ZPTree */,
 				1DBD935C1D07C1200050848D /* RATreeView */,
 				1DEDC8341C9FA2920083B394 /* SDWebImage */,
@@ -1658,6 +1739,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D211FDC1D0D5C2800B895C6 /* 001.jpg in Resources */,
 				1DF9472C1CF680AD00CC4759 /* btm_icon1_hover@2x.png in Resources */,
 				1DDA96D81CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib in Resources */,
 				1DF9471E1CF67C4800CC4759 /* y_cticon.png in Resources */,
@@ -1689,6 +1771,7 @@
 				1D11371E1CF3FD8C0092DF02 /* DTKDropdownMenuView.bundle in Resources */,
 				1DBD93A71D07C24D0050848D /* ico_blue_arrow@3x.png in Resources */,
 				1DBD93AB1D07C24D0050848D /* ico_check_circle.png in Resources */,
+				1D211FDE1D0D5C2800B895C6 /* 003.jpg in Resources */,
 				1DBD93911D07C1F90050848D /* MKPeopleSelectTableCell.xib in Resources */,
 				1DEDC8311C9F9F770083B394 /* login_password.png in Resources */,
 				1DBD93AC1D07C24D0050848D /* ico_check_circle@2x.png in Resources */,
@@ -1704,6 +1787,7 @@
 				1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */,
 				1DF27B4E1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib in Resources */,
 				1DE5F8DD1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib in Resources */,
+				1D211FDD1D0D5C2800B895C6 /* 002.jpg in Resources */,
 				1D0794771CFBD943009A39E8 /* SJClickEnlarge.Bundle in Resources */,
 				1DF947321CF680CA00CC4759 /* btm_icon4@2x.png in Resources */,
 				1D122B9F1CDDBE2D00A0BA08 /* AnalysisQtype5Cell.xib in Resources */,
@@ -1756,6 +1840,7 @@
 				1DEDC85C1C9FA2920083B394 /* SDWebImageDownloaderOperation.m in Sources */,
 				1DF9473E1CF6C2B400CC4759 /* IndexTabBarViewController.m in Sources */,
 				1D18A02D1CAB7D690022642C /* CustomTools.m in Sources */,
+				1D211FD61D0D57C600B895C6 /* SDCycleScrollView.m in Sources */,
 				1DB777491D0001E4003AFE28 /* ExerciseRecordViewController.m in Sources */,
 				1DBD93901D07C1F90050848D /* MKPeopleSelectTableCell.m in Sources */,
 				1DC18F0C1CB795D50006D642 /* MJRefreshConst.m in Sources */,
@@ -1771,6 +1856,7 @@
 				1DF7658D1CE16E11002DE129 /* NotesUserViewController.m in Sources */,
 				1DEDC8791C9FA66B0083B394 /* AFSecurityPolicy.m in Sources */,
 				1D04BE3A1CFEC3A800BCEFA0 /* UpdateUserInfoViewController.m in Sources */,
+				1D211FD31D0D57C600B895C6 /* TADotView.m in Sources */,
 				1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */,
 				1D0794761CFBD943009A39E8 /* ImageEnlargeViewController.m in Sources */,
 				1D579EFA1CE9668100578519 /* UIView+Zirkfied.m in Sources */,
@@ -1809,15 +1895,18 @@
 				1DBD93731D07C1200050848D /* KOTreeItem.m in Sources */,
 				1DC18EFD1CB795D50006D642 /* MJRefreshAutoFooter.m in Sources */,
 				1DC18F0A1CB795D50006D642 /* MJRefreshStateHeader.m in Sources */,
+				1D211FD71D0D57C600B895C6 /* UIView+SDExtension.m in Sources */,
 				1D10C9891CB3A74C00040913 /* UserIndexViewController.m in Sources */,
 				1DEDC8771C9FA66B0083B394 /* AFHTTPSessionManager.m in Sources */,
 				1D579F021CE9668100578519 /* ZFLineChart.m in Sources */,
+				1D211FC01D0D087600B895C6 /* MyErrorTopicViewController.m in Sources */,
 				1DEDC85A1C9FA2920083B394 /* SDWebImageDecoder.m in Sources */,
 				1DE695DF1CA8D28100ED1DA3 /* PhoneReViewController.m in Sources */,
 				1DE5F8D61CD093190046CD8A /* paterTopicQtype5TableViewCell.m in Sources */,
 				1DEDC8131C9F866C0083B394 /* ForgetPwdViewController.m in Sources */,
 				1DEDC87C1C9FA66B0083B394 /* AFURLSessionManager.m in Sources */,
 				1D1137221CF3FD8C0092DF02 /* MASConstraintMaker.m in Sources */,
+				1D211FD21D0D57C600B895C6 /* TAAnimatedDotView.m in Sources */,
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
 				1DBD93931D07C1F90050848D /* MKTreeView.m in Sources */,
 				1D122BA71CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m in Sources */,
@@ -1886,6 +1975,7 @@
 				1D579F041CE9668100578519 /* ZFTranslucencePath.m in Sources */,
 				1DC18F031CB795D50006D642 /* MJRefreshAutoNormalFooter.m in Sources */,
 				1D0327B61CE03D3000F33072 /* NotesDataViewController.m in Sources */,
+				1D211FD11D0D57C600B895C6 /* TAAbstractDotView.m in Sources */,
 				1D165E6B1CD1DA4800F61EAE /* NotesView.m in Sources */,
 				1DF765951CE183C8002DE129 /* NotesUserTableViewCell.m in Sources */,
 				1DEDC7D81C9F817B0083B394 /* main.m in Sources */,
@@ -1895,7 +1985,9 @@
 				1DC18EFF1CB795D50006D642 /* MJRefreshComponent.m in Sources */,
 				1D03B2921CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m in Sources */,
 				1DEDC8781C9FA66B0083B394 /* AFNetworkReachabilityManager.m in Sources */,
+				1D211FD51D0D57C600B895C6 /* SDCollectionViewCell.m in Sources */,
 				1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */,
+				1D211FD41D0D57C600B895C6 /* TAPageControl.m in Sources */,
 				1DF950751CA3C52200104597 /* Reachability.m in Sources */,
 				1DEDC8601C9FA2920083B394 /* UIImage+GIF.m in Sources */,
 			);

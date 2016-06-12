@@ -14,6 +14,7 @@
 - (void)nullDataTapGestClick;
 @end
 @interface ViewNullData : UIView
+@property (nonatomic,strong) NSString *showString;
 @property (nonatomic,assign) id <ViewNullDataDelegate> delegateNullData;
 /**
  showText:数据为空时需要在屏幕上显示的文字，如果为Nil，默认“点我刷新数据”

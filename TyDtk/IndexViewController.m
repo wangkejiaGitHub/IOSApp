@@ -10,7 +10,7 @@
 #import "LocationViewController.h"
 #import "SecoundSubjectViewController.h"
 #import <CoreLocation/CoreLocation.h>
-@interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,CLLocationManagerDelegate,AgainLocationDelegate>
+@interface IndexViewController ()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,CLLocationManagerDelegate,AgainLocationDelegate,ViewNullDataDelegate,SDCycleScrollViewDelegate>
 //地区按钮
 @property (weak, nonatomic) IBOutlet UIButton *buttonLeftItem;
 //collcetionView
@@ -29,6 +29,9 @@
 @property (nonatomic,strong) Reachability *conn;
 //
 @property (nonatomic,strong) UILabel *labText;
+//??????????
+@property (nonatomic,strong) ViewNullData *viewNilData;
+@property (nonatomic,strong) SDCycleScrollView *scrollviewTimer;
 @end
 
 @implementation IndexViewController
@@ -38,18 +41,17 @@
     [self addDataView];
     [self getCurrProvince];
     [self getSubjectClass];
-    
 }
-
 //页面加载，设置页面的背景图片等
 - (void)addDataView{
 //    self.tabBarController.tabBar.tintColor = [UIColor redColor];
     self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon1_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
+    _imageBackGround.image = systemBackGrdImg;
     _arraySubject = [NSMutableArray array];
     _arraySecoundSubject = [NSMutableArray array];
     _cellEdglr = 40;
-    _imageBackGround.image = systemBackGrdImg;
+//    _imageBackGround.image = systemBackGrdImg;
     //开始网络监控
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(netWorkChange) name:kReachabilityChangedNotification object:nil];
     _conn = [Reachability reachabilityForInternetConnection];
@@ -59,18 +61,29 @@
  网络发生变化时触发
  */
 - (void)netWorkChange{
-    [_labText removeFromSuperview];
+    [_viewNilData removeFromSuperview];
+//    [_labText removeFromSuperview];
     [self getSubjectClass];
 }
-//网络异常时添加提示信息
+///网络异常时添加提示信息
 - (void)addLabelForNilNework{
-    _labText = [[UILabel alloc]initWithFrame:CGRectMake(20, (Scr_Height-30)/2, Scr_Width - 40, 30)];
-    _labText.text = @"请检查网络链接";
-    _labText.textColor = [UIColor grayColor];
-    _labText.font = [UIFont systemFontOfSize:16.0];
-    _labText.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:_labText];
-    [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
+    if (!_viewNilData) {
+        _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64) showText:@"点击刷新试试"];
+        _viewNilData.delegateNullData = self;
+    }
+    [self.view addSubview:_viewNilData];
+//    _labText = [[UILabel alloc]initWithFrame:CGRectMake(20, (Scr_Height-30)/2, Scr_Width - 40, 30)];
+//    .text = @"请检查网络链接";
+//    _labText.textColor = [UIColor grayColor];
+//    _labText.font = [UIFont systemFontOfSize:16.0];
+//    _labText.textAlignment = NSTextAlignmentCenter;
+//    [self.view addSubview:_labText];
+//    [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
+}
+- (void)nullDataTapGestClick{
+    [_viewNilData removeFromSuperview];
+    //    [_labText removeFromSuperview];
+    [self getSubjectClass];
 }
 //选择城市按钮
 - (IBAction)cityBtnClick:(UIButton *)sender {
@@ -168,6 +181,9 @@
         [self addLabelForNilNework];
     }];
 }
+///////////////////////////
+//scrollView代理
+
 //每段 cell 个数
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     if (_arraySubject.count > 0) {
@@ -187,6 +203,49 @@
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     return 30;
 }
+//段头试图大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+//    NSLog(@"%f",Scr_Width);
+    return CGSizeMake(Scr_Width, Scr_Width*0.53);
+}
+//段头试图（用于显示轮播图片）
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        UICollectionReusableView *view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"heardview" forIndexPath:indexPath];
+        view.backgroundColor = [UIColor redColor];
+        if (!_scrollviewTimer) {
+            //url图片地址
+            NSArray *arrayUrlImg = @[@"http://static.kaola100.com/upload/admin/2015-07-20/20150720173304937.jpg",@"http://static.kaola100.com/upload/admin/2015-07-20/20150720173316225.jpg",@"http://static.kaola100.com/upload/admin/2015-07-20/20150720173504466.jpg"];
+            
+//            NSArray *arrayImg = @[@"001.jpg",@"002.jpg",@"003.jpg"];
+//            _scrollviewTimer = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width*0.53) imageNamesGroup:arrayImg];
+            
+            _scrollviewTimer = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width*0.53) imageURLStringsGroup:arrayUrlImg];
+            //每张图片显示的文字数组
+            _scrollviewTimer.titlesGroup = @[@"第【1】张图片",@"第【2】张图片",@"第【3】张图片"];
+            //图片滚动时间间隔
+            _scrollviewTimer.autoScrollTimeInterval = 3.0;
+            //显示文字的颜色
+            _scrollviewTimer.titleLabelTextColor = [UIColor yellowColor];
+            _scrollviewTimer.delegate = self;
+            //pageControl的位置
+            _scrollviewTimer.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+            //pageControl的样式
+            _scrollviewTimer.pageControlStyle = SDCycleScrollViewPageContolStyleAnimated;
+            //pageControl的大小
+            _scrollviewTimer.pageControlDotSize = CGSizeMake(8, 8);
+            [view addSubview:_scrollviewTimer];
+        }
+        return view;
+    }
+    return nil;
+}
+/** 
+ 点击轮播图片回调
+ */
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    NSLog(@"%ld == scrollImg",index);
+}
 // 返回cell
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"indexcell" forIndexPath:indexPath];
@@ -203,7 +262,6 @@
             [imageCell sd_setImageWithURL:[NSURL URLWithString:systemMoreImg]];
             labText.text = @"更多";
         }
-        
     }
     cell.layer.masksToBounds = YES;
     cell.layer.cornerRadius = 5;

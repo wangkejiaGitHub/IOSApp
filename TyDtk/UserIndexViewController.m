@@ -8,8 +8,11 @@
 
 #import "UserIndexViewController.h"
 #import "TableHeardView.h"
+#import "MyCollectViewController.h"
 @interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewList;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
+
 @property (nonatomic,strong) TableHeardView *tableHeardView;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSDictionary *dicUser;
@@ -27,6 +30,7 @@
     [self viewLoad];
 }
 - (void)viewLoad{
+    _imageViewBg.image = systemBackGrdImg;
     self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     _arrayCellTitle = @[@"个人资料",@"我的订单",@"当前科目",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _tyUser = [NSUserDefaults standardUserDefaults];
@@ -69,7 +73,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (section != 0) {
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 30)];
-        view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        view.backgroundColor = [UIColor clearColor];
         return view;
     }
     return nil;
@@ -81,7 +85,19 @@
     return 0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section == 1) {
+        return 30;
+    }
     return 1;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    if (section == 1) {
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 30)];
+        view.backgroundColor = [UIColor clearColor];
+    }
+    return nil;
+    
+    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
@@ -136,7 +152,7 @@
             //我的收藏
             else if (indexPath.row == 4){
                 if ([_tyUser objectForKey:tyUserSubject]) {
-                    [self performSegueWithIdentifier:@"collect" sender:nil];
+                    [self performSegueWithIdentifier:@"collect" sender:@"1"];
                 }
                 else{
                     [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
@@ -144,11 +160,23 @@
             }
             //我的错题
             else if (indexPath.row == 5){
-                
+                if ([_tyUser objectForKey:tyUserSubject]) {
+                    [self performSegueWithIdentifier:@"collect" sender:@"2"];
+                }
+                else{
+                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                }
+
             }
             //我的笔记
             else if (indexPath.row == 6){
-                
+                if ([_tyUser objectForKey:tyUserSubject]) {
+                    [self performSegueWithIdentifier:@"collect" sender:@"3"];
+                }
+                else{
+                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                }
+
             }
         }
         else{
@@ -224,7 +252,12 @@
 //
 //    }];
 //}
-
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"collect"]) {
+        MyCollectViewController *Vc = segue.destinationViewController;
+        Vc.parameterView = [sender integerValue];
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

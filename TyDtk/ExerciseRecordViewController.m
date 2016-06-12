@@ -47,24 +47,25 @@
 //    _scrollViewHeard = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, 50)];
 //    _scrollViewHeard.tag =100;
 //    [self.view addSubview:_scrollViewHeard];
-    _pageCurr = 1;
-    _topicModel = 4;
-    _subjectId = 0;
-    [self viewLoad];
-}
-- (void)viewLoad{
     [_buttonTypeTopic setTitle:@"章节练习" forState:UIControlStateNormal];
     _topicModel = 1;
     [_buttonSubject setTitle:@"全部" forState:UIControlStateNormal];
     _buttonSubject.titleLabel.adjustsFontSizeToFitWidth = YES;
     _subjectId = 0;
+}
+- (void)viewLoad{
     NSDictionary *dicSubject = [_tyUser objectForKey:tyUserClass];
     NSInteger classId = [dicSubject[@"Id"] integerValue];
+    [_arrayExRe removeAllObjects];
     [self getAllSubjectWithClass:classId];
     _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableViewRe.tableFooterView = [UIView new];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    _pageCurr = 1;
+//    _topicModel = 4;
+//    _subjectId = 0;
+    [self viewLoad];
     self.tabBarController.tabBar.hidden = NO;
 }
 - (void)viewDidAppear:(BOOL)animated{
@@ -203,7 +204,7 @@
     }
     [SVProgressHUD showWithStatus:@"正在加载做题记录..."];
    // api/Practice/GetDoRecords?access_token={access_token}&mode={mode}&courseId={courseId}&page={page}&size={size}
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Practice/GetDoRecords?access_token=%@&mode=%ld&courseId=%ld&page=%ld&size=2",systemHttps,_accToken,_topicModel,_subjectId,_pageCurr];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Practice/GetDoRecords?access_token=%@&mode=%ld&courseId=%ld&page=%ld&size=20",systemHttps,_accToken,_topicModel,_subjectId,_pageCurr];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicN = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicN[@"code"] integerValue];
@@ -261,8 +262,14 @@
         NSDictionary *dicRe = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicRe[@"code"] integerValue];
         if (codeId == 1) {
-            [_arrayExRe removeObjectAtIndex:dicIndexPath.row];
-            [_tableViewRe deleteRowsAtIndexPaths:@[dicIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            [_arrayExRe removeObjectAtIndex:dicIndexPath.row];
+//            [_tableViewRe deleteRowsAtIndexPaths:@[dicIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            [_tableViewRe reloadData];
+            
+            //删除成功后重新获取记录，科目、做题模式不改变，初始页为1，清除记录数组
+            _pageCurr = 1;
+            [_arrayExRe removeAllObjects];
+            [self getExerciseRe];
             NSDictionary *dicDatas = dicRe[@"datas"];
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
         }
@@ -305,8 +312,8 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _dicSelectSubject = _arrayExRe[indexPath.row];
-    NSInteger stateId = [_dicSelectSubject[@"State"] integerValue];
-    [self showSelectDoTopicOp:stateId];
+//    NSInteger stateId = [_dicSelectSubject[@"State"] integerValue];
+//    [self showSelectDoTopicOp:stateId];
 }
 ///cell上的查看解析按钮回调
 - (void)cellAnalysisWithDictionary:(NSDictionary *)dicModel{
@@ -385,30 +392,30 @@
 }
 //*******************解析/////////////////////////
 ///选择记录弹出选项试图
-- (void)showSelectDoTopicOp:(NSInteger)stateId{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"选择你的操作" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *ac1;
-    UIAlertAction *ac2;
-    UIAlertAction *ac3;
-    if (stateId == 0 | stateId == 2) {
-        
-    }
-    else if (stateId == 1){
-        ac1 = [UIAlertAction actionWithTitle:@"查看解析" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self getPaperInfoAnalysisUsePaperId];
-        }];
-        
-        [alert addAction:ac1];
-        
-        ac2 = [UIAlertAction actionWithTitle:@"再做一次" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self againDoTopicRidClear];
-        }];
-        [alert addAction:ac2];
-        ac3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:ac3];
-        [self.navigationController presentViewController:alert animated:YES completion:nil];
-    }
-}
+//- (void)showSelectDoTopicOp:(NSInteger)stateId{
+//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"选择你的操作" preferredStyle:UIAlertControllerStyleActionSheet];
+//    UIAlertAction *ac1;
+//    UIAlertAction *ac2;
+//    UIAlertAction *ac3;
+//    if (stateId == 0 | stateId == 2) {
+//        
+//    }
+//    else if (stateId == 1){
+//        ac1 = [UIAlertAction actionWithTitle:@"查看解析" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self getPaperInfoAnalysisUsePaperId];
+//        }];
+//        
+//        [alert addAction:ac1];
+//        
+//        ac2 = [UIAlertAction actionWithTitle:@"再做一次" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self againDoTopicRidClear];
+//        }];
+//        [alert addAction:ac2];
+//        ac3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+//        [alert addAction:ac3];
+//        [self.navigationController presentViewController:alert animated:YES completion:nil];
+//    }
+//}
 ///再做一次时重置当前的记录(点击重新做题的一次时间)
 - (void)againDoTopicRidClear{
     //api/Chapter/ResetRecord?access_token={access_token}&rid={rid}

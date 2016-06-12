@@ -12,8 +12,11 @@
 #import "WeekSelectViewController.h"
 #import "IntelligentTopicViewController.h"
 #import "ExerciseRecordViewController.h"
+#import "MyCollectViewController.h"
 @interface PracticeCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCenter;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
+
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSDictionary *dicSelectSubject;
 @property (nonatomic,strong) NSArray *arrayList;
@@ -29,6 +32,7 @@
     _arrayListSelf = @[@"做题记录",@"我的收藏",@"我的错题"];
     _tableViewCenter.backgroundColor = [UIColor clearColor];
     _tableViewCenter.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _imageViewBg.image = systemBackGrdImg;
 }
 - (void)viewWillAppear:(BOOL)animated{
     [self addTableHeardView];
@@ -114,6 +118,8 @@
     UILabel *labText = (UILabel *)[cell.contentView viewWithTag:10];
     labText.layer.masksToBounds = YES;
     labText.layer.cornerRadius = 5;
+//    labText.backgroundColor = ColorWithRGB(190, 200, 252);
+//    labText.textColor = ColorWithRGB(90, 144, 266);
     if (indexPath.section == 0) {
         labText.text = _arrayList[indexPath.row];
     }
@@ -156,17 +162,18 @@
 //                else{
 //                    [SVProgressHUD showInfoWithStatus:@"还没有选择相关专业"];
 //                }
-
                 [self performSegueWithIdentifier:@"Exercise" sender:nil];
                  NSLog(@"做题记录");
             }
             //我的收藏
             else if (indexPath.row == 1){
                  NSLog(@"我的收藏");
+                [self performSegueWithIdentifier:@"collect" sender:@"1"];
             }
             //我的错题
             else if (indexPath.row == 2){
                  NSLog(@"我的错题");
+                [self performSegueWithIdentifier:@"collect" sender:@"2"];
             }
         }
     }
@@ -201,6 +208,10 @@
     else if ([segue.identifier isEqualToString:@"Exercise"]){
 //        ExerciseRecordViewController *exerVc = segue.destinationViewController;
         
+    }
+    else if ([segue.identifier isEqualToString:@"collect"]){
+        MyCollectViewController *Vc = segue.destinationViewController;
+        Vc.parameterView = [sender integerValue];
     }
     
 }
