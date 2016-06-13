@@ -20,6 +20,10 @@
 @property (nonatomic,assign) id<CustomToolDelegate> delegateTool;
 /**
  授权并获取令牌，将令牌存储到tyNSUserDefaults，对应的key为tyUserAccessToken
+  userId:用户id
+  user:用户名
+  cateOrClassId:专业分类id
+  courseIdOrSubjectId:科目id
  */
 -(void)empowerAndSignatureWithUserId:(NSString *)userId userName:(NSString *)user classId:(NSString *)cateOrClassId subjectId:(NSString *)courseIdOrSubjectId;
 @end

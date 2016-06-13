@@ -49,7 +49,6 @@
 		1D1C5DD31D0659B500165ED6 /* ExerciseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C5DD21D0659B500165ED6 /* ExerciseTableViewCell.m */; };
 		1D1CD88D1CD2EE4800A80E88 /* LXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1CD88A1CD2EE4800A80E88 /* LXAlertView.m */; };
 		1D1CD88E1CD2EE4800A80E88 /* UILabel+LXAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1CD88C1CD2EE4800A80E88 /* UILabel+LXAdd.m */; };
-		1D211FC01D0D087600B895C6 /* MyErrorTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FBF1D0D087600B895C6 /* MyErrorTopicViewController.m */; };
 		1D211FD11D0D57C600B895C6 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FC41D0D57C600B895C6 /* TAAbstractDotView.m */; };
 		1D211FD21D0D57C600B895C6 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FC61D0D57C600B895C6 /* TAAnimatedDotView.m */; };
 		1D211FD31D0D57C600B895C6 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FC81D0D57C600B895C6 /* TADotView.m */; };
@@ -65,6 +64,9 @@
 		1D30ED9D1CEC3F97005046DB /* WeekSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D30ED9C1CEC3F97005046DB /* WeekSelectViewController.m */; };
 		1D31827B1CD8352D00AD4773 /* paterTopicQtype3Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D31827A1CD8352D00AD4773 /* paterTopicQtype3Cell.xib */; };
 		1D31827E1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D31827D1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m */; };
+		1D347B191D0E4FB1006DB889 /* MyOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D347B181D0E4FB1006DB889 /* MyOrderViewController.m */; };
+		1D347B1D1D0E5629006DB889 /* MyExamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D347B1C1D0E5629006DB889 /* MyExamViewController.m */; };
+		1D347B211D0E6407006DB889 /* ExamTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D347B201D0E6407006DB889 /* ExamTableViewCell.m */; };
 		1D4227041D05879200A9B816 /* DateStringCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4227031D05879200A9B816 /* DateStringCompare.m */; };
 		1D579EF71CE9668100578519 /* NSObject+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */; };
 		1D579EF81CE9668100578519 /* NSString+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED61CE9668100578519 /* NSString+Zirkfied.m */; };
@@ -340,8 +342,6 @@
 		1D1CD88A1CD2EE4800A80E88 /* LXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXAlertView.m; sourceTree = "<group>"; };
 		1D1CD88B1CD2EE4800A80E88 /* UILabel+LXAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+LXAdd.h"; sourceTree = "<group>"; };
 		1D1CD88C1CD2EE4800A80E88 /* UILabel+LXAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+LXAdd.m"; sourceTree = "<group>"; };
-		1D211FBE1D0D087600B895C6 /* MyErrorTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyErrorTopicViewController.h; sourceTree = "<group>"; };
-		1D211FBF1D0D087600B895C6 /* MyErrorTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyErrorTopicViewController.m; sourceTree = "<group>"; };
 		1D211FC31D0D57C600B895C6 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
 		1D211FC41D0D57C600B895C6 /* TAAbstractDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAbstractDotView.m; sourceTree = "<group>"; };
 		1D211FC51D0D57C600B895C6 /* TAAnimatedDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAnimatedDotView.h; sourceTree = "<group>"; };
@@ -368,6 +368,12 @@
 		1D31827A1CD8352D00AD4773 /* paterTopicQtype3Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = paterTopicQtype3Cell.xib; sourceTree = "<group>"; };
 		1D31827C1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype3TableViewCell.h; sourceTree = "<group>"; };
 		1D31827D1CD835BB00AD4773 /* PaterTopicQtype3TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicQtype3TableViewCell.m; sourceTree = "<group>"; };
+		1D347B171D0E4FB1006DB889 /* MyOrderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderViewController.h; sourceTree = "<group>"; };
+		1D347B181D0E4FB1006DB889 /* MyOrderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderViewController.m; sourceTree = "<group>"; };
+		1D347B1B1D0E5629006DB889 /* MyExamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyExamViewController.h; sourceTree = "<group>"; };
+		1D347B1C1D0E5629006DB889 /* MyExamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyExamViewController.m; sourceTree = "<group>"; };
+		1D347B1F1D0E6407006DB889 /* ExamTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamTableViewCell.h; sourceTree = "<group>"; };
+		1D347B201D0E6407006DB889 /* ExamTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamTableViewCell.m; sourceTree = "<group>"; };
 		1D4227021D05879200A9B816 /* DateStringCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateStringCompare.h; sourceTree = "<group>"; };
 		1D4227031D05879200A9B816 /* DateStringCompare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateStringCompare.m; sourceTree = "<group>"; };
 		1D579ED31CE9668100578519 /* NSObject+Zirkfied.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zirkfied.h"; sourceTree = "<group>"; };
@@ -832,15 +838,6 @@
 			path = LXAlertView;
 			sourceTree = "<group>";
 		};
-		1D211FBD1D0D081300B895C6 /* MyErrorTopic */ = {
-			isa = PBXGroup;
-			children = (
-				1D211FBE1D0D087600B895C6 /* MyErrorTopicViewController.h */,
-				1D211FBF1D0D087600B895C6 /* MyErrorTopicViewController.m */,
-			);
-			name = MyErrorTopic;
-			sourceTree = "<group>";
-		};
 		1D211FC11D0D57C600B895C6 /* SDCycleScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -887,6 +884,34 @@
 				1D30ED9C1CEC3F97005046DB /* WeekSelectViewController.m */,
 			);
 			name = WeekSelectTestPaper;
+			sourceTree = "<group>";
+		};
+		1D347B161D0E4F7A006DB889 /* MyOrder */ = {
+			isa = PBXGroup;
+			children = (
+				1D347B171D0E4FB1006DB889 /* MyOrderViewController.h */,
+				1D347B181D0E4FB1006DB889 /* MyOrderViewController.m */,
+			);
+			name = MyOrder;
+			sourceTree = "<group>";
+		};
+		1D347B1A1D0E5605006DB889 /* MyExam */ = {
+			isa = PBXGroup;
+			children = (
+				1D347B1E1D0E63DA006DB889 /* cell */,
+				1D347B1B1D0E5629006DB889 /* MyExamViewController.h */,
+				1D347B1C1D0E5629006DB889 /* MyExamViewController.m */,
+			);
+			name = MyExam;
+			sourceTree = "<group>";
+		};
+		1D347B1E1D0E63DA006DB889 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				1D347B1F1D0E6407006DB889 /* ExamTableViewCell.h */,
+				1D347B201D0E6407006DB889 /* ExamTableViewCell.m */,
+			);
+			name = cell;
 			sourceTree = "<group>";
 		};
 		1D579ED11CE9668100578519 /* ZFChart */ = {
@@ -1375,10 +1400,11 @@
 		1DEDC8091C9F85AF0083B394 /* TyUser */ = {
 			isa = PBXGroup;
 			children = (
+				1D347B1A1D0E5605006DB889 /* MyExam */,
+				1D347B161D0E4F7A006DB889 /* MyOrder */,
 				1DC9B8F71CE42FE700A2E9A8 /* Login */,
 				1DDE06651CAA28FB00FA1505 /* UserFindPwd */,
 				1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */,
-				1D211FBD1D0D081300B895C6 /* MyErrorTopic */,
 				1DBD93581D07A3C00050848D /* MyCollectAndNotesAndError */,
 				1DB777461D000198003AFE28 /* MyExercise record */,
 				1D04BE341CFEC0B500BCEFA0 /* MyUserInfo */,
@@ -1844,6 +1870,7 @@
 				1DB777491D0001E4003AFE28 /* ExerciseRecordViewController.m in Sources */,
 				1DBD93901D07C1F90050848D /* MKPeopleSelectTableCell.m in Sources */,
 				1DC18F0C1CB795D50006D642 /* MJRefreshConst.m in Sources */,
+				1D347B1D1D0E5629006DB889 /* MyExamViewController.m in Sources */,
 				1D122B9B1CDDBB7C00A0BA08 /* AnalysisQtype3TableViewCell.m in Sources */,
 				1DEDC8651C9FA2920083B394 /* UIView+WebCacheOperation.m in Sources */,
 				1DC18F041CB795D50006D642 /* MJRefreshAutoStateFooter.m in Sources */,
@@ -1886,6 +1913,7 @@
 				1D1137231CF3FD8C0092DF02 /* MASLayoutConstraint.m in Sources */,
 				1DEDC87F1C9FA6810083B394 /* HttpTools.m in Sources */,
 				1DF947421CF6C61600CC4759 /* PracticeCenterViewController.m in Sources */,
+				1D347B211D0E6407006DB889 /* ExamTableViewCell.m in Sources */,
 				1D07941B1CFBCD87009A39E8 /* ImageTopicViewController.m in Sources */,
 				1DC18F081CB795D50006D642 /* MJRefreshGifHeader.m in Sources */,
 				1DC18F071CB795D50006D642 /* MJRefreshBackStateFooter.m in Sources */,
@@ -1899,7 +1927,6 @@
 				1D10C9891CB3A74C00040913 /* UserIndexViewController.m in Sources */,
 				1DEDC8771C9FA66B0083B394 /* AFHTTPSessionManager.m in Sources */,
 				1D579F021CE9668100578519 /* ZFLineChart.m in Sources */,
-				1D211FC01D0D087600B895C6 /* MyErrorTopicViewController.m in Sources */,
 				1DEDC85A1C9FA2920083B394 /* SDWebImageDecoder.m in Sources */,
 				1DE695DF1CA8D28100ED1DA3 /* PhoneReViewController.m in Sources */,
 				1DE5F8D61CD093190046CD8A /* paterTopicQtype5TableViewCell.m in Sources */,
@@ -1914,6 +1941,7 @@
 				1D579F001CE9668100578519 /* ZFCirque.m in Sources */,
 				1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */,
 				1D1137261CF3FD8C0092DF02 /* NSArray+MASAdditions.m in Sources */,
+				1D347B191D0E4FB1006DB889 /* MyOrderViewController.m in Sources */,
 				1DBD93751D07C1200050848D /* RATreeNodeCollectionController.m in Sources */,
 				1DE5F8D91CD0B3F60046CD8A /* paterTopicQtype1and2TableViewCell.m in Sources */,
 				1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */,

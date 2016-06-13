@@ -32,12 +32,13 @@
 - (void)viewLoad{
     _imageViewBg.image = systemBackGrdImg;
     self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    _arrayCellTitle = @[@"个人资料",@"我的订单",@"当前科目",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
+    _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的考试",@"我的订单",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _tyUser = [NSUserDefaults standardUserDefaults];
     [self addTableViewHeardView];
     //    [_tyUser removeObjectForKey:tyUserUser];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    [SVProgressHUD dismiss];
     [_tableViewList reloadData];
     //登录是否超时（没有其他定义）
     [self getUserInfo];
@@ -108,7 +109,7 @@
     
     if (indexPath.section == 0) {
         labTitle.text = _arrayCellTitle[indexPath.row];
-        if (indexPath.row == 2) {
+        if (indexPath.row == 1) {
             UILabel *labSiubject = (UILabel *)[cell.contentView viewWithTag:12];
             labSiubject.adjustsFontSizeToFitWidth = YES;
             if ([_tyUser objectForKey:tyUserSelectSubject]) {
@@ -126,6 +127,7 @@
     return  cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    // _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的考试",@"我的订单",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         if ([self loginTest]) {
@@ -134,13 +136,32 @@
                 [self performSegueWithIdentifier:@"userinfo" sender:nil];
             }
             else if (indexPath.row == 1){
-                
+//                //当前科目
+
             }
             else if (indexPath.row == 2){
-                
+                //我的考试
+                if ([_tyUser objectForKey:tyUserSubject]) {
+                    [self performSegueWithIdentifier:@"myexam" sender:nil];
+                }
+                else{
+                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                }
+                NSLog(@"1");
             }
-            //练习记录
             else if (indexPath.row == 3){
+                //我的订单
+                if ([_tyUser objectForKey:tyUserSubject]) {
+                    [self performSegueWithIdentifier:@"myorder" sender:nil];
+                }
+                else{
+                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                }
+
+                NSLog(@"2");
+            }
+            //做题记录
+            else if (indexPath.row == 4){
                 if ([_tyUser objectForKey:tyUserSubject]) {
                     [self performSegueWithIdentifier:@"topicR" sender:nil];
                 }
@@ -150,7 +171,7 @@
              
             }
             //我的收藏
-            else if (indexPath.row == 4){
+            else if (indexPath.row == 5){
                 if ([_tyUser objectForKey:tyUserSubject]) {
                     [self performSegueWithIdentifier:@"collect" sender:@"1"];
                 }
@@ -159,7 +180,7 @@
                 }
             }
             //我的错题
-            else if (indexPath.row == 5){
+            else if (indexPath.row == 6){
                 if ([_tyUser objectForKey:tyUserSubject]) {
                     [self performSegueWithIdentifier:@"collect" sender:@"2"];
                 }
@@ -169,7 +190,7 @@
 
             }
             //我的笔记
-            else if (indexPath.row == 6){
+            else if (indexPath.row == 7){
                 if ([_tyUser objectForKey:tyUserSubject]) {
                     [self performSegueWithIdentifier:@"collect" sender:@"3"];
                 }
@@ -224,7 +245,7 @@
         else{
             [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
             _tableHeardView.labUserName.text = @"未登录";
-//            [_tyUser removeObjectForKey:tyUserAccessToken];
+//？？        [_tyUser removeObjectForKey:tyUserAccessToken];
 //            [_tyUser removeObjectForKey:tyUserClass];
 //            [_tyUser removeObjectForKey:tyUserSelectSubject];
 //            [_tyUser removeObjectForKey:tyUserSubject];

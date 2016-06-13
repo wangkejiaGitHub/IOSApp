@@ -9,7 +9,7 @@
 #import "MyCollectViewController.h"
 #import "MGSwipeButton.h"
 #import "MGSwipeTableCell.h"
-@interface MyCollectViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface MyCollectViewController ()<UITableViewDataSource,UITableViewDelegate,CustomToolDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCollect;
 @property (weak, nonatomic) IBOutlet UILabel *labSubject;
 
@@ -29,8 +29,10 @@
 @property (nonatomic,strong) NSArray *arraySubject;
 //当前科目id
 @property (nonatomic,assign) NSInteger intSubJectId;
-//
+//空数据显示
 @property (nonatomic,strong) ViewNullData *viewNilData;
+//授权工具
+@property (nonatomic,strong) CustomTools *customTools;
 @end
 
 @implementation MyCollectViewController
@@ -46,6 +48,8 @@
     else if (self.parameterView == 3){
         self.title = @"我的笔记";
     }
+    _customTools = [[CustomTools alloc]init];
+    _customTools.delegateTool = self;
     _arraySection = [NSMutableArray array];
     _levelTT = 0;
     _arrayLinS = [NSMutableArray array];
@@ -78,14 +82,10 @@
     ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self subjectMenuItemArray]];
     [popupMenu showInView:self.navigationController.view fromRect:CGRectMake(65, -30, 0, 120) layoutType:Vertical];
     [self.navigationController.view addSubview:popupMenu];
-    
 }
 ///返回科目菜单数组
 - (NSArray *)subjectMenuItemArray{
     NSMutableArray *arraySubjectMuen = [NSMutableArray array];
-//    ZFPopupMenuItem *itemA = [ZFPopupMenuItem initWithMenuName:@"全部" image:nil action:@selector(menuSubjectClick:) target:self];
-//    itemA.tag = 100;
-//    [arraySubjectMuen addObject:itemA];
     for (int i =0; i<_arraySubject.count; i++) {
         NSDictionary *dicSubject = _arraySubject[i];
         ZFPopupMenuItem *item = [ZFPopupMenuItem initWithMenuName:dicSubject[@"Names"] image:nil action:@selector(menuSubjectClick:) target:self];
@@ -94,7 +94,7 @@
     }
     return arraySubjectMuen;
 }
-//科目选择点击事件
+///科目选择点击事件
 - (void)menuSubjectClick:(ZFPopupMenuItem *)item{
     _labSubject.text = item.itemName;
     NSDictionary *dicSelectSubject = _arraySubject[item.tag - 100];
@@ -102,16 +102,52 @@
     _levelTT = 0;
     [_arraySection removeAllObjects];
     if (self.parameterView == 1) {
+        //我的收藏
         [self getAboutChaperCollect];
     }
     else if (self.parameterView == 2){
+        //我的错题
+//        [self getAboutChaperErrorTopic];
+        [self customGetAccessToken:_intSubJectId];
+    }
+    else if (self.parameterView == 3){
+        //我的笔记
+//        [self getAboutChaperNotes];
+        [self customGetAccessToken:_intSubJectId];
+    }
+    NSLog(@"%@",item.itemName);
+}
+/**
+ 科目授权
+ */
+- (void)customGetAccessToken:(NSInteger)subjectId{
+    [SVProgressHUD show];
+    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUser];
+    NSDictionary *dicClass = [_tyUser objectForKey:tyUserClass];
+    /**
+     [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
+     */
+    NSString *classId = [NSString stringWithFormat:@"%@",dicClass[@"Id"]];
+    [_customTools empowerAndSignatureWithUserId:dicUser[@"userId"] userName:dicUser[@"name"] classId: classId subjectId:[NSString stringWithFormat:@"%ld",subjectId]];
+}
+/**
+ 授权回调
+ */
+//授权成功
+- (void)httpSussessReturnClick{
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    //错题
+    if (self.parameterView == 2) {
         [self getAboutChaperErrorTopic];
     }
+    //笔记
     else if (self.parameterView == 3){
         [self getAboutChaperNotes];
     }
-//    [self getAboutChaperCollect];
-    NSLog(@"%@",item.itemName);
+}
+//授权失败
+-(void)httpErrorReturnClick{
+    [SVProgressHUD dismiss];
 }
 ///获取当前专业下的所有科目
 - (void)getAllSubjectWithClass:(NSInteger)classId{
@@ -235,6 +271,7 @@
 //****************************************//
 //////////////////我的笔记////////////////////
 - (void)getAboutChaperNotes{
+    [SVProgressHUD show];
     NSString *urlString;
     if (_intSubJectId != 0) {
         urlString = [NSString stringWithFormat:@"%@api/Note/GetMyNotesAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,_intSubJectId];
@@ -484,14 +521,13 @@
     NSString *strText = [NSString stringWithFormat:@"%@==%ld",dic[@"Names"],countTopic];
     labT.text = strText;
     [cell.contentView addSubview:labT];
-    MGSwipeButton *btnLook = [MGSwipeButton buttonWithTitle:@"查 看" backgroundColor:[UIColor lightGrayColor] callback:^BOOL(MGSwipeTableCell *sender) {
-        NSLog(@"%ld == %ld",indexPath.section,indexPath.row);
-        NSLog(@"%ld",[dic[@"Id"] integerValue]);
+    MGSwipeButton *btnLook = [MGSwipeButton buttonWithTitle:@"查 看" icon:[UIImage imageNamed:@"qydp_01"] backgroundColor:ColorWithRGB(200, 200, 200) callback:^BOOL(MGSwipeTableCell *sender) {
+        
         return YES;
     }];
     [btnLook setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     btnLook.titleLabel.font = [UIFont systemFontOfSize:15.0];
-    MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
+    MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" icon:[UIImage imageNamed:@"qydp_01"] backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
         NSLog(@"%ld",[dic[@"Id"] integerValue]);
 //        [self performSegueWithIdentifier:@"dotopic" sender:[NSString stringWithFormat:@"%ld",[dic[@"Id"] integerValue]]];
          NSLog(@"%ld == %ld",indexPath.section,indexPath.row);

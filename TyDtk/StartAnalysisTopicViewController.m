@@ -116,7 +116,7 @@
     NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
     if (_paperAnalysisParameter != 2) {
         ///章节考点、每周精选、智能出题等板块的解析试题
-        urlString = [NSString stringWithFormat:@"%@api/Resolve/IOSGetResolveQuestions?access_token=%@&rid=%@",systemHttps,_accessToken,_rId];
+        urlString = [NSString stringWithFormat:@"%@api/Resolve/GetResolveQuestions?access_token=%@&rid=%@",systemHttps,_accessToken,_rId];
     }
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];

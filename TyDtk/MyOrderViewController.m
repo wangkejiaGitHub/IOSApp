@@ -1,18 +1,18 @@
 //
-//  MyErrorTopicViewController.m
+//  MyOrderViewController.m
 //  TyDtk
 //
-//  Created by 天一文化 on 16/6/12.
+//  Created by 天一文化 on 16/6/13.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
-#import "MyErrorTopicViewController.h"
+#import "MyOrderViewController.h"
 
-@interface MyErrorTopicViewController ()
+@interface MyOrderViewController ()
 
 @end
 
-@implementation MyErrorTopicViewController
+@implementation MyOrderViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
