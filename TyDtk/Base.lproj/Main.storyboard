@@ -1930,6 +1930,9 @@
                                                                         <constraint firstAttribute="width" constant="20" id="OmP-yq-Vne"/>
                                                                         <constraint firstAttribute="height" constant="20" id="reZ-RS-h0J"/>
                                                                     </constraints>
+                                                                    <connections>
+                                                                        <action selector="biuttonSetDefultClick:" destination="u7T-jR-GkG" eventType="touchUpInside" id="bOd-yX-Tpz"/>
+                                                                    </connections>
                                                                 </button>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1963,7 +1966,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="qvA-ll-nCV"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -1978,6 +1981,9 @@
                                                             <state key="normal" title="删除">
                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="buttonDeleteExam:" destination="u7T-jR-GkG" eventType="touchUpInside" id="HuK-L8-I3c"/>
+                                                            </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1eg-tj-hTY">
                                                             <rect key="frame" x="245" y="144" width="60" height="25"/>
@@ -1990,6 +1996,9 @@
                                                             <state key="normal" title="编辑">
                                                                 <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="buttonEditClick:" destination="u7T-jR-GkG" eventType="touchUpInside" id="HH6-hQ-nBI"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -67,6 +67,8 @@
 		1D347B191D0E4FB1006DB889 /* MyOrderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D347B181D0E4FB1006DB889 /* MyOrderViewController.m */; };
 		1D347B1D1D0E5629006DB889 /* MyExamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D347B1C1D0E5629006DB889 /* MyExamViewController.m */; };
 		1D347B211D0E6407006DB889 /* ExamTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D347B201D0E6407006DB889 /* ExamTableViewCell.m */; };
+		1D347B641D0EA480006DB889 /* EditExamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D347B621D0EA480006DB889 /* EditExamViewController.m */; };
+		1D347B651D0EA480006DB889 /* EditExamViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D347B631D0EA480006DB889 /* EditExamViewController.xib */; };
 		1D4227041D05879200A9B816 /* DateStringCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4227031D05879200A9B816 /* DateStringCompare.m */; };
 		1D579EF71CE9668100578519 /* NSObject+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */; };
 		1D579EF81CE9668100578519 /* NSString+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED61CE9668100578519 /* NSString+Zirkfied.m */; };
@@ -374,6 +376,9 @@
 		1D347B1C1D0E5629006DB889 /* MyExamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyExamViewController.m; sourceTree = "<group>"; };
 		1D347B1F1D0E6407006DB889 /* ExamTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamTableViewCell.h; sourceTree = "<group>"; };
 		1D347B201D0E6407006DB889 /* ExamTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamTableViewCell.m; sourceTree = "<group>"; };
+		1D347B611D0EA480006DB889 /* EditExamViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditExamViewController.h; sourceTree = "<group>"; };
+		1D347B621D0EA480006DB889 /* EditExamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditExamViewController.m; sourceTree = "<group>"; };
+		1D347B631D0EA480006DB889 /* EditExamViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditExamViewController.xib; sourceTree = "<group>"; };
 		1D4227021D05879200A9B816 /* DateStringCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateStringCompare.h; sourceTree = "<group>"; };
 		1D4227031D05879200A9B816 /* DateStringCompare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateStringCompare.m; sourceTree = "<group>"; };
 		1D579ED31CE9668100578519 /* NSObject+Zirkfied.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zirkfied.h"; sourceTree = "<group>"; };
@@ -901,6 +906,9 @@
 				1D347B1E1D0E63DA006DB889 /* cell */,
 				1D347B1B1D0E5629006DB889 /* MyExamViewController.h */,
 				1D347B1C1D0E5629006DB889 /* MyExamViewController.m */,
+				1D347B631D0EA480006DB889 /* EditExamViewController.xib */,
+				1D347B611D0EA480006DB889 /* EditExamViewController.h */,
+				1D347B621D0EA480006DB889 /* EditExamViewController.m */,
 			);
 			name = MyExam;
 			sourceTree = "<group>";
@@ -1788,6 +1796,7 @@
 				1DBD93A61D07C24D0050848D /* ico_blue_arrow@2x.png in Resources */,
 				1DE5F8DB1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib in Resources */,
 				1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */,
+				1D347B651D0EA480006DB889 /* EditExamViewController.xib in Resources */,
 				1DF9471F1CF67C4800CC4759 /* y_gpicon.png in Resources */,
 				1DBD93A91D07C24D0050848D /* ico_blue_arrow_up@2x.png in Resources */,
 				1D31827B1CD8352D00AD4773 /* paterTopicQtype3Cell.xib in Resources */,
@@ -1962,6 +1971,7 @@
 				1DEDC87B1C9FA66B0083B394 /* AFURLResponseSerialization.m in Sources */,
 				1D86FA331CCDFC23007DF87C /* ErrorTopicView.m in Sources */,
 				1DBD938D1D07C1F90050848D /* MKPeopleCellModel.m in Sources */,
+				1D347B641D0EA480006DB889 /* EditExamViewController.m in Sources */,
 				1D1137241CF3FD8C0092DF02 /* MASViewAttribute.m in Sources */,
 				1DE695D51CA8C75100ED1DA3 /* TestViewController.m in Sources */,
 				1DBD938E1D07C1F90050848D /* MKPeopleHeadTableViewCell.m in Sources */,

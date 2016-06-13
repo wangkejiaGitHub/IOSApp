@@ -8,13 +8,15 @@
 
 #import "MyExamViewController.h"
 #import "ExamTableViewCell.h"
-@interface MyExamViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "EditExamViewController.h"
+@interface MyExamViewController ()<UITableViewDataSource,UITableViewDelegate,ExamCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewExam;
 
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSString *accessToken;
 @property (nonatomic,strong) NSMutableArray *arrayIsActived;
 @property (nonatomic,strong) NSMutableArray *arrayNoActived;
+@property (nonatomic,assign) CGFloat cellHeight;
 
 @end
 
@@ -27,11 +29,13 @@
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _arrayIsActived = [NSMutableArray array];
     _arrayNoActived = [NSMutableArray array];
+    _cellHeight = 210;
     _tableViewExam.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self getExamInfo];
 }
 ///获取所有考试信息
 - (void)getExamInfo{
+    [SVProgressHUD showWithStatus:@"记载中..."];
     NSString *urlString = [NSString stringWithFormat:@"%@api/ExamSet/GetExamSetList?access_token=%@",systemHttps,_accessToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicExam = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -51,22 +55,53 @@
                     [_arrayNoActived addObject:dicAc];
                 }
             }
+            
+//            for (int i = 0; i<_arrayNoActived.count - 1; i++) {
+//                for (int j = 0; j<_arrayNoActived.count - 1 - i; j++) {
+//                    NSDictionary *dicL = _arrayNoActived[j];
+//                    NSDictionary *dicN = _arrayNoActived[j+1];
+//                    NSInteger isDefaultL = [dicL[@"IsDefault"] integerValue];
+//                    NSInteger isDefaultN = [dicN[@"IsDefault"] integerValue];
+//                    if (isDefaultN == 1 && isDefaultL == 0) {
+//                        [_arrayNoActived exchangeObjectAtIndex:i withObjectAtIndex:i+1];
+//                    }
+//
+//                }
+//            }
+           
         }
+        [_tableViewExam reloadData];
+        [SVProgressHUD dismiss];
         NSLog(@"%@",dicccc);
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"操作异常！"];
     }];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 20;
+    return _arrayNoActived.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return Scr_Width/1.675;
+    return _cellHeight;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ExamTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellexam" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.delegateExam = self;
+    NSDictionary *dicExam = _arrayNoActived[indexPath.row];
+    _cellHeight = [cell setCellModelValueWithDictionary:dicExam];
     return cell;
+}
+//删除或设置默认后刷新考试信息
+- (void)reFreshExamInfo{
+    [_arrayIsActived removeAllObjects];
+    [_arrayNoActived removeAllObjects];
+    [self getExamInfo];
+}
+//编辑考试信息
+- (void)editExamInfo:(NSDictionary *)dicExam{
+    EditExamViewController *editExamVc =[[EditExamViewController alloc]initWithNibName:@"EditExamViewController" bundle:nil];
+    editExamVc.dicExam = dicExam;
+    [self.navigationController pushViewController:editExamVc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

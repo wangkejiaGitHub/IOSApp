@@ -224,7 +224,7 @@
             //每张图片显示的文字数组
             _scrollviewTimer.titlesGroup = @[@"第【1】张图片",@"第【2】张图片",@"第【3】张图片"];
             //图片滚动时间间隔
-            _scrollviewTimer.autoScrollTimeInterval = 3.0;
+            _scrollviewTimer.autoScrollTimeInterval = 2.0;
             //显示文字的颜色
             _scrollviewTimer.titleLabelTextColor = [UIColor yellowColor];
             _scrollviewTimer.delegate = self;
