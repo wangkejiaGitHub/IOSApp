@@ -24,4 +24,10 @@
  rid
  */
 @property (nonatomic,strong) NSString *rIdString;
+
+
+///从练习记录中继续做题进来
+@property (nonatomic,assign) BOOL isContinueDoTopic;
+///继续做题的rid
+@property (nonatomic,strong) NSString *ridContinue;
 @end

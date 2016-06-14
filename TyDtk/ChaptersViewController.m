@@ -46,6 +46,7 @@
     
 }
 - (void)viewDidAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = NO;
     [_arrayChapterId removeAllObjects];
     [_arrayFirstChapter removeAllObjects];
     [_arrayChapter removeAllObjects];
@@ -56,6 +57,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     
 }
+
 /**
  获取tableView的头试图，并设置其参数值
  */

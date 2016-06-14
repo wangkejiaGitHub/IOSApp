@@ -79,13 +79,37 @@
             }
         }
     }
-
     ///////////////////////////////////////////////
     //是否有做过的试题，防止cell复用的时候做过的试题标记消失
     for (id subView in self.contentView.subviews) {
         if ([subView isKindOfClass:[UIButton class]]) {
             UIButton *button = (UIButton *)subView;
             if (button.tag != 1111) {
+                //先判断是否是继续做题已做
+                if (dic[@"userAnswer"]) {
+                    if ([dic[@"userAnswer"] isEqualToString:@"1"]) {
+                        if ([button.titleLabel.text isEqualToString:@"√"]) {
+                            button.backgroundColor = ColorWithRGB(11, 141, 240);
+                            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                        }
+                        else{
+                            button.backgroundColor = [UIColor groupTableViewBackgroundColor];
+                            [button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+                        }
+                    }
+                    else{
+                        if ([button.titleLabel.text isEqualToString:@"×"]) {
+                            button.backgroundColor = ColorWithRGB(11, 141, 240);
+                            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                        }
+                        else{
+                            button.backgroundColor = [UIColor groupTableViewBackgroundColor];
+                            [button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+                        }
+                        
+                    }
+                }
+
                 
                 NSString *indexString = [NSString stringWithFormat:@"%ld",index];
                 if ([_dicSelectDone.allKeys containsObject:indexString]) {
@@ -93,6 +117,10 @@
                     if ([button.titleLabel.text isEqualToString:selectString]) {
                         button.backgroundColor = ColorWithRGB(11, 141, 240);
                         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    }
+                    else{
+                        button.backgroundColor = [UIColor groupTableViewBackgroundColor];
+                        [button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
                     }
                 }
                 

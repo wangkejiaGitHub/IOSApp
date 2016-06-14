@@ -330,6 +330,7 @@
     
     _tableViewCollect.tableFooterView = _viewNilData;
 }
+/////////////////递归////////////////////
 - (void)chappppppp:(NSArray *)arrayL{
     NSMutableArray *arrayLjian1 = [NSMutableArray array];
     for (NSDictionary *dic in _arrayAllChap) {
@@ -360,12 +361,14 @@
     }
     [self chappppppp:arrayZ];
 }
+/////////////////递归////////////////////
+
 ///获取第一层和第二层显示的数据
 - (void)getFirstLevelAndDate{
     NSMutableArray *arrayFirstLevel = [NSMutableArray array];
     
     for (NSDictionary *dicFirst in _arrayAllChap) {
-        if ([dicFirst[@"Level"] integerValue] == 1) {
+        if ([dicFirst[@"ParentId"] integerValue] == 0) {
             [arrayFirstLevel addObject:dicFirst];
         }
     }

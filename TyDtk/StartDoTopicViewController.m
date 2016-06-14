@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *labTime;
 @property (weak, nonatomic) IBOutlet UILabel *labSurplus;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSubPater;
+@property (weak, nonatomic) IBOutlet UIButton *buttonSaveSch;
+
 /**
  用户储存用户每道试题的答案
  */
@@ -47,15 +49,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tabBarController.tabBar.hidden = YES;
-    [_buttonSubPater setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     _arrayUserAnswer = [NSMutableArray array];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _buttonRight.userInteractionEnabled = NO;
     [_buttonRight setTitle:@"答题卡" forState:UIControlStateNormal];
+    [_buttonSubPater setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     _buttonSubPater.layer.masksToBounds = YES;
     _buttonSubPater.layer.cornerRadius = 3;
+    [_buttonSaveSch setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+    _buttonSaveSch.layer.masksToBounds = YES;
+    _buttonSaveSch.layer.cornerRadius = 3;
     [self setTimeForTopic];
     //章节练习
     if (self.paperParameter == 1) {
@@ -79,6 +83,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
     if (![_tyUser objectForKey:tyUserShowUpdateAnswer]) {
@@ -131,6 +136,9 @@
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
     NSInteger paterId = [_dicPater[@"Id"] integerValue];
    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+    if (_ridContinue.length > 0) {
+        urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&rid=%@",_ridContinue]];
+    }
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
@@ -318,12 +326,6 @@
             for (id subView in _viewNaviHeardView.subviews) {
                 [subView removeFromSuperview];
             }
-//            UILabel *labTitle =[[UILabel alloc]initWithFrame:CGRectMake((_viewNaviHeardView.frame.size.width-100)/2,(_viewNaviHeardView.frame.size.height-20)/2, 100, 20)];
-//            labTitle.text = @"每周精选";
-//            labTitle.textAlignment = NSTextAlignmentCenter;
-//            labTitle.font = [UIFont systemFontOfSize:16.0];
-//            [_viewNaviHeardView addSubview:labTitle];
-
             _buttonRight.userInteractionEnabled = YES;
             //////////////////////////////////////////
             //实例化答题卡
@@ -508,7 +510,80 @@
     }
 
 }
+//保存进度按钮
+- (IBAction)buttonSaveSchClick:(UIButton *)sender {
+//    NSInteger topicCount = 0;
+//    if (_paperParameter == 2) {
+//        for (NSDictionary *dicTopicType in _arrayPaterData) {
+//            NSArray *array = dicTopicType[@"Questions"];
+//            topicCount = topicCount + array.count;
+//        }
+//    }
+//    else if (_paperParameter == 3){
+//        topicCount = _arrayPaterData.count;
+//    }
+    
+    //aleat View 提示框
+    LXAlertView *alertSaveSch;
+    //未做题不能保存
+    if (_intUserDidTopic == 0) {
+        alertSaveSch = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"您还没有做题，暂时没有进度保存哦" cancelBtnTitle:nil otherBtnTitle:@"确定" clickIndexBlock:nil];
+        
+    }
+    //题未做完提示
+    else {
+        alertSaveSch = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"进度保存后可以在我的练习记录查看记录，确定保存进度并退出做题吗" cancelBtnTitle:@"继续做题" otherBtnTitle:@"保存进度" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 1) {
+                //保存进度
+                [self saveUserDoTopicSchedule];
+            }
+        }];
+    }
+    alertSaveSch.animationStyle = LXASAnimationTopShake;
+    [alertSaveSch showLXAlertView];
+}
 
+/**
+ 保存用户做题进度
+ */
+- (void)saveUserDoTopicSchedule{
+    [SVProgressHUD showWithStatus:@"进度保存中..."];
+    NSString *urlString;
+    NSDictionary *dicPost = [[NSDictionary alloc]init];
+    //模拟试卷单独接口
+    if (_paperParameter == 2) {
+        urlString = [NSString stringWithFormat:@"%@api/Paper/SaveAnswer?access_token=%@",systemHttps,_accessToken];
+        NSString *paterId =[NSString stringWithFormat:@"%ld",[_dicPater[@"Id"] integerValue]];
+        //试卷标题
+        NSString *paterTitle = _dicPater[@"Names"];
+        //讲用户答过的试题信息进行编码转json
+        NSData *dataPostStr = [NSJSONSerialization dataWithJSONObject:_arrayUserAnswer options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *postStr = [[NSString alloc]initWithData:dataPostStr encoding:NSUTF8StringEncoding];
+        //参数字典
+        dicPost = @{@"Id":paterId,@"Title":paterTitle,@"PostStr":postStr};
+    }
+    //其他模块(暂时只有每周精选)
+    else if(_paperParameter == 3){
+        //api/Answer/SaveAnswer?access_token={access_token}
+        urlString = [NSString stringWithFormat:@"%@api/Answer/SaveAnswer?access_token=%@",systemHttps,_accessToken];
+        //讲用户答过的试题信息进行编码转json
+        NSData *dataPostStr = [NSJSONSerialization dataWithJSONObject:_arrayUserAnswer options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *postStr = [[NSString alloc]initWithData:dataPostStr encoding:NSUTF8StringEncoding];
+        dicPost = @{@"rid":_rIdString,@"postStr":postStr};
+    }
+    
+    [HttpTools postHttpRequestURL:urlString RequestPram:dicPost RequestSuccess:^(id respoes) {
+        NSDictionary *dicSchedule = (NSDictionary *)respoes;
+        NSInteger codeId = [dicSchedule[@"code"] integerValue];
+        if (codeId  == 1) {
+            NSDictionary *dicDatas = dicSchedule[@"datas"];
+            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    } RequestFaile:^(NSError *erro) {
+        [SVProgressHUD showInfoWithStatus:@"操作异常！"];
+    }];
+}
 //////////////////////////////////
 //交卷按钮
 - (IBAction)subButtonClick:(UIButton *)sender {

@@ -752,6 +752,7 @@
 				1D30ED9E1CEC3FBF005046DB /* WeekSelectTestPaper */,
 				1DF27B501CDB3AB700F35BB1 /* ChapterTestPaper */,
 				1DC18ECC1CB77D540006D642 /* SimulateTestPaper */,
+				1D67D8461D0F8D13004720E0 /* DoTopic */,
 			);
 			name = TyDtkTestCenter;
 			sourceTree = "<group>";
@@ -1009,7 +1010,22 @@
 			path = ZFPieChart;
 			sourceTree = "<group>";
 		};
-		1DB777461D000198003AFE28 /* MyExercise record */ = {
+		1D67D8461D0F8D13004720E0 /* DoTopic */ = {
+			isa = PBXGroup;
+			children = (
+				1DDA96CF1CDC34D2001A7DAE /* AnalysisTopic */,
+				1DDA96CE1CDC34A6001A7DAE /* AnswerTopic */,
+				1D165E671CD1DA1E00F61EAE /* NotesView.xib */,
+				1D165E691CD1DA4800F61EAE /* NotesView.h */,
+				1D165E6A1CD1DA4800F61EAE /* NotesView.m */,
+				1D165E6E1CD1F84700F61EAE /* ErrorView.xib */,
+				1D165E701CD1F85800F61EAE /* ErrorView.h */,
+				1D165E711CD1F85800F61EAE /* ErrorView.m */,
+			);
+			name = DoTopic;
+			sourceTree = "<group>";
+		};
+		1DB777461D000198003AFE28 /* MyExerciseRecord */ = {
 			isa = PBXGroup;
 			children = (
 				1D1C5DD11D0659B500165ED6 /* ExerciseTableViewCell.h */,
@@ -1017,7 +1033,7 @@
 				1DB777471D0001E4003AFE28 /* ExerciseRecordViewController.h */,
 				1DB777481D0001E4003AFE28 /* ExerciseRecordViewController.m */,
 			);
-			name = "MyExercise record";
+			name = MyExerciseRecord;
 			sourceTree = "<group>";
 		};
 		1DBD93581D07A3C00050848D /* MyCollectAndNotesAndError */ = {
@@ -1118,14 +1134,6 @@
 				1DD2E6F61CB5F1C800423484 /* XibForTk */,
 				1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */,
 				1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */,
-				1DDA96CF1CDC34D2001A7DAE /* AnalysisTopic */,
-				1DDA96CE1CDC34A6001A7DAE /* AnswerTopic */,
-				1D165E671CD1DA1E00F61EAE /* NotesView.xib */,
-				1D165E691CD1DA4800F61EAE /* NotesView.h */,
-				1D165E6A1CD1DA4800F61EAE /* NotesView.m */,
-				1D165E6E1CD1F84700F61EAE /* ErrorView.xib */,
-				1D165E701CD1F85800F61EAE /* ErrorView.h */,
-				1D165E711CD1F85800F61EAE /* ErrorView.m */,
 			);
 			name = SimulateTestPaper;
 			sourceTree = "<group>";
@@ -1408,13 +1416,13 @@
 		1DEDC8091C9F85AF0083B394 /* TyUser */ = {
 			isa = PBXGroup;
 			children = (
+				1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */,
+				1DDE06651CAA28FB00FA1505 /* UserFindPwd */,
+				1DC9B8F71CE42FE700A2E9A8 /* Login */,
 				1D347B1A1D0E5605006DB889 /* MyExam */,
 				1D347B161D0E4F7A006DB889 /* MyOrder */,
-				1DC9B8F71CE42FE700A2E9A8 /* Login */,
-				1DDE06651CAA28FB00FA1505 /* UserFindPwd */,
-				1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */,
 				1DBD93581D07A3C00050848D /* MyCollectAndNotesAndError */,
-				1DB777461D000198003AFE28 /* MyExercise record */,
+				1DB777461D000198003AFE28 /* MyExerciseRecord */,
 				1D04BE341CFEC0B500BCEFA0 /* MyUserInfo */,
 				1D10C9871CB3A74C00040913 /* UserIndexViewController.h */,
 				1D10C9881CB3A74C00040913 /* UserIndexViewController.m */,

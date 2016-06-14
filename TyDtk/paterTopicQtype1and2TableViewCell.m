@@ -104,22 +104,46 @@
         NSString *indexString = [NSString stringWithFormat:@"%ld",index];
         //单选判断是否已选
         if (qtypeTopic == 1) {
+            //先判断是否是继续做题已选
+            NSString *userAnswer = dic[@"userAnswer"];
+            if (userAnswer!=nil && [userAnswer isEqualToString:button.titleLabel.text]) {
+                button.backgroundColor = ColorWithRGB(11, 141, 240);
+                [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            }
+          
+            
             if ([_dicSelectDone.allKeys containsObject:indexString]) {
                 NSString *selectString = _dicSelectDone[indexString];
                 if ([button.titleLabel.text isEqualToString:selectString]) {
                     button.backgroundColor = ColorWithRGB(11, 141, 240);
                     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 }
+                else{
+                    [button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+                    button.backgroundColor = ColorWithRGB(200, 200, 200);
+
+                }
             }
         }
         //多选判断是否已选
         else{
+            //先判断是否是继续做题已选
+            NSString *userAnswer = dic[@"userAnswer"];
+            if (userAnswer!=nil && [userAnswer rangeOfString:button.titleLabel.text].length >0) {
+                button.backgroundColor = ColorWithRGB(11, 141, 240);
+                [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            }
+            
             if ([_dicSelectDone.allKeys containsObject:indexString]) {
                 NSString *selectString = _dicSelectDone[indexString];
                 NSRange ranSelect = [selectString rangeOfString:button.titleLabel.text];
                 if (ranSelect.length > 0) {
                     button.backgroundColor = ColorWithRGB(11, 141, 240);
                     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                }
+                else{
+                    [button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+                    button.backgroundColor = ColorWithRGB(200, 200, 200);
                 }
             }
             

@@ -118,8 +118,6 @@
     UILabel *labText = (UILabel *)[cell.contentView viewWithTag:10];
     labText.layer.masksToBounds = YES;
     labText.layer.cornerRadius = 5;
-//    labText.backgroundColor = ColorWithRGB(190, 200, 252);
-//    labText.textColor = ColorWithRGB(90, 144, 266);
     if (indexPath.section == 0) {
         labText.text = _arrayList[indexPath.row];
     }

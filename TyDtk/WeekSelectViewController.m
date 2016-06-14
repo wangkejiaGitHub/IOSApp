@@ -64,6 +64,9 @@
     }
     _allowToken = NO;
 }
+- (void)viewDidAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = NO;
+}
 /**
  试卷信息列表的头试图
  */

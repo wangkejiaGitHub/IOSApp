@@ -212,39 +212,36 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         UICollectionReusableView *view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"heardview" forIndexPath:indexPath];
-        view.backgroundColor = [UIColor redColor];
-        if (!_scrollviewTimer) {
-            //url图片地址
-            NSArray *arrayUrlImg = @[@"http://static.kaola100.com/upload/admin/2015-07-20/20150720173304937.jpg",@"http://static.kaola100.com/upload/admin/2015-07-20/20150720173316225.jpg",@"http://static.kaola100.com/upload/admin/2015-07-20/20150720173504466.jpg"];
-            
-//            NSArray *arrayImg = @[@"001.jpg",@"002.jpg",@"003.jpg"];
-//            _scrollviewTimer = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width*0.53) imageNamesGroup:arrayImg];
-            
-            _scrollviewTimer = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width*0.53) imageURLStringsGroup:arrayUrlImg];
-            //每张图片显示的文字数组
-            _scrollviewTimer.titlesGroup = @[@"第【1】张图片",@"第【2】张图片",@"第【3】张图片"];
-            //图片滚动时间间隔
-            _scrollviewTimer.autoScrollTimeInterval = 2.0;
-            //显示文字的颜色
-            _scrollviewTimer.titleLabelTextColor = [UIColor yellowColor];
-            _scrollviewTimer.delegate = self;
-            //pageControl的位置
-            _scrollviewTimer.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
-            //pageControl的样式
-            _scrollviewTimer.pageControlStyle = SDCycleScrollViewPageContolStyleAnimated;
-            //pageControl的大小
-            _scrollviewTimer.pageControlDotSize = CGSizeMake(8, 8);
-            [view addSubview:_scrollviewTimer];
+        view.backgroundColor = [UIColor clearColor];
+        if (_arraySubject.count > 0) {
+            if (!_scrollviewTimer) {
+                //url图片地址
+                NSArray *arrayUrlImg = @[@"http://static.kaola100.com/upload/admin/2015-07-20/20150720173304937.jpg",@"http://static.kaola100.com/upload/admin/2015-07-20/20150720173316225.jpg",@"http://static.kaola100.com/upload/admin/2015-07-20/20150720173504466.jpg"];
+                
+                //            NSArray *arrayImg = @[@"001.jpg",@"002.jpg",@"003.jpg"];
+                //            _scrollviewTimer = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width*0.53) imageNamesGroup:arrayImg];
+                
+                _scrollviewTimer = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width*0.53) imageURLStringsGroup:arrayUrlImg];
+                //每张图片显示的文字数组
+                _scrollviewTimer.titlesGroup = @[@"第【1】张图片",@"第【2】张图片",@"第【3】张图片"];
+                //图片滚动时间间隔
+                _scrollviewTimer.autoScrollTimeInterval = 2.0;
+                //显示文字的颜色
+                _scrollviewTimer.titleLabelTextColor = [UIColor yellowColor];
+                _scrollviewTimer.delegate = self;
+                //pageControl的位置
+                _scrollviewTimer.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+                //pageControl的样式
+                _scrollviewTimer.pageControlStyle = SDCycleScrollViewPageContolStyleAnimated;
+                //pageControl的大小
+                _scrollviewTimer.pageControlDotSize = CGSizeMake(8, 8);
+                [view addSubview:_scrollviewTimer];
+            }
+
         }
         return view;
     }
     return nil;
-}
-/** 
- 点击轮播图片回调
- */
-- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
-    NSLog(@"%ld == scrollImg",index);
 }
 // 返回cell
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -277,6 +274,13 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     [self performSegueWithIdentifier:@"ssubject" sender:indexPath];
+}
+
+/**
+ 点击轮播图片回调
+ */
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    NSLog(@"点击了第【%ld】张图片",index);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

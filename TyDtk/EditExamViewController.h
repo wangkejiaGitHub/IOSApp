@@ -10,4 +10,5 @@
 
 @interface EditExamViewController : UIViewController
 @property (nonatomic,strong) NSDictionary *dicExam;
+
 @end

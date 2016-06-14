@@ -11,7 +11,7 @@
 @property (nonatomic,assign) NSInteger intHour;
 @property (nonatomic,assign) NSInteger intMinutes;
 @property (nonatomic,assign) NSInteger intSecond;
-//parameter（1章节练习，2模拟试卷，3每周精选，4智能出题）等
+///parameter（1章节练习，2模拟试卷，3每周精选，4智能出题）等
 @property (nonatomic,assign) NSInteger parameter;
 @end
 
@@ -131,6 +131,7 @@
             [subView removeFromSuperview];
         }
         reView.backgroundColor = ColorWithRGBWithAlpp(80, 200, 250, 0.8);
+        ///模拟试卷
         if (_parameter == 2) {
             NSDictionary *dicCurr = _arrayTopic[indexPath.section];
             NSDictionary *dicCaption = dicCurr[@"Caption"];
@@ -225,6 +226,21 @@
     }
     cell.backgroundColor = ColorWithRGB(200, 200, 200);
     NSString *topicNumber = labNumber.text;
+    //判断是否是继续做题，同步答题卡
+    //模拟试卷
+    if (self.parameter == 2) {
+        NSDictionary *dicPater = _arrayTopic[indexPath.section];
+        NSArray *arrayTop = dicPater[@"Questions"];
+        NSDictionary *dicTopic = arrayTop[indexPath.row];
+        if ([dicTopic objectForKey:@"userAnswer"]) {
+            cell.backgroundColor = [UIColor brownColor];
+        }
+    }
+    //每周精选
+    else if (self.parameter == 3){
+        
+    }
+    
     if ([_arrayisMakeTopic containsObject:topicNumber]) {
         cell.backgroundColor = [UIColor brownColor];
     }

@@ -121,6 +121,7 @@
     }
 }
 - (void)viewDidAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = NO;
     [self getPaperYears];
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];

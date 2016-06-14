@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MyExamViewController : UIViewController
-
+@property (nonatomic,assign) BOOL isFirstLoad;
 @end

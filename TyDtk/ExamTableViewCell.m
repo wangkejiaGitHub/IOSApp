@@ -54,7 +54,7 @@
 - (IBAction)buttonDeleteExam:(UIButton *)sender {
     LXAlertView *alert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"确定要删除吗？" cancelBtnTitle:@"取消" otherBtnTitle:@"删除" clickIndexBlock:^(NSInteger clickIndex) {
         if (clickIndex == 1) {
-            [self delegateExam];
+            [self deleteExam];
         }
     }];
     alert.animationStyle = LXASAnimationDefault;
