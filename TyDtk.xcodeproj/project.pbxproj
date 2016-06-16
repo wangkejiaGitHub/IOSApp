@@ -56,9 +56,6 @@
 		1D211FD51D0D57C600B895C6 /* SDCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FCC1D0D57C600B895C6 /* SDCollectionViewCell.m */; };
 		1D211FD61D0D57C600B895C6 /* SDCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FCE1D0D57C600B895C6 /* SDCycleScrollView.m */; };
 		1D211FD71D0D57C600B895C6 /* UIView+SDExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FD01D0D57C600B895C6 /* UIView+SDExtension.m */; };
-		1D211FDC1D0D5C2800B895C6 /* 001.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1D211FD91D0D5C2800B895C6 /* 001.jpg */; };
-		1D211FDD1D0D5C2800B895C6 /* 002.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1D211FDA1D0D5C2800B895C6 /* 002.jpg */; };
-		1D211FDE1D0D5C2800B895C6 /* 003.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1D211FDB1D0D5C2800B895C6 /* 003.jpg */; };
 		1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */; };
 		1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */; };
 		1D30ED9D1CEC3F97005046DB /* WeekSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D30ED9C1CEC3F97005046DB /* WeekSelectViewController.m */; };
@@ -358,9 +355,6 @@
 		1D211FCE1D0D57C600B895C6 /* SDCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDCycleScrollView.m; sourceTree = "<group>"; };
 		1D211FCF1D0D57C600B895C6 /* UIView+SDExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDExtension.h"; sourceTree = "<group>"; };
 		1D211FD01D0D57C600B895C6 /* UIView+SDExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDExtension.m"; sourceTree = "<group>"; };
-		1D211FD91D0D5C2800B895C6 /* 001.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 001.jpg; sourceTree = "<group>"; };
-		1D211FDA1D0D5C2800B895C6 /* 002.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 002.jpg; sourceTree = "<group>"; };
-		1D211FDB1D0D5C2800B895C6 /* 003.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 003.jpg; sourceTree = "<group>"; };
 		1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChaptersViewController.h; sourceTree = "<group>"; };
 		1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChaptersViewController.m; sourceTree = "<group>"; };
 		1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModelPapersViewController.h; sourceTree = "<group>"; };
@@ -873,16 +867,6 @@
 			path = PageControl;
 			sourceTree = "<group>";
 		};
-		1D211FD81D0D5C1B00B895C6 /* ImaTest */ = {
-			isa = PBXGroup;
-			children = (
-				1D211FD91D0D5C2800B895C6 /* 001.jpg */,
-				1D211FDA1D0D5C2800B895C6 /* 002.jpg */,
-				1D211FDB1D0D5C2800B895C6 /* 003.jpg */,
-			);
-			name = ImaTest;
-			sourceTree = "<group>";
-		};
 		1D30ED9E1CEC3FBF005046DB /* WeekSelectTestPaper */ = {
 			isa = PBXGroup;
 			children = (
@@ -921,6 +905,13 @@
 				1D347B201D0E6407006DB889 /* ExamTableViewCell.m */,
 			);
 			name = cell;
+			sourceTree = "<group>";
+		};
+		1D410BB11D1296500052E7B4 /* LookTopic */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = LookTopic;
 			sourceTree = "<group>";
 		};
 		1D579ED11CE9668100578519 /* ZFChart */ = {
@@ -1039,6 +1030,7 @@
 		1DBD93581D07A3C00050848D /* MyCollectAndNotesAndError */ = {
 			isa = PBXGroup;
 			children = (
+				1D410BB11D1296500052E7B4 /* LookTopic */,
 				1DBD93BA1D0816580050848D /* Cell */,
 				1DBD93591D07A4DF0050848D /* MyCollectViewController.h */,
 				1DBD935A1D07A4DF0050848D /* MyCollectViewController.m */,
@@ -1448,7 +1440,6 @@
 		1DEDC82E1C9F9F770083B394 /* Imgs */ = {
 			isa = PBXGroup;
 			children = (
-				1D211FD81D0D5C1B00B895C6 /* ImaTest */,
 				1DBD93951D07C24D0050848D /* ImgTree */,
 				1DF9473A1CF6936E00CC4759 /* TouXinagTest.jpg */,
 				1DF947381CF692B700CC4759 /* backImgTest.jpg */,
@@ -1781,7 +1772,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D211FDC1D0D5C2800B895C6 /* 001.jpg in Resources */,
 				1DF9472C1CF680AD00CC4759 /* btm_icon1_hover@2x.png in Resources */,
 				1DDA96D81CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib in Resources */,
 				1DF9471E1CF67C4800CC4759 /* y_cticon.png in Resources */,
@@ -1814,7 +1804,6 @@
 				1D11371E1CF3FD8C0092DF02 /* DTKDropdownMenuView.bundle in Resources */,
 				1DBD93A71D07C24D0050848D /* ico_blue_arrow@3x.png in Resources */,
 				1DBD93AB1D07C24D0050848D /* ico_check_circle.png in Resources */,
-				1D211FDE1D0D5C2800B895C6 /* 003.jpg in Resources */,
 				1DBD93911D07C1F90050848D /* MKPeopleSelectTableCell.xib in Resources */,
 				1DEDC8311C9F9F770083B394 /* login_password.png in Resources */,
 				1DBD93AC1D07C24D0050848D /* ico_check_circle@2x.png in Resources */,
@@ -1830,7 +1819,6 @@
 				1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */,
 				1DF27B4E1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib in Resources */,
 				1DE5F8DD1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib in Resources */,
-				1D211FDD1D0D5C2800B895C6 /* 002.jpg in Resources */,
 				1D0794771CFBD943009A39E8 /* SJClickEnlarge.Bundle in Resources */,
 				1DF947321CF680CA00CC4759 /* btm_icon4@2x.png in Resources */,
 				1D122B9F1CDDBE2D00A0BA08 /* AnalysisQtype5Cell.xib in Resources */,

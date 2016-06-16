@@ -222,15 +222,15 @@
 //            NSLog(@"%@",arrayDatas);
             ///////////////////////////////////////////////////////
             //首先先判断在当前的数组中是否存在新请求的记录，如果存在，不在显示
-            if (_arrayExRe.count != 0) {
-                for (NSDictionary *dicExreCurr in _arrayExRe) {
-                    for (NSDictionary *dicPater in arrayDatas) {
-                        if ([dicExreCurr[@"Rid"] isEqualToString:dicPater[@"Rid"]]) {
-                            [_arrayExRe removeObject:dicExreCurr];
-                        }
-                    }
-                }
-            }
+//            if (_arrayExRe.count != 0) {
+//                for (NSDictionary *dicExreCurr in _arrayExRe) {
+//                    for (NSDictionary *dicPater in arrayDatas) {
+//                        if ([dicExreCurr[@"Rid"] isEqualToString:dicPater[@"Rid"]]) {
+//                            [_arrayExRe removeObject:dicExreCurr];
+//                        }
+//                    }
+//                }
+//            }
             for (NSDictionary *dicP in arrayDatas) {
                 [_arrayExRe addObject:dicP];
             }
@@ -307,8 +307,17 @@
     return @"删除记录";
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    _dicSelectSubject = _arrayExRe[indexPath.row];
-    [self deleteExercise:indexPath];
+    LXAlertView *alert = [[LXAlertView alloc]initWithTitle:@"记录删除" message:@"确认删除该做题记录吗？" cancelBtnTitle:@"保留" otherBtnTitle:@"删除" clickIndexBlock:^(NSInteger clickIndex) {
+        if (clickIndex == 1) {
+            _dicSelectSubject = _arrayExRe[indexPath.row];
+            [self deleteExercise:indexPath];
+        }
+        else{
+            [_tableViewRe setEditing:NO animated:YES];
+        }
+    }];
+    alert.animationStyle = LXASAnimationTopShake;
+    [alert showLXAlertView];
 //    [_arrayExRe removeObjectAtIndex:indexPath.row];
 //    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 //    NSLog(@"commitEditingStyle");

@@ -39,11 +39,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
     if (self.parameterView == 1) {
         self.title = @"我的收藏";
     }
     else if (self.parameterView == 2){
         self.title = @"我的错题";
+        [self getAllErrorTopicOfChapter];
     }
     else if (self.parameterView == 3){
         self.title = @"我的笔记";
@@ -53,11 +57,10 @@
     _arraySection = [NSMutableArray array];
     _levelTT = 0;
     _arrayLinS = [NSMutableArray array];
-    _tyUser = [NSUserDefaults standardUserDefaults];
+    
     _labSubject.userInteractionEnabled = NO;
     [self addTapGestForLabelSubject];
-    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-    NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
+    
     _labSubject.text = dicSubject[@"Names"];
     _labSubject.textColor = ColorWithRGB(90, 144, 266);
     NSDictionary *dicClass = [_tyUser objectForKey:tyUserClass];
@@ -67,7 +70,10 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    
+    //??????
+//    [self chapterInfoTest];
+    [self getCollectTopicWithChaperId];
+    //??????
 }
 ///给科目label添加点击手势
 - (void)addTapGestForLabelSubject{
@@ -178,7 +184,10 @@
     }];
 }
 //*****************************************//
-//////////////////我的收藏////////////////////
+//////////////////我的收藏（模块）////////////////////
+/**
+获取收藏章节考点信息
+ */
 - (void)getAboutChaperCollect{
     [SVProgressHUD showWithStatus:@"正在加载..."];
     //api/Collection/GetCollectionAboutChapters?access_token={access_token}&courseId={courseId};
@@ -219,11 +228,28 @@
         [SVProgressHUD dismiss];
     }];
 }
-/////////////////我的收藏////////////////////
+///获取所有收藏的试题
+- (void)getAllCollectTopicOfChapter{
+    
+}
+///按照章节考点id过去收藏试题列表
+- (void)getCollectTopicWithChaperId{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionQuestions?access_token=%@&chapterId=1133&page=1&size=20",systemHttps,_accessToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicCollect);
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/////////////////我的收藏（模块）////////////////////
 //****************************************//
 
 //****************************************//
-//////////////////我的错题////////////////////
+//////////////////我的错题（模块）////////////////////
+/**
+ 获取错题章节考点信息
+ */
 - (void)getAboutChaperErrorTopic{
     //api/Error/GetErrorAboutChapters?access_token={access_token}&courseId={courseId}
     [SVProgressHUD showWithStatus:@"正在加载..."];
@@ -262,14 +288,26 @@
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
+    
 }
-
-
-//////////////////我的错题////////////////////
+///获取所有做错的试题
+- (void)getAllErrorTopicOfChapter{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Error/GetUserErrorCount?access_token=%@",systemHttps,_accessToken];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicError = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicError);
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+////////////// 我的错题（模块）////////////////
 //****************************************//
 
 //****************************************//
-//////////////////我的笔记////////////////////
+//////////////////我的笔记（模块）////////////////////
+/**
+ 获取笔记章节考点信息
+ */
 - (void)getAboutChaperNotes{
     [SVProgressHUD show];
     NSString *urlString;
@@ -309,9 +347,12 @@
     }];
     
 }
-
+///获取所有添加过笔记的试题
+- (void)getAllNotesTopicOfChapter{
+    
+}
 //****************************************//
-//////////////////我的笔记////////////////////
+//////////////////我的笔记（模块）////////////////////
 
 
 ///当没有收藏选中科目下的试题时，显示空数据视图信息
@@ -330,7 +371,7 @@
     
     _tableViewCollect.tableFooterView = _viewNilData;
 }
-/////////////////递归////////////////////
+/////////////////递归///////////////////
 - (void)chappppppp:(NSArray *)arrayL{
     NSMutableArray *arrayLjian1 = [NSMutableArray array];
     for (NSDictionary *dic in _arrayAllChap) {
@@ -404,6 +445,19 @@
     }
     return countTopic;
 }
+//////??????????????????????????????
+//////??????????????????????????????
+//- (void)chapterInfoTest{
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetBaseInfo/1132?access_token=%@",systemHttps,_accessToken];
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicChapter = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        NSLog(@"%@",dicChapter);
+//    } RequestFaile:^(NSError *error) {
+//        
+//    }];
+//}
+//////??????????????????????????????
+//////??????????????????????????????
 ///////////////////////////////////
 ///  tableView代理
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -421,7 +475,7 @@
     return _arrayTableData.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 60;
+    return 50;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 45)];
@@ -448,19 +502,102 @@
     NSDictionary *dicDate = _arrayTableData[section];
     NSDictionary *dicHeader = dicDate[@"id"];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(20, 0, Scr_Width-20, view.frame.size.height);
-    if (section == 0) {
-        button.frame = CGRectMake(20, 45, Scr_Width, 45);
-    }
+    button.frame = CGRectMake(0, 0, Scr_Width, view.frame.size.height);
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [button setTitle:dicHeader[@"Names"] forState:UIControlStateNormal];
+//    [button setTitle:dicHeader[@"Names"] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(buttonSectionClick:) forControlEvents:UIControlEventTouchUpInside];
     button.titleLabel.font = [UIFont systemFontOfSize:13.0];
     button.tag = 100 + section;
     [view addSubview:button];
+    //title字符
+    NSString *titleString;
+    //收藏
+    if (_parameterView == 1) {
+        titleString = [NSString stringWithFormat:@"%@ (★收藏:%ld)",dicHeader[@"Names"],[dicHeader[@"CollectionNum"] integerValue]];
+    }
+    //错题
+    else if (self.parameterView == 2){
+        titleString = [NSString stringWithFormat:@"%@ (★错题:%ld)",dicHeader[@"Names"],[dicHeader[@"ErrorNum"] integerValue]];
+    }
+    //笔记
+    else if (self.parameterView == 3){
+        titleString = [NSString stringWithFormat:@"%@ (📒笔记:%ld)",dicHeader[@"Names"],[dicHeader[@"NoteNum"] integerValue]];
+    }
+    //标题属性字符串
+    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
+    //收藏
+    if (_parameterView == 1) {
+        [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor]
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length + 1,6+[NSString stringWithFormat:@"%ld",[dicHeader[@"CollectionNum"] integerValue]].length)];
+        UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+        [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length + 1,6+[NSString stringWithFormat:@"%ld",[dicHeader[@"CollectionNum"] integerValue]].length)];
+    }
+    //错题
+    else if (self.parameterView == 2){
+        [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor]
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length + 1,6+[NSString stringWithFormat:@"%ld",[dicHeader[@"ErrorNum"] integerValue]].length)];
+        UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+        [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length + 1,6+[NSString stringWithFormat:@"%ld",[dicHeader[@"ErrorNum"] integerValue]].length)];
+    }
+    //笔记
+    else if (self.parameterView == 3){
+        [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor]
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length + 1,7+[NSString stringWithFormat:@"%ld",[dicHeader[@"NoteNum"] integerValue]].length)];
+        UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+        [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length + 1,7+[NSString stringWithFormat:@"%ld",[dicHeader[@"NoteNum"] integerValue]].length)];
+    }
+    
+    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 10 - 110, view.frame.size.height)];
+//    labText.text = dicHeader[@"Names"];
+    labText.numberOfLines = 0;
+    labText.font = [UIFont systemFontOfSize:13.0];
+    [labText setAttributedText:attriTitle];
+    [view addSubview:labText];
+    
+    UIButton *btnLook = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnLook.frame = CGRectMake(Scr_Width - 100, 0, 45, 45);
+    btnLook.titleLabel.font = [UIFont systemFontOfSize:12.5];
+    [btnLook setTitle:@"🔍查看" forState:UIControlStateNormal];
+    [btnLook setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+    [btnLook addTarget:self action:@selector(sectionLookClick:) forControlEvents:UIControlEventTouchUpInside];
+    btnLook.tag = 1000 + section;
+    [view addSubview:btnLook];
+    
+    UIButton *btnTopic = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnTopic.frame = CGRectMake(Scr_Width - 50, 0, 45, 45);
+    btnTopic.titleLabel.font = [UIFont systemFontOfSize:12.5];
+    [btnTopic setTitle:@"📓做题" forState:UIControlStateNormal];
+    [btnTopic setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+    [btnTopic addTarget:self action:@selector(sectionTopicClick:) forControlEvents:UIControlEventTouchUpInside];
+    btnTopic.tag = 1000 + section;
+    [view addSubview:btnTopic];
+    if (section == 0) {
+        button.frame = CGRectMake(0, 45, Scr_Width, 45);
+        labText.frame = CGRectMake(10, 45, Scr_Width - 10 - 100, 45);
+        btnLook.frame =CGRectMake(Scr_Width - 100, 45, 45, 45);
+        btnTopic.frame =CGRectMake(Scr_Width - 50, 45, 45, 45);
+    }
     return view;
 }
+
+///////////////section按钮///////////////////
+//查看
+- (void)sectionLookClick:(UIButton *)button{
+    NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
+    NSDictionary *dicHeader = dicDate[@"id"];
+    NSLog(@"section id = %ld == Name = %@",[dicHeader[@"Id"] integerValue], dicHeader[@"Names"]);
+}
+//做题
+- (void)sectionTopicClick:(UIButton *)button{
+    NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
+    NSDictionary *dicHeader = dicDate[@"id"];
+    NSLog(@"section Name= %@",dicHeader[@"Names"]);
+}
+//section折叠
 - (void)buttonSectionClick:(UIButton *)sender{
     NSInteger sectoinId = sender.tag - 100;
     NSString *str = [NSString stringWithFormat:@"%ld",sectoinId];
@@ -473,6 +610,8 @@
     
     [_tableViewCollect reloadSections:[NSIndexSet indexSetWithIndex:sectoinId] withRowAnimation:UITableViewRowAnimationFade];
 }
+///////////////section按钮///////////////////
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
         return 90;
@@ -491,14 +630,6 @@
     return view;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    MGSwipeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-//    NSDictionary *dicData = _arrayTableData[indexPath.section];
-//    NSArray *arrayData = dicData[@"node"];
-//    NSDictionary *dic = arrayData[indexPath.row];
-//    UILabel *labTitle = (UILabel *)[cell.contentView viewWithTag:10];
-//    labTitle.text = dic[@"Names"];
-
-//    return cell;
     NSDictionary *dicData = _arrayTableData[indexPath.section];
     NSArray *arrayData = dicData[@"node"];
     NSDictionary *dic = arrayData[indexPath.row];
@@ -511,26 +642,65 @@
     for (id subView in cell.contentView.subviews) {
         [subView removeFromSuperview];
     }
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(25, (60-8)/2, 8, 8)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(25, (50-8)/2, 8, 8)];
     view.backgroundColor = ColorWithRGB(90, 144, 266);
     view.layer.masksToBounds = YES;
     view.layer.cornerRadius = 4;
     [cell.contentView addSubview:view];
-    UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 50, 60)];
+    UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 60, 50)];
     labT.numberOfLines = 0;
     labT.font = [UIFont systemFontOfSize:15.0];
-    labT.text = dic[@"Names"];
-    NSInteger countTopic = [self getCountTopicWithChaperId:[dic[@"Id"] integerValue]];
-    NSString *strText = [NSString stringWithFormat:@"%@==%ld",dic[@"Names"],countTopic];
-    labT.text = strText;
+    
+    //?????????????????
+    //标题
+    NSString *titleString;
+    if (_parameterView == 1) {
+        titleString = [NSString stringWithFormat:@"%@  ★收藏:%ld",dic[@"Names"],[dic[@"CollectionNum"] integerValue]];
+    }
+    else if (self.parameterView == 2){
+        titleString = [NSString stringWithFormat:@"%@  ★错题:%ld",dic[@"Names"],[dic[@"ErrorNum"] integerValue]];
+    }
+    else if (self.parameterView == 3){
+        titleString = [NSString stringWithFormat:@"%@  📓笔记:%ld",dic[@"Names"],[dic[@"NoteNum"] integerValue]];
+    }
+//    titleString = [NSString stringWithFormat:@"%@  ★收藏:%ld题",dic[@"Names"],[dic[@"CollectionNum"] integerValue]];
+    
+    //标题属性字符串
+    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
+    //收藏
+    if (_parameterView == 1) {
+        [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,4+[NSString stringWithFormat:@"%ld",[dic[@"CollectionNum"] integerValue]].length)];
+        UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+        [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,4+[NSString stringWithFormat:@"%ld",[dic[@"CollectionNum"] integerValue]].length)];
+    }
+    //错题
+    else if (self.parameterView == 2){
+        [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,4+[NSString stringWithFormat:@"%ld",[dic[@"ErrorNum"] integerValue]].length)];
+        UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+        [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,4+[NSString stringWithFormat:@"%ld",[dic[@"ErrorNum"] integerValue]].length)];
+    }
+    //笔记
+    else if (self.parameterView == 3){
+        [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,4+[NSString stringWithFormat:@"%ld",[dic[@"NoteNum"] integerValue]].length)];
+        UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+        [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,4+[NSString stringWithFormat:@"%ld",[dic[@"NoteNum"] integerValue]].length)];
+    }
+    
+    [labT setAttributedText:attriTitle];
+
     [cell.contentView addSubview:labT];
-    MGSwipeButton *btnLook = [MGSwipeButton buttonWithTitle:@"查 看" icon:[UIImage imageNamed:@"qydp_01"] backgroundColor:ColorWithRGB(200, 200, 200) callback:^BOOL(MGSwipeTableCell *sender) {
-        
+    MGSwipeButton *btnLook = [MGSwipeButton buttonWithTitle:@"🔍 查看" icon:nil backgroundColor:ColorWithRGB(200, 200, 200) callback:^BOOL(MGSwipeTableCell *sender) {
         return YES;
     }];
     [btnLook setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     btnLook.titleLabel.font = [UIFont systemFontOfSize:15.0];
-    MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" icon:[UIImage imageNamed:@"qydp_01"] backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
+    MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"📓 做题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
         NSLog(@"%ld",[dic[@"Id"] integerValue]);
 //        [self performSegueWithIdentifier:@"dotopic" sender:[NSString stringWithFormat:@"%ld",[dic[@"Id"] integerValue]]];
          NSLog(@"%ld == %ld",indexPath.section,indexPath.row);

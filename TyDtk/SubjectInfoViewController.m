@@ -71,12 +71,12 @@
     [SVProgressHUD dismiss];
 }
 - (void)viewWillAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = NO;
+    self.tabBarController.tabBar.hidden = YES;
+      [self getAllSubject];
 }
 - (void)viewLoad{
     _allowMenu = NO;
-    [self getAllSubject];
-    
+
     //添加追踪下划线
     _viewFooterLine = [[UIView alloc]initWithFrame:CGRectMake(0, 45, Scr_Width/4, 2)];
     _viewFooterLine.backgroundColor = [UIColor purpleColor];

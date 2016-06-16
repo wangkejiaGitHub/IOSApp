@@ -136,6 +136,7 @@
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
     NSInteger paterId = [_dicPater[@"Id"] integerValue];
    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+    //判断是否是继续做题，如果是，rid有值
     if (_ridContinue.length > 0) {
         urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&rid=%@",_ridContinue]];
     }
@@ -148,6 +149,66 @@
             _scrollContentWidth = _scrollContentWidth + arrayDic.count;
         }
         _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
+        
+        //判断是否是继续做题，如果是，rid有值,将用户做过的题的数量和已做过的试题存放起来
+        if (_ridContinue.length > 0) {
+            for (NSDictionary *dicAllTopic in _arrayPaterData) {
+                NSArray *arrayTypeTopic = dicAllTopic[@"Questions"];
+                for (NSDictionary *dicTopic in arrayTypeTopic) {
+                    NSInteger qType = [dicTopic[@"qtype"] integerValue];
+                    ///用于存放用于保存记录里面已经做过的试题
+                    NSDictionary *dicUserAnswer = [[NSDictionary alloc]init];
+                    ///不是一题多问的情况
+                    if (qType != 6) {
+                        if ([dicTopic objectForKey:@"userAnswer"]) {
+                            //试题Id
+                            NSString *questionId =[NSString stringWithFormat:@"%ld",[dicTopic[@"questionId"] integerValue]];
+                            //试题类型
+                            NSString *qtype =[NSString stringWithFormat:@"%ld",[dicTopic[@"qtype"] integerValue]];
+                            //正确答案
+                            NSString *answer = dicTopic[@"answer"];
+                            //用户答案
+                            NSString *userAnswer = dicTopic[@"userAnswer"];
+                            //试题分值
+                            NSInteger score = [dicTopic[@"score"] integerValue];
+                            dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
+                            [_arrayUserAnswer addObject:dicUserAnswer];
+                            _intUserDidTopic = _intUserDidTopic +1;
+                        }
+                    }
+                    ///一题多问的情况
+                    else{
+                        ///所有一题多问下面的小题
+                        NSArray *arraySubQuestion = dicTopic[@"subQuestion"];
+                        NSInteger didTopicCountType6 = 0;
+                        for (NSDictionary *dicSubQuestion in arraySubQuestion) {
+                            if ([dicSubQuestion objectForKey:@"userAnswer"]) {
+                                //试题Id
+                                NSString *questionId =[NSString stringWithFormat:@"%ld",[dicSubQuestion[@"questionId"] integerValue]];
+                                //试题类型
+                                NSString *qtype =[NSString stringWithFormat:@"%ld",[dicSubQuestion[@"qtype"] integerValue]];
+                                //正确答案
+                                NSString *answer = dicSubQuestion[@"answer"];
+                                //用户答案
+                                NSString *userAnswer = dicSubQuestion[@"userAnswer"];
+                                //试题分值
+                                NSInteger score = [dicSubQuestion[@"score"] integerValue];
+                                dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
+                                [_arrayUserAnswer addObject:dicUserAnswer];
+                                if (didTopicCountType6 == 0) {
+                                    _intUserDidTopic = _intUserDidTopic + 1;
+                                }
+                                didTopicCountType6 = didTopicCountType6 + 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        NSLog(@"%@",_arrayUserAnswer);
+        NSLog(@"%ld",_intUserDidTopic);
+        
         [self addChildViewWithTopicForSelf];
         [self addTimerForPater];
         _buttonRight.userInteractionEnabled = YES;

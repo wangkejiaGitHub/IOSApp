@@ -148,7 +148,7 @@
     buttonNotes.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonNotes.layer.masksToBounds = YES;
     buttonNotes.layer.cornerRadius = 2;
-    [buttonNotes setTitle:@"笔记" forState:UIControlStateNormal];
+    [buttonNotes setTitle:@"📓笔记" forState:UIControlStateNormal];
     [buttonNotes setImage:[UIImage imageNamed:@"bj01"] forState:UIControlStateNormal];
     [buttonNotes setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
     buttonNotes.titleLabel.font = [UIFont systemFontOfSize:15.0];
@@ -162,7 +162,7 @@
     buttonError.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonError.layer.masksToBounds = YES;
     buttonError.layer.cornerRadius = 2;
-    [buttonError setTitle:@"纠错" forState:UIControlStateNormal];
+    [buttonError setTitle:@"🔧纠错" forState:UIControlStateNormal];
     [buttonError setImage:[UIImage imageNamed:@"jc01"] forState:UIControlStateNormal];
     [buttonError setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
     buttonError.titleLabel.font = [UIFont systemFontOfSize:15.0];

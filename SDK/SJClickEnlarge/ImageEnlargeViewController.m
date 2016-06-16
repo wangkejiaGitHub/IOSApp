@@ -68,7 +68,7 @@
 ///提示用户长按图片可以将图片保存到本地
 - (void)alertShowSaveImage{
     if (![_tyUser objectForKey:tyUserShowSaveImgAlert]) {
-        LXAlertView *alertImage = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"长按可以将保存到本地哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不在提醒" clickIndexBlock:^(NSInteger clickIndex) {
+        LXAlertView *alertImage = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"长按可以将图片保存到本地哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不在提醒" clickIndexBlock:^(NSInteger clickIndex) {
             if (clickIndex == 1) {
                 //不在提醒
                 NSLog(@"不在提醒");
@@ -108,8 +108,7 @@
     
     // 视图停止滑动的时候执行一些操作
     int pageIndex = (int)self.collectionView.contentOffset.x / [UIScreen mainScreen].bounds.size.width ;
-    self.label.text = [NSString stringWithFormat:@"%d/%lu",pageIndex+1,(unsigned long)self.imageUrlArrays.count] ;
-
+    self.label.text = [NSString stringWithFormat:@"%d/%lu",pageIndex+1,(unsigned long)self.imageUrlArrays.count];
 }
 
 // 当前滑动视图停止滑动的时候执行一些操作

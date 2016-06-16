@@ -622,7 +622,7 @@ UITableViewDataSource
 - (CGFloat)cellHeight
 {
     if (!_cellHeight) {
-        return 40.f;
+        return 30.f;
     }
     return _cellHeight;
 }

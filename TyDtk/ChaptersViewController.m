@@ -46,7 +46,8 @@
     
 }
 - (void)viewDidAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = NO;
+//    self.tabBarController.tabBar.hidden = NO;
+    self.navigationController.tabBarController.tabBar.hidden = YES;
     [_arrayChapterId removeAllObjects];
     [_arrayFirstChapter removeAllObjects];
     [_arrayChapter removeAllObjects];

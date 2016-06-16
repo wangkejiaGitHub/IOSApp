@@ -43,7 +43,7 @@ typedef enum : NSUInteger {
 @property (strong, nonatomic) UIColor *cellSeparatorColor;
 /// 下拉菜单 cell accessory check mark color 默认 默认白色
 @property (strong, nonatomic) UIColor *cellAccessoryCheckmarkColor;
-/// 下拉菜单 cell 高度 默认 40.f
+/// 下拉菜单 cell 高度 默认 30.f
 @property (assign, nonatomic) CGFloat cellHeight;
 /// 下拉菜单 弹出动画执行时间 默认 0.4s
 @property (assign, nonatomic) CGFloat animationDuration;

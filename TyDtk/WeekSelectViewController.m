@@ -65,7 +65,7 @@
     _allowToken = NO;
 }
 - (void)viewDidAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = NO;
+    self.tabBarController.tabBar.hidden = YES;
 }
 /**
  试卷信息列表的头试图

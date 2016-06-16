@@ -178,7 +178,7 @@
     buttonNotes.layer.cornerRadius = 2;
     [buttonNotes setImage:[UIImage imageNamed:@"bj01"] forState:UIControlStateNormal];
     [buttonNotes setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
-    [buttonNotes setTitle:@"笔记" forState:UIControlStateNormal];
+    [buttonNotes setTitle:@"📓笔记" forState:UIControlStateNormal];
     buttonNotes.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonNotes setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     buttonNotes.tag = 2222;
@@ -192,7 +192,7 @@
     buttonError.layer.cornerRadius = 2;
     [buttonError setImage:[UIImage imageNamed:@"jc01"] forState:UIControlStateNormal];
     [buttonError setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
-    [buttonError setTitle:@"纠错" forState:UIControlStateNormal];
+    [buttonError setTitle:@"🔧纠错" forState:UIControlStateNormal];
     buttonError.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonError setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     buttonError.tag = 2222;
@@ -327,6 +327,7 @@
         NSString *answer = _dicTopic[@"answer"];
         //用户答案
         NSString *userAnswer = sender.titleLabel.text;
+        //试题分值
         NSInteger score = [_dicTopic[@"score"] integerValue];
         NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
         [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
@@ -351,7 +352,6 @@
 }
 //收藏按钮
 - (IBAction)collectBtnClick:(UIButton *)sender {
-    //api/Collection/Add/{id}?access_token={access_token}
     NSString *buttonString = sender.titleLabel.text;
     //收藏
     if ([buttonString isEqualToString:@"收藏"]) {

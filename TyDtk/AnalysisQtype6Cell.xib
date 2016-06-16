@@ -52,7 +52,7 @@
                 <outlet property="labTopicNumber" destination="tFf-tg-7p6" id="rqr-ia-aLF"/>
                 <outlet property="labTopicType" destination="RO5-LX-fXD" id="lXX-dZ-RGk"/>
             </connections>
-            <point key="canvasLocation" x="282" y="270"/>
+            <point key="canvasLocation" x="233" y="158"/>
         </tableViewCell>
     </objects>
 </document>

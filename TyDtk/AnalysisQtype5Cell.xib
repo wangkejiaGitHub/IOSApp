@@ -75,7 +75,7 @@
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="纠错" image="jc01">
+                        <state key="normal" title="🔧纠错">
                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
@@ -90,7 +90,7 @@
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="笔记" image="bj01">
+                        <state key="normal" title="📓笔记">
                             <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
@@ -128,12 +128,10 @@
                 <outlet property="webTitleHeight" destination="sGQ-lV-nwi" id="8Qh-vo-TZ6"/>
                 <outlet property="webViewTitle" destination="4df-VW-KLm" id="Wr0-rz-a39"/>
             </connections>
-            <point key="canvasLocation" x="293" y="254.5"/>
+            <point key="canvasLocation" x="157" y="159.5"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="bj01" width="16" height="16"/>
         <image name="grzx_icon2" width="20" height="20"/>
-        <image name="jc01" width="13" height="16"/>
     </resources>
 </document>
