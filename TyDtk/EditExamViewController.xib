@@ -94,7 +94,7 @@
                         <outlet property="delegate" destination="-1" id="gTf-Yu-wEh"/>
                     </connections>
                 </textView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小提示：最多可输入100个汉字！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVf-vq-4w5">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小提示：最多可输入100个字符！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVf-vq-4w5">
                     <rect key="frame" x="60" y="405" width="255" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="QcU-C1-eV6"/>

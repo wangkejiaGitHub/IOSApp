@@ -9,6 +9,7 @@
 #import "MyCollectViewController.h"
 #import "MGSwipeButton.h"
 #import "MGSwipeTableCell.h"
+#import "StartLookViewController.h"
 @interface MyCollectViewController ()<UITableViewDataSource,UITableViewDelegate,CustomToolDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCollect;
 @property (weak, nonatomic) IBOutlet UILabel *labSubject;
@@ -33,6 +34,8 @@
 @property (nonatomic,strong) ViewNullData *viewNilData;
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
+//刷新
+@property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
 @end
 
 @implementation MyCollectViewController
@@ -47,7 +50,7 @@
     }
     else if (self.parameterView == 2){
         self.title = @"我的错题";
-        [self getAllErrorTopicOfChapter];
+        //        [self getAllErrorTopicOfChapter];
     }
     else if (self.parameterView == 3){
         self.title = @"我的笔记";
@@ -71,9 +74,29 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     //??????
-//    [self chapterInfoTest];
-    [self getCollectTopicWithChaperId];
+    //    [self chapterInfoTest];
+    //    [self getCollectTopicWithChaperId];
     //??????
+}
+- (void)viewDidAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = NO;
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
+    _tableViewCollect.mj_header = _refreshHeader;
+    
+}
+- (void)headerRefereshClick:(MJRefreshNormalHeader *)reFresh{
+    if (self.parameterView == 1) {
+        [self getAboutChaperCollect];
+    }
+    else if (self.parameterView == 2){
+        [self getAboutChaperErrorTopic];
+    }
+    else if (self.parameterView == 3){
+        [self getAboutChaperNotes];
+    }
+}
+- (void)viewDidDisappear:(BOOL)animated{
+    _refreshHeader = nil;
 }
 ///给科目label添加点击手势
 - (void)addTapGestForLabelSubject{
@@ -113,12 +136,12 @@
     }
     else if (self.parameterView == 2){
         //我的错题
-//        [self getAboutChaperErrorTopic];
+        //        [self getAboutChaperErrorTopic];
         [self customGetAccessToken:_intSubJectId];
     }
     else if (self.parameterView == 3){
         //我的笔记
-//        [self getAboutChaperNotes];
+        //        [self getAboutChaperNotes];
         [self customGetAccessToken:_intSubJectId];
     }
     NSLog(@"%@",item.itemName);
@@ -164,10 +187,10 @@
         NSInteger codeId = [dicSubject[@"code"] integerValue];
         if (codeId == 1) {
             _arraySubject = dicSubject[@"datas"];
-//            [self getExerciseRe];
-//            NSDictionary *dicFirst = _arraySubject[0];
-//            _intSubJectId = [dicFirst[@"Id"] integerValue];
-//            _labSubject.text = dicFirst[@"Names"];
+            //            [self getExerciseRe];
+            //            NSDictionary *dicFirst = _arraySubject[0];
+            //            _intSubJectId = [dicFirst[@"Id"] integerValue];
+            //            _labSubject.text = dicFirst[@"Names"];
             _labSubject.userInteractionEnabled = YES;
             if (self.parameterView == 1) {
                 [self getAboutChaperCollect];
@@ -186,15 +209,15 @@
 //*****************************************//
 //////////////////我的收藏（模块）////////////////////
 /**
-获取收藏章节考点信息
+ 获取收藏章节考点信息
  */
 - (void)getAboutChaperCollect{
     [SVProgressHUD showWithStatus:@"正在加载..."];
     //api/Collection/GetCollectionAboutChapters?access_token={access_token}&courseId={courseId};
-//    NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
+    //    NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
     NSString *urlString;
     if (_intSubJectId != 0) {
-         urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,_intSubJectId];
+        urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,_intSubJectId];
     }
     else{
         NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
@@ -220,23 +243,25 @@
             else{
                 [self addNilDataViewForTableFooterView];
             }
-           
+            
         }
+        [_refreshHeader endRefreshing];
         NSLog(@"%@",dicCollect);
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
 }
-///获取所有收藏的试题
-- (void)getAllCollectTopicOfChapter{
-    
-}
-///按照章节考点id过去收藏试题列表
-- (void)getCollectTopicWithChaperId{
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionQuestions?access_token=%@&chapterId=1133&page=1&size=20",systemHttps,_accessToken];
+
+///按照章节考点id获取收藏试题列表
+- (void)getCollectTopicWithChaperId:(NSInteger)chaperId{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionQuestions?access_token=%@&chapterId=%ld&page=1&size=20",systemHttps,_accessToken,chaperId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSArray *arrayCollectTopic = dicCollect[@"datas"];
+        StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
+//        vc.arrayLookTopic = arrayCollectTopic;
+        [self.navigationController pushViewController:vc animated:YES];
         NSLog(@"%@",dicCollect);
     } RequestFaile:^(NSError *error) {
         
@@ -280,26 +305,26 @@
             else{
                 [self addNilDataViewForTableFooterView];
             }
-            
         }
+        [_refreshHeader endRefreshing];
         NSLog(@"%@",dicError);
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
-    
 }
+
 ///获取所有做错的试题
-- (void)getAllErrorTopicOfChapter{
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Error/GetUserErrorCount?access_token=%@",systemHttps,_accessToken];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicError = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dicError);
-    } RequestFaile:^(NSError *error) {
-        
-    }];
-}
+//- (void)getAllErrorTopicOfChapter{
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Error/GetUserErrorCount?access_token=%@",systemHttps,_accessToken];
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicError = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        NSLog(@"%@",dicError);
+//    } RequestFaile:^(NSError *error) {
+//
+//    }];
+//}
 ////////////// 我的错题（模块）////////////////
 //****************************************//
 
@@ -315,7 +340,7 @@
         urlString = [NSString stringWithFormat:@"%@api/Note/GetMyNotesAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,_intSubJectId];
     }
     else{
-         NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
+        NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
         urlString = [NSString stringWithFormat:@"%@api/Note/GetMyNotesAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,[dicSubject[@"Id"] integerValue]];
     }
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -339,9 +364,10 @@
             }
             
         }
+        [_refreshHeader endRefreshing];
         NSLog(@"%@",dicNotes);
         [SVProgressHUD dismiss];
-
+        
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD dismiss];
     }];
@@ -433,18 +459,18 @@
 }
 
 ///根据章节考点id获取该章节考点下的包含的所有的试题数
-- (NSInteger)getCountTopicWithChaperId:(NSInteger)chaperId{
-    NSString *idString = [NSString stringWithFormat:@"%ld",chaperId];
-    NSInteger countTopic = 0;
-    for (NSDictionary *dic in _arrayAllChap) {
-        NSString *parentPath = dic[@"ParentPath"];
-        NSRange ran = [parentPath rangeOfString:idString];
-        if (ran.length > 0) {
-            countTopic = countTopic + 1;
-        }
-    }
-    return countTopic;
-}
+//- (NSInteger)getCountTopicWithChaperId:(NSInteger)chaperId{
+//    NSString *idString = [NSString stringWithFormat:@"%ld",chaperId];
+//    NSInteger countTopic = 0;
+//    for (NSDictionary *dic in _arrayAllChap) {
+//        NSString *parentPath = dic[@"ParentPath"];
+//        NSRange ran = [parentPath rangeOfString:idString];
+//        if (ran.length > 0) {
+//            countTopic = countTopic + 1;
+//        }
+//    }
+//    return countTopic;
+//}
 //////??????????????????????????????
 //////??????????????????????????????
 //- (void)chapterInfoTest{
@@ -453,7 +479,7 @@
 //        NSDictionary *dicChapter = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
 //        NSLog(@"%@",dicChapter);
 //    } RequestFaile:^(NSError *error) {
-//        
+//
 //    }];
 //}
 //////??????????????????????????????
@@ -504,7 +530,7 @@
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(0, 0, Scr_Width, view.frame.size.height);
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//    [button setTitle:dicHeader[@"Names"] forState:UIControlStateNormal];
+    //    [button setTitle:dicHeader[@"Names"] forState:UIControlStateNormal];
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(buttonSectionClick:) forControlEvents:UIControlEventTouchUpInside];
     button.titleLabel.font = [UIFont systemFontOfSize:13.0];
@@ -552,7 +578,7 @@
     }
     
     UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 10 - 110, view.frame.size.height)];
-//    labText.text = dicHeader[@"Names"];
+    //    labText.text = dicHeader[@"Names"];
     labText.numberOfLines = 0;
     labText.font = [UIFont systemFontOfSize:13.0];
     [labText setAttributedText:attriTitle];
@@ -590,6 +616,32 @@
     NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
     NSDictionary *dicHeader = dicDate[@"id"];
     NSLog(@"section id = %ld == Name = %@",[dicHeader[@"Id"] integerValue], dicHeader[@"Names"]);
+    //        [self getCollectTopicWithChaperId:[dicHeader[@"Id"] integerValue]];
+    if (_parameterView == 1) {
+        NSInteger collectCount = [dicHeader[@"CollectionNum"] integerValue];
+        if (collectCount == 0) {
+            [SVProgressHUD showInfoWithStatus:@"没有收藏的试题"];
+            return;
+        }
+    }
+    else if (self.parameterView == 2){
+        NSInteger errorCount = [dicHeader[@"ErrorNum"] integerValue];
+        if (errorCount == 0) {
+            [SVProgressHUD showInfoWithStatus:@"没有错题"];
+            return;
+        }
+    }
+    else if (self.parameterView == 3){
+        NSInteger noteCount = [dicHeader[@"NoteNum"] integerValue];
+        if (noteCount == 0) {
+            [SVProgressHUD showInfoWithStatus:@"没有试题笔记"];
+            return;
+        }
+    }
+    StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
+    vc.chaperId = [dicHeader[@"Id"] integerValue];
+    vc.parameterView = _parameterView;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 //做题
 - (void)sectionTopicClick:(UIButton *)button{
@@ -624,9 +676,9 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 1)];
     view.backgroundColor = [UIColor lightGrayColor];
-//    if (section == _arrayTableData.count - 1) {
-//        view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-//    }
+    //    if (section == _arrayTableData.count - 1) {
+    //        view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    //    }
     return view;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -663,7 +715,7 @@
     else if (self.parameterView == 3){
         titleString = [NSString stringWithFormat:@"%@  📓笔记:%ld",dic[@"Names"],[dic[@"NoteNum"] integerValue]];
     }
-//    titleString = [NSString stringWithFormat:@"%@  ★收藏:%ld题",dic[@"Names"],[dic[@"CollectionNum"] integerValue]];
+    //    titleString = [NSString stringWithFormat:@"%@  ★收藏:%ld题",dic[@"Names"],[dic[@"CollectionNum"] integerValue]];
     
     //标题属性字符串
     NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
@@ -693,17 +745,48 @@
     }
     
     [labT setAttributedText:attriTitle];
-
     [cell.contentView addSubview:labT];
     MGSwipeButton *btnLook = [MGSwipeButton buttonWithTitle:@"🔍 查看" icon:nil backgroundColor:ColorWithRGB(200, 200, 200) callback:^BOOL(MGSwipeTableCell *sender) {
+        //收藏试题
+        if (_parameterView == 1) {
+            NSInteger collectCount = [dic[@"CollectionNum"] integerValue];
+            if (collectCount  == 0) {
+                [SVProgressHUD showInfoWithStatus:@"没有收藏的试题"];
+                return NO;
+            }
+        }
+        //错题试题
+        else if (self.parameterView == 2){
+            NSInteger errorCount = [dic[@"ErrorNum"] integerValue];
+            if (errorCount == 0) {
+                [SVProgressHUD showInfoWithStatus:@"没有错题"];
+                return NO;
+
+            }
+        }
+        //笔记试题
+        else if (self.parameterView == 3){
+             NSInteger noteCount = [dic[@"NoteNum"] integerValue];
+            if (noteCount == 0) {
+                [SVProgressHUD showInfoWithStatus:@"没有试题笔记"];
+                return NO;
+
+            }
+        }
+        
+        StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
+        vc.chaperId = [dic[@"Id"] integerValue];
+        vc.parameterView = _parameterView;
+        [self.navigationController pushViewController:vc animated:YES];
+        
         return YES;
     }];
     [btnLook setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     btnLook.titleLabel.font = [UIFont systemFontOfSize:15.0];
     MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"📓 做题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
         NSLog(@"%ld",[dic[@"Id"] integerValue]);
-//        [self performSegueWithIdentifier:@"dotopic" sender:[NSString stringWithFormat:@"%ld",[dic[@"Id"] integerValue]]];
-         NSLog(@"%ld == %ld",indexPath.section,indexPath.row);
+        //        [self performSegueWithIdentifier:@"dotopic" sender:[NSString stringWithFormat:@"%ld",[dic[@"Id"] integerValue]]];
+        NSLog(@"%ld == %ld",indexPath.section,indexPath.row);
         return YES;
     }];
     [btnTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
@@ -714,7 +797,7 @@
 }
 
 //- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    
+//
 //}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -722,13 +805,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

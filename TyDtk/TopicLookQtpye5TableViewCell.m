@@ -1,13 +1,13 @@
 //
-//  AnalysisQtype5TableViewCell.m
+//  TopicLookQtpye5TableViewCell.m
 //  TyDtk
 //
-//  Created by 天一文化 on 16/5/7.
+//  Created by 天一文化 on 16/6/17.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
-#import "AnalysisQtype5TableViewCell.h"
-@interface AnalysisQtype5TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
+#import "TopicLookQtpye5TableViewCell.h"
+@interface TopicLookQtpye5TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //??????????????????????????????????????????????????????
 //@property (weak, nonatomic) UIScrollView *scrollView;
@@ -20,7 +20,7 @@
 @property (nonatomic,assign) CGFloat viewImageOy;
 @property (nonatomic,strong) NSMutableArray *arrayImgUrl;
 @end
-@implementation AnalysisQtype5TableViewCell
+@implementation TopicLookQtpye5TableViewCell
 
 - (void)awakeFromNib {
     // Initialization code
@@ -44,7 +44,7 @@
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     _dicTopic = dic;
     _indexTopic = index;
-
+    
     NSString *topicTitle = dic[@"title"];
     //题目
     UILabel *labTest = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 30, 30)];
@@ -67,30 +67,17 @@
     _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
-    /////////试题标题
+    ////试题标题
     topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
-    ///用户作答情况
-    NSString *userDo;
-    NSInteger levelTopic = [dic[@"level"] integerValue];
-    if (levelTopic == 0) {
-        userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'red'>未作答</font></p><br/>"];
-    }
-    else if (levelTopic == 1){
-        userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'purple'>答题正确</font></p><br/>"];
-    }
-    else if (levelTopic == 2){
-        userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'red'>答题错误</font></p><br/>"];
-    }
-    
-    //////试题解析
+    ////试题解析
     NSString *analysisString = dic[@"analysis"];
     analysisString = [analysisString stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
-    analysisString = [NSString stringWithFormat:@"<font color='#8080c0' size = '2'>试题解析>></font><br/><font color='#8080c0' size = '3'>%@</font>",analysisString];
+    analysisString = [NSString stringWithFormat:@"<br/><font color='#8080c0' size = '2'>试题解析>></font><br/><font color='#8080c0' size = '3'>%@</font>",analysisString];
     //webview加载的HTML
-    NSString *webString = [NSString stringWithFormat:@"<html><body><div id='conten' contenteditable='false' style='word-break:break-all;'>%@%@%@</div></body></html>",topicTitle,userDo,analysisString];
+    NSString *webString = [NSString stringWithFormat:@"<html><body><div id='conten' contenteditable='false' style='word-break:break-all;'>%@%@</div></body></html>",topicTitle,analysisString];
     [_webViewTitle loadHTMLString:webString baseURL:nil];
     
-       //判断是否已经收藏试题
+    //判断是否已经收藏试题
     NSInteger collectId = [dic[@"collectId"] integerValue];
     //已收藏
     if (collectId>0) {
@@ -290,7 +277,7 @@
             [self.delegateAnalysisCellClick isWebLoadingCellHeight:cellHeightL +123 withButtonOy:cellHeightL withIndex:_indexTopic];
         }
     }
-
+    
 }
 //主要处理试题中的图片问题
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
@@ -308,6 +295,8 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
 }
 
 @end

@@ -8,7 +8,7 @@
 
 #import "StartAnalysisTopicViewController.h"
 #import "PaperTopicAnalysisViewController.h"
-#import "NotesDataViewController.h"
+#import "NotesViewController.h"
 @interface StartAnalysisTopicViewController ()<TopicAnalysisCardDelegate,persentNotesDelegate,UIScrollViewDelegate>
 //所有展示试题的容器
 //@property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
@@ -505,13 +505,16 @@
 }
 //跳转到笔记界面代理
 - (void)persentNotesViewController:(NSString *)questionId{
-    [self performSegueWithIdentifier:@"notesdata" sender:questionId];
+//    [self performSegueWithIdentifier:@"notesdata" sender:questionId];
+    NotesViewController *noteVc = [[NotesViewController alloc]initWithNibName:@"NotesViewController" bundle:nil];
+    noteVc.questionId = questionId;
+    [self.navigationController pushViewController:noteVc animated:YES];
 }
 //跳转到笔记界面
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    NotesDataViewController *notesVc = segue.destinationViewController;
-    notesVc.questionId = sender;
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    NotesDataViewController *notesVc = segue.destinationViewController;
+//    notesVc.questionId = sender;
+//}
 //scrollView代理
 //动画结束，控制不让‘上一题’，‘下一题’连续点击
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{

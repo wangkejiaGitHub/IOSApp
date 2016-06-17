@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StartLookViewController">
+            <connections>
+                <outlet property="lastButton" destination="WJR-57-ICS" id="47z-LO-mSJ"/>
+                <outlet property="nextButton" destination="5Aa-9D-J1o" id="GGV-sx-GSA"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PV7-bB-vtc">
+                    <rect key="frame" x="0.0" y="622" width="375" height="45"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJR-57-ICS">
+                            <rect key="frame" x="0.0" y="0.0" width="80" height="45"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="1a0-uR-3iE"/>
+                            </constraints>
+                            <state key="normal" title="上一题"/>
+                            <connections>
+                                <action selector="buttonLastClick:" destination="-1" eventType="touchUpInside" id="Zk8-pc-Ol5"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Aa-9D-J1o">
+                            <rect key="frame" x="295" y="0.0" width="80" height="45"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="80" id="ZGy-hG-5eN"/>
+                            </constraints>
+                            <state key="normal" title="下一题"/>
+                            <connections>
+                                <action selector="buttonNextClick:" destination="-1" eventType="touchUpInside" id="hV2-up-Wgf"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.92218177359999998" green="0.90175128199999999" blue="0.87757860519999997" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="5Aa-9D-J1o" secondAttribute="bottom" id="8mb-XI-xPB"/>
+                        <constraint firstAttribute="trailing" secondItem="5Aa-9D-J1o" secondAttribute="trailing" id="BjR-UP-cXn"/>
+                        <constraint firstItem="WJR-57-ICS" firstAttribute="leading" secondItem="PV7-bB-vtc" secondAttribute="leading" id="GtU-Ay-Noa"/>
+                        <constraint firstAttribute="bottom" secondItem="WJR-57-ICS" secondAttribute="bottom" id="KHq-EW-Uch"/>
+                        <constraint firstAttribute="height" constant="45" id="bj7-W6-FAR"/>
+                        <constraint firstItem="5Aa-9D-J1o" firstAttribute="top" secondItem="PV7-bB-vtc" secondAttribute="top" id="i7Y-oV-4Kd"/>
+                        <constraint firstItem="WJR-57-ICS" firstAttribute="top" secondItem="PV7-bB-vtc" secondAttribute="top" id="xHG-y5-Obx"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="PV7-bB-vtc" secondAttribute="trailing" id="mKH-gF-AtT"/>
+                <constraint firstAttribute="bottom" secondItem="PV7-bB-vtc" secondAttribute="bottom" id="nCE-6C-J6N"/>
+                <constraint firstItem="PV7-bB-vtc" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="x3I-fY-qXp"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+            <point key="canvasLocation" x="363.5" y="381.5"/>
+        </view>
+    </objects>
+</document>

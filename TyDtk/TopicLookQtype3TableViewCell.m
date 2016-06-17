@@ -1,26 +1,18 @@
 //
-//  AnalysisQtype5TableViewCell.m
+//  TopicLookQtype3TableViewCell.m
 //  TyDtk
 //
-//  Created by 天一文化 on 16/5/7.
+//  Created by 天一文化 on 16/6/17.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
-#import "AnalysisQtype5TableViewCell.h"
-@interface AnalysisQtype5TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
+#import "TopicLookQtype3TableViewCell.h"
+@interface TopicLookQtype3TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong) NSUserDefaults *tyUser;
-//??????????????????????????????????????????????????????
-//@property (weak, nonatomic) UIScrollView *scrollView;
-//@property (weak, nonatomic) UIImageView *lastImageView;
-//@property (nonatomic, assign)CGRect originalFrame;
-//@property (nonatomic, assign)BOOL isDoubleTap;
-//
-//@property (nonatomic,strong) UIImageView *selectTapView;
-//??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
 @property (nonatomic,strong) NSMutableArray *arrayImgUrl;
 @end
-@implementation AnalysisQtype5TableViewCell
+@implementation TopicLookQtype3TableViewCell
 
 - (void)awakeFromNib {
     // Initialization code
@@ -40,20 +32,17 @@
     _webViewTitle.backgroundColor =[UIColor clearColor];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _webViewTitle.delegate = self;
+
 }
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-    _dicTopic = dic;
     _indexTopic = index;
-
-    NSString *topicTitle = dic[@"title"];
-    //题目
-    UILabel *labTest = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 30, 30)];
-    labTest.numberOfLines = 0;
-    labTest.font = [UIFont systemFontOfSize:17.0];
-    if (Scr_Width > 320) {
-        labTest.font = [UIFont systemFontOfSize:19.0];
+    _dicTopic = dic;
+    NSLog(@"%@",dic);
+    if (index == 19) {
+        NSLog(@"11");
     }
-    labTest.text = topicTitle;
+    //判断视图是否有图片
+    NSString *topicTitle = dic[@"title"];
     //试题编号
     _labTopicNumber.text = [NSString stringWithFormat:@"%ld、",index];
     //判断是否为一题多问下面的简答题
@@ -63,34 +52,30 @@
         _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)、",index];
         _labTopicNumber.textColor = [UIColor orangeColor];
     }
-    
     _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
-    /////////试题标题
-    topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
-    ///用户作答情况
-    NSString *userDo;
-    NSInteger levelTopic = [dic[@"level"] integerValue];
-    if (levelTopic == 0) {
-        userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'red'>未作答</font></p><br/>"];
-    }
-    else if (levelTopic == 1){
-        userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'purple'>答题正确</font></p><br/>"];
-    }
-    else if (levelTopic == 2){
-        userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'red'>答题错误</font></p><br/>"];
-    }
     
-    //////试题解析
+    topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
+    //用户作答情况
+    //???????????修改pl
+    //作答状态
+    NSString *answer;
+    
+    answer = [NSString stringWithFormat:@"<br/><table cellpadding ='0' cellspacing = '0' width = '100%%' align = 'center'>"
+              "<tr>"
+              "<td width = '80px' align = 'left'><font size='2' color = 'purple'>正确答案：</font></td><td width = '70%%' align = 'left'><font color = 'purple'>%@</font></td>"
+              "</tr>"
+              "</table><br/>",dic[@"answer"]];
+    
+    ///////////解析
     NSString *analysisString = dic[@"analysis"];
     analysisString = [analysisString stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
     analysisString = [NSString stringWithFormat:@"<font color='#8080c0' size = '2'>试题解析>></font><br/><font color='#8080c0' size = '3'>%@</font>",analysisString];
-    //webview加载的HTML
-    NSString *webString = [NSString stringWithFormat:@"<html><body><div id='conten' contenteditable='false' style='word-break:break-all;'>%@%@%@</div></body></html>",topicTitle,userDo,analysisString];
-    [_webViewTitle loadHTMLString:webString baseURL:nil];
     
-       //判断是否已经收藏试题
+    NSString *webString = [NSString stringWithFormat:@"<html><body><div id='conten' contenteditable='false' style='word-break:break-all;'>%@%@%@</div></body></html>",topicTitle,answer,analysisString];
+    [_webViewTitle loadHTMLString:webString baseURL:nil];
+    //判断是否已经收藏试题
     NSInteger collectId = [dic[@"collectId"] integerValue];
     //已收藏
     if (collectId>0) {
@@ -115,6 +100,7 @@
             [_buttonCollect setTitle:@"收藏" forState:UIControlStateNormal];
             _buttonCollectWidth.constant = 40;
         }
+        
     }
 }
 //笔记按钮
@@ -214,8 +200,6 @@
     } RequestFaile:^(NSError *error) {
         
     }];
-    
-    
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     NSInteger dicpaperId = [_dicTopic[@"parentId"] integerValue];
@@ -290,7 +274,7 @@
             [self.delegateAnalysisCellClick isWebLoadingCellHeight:cellHeightL +123 withButtonOy:cellHeightL withIndex:_indexTopic];
         }
     }
-
+    
 }
 //主要处理试题中的图片问题
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
@@ -308,6 +292,8 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
 }
 
 @end

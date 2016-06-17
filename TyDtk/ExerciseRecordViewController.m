@@ -279,7 +279,7 @@
         else{
             [SVProgressHUD showInfoWithStatus:@"操作失败！"];
         }
-        NSLog(@"%@",dicRe);
+//        NSLog(@"%@",dicRe);
     } RequestFaile:^(NSError *error) {
         
     }];
@@ -293,7 +293,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ExerciseTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"cell1" forIndexPath:indexPath];
-    NSLog(@"indexPath.row = %ld",indexPath.row);
+//    NSLog(@"indexPath.row = %ld",indexPath.row);
     if (_arrayExRe.count > 0) {
         NSDictionary *dicRx = _arrayExRe[indexPath.row];
         cell.dicExercise = dicRx;

@@ -1,19 +1,19 @@
 //
-//  PaperTopicAnalysisViewController.m
+//  PaperLookViewController.m
 //  TyDtk
 //
-//  Created by 天一文化 on 16/5/6.
+//  Created by 天一文化 on 16/6/17.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
-#import "PaperTopicAnalysisViewController.h"
-#import "AnalysisQtype1And2TableViewCell.h"
-#import "AnalysisQtype3TableViewCell.h"
-#import "AnalysisQtype5TableViewCell.h"
-#import "AnalysisQtype6TableViewCell.h"
+#import "PaperLookViewController.h"
+#import "TopicLookQtpye1TableViewCell.h"
+#import "TopicLookQtype3TableViewCell.h"
+#import "TopicLookQtpye5TableViewCell.h"
+#import "TopicLookQtpye6TableViewCell.h"
 #import "ImageEnlargeViewController.h"
 #import "NotesViewController.h"
-@interface PaperTopicAnalysisViewController ()<UITableViewDelegate,UITableViewDataSource,TopicAnalysisCellDelegateTest>
+@interface PaperLookViewController ()<UITableViewDelegate,UITableViewDataSource,TopicAnalysisCellDelegateTest>
 @property (nonatomic,strong) UITableView *tableViewPater;
 //需要返回的cell的高
 @property (nonatomic,assign) CGFloat cellHeight;
@@ -46,14 +46,12 @@
 @property (nonatomic,strong) ErrorView *errorView;
 @end
 
-@implementation PaperTopicAnalysisViewController
+@implementation PaperLookViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     [self viewLoad];
-  
 }
 //页面加载
 - (void)viewLoad{
@@ -63,7 +61,7 @@
     _arrayFirstLoading = [NSMutableArray array];
     _dicSubHeight = [NSMutableDictionary dictionary];
     _dicSubButtonSubOy = [NSMutableDictionary dictionary];
-    _tableViewPater = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 45) style:UITableViewStyleGrouped];
+    _tableViewPater = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 44) style:UITableViewStyleGrouped];
     _tableViewPater.delegate = self;
     _tableViewPater.dataSource = self;
     _tableViewPater.backgroundColor = [UIColor clearColor];
@@ -77,7 +75,7 @@
     _cellSubHeight = 0;
     _dicUserCollectTopic = [NSMutableDictionary dictionary];
     self.view.backgroundColor = [UIColor clearColor];
-
+    
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     //如果是一题多问
@@ -89,22 +87,22 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 1;
 }
-- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
-    if (_topicTitle!=nil) {
-        UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _cellHeardHeight+30)];
-        viewTitle.backgroundColor = ColorWithRGB(210, 210, 205);
-        
-        UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, Scr_Width-20, _cellHeardHeight+10)];
-        labTitle.numberOfLines = 0;
-        labTitle.font = [UIFont systemFontOfSize:15.0];
-        labTitle.text = _topicTitle;
-        labTitle.adjustsFontSizeToFitWidth = YES;
-        [viewTitle addSubview:labTitle];
-        return viewTitle;
-    }
-    return nil;
-}
+//- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    
+//    if (_topicTitle!=nil) {
+//        UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _cellHeardHeight+30)];
+//        viewTitle.backgroundColor = ColorWithRGB(210, 210, 205);
+//        
+//        UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, Scr_Width-20, _cellHeardHeight+10)];
+//        labTitle.numberOfLines = 0;
+//        labTitle.font = [UIFont systemFontOfSize:15.0];
+//        labTitle.text = _topicTitle;
+//        labTitle.adjustsFontSizeToFitWidth = YES;
+//        [viewTitle addSubview:labTitle];
+//        return viewTitle;
+//    }
+//    return nil;
+//}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_qType == 6) {
         if (indexPath.row == 0) {
@@ -124,25 +122,25 @@
         return _cellHeight = 50;
     }
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    //topicTitle 通过参数传递
-    if (_topicTitle!=nil) {
-        UILabel *lab = [[UILabel alloc]init];
-        lab.numberOfLines = 0;
-        lab.font = [UIFont systemFontOfSize:15.0];
-        lab.text = _topicTitle;
-        CGSize labSize = [lab sizeThatFits:CGSizeMake(Scr_Width-10, MAXFLOAT)];
-        _cellHeardHeight = labSize.height;
-        lab = nil;
-        return _cellHeardHeight+30;
-    }
-    return 1;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+//    //topicTitle 通过参数传递
+//    if (_topicTitle!=nil) {
+//        UILabel *lab = [[UILabel alloc]init];
+//        lab.numberOfLines = 0;
+//        lab.font = [UIFont systemFontOfSize:15.0];
+//        lab.text = _topicTitle;
+//        CGSize labSize = [lab sizeThatFits:CGSizeMake(Scr_Width-10, MAXFLOAT)];
+//        _cellHeardHeight = labSize.height;
+//        lab = nil;
+//        return _cellHeardHeight+30;
+//    }
+//    return 1;
+//}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_qType == 1 | _qType == 2) {
-        AnalysisQtype1And2TableViewCell *cell1 = (AnalysisQtype1And2TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"AnalysisQtype1And2Cell"];
+        TopicLookQtpye1TableViewCell *cell1 = (TopicLookQtpye1TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicLookQtpye1TableViewCell"];
         if (cell1 == nil) {
-            cell1 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype1And2Cell" owner:self options:nil]lastObject];
+            cell1 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtpye1TableViewCell" owner:self options:nil]lastObject];
         }
         cell1.selectionStyle = UITableViewCellSelectionStyleNone;
         cell1.dicTopic = _dicTopic;
@@ -153,12 +151,12 @@
         cell1.isWebFirstLoading = _isWebFirstLoading;
         cell1.delegateAnalysisCellClick = self;
         [cell1 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
-         return cell1;
+        return cell1;
     }
     else if (_qType == 3){
-        AnalysisQtype3TableViewCell *cell3 = (AnalysisQtype3TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"AnalysisQtype3Cell"];
+        TopicLookQtype3TableViewCell *cell3 = (TopicLookQtype3TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicLookQtpye3TableViewCell"];
         if (cell3 == nil) {
-            cell3 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype3Cell" owner:self options:nil]lastObject];
+            cell3 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtpye3TableViewCell" owner:self options:nil]lastObject];
         }
         cell3.selectionStyle = UITableViewCellSelectionStyleNone;
         cell3.dicTopic = _dicTopic;
@@ -170,12 +168,12 @@
         cell3.delegateAnalysisCellClick = self;
         [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell3;
-
+        
     }
     else if (_qType == 5){
-        AnalysisQtype5TableViewCell *cell5 = (AnalysisQtype5TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"AnalysisQtype5Cell"];
+        TopicLookQtpye5TableViewCell *cell5 = (TopicLookQtpye5TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicLookQtpye5TableViewCell"];
         if (cell5 == nil) {
-            cell5 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype5Cell" owner:self options:nil]lastObject];
+            cell5 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtpye5TableViewCell" owner:self options:nil]lastObject];
         }
         cell5.selectionStyle = UITableViewCellSelectionStyleNone;
         cell5.dicTopic = _dicTopic;
@@ -184,15 +182,15 @@
         cell5.isFirstLoad = _isFirstLoad;
         cell5.isWebFirstLoading = _isWebFirstLoading;
         cell5.buttonOy = _buttonOy;
-
+        
         cell5.delegateAnalysisCellClick = self;
         [cell5 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell5;
-
+        
     }
     else if (_qType == 6){
         if (indexPath.row == 0) {
-            AnalysisQtype6TableViewCell *cell6 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype6Cell" owner:self options:nil]lastObject];
+            TopicLookQtpye6TableViewCell *cell6 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtpye6TableViewCell" owner:self options:nil]lastObject];
             cell6.delegateAnalysisCellClick = self;
             cell6.indexTopic = _topicIndex;
             cell6.isFirstLoad = _isFirstLoad;
@@ -209,7 +207,7 @@
             NSInteger qtypeSubQues = [dicSubQues[@"qtype"] integerValue];
             //小题类型为选择题
             if (qtypeSubQues == 1 | qtypeSubQues == 2) {
-                AnalysisQtype1And2TableViewCell *cell1 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype1And2Cell" owner:self options:nil]lastObject];
+                TopicLookQtpye1TableViewCell *cell1 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtpye1TableViewCell" owner:self options:nil]lastObject];
                 cell1.topicType = qtypeSubQues;
                 cell1.indexTopic = indexPath.row;
                 cell1.delegateAnalysisCellClick = self;
@@ -224,9 +222,9 @@
                 return cell1;
             }
             else if (_qType == 3){
-                AnalysisQtype3TableViewCell *cell3 = (AnalysisQtype3TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"AnalysisQtype3Cell"];
+                TopicLookQtype3TableViewCell *cell3 = (TopicLookQtype3TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicLookQtype3TableViewCell"];
                 if (cell3 == nil) {
-                    cell3 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype3Cell" owner:self options:nil]lastObject];
+                    cell3 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtype3TableViewCell" owner:self options:nil]lastObject];
                 }
                 cell3.delegateAnalysisCellClick = self;
                 cell3.indexTopic = indexPath.row;
@@ -241,7 +239,7 @@
                 return cell3;
             }
             else{
-                AnalysisQtype5TableViewCell *cell5 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype5Cell" owner:self options:nil]lastObject];
+                TopicLookQtpye5TableViewCell *cell5 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtpye5TableViewCell" owner:self options:nil]lastObject];
                 cell5.delegateAnalysisCellClick = self;
                 cell5.dicCollectDone = _dicUserCollectTopic;
                 cell5.indexTopic = indexPath.row;
@@ -250,7 +248,7 @@
                 if ([_dicSubButtonSubOy.allKeys containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]]) {
                     cell5.buttonSubOy = [[_dicSubButtonSubOy valueForKey:[NSString stringWithFormat:@"%ld",indexPath.row]] floatValue];
                 }
-
+                
                 cell5.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell5 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
                 return cell5;
@@ -312,27 +310,32 @@
             rect.origin.y = (Scr_Height-200)/2 - 30;
             _errorView.frame = rect;
         }];
-
+        
     }
     //试卷分析笔记
     else{
         //跳转到笔记界面
-//        [self.delegatePersent persentNotesViewController:[NSString stringWithFormat:@"%ld",questionId]];
+        //        [self.delegatePersent persentNotesViewController:[NSString stringWithFormat:@"%ld",questionId]];
         NotesViewController *noteVc = [[NotesViewController alloc]initWithNibName:@"NotesViewController" bundle:nil];
         noteVc.questionId = [NSString stringWithFormat:@"%ld",questionId];
         [self.navigationController pushViewController:noteVc animated:YES];
         
     }
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-// 
-//}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end
