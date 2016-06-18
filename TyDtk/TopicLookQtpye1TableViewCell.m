@@ -44,13 +44,13 @@
     _tyUser = [NSUserDefaults standardUserDefaults];
     _webViewTitle.delegate = self;
     _webViewTitle.delegate = self;
-
+    
 }
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     _indexTopic = index;
     _dicTopic = dic;
     NSLog(@"%@",dic);
-    if (index == 19) {
+    if (index == 12) {
         NSLog(@"11");
     }
     //判断视图是否有图片
@@ -83,53 +83,72 @@
     NSString *answer;
     
     answer = [NSString stringWithFormat:@"<br/><table cellpadding ='0' cellspacing = '0' width = '100%%' align = 'center'>"
-                  "<tr>"
-                  "<td width = '80px' align = 'left'><font size='2' color = 'purple'>正确答案：</font></td><td width = '70%%' align = 'left'><font color = 'purple'>%@</font></td>"
-                  "</tr>"
-                  "</table><br/>",dic[@"answer"]];
+              "<tr>"
+              "<td width = '80px' align = 'left'><font size='2' color = 'purple'>正确答案：</font></td><td width = '70%%' align = 'left'><font color = 'purple'>%@</font></td>"
+              "</tr>"
+              "</table><br/>",dic[@"answer"]];
     if ([dic objectForKey:@"userAnswer"]) {
-        NSInteger qtypeId = [dic[@"qtype"] integerValue];
-        NSString *colorString = @"red";
-        if ([[dic objectForKey:@"userAnswer"] isEqualToString:[dic objectForKey:@"answer"]]) {
-            colorString = @"purple";
-        }
         
         answer = [NSString stringWithFormat:@"<br/><table cellpadding ='0' cellspacing = '0' width = '100%%' align = 'center'>"
                   "<tr>"
                   "<td width = '80px' align = 'left'><font size='2' color = 'purple'>正确答案：</font></td><td width = '70%%' align = 'left'><font color = 'purple'>%@</font></td>"
                   "</tr>"
                   "<tr>"
-                  "<td width = '80px' align = 'left'><font size='2' color = 'purple'>你的答案：</font></td><td width = '70%%' align = 'left'><font color = '%@'>%@</font></td>"
+                  "<td width = '80px' align = 'left'><font size='2' color = 'purple'>你的答案：</font></td><td width = '70%%' align = 'left'><font color = 'red'>%@</font></td>"
                   "</tr>"
-                  "</table><br/>",dic[@"answer"],colorString,dic[@"userAnswer"]];
+                  "</table><br/>",dic[@"answer"],dic[@"userAnswer"]];
         
-        //多选题
+        
+        NSInteger qtypeId = [dic[@"qtype"] integerValue];
+//        NSString *colorString = @"red";
+        //        if (qtypeId == 1) {
+        //            if ([[dic objectForKey:@"userAnswer"] isEqualToString:[dic objectForKey:@"answer"]]) {
+        //                colorString = @"purple";
+        //            }
+        //        }
+        //        //多选题
         if (qtypeId == 2) {
-            BOOL isTrue = NO;
+            BOOL alertB = NO;
+            NSString *alertString = @"";
             NSString *tureAnswer = dic[@"answer"];
             NSInteger tureAnswerCount = tureAnswer.length;
             NSString *userAnswer = dic[@"userAnswer"];
             NSInteger userAnswerCount = userAnswer.length;
-            if (tureAnswerCount != userAnswerCount) {
-                return;
+            if (tureAnswerCount <= userAnswerCount) {
+                
             }
             else{
                 for (int i = 0; i<tureAnswerCount; i++) {
                     NSString *A = [tureAnswer substringWithRange:NSMakeRange(i, 1)];
                     NSRange ran = [userAnswer rangeOfString:A];
                     if (ran.length > 0) {
-                        isTrue = YES;
+                        alertB = YES;
+//                        colorString = @"purple";
                     }
                     else{
-                        isTrue = NO;
+                        alertB = NO;
+//                        colorString = @"red";
+                        //如果发现错题立即跳出
+                        break;
                     }
                 }
+                
             }
             
-            /////判断多选是否答对关键
+            if (alertB) {
+                alertString = @"(漏选)";
+            }
             
+            answer = [NSString stringWithFormat:@"<br/><table cellpadding ='0' cellspacing = '0' width = '100%%' align = 'center'>"
+                      "<tr>"
+                      "<td width = '80px' align = 'left'><font size='2' color = 'purple'>正确答案：</font></td><td width = '70%%' align = 'left'><font color = 'purple'>%@</font></td>"
+                      "</tr>"
+                      "<tr>"
+                      "<td width = '80px' align = 'left'><font size='2' color = 'purple'>你的答案：</font></td><td width = '70%%' align = 'left'><font color = 'red'>%@%@</font></td>"
+                      "</tr>"
+                      "</table><br/>",dic[@"answer"],dic[@"userAnswer"],alertString];
         }
-
+        
     }
     
     ///////////解析
@@ -357,7 +376,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

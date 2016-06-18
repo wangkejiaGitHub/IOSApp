@@ -173,6 +173,8 @@
 		1DE5F8D91CD0B3F60046CD8A /* paterTopicQtype1and2TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE5F8D81CD0B3F60046CD8A /* paterTopicQtype1and2TableViewCell.m */; };
 		1DE5F8DB1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE5F8DA1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib */; };
 		1DE5F8DD1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE5F8DC1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib */; };
+		1DE62EDA1D14E0A700BBE02A /* SelectParTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE62ED81D14E0A700BBE02A /* SelectParTopicViewController.m */; };
+		1DE62EDB1D14E0A700BBE02A /* SelectParTopicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE62ED91D14E0A700BBE02A /* SelectParTopicViewController.xib */; };
 		1DE695D51CA8C75100ED1DA3 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695D41CA8C75100ED1DA3 /* TestViewController.m */; };
 		1DE695DF1CA8D28100ED1DA3 /* PhoneReViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695DE1CA8D28100ED1DA3 /* PhoneReViewController.m */; };
 		1DE695E21CA8D39200ED1DA3 /* EmailReViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE695E11CA8D39200ED1DA3 /* EmailReViewController.m */; };
@@ -573,6 +575,9 @@
 		1DE5F8D81CD0B3F60046CD8A /* paterTopicQtype1and2TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = paterTopicQtype1and2TableViewCell.m; sourceTree = "<group>"; };
 		1DE5F8DA1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopicQtype1and2Cell.xib; sourceTree = "<group>"; };
 		1DE5F8DC1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = paterTopicQtype6Cell.xib; sourceTree = "<group>"; };
+		1DE62ED71D14E0A700BBE02A /* SelectParTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectParTopicViewController.h; sourceTree = "<group>"; };
+		1DE62ED81D14E0A700BBE02A /* SelectParTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectParTopicViewController.m; sourceTree = "<group>"; };
+		1DE62ED91D14E0A700BBE02A /* SelectParTopicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectParTopicViewController.xib; sourceTree = "<group>"; };
 		1DE695D31CA8C75100ED1DA3 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
 		1DE695D41CA8C75100ED1DA3 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestViewController.m; sourceTree = "<group>"; };
 		1DE695DD1CA8D28100ED1DA3 /* PhoneReViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneReViewController.h; sourceTree = "<group>"; };
@@ -1090,6 +1095,7 @@
 		1DBD93581D07A3C00050848D /* MyCollectAndNotesAndError */ = {
 			isa = PBXGroup;
 			children = (
+				1DE62ED61D14E06600BBE02A /* DoTopic */,
 				1D410BB11D1296500052E7B4 /* LookTopic */,
 				1DBD93BA1D0816580050848D /* CollectCell */,
 				1DBD93591D07A4DF0050848D /* MyCollectViewController.h */,
@@ -1382,6 +1388,16 @@
 				1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */,
 			);
 			path = FDFullscreenPopGesture;
+			sourceTree = "<group>";
+		};
+		1DE62ED61D14E06600BBE02A /* DoTopic */ = {
+			isa = PBXGroup;
+			children = (
+				1DE62ED71D14E0A700BBE02A /* SelectParTopicViewController.h */,
+				1DE62ED81D14E0A700BBE02A /* SelectParTopicViewController.m */,
+				1DE62ED91D14E0A700BBE02A /* SelectParTopicViewController.xib */,
+			);
+			name = DoTopic;
 			sourceTree = "<group>";
 		};
 		1DE695D61CA8C9D800ED1DA3 /* UserRegisteView */ = {
@@ -1844,6 +1860,7 @@
 				1DF947201CF67C4800CC4759 /* y_scicon.png in Resources */,
 				1DBD93AE1D07C24D0050848D /* ico_circle_o.png in Resources */,
 				1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */,
+				1DE62EDB1D14E0A700BBE02A /* SelectParTopicViewController.xib in Resources */,
 				1DBD93A51D07C24D0050848D /* ico_blue_arrow.png in Resources */,
 				1DF9472A1CF6809B00CC4759 /* sma_img1.jpg in Resources */,
 				1D122B9D1CDDBB9800A0BA08 /* AnalysisQtype3Cell.xib in Resources */,
@@ -1985,6 +2002,7 @@
 				1D165E721CD1F85800F61EAE /* ErrorView.m in Sources */,
 				1DEDC85B1C9FA2920083B394 /* SDWebImageDownloader.m in Sources */,
 				1DEDC80D1C9F86170083B394 /* LoginViewController.m in Sources */,
+				1DE62EDA1D14E0A700BBE02A /* SelectParTopicViewController.m in Sources */,
 				1D1137211CF3FD8C0092DF02 /* MASConstraint.m in Sources */,
 				1DF950701CA3BFC500104597 /* SVRadialGradientLayer.m in Sources */,
 				1DBD937B1D07C1200050848D /* RATreeView+TableViewDelegate.m in Sources */,

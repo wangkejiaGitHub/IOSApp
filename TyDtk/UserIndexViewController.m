@@ -253,7 +253,7 @@
         }
 //        [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"异常！"];
     }];
     NSLog(@"%@",dicUser);
 }

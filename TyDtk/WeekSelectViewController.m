@@ -259,13 +259,36 @@
         if (codeId == 1) {
             NSDictionary *dicDatas = dicRid[@"datas"];
             NSString *ridString = dicDatas[@"rid"];
-           [self performSegueWithIdentifier:@"topicStar" sender:ridString];
+            [self topicResetRidClear:ridString];
         }
     } RequestFaile:^(NSError *error) {
         
     }];
 }
+/**
+ 重置rid
+ */
+///再做一次时重置当前的记录(点击重新做题的一次时间)
+- (void)topicResetRidClear:(NSString *)rid{
+    //api/Chapter/ResetRecord?access_token={access_token}&rid={rid}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/ResetRecord?access_token=%@&rid=%@",systemHttps,_accessToken,rid];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *diccc = (NSDictionary *)respoes;
+        NSInteger codeId = [diccc[@"code"] integerValue];
+        if (codeId == 1) {
+            ///每周精选
+            NSDictionary *dicDatas = diccc[@"datas"];
+            NSString *ridString = dicDatas[@"rid"];
+            [self performSegueWithIdentifier:@"topicStar" sender:ridString];
+            
+        }
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
     if ([segue.identifier isEqualToString:@"topicStar"]) {
         StartDoTopicViewController *topicVc = segue.destinationViewController;
         topicVc.paperParameter = 3;

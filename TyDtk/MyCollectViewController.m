@@ -10,6 +10,7 @@
 #import "MGSwipeButton.h"
 #import "MGSwipeTableCell.h"
 #import "StartLookViewController.h"
+#import "SelectParTopicViewController.h"
 @interface MyCollectViewController ()<UITableViewDataSource,UITableViewDelegate,CustomToolDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCollect;
 @property (weak, nonatomic) IBOutlet UILabel *labSubject;
@@ -132,7 +133,7 @@
     [_arraySection removeAllObjects];
     if (self.parameterView == 1) {
         //我的收藏
-        [self getAboutChaperCollect];
+        [self customGetAccessToken:_intSubJectId];
     }
     else if (self.parameterView == 2){
         //我的错题
@@ -165,8 +166,11 @@
 //授权成功
 - (void)httpSussessReturnClick{
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    if (self.parameterView == 1) {
+        [self getAboutChaperCollect];
+    }
     //错题
-    if (self.parameterView == 2) {
+    else if (self.parameterView == 2) {
         [self getAboutChaperErrorTopic];
     }
     //笔记
@@ -647,7 +651,11 @@
 - (void)sectionTopicClick:(UIButton *)button{
     NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
     NSDictionary *dicHeader = dicDate[@"id"];
-    NSLog(@"section Name= %@",dicHeader[@"Names"]);
+    SelectParTopicViewController *selectVc = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+    selectVc.chaperName = dicHeader[@"Names"];
+    selectVc.chaperId = [dicHeader[@"Id"] integerValue];
+    [self.navigationController pushViewController:selectVc animated:YES];
+//    NSLog(@"section Name= %@",dicHeader[@"Names"]);
 }
 //section折叠
 - (void)buttonSectionClick:(UIButton *)sender{
@@ -787,6 +795,10 @@
         NSLog(@"%ld",[dic[@"Id"] integerValue]);
         //        [self performSegueWithIdentifier:@"dotopic" sender:[NSString stringWithFormat:@"%ld",[dic[@"Id"] integerValue]]];
         NSLog(@"%ld == %ld",indexPath.section,indexPath.row);
+        SelectParTopicViewController *selectVc = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+        selectVc.chaperId = [dic[@"Id"] integerValue];
+        selectVc.chaperName = dic[@"Names"];
+        [self.navigationController pushViewController:selectVc animated:YES];
         return YES;
     }];
     [btnTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];

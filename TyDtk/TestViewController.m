@@ -7,7 +7,6 @@
 //
 
 #import "TestViewController.h"
-
 @interface TestViewController ()
 @property (nonatomic,strong) CustomTools *customTools;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
@@ -18,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+   
 }
 
 
