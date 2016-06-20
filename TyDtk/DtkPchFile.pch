@@ -119,6 +119,8 @@
 #define tyUserShowUpdateAnswer @"updateAnswer"
 //提示再次点击收藏可取消收藏
 #define tyUserShowCollectAlert @"collectAlert"
+//退出试题解析时给用户提示
+#define tyUserShowOutAnalysis @"outAnalysis"
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 #define ngSelf1 NSLog(@"11//////////////////////////////////////")

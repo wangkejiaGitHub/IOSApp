@@ -80,6 +80,41 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
+//pop到做题页面的上一层view,跳过页做题页面防止重复做题
+- (IBAction)buttonLiftItemClick:(UIBarButtonItem *)sender {
+    //先判断是否给过用户提示
+    //没有给过提示
+    if (![_tyUser objectForKey:tyUserShowOutAnalysis]) {
+        LXAlertView *alertPop = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"确定退出试题解析吗？退出后可在练习记录中查看相关解析" cancelBtnTitle:@"不在提醒" otherBtnTitle:@"退出" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 0) {
+                [_tyUser setObject:@"yes" forKey:tyUserShowOutAnalysis];
+            }
+            else{
+                if (_isFromTiKu) {
+                    NSInteger index = (NSInteger)[[self.navigationController viewControllers]indexOfObject:self];
+                    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(index -2)] animated:YES];
+                }
+                else{
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }
+        }];
+        
+        alertPop.animationStyle = LXASAnimationTopShake;
+        [alertPop showLXAlertView];
+    }
+    //给过提示直接退出
+    else{
+        if (_isFromTiKu) {
+            NSInteger index = (NSInteger)[[self.navigationController viewControllers]indexOfObject:self];
+            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(index -2)] animated:YES];
+        }
+        else{
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+}
+
 //键盘出现
 - (void)keyboardShow:(NSNotification *)note{
     NSDictionary *userInfo = [note userInfo];
@@ -131,7 +166,7 @@
                     _scrollContentWidth = _scrollContentWidth + arrayDic.count;
                 }
             }
-            else if (_paperAnalysisParameter == 3){
+            else if (_paperAnalysisParameter == 3 | _paperAnalysisParameter == 1){
                 _scrollContentWidth = _arrayPaterAnalysisData.count;
             }
             _intTpoicCount = _scrollContentWidth;
@@ -141,7 +176,11 @@
             [self addChildViewWithTopicForSelf];
             _buttonRight.userInteractionEnabled = YES;
             [self addAnalysisTpoicCard];
-            if (_paperAnalysisParameter == 2) {
+            ///添加分析报告
+            if (_paperAnalysisParameter == 1) {
+                [self getChaperPaperAnalysisReportInfo];
+            }
+            else if (_paperAnalysisParameter == 2) {
                 [self getSimulatePaperAnalysisReportInfo];
             }
             else if (_paperAnalysisParameter == 3){
@@ -198,6 +237,7 @@
             _intRightTopic = [dicDatas[@"RightNum"] integerValue];
             _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
             _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
+            _intScore = [dicDatas[@"Score"] integerValue];
             [self addViewAnalysisForAnalysis];
         }
     } RequestFaile:^(NSError *error) {
@@ -207,6 +247,30 @@
 }
 /////////////////////每周精选模块分析报告//////////////////////////////
 
+/////////////////////章节练习模块分析报告//////////////////////////////
+/**
+ 章节练习分析报告
+ */
+- (void)getChaperPaperAnalysisReportInfo{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetReportInfo?access_token=%@&rid=%@",systemHttps,_accessToken,_rId];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        if ([dicAnalysis[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicAnalysis[@"datas"];
+            _intDoTopic = [dicDatas[@"DoneNum"] integerValue];
+            _intRightTopic = [dicDatas[@"RightNum"] integerValue];
+            _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
+            _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
+            _intScore = [dicDatas[@"Score"] integerValue];
+            [self addViewAnalysisForAnalysis];
+
+        }
+        NSLog(@"%@",dicAnalysis);
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/////////////////////章节练习模块分析报告//////////////////////////////
 /**
 添加数据分析报告试图
  */
@@ -444,7 +508,7 @@
             }
         }
         //每周精选模块
-        else if (_paperAnalysisParameter == 3){
+        else if (_paperAnalysisParameter == 3 | _paperAnalysisParameter == 1){
             paterVc.dicTopic = _arrayPaterAnalysisData[i];
         }
         if (i == _scrollContentWidth - 1) {

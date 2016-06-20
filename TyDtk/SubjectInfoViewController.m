@@ -56,6 +56,8 @@
 @property (nonatomic,strong) WeekSelectViewController *weekSelectVc;
 //智能出题
 @property (nonatomic,strong) IntelligentTopicViewController *intelligentVc;
+
+@property (nonatomic,strong) NSString *currSubject;
 @end
 
 @implementation SubjectInfoViewController
@@ -72,11 +74,13 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden = YES;
-      [self getAllSubject];
+}
+- (void)viewDidAppear:(BOOL)animated{
+    [self getAllSubject];
 }
 - (void)viewLoad{
     _allowMenu = NO;
-
+    
     //添加追踪下划线
     _viewFooterLine = [[UIView alloc]initWithFrame:CGRectMake(0, 45, Scr_Width/4, 2)];
     _viewFooterLine.backgroundColor = [UIColor purpleColor];
@@ -103,7 +107,7 @@
             return;
         }
     }
-     _indexCurrChildView = sender.tag;
+    _indexCurrChildView = sender.tag;
     //下划线跟踪
     [UIView animateWithDuration:0.15 animations:^{
         CGRect rectV = _viewFooterLine.frame;
@@ -262,7 +266,7 @@
             }];
             [arrayMenuItem addObject:item];
         }
-    }   
+    }
     _menuView = [DTKDropdownMenuView dropdownMenuViewForNavbarTitleViewWithFrame:CGRectMake(46, 0, Scr_Width - 92, 44) dropdownItems:arrayMenuItem];
     _menuView.currentNav = self.navigationController;
     _menuView.dropWidth = menuStringLength*19 - 15;
@@ -276,8 +280,10 @@
     _menuView.cellSeparatorColor = [UIColor lightGrayColor];
     _menuView.textFont = [UIFont systemFontOfSize:14.f];
     _menuView.animationDuration = 0.2f;
+    if (_dicCurrSubject != nil) {
+        _menuView.selectedIndex = [_arraySubject indexOfObject:_dicCurrSubject] + 1;
+    }
     self.navigationItem.titleView = _menuView;
-    
 }
 ///下拉菜单中的item点击事件
 - (void)itemMenuClick:(NSInteger)indexItem{

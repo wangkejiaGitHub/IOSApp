@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface StartAnalysisTopicViewController : UIViewController
+//是否是从题库进入试卷做题：用户判断pop的地址
+@property (nonatomic,assign) BOOL isFromTiKu;
 //试卷id
 @property (nonatomic,assign) NSInteger PaperId;
 //记录id
@@ -17,4 +19,5 @@
  是哪个模块的试卷（1章节练习，2模拟试卷，3每周精选，4智能出题）等
  */
 @property (nonatomic,assign) NSInteger paperAnalysisParameter;
+
 @end

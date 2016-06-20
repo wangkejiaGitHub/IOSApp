@@ -109,7 +109,6 @@
                         
                     }
                 }
-
                 
                 NSString *indexString = [NSString stringWithFormat:@"%ld",index];
                 if ([_dicSelectDone.allKeys containsObject:indexString]) {

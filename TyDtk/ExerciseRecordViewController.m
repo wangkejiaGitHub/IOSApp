@@ -10,6 +10,7 @@
 #import "StartDoTopicViewController.h"
 #import "StartAnalysisTopicViewController.h"
 #import "ExerciseTableViewCell.h"
+#import "SelectParTopicViewController.h"
 @interface ExerciseRecordViewController ()<UITableViewDataSource,UITableViewDelegate,ExerciseDelegate>
 @property (nonatomic, strong) UIScrollView *scrollViewHeard;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRe;
@@ -30,6 +31,7 @@
 @property (nonatomic,assign) NSInteger topicModel;
 //科目编号
 @property (nonatomic,assign) NSInteger subjectId;
+@property (nonatomic,assign) NSInteger topicModelCell;
 //刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
 @property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
@@ -46,15 +48,12 @@
     _arrayExRe = [NSMutableArray array];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accToken = [_tyUser objectForKey:tyUserAccessToken];
-    // Do any additional setup after loading the view.
-//    _scrollViewHeard = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, 50)];
-//    _scrollViewHeard.tag =100;
-//    [self.view addSubview:_scrollViewHeard];
-    [_buttonTypeTopic setTitle:@"章节练习" forState:UIControlStateNormal];
-    _topicModel = 1;
-    [_buttonSubject setTitle:@"全部" forState:UIControlStateNormal];
-    _buttonSubject.titleLabel.adjustsFontSizeToFitWidth = YES;
+    [_buttonTypeTopic setTitle:@"全部" forState:UIControlStateNormal];
+    _topicModel = 0;
     _subjectId = 0;
+    NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
+    [_buttonSubject setTitle:dicCurrSubject[@"Names"] forState:UIControlStateNormal];
+    _buttonSubject.titleLabel.adjustsFontSizeToFitWidth = YES;
 }
 - (void)viewLoad{
     NSDictionary *dicSubject = [_tyUser objectForKey:tyUserClass];
@@ -66,8 +65,6 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     _pageCurr = 1;
-//    _topicModel = 4;
-//    _subjectId = 0;
     [self viewLoad];
 }
 - (void)viewDidAppear:(BOOL)animated{
@@ -92,7 +89,6 @@
     [self getExerciseRe];
 }
 - (void)headerRefereshClick:(MJRefreshNormalHeader *)reFresh{
-//    _topicModel = 1;
     _pageCurr = 1;
     _pages = 0;
     [_arrayExRe removeAllObjects];
@@ -128,6 +124,8 @@
 //1章节练习 2智能出题 3每周精选 4试卷
 - (NSArray *)typeMenuItemArray{
     NSMutableArray *arrayTypeMuen = [NSMutableArray array];
+    ZFPopupMenuItem *itemA = [ZFPopupMenuItem initWithMenuName:@"全部" image:nil action:@selector(menuTypeClick:) target:self];
+    itemA.tag = 100;
      ZFPopupMenuItem *item1 = [ZFPopupMenuItem initWithMenuName:@"章节练习" image:nil action:@selector(menuTypeClick:) target:self];
     item1.tag = 101;
      ZFPopupMenuItem *item2 = [ZFPopupMenuItem initWithMenuName:@"模拟试卷" image:nil action:@selector(menuTypeClick:) target:self];
@@ -136,11 +134,12 @@
     item3.tag = 103;
      ZFPopupMenuItem *item4 = [ZFPopupMenuItem initWithMenuName:@"智能出题" image:nil action:@selector(menuTypeClick:) target:self];
     item4.tag = 102;
-//    [arrayTypeMuen addObject:itemA];
+    [arrayTypeMuen addObject:itemA];
     [arrayTypeMuen addObject:item1];
     [arrayTypeMuen addObject:item2];
     [arrayTypeMuen addObject:item3];
     [arrayTypeMuen addObject:item4];
+    
     return arrayTypeMuen;
 }
 //做题模式按钮菜单点击事件
@@ -151,6 +150,7 @@
     [_arrayExRe removeAllObjects];
     [self getExerciseRe];
 }
+
 //*******************做题模式////////////////////////
 /////////////////////做题模式////////////////////////
 
@@ -169,9 +169,6 @@
 //返回科目菜单数组
 - (NSArray *)subjectMenuItemArray{
     NSMutableArray *arraySubjectMuen = [NSMutableArray array];
-        ZFPopupMenuItem *itemA = [ZFPopupMenuItem initWithMenuName:@"全部" image:nil action:@selector(menuSubjectClick:) target:self];
-    itemA.tag = 100;
-    [arraySubjectMuen addObject:itemA];
     for (int i =0; i<_arraySubject.count; i++) {
         NSDictionary *dicSubject = _arraySubject[i];
         ZFPopupMenuItem *item = [ZFPopupMenuItem initWithMenuName:dicSubject[@"Names"] image:nil action:@selector(menuSubjectClick:) target:self];
@@ -182,13 +179,8 @@
 }
 //科目item点击事件
 - (void)menuSubjectClick:(ZFPopupMenuItem *)item{
-    if (item.tag == 100) {
-        _subjectId = 0;
-    }
-    else{
-        NSDictionary *dicSubject = _arraySubject[item.tag - 100 - 1];
-        _subjectId = [dicSubject[@"Id"] integerValue];
-    }
+    NSDictionary *dicSubject = _arraySubject[item.tag - 100 - 1];
+    _subjectId = [dicSubject[@"Id"] integerValue];
     [_buttonSubject setTitle:item.itemName forState:UIControlStateNormal];
     [_arrayExRe removeAllObjects];
     _pageCurr = 1;
@@ -206,7 +198,6 @@
         }
     }
     [SVProgressHUD showWithStatus:@"正在加载做题记录..."];
-   // api/Practice/GetDoRecords?access_token={access_token}&mode={mode}&courseId={courseId}&page={page}&size={size}
     NSString *urlString = [NSString stringWithFormat:@"%@api/Practice/GetDoRecords?access_token=%@&mode=%ld&courseId=%ld&page=%ld&size=20",systemHttps,_accToken,_topicModel,_subjectId,_pageCurr];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicN = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -219,18 +210,6 @@
             _pageCurr = _pageCurr+1; 
             //追加数据
             NSArray *arrayDatas =dicN[@"datas"];
-//            NSLog(@"%@",arrayDatas);
-            ///////////////////////////////////////////////////////
-            //首先先判断在当前的数组中是否存在新请求的记录，如果存在，不在显示
-//            if (_arrayExRe.count != 0) {
-//                for (NSDictionary *dicExreCurr in _arrayExRe) {
-//                    for (NSDictionary *dicPater in arrayDatas) {
-//                        if ([dicExreCurr[@"Rid"] isEqualToString:dicPater[@"Rid"]]) {
-//                            [_arrayExRe removeObject:dicExreCurr];
-//                        }
-//                    }
-//                }
-//            }
             for (NSDictionary *dicP in arrayDatas) {
                 [_arrayExRe addObject:dicP];
             }
@@ -259,7 +238,6 @@
 ///删除记录，单个删除
 - (void)deleteExercise:(NSIndexPath *)dicIndexPath{
     [SVProgressHUD show];
-    //api/Practice/Del?access_token={access_token}&rid={rid}
     NSString *urlString =[NSString stringWithFormat:@"%@api/Practice/Del?access_token=%@&rid=%@",systemHttps,_accToken,_dicSelectSubject[@"Rid"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicRe = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -279,7 +257,6 @@
         else{
             [SVProgressHUD showInfoWithStatus:@"操作失败！"];
         }
-//        NSLog(@"%@",dicRe);
     } RequestFaile:^(NSError *error) {
         
     }];
@@ -293,7 +270,6 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ExerciseTableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"cell1" forIndexPath:indexPath];
-//    NSLog(@"indexPath.row = %ld",indexPath.row);
     if (_arrayExRe.count > 0) {
         NSDictionary *dicRx = _arrayExRe[indexPath.row];
         cell.dicExercise = dicRx;
@@ -324,21 +300,39 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _dicSelectSubject = _arrayExRe[indexPath.row];
-//    NSInteger stateId = [_dicSelectSubject[@"State"] integerValue];
-//    [self showSelectDoTopicOp:stateId];
 }
 ///cell上的查看解析按钮回调
 - (void)cellAnalysisWithDictionary:(NSDictionary *)dicModel{
+    _topicModelCell = [dicModel[@"Mode"] integerValue];
     _dicSelectSubject = dicModel;
-    [self getPaperInfoAnalysisUsePaperId];
+    if (_topicModelCell == 4) {
+        [self getPaperInfoAnalysisUsePaperId];
+    }
+    else{
+        [self performSegueWithIdentifier:@"topicAnalysis" sender:nil];
+    }
 }
 ///cell上的做题（继续做题或者再做一次）按钮回调
 - (void)cellTopicWithDictionary:(NSDictionary *)dicModel parameterInt:(NSInteger)parameter{
+    _topicModelCell = [dicModel[@"Mode"] integerValue];
     _dicSelectSubject = dicModel;
     //如果继续做题
     if (parameter == 0 | parameter == 2) {
         _isContinueDoTopic = YES;
-        [self getPaperInfo];
+         ///1章节练习 2智能出题 3每周精选 4试卷
+        if (_topicModelCell == 1) {
+            //章节练习继续做题，直接传rid
+            [self performSegueWithIdentifier:@"startDoTopic" sender:_dicSelectSubject[@"Rid"]];
+            
+        }
+        else if (_topicModelCell == 3){
+            //每周精选继续做题，直接传rid
+            [self performSegueWithIdentifier:@"startDoTopic" sender:_dicSelectSubject[@"Rid"]];
+        }
+        else if (_topicModelCell == 4){
+            //模拟试卷继续做题，先获取试卷的详细信息
+            [self getPaperInfoModelPaper];
+        }
     }
     //如果再做一次
     else if (parameter == 1){
@@ -351,7 +345,6 @@
 
 ///根据试卷id获取试卷详细信息(解析)
 - (void)getPaperInfoAnalysisUsePaperId{
-    //api/Paper/GetPaperInfo/{id}?access_token={access_token}
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperInfo/%ld?access_token=%@",systemHttps,[_dicSelectSubject[@"ExamId"] integerValue],_accToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -367,9 +360,8 @@
 //*******************解析/////////////////////////
 
 //*******************做题/////////////////////////
-///根据试卷id获取试卷详细信息
-- (void)getPaperInfo{
-    //api/Paper/GetPaperInfo/{id}?access_token={access_token}
+///根据试卷id获取试卷详细信息(模拟试卷)
+- (void)getPaperInfoModelPaper{
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperInfo/%ld?access_token=%@",systemHttps,[_dicSelectSubject[@"ExamId"] integerValue],_accToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -383,7 +375,9 @@
             else{
                 [self performSegueWithIdentifier:@"startDoTopic" sender:nil];
             }
-            
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:dicPaper[@"errmsg"]];
         }
     } RequestFaile:^(NSError *error) {
         
@@ -398,17 +392,17 @@
         NSDictionary *diccc = (NSDictionary *)respoes;
         NSInteger codeId = [diccc[@"code"] integerValue];
         if (codeId == 1) {
-            ///每周精选
-            if (_topicModel == 3) {
+            ///每周精选 //章节练习
+            if (_topicModelCell == 3 | _topicModelCell == 1) {
                 NSDictionary *dicDatas = diccc[@"datas"];
                 NSString *ridString = dicDatas[@"rid"];
                 _ridAgainWeekTopic = ridString;
                 [self performSegueWithIdentifier:@"startDoTopic" sender:nil];
             }
             //模拟试卷
-            else if(_topicModel == 4){
+            else if(_topicModelCell == 4){
                 _isContinueDoTopic = NO;
-                [self getPaperInfo];
+                [self getPaperInfoModelPaper];
             }
         }
     } RequestFaile:^(NSError *erro) {
@@ -420,19 +414,22 @@
     if ([segue.identifier isEqualToString:@"startDoTopic"]) {
         StartDoTopicViewController *starVc = segue.destinationViewController;
         starVc.dicPater = _dicSelectSubject;
-        if (_topicModel == 1 ) {
-            starVc.paperParameter = _topicModel;
+        if (_topicModelCell == 1 ) {
+            starVc.paperParameter = _topicModelCell;
+            starVc.rIdString = _ridAgainWeekTopic;
+//            starVc.rIdString = _dicSelectSubject[@"Rid"];
         }
-        if (_topicModel == 2) {
+        if (_topicModelCell == 2) {
             //智能出题
             starVc.paperParameter = 4;
         }
-        else if (_topicModel == 4){
+        else if (_topicModelCell == 4){
             //模拟试卷
             starVc.paperParameter = 2;
         }
-        else if(_topicModel == 3){
-            starVc.paperParameter = _topicModel;
+        else if(_topicModelCell== 3){
+            //每周精选
+            starVc.paperParameter = _topicModelCell;
             starVc.rIdString = _ridAgainWeekTopic;
         }
         
@@ -447,16 +444,16 @@
         StartAnalysisTopicViewController *analysisVc = segue.destinationViewController;
         analysisVc.PaperId = [sender integerValue];
         analysisVc.rId = _dicSelectSubject[@"Rid"];
-        if (_topicModel == 2) {
+        if (_topicModelCell == 2) {
             //智能出题
             analysisVc.paperAnalysisParameter = 4;
         }
-        else if (_topicModel == 4){
+        else if (_topicModelCell == 4){
             //模拟试卷
             analysisVc.paperAnalysisParameter = 2;
         }
         else{
-            analysisVc.paperAnalysisParameter = _topicModel;
+            analysisVc.paperAnalysisParameter = _topicModelCell;
         }
 
     }

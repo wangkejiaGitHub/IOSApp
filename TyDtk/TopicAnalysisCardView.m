@@ -48,7 +48,7 @@
     if (_parameter == 2) {
         return _arrayTopic.count;
     }
-    else if (_parameter == 3){
+    else if (_parameter == 3 | _parameter == 1){
         return 1;
     }
     return 0;
@@ -60,7 +60,7 @@
         NSArray *arrayTop = dicPater[@"Questions"];
         return arrayTop.count;
     }
-    else if (_parameter == 3){
+    else if (_parameter == 3 | _parameter == 1){
         return _arrayTopic.count;
     }
     return 0;
@@ -79,7 +79,7 @@
         }
         return CGSizeMake(Scr_Width, 40);
     }
-    else if (_parameter == 3){
+    else if (_parameter == 3 | _parameter == 1){
         return CGSizeMake(Scr_Width, 120);
     }
     return CGSizeMake(0, 0);
@@ -149,7 +149,7 @@
             [reView addSubview:labCaptionTypeName];
              return reView;
         }
-        else if (_parameter == 3){
+        else if (_parameter == 3 | _parameter == 1){
             UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 80)];
             viewTitle.backgroundColor = [UIColor groupTableViewBackgroundColor];
             [reView addSubview:viewTitle];
@@ -230,7 +230,7 @@
         
     }
     //每周精选
-    else if (_parameter == 3){
+    else if (_parameter == 3 | _parameter == 1){
         dicAnalysis = _arrayTopic[indexPath.row];
     }
     NSInteger levelAnalysis = [dicAnalysis[@"level"] integerValue];

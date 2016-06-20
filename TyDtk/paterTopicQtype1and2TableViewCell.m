@@ -157,6 +157,9 @@
         UIButton *btnSubmit = [UIButton buttonWithType:UIButtonTypeCustom];
         btnSubmit.frame = CGRectMake((Scr_Width - 133)/2, _buttonOrginY+110, 133, 23);
         [btnSubmit setTitle:@"保存答案跳转下一题" forState:UIControlStateNormal];
+        if (_isLastTopic) {
+            [btnSubmit setTitle:@"保存答案" forState:UIControlStateNormal];
+        }
         btnSubmit.layer.masksToBounds = YES;
         btnSubmit.layer.cornerRadius = 3;
         btnSubmit.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -165,10 +168,9 @@
         [btnSubmit addTarget:self action:@selector(buttonSubmit:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:btnSubmit];
     }
-    else{
-        
-    }
-    
+//    else{
+//        
+//    }
     //最后分别添加笔记和纠错按钮
     //添加笔记按钮
     UIButton *buttonNotes = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -201,7 +203,7 @@
     //判断是否是最一题，给用户提示
     if (_isLastTopic) {
         UIButton *btnLastTopic =[UIButton buttonWithType:UIButtonTypeCustom];
-        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 110 + 30, 100, 23);
+        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 110 + 30 + 5, 100, 23);
         btnLastTopic.tag = 2222;
         btnLastTopic.backgroundColor =ColorWithRGB(200, 200, 200);
         btnLastTopic.layer.masksToBounds = YES;
@@ -511,7 +513,7 @@
     if (dicpaperId == 0) {
         if (_isWebFirstLoading) {
             //非小题试题二次刷新
-            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL + 160 withButtonOy:cellHeightL];
+            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL + 160 + 20 withButtonOy:cellHeightL];
         }
     }
     else{

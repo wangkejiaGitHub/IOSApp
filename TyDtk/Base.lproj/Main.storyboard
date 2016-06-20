@@ -464,7 +464,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="136" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uen-uW-0Lt">
-                                <rect key="frame" x="0.0" y="45" width="375" height="622"/>
+                                <rect key="frame" x="0.0" y="45" width="375" height="573"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell1" rowHeight="135" id="G90-pw-eOP" customClass="ExerciseTableViewCell">
@@ -645,7 +645,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Ho2-Pj-b4T" firstAttribute="top" secondItem="uen-uW-0Lt" secondAttribute="bottom" constant="-49" id="1aR-0k-yHn"/>
+                            <constraint firstItem="Ho2-Pj-b4T" firstAttribute="top" secondItem="uen-uW-0Lt" secondAttribute="bottom" id="1aR-0k-yHn"/>
                             <constraint firstAttribute="trailing" secondItem="uen-uW-0Lt" secondAttribute="trailing" id="Cga-Uz-6u9"/>
                             <constraint firstItem="QPd-90-XA3" firstAttribute="leading" secondItem="5ij-g9-0Ap" secondAttribute="leading" id="Dud-bB-uSS"/>
                             <constraint firstItem="uen-uW-0Lt" firstAttribute="leading" secondItem="5ij-g9-0Ap" secondAttribute="leading" id="Pry-C8-ibJ"/>
@@ -666,7 +666,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MfV-iA-Oq4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-730.5" y="2595.5"/>
+            <point key="canvasLocation" x="-756.5" y="2595.5"/>
         </scene>
         <!--我的信息-->
         <scene sceneID="QZZ-lh-Bhj">
@@ -2271,7 +2271,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kfk-zh-AhI" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1802.5" y="335.5"/>
+            <point key="canvasLocation" x="1783.5" y="335.5"/>
         </scene>
         <!--Start Analysis Topic View Controller-->
         <scene sceneID="Oo1-fo-syl">
@@ -2349,6 +2349,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="u5R-Nc-TGj">
+                        <barButtonItem key="leftBarButtonItem" image="top_backbtn" id="jLf-sp-83U">
+                            <connections>
+                                <action selector="buttonLiftItemClick:" destination="sNW-13-Bm9" id="gbx-0h-hau"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="bVK-AV-k2M">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="t9B-Or-TBA">
                                 <rect key="frame" x="276" y="7" width="83" height="30"/>
@@ -3052,11 +3057,11 @@
         <image name="y_cticon" width="125" height="124"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hsz-LZ-hh0"/>
-        <segue reference="i4t-ac-L0P"/>
         <segue reference="AgN-I9-PGX"/>
-        <segue reference="2Zq-As-zSd"/>
-        <segue reference="yeD-5v-yXS"/>
         <segue reference="daa-Sr-1Fl"/>
+        <segue reference="i4t-ac-L0P"/>
+        <segue reference="hsz-LZ-hh0"/>
+        <segue reference="xTz-Ds-2vW"/>
+        <segue reference="T9K-V5-1Ll"/>
     </inferredMetricsTieBreakers>
 </document>

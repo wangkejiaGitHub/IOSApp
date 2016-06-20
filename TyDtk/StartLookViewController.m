@@ -63,6 +63,7 @@
 
 ///按照章节考点id获取收藏试题列表
 - (void)getCollectTopicWithChaperId:(NSInteger)chaperId{
+    [SVProgressHUD showWithStatus:@"试题加载中..."];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionQuestions?access_token=%@&chapterId=%ld&page=1&size=20",systemHttps,_accessToken,chaperId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -71,13 +72,15 @@
             _arrayTopicLook = [NSMutableArray arrayWithArray:arrayCollectTopic];
             [self addChildViewLookTopic];
         }
+        [SVProgressHUD dismiss];
         NSLog(@"%@",dicCollect);
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
     }];
 }
 ///按照章节考点id获取错题列表
 - (void)getErrorTopicWithChaperId:(NSInteger)chaperId{
+    [SVProgressHUD showWithStatus:@"试题加载中..."];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Error/GetErrorQuestions?access_token=%@&chapterId=%ld&page=1&size=20",systemHttps,_accessToken,chaperId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicError = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -86,13 +89,15 @@
             _arrayTopicLook = [NSMutableArray arrayWithArray:arrayError];
             [self addChildViewLookTopic];
         }
+        [SVProgressHUD dismiss];
         NSLog(@"%@",dicError);
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
     }];
 }
 ///按照章节考点id获取笔记试题列表
 - (void)getNoteTopicWithChaperId:(NSInteger)chaperId{
+    [SVProgressHUD showWithStatus:@"试题加载中..."];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Note/GetNoteQuestions?access_token=%@&chapterid=%ld&page=1&size=20",systemHttps,_accessToken,chaperId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicNote = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -101,9 +106,10 @@
             _arrayTopicLook = [NSMutableArray arrayWithArray:arrayNoteTopic];
              [self addChildViewLookTopic];
         }
+        [SVProgressHUD dismiss];
         NSLog(@"%@",dicNote);
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
     }];
 }
 - (void)addChildViewLookTopic{

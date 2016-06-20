@@ -23,7 +23,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Alb-KZ-hDr">
-                    <rect key="frame" x="50" y="75" width="275" height="155"/>
+                    <rect key="frame" x="30" y="75" width="315" height="155"/>
                     <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="155" id="A3H-eg-1fn"/>
@@ -35,7 +35,7 @@
                     </connections>
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aU3-jO-jK5">
-                    <rect key="frame" x="50" y="275" width="275" height="35"/>
+                    <rect key="frame" x="30" y="275" width="315" height="35"/>
                     <color key="backgroundColor" red="0.24081095429999999" green="0.64520547120000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="35" id="qG6-Mb-MJL"/>
@@ -49,7 +49,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p1x-1l-oiG">
-                    <rect key="frame" x="275" y="235" width="50" height="20"/>
+                    <rect key="frame" x="295" y="235" width="50" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="Siu-iN-5Hj"/>
                         <constraint firstAttribute="width" constant="50" id="eKr-nR-e13"/>
@@ -61,7 +61,7 @@
                     </connections>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="小提示：最多可输入300个字符！" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w93-HP-dsv">
-                    <rect key="frame" x="50" y="235" width="205" height="20"/>
+                    <rect key="frame" x="30" y="235" width="245" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="Y7Z-Nb-iH0"/>
                         <constraint firstAttribute="width" constant="100" id="sfH-G7-yBL"/>
@@ -80,7 +80,7 @@
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="EoI-gO-Bld" secondAttribute="trailing" id="APW-4i-qQR"/>
                 <constraint firstItem="p1x-1l-oiG" firstAttribute="leading" secondItem="w93-HP-dsv" secondAttribute="trailing" constant="20" id="AXq-Fy-4fw"/>
-                <constraint firstAttribute="trailing" secondItem="aU3-jO-jK5" secondAttribute="trailing" constant="50" id="C5V-9a-Ycr"/>
+                <constraint firstAttribute="trailing" secondItem="aU3-jO-jK5" secondAttribute="trailing" constant="30" id="C5V-9a-Ycr"/>
                 <constraint firstItem="p1x-1l-oiG" firstAttribute="trailing" secondItem="Alb-KZ-hDr" secondAttribute="trailing" id="CIP-GM-1Vq"/>
                 <constraint firstAttribute="trailing" secondItem="SbU-cD-gwt" secondAttribute="trailing" constant="50" id="Ie9-Iv-X9B"/>
                 <constraint firstItem="EoI-gO-Bld" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Ks6-pu-OYd"/>
@@ -89,14 +89,14 @@
                 <constraint firstItem="Alb-KZ-hDr" firstAttribute="top" secondItem="SbU-cD-gwt" secondAttribute="bottom" constant="20" id="dLH-im-AbE"/>
                 <constraint firstItem="SbU-cD-gwt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="50" id="hdT-m0-bA3"/>
                 <constraint firstItem="EoI-gO-Bld" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="n4e-fo-vgF"/>
-                <constraint firstAttribute="trailing" secondItem="Alb-KZ-hDr" secondAttribute="trailing" constant="50" id="nze-ic-d3a"/>
+                <constraint firstAttribute="trailing" secondItem="Alb-KZ-hDr" secondAttribute="trailing" constant="30" id="nze-ic-d3a"/>
                 <constraint firstItem="SbU-cD-gwt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="30" id="oEj-U3-GT3"/>
                 <constraint firstItem="w93-HP-dsv" firstAttribute="leading" secondItem="Alb-KZ-hDr" secondAttribute="leading" id="odJ-vU-iNK"/>
                 <constraint firstItem="w93-HP-dsv" firstAttribute="top" secondItem="Alb-KZ-hDr" secondAttribute="bottom" constant="5" id="pck-Za-gft"/>
-                <constraint firstItem="aU3-jO-jK5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="50" id="pvm-5t-y1e"/>
+                <constraint firstItem="aU3-jO-jK5" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="pvm-5t-y1e"/>
                 <constraint firstItem="p1x-1l-oiG" firstAttribute="top" secondItem="Alb-KZ-hDr" secondAttribute="bottom" constant="5" id="qbX-Cy-ljk"/>
                 <constraint firstAttribute="bottom" secondItem="EoI-gO-Bld" secondAttribute="bottom" id="syc-ZM-mIw"/>
-                <constraint firstItem="Alb-KZ-hDr" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="50" id="wri-9q-kbe"/>
+                <constraint firstItem="Alb-KZ-hDr" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="30" id="wri-9q-kbe"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
             <connections>

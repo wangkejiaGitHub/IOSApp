@@ -138,39 +138,33 @@
             //模拟试卷
             else if (indexPath.row == 1){
                 [self performSegueWithIdentifier:@"modelPaper" sender:nil];
-                 NSLog(@"模拟试卷");
+                NSLog(@"模拟试卷");
             }
             //每周精选
             else if (indexPath.row == 2){
                 [self performSegueWithIdentifier:@"weekSelect" sender:nil];
-                 NSLog(@"每周精选");
+                NSLog(@"每周精选");
             }
             //智能做题
             else if (indexPath.row == 3){
-            [self performSegueWithIdentifier:@"intelligent" sender:nil];
-                 NSLog(@"智能做题");
+                [self performSegueWithIdentifier:@"intelligent" sender:nil];
+                NSLog(@"智能做题");
             }
         }
         else{
             //做题记录
             if (indexPath.row == 0) {
-//                if ([_tyUser objectForKey:tyUserClass]) {
-//                    [self performSegueWithIdentifier:@"topicR" sender:nil];
-//                }
-//                else{
-//                    [SVProgressHUD showInfoWithStatus:@"还没有选择相关专业"];
-//                }
                 [self performSegueWithIdentifier:@"Exercise" sender:nil];
-                 NSLog(@"做题记录");
+                NSLog(@"做题记录");
             }
             //我的收藏
             else if (indexPath.row == 1){
-                 NSLog(@"我的收藏");
+                NSLog(@"我的收藏");
                 [self performSegueWithIdentifier:@"collect" sender:@"1"];
             }
             //我的错题
             else if (indexPath.row == 2){
-                 NSLog(@"我的错题");
+                NSLog(@"我的错题");
                 [self performSegueWithIdentifier:@"collect" sender:@"2"];
             }
         }
@@ -204,7 +198,7 @@
         chapVc.title = @"章节练习";
     }
     else if ([segue.identifier isEqualToString:@"Exercise"]){
-//        ExerciseRecordViewController *exerVc = segue.destinationViewController;
+        //        ExerciseRecordViewController *exerVc = segue.destinationViewController;
         
     }
     else if ([segue.identifier isEqualToString:@"collect"]){

@@ -34,7 +34,7 @@
 @property (nonatomic,strong) NSString *accessToken;
 //试卷试题信息数组
 @property (nonatomic,strong) NSArray *arrayPaterData;
-//scrollview 的宽度，单位是以屏宽的个数去计算
+///scrollview 的宽度，单位是以屏宽的个数去计算:(单位：屏宽/个)
 @property (nonatomic,assign) NSInteger scrollContentWidth;
 //答题卡
 @property (nonatomic,strong) TopicCardCollectionView *collectionViewTopicCard;
@@ -60,17 +60,23 @@
     [_buttonSaveSch setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     _buttonSaveSch.layer.masksToBounds = YES;
     _buttonSaveSch.layer.cornerRadius = 3;
+    _buttonSaveSch.userInteractionEnabled = NO;
     [self setTimeForTopic];
     //章节练习
     if (self.paperParameter == 1) {
-        
+        self.navigationItem.titleView = nil;
+        self.title = @"章节练习";
+        _buttonSaveSch.userInteractionEnabled = YES;
+        [self getChaperPaperData];
     }
     //模拟试卷
     else if (self.paperParameter == 2){
-         [self getPaterDatas];
+        _buttonSaveSch.userInteractionEnabled = YES;
+        [self getPaterDatas];
     }
     //每周精选
     else if (self.paperParameter == 3){
+        _buttonSaveSch.backgroundColor = [UIColor lightGrayColor];
         //去掉剩余时间显示字段
         self.navigationItem.titleView = nil;
         self.title = @"每周精选";
@@ -96,12 +102,35 @@
         alert.animationStyle = LXASAnimationTopShake;
         [alert showLXAlertView];
     }
-
+    
+}
+- (void)viewWillDisappear:(BOOL)animated{
+//    self.navigationController.navigationItem.titleView = nil;
 }
 - (void)viewDidDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     _timeLong = nil;
+}
+//pop
+- (IBAction)popButtonClick:(UIBarButtonItem *)sender {
+    if (_intUserDidTopic > 0) {
+        LXAlertView *aleveAlert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:[NSString stringWithFormat:@"您已经做了%ld道题，确认放弃做题离开吗？",_intUserDidTopic]cancelBtnTitle:@"放弃" otherBtnTitle:@"继续做题" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 0) {
+//                if (_isFromTiKu) {
+//                    //当前的Viewcontrol在本栈列的位置
+//                    NSInteger index = (NSInteger)[[self.navigationController viewControllers]indexOfObject:self];
+//                    [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:(index -2)] animated:YES];
+//                }
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }];
+        aleveAlert.animationStyle = LXASAnimationTopShake;
+        [aleveAlert showLXAlertView];
+    }
+    else{
+         [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 //键盘出现
 - (void)keyboardShow:(NSNotification *)note{
@@ -136,7 +165,7 @@
 - (void)getPaterDatas{
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
     NSInteger paterId = [_dicPater[@"Id"] integerValue];
-   NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
     //判断是否是继续做题，如果是，rid有值
     if (_ridContinue.length > 0) {
         urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&rid=%@",_ridContinue]];
@@ -376,6 +405,9 @@
 - (void)getWeekPaperData{
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
     //api/Weekly/GetWeeklyQuestions?access_token={access_token}&rid={rid}
+    if (_ridContinue.length > 0) {
+        _rIdString = _ridContinue;
+    }
     NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/GetWeeklyQuestions?access_token=%@&rid=%@",systemHttps,_accessToken,self.rIdString];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicWeekPaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -384,6 +416,63 @@
             _arrayPaterData = dicWeekPaper[@"datas"];
             _scrollContentWidth = _arrayPaterData.count;
             _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
+            
+            //            //判断是否是继续做题，如果是，rid有值,将用户做过的题的数量和已做过的试题存放起来
+            //            if (_ridContinue.length > 0) {
+            //                for (NSDictionary *dicAllTopic in _arrayPaterData) {
+            //                    NSArray *arrayTypeTopic = dicAllTopic[@"Questions"];
+            //                    for (NSDictionary *dicTopic in arrayTypeTopic) {
+            //                        NSInteger qType = [dicTopic[@"qtype"] integerValue];
+            //                        ///用于存放用于保存记录里面已经做过的试题
+            //                        NSDictionary *dicUserAnswer = [[NSDictionary alloc]init];
+            //                        ///不是一题多问的情况
+            //                        if (qType != 6) {
+            //                            if ([dicTopic objectForKey:@"userAnswer"]) {
+            //                                //试题Id
+            //                                NSString *questionId =[NSString stringWithFormat:@"%ld",[dicTopic[@"questionId"] integerValue]];
+            //                                //试题类型
+            //                                NSString *qtype =[NSString stringWithFormat:@"%ld",[dicTopic[@"qtype"] integerValue]];
+            //                                //正确答案
+            //                                NSString *answer = dicTopic[@"answer"];
+            //                                //用户答案
+            //                                NSString *userAnswer = dicTopic[@"userAnswer"];
+            //                                //试题分值
+            //                                NSInteger score = [dicTopic[@"score"] integerValue];
+            //                                dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
+            //                                [_arrayUserAnswer addObject:dicUserAnswer];
+            //                                _intUserDidTopic = _intUserDidTopic +1;
+            //                            }
+            //                        }
+            //                        ///一题多问的情况
+            //                        else{
+            //                            ///所有一题多问下面的小题
+            //                            NSArray *arraySubQuestion = dicTopic[@"subQuestion"];
+            //                            NSInteger didTopicCountType6 = 0;
+            //                            for (NSDictionary *dicSubQuestion in arraySubQuestion) {
+            //                                if ([dicSubQuestion objectForKey:@"userAnswer"]) {
+            //                                    //试题Id
+            //                                    NSString *questionId =[NSString stringWithFormat:@"%ld",[dicSubQuestion[@"questionId"] integerValue]];
+            //                                    //试题类型
+            //                                    NSString *qtype =[NSString stringWithFormat:@"%ld",[dicSubQuestion[@"qtype"] integerValue]];
+            //                                    //正确答案
+            //                                    NSString *answer = dicSubQuestion[@"answer"];
+            //                                    //用户答案
+            //                                    NSString *userAnswer = dicSubQuestion[@"userAnswer"];
+            //                                    //试题分值
+            //                                    NSInteger score = [dicSubQuestion[@"score"] integerValue];
+            //                                    dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
+            //                                    [_arrayUserAnswer addObject:dicUserAnswer];
+            //                                    if (didTopicCountType6 == 0) {
+            //                                        _intUserDidTopic = _intUserDidTopic + 1;
+            //                                    }
+            //                                    didTopicCountType6 = didTopicCountType6 + 1;
+            //                                }
+            //                            }
+            //                        }
+            //                    }
+            //                }
+            //            }
+            
             [self addChildViewWithTopicForSelf];
             for (id subView in _viewNaviHeardView.subviews) {
                 [subView removeFromSuperview];
@@ -439,15 +528,122 @@
 /**
  获取章节考点试卷试题
  */
-//- (void)getChaperPaperData{
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/MakePractice?access_token=%@&chapterId=%@&captionType=%@&filter=%@&top=%@&year=%@",systemHttps,_accessToken,_dicChaper[@"id"],_dicChaper[@"type"],_dicChaper[@"model"],_dicChaper[@"count"],_dicChaper[@"year"]];
-//    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
-//        NSDictionary *dicChaper = [NSJSONSerialization JSONObjectWithData:respoes options:NSJSONReadingMutableLeaves error:nil];
-//        NSLog(@"%@",dicChaper);
-//    } RequestFaile:^(NSError *erro) {
-//        
-//    }];
-//}
+- (void)getChaperPaperData{
+    [SVProgressHUD showWithStatus:@"试卷加载中..."];
+    //如果是继续做题，改变rid的值
+    if (_ridContinue.length > 0) {
+        _rIdString = _ridContinue;
+    }
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetChapterQuestions?access_token=%@&rid=%@",systemHttps,_accessToken,_rIdString];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicChaperPaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        if ([dicChaperPaper[@"code"] integerValue] == 1) {
+            _arrayPaterData = dicChaperPaper[@"datas"];
+            _scrollContentWidth = _arrayPaterData.count;
+            _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
+            
+            
+            //判断是否是继续做题，如果是，rid有值,将用户做过的题的数量和已做过的试题存放起来
+            if (_ridContinue.length > 0) {
+                for (NSDictionary *dicAllTopic in _arrayPaterData) {
+                    NSInteger qType = [dicAllTopic[@"qtype"] integerValue];
+                    ///用于存放用于保存记录里面已经做过的试题
+                    NSDictionary *dicUserAnswer = [[NSDictionary alloc]init];
+                    ///不是一题多问的情况
+                    if (qType != 6) {
+                        if ([dicAllTopic objectForKey:@"userAnswer"]) {
+                            //试题Id
+                            NSString *questionId =[NSString stringWithFormat:@"%ld",[dicAllTopic[@"questionId"] integerValue]];
+                            //试题类型
+                            NSString *qtype =[NSString stringWithFormat:@"%ld",[dicAllTopic[@"qtype"] integerValue]];
+                            //正确答案
+                            NSString *answer = dicAllTopic[@"answer"];
+                            //用户答案
+                            NSString *userAnswer = dicAllTopic[@"userAnswer"];
+                            //试题分值
+                            NSInteger score = [dicAllTopic[@"score"] integerValue];
+                            dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
+                            [_arrayUserAnswer addObject:dicUserAnswer];
+                            _intUserDidTopic = _intUserDidTopic +1;
+                        }
+                    }
+                    ///一题多问的情况
+                    else{
+                        ///所有一题多问下面的小题
+                        NSArray *arraySubQuestion = dicAllTopic[@"subQuestion"];
+                        NSInteger didTopicCountType6 = 0;
+                        for (NSDictionary *dicSubQuestion in arraySubQuestion) {
+                            if ([dicSubQuestion objectForKey:@"userAnswer"]) {
+                                //试题Id
+                                NSString *questionId =[NSString stringWithFormat:@"%ld",[dicSubQuestion[@"questionId"] integerValue]];
+                                //试题类型
+                                NSString *qtype =[NSString stringWithFormat:@"%ld",[dicSubQuestion[@"qtype"] integerValue]];
+                                //正确答案
+                                NSString *answer = dicSubQuestion[@"answer"];
+                                //用户答案
+                                NSString *userAnswer = dicSubQuestion[@"userAnswer"];
+                                //试题分值
+                                NSInteger score = [dicSubQuestion[@"score"] integerValue];
+                                dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
+                                [_arrayUserAnswer addObject:dicUserAnswer];
+                                if (didTopicCountType6 == 0) {
+                                    _intUserDidTopic = _intUserDidTopic + 1;
+                                }
+                                didTopicCountType6 = didTopicCountType6 + 1;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            
+            [self addChildViewWithTopicForSelf];
+            for (id subView in _viewNaviHeardView.subviews) {
+                [subView removeFromSuperview];
+            }
+            _buttonRight.userInteractionEnabled = YES;
+            //////////////////////////////////////////
+            //实例化答题卡
+            if (!_collectionViewTopicCard) {
+                UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
+                _collectionViewTopicCard = [[TopicCardCollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la withTopicArray:_arrayPaterData paperParameter:_paperParameter];
+                _collectionViewTopicCard.delegateCellClick = self;
+                [self.view addSubview:_collectionViewTopicCard];
+            }
+            /////////////////////////////////////////////////////////////
+            [SVProgressHUD dismiss];
+            
+        }
+        NSLog(@"%@",dicChaperPaper);
+    } RequestFaile:^(NSError *error) {
+        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
+    }];
+}
+/**
+ 章节考点提交试卷
+ */
+- (void)submitChaperPaper{
+    [SVProgressHUD showWithStatus:@"正在提交..."];
+    //如果是继续做题，改变rid的值
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/Submit?access_token=%@",systemHttps,_accessToken];
+    //讲用户答过的试题信息进行编码转json
+    NSData *dataPostStr = [NSJSONSerialization dataWithJSONObject:_arrayUserAnswer options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *postStr = [[NSString alloc]initWithData:dataPostStr encoding:NSUTF8StringEncoding];
+    NSDictionary *dicPost = @{@"rid":_rIdString,@"postStr":postStr};
+    
+    [HttpTools postHttpRequestURL:urlString RequestPram:dicPost RequestSuccess:^(id respoes) {
+        NSDictionary *dicChaper =(NSDictionary *)respoes;
+        if ([dicChaper[@"code"] integerValue] == 1 ) {
+            NSDictionary *dicDatas = dicChaper[@"datas"];
+            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            [self performSegueWithIdentifier:@"topicAnalysis" sender:dicDatas[@"rid"]];
+        }
+        NSLog(@"%@",dicChaper);
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+    
+}
 //****************************章节练习模块****************************//
 //////////////////////////////章节练习模块//////////////////////////////
 
@@ -470,7 +666,7 @@
                 paterVc.topicTitle = topString;
             }
         }
-        else if (_paperParameter == 3){
+        else if (_paperParameter == 3 | _paperParameter == 1){
             paterVc.dicTopic = _arrayPaterData[i];
         }
         if (i == _scrollContentWidth - 1) {
@@ -493,10 +689,6 @@
     else{
         [self topicCardHiden];
     }
-}
-//pop
-- (IBAction)popButtonClick:(UIBarButtonItem *)sender {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 //上一题
 - (IBAction)lastBtnClick:(UIButton *)sender {
@@ -586,23 +778,33 @@
                 break;
             }
         }
-        
         [_arrayUserAnswer addObject:dicUserAnswer];
     }
-
+    
+    if (_intUserDidTopic == _scrollContentWidth) {
+        LXAlertView *subAlert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"试卷所有试题已做完并保存，是否交卷？" cancelBtnTitle:@"继续做题" otherBtnTitle:@"交卷" clickIndexBlock:^(NSInteger clickIndex) {
+            if (clickIndex == 1) {
+              [self submitPaterAlert];
+            }
+        }];
+        
+        subAlert.animationStyle = LXASAnimationTopShake;
+        [subAlert showLXAlertView];
+    }
+    
 }
 //保存进度按钮
 - (IBAction)buttonSaveSchClick:(UIButton *)sender {
-//    NSInteger topicCount = 0;
-//    if (_paperParameter == 2) {
-//        for (NSDictionary *dicTopicType in _arrayPaterData) {
-//            NSArray *array = dicTopicType[@"Questions"];
-//            topicCount = topicCount + array.count;
-//        }
-//    }
-//    else if (_paperParameter == 3){
-//        topicCount = _arrayPaterData.count;
-//    }
+    //    NSInteger topicCount = 0;
+    //    if (_paperParameter == 2) {
+    //        for (NSDictionary *dicTopicType in _arrayPaterData) {
+    //            NSArray *array = dicTopicType[@"Questions"];
+    //            topicCount = topicCount + array.count;
+    //        }
+    //    }
+    //    else if (_paperParameter == 3){
+    //        topicCount = _arrayPaterData.count;
+    //    }
     
     //aleat View 提示框
     LXAlertView *alertSaveSch;
@@ -644,7 +846,7 @@
         dicPost = @{@"Id":paterId,@"Title":paterTitle,@"PostStr":postStr};
     }
     //其他模块(暂时只有每周精选)
-    else if(_paperParameter == 3){
+    else if(_paperParameter == 3 | _paperParameter == 1){
         //api/Answer/SaveAnswer?access_token={access_token}
         urlString = [NSString stringWithFormat:@"%@api/Answer/SaveAnswer?access_token=%@",systemHttps,_accessToken];
         //讲用户答过的试题信息进行编码转json
@@ -681,7 +883,7 @@
             topicCount = topicCount + array.count;
         }
     }
-    else if (_paperParameter == 3){
+    else if (_paperParameter == 3 | _paperParameter == 1){
         topicCount = _arrayPaterData.count;
     }
     
@@ -696,11 +898,14 @@
     else if (topicCount != _intUserDidTopic) {
         NSInteger sTopic = topicCount - _intUserDidTopic;
         NSString *alertMessage = [NSString stringWithFormat:@"您还有【%ld】道题没有做，确认交卷吗?",sTopic];
-    
+        
         alertSubmit = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:alertMessage cancelBtnTitle:@"交卷" otherBtnTitle:@"继续做题" clickIndexBlock:^(NSInteger clickIndex) {
             if (clickIndex == 0) {
                 //模拟试卷提交
-                if (_paperParameter == 2) {
+                if (_paperParameter == 1) {
+                    [self submitChaperPaper];
+                }
+                else if (_paperParameter == 2) {
                     [self submitSimulatePater];
                 }
                 //每周精选试卷提交
@@ -716,14 +921,16 @@
         alertSubmit = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"确认提交试卷吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"交卷" clickIndexBlock:^(NSInteger clickIndex) {
             if (clickIndex == 1) {
                 //模拟试卷提交
-                if (_paperParameter == 2) {
+                if (_paperParameter == 1) {
+                    [self submitChaperPaper];
+                }
+                else if (_paperParameter == 2) {
                     [self submitSimulatePater];
                 }
                 //每周精选试卷提交
                 else if (_paperParameter == 3){
                     [self submitWeekPater];
                 }
-
             }
         }];
     }
@@ -732,9 +939,11 @@
     [alertSubmit showLXAlertView];
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
     StartAnalysisTopicViewController *analysisVc = segue.destinationViewController;
     analysisVc.PaperId = [_dicPater[@"Id"] integerValue];
     analysisVc.paperAnalysisParameter = _paperParameter;
+    analysisVc.isFromTiKu = YES;
     analysisVc.rId = sender;
 }
 //- (void)paterAnalysis:(NSString *)rId{

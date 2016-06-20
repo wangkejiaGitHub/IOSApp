@@ -8,6 +8,7 @@
 
 #import "SelectParTopicViewController.h"
 #import "TestViewController.h"
+#import "StartDoTopicViewController.h"
 @interface SelectParTopicViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *labName;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
@@ -54,24 +55,32 @@
     [super viewDidLoad];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-    self.title = @"章节做题";
+    self.title = @"章节练习";
     [self viewLoad];
-  }
+}
+- (void)viewDidAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = NO;
+}
 - (void)viewLoad{
      _arraySectionSelect = [NSMutableArray array];
     _dicTopicParameter = [NSMutableDictionary dictionary];
     _tableViewSelect = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+50, Scr_Width, Scr_Height - 64 - 50 - 49) style:UITableViewStylePlain];
-    _tableViewSelect.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    _tableViewSelect.backgroundColor = [UIColor whiteColor];
     _tableViewSelect.showsVerticalScrollIndicator = NO;
     _tableViewSelect.delegate = self;
     _tableViewSelect.dataSource = self;
     [self.view addSubview:_tableViewSelect];
-    _arraySecitonHeader = @[@"练习模式>>",@"试题类型>>",@"试题年份>>",@"试题数量"];
-    _dicData = @{@"0":@"未做试题,已做试题,错误试题",@"1":@"全部,单项选择题,多项选择题",@"2":@"全部,2016年,2015年,2014年",@"3":@"5,10,15,20,30"};
+    _arraySecitonHeader = @[@"练习模式>>",@"试题类型>>",@"试题年份>>",@"试题数量>>"];
+//    _dicData = @{@"0":@"未做试题,已做试题,错误试题",@"1":@"全部,单项选择题,多项选择题",@"2":@"全部,2016年,2015年,2014年",@"3":@"5,10,15,20,30"};
     _topicModel = @"未做试题";
     _topicType = @"全部";
     _topicYear = @"全部";
     _topicCount = @"5";
+    [_dicTopicParameter setObject:[NSString stringWithFormat:@"%ld",_chaperId] forKey:@"id"];
+    [_dicTopicParameter setObject:@"0" forKey:@"model"];
+    [_dicTopicParameter setObject:@"0" forKey:@"type"];
+    [_dicTopicParameter setObject:@"0" forKey:@"year"];
+    [_dicTopicParameter setObject:@"5" forKey:@"count"];
     _labName.textColor = ColorWithRGB(70, 130, 255);
     _labName.textColor = [UIColor blackColor];
     _labName.adjustsFontSizeToFitWidth = YES;
@@ -82,7 +91,7 @@
     [_labName setAttributedText:attriTitle];
     [self addFooterViewForTableView];
     ////////////////////////////////
-    _arrayModel = @[@"未做试题",@"已做试题",@"做错试题"];
+    _arrayModel = @[@{@"Value":@"0",@"Text":@"未做试题"},@{@"Value":@"1",@"Text":@"已做试题"},@{@"Value":@"2",@"Text":@"做错试题"}];
     [self getChaperTopicYear];
 //    [self getChaperTopicType];
 //    [self getChaperTopicCount];
@@ -138,6 +147,7 @@
 获取试题题数枚举
 */
 - (void)getChaperTopicCount{
+    [SVProgressHUD show];
     [_arrayCount removeAllObjects];
     _arrayCount = [NSMutableArray array];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetQuestionQuantityListItem?access_token=%@",systemHttps,_accessToken];
@@ -147,15 +157,17 @@
             NSArray *arrayCount = dicTopicCount[@"datas"];
             _arrayCount = [NSMutableArray arrayWithArray:arrayCount];
             /////在此加载tableView（首次）//进度。。。06_18
+            
         }
-        
+        [SVProgressHUD dismiss];
+        [_tableViewSelect reloadData];
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD dismiss];
     }];
 }
 ///添加未试图
 - (void)addFooterViewForTableView{
-    UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 160 - 64 - 60 - 49)];
+    UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 235 + 66)];
     viewFooter.backgroundColor = [UIColor whiteColor];
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(20, 20, Scr_Width - 40, 160)];
     view.layer.masksToBounds = YES;
@@ -202,22 +214,58 @@
 }
 ///开始做题
 - (void)buttonTopicClick:(UIButton *)button{
-    
+    [self getChaperPaperTopicRid];
+}
+/**
+ 获取章节练习rid
+ */
+- (void)getChaperPaperTopicRid{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/MakePractice?access_token=%@&chapterId=%@&captionType=%@&filter=%@&top=%@&year=%@",systemHttps,_accessToken,_dicTopicParameter[@"id"],_dicTopicParameter[@"type"],_dicTopicParameter[@"model"],_dicTopicParameter[@"count"],_dicTopicParameter[@"year"]];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *dicChaper = (NSDictionary *)respoes;
+        if ([dicChaper[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicChaper[@"datas"];
+            if (dicDatas!=nil) {
+                [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+                ///获取 Storyboard 上做题页面
+                UIStoryboard *storyMian = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                StartDoTopicViewController *topicVc = [storyMian instantiateViewControllerWithIdentifier:@"StartDoTopicViewController"];
+                //            topicVc.dicChaper = _dicTopicParameter;
+                topicVc.rIdString = dicDatas[@"rid"];
+                topicVc.paperParameter = 1;
+                [self.navigationController pushViewController:topicVc animated:YES];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:@"没有更多试题了，换个参数试试看~"];
+            }
+        }
+        NSLog(@"%@",dicChaper);
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSString *str = [NSString stringWithFormat:@"%ld",section];
     if ([_arraySectionSelect containsObject:str]) {
-        NSString *secString = [NSString stringWithFormat:@"%ld",section];
-        NSString *arrayString = [_dicData objectForKey:secString];
-        NSArray *array = [arrayString componentsSeparatedByString:@","];
-        return array.count;
+        if (section == 0) {
+            return _arrayModel.count;
+        }
+        else if (section == 1){
+            return _arrayType.count;
+        }
+        else if (section == 2){
+            return _arrayYear.count;
+        }
+        else{
+            return _arrayCount.count;
+        }
     }
     else{
         return 0;
     }
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _arraySecitonHeader.count;
+    return 4;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 35;
@@ -231,7 +279,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 1)];
-    if (section != _arraySecitonHeader.count - 1) {
+    if (section != 3) {
         view.backgroundColor = [UIColor lightGrayColor];
     }
     else{
@@ -304,11 +352,27 @@
     }
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     cell.backgroundColor = [UIColor whiteColor];
-    NSString *secString = [NSString stringWithFormat:@"%ld",indexPath.section];
-    NSString *arrayString = [_dicData objectForKey:secString];
-    NSArray *array = [arrayString componentsSeparatedByString:@","];
+//    NSString *secString = [NSString stringWithFormat:@"%ld",indexPath.section];
+//    NSString *arrayString = [_dicData objectForKey:secString];
+//    NSArray *array = [arrayString componentsSeparatedByString:@","];
+    NSDictionary *dicCurr = [[NSDictionary alloc]init];
+    if (indexPath.section == 0) {
+        dicCurr = _arrayModel[indexPath.row];
+    }
+    else if (indexPath.section == 1){
+        dicCurr = _arrayType[indexPath.row];
+    }
+    else if (indexPath.section == 2){
+        dicCurr = _arrayYear[indexPath.row];
+    }
+    else if (indexPath.section == 3){
+        dicCurr = _arrayCount[indexPath.row];
+    }
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(30, (35-20)/2, 100, 20)];
-    lab.text = array[indexPath.row];
+    lab.text = dicCurr[@"Text"];
+    if (indexPath.section == 1) {
+        lab.text = dicCurr[@"Names"];
+    }
     lab.textColor = [UIColor brownColor];
     lab.tag = 10;
     lab.font = [UIFont systemFontOfSize:15.0];
@@ -319,21 +383,30 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     UILabel *labText = (UILabel *)[cell.contentView viewWithTag:10];
+    NSDictionary *dicCurr = [[NSDictionary alloc]init];
     if (indexPath.section == 0) {
-        _topicModel = labText.text;
-        [_dicTopicParameter setObject:[NSString stringWithFormat:@"%ld",indexPath.row] forKey:@"model"];
+        dicCurr = _arrayModel[indexPath.row];
+        [_dicTopicParameter setObject:dicCurr[@"Value"] forKey:@"model"];
+         _topicModel = labText.text;
     }
     else if (indexPath.section == 1){
+        dicCurr = _arrayType[indexPath.row];
+        [_dicTopicParameter setObject:[NSString stringWithFormat:@"%ld",[dicCurr[@"Id"] integerValue]] forKey:@"type"];
         _topicType = labText.text;
     }
     else if (indexPath.section == 2){
+        dicCurr = _arrayYear[indexPath.row];
+        [_dicTopicParameter setObject:dicCurr[@"Value"] forKey:@"year"];
         _topicYear = labText.text;
     }
     else if (indexPath.section == 3){
+        dicCurr = _arrayCount[indexPath.row];
+        [_dicTopicParameter setObject:dicCurr[@"Value"] forKey:@"count"];
         _topicCount = labText.text;
     }
     NSString *str = [NSString stringWithFormat:@"%ld",indexPath.section];
     [_arraySectionSelect removeObject:str];
+    NSLog(@"%@",_dicTopicParameter);
     
     [_tableViewSelect reloadData];
 }
