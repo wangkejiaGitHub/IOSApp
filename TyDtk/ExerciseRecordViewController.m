@@ -139,7 +139,6 @@
     [arrayTypeMuen addObject:item2];
     [arrayTypeMuen addObject:item3];
     [arrayTypeMuen addObject:item4];
-    
     return arrayTypeMuen;
 }
 //做题模式按钮菜单点击事件
@@ -150,7 +149,6 @@
     [_arrayExRe removeAllObjects];
     [self getExerciseRe];
 }
-
 //*******************做题模式////////////////////////
 /////////////////////做题模式////////////////////////
 

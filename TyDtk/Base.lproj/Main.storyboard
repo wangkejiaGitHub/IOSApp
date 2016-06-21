@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hyC-17-ktG">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--选择专业-->
@@ -1623,7 +1624,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="122" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0ES-tA-h4u">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="weekcell" rowHeight="120" id="eVc-B6-fIH">
@@ -1725,8 +1726,16 @@
                             <constraint firstItem="0ES-tA-h4u" firstAttribute="leading" secondItem="qTo-ta-oan" secondAttribute="leading" id="3pl-we-7dg"/>
                             <constraint firstItem="B8o-aB-cJ6" firstAttribute="top" secondItem="0ES-tA-h4u" secondAttribute="bottom" id="AFC-Av-GBB"/>
                             <constraint firstAttribute="trailing" secondItem="0ES-tA-h4u" secondAttribute="trailing" id="Qep-gb-PEV"/>
+                            <constraint firstItem="B8o-aB-cJ6" firstAttribute="top" secondItem="0ES-tA-h4u" secondAttribute="bottom" id="UdO-C8-Smv"/>
                             <constraint firstItem="0ES-tA-h4u" firstAttribute="top" secondItem="qTo-ta-oan" secondAttribute="top" id="bDZ-R1-MkP"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="0ES-tA-h4u" secondAttribute="bottom" id="pxr-43-1wk"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="AFC-Av-GBB"/>
+                                <exclude reference="UdO-C8-Smv"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="每周精选" id="uEc-VM-tde"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -2376,36 +2385,6 @@
             </objects>
             <point key="canvasLocation" x="2214.5" y="335.5"/>
         </scene>
-        <!--Test View Controller-->
-        <scene sceneID="b9G-sh-2Yo">
-            <objects>
-                <viewController storyboardIdentifier="TestViewController" id="afZ-aa-27Z" customClass="TestViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="4ge-d7-w4o"/>
-                        <viewControllerLayoutGuide type="bottom" id="1Mo-Gm-ric"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="vpU-4e-FLt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="y_cticon" translatesAutoresizingMaskIntoConstraints="NO" id="USU-xo-mA0">
-                                <rect key="frame" x="124" y="115" width="92" height="84"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="建筑工程技术预测量（技术预测量）" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jSp-wU-SXk">
-                                <rect key="frame" x="80" y="311" width="275" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="lJJ-px-zq0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1677.5" y="-1604.5"/>
-        </scene>
         <!--邮箱注册-->
         <scene sceneID="2QU-Qw-xZp">
             <objects>
@@ -3005,7 +2984,7 @@
         <!--Index Tab Bar View Controller-->
         <scene sceneID="h5P-Yt-dcH">
             <objects>
-                <tabBarController id="hyC-17-ktG" customClass="IndexTabBarViewController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="IndexTabBarViewController" id="hyC-17-ktG" customClass="IndexTabBarViewController" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="Yvt-Xw-8vJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -3054,14 +3033,13 @@
         <image name="picon" width="45" height="45"/>
         <image name="top_backbtn" width="12" height="20"/>
         <image name="user_icon.png" width="13" height="14"/>
-        <image name="y_cticon" width="125" height="124"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="AgN-I9-PGX"/>
-        <segue reference="daa-Sr-1Fl"/>
-        <segue reference="i4t-ac-L0P"/>
         <segue reference="hsz-LZ-hh0"/>
-        <segue reference="xTz-Ds-2vW"/>
-        <segue reference="T9K-V5-1Ll"/>
+        <segue reference="i4t-ac-L0P"/>
+        <segue reference="daa-Sr-1Fl"/>
+        <segue reference="rlR-Gj-gBN"/>
+        <segue reference="Te0-o5-J6N"/>
+        <segue reference="yeD-5v-yXS"/>
     </inferredMetricsTieBreakers>
 </document>

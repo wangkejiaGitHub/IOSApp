@@ -46,6 +46,7 @@
     // Do any additional setup after loading the view.
 }
 - (void)viewWillAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = YES;
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
@@ -65,7 +66,7 @@
     _allowToken = NO;
 }
 - (void)viewDidAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = YES;
+    
 }
 /**
  试卷信息列表的头试图

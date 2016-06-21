@@ -47,7 +47,7 @@
 }
 - (void)viewDidAppear:(BOOL)animated{
 //    self.tabBarController.tabBar.hidden = NO;
-    self.navigationController.tabBarController.tabBar.hidden = YES;
+   
     [_arrayChapterId removeAllObjects];
     [_arrayFirstChapter removeAllObjects];
     [_arrayChapter removeAllObjects];
@@ -56,7 +56,7 @@
     [self getAccessToken];
 }
 - (void)viewWillAppear:(BOOL)animated{
-    
+     self.navigationController.tabBarController.tabBar.hidden = YES;
 }
 
 /**

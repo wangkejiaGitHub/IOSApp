@@ -145,7 +145,6 @@
         //        [self getAboutChaperNotes];
         [self customGetAccessToken:_intSubJectId];
     }
-    NSLog(@"%@",item.itemName);
 }
 /**
  科目授权
@@ -250,7 +249,6 @@
             
         }
         [_refreshHeader endRefreshing];
-        NSLog(@"%@",dicCollect);
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD dismiss];
@@ -266,7 +264,6 @@
         StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
 //        vc.arrayLookTopic = arrayCollectTopic;
         [self.navigationController pushViewController:vc animated:YES];
-        NSLog(@"%@",dicCollect);
     } RequestFaile:^(NSError *error) {
         
     }];
@@ -311,7 +308,6 @@
             }
         }
         [_refreshHeader endRefreshing];
-        NSLog(@"%@",dicError);
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {
@@ -369,7 +365,6 @@
             
         }
         [_refreshHeader endRefreshing];
-        NSLog(@"%@",dicNotes);
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {

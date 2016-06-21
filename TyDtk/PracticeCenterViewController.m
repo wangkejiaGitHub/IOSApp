@@ -37,6 +37,9 @@
 - (void)viewWillAppear:(BOOL)animated{
     [self addTableHeardView];
 }
+- (void)viewDidAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = NO;
+}
 ///添加头试图，用于显示用户最近一次所选的科目
 - (void)addTableHeardView{
     UIView *heardView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 60)];

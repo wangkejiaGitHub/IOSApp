@@ -31,8 +31,6 @@
 #import "MZView.h"
 //自定义封装方法
 #import "CustomTools.h"
-//用于测试的ViewController
-#import "TestViewController.h"
 //带有激活码的tableView头试图
 #import "ActiveVIew.h"
 //刷新
@@ -121,6 +119,8 @@
 #define tyUserShowCollectAlert @"collectAlert"
 //退出试题解析时给用户提示
 #define tyUserShowOutAnalysis @"outAnalysis"
+//提示加载引导页
+#define tyUserFirstLoad @"firstLoad"
 ///////////////////////////////////////////////
 ///////////////////////////////////////////////
 #define ngSelf1 NSLog(@"11//////////////////////////////////////")

@@ -74,6 +74,7 @@
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    self.tabBarController.tabBar.hidden = YES;
     if (!_viewHeader) {
         _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
         _viewHeader.backgroundColor =ColorWithRGB(210, 210, 210);
@@ -121,7 +122,6 @@
     }
 }
 - (void)viewDidAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = YES;
     [self getPaperYears];
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
@@ -484,6 +484,9 @@
     if (_isBuyDidSubject) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         NSDictionary *diccc = _arrayPapers[indexPath.row];
+        for (NSString *key in diccc) {
+            NSLog(@"%@ == %@",key,diccc[key]);
+        }
         [self performSegueWithIdentifier:@"topicStar" sender:diccc];
     }
     else{

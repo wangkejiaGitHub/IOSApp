@@ -49,7 +49,6 @@
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     _indexTopic = index;
     _dicTopic = dic;
-    NSLog(@"%@",dic);
     if (index == 12) {
         NSLog(@"11");
     }

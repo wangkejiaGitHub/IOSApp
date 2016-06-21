@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "IndexTabBarViewController.h"
 @interface AppDelegate ()
 
 @end

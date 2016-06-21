@@ -7,7 +7,6 @@
 //
 
 #import "SelectParTopicViewController.h"
-#import "TestViewController.h"
 #import "StartDoTopicViewController.h"
 @interface SelectParTopicViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *labName;

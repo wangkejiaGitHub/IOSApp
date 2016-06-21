@@ -7,18 +7,41 @@
 //
 
 #import "IndexTabBarViewController.h"
-
-@interface IndexTabBarViewController ()
-
+#import "GuideView.h"
+@interface IndexTabBarViewController ()<GuideViewDelegate>
+@property (nonatomic,strong) GuideView *scrollViewFirst;
+@property (nonatomic,strong) NSUserDefaults *tyUser;
 @end
-
 @implementation IndexTabBarViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"hshhss");
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    if (![_tyUser objectForKey:tyUserFirstLoad]) {
+        NSArray *arrayImgName = @[@"img1.jpg",@"img2.jpg",@"img3.jpg"];
+        _scrollViewFirst = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgName:arrayImgName];
+        _scrollViewFirst.backgroundColor = [UIColor whiteColor];
+        _scrollViewFirst.delegateGuideView = self;
+        [self.view addSubview:_scrollViewFirst];
+        [UIView animateWithDuration:0.3 animations:^{
+            CGRect rect = _scrollViewFirst.frame;
+            rect.origin.y = 0;
+            _scrollViewFirst.frame = rect;
+        }];
+    }
 }
-
+//左滑或点击button回调
+- (void)GuideViewDismiss{
+    [UIView animateWithDuration:0.3 animations:^{
+        CGRect rect = _scrollViewFirst.frame;
+        rect.origin.x = -Scr_Width;
+        _scrollViewFirst.frame = rect;
+    }];
+    ///下次进入不再出现
+    [_tyUser setObject:@"yes" forKey:tyUserFirstLoad];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
