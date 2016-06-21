@@ -11,36 +11,39 @@
 @property (nonatomic,strong) UIScrollView *scrollViewImg;
 @property (nonatomic,strong) UIView *viewDismiss;
 @property (nonatomic,strong) UILabel *labText;
-//判断是否是本地图片
-@property (nonatomic,assign) BOOL isImgName;
-@property (nonatomic,strong) NSArray *arrayImgName;
-@property (nonatomic,strong) NSArray *arrayImgUrl;
+//图片数量
+@property (nonatomic,assign) NSInteger ImageCount;
 @end
 @implementation GuideView
-///加载本地图片
+///加载本地图片初始化
 - (id)initWithFrame:(CGRect)frame arrayImgName:(NSArray *)arrayImgName{
     self = [super initWithFrame:frame];
     if (self) {
-        _isImgName = YES;
-        _arrayImgName = arrayImgName;
+        _ImageCount = arrayImgName.count;
         [self addScrollViewForSelf];
         [self addImageViewWithArrayName:arrayImgName];
+        
+        [self addPageContorl];
     }
     return self;
 }
 
-///加载网络图片
+///加载网络图片初始化
 - (id)initWithFrame:(CGRect)frame arrayImgUrl:(NSArray *)arrayImgUrl{
     self = [super initWithFrame:frame];
     if (self) {
-        _isImgName = NO;
-        _arrayImgUrl = arrayImgUrl;
+        _ImageCount = arrayImgUrl.count;
         [self addScrollViewForSelf];
         [self addImageViewWithArrayUrl:arrayImgUrl];
+        
+        [self addPageContorl];
 
     }
     return self;
 }
+/**
+ 为试图加载scrollView
+ */
 - (void)addScrollViewForSelf{
     _viewDismiss = [[UIView alloc]initWithFrame:CGRectMake(self.bounds.size.width - 60 - 15, 0, 60, self.bounds.size.height)];
     _viewDismiss.backgroundColor = [UIColor clearColor];
@@ -103,6 +106,22 @@
         [_scrollViewImg addSubview:imageView];
     }
 }
+/**
+ 添加page控件
+ */
+- (void)addPageContorl{
+    _pageScroll = [[UIPageControl alloc]initWithFrame:CGRectMake((self.bounds.size.width - 150)/2, self.bounds.size.height - 40, 150, 15)];
+    _pageScroll.numberOfPages = _ImageCount;
+    _pageScroll.currentPageIndicatorTintColor = [UIColor blueColor];
+    _pageScroll.pageIndicatorTintColor = [UIColor whiteColor];
+    [_pageScroll addTarget:self action:@selector(pageValueChange:) forControlEvents:UIControlEventValueChanged];
+    [self addSubview:_pageScroll];
+}
+//点击page控件（联动scrollView）
+- (void)pageValueChange:(UIPageControl *)page{
+    [_scrollViewImg setContentOffset:CGPointMake(page.currentPage*self.bounds.size.width, 0) animated:YES];
+}
+///点击进入题库
 - (void)btnComeClick:(UIButton *)button{
     [self.delegateGuideView GuideViewDismiss];
 }
@@ -110,36 +129,24 @@
 //只要滚定了就会触发
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat scrollOff = scrollView.contentOffset.x + self.bounds.size.width;
-    if (_isImgName) {
-        if (scrollOff >= self.bounds.size.width*_arrayImgName.count + 50) {
-            _labText.text = @"松手可进入点题库";
-        }
-        else{
-            _labText.text = @"向左滑动进入点题库";
-        }
+    if (scrollOff >= self.bounds.size.width*_ImageCount + 60) {
+        _labText.text = @"松手可进入点题库";
     }
     else{
-        if (scrollOff >= self.bounds.size.width*_arrayImgUrl.count + 50) {
-            _labText.text = @"松手可进入点题库";
-        }
-        else{
-            _labText.text = @"向左滑动进入点题库";
-        }
+        _labText.text = @"向左滑动进入点题库";
     }
 }
 //完成拖拽
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     CGFloat scrollOff = scrollView.contentOffset.x + self.bounds.size.width;
-    if (_isImgName) {
-        if (scrollOff >= self.bounds.size.width*_arrayImgName.count + 50) {
-            NSLog(@"_arrayImgName");
-            [self.delegateGuideView GuideViewDismiss];
-        }
+    if (scrollOff >= self.bounds.size.width*_ImageCount + 60) {
+        NSLog(@"_arrayImgName");
+        [self.delegateGuideView GuideViewDismiss];
     }
-    else{
-        if (scrollOff >= self.bounds.size.width*_arrayImgUrl.count + 50) {
-             [self.delegateGuideView GuideViewDismiss];
-        }
-    }
+}
+//降速结束(联动page控件)
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    NSInteger indexCurr = scrollView.contentOffset.x/self.bounds.size.width;
+    _pageScroll.currentPage = indexCurr;
 }
 @end

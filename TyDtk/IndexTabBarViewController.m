@@ -19,6 +19,7 @@
     // Do any additional setup after loading the view.
     NSLog(@"hshhss");
     _tyUser = [NSUserDefaults standardUserDefaults];
+    [_tyUser removeObjectForKey:tyUserFirstLoad];
     if (![_tyUser objectForKey:tyUserFirstLoad]) {
         NSArray *arrayImgName = @[@"img1.jpg",@"img2.jpg",@"img3.jpg"];
         _scrollViewFirst = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgName:arrayImgName];
