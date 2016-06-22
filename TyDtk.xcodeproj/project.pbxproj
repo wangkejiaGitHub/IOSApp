@@ -163,6 +163,10 @@
 		1DC9B9091CE46A9E00A2E9A8 /* ZFPopupMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9051CE46A9E00A2E9A8 /* ZFPopupMenuItem.m */; };
 		1DC9B90A1CE46A9E00A2E9A8 /* ZFPopupOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */; };
 		1DCA16341CFD7DD10045229B /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCA16331CFD7DD10045229B /* UserInfoViewController.m */; };
+		1DD126BC1D1A1D42003853E5 /* try.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD126BB1D1A1D42003853E5 /* try.png */; };
+		1DD126C51D1A6FB4003853E5 /* SelectSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD126C41D1A6FB4003853E5 /* SelectSubjectViewController.m */; };
+		1DD1270D1D1A87E3003853E5 /* HWPopTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD1270C1D1A87E3003853E5 /* HWPopTool.m */; };
+		1DD127131D1A8F96003853E5 /* MyNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD127111D1A8F96003853E5 /* MyNoteViewController.m */; };
 		1DD2E6F81CB5F21700423484 /* ActiveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD2E6F71CB5F21600423484 /* ActiveView.xib */; };
 		1DD2E6FB1CB5F25800423484 /* ActiveVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */; };
 		1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */; };
@@ -560,6 +564,13 @@
 		1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopupOverlayView.m; sourceTree = "<group>"; };
 		1DCA16321CFD7DD10045229B /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
 		1DCA16331CFD7DD10045229B /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
+		1DD126BB1D1A1D42003853E5 /* try.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = try.png; sourceTree = "<group>"; };
+		1DD126C31D1A6FB4003853E5 /* SelectSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectSubjectViewController.h; sourceTree = "<group>"; };
+		1DD126C41D1A6FB4003853E5 /* SelectSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectSubjectViewController.m; sourceTree = "<group>"; };
+		1DD1270B1D1A87E3003853E5 /* HWPopTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HWPopTool.h; sourceTree = "<group>"; };
+		1DD1270C1D1A87E3003853E5 /* HWPopTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWPopTool.m; sourceTree = "<group>"; };
+		1DD127101D1A8F96003853E5 /* MyNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNoteViewController.h; sourceTree = "<group>"; };
+		1DD127111D1A8F96003853E5 /* MyNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNoteViewController.m; sourceTree = "<group>"; };
 		1DD2E6F71CB5F21600423484 /* ActiveView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActiveView.xib; sourceTree = "<group>"; };
 		1DD2E6F91CB5F25800423484 /* ActiveVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveVIew.h; sourceTree = "<group>"; };
 		1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveVIew.m; sourceTree = "<group>"; };
@@ -1118,6 +1129,8 @@
 				1DBD93BA1D0816580050848D /* CollectCell */,
 				1DBD93591D07A4DF0050848D /* MyCollectViewController.h */,
 				1DBD935A1D07A4DF0050848D /* MyCollectViewController.m */,
+				1DD127101D1A8F96003853E5 /* MyNoteViewController.h */,
+				1DD127111D1A8F96003853E5 /* MyNoteViewController.m */,
 			);
 			name = MyCollectAndNotesAndError;
 			sourceTree = "<group>";
@@ -1330,6 +1343,32 @@
 			path = ../TyDtk/ZFPopupMenu;
 			sourceTree = "<group>";
 		};
+		1DD126BA1D1A1D2F003853E5 /* ImgFirstLoad */ = {
+			isa = PBXGroup;
+			children = (
+				1DD126BB1D1A1D42003853E5 /* try.png */,
+			);
+			name = ImgFirstLoad;
+			sourceTree = "<group>";
+		};
+		1DD126BD1D1A60B6003853E5 /* MyCurrSubject */ = {
+			isa = PBXGroup;
+			children = (
+				1DD126C31D1A6FB4003853E5 /* SelectSubjectViewController.h */,
+				1DD126C41D1A6FB4003853E5 /* SelectSubjectViewController.m */,
+			);
+			name = MyCurrSubject;
+			sourceTree = "<group>";
+		};
+		1DD1270A1D1A87E3003853E5 /* HWPoTools */ = {
+			isa = PBXGroup;
+			children = (
+				1DD1270B1D1A87E3003853E5 /* HWPopTool.h */,
+				1DD1270C1D1A87E3003853E5 /* HWPopTool.m */,
+			);
+			path = HWPoTools;
+			sourceTree = "<group>";
+		};
 		1DD2E6F61CB5F1C800423484 /* XibForTk */ = {
 			isa = PBXGroup;
 			children = (
@@ -1505,6 +1544,7 @@
 				1DC9B8F71CE42FE700A2E9A8 /* Login */,
 				1D347B1A1D0E5605006DB889 /* MyExam */,
 				1D347B161D0E4F7A006DB889 /* MyOrder */,
+				1DD126BD1D1A60B6003853E5 /* MyCurrSubject */,
 				1DBD93581D07A3C00050848D /* MyCollectAndNotesAndError */,
 				1DB777461D000198003AFE28 /* MyExerciseRecord */,
 				1D04BE341CFEC0B500BCEFA0 /* MyUserInfo */,
@@ -1532,6 +1572,7 @@
 		1DEDC82E1C9F9F770083B394 /* Imgs */ = {
 			isa = PBXGroup;
 			children = (
+				1DD126BA1D1A1D2F003853E5 /* ImgFirstLoad */,
 				1D15C44D1D191EDD006C15A7 /* imageTest */,
 				1DBD93951D07C24D0050848D /* ImgTree */,
 				1DF9473A1CF6936E00CC4759 /* TouXinagTest.jpg */,
@@ -1562,6 +1603,7 @@
 		1DEDC8331C9FA2920083B394 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				1DD1270A1D1A87E3003853E5 /* HWPoTools */,
 				1D211FC11D0D57C600B895C6 /* SDCycleScrollView */,
 				1DBD937F1D07C1F90050848D /* ZPTree */,
 				1DBD935C1D07C1200050848D /* RATreeView */,
@@ -1892,6 +1934,7 @@
 				1DBD93A61D07C24D0050848D /* ico_blue_arrow@2x.png in Resources */,
 				1DE5F8DB1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib in Resources */,
 				1D15C4521D191EE9006C15A7 /* img2.jpg in Resources */,
+				1DD126BC1D1A1D42003853E5 /* try.png in Resources */,
 				1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */,
 				1D92C8A81D139B9D006A937F /* StartLookViewController.xib in Resources */,
 				1D347B651D0EA480006DB889 /* EditExamViewController.xib in Resources */,
@@ -1973,6 +2016,7 @@
 				1D30ED9D1CEC3F97005046DB /* WeekSelectViewController.m in Sources */,
 				1D1C5DD31D0659B500165ED6 /* ExerciseTableViewCell.m in Sources */,
 				1DC18F011CB795D50006D642 /* MJRefreshHeader.m in Sources */,
+				1DD1270D1D1A87E3003853E5 /* HWPopTool.m in Sources */,
 				1DC18F021CB795D50006D642 /* MJRefreshAutoGifFooter.m in Sources */,
 				1DEDC8581C9FA2920083B394 /* SDImageCache.m in Sources */,
 				1D92C8981D138AC8006A937F /* TopicLookQtpye6TableViewCell.m in Sources */,
@@ -2007,6 +2051,7 @@
 				1D0794751CFBD943009A39E8 /* ImageEnlargeCell.m in Sources */,
 				1DBD93B91D08163D0050848D /* MGSwipeTableCell.m in Sources */,
 				1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */,
+				1DD127131D1A8F96003853E5 /* MyNoteViewController.m in Sources */,
 				1DC18F0D1CB795D50006D642 /* UIScrollView+MJExtension.m in Sources */,
 				1D579F031CE9668100578519 /* ZFPieChart.m in Sources */,
 				1D1137281CF3FD8C0092DF02 /* View+MASAdditions.m in Sources */,
@@ -2136,6 +2181,7 @@
 				1DEDC8781C9FA66B0083B394 /* AFNetworkReachabilityManager.m in Sources */,
 				1D211FD51D0D57C600B895C6 /* SDCollectionViewCell.m in Sources */,
 				1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */,
+				1DD126C51D1A6FB4003853E5 /* SelectSubjectViewController.m in Sources */,
 				1D211FD41D0D57C600B895C6 /* TAPageControl.m in Sources */,
 				1DF950751CA3C52200104597 /* Reachability.m in Sources */,
 				1D92C8841D13828D006A937F /* NotesViewController.m in Sources */,

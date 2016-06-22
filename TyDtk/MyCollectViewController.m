@@ -11,6 +11,7 @@
 #import "MGSwipeTableCell.h"
 #import "StartLookViewController.h"
 #import "SelectParTopicViewController.h"
+#import "MyNoteViewController.h"
 @interface MyCollectViewController ()<UITableViewDataSource,UITableViewDelegate,CustomToolDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCollect;
 @property (weak, nonatomic) IBOutlet UILabel *labSubject;
@@ -256,18 +257,18 @@
 }
 
 ///按照章节考点id获取收藏试题列表
-- (void)getCollectTopicWithChaperId:(NSInteger)chaperId{
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionQuestions?access_token=%@&chapterId=%ld&page=1&size=20",systemHttps,_accessToken,chaperId];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSArray *arrayCollectTopic = dicCollect[@"datas"];
-        StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
-//        vc.arrayLookTopic = arrayCollectTopic;
-        [self.navigationController pushViewController:vc animated:YES];
-    } RequestFaile:^(NSError *error) {
-        
-    }];
-}
+//- (void)getCollectTopicWithChaperId:(NSInteger)chaperId{
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionQuestions?access_token=%@&chapterId=%ld&page=1&size=20",systemHttps,_accessToken,chaperId];
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        NSArray *arrayCollectTopic = dicCollect[@"datas"];
+//        StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
+////        vc.arrayLookTopic = arrayCollectTopic;
+//        [self.navigationController pushViewController:vc animated:YES];
+//    } RequestFaile:^(NSError *error) {
+//        
+//    }];
+//}
 /////////////////我的收藏（模块）////////////////////
 //****************************************//
 
@@ -637,10 +638,16 @@
             return;
         }
     }
-    StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
-    vc.chaperId = [dicHeader[@"Id"] integerValue];
-    vc.parameterView = _parameterView;
-    [self.navigationController pushViewController:vc animated:YES];
+    
+    if (_parameterView != 3) {
+        StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
+        vc.chaperId = [dicHeader[@"Id"] integerValue];
+        vc.parameterView = _parameterView;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else{
+//        [self performSegueWithIdentifier:@"mynote" sender:[NSString stringWithFormat:@"%ld",[dicHeader[@"Id"] integerValue]]];
+    }
 }
 //做题
 - (void)sectionTopicClick:(UIButton *)button{
@@ -741,10 +748,10 @@
     //笔记
     else if (self.parameterView == 3){
         [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
-                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,4+[NSString stringWithFormat:@"%ld",[dic[@"NoteNum"] integerValue]].length)];
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,5+[NSString stringWithFormat:@"%ld",[dic[@"NoteNum"] integerValue]].length)];
         UIFont *titleFont = [UIFont systemFontOfSize:12.0];
         [attriTitle addAttribute:NSFontAttributeName value:titleFont
-                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,4+[NSString stringWithFormat:@"%ld",[dic[@"NoteNum"] integerValue]].length)];
+                           range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length + 2,5+[NSString stringWithFormat:@"%ld",[dic[@"NoteNum"] integerValue]].length)];
     }
     
     [labT setAttributedText:attriTitle];
@@ -776,12 +783,13 @@
 
             }
         }
-        
-        StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
-        vc.chaperId = [dic[@"Id"] integerValue];
-        vc.parameterView = _parameterView;
-        [self.navigationController pushViewController:vc animated:YES];
-        
+        if (_parameterView != 3) {
+            StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
+            vc.chaperId = [dic[@"Id"] integerValue];
+            vc.parameterView = _parameterView;
+            [self.navigationController pushViewController:vc animated:YES];
+
+        }
         return YES;
     }];
     [btnLook setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
@@ -803,9 +811,9 @@
     return cell;
 }
 
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//
-//}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+  
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

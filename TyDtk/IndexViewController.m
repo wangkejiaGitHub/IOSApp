@@ -89,24 +89,6 @@
 - (IBAction)cityBtnClick:(UIButton *)sender {
     [self performSegueWithIdentifier:@"location" sender:_buttonLeftItem.titleLabel.text];
 }
-//页面跳转调用
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"location"]) {
-        LocationViewController *locationVc = segue.destinationViewController;
-        locationVc.currLocation = sender;
-        locationVc.locationDelegate = self;
-    }
-    else if ([segue.identifier isEqualToString:@"ssubject"]){
-        SecoundSubjectViewController *secoundVC = segue.destinationViewController;
-        secoundVC.arraySubject = _arraySubject;
-        secoundVC.arraySecoundSubject = _arraySecoundSubject;
-        NSIndexPath *indexPath = (NSIndexPath *)sender;
-        secoundVC.selectSubject = indexPath.row;
-        if (indexPath.row == _arraySubject.count) {
-            secoundVC.selectSubject = 0;
-        }
-    }
-}
 //重新定位回调
 - (void)againLocationClick:(NSString *)proVince{
     if (proVince == nil) {
@@ -274,6 +256,24 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [collectionView deselectItemAtIndexPath:indexPath animated:YES];
     [self performSegueWithIdentifier:@"ssubject" sender:indexPath];
+}
+//页面跳转调用
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"location"]) {
+        LocationViewController *locationVc = segue.destinationViewController;
+        locationVc.currLocation = sender;
+        locationVc.locationDelegate = self;
+    }
+    else if ([segue.identifier isEqualToString:@"ssubject"]){
+        SecoundSubjectViewController *secoundVC = segue.destinationViewController;
+        secoundVC.arraySubject = _arraySubject;
+        secoundVC.arraySecoundSubject = _arraySecoundSubject;
+        NSIndexPath *indexPath = (NSIndexPath *)sender;
+        secoundVC.selectSubject = indexPath.row;
+        if (indexPath.row == _arraySubject.count) {
+            secoundVC.selectSubject = 0;
+        }
+    }
 }
 
 /**

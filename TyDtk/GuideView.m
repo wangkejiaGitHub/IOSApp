@@ -10,6 +10,7 @@
 @interface GuideView()<UIScrollViewDelegate>
 @property (nonatomic,strong) UIScrollView *scrollViewImg;
 @property (nonatomic,strong) UIView *viewDismiss;
+@property (nonatomic,strong) UIView *viewLine;
 @property (nonatomic,strong) UILabel *labText;
 //图片数量
 @property (nonatomic,assign) NSInteger ImageCount;
@@ -27,7 +28,6 @@
     }
     return self;
 }
-
 ///加载网络图片初始化
 - (id)initWithFrame:(CGRect)frame arrayImgUrl:(NSArray *)arrayImgUrl{
     self = [super initWithFrame:frame];
@@ -37,30 +37,30 @@
         [self addImageViewWithArrayUrl:arrayImgUrl];
         
         [self addPageContorl];
-
     }
     return self;
 }
+
 /**
  为试图加载scrollView
  */
 - (void)addScrollViewForSelf{
     _viewDismiss = [[UIView alloc]initWithFrame:CGRectMake(self.bounds.size.width - 60 - 15, 0, 60, self.bounds.size.height)];
     _viewDismiss.backgroundColor = [UIColor clearColor];
-    UIView *viewLine = [[UIView alloc]initWithFrame:CGRectMake(30+(30-1)/2, 30, 1, self.bounds.size.height-60)];
-    viewLine.backgroundColor = [UIColor lightGrayColor];
-    [_viewDismiss addSubview:viewLine];
+    _viewLine = [[UIView alloc]initWithFrame:CGRectMake(30+(30-1)/2, 30, 1, self.bounds.size.height-60)];
+    _viewLine.backgroundColor = [UIColor whiteColor];
+    [_viewDismiss addSubview:_viewLine];
     
     _labText = [[UILabel alloc]initWithFrame:CGRectMake(30, (self.bounds.size.height-230)/2, 30, 230)];
     _labText.backgroundColor = [UIColor whiteColor];
     _labText.font = [UIFont systemFontOfSize:18.0];
     _labText.textAlignment = NSTextAlignmentCenter;
-    _labText.textColor = [UIColor lightGrayColor];
+    _labText.textColor = [UIColor whiteColor];
     _labText.numberOfLines = 0;
     _labText.text = @"向左滑动进入点题库";
     [_viewDismiss addSubview:_labText];
     [self addSubview:_viewDismiss];
-    
+    //添加scrollView
     _scrollViewImg = [[UIScrollView alloc]initWithFrame:self.bounds];
     _scrollViewImg.delegate = self;
     _scrollViewImg.pagingEnabled = YES;
@@ -76,22 +76,26 @@
     for (int i =0; i<arrayImgName.count; i++) {
         imageView = [[UIImageView alloc]initWithFrame:CGRectMake(i*self.frame.size.width,0, self.frame.size.width, self.frame.size.height)];
         imageView.image = [UIImage imageNamed:arrayImgName[i]];
-        ///接一个进入题库的按钮
+        ///如果是最后一张图片，加一个进入题库的按钮
         if (i == arrayImgName.count - 1) {
             UIButton *btnCome = [UIButton buttonWithType:UIButtonTypeCustom];
-            btnCome.frame = CGRectMake((self.bounds.size.width-133)/2, self.bounds.size.height - 100, 133, 30);
-            btnCome.layer.masksToBounds = YES;
-            btnCome.layer.cornerRadius = 3;
-            btnCome.backgroundColor = [UIColor orangeColor];
-            [btnCome setTitle:@"进入题库" forState:UIControlStateNormal];
-            [btnCome setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            btnCome.titleLabel.font = [UIFont systemFontOfSize:18.0];
+            btnCome.frame = CGRectMake((self.bounds.size.width-30*3.77)/2, self.bounds.size.height - 100, 30*3.77, 30);
+//            btnCome.layer.masksToBounds = YES;
+//            btnCome.layer.cornerRadius = 3;
+//            btnCome.backgroundColor = [UIColor orangeColor];
+//            [btnCome setTitle:@"进入题库" forState:UIControlStateNormal];
+//            [btnCome setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            btnCome.titleLabel.font = [UIFont systemFontOfSize:18.0];
+            [btnCome setImage:[UIImage imageNamed:@"try"] forState:UIControlStateNormal];
             [btnCome addTarget:self action:@selector(btnComeClick:) forControlEvents:UIControlEventTouchUpInside];
             imageView.userInteractionEnabled = YES;
             [imageView addSubview:btnCome];
         }
         [_scrollViewImg addSubview:imageView];
     }
+    
+    _viewLine.backgroundColor = [UIColor lightGrayColor];
+    _labText.textColor = [UIColor lightGrayColor];
 }
 /**
  加载网络图片图片
@@ -103,8 +107,26 @@
         imageView = [[UIImageView alloc]initWithFrame:CGRectMake(i*self.frame.size.width,0, self.frame.size.width, self.frame.size.height)];
         NSString *imgUrlString = arrayImgUrl[i];
         [imageView sd_setImageWithURL:[NSURL URLWithString:imgUrlString]];
+        ///如果是最后一张图片，加一个进入题库的按钮
+        if (i == arrayImgUrl.count - 1) {
+            UIButton *btnCome = [UIButton buttonWithType:UIButtonTypeCustom];
+            btnCome.frame = CGRectMake((self.bounds.size.width-30*3.77)/2, self.bounds.size.height - 100, 30*3.77, 30);
+//            btnCome.layer.masksToBounds = YES;
+//            btnCome.layer.cornerRadius = 3;
+//            btnCome.backgroundColor = [UIColor orangeColor];
+//            [btnCome setTitle:@"进入题库" forState:UIControlStateNormal];
+//            [btnCome setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            btnCome.titleLabel.font = [UIFont systemFontOfSize:18.0];
+            [btnCome setImage:[UIImage imageNamed:@"try"] forState:UIControlStateNormal];
+            [btnCome addTarget:self action:@selector(btnComeClick:) forControlEvents:UIControlEventTouchUpInside];
+            imageView.userInteractionEnabled = YES;
+            [imageView addSubview:btnCome];
+        }
+
         [_scrollViewImg addSubview:imageView];
     }
+    _viewLine.backgroundColor = [UIColor lightGrayColor];
+    _labText.textColor = [UIColor lightGrayColor];
 }
 /**
  添加page控件

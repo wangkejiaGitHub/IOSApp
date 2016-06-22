@@ -17,17 +17,25 @@
 @property (nonatomic,assign) NSInteger scrollContentWidth;
 //令牌
 @property (nonatomic,strong) NSString *accessToken;
+//需要查看的所有试题（收藏试题、错误试题、笔记试题模块通用）
 @property (nonatomic,strong) NSMutableArray *arrayTopicLook;
 ////////////数据分页参数//////////////
 ///当前页
 @property (nonatomic,assign) NSInteger pageCurr;
 ///总页数
 @property (nonatomic,assign) NSInteger pageCount;
+///每页个数
+@property (nonatomic,assign) NSInteger pageSize;
 ////////scrollview使用的参数/////////////
 @property (nonatomic,strong) UIView *viewScrollRightView;
 @property (nonatomic,strong) UILabel *labTest;
 @property (nonatomic,strong) UIView *viewLine;
-
+/**
+最新请求的试题数（同一个大题下面的小题归属一道大题:qtype=6）
+用户设置scrollView的容量和偏移量
+*/
+@property (nonatomic,assign) NSInteger newTopicCount;
+//@property (nonatomic,assign) BOOL isFirstRequest;
 @end
 
 @implementation StartLookViewController
@@ -72,8 +80,9 @@
 //        view.backgroundColor = colorSuiJi;
 //        [_scrollViewPater addSubview:view];
 //    }
-    _pageCount = 0;
+    _pageSize = 20;
     _pageCurr = 1;
+    _pageCount = 0;
     
     //收藏的试题
     if (_parameterView == 1) {
@@ -85,28 +94,29 @@
         self.title = @"我的错题";
         [self getErrorTopicWithChaperId:_chaperId];
     }
-    //添加过笔记试题
-    else if (self.parameterView == 3){
-        self.title = @"笔记试题";
-        [self getNoteTopicWithChaperId:_chaperId];
-    }
+//    //添加过笔记试题
+//    else if (self.parameterView == 3){
+//        self.title = @"笔记试题";
+////        [self getNoteTopicWithChaperId:_chaperId];
+//    }
 //    [self addChildViewLookTopic];
 }
 ///按照章节考点id获取收藏试题列表
 - (void)getCollectTopicWithChaperId:(NSInteger)chaperId{
 //    [selfpageRequest];
     [SVProgressHUD showWithStatus:@"试题加载中..."];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionQuestions?access_token=%@&chapterId=%ld&page=%ld&size=20",systemHttps,_accessToken,chaperId,_pageCurr];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionQuestions?access_token=%@&chapterId=%ld&page=%ld&size=%ld",systemHttps,_accessToken,chaperId,_pageCurr,_pageSize];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if ([dicCollect[@"code"]integerValue] == 1) {
             NSArray *arrayCollectTopic = dicCollect[@"datas"];
-//            _arrayTopicLook = [NSMutableArray arrayWithArray:arrayCollectTopic];
-            ////??????
+            //重置最新请求到的试题数量
+            _newTopicCount = arrayCollectTopic.count;
+            //追加方式添加试题
             for (NSDictionary *dicc in arrayCollectTopic) {
                 [_arrayTopicLook addObject:dicc];
             }
-            ////??????
+            //获取最大页数
             NSDictionary *pageDatas = dicCollect[@"page"];
             _pageCount = [pageDatas[@"pages"] integerValue];
             [self addChildViewLookTopic];
@@ -119,14 +129,18 @@
 ///按照章节考点id获取错题列表
 - (void)getErrorTopicWithChaperId:(NSInteger)chaperId{
     [SVProgressHUD showWithStatus:@"试题加载中..."];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Error/GetErrorQuestions?access_token=%@&chapterId=%ld&page=%ld&size=20",systemHttps,_accessToken,chaperId,_pageCurr];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Error/GetErrorQuestions?access_token=%@&chapterId=%ld&page=%ld&size=%ld",systemHttps,_accessToken,chaperId,_pageCurr,_pageSize];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicError = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if ([dicError[@"code"] integerValue] == 1) {
             NSArray *arrayError = dicError[@"datas"];
+            //重置最新请求到的试题数量
+            _newTopicCount = arrayError.count;
+            //追加方式添加试题
             for (NSDictionary *diccc in arrayError) {
                 [_arrayTopicLook addObject:diccc];
             }
+            //获取最大页数
             NSDictionary *pageDatas = dicError[@"page"];
             _pageCount = [pageDatas[@"pages"] integerValue];
             [self addChildViewLookTopic];
@@ -136,26 +150,30 @@
         [SVProgressHUD showInfoWithStatus:@"网络异常！"];
     }];
 }
-///按照章节考点id获取笔记试题列表
-- (void)getNoteTopicWithChaperId:(NSInteger)chaperId{
-    [SVProgressHUD showWithStatus:@"试题加载中..."];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/GetNoteQuestions?access_token=%@&chapterid=%ld&page=%ld&size=20",systemHttps,_accessToken,chaperId,_pageCurr];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicNote = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        if ([dicNote[@"code"]integerValue] == 1) {
-            NSArray *arrayNoteTopic= dicNote[@"datas"];
-            for (NSDictionary *diccc in arrayNoteTopic) {
-                [_arrayTopicLook addObject:diccc];
-            }
-            NSDictionary *pageDatas = dicNote[@"page"];
-            _pageCount = [pageDatas[@"pages"] integerValue];
-            [self addChildViewLookTopic];
-        }
-        [SVProgressHUD dismiss];
-    } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
-    }];
-}
+/////按照章节考点id获取笔记试题列表
+//- (void)getNoteTopicWithChaperId:(NSInteger)chaperId{
+//    [SVProgressHUD showWithStatus:@"试题加载中..."];
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/GetNoteQuestions?access_token=%@&chapterid=%ld&page=%ld&size=5",systemHttps,_accessToken,chaperId,_pageCurr];
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicNote = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        if ([dicNote[@"code"]integerValue] == 1) {
+//            NSArray *arrayNoteTopic= dicNote[@"datas"];
+//            //重置最新请求到的试题数量
+//            _newTopicCount = arrayNoteTopic.count;
+//            //追加方式添加试题
+//            for (NSDictionary *diccc in arrayNoteTopic) {
+//                [_arrayTopicLook addObject:diccc];
+//            }
+//            //获取最大页数
+//            NSDictionary *pageDatas = dicNote[@"page"];
+//            _pageCount = [pageDatas[@"pages"] integerValue];
+//            [self addChildViewLookTopic];
+//        }
+//        [SVProgressHUD dismiss];
+//    } RequestFaile:^(NSError *error) {
+//        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
+//    }];
+//}
 - (void)addChildViewLookTopic{
     ///添加试图前删除scrollView上面的所有试图
     for (id subView in _scrollViewPater.subviews) {
@@ -180,7 +198,9 @@
         [_scrollViewPater addSubview:paVC.view];
     }
     ///根据当前页，设置scrollView的偏移量
-    [_scrollViewPater setContentOffset:CGPointMake(((_pageCurr - 1) * 20)*Scr_Width, 0) animated:YES];
+    [_scrollViewPater setContentOffset:CGPointMake((_arrayTopicLook.count-_newTopicCount)*Scr_Width, 0) animated:YES];
+
+    
 }
 - (IBAction)buttonLastClick:(UIButton *)sender {
     if (_scrollViewPater.contentOffset.x>=Scr_Width) {
@@ -243,7 +263,7 @@
         
     }
 }
-//完成拖拽
+//完成拖拽（放手）
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     CGFloat scrollConSize = scrollView.contentOffset.x + Scr_Width;
     if (scrollConSize >= _arrayTopicLook.count*Scr_Width + 60) {
@@ -253,6 +273,7 @@
                 return;
             }
         }
+        
         //收藏的试题
         if (_parameterView == 1) {
             [self getCollectTopicWithChaperId:_chaperId];
@@ -261,10 +282,10 @@
         else if (self.parameterView == 2){
             [self getErrorTopicWithChaperId:_chaperId];
         }
-        //添加过笔记试题
-        else if (self.parameterView == 3){
-            [self getNoteTopicWithChaperId:_chaperId];
-        }
+//        //添加过笔记试题
+//        else if (self.parameterView == 3){
+//            [self getNoteTopicWithChaperId:_chaperId];
+//        }
     }
 }
 

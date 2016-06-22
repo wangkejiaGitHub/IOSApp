@@ -11,7 +11,7 @@
 @interface StartLookViewController : UIViewController
 ///需要查看的所有试题数组
 //@property (nonatomic,strong)NSArray *arrayLookTopic;
-/// 1:(我的收藏试题) 2:(我的错题试题) 3:(我的笔记试题)
+/// 1:(我的收藏试题) 2:(我的错题试题)
 @property (nonatomic,assign) NSInteger parameterView;
 @property (nonatomic,assign) NSInteger chaperId;
 @end

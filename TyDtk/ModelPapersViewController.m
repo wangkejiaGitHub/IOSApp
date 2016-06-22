@@ -131,7 +131,6 @@
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _myTableView.mj_footer = _refreshFooter;
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     [self isBuySubject];
 }
 //

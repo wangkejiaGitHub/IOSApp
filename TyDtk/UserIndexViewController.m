@@ -9,6 +9,7 @@
 #import "UserIndexViewController.h"
 #import "TableHeardView.h"
 #import "MyCollectViewController.h"
+#import "SelectSubjectViewController.h"
 @interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewList;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
@@ -19,6 +20,11 @@
 @property (nonatomic,strong) NSArray *arrayCellTitle;
 @property (nonatomic,strong) NSArray *arrayCellImage;
 @property (nonatomic,strong) ViewNullData *viewDataNil;
+/////////专业分类科目信息////////////////
+//所有专业分类
+@property (nonatomic,strong) NSMutableArray *arraySubject;
+//所有专业
+@property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
 @end
 
 @implementation UserIndexViewController
@@ -35,7 +41,9 @@
     _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的考试",@"我的订单",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _tyUser = [NSUserDefaults standardUserDefaults];
     [self addTableViewHeardView];
-    //    [_tyUser removeObjectForKey:tyUserUser];
+    /////专业分类科目信息
+    _arraySubject = [NSMutableArray array];
+    _arraySecoundSubject = [NSMutableArray array];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [SVProgressHUD dismiss];
@@ -137,6 +145,8 @@
             }
             else if (indexPath.row == 1){
 //                //当前科目
+//                [self performSegueWithIdentifier:@"selectSubject" sender:nil];
+                [self getSubjectClass];
 
             }
             else if (indexPath.row == 2){
@@ -241,6 +251,7 @@
         NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if (dicUserInfo != nil) {
             _tableHeardView.labUserName.text = dicUserInfo[@"userName"];
+//            [self getUserImage];
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
@@ -258,25 +269,63 @@
     NSLog(@"%@",dicUser);
 }
 ///获取用户头像
-//- (void)getUserImage{
-//    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-//    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
-//    NSLog(@"%@",dicUser);
-//    NSString *urlString = [NSString stringWithFormat:@"%@front/user/findheadimg;JSESSIONID=%@&userId=%@",systemHttpsTyUser,dicUser[@"jeeId"],dicUser[@"userId"]];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSString *string = [[NSString alloc]initWithData:repoes encoding:NSUTF8StringEncoding];
-//        NSLog(@"%@",string);
-//        if (string.length > 50) {
-//            [self performSegueWithIdentifier:@"login" sender:nil];
-//        }
-//    } RequestFaile:^(NSError *error) {
-//
-//    }];
-//}
+- (void)getUserImage{
+    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+    NSLog(@"%@",dicUser);
+    NSString *urlString = [NSString stringWithFormat:@"%@front/user/findheadimg;JSESSIONID=%@&userId=%@&formSystem=902",systemHttpsTyUser,dicUser[@"jeeId"],dicUser[@"userId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSString *string = [[NSString alloc]initWithData:repoes encoding:NSUTF8StringEncoding];
+        NSLog(@"%@",string);
+        if (string.length > 50) {
+            [self performSegueWithIdentifier:@"login" sender:nil];
+        }
+    } RequestFaile:^(NSError *error) {
+
+    }];
+}
+//////////////////专业科目信息//////////////////
+//数据请求，获取专业信息
+- (void)getSubjectClass{
+    [SVProgressHUD show];
+    [_arraySubject removeAllObjects];
+    [_arraySecoundSubject removeAllObjects];
+    [HttpTools getHttpRequestURL:[NSString stringWithFormat:@"%@api/Classify/GetAll",systemHttps] RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        
+        NSDictionary *dicSubject =[NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        
+        NSArray *arrayDatas = dicSubject[@"datas"];
+        
+        for (NSDictionary *dicArr in arrayDatas) {
+            NSInteger ParentId = [dicArr[@"ParentId"] integerValue];
+            if (ParentId==0) {
+                [_arraySubject addObject:dicArr];
+            }
+            else{
+                [_arraySecoundSubject addObject:dicArr];
+            }
+        }
+        [self performSegueWithIdentifier:@"selectSubject" sender:nil];
+        [SVProgressHUD dismiss];
+        
+    } RequestFaile:^(NSError *error) {
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [_arraySubject removeAllObjects];
+        [_arraySecoundSubject removeAllObjects];
+    }];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"collect"]) {
         MyCollectViewController *Vc = segue.destinationViewController;
         Vc.parameterView = [sender integerValue];
+    }
+    //选择科目
+    else if ([segue.identifier isEqualToString:@"selectSubject"]){
+        SelectSubjectViewController *selectSubVc = segue.destinationViewController;
+        selectSubVc.arraySubject = _arraySubject;
+        selectSubVc.arraySecoundSubject = _arraySecoundSubject;
+        selectSubVc.selectSubject = 0;
     }
 }
 - (void)didReceiveMemoryWarning {

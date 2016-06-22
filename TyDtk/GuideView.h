@@ -1,7 +1,7 @@
 //
 //  GuideView.h
 //  TyDtk
-//
+//  引导页封装（可加载本地图片、网络图片）
 //  Created by 天一文化 on 16/6/21.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //

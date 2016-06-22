@@ -18,20 +18,22 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"hshhss");
-    _tyUser = [NSUserDefaults standardUserDefaults];
-    [_tyUser removeObjectForKey:tyUserFirstLoad];
-    if (![_tyUser objectForKey:tyUserFirstLoad]) {
-        NSArray *arrayImgName = @[@"img1.jpg",@"img2.jpg",@"img3.jpg"];
-        _scrollViewFirst = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgName:arrayImgName];
-        _scrollViewFirst.backgroundColor = [UIColor whiteColor];
-        _scrollViewFirst.delegateGuideView = self;
-        [self.view addSubview:_scrollViewFirst];
-        [UIView animateWithDuration:0.3 animations:^{
-            CGRect rect = _scrollViewFirst.frame;
-            rect.origin.y = 0;
-            _scrollViewFirst.frame = rect;
-        }];
-    }
+//    _tyUser = [NSUserDefaults standardUserDefaults];
+//    [_tyUser removeObjectForKey:tyUserFirstLoad];
+//    if (![_tyUser objectForKey:tyUserFirstLoad]) {
+////        NSArray *arrayImgName = @[@"img1.jpg",@"img2.jpg",@"img3.jpg"];
+////        _scrollViewFirst = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgName:arrayImgName];
+//        NSArray *arrayImgUrl = @[@"http://api.kaola100.com/Content/Images/face-2.jpg",@"http://api.kaola100.com/Content/Images/face-1.jpg",@"http://api.kaola100.com/Content/Images/face-3.jpg"];
+//        _scrollViewFirst  = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgUrl:arrayImgUrl];
+//        _scrollViewFirst.backgroundColor = [UIColor whiteColor];
+//        _scrollViewFirst.delegateGuideView = self;
+//        [self.view addSubview:_scrollViewFirst];
+//        [UIView animateWithDuration:0.3 animations:^{
+//            CGRect rect = _scrollViewFirst.frame;
+//            rect.origin.y = 0;
+//            _scrollViewFirst.frame = rect;
+//        }];
+//    }
 }
 //左滑或点击button回调
 - (void)GuideViewDismiss{
