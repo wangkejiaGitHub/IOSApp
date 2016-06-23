@@ -160,7 +160,7 @@
     UILabel *labPersonNub = (UILabel *)[cell.contentView viewWithTag:12];
     labPersonNub.adjustsFontSizeToFitWidth = YES;
     NSString *studyNum = [NSString stringWithFormat:@"%ld 人在学",[dicCurrSubject[@"StudyNum"]integerValue]];
-    //有待修改？？？？？？？？
+    //有待修改？？？？？？
     NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:studyNum];
     [labPerson addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, [NSString stringWithFormat:@"%ld",[dicCurrSubject[@"StudyNum"] integerValue]].length)];
     labPersonNub.attributedText = labPerson;
