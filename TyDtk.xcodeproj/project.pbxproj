@@ -236,6 +236,13 @@
 		1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF8984A1CA4C3E800D726E3 /* ViewNullData.m */; };
 		1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1DF8984C1CA5218000D726E3 /* loginBrg.jpeg */; };
 		1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF898591CA53D2B00D726E3 /* MZView.m */; };
+		1DF940361D1B671800D808C1 /* Common.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF940351D1B671800D808C1 /* Common.storyboard */; };
+		1DF940391D1B81CA00D808C1 /* DtkNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF940381D1B81CA00D808C1 /* DtkNavViewController.m */; };
+		1DF9403B1D1B824400D808C1 /* TyDtk.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9403A1D1B824400D808C1 /* TyDtk.storyboard */; };
+		1DF9403D1D1B865900D808C1 /* TyPractice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9403C1D1B865900D808C1 /* TyPractice.storyboard */; };
+		1DF940401D1B868400D808C1 /* PracticeNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF9403F1D1B868400D808C1 /* PracticeNavViewController.m */; };
+		1DF940421D1B86C000D808C1 /* TyUser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF940411D1B86C000D808C1 /* TyUser.storyboard */; };
+		1DF940451D1B86F000D808C1 /* UserNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF940441D1B86F000D808C1 /* UserNavViewController.m */; };
 		1DF9471E1CF67C4800CC4759 /* y_cticon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9471B1CF67C4800CC4759 /* y_cticon.png */; };
 		1DF9471F1CF67C4800CC4759 /* y_gpicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9471C1CF67C4800CC4759 /* y_gpicon.png */; };
 		1DF947201CF67C4800CC4759 /* y_scicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9471D1CF67C4800CC4759 /* y_scicon.png */; };
@@ -698,6 +705,16 @@
 		1DF8984C1CA5218000D726E3 /* loginBrg.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = loginBrg.jpeg; sourceTree = "<group>"; };
 		1DF898581CA53D2B00D726E3 /* MZView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MZView.h; sourceTree = "<group>"; };
 		1DF898591CA53D2B00D726E3 /* MZView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZView.m; sourceTree = "<group>"; };
+		1DF940351D1B671800D808C1 /* Common.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Common.storyboard; sourceTree = "<group>"; };
+		1DF940371D1B81CA00D808C1 /* DtkNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DtkNavViewController.h; sourceTree = "<group>"; };
+		1DF940381D1B81CA00D808C1 /* DtkNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DtkNavViewController.m; sourceTree = "<group>"; };
+		1DF9403A1D1B824400D808C1 /* TyDtk.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyDtk.storyboard; sourceTree = "<group>"; };
+		1DF9403C1D1B865900D808C1 /* TyPractice.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyPractice.storyboard; sourceTree = "<group>"; };
+		1DF9403E1D1B868400D808C1 /* PracticeNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PracticeNavViewController.h; sourceTree = "<group>"; };
+		1DF9403F1D1B868400D808C1 /* PracticeNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PracticeNavViewController.m; sourceTree = "<group>"; };
+		1DF940411D1B86C000D808C1 /* TyUser.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyUser.storyboard; sourceTree = "<group>"; };
+		1DF940431D1B86F000D808C1 /* UserNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNavViewController.h; sourceTree = "<group>"; };
+		1DF940441D1B86F000D808C1 /* UserNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNavViewController.m; sourceTree = "<group>"; };
 		1DF9471B1CF67C4800CC4759 /* y_cticon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = y_cticon.png; sourceTree = "<group>"; };
 		1DF9471C1CF67C4800CC4759 /* y_gpicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = y_gpicon.png; sourceTree = "<group>"; };
 		1DF9471D1CF67C4800CC4759 /* y_scicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = y_scicon.png; sourceTree = "<group>"; };
@@ -1500,7 +1517,13 @@
 				1DEDC80A1C9F85BD0083B394 /* TyDtk */,
 				1DEDC7D91C9F817B0083B394 /* AppDelegate.h */,
 				1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */,
+				1DF9473C1CF6C2B400CC4759 /* IndexTabBarViewController.h */,
+				1DF9473D1CF6C2B400CC4759 /* IndexTabBarViewController.m */,
 				1DEDC7DF1C9F817B0083B394 /* Main.storyboard */,
+				1DF940351D1B671800D808C1 /* Common.storyboard */,
+				1DF9403A1D1B824400D808C1 /* TyDtk.storyboard */,
+				1DF9403C1D1B865900D808C1 /* TyPractice.storyboard */,
+				1DF940411D1B86C000D808C1 /* TyUser.storyboard */,
 				1DEDC7E21C9F817B0083B394 /* Assets.xcassets */,
 				1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */,
 				1DEDC7E71C9F817B0083B394 /* Info.plist */,
@@ -1548,6 +1571,8 @@
 				1DBD93581D07A3C00050848D /* MyCollectAndNotesAndError */,
 				1DB777461D000198003AFE28 /* MyExerciseRecord */,
 				1D04BE341CFEC0B500BCEFA0 /* MyUserInfo */,
+				1DF940431D1B86F000D808C1 /* UserNavViewController.h */,
+				1DF940441D1B86F000D808C1 /* UserNavViewController.m */,
 				1D10C9871CB3A74C00040913 /* UserIndexViewController.h */,
 				1D10C9881CB3A74C00040913 /* UserIndexViewController.m */,
 				1DF947331CF6908800CC4759 /* TableHeardViewForUser.xib */,
@@ -1560,11 +1585,9 @@
 		1DEDC80A1C9F85BD0083B394 /* TyDtk */ = {
 			isa = PBXGroup;
 			children = (
-				1DEDC8091C9F85AF0083B394 /* TyUser */,
-				1DF27B511CDB3B1C00F35BB1 /* TyLocation */,
-				1DF27B521CDB3BA500F35BB1 /* TyProgramMain */,
-				1D064E431CBB69E2007BD4E4 /* TyDtkTestCenter */,
+				1DF27B521CDB3BA500F35BB1 /* TyProgramDtkMain */,
 				1DF9473F1CF6C55A00CC4759 /* PracticeCenter */,
+				1DEDC8091C9F85AF0083B394 /* TyUser */,
 			);
 			name = TyDtk;
 			sourceTree = "<group>";
@@ -1745,19 +1768,21 @@
 			name = TyLocation;
 			sourceTree = "<group>";
 		};
-		1DF27B521CDB3BA500F35BB1 /* TyProgramMain */ = {
+		1DF27B521CDB3BA500F35BB1 /* TyProgramDtkMain */ = {
 			isa = PBXGroup;
 			children = (
+				1DF27B511CDB3B1C00F35BB1 /* TyLocation */,
+				1D064E431CBB69E2007BD4E4 /* TyDtkTestCenter */,
+				1DF940371D1B81CA00D808C1 /* DtkNavViewController.h */,
+				1DF940381D1B81CA00D808C1 /* DtkNavViewController.m */,
 				1DEDC8141C9F880E0083B394 /* IndexViewController.h */,
 				1DEDC8151C9F880E0083B394 /* IndexViewController.m */,
 				1DEFF1E11CA122D200994E2C /* SecoundSubjectViewController.h */,
 				1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */,
 				1D18A02E1CABB0E00022642C /* SubjectInfoViewController.h */,
 				1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */,
-				1DF9473C1CF6C2B400CC4759 /* IndexTabBarViewController.h */,
-				1DF9473D1CF6C2B400CC4759 /* IndexTabBarViewController.m */,
 			);
-			name = TyProgramMain;
+			name = TyProgramDtkMain;
 			sourceTree = "<group>";
 		};
 		1DF7658A1CE16DF8002DE129 /* Notes */ = {
@@ -1783,6 +1808,8 @@
 		1DF9473F1CF6C55A00CC4759 /* PracticeCenter */ = {
 			isa = PBXGroup;
 			children = (
+				1DF9403E1D1B868400D808C1 /* PracticeNavViewController.h */,
+				1DF9403F1D1B868400D808C1 /* PracticeNavViewController.m */,
 				1DF947401CF6C61600CC4759 /* PracticeCenterViewController.h */,
 				1DF947411CF6C61600CC4759 /* PracticeCenterViewController.m */,
 			);
@@ -1929,6 +1956,7 @@
 				1DBD93AF1D07C24D0050848D /* ico_circle_o@2x.png in Resources */,
 				1DF765921CE183B2002DE129 /* NotesUserCell.xib in Resources */,
 				1DC18F0B1CB795D50006D642 /* MJRefresh.bundle in Resources */,
+				1DF940361D1B671800D808C1 /* Common.storyboard in Resources */,
 				1DBD93AA1D07C24D0050848D /* ico_blue_arrow_up@3x.png in Resources */,
 				1DBD93B11D07C24D0050848D /* ico_fold.png in Resources */,
 				1DBD93A61D07C24D0050848D /* ico_blue_arrow@2x.png in Resources */,
@@ -1937,6 +1965,7 @@
 				1DD126BC1D1A1D42003853E5 /* try.png in Resources */,
 				1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */,
 				1D92C8A81D139B9D006A937F /* StartLookViewController.xib in Resources */,
+				1DF9403B1D1B824400D808C1 /* TyDtk.storyboard in Resources */,
 				1D347B651D0EA480006DB889 /* EditExamViewController.xib in Resources */,
 				1DF9471F1CF67C4800CC4759 /* y_gpicon.png in Resources */,
 				1D15C4531D191EE9006C15A7 /* img3.jpg in Resources */,
@@ -1946,6 +1975,7 @@
 				1D31827B1CD8352D00AD4773 /* paterTopicQtype3Cell.xib in Resources */,
 				1D15C4511D191EE9006C15A7 /* img1.jpg in Resources */,
 				1DF947281CF6803800CC4759 /* grzx_icon2@2x.png in Resources */,
+				1DF9403D1D1B865900D808C1 /* TyPractice.storyboard in Resources */,
 				1DB777451CFFD1F7003AFE28 /* UptadePwdViewController.xib in Resources */,
 				1DF9506E1CA3BFC500104597 /* SVProgressHUD.bundle in Resources */,
 				1D11371E1CF3FD8C0092DF02 /* DTKDropdownMenuView.bundle in Resources */,
@@ -1970,6 +2000,7 @@
 				1D0794771CFBD943009A39E8 /* SJClickEnlarge.Bundle in Resources */,
 				1DF947321CF680CA00CC4759 /* btm_icon4@2x.png in Resources */,
 				1D122B9F1CDDBE2D00A0BA08 /* AnalysisQtype5Cell.xib in Resources */,
+				1DF940421D1B86C000D808C1 /* TyUser.storyboard in Resources */,
 				1D92C8901D138A81006A937F /* TopicLookQtpye3TableViewCell.xib in Resources */,
 				1D122BA41CDDC3DA00A0BA08 /* AnalysisQtype6Cell.xib in Resources */,
 				1D165E6F1CD1F84700F61EAE /* ErrorView.xib in Resources */,
@@ -2011,6 +2042,7 @@
 			files = (
 				1D11371F1CF3FD8C0092DF02 /* DTKDropdownMenuView.m in Sources */,
 				1DEDC8101C9F86400083B394 /* RegisterViewController.m in Sources */,
+				1DF940401D1B868400D808C1 /* PracticeNavViewController.m in Sources */,
 				1DEDC85D1C9FA2920083B394 /* SDWebImageManager.m in Sources */,
 				1DD2E6FB1CB5F25800423484 /* ActiveVIew.m in Sources */,
 				1D30ED9D1CEC3F97005046DB /* WeekSelectViewController.m in Sources */,
@@ -2077,6 +2109,7 @@
 				1DF947421CF6C61600CC4759 /* PracticeCenterViewController.m in Sources */,
 				1D347B211D0E6407006DB889 /* ExamTableViewCell.m in Sources */,
 				1D07941B1CFBCD87009A39E8 /* ImageTopicViewController.m in Sources */,
+				1DF940451D1B86F000D808C1 /* UserNavViewController.m in Sources */,
 				1DC18F081CB795D50006D642 /* MJRefreshGifHeader.m in Sources */,
 				1DC18F071CB795D50006D642 /* MJRefreshBackStateFooter.m in Sources */,
 				1D15C49D1D193C5A006C15A7 /* GuideView.m in Sources */,
@@ -2153,6 +2186,7 @@
 				1DBD93921D07C1F90050848D /* MKSelectArray.m in Sources */,
 				1DBD93771D07C1200050848D /* RATreeNodeInfo.m in Sources */,
 				1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */,
+				1DF940391D1B81CA00D808C1 /* DtkNavViewController.m in Sources */,
 				1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */,
 				1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */,
 				1DF8984B1CA4C3E800D726E3 /* ViewNullData.m in Sources */,

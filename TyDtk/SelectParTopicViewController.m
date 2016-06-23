@@ -227,9 +227,8 @@
             if (dicDatas!=nil) {
                 [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
                 ///获取 Storyboard 上做题页面
-                UIStoryboard *storyMian = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-                StartDoTopicViewController *topicVc = [storyMian instantiateViewControllerWithIdentifier:@"StartDoTopicViewController"];
-                //            topicVc.dicChaper = _dicTopicParameter;
+                UIStoryboard *sCommon = CustomStoryboard(@"Common");
+                StartDoTopicViewController *topicVc = [sCommon instantiateViewControllerWithIdentifier:@"StartDoTopicViewController"];
                 topicVc.rIdString = dicDatas[@"rid"];
                 topicVc.paperParameter = 1;
                 [self.navigationController pushViewController:topicVc animated:YES];

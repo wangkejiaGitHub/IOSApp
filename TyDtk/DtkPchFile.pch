@@ -74,6 +74,9 @@
 #define ColorWithRGB(r,g,b) [UIColor colorWithRed:r/225.0 green:g/225.0 blue:b/225.0 alpha:1]
 //color RGB with alpha
 #define ColorWithRGBWithAlpp(r,g,b,alp) [UIColor colorWithRed:r/225.0 green:g/225.0 blue:b/225.0 alpha:alp]
+///Storyboard
+#define CustomStoryboard(storyboardName) [UIStoryboard storyboardWithName:storyboardName bundle:nil]
+
 #define sizeWithStrinfLength(string,fontSize,height) [string sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(MAXFLOAT, height)]
 /**********************
  服务器请求相关地址
@@ -90,6 +93,8 @@
 #define systemHttpsTyUser @"http://www.tydlk.cn/tyuser/"
 //首页背景图片
 #define systemBackGrdImg [[UIImage imageNamed:@"mainbg"] resizableImageWithCapInsets:UIEdgeInsetsMake(5, 5, 5, 5)]
+//storyboard
+
 //"更多" 图片地址
 #define systemMoreImg @"http://mobile.kaola100.com/images/more.png"
 #define systemTiKuKeMu @"http://www.kaola100.com/ty/mobile/order/"

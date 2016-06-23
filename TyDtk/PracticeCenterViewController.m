@@ -132,43 +132,63 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if ([_tyUser objectForKey:tyUserSelectSubject]&&[_tyUser objectForKey:tyUserUser]) {
+        UIStoryboard *sCommon = CustomStoryboard(@"Common");
         if (indexPath.section == 0) {
             //章节练习
             if (indexPath.row == 0) {
-                [self performSegueWithIdentifier:@"chapters" sender:nil];
+                ChaptersViewController *chaperVc = [sCommon instantiateViewControllerWithIdentifier:@"ChaptersViewController"];
+                chaperVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
+                chaperVc.title = @"章节练习";
+                [self.navigationController pushViewController:chaperVc animated:YES];
                 NSLog(@"章节练习");
             }
             //模拟试卷
             else if (indexPath.row == 1){
-                [self performSegueWithIdentifier:@"modelPaper" sender:nil];
+                ModelPapersViewController *modelVc = [sCommon instantiateViewControllerWithIdentifier:@"ModelPapersViewController"];
+                modelVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
+                modelVc.allowToken = YES;
+                modelVc.intPushWhere = 1;
+                modelVc.title = @"模拟试卷";
+                [self.navigationController pushViewController:modelVc animated:YES];
                 NSLog(@"模拟试卷");
             }
             //每周精选
             else if (indexPath.row == 2){
-                [self performSegueWithIdentifier:@"weekSelect" sender:nil];
+                WeekSelectViewController *weekVc = [sCommon instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
+                weekVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
+                weekVc.allowToken = YES;
+                weekVc.title = @"每周精选";
+                [self.navigationController pushViewController:weekVc animated:YES];
                 NSLog(@"每周精选");
             }
             //智能做题
             else if (indexPath.row == 3){
-                [self performSegueWithIdentifier:@"intelligent" sender:nil];
+                IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
+                intellVc.dicSubject = _dicSelectSubject;
+                [self.navigationController pushViewController:intellVc animated:YES];
                 NSLog(@"智能做题");
             }
         }
         else{
             //做题记录
             if (indexPath.row == 0) {
-                [self performSegueWithIdentifier:@"Exercise" sender:nil];
+                ExerciseRecordViewController *execVc = [sCommon instantiateViewControllerWithIdentifier:@"ExerciseRecordViewController"];
+                [self.navigationController pushViewController:execVc animated:YES];
                 NSLog(@"做题记录");
             }
             //我的收藏
             else if (indexPath.row == 1){
+                MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                collectVc.parameterView = 1;
+                [self.navigationController pushViewController:collectVc animated:YES];
                 NSLog(@"我的收藏");
-                [self performSegueWithIdentifier:@"collect" sender:@"1"];
             }
             //我的错题
             else if (indexPath.row == 2){
+                MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                collectVc.parameterView = 2;
+                [self.navigationController pushViewController:collectVc animated:YES];
                 NSLog(@"我的错题");
-                [self performSegueWithIdentifier:@"collect" sender:@"2"];
             }
         }
     }
@@ -176,39 +196,6 @@
         [SVProgressHUD showInfoWithStatus:@"您还没有登录或未选过科目~"];
         self.tabBarController.selectedIndex = 0;
     }
-}
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"intelligent"]) {
-        IntelligentTopicViewController *intellVc = segue.destinationViewController;
-        intellVc.dicSubject = _dicSelectSubject;
-    }
-    else if ([segue.identifier isEqualToString:@"weekSelect"]){
-        WeekSelectViewController *weekVc = segue.destinationViewController;
-        weekVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-        weekVc.allowToken = YES;
-        weekVc.title = @"每周精选";
-    }
-    else if ([segue.identifier isEqualToString:@"modelPaper"]){
-        ModelPapersViewController *modelPaVc = segue.destinationViewController;
-        modelPaVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-        modelPaVc.allowToken = YES;
-        modelPaVc.intPushWhere = 1;
-        modelPaVc.title = @"模拟试卷";
-    }
-    else if ([segue.identifier isEqualToString:@"chapters"]){
-        ChaptersViewController *chapVc = segue.destinationViewController;
-        chapVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-        chapVc.title = @"章节练习";
-    }
-    else if ([segue.identifier isEqualToString:@"Exercise"]){
-        //        ExerciseRecordViewController *exerVc = segue.destinationViewController;
-        
-    }
-    else if ([segue.identifier isEqualToString:@"collect"]){
-        MyCollectViewController *Vc = segue.destinationViewController;
-        Vc.parameterView = [sender integerValue];
-    }
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

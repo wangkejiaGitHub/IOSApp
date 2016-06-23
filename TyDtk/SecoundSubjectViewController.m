@@ -178,7 +178,10 @@
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     if (![tyUser objectForKey:tyUserUser]) {
         [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];
-        [self performSegueWithIdentifier:@"gologin" sender:nil];
+        UIStoryboard *sCommon = CustomStoryboard(@"Common");
+        LoginViewController *loginVc = [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        loginVc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:loginVc animated:YES];
     }
     else{
         NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
@@ -195,11 +198,11 @@
         //隐藏tabbar
         subVc.hidesBottomBarWhenPushed = YES;
     }
-    else if ([segue.identifier isEqualToString:@"gologin"]){
-        LoginViewController *logVc = segue.destinationViewController;
-        //隐藏tabbar
-        logVc.hidesBottomBarWhenPushed = YES;
-    }
+//    else if ([segue.identifier isEqualToString:@"gologin"]){
+//        LoginViewController *logVc = segue.destinationViewController;
+//        //隐藏tabbar
+//        logVc.hidesBottomBarWhenPushed = YES;
+//    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

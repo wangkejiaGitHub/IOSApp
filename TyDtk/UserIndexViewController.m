@@ -10,6 +10,8 @@
 #import "TableHeardView.h"
 #import "MyCollectViewController.h"
 #import "SelectSubjectViewController.h"
+#import "LoginViewController.h"
+#import "ExerciseRecordViewController.h"
 @interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewList;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
@@ -139,6 +141,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         if ([self loginTest]) {
+            UIStoryboard *Scommon = CustomStoryboard(@"Common");
             if (indexPath.row == 0) {
                 //个人资料
                 [self performSegueWithIdentifier:@"userinfo" sender:nil];
@@ -173,7 +176,8 @@
             //做题记录
             else if (indexPath.row == 4){
                 if ([_tyUser objectForKey:tyUserSubject]) {
-                    [self performSegueWithIdentifier:@"topicR" sender:nil];
+                    ExerciseRecordViewController *execVc = [Scommon instantiateViewControllerWithIdentifier:@"ExerciseRecordViewController"];
+                    [self.navigationController pushViewController:execVc animated:YES];
                 }
                 else{
                     [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
@@ -183,7 +187,9 @@
             //我的收藏
             else if (indexPath.row == 5){
                 if ([_tyUser objectForKey:tyUserSubject]) {
-                    [self performSegueWithIdentifier:@"collect" sender:@"1"];
+                    MyCollectViewController *collectVc = [Scommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                    collectVc.parameterView = 1;
+                    [self.navigationController pushViewController:collectVc animated:YES];
                 }
                 else{
                     [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
@@ -192,7 +198,9 @@
             //我的错题
             else if (indexPath.row == 6){
                 if ([_tyUser objectForKey:tyUserSubject]) {
-                    [self performSegueWithIdentifier:@"collect" sender:@"2"];
+                    MyCollectViewController *collectVc = [Scommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                    collectVc.parameterView = 2;
+                    [self.navigationController pushViewController:collectVc animated:YES];
                 }
                 else{
                     [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
@@ -202,7 +210,9 @@
             //我的笔记
             else if (indexPath.row == 7){
                 if ([_tyUser objectForKey:tyUserSubject]) {
-                    [self performSegueWithIdentifier:@"collect" sender:@"3"];
+                    MyCollectViewController *collectVc = [Scommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                    collectVc.parameterView = 3;
+                    [self.navigationController pushViewController:collectVc animated:YES];
                 }
                 else{
                     [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
@@ -212,7 +222,10 @@
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
-            [self performSegueWithIdentifier:@"login" sender:nil];
+            UIStoryboard *sCommon = CustomStoryboard(@"Common");
+            LoginViewController *loginVc =  [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
+            loginVc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:loginVc animated:YES];
         }
     }
 }
@@ -316,12 +329,8 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"collect"]) {
-        MyCollectViewController *Vc = segue.destinationViewController;
-        Vc.parameterView = [sender integerValue];
-    }
     //选择科目
-    else if ([segue.identifier isEqualToString:@"selectSubject"]){
+    if ([segue.identifier isEqualToString:@"selectSubject"]){
         SelectSubjectViewController *selectSubVc = segue.destinationViewController;
         selectSubVc.arraySubject = _arraySubject;
         selectSubVc.arraySecoundSubject = _arraySecoundSubject;

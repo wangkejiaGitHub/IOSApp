@@ -1,13 +1,16 @@
 //
 //  IndexTabBarViewController.m
 //  TyDtk
-//
+//  程序入口
 //  Created by 天一文化 on 16/5/26.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
 #import "IndexTabBarViewController.h"
 #import "GuideView.h"
+#import "DtkNavViewController.h"
+#import "PracticeNavViewController.h"
+#import "UserNavViewController.h"
 @interface IndexTabBarViewController ()<GuideViewDelegate>
 @property (nonatomic,strong) GuideView *scrollViewFirst;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
@@ -34,6 +37,15 @@
 //            _scrollViewFirst.frame = rect;
 //        }];
 //    }
+    
+    UIStoryboard *sTyDtk = CustomStoryboard(@"TyDtk");
+    UIStoryboard *sTyPractice = CustomStoryboard(@"TyPractice");
+    UIStoryboard *sTyUser = CustomStoryboard(@"TyUser");
+    //
+    DtkNavViewController *dtkNavi = [sTyDtk instantiateViewControllerWithIdentifier:@"DtkNavViewController"];
+    PracticeNavViewController *praNavi = [sTyPractice instantiateViewControllerWithIdentifier:@"PracticeNavViewController"];
+    UserNavViewController *userNavi = [sTyUser instantiateViewControllerWithIdentifier:@"UserNavViewController"];
+    self.viewControllers = @[dtkNavi,praNavi,userNavi];
 }
 //左滑或点击button回调
 - (void)GuideViewDismiss{

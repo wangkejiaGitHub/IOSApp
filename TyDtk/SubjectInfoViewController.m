@@ -103,7 +103,10 @@
 - (IBAction)downButtonClick:(UIButton *)sender {
     if (sender.tag == 3) {
         if ([self ifDataIsNil]) {
-            [self performSegueWithIdentifier:@"IntelligentView" sender:_dicCurrSubject];
+            UIStoryboard *sCommon = CustomStoryboard(@"Common");
+            IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
+            intellVc.dicSubject = _dicCurrSubject;
+            [self.navigationController pushViewController:intellVc animated:YES];
             return;
         }
     }
@@ -200,15 +203,15 @@
  */
 - (void)addChildViewControllerForSelfWithUser{
     //添加章节考点子试图
-    UIViewController *cZjVc = [self.storyboard instantiateViewControllerWithIdentifier:@"ChaptersViewController"];
+    UIStoryboard *sCommon = CustomStoryboard(@"Common");
+    UIViewController *cZjVc = [sCommon instantiateViewControllerWithIdentifier:@"ChaptersViewController"];
     [self addChildViewController:cZjVc];
     //添加模拟试卷子试图
-    UIViewController *mPapersVc = [self.storyboard instantiateViewControllerWithIdentifier:@"ModelPapersViewController"];
+    UIViewController *mPapersVc = [sCommon instantiateViewControllerWithIdentifier:@"ModelPapersViewController"];
     [self addChildViewController:mPapersVc];
     //添加每周精选子试图
-    UIViewController *weekVc = [self.storyboard instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
+    UIViewController *weekVc = [sCommon instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
     [self addChildViewController:weekVc];
-    
 }
 
 - (IBAction)leftButtonClick:(UIBarButtonItem *)sender {
@@ -290,7 +293,10 @@
     if (_indexCurrChildView == 3) {
         if (indexItem != 0) {
             _dicCurrSubject = _arraySubject[indexItem - 1];
-            [self performSegueWithIdentifier:@"IntelligentView" sender:_dicCurrSubject];
+            UIStoryboard *sCommon = CustomStoryboard(@"Common");
+            IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
+            intellVc.dicSubject = _dicCurrSubject;
+            [self.navigationController pushViewController:intellVc animated:YES];
         }
         [_tyUser setObject:_dicCurrSubject forKey:tyUserSubject];
         [_tyUser setObject:_dicCurrSubject forKey:tyUserSelectSubject];
@@ -309,11 +315,7 @@
         [self ifDataIsNil];
     }
 }
-//页面跳转到智能出题
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    IntelligentTopicViewController *inteVc= segue.destinationViewController;
-    inteVc.dicSubject = sender;
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
