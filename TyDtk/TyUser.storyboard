@@ -21,7 +21,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yd9-uA-dg6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1875.5" y="1832.5"/>
+            <point key="canvasLocation" x="-1937.5" y="1832.5"/>
         </scene>
         <!--我的题库-->
         <scene sceneID="bUs-9P-9AS">
@@ -126,7 +126,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DUJ-Tv-SLr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1408.5" y="1832.5"/>
+            <point key="canvasLocation" x="-1452.5" y="1832.5"/>
         </scene>
         <!--我的信息-->
         <scene sceneID="kMD-4L-c83">
@@ -254,7 +254,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Kk-P8-zqD">
-                                <rect key="frame" x="20" y="84" width="335" height="45"/>
+                                <rect key="frame" x="20" y="97" width="335" height="45"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="QYl-II-Ntk">
                                         <rect key="frame" x="10" y="5" width="315" height="35"/>
@@ -276,7 +276,7 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="abv-IR-tms">
-                                <rect key="frame" x="20" y="159" width="335" height="40"/>
+                                <rect key="frame" x="20" y="172" width="335" height="40"/>
                                 <color key="backgroundColor" red="0.24081095429999999" green="0.64520547120000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="6vs-UB-k9u"/>
@@ -295,7 +295,7 @@
                             <constraint firstItem="7Kk-P8-zqD" firstAttribute="leading" secondItem="Dyi-wV-eEy" secondAttribute="leading" constant="20" id="OyD-BX-JdG"/>
                             <constraint firstItem="abv-IR-tms" firstAttribute="leading" secondItem="Dyi-wV-eEy" secondAttribute="leading" constant="20" id="aUR-PT-njz"/>
                             <constraint firstAttribute="trailing" secondItem="abv-IR-tms" secondAttribute="trailing" constant="20" id="ilJ-Fg-Zu6"/>
-                            <constraint firstItem="7Kk-P8-zqD" firstAttribute="top" secondItem="Hoh-e9-Z7j" secondAttribute="bottom" constant="20" id="txu-yG-2Ls"/>
+                            <constraint firstItem="7Kk-P8-zqD" firstAttribute="top" secondItem="Hoh-e9-Z7j" secondAttribute="bottom" constant="33" id="txu-yG-2Ls"/>
                             <constraint firstItem="abv-IR-tms" firstAttribute="top" secondItem="7Kk-P8-zqD" secondAttribute="bottom" constant="30" id="zZN-rV-nto"/>
                         </constraints>
                     </view>
@@ -309,7 +309,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nzr-hf-MRc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-452.5" y="1244.5"/>
+            <point key="canvasLocation" x="-420.5" y="1244.5"/>
         </scene>
         <!--我的订单-->
         <scene sceneID="a46-fQ-RJI">
@@ -329,7 +329,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Klk-Pq-nco" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-895.5" y="2075.5"/>
+            <point key="canvasLocation" x="-895.5" y="2073.5"/>
         </scene>
         <!--我的考试-->
         <scene sceneID="r5g-hy-Vcn">
@@ -546,7 +546,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sHX-CF-gR1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-895.5" y="2817.5"/>
+            <point key="canvasLocation" x="-895.5" y="2877.5"/>
         </scene>
         <!--专业分类-->
         <scene sceneID="Xg9-Qm-Zhs">
@@ -744,7 +744,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7C0-3h-Vwx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-895.5" y="3549.5"/>
+            <point key="canvasLocation" x="-895.5" y="3643.5"/>
         </scene>
     </scenes>
     <resources>

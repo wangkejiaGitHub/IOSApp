@@ -24,7 +24,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(题型)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jMg-ap-DO4">
-                        <rect key="frame" x="46" y="15" width="133" height="20"/>
+                        <rect key="frame" x="45" y="15" width="133" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="133" id="IIf-zY-Srj"/>
                             <constraint firstAttribute="width" constant="133" id="Plz-hv-rMz"/>
@@ -106,7 +106,7 @@
                     <constraint firstItem="mQU-ES-9ED" firstAttribute="top" secondItem="lzd-W3-9h7" secondAttribute="bottom" constant="10" id="LUz-dJ-sPq"/>
                     <constraint firstItem="lwM-sX-PqG" firstAttribute="leading" secondItem="x0i-Rf-kgr" secondAttribute="trailing" constant="2" id="Uuv-8K-dnk"/>
                     <constraint firstItem="lwM-sX-PqG" firstAttribute="top" secondItem="jMg-ap-DO4" secondAttribute="top" id="Zex-Ke-rCx"/>
-                    <constraint firstItem="jMg-ap-DO4" firstAttribute="leading" secondItem="2sJ-oF-caO" secondAttribute="trailing" constant="1" id="avP-Xe-tg5"/>
+                    <constraint firstItem="jMg-ap-DO4" firstAttribute="leading" secondItem="2sJ-oF-caO" secondAttribute="trailing" id="avP-Xe-tg5"/>
                     <constraint firstItem="jMg-ap-DO4" firstAttribute="bottom" secondItem="2sJ-oF-caO" secondAttribute="bottom" id="ggF-tU-7fq"/>
                     <constraint firstAttribute="trailing" secondItem="lzd-W3-9h7" secondAttribute="trailing" constant="20" id="gqf-p2-Tn8"/>
                     <constraint firstItem="lzd-W3-9h7" firstAttribute="leading" secondItem="ts7-yi-rII" secondAttribute="leading" constant="20" id="ho1-lB-xIT"/>

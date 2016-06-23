@@ -62,6 +62,9 @@
     _dicSubHeight = [NSMutableDictionary dictionary];
     _dicSubButtonSubOy = [NSMutableDictionary dictionary];
     _tableViewPater = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 44) style:UITableViewStyleGrouped];
+    if (_isFromNote) {
+        _tableViewPater.frame = CGRectMake(0, 0, Scr_Width, self.view.bounds.size.height);
+    }
     _tableViewPater.delegate = self;
     _tableViewPater.dataSource = self;
     _tableViewPater.backgroundColor = [UIColor clearColor];
@@ -87,22 +90,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 1;
 }
-//- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-//    
-//    if (_topicTitle!=nil) {
-//        UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _cellHeardHeight+30)];
-//        viewTitle.backgroundColor = ColorWithRGB(210, 210, 205);
-//        
-//        UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, Scr_Width-20, _cellHeardHeight+10)];
-//        labTitle.numberOfLines = 0;
-//        labTitle.font = [UIFont systemFontOfSize:15.0];
-//        labTitle.text = _topicTitle;
-//        labTitle.adjustsFontSizeToFitWidth = YES;
-//        [viewTitle addSubview:labTitle];
-//        return viewTitle;
-//    }
-//    return nil;
-//}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 1;
+}
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_qType == 6) {
         if (indexPath.row == 0) {
@@ -116,26 +106,12 @@
         }
     }
     else{
-        if (_qType ==1 | _qType == 2 | _qType) {
+        if (_qType ==1 | _qType == 2 | _qType == 5) {
             return _cellWebLoadingheight;
         }
         return _cellHeight = 50;
     }
 }
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    //topicTitle 通过参数传递
-//    if (_topicTitle!=nil) {
-//        UILabel *lab = [[UILabel alloc]init];
-//        lab.numberOfLines = 0;
-//        lab.font = [UIFont systemFontOfSize:15.0];
-//        lab.text = _topicTitle;
-//        CGSize labSize = [lab sizeThatFits:CGSizeMake(Scr_Width-10, MAXFLOAT)];
-//        _cellHeardHeight = labSize.height;
-//        lab = nil;
-//        return _cellHeardHeight+30;
-//    }
-//    return 1;
-//}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_qType == 1 | _qType == 2) {
         TopicLookQtpye1TableViewCell *cell1 = (TopicLookQtpye1TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicLookQtpye1TableViewCell"];
@@ -319,7 +295,7 @@
         NotesViewController *noteVc = [[NotesViewController alloc]initWithNibName:@"NotesViewController" bundle:nil];
         noteVc.questionId = [NSString stringWithFormat:@"%ld",questionId];
         [self.navigationController pushViewController:noteVc animated:YES];
-        
+
     }
 }
 
@@ -327,7 +303,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 /*
 #pragma mark - Navigation
 

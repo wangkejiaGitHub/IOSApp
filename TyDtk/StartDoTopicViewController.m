@@ -210,7 +210,7 @@
                     else{
                         ///所有一题多问下面的小题
                         NSArray *arraySubQuestion = dicTopic[@"subQuestion"];
-                        NSInteger didTopicCountType6 = 0;
+//                        NSInteger didTopicCountType6 = 0;
                         for (NSDictionary *dicSubQuestion in arraySubQuestion) {
                             if ([dicSubQuestion objectForKey:@"userAnswer"]) {
                                 //试题Id
@@ -225,10 +225,10 @@
                                 NSInteger score = [dicSubQuestion[@"score"] integerValue];
                                 dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
                                 [_arrayUserAnswer addObject:dicUserAnswer];
-                                if (didTopicCountType6 == 0) {
-                                    _intUserDidTopic = _intUserDidTopic + 1;
-                                }
-                                didTopicCountType6 = didTopicCountType6 + 1;
+//                                if (didTopicCountType6 == 0) {
+//                                    _intUserDidTopic = _intUserDidTopic + 1;
+//                                }
+//                                didTopicCountType6 = didTopicCountType6 + 1;
                             }
                         }
                     }
@@ -571,7 +571,7 @@
                     else{
                         ///所有一题多问下面的小题
                         NSArray *arraySubQuestion = dicAllTopic[@"subQuestion"];
-                        NSInteger didTopicCountType6 = 0;
+//                        NSInteger didTopicCountType6 = 0;
                         for (NSDictionary *dicSubQuestion in arraySubQuestion) {
                             if ([dicSubQuestion objectForKey:@"userAnswer"]) {
                                 //试题Id
@@ -586,10 +586,10 @@
                                 NSInteger score = [dicSubQuestion[@"score"] integerValue];
                                 dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
                                 [_arrayUserAnswer addObject:dicUserAnswer];
-                                if (didTopicCountType6 == 0) {
-                                    _intUserDidTopic = _intUserDidTopic + 1;
-                                }
-                                didTopicCountType6 = didTopicCountType6 + 1;
+//                                if (didTopicCountType6 == 0) {
+//                                    _intUserDidTopic = _intUserDidTopic + 1;
+//                                }
+//                                didTopicCountType6 = didTopicCountType6 + 1;
                             }
                         }
                     }

@@ -255,20 +255,6 @@
         [SVProgressHUD dismiss];
     }];
 }
-
-///按照章节考点id获取收藏试题列表
-//- (void)getCollectTopicWithChaperId:(NSInteger)chaperId{
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionQuestions?access_token=%@&chapterId=%ld&page=1&size=20",systemHttps,_accessToken,chaperId];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicCollect = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        NSArray *arrayCollectTopic = dicCollect[@"datas"];
-//        StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
-////        vc.arrayLookTopic = arrayCollectTopic;
-//        [self.navigationController pushViewController:vc animated:YES];
-//    } RequestFaile:^(NSError *error) {
-//        
-//    }];
-//}
 /////////////////我的收藏（模块）////////////////////
 //****************************************//
 
@@ -315,22 +301,11 @@
         [SVProgressHUD dismiss];
     }];
 }
-
-///获取所有做错的试题
-//- (void)getAllErrorTopicOfChapter{
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Error/GetUserErrorCount?access_token=%@",systemHttps,_accessToken];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicError = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        NSLog(@"%@",dicError);
-//    } RequestFaile:^(NSError *error) {
-//
-//    }];
-//}
 ////////////// 我的错题（模块）////////////////
 //****************************************//
 
 //****************************************//
-//////////////////我的笔记（模块）////////////////////
+//////////////////我的笔记（模块）////////////
 /**
  获取笔记章节考点信息
  */
@@ -373,10 +348,7 @@
     }];
     
 }
-///获取所有添加过笔记的试题
-- (void)getAllNotesTopicOfChapter{
-    
-}
+
 //****************************************//
 //////////////////我的笔记（模块）////////////////////
 
@@ -457,33 +429,6 @@
     _arrayTableData = arrayZZZ;
     [_tableViewCollect reloadData];
 }
-
-///根据章节考点id获取该章节考点下的包含的所有的试题数
-//- (NSInteger)getCountTopicWithChaperId:(NSInteger)chaperId{
-//    NSString *idString = [NSString stringWithFormat:@"%ld",chaperId];
-//    NSInteger countTopic = 0;
-//    for (NSDictionary *dic in _arrayAllChap) {
-//        NSString *parentPath = dic[@"ParentPath"];
-//        NSRange ran = [parentPath rangeOfString:idString];
-//        if (ran.length > 0) {
-//            countTopic = countTopic + 1;
-//        }
-//    }
-//    return countTopic;
-//}
-//////??????????????????????????????
-//////??????????????????????????????
-//- (void)chapterInfoTest{
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetBaseInfo/1132?access_token=%@",systemHttps,_accessToken];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicChapter = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        NSLog(@"%@",dicChapter);
-//    } RequestFaile:^(NSError *error) {
-//
-//    }];
-//}
-//////??????????????????????????????
-//////??????????????????????????????
 ///////////////////////////////////
 ///  tableView代理
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -647,6 +592,7 @@
     }
     else{
 //        [self performSegueWithIdentifier:@"mynote" sender:[NSString stringWithFormat:@"%ld",[dicHeader[@"Id"] integerValue]]];
+        [self performSegueWithIdentifier:@"mynote" sender:[NSString stringWithFormat:@"%ld",[dicHeader[@"Id"] integerValue]]];
     }
 }
 //做题
@@ -784,6 +730,7 @@
 
             }
         }
+        ///收藏和试题
         if (_parameterView != 3) {
             StartLookViewController *vc = [[StartLookViewController alloc]initWithNibName:@"StartLookViewController" bundle:nil];
             vc.chaperId = [dic[@"Id"] integerValue];
@@ -791,8 +738,13 @@
             [self.navigationController pushViewController:vc animated:YES];
 
         }
+        ///笔记
+        else{
+            [self performSegueWithIdentifier:@"mynote" sender:[NSString stringWithFormat:@"%ld",[dic[@"Id"] integerValue]]];
+        }
         return YES;
     }];
+    
     [btnLook setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     btnLook.titleLabel.font = [UIFont systemFontOfSize:15.0];
     MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"📓 做题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
@@ -813,21 +765,13 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-  
+    if ([segue.identifier isEqualToString:@"mynote"]) {
+         MyNoteViewController *noteVc = segue.destinationViewController;
+        noteVc.chaperId = [sender integerValue];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
 @end

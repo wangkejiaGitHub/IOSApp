@@ -1823,11 +1823,79 @@
                     <connections>
                         <outlet property="labSubject" destination="BXx-sX-mkd" id="eYr-O2-JH4"/>
                         <outlet property="tableViewCollect" destination="SWC-3z-OrY" id="P0D-ph-XAy"/>
+                        <segue destination="6cI-rv-B7i" kind="show" identifier="mynote" id="Qjh-Mm-UfA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yxi-bA-FMS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-6227.5" y="4313.5"/>
+        </scene>
+        <!--支付-->
+        <scene sceneID="Mck-g8-3NU">
+            <objects>
+                <viewController id="s3w-ra-D4c" userLabel="支付" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="VcP-p8-Msn"/>
+                        <viewControllerLayoutGuide type="bottom" id="jWc-fh-ea6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="G1b-yN-Ga7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KjO-9f-hdY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6227.5" y="5173.5"/>
+        </scene>
+        <!--My Note View Controller-->
+        <scene sceneID="xSa-Du-Ij1">
+            <objects>
+                <viewController storyboardIdentifier="MyNoteViewController" id="6cI-rv-B7i" customClass="MyNoteViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KRM-Q2-8sJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="nDf-UG-Xzj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="i0T-ff-G0u">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="121" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bCZ-TL-JPs">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="notecell" rowHeight="121" id="xul-n1-9fH" customClass="MyNoteTableViewCell">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="121"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xul-n1-9fH" id="EoL-gd-gnl">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="120"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="6cI-rv-B7i" id="vlM-MV-5XG"/>
+                                    <outlet property="delegate" destination="6cI-rv-B7i" id="DKn-J1-IbR"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bCZ-TL-JPs" firstAttribute="leading" secondItem="i0T-ff-G0u" secondAttribute="leading" id="Sf0-fK-nkO"/>
+                            <constraint firstAttribute="bottom" secondItem="bCZ-TL-JPs" secondAttribute="bottom" id="hk1-Lq-oo2"/>
+                            <constraint firstItem="bCZ-TL-JPs" firstAttribute="top" secondItem="i0T-ff-G0u" secondAttribute="top" id="nfj-7W-KKQ"/>
+                            <constraint firstAttribute="trailing" secondItem="bCZ-TL-JPs" secondAttribute="trailing" id="z53-eS-cei"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="tableViewNote" destination="bCZ-TL-JPs" id="iLl-bF-jom"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bpT-lj-Ggi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-5784.5" y="4313.5"/>
         </scene>
     </scenes>
     <resources>

@@ -46,7 +46,7 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeA-lm-U6K">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EeA-lm-U6K">
                         <rect key="frame" x="15" y="70" width="370" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="nFj-qK-Sqo"/>
@@ -56,14 +56,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sl3-ul-ZJX">
-                        <rect key="frame" x="345" y="16" width="45" height="20"/>
+                        <rect key="frame" x="340" y="16" width="50" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="45" id="H5u-wO-FbX"/>
+                            <constraint firstAttribute="width" constant="50" id="H5u-wO-FbX"/>
                             <constraint firstAttribute="height" constant="20" id="dRb-FZ-A96"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <state key="normal" title="删除">
-                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleColor" red="1" green="0.13595605050000001" blue="0.14670809039999999" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                         <connections>
                             <action selector="buttonDeleteClick:" destination="ukT-da-WUZ" eventType="touchUpInside" id="aGE-kq-Lf3"/>

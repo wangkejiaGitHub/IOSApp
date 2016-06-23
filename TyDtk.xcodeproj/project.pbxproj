@@ -243,6 +243,10 @@
 		1DF940401D1B868400D808C1 /* PracticeNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF9403F1D1B868400D808C1 /* PracticeNavViewController.m */; };
 		1DF940421D1B86C000D808C1 /* TyUser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF940411D1B86C000D808C1 /* TyUser.storyboard */; };
 		1DF940451D1B86F000D808C1 /* UserNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF940441D1B86F000D808C1 /* UserNavViewController.m */; };
+		1DF9404B1D1B917700D808C1 /* MyNoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF940491D1B917700D808C1 /* MyNoteTableViewCell.m */; };
+		1DF9404C1D1B917700D808C1 /* MyNoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9404A1D1B917700D808C1 /* MyNoteTableViewCell.xib */; };
+		1DF940501D1BC72F00D808C1 /* NotesTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF9404E1D1BC72F00D808C1 /* NotesTopicViewController.m */; };
+		1DF940511D1BC72F00D808C1 /* NotesTopicViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9404F1D1BC72F00D808C1 /* NotesTopicViewController.xib */; };
 		1DF9471E1CF67C4800CC4759 /* y_cticon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9471B1CF67C4800CC4759 /* y_cticon.png */; };
 		1DF9471F1CF67C4800CC4759 /* y_gpicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9471C1CF67C4800CC4759 /* y_gpicon.png */; };
 		1DF947201CF67C4800CC4759 /* y_scicon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9471D1CF67C4800CC4759 /* y_scicon.png */; };
@@ -715,6 +719,12 @@
 		1DF940411D1B86C000D808C1 /* TyUser.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyUser.storyboard; sourceTree = "<group>"; };
 		1DF940431D1B86F000D808C1 /* UserNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNavViewController.h; sourceTree = "<group>"; };
 		1DF940441D1B86F000D808C1 /* UserNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNavViewController.m; sourceTree = "<group>"; };
+		1DF940481D1B917700D808C1 /* MyNoteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNoteTableViewCell.h; sourceTree = "<group>"; };
+		1DF940491D1B917700D808C1 /* MyNoteTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNoteTableViewCell.m; sourceTree = "<group>"; };
+		1DF9404A1D1B917700D808C1 /* MyNoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyNoteTableViewCell.xib; sourceTree = "<group>"; };
+		1DF9404D1D1BC72F00D808C1 /* NotesTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesTopicViewController.h; sourceTree = "<group>"; };
+		1DF9404E1D1BC72F00D808C1 /* NotesTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesTopicViewController.m; sourceTree = "<group>"; };
+		1DF9404F1D1BC72F00D808C1 /* NotesTopicViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesTopicViewController.xib; sourceTree = "<group>"; };
 		1DF9471B1CF67C4800CC4759 /* y_cticon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = y_cticon.png; sourceTree = "<group>"; };
 		1DF9471C1CF67C4800CC4759 /* y_gpicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = y_gpicon.png; sourceTree = "<group>"; };
 		1DF9471D1CF67C4800CC4759 /* y_scicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = y_scicon.png; sourceTree = "<group>"; };
@@ -1143,11 +1153,14 @@
 			children = (
 				1DE62ED61D14E06600BBE02A /* DoTopic */,
 				1D410BB11D1296500052E7B4 /* LookTopic */,
-				1DBD93BA1D0816580050848D /* CollectCell */,
+				1DBD93BA1D0816580050848D /* Cell */,
 				1DBD93591D07A4DF0050848D /* MyCollectViewController.h */,
 				1DBD935A1D07A4DF0050848D /* MyCollectViewController.m */,
 				1DD127101D1A8F96003853E5 /* MyNoteViewController.h */,
 				1DD127111D1A8F96003853E5 /* MyNoteViewController.m */,
+				1DF9404F1D1BC72F00D808C1 /* NotesTopicViewController.xib */,
+				1DF9404D1D1BC72F00D808C1 /* NotesTopicViewController.h */,
+				1DF9404E1D1BC72F00D808C1 /* NotesTopicViewController.m */,
 			);
 			name = MyCollectAndNotesAndError;
 			sourceTree = "<group>";
@@ -1223,15 +1236,13 @@
 			path = ImgTree;
 			sourceTree = "<group>";
 		};
-		1DBD93BA1D0816580050848D /* CollectCell */ = {
+		1DBD93BA1D0816580050848D /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				1DBD93B41D08163D0050848D /* MGSwipeButton.h */,
-				1DBD93B51D08163D0050848D /* MGSwipeButton.m */,
-				1DBD93B61D08163D0050848D /* MGSwipeTableCell.h */,
-				1DBD93B71D08163D0050848D /* MGSwipeTableCell.m */,
+				1DF940461D1B910700D808C1 /* CollectCell */,
+				1DF940471D1B912700D808C1 /* NoteCell */,
 			);
-			name = CollectCell;
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		1DC18ECC1CB77D540006D642 /* SimulateTestPaper */ = {
@@ -1805,6 +1816,27 @@
 			name = Notes;
 			sourceTree = "<group>";
 		};
+		1DF940461D1B910700D808C1 /* CollectCell */ = {
+			isa = PBXGroup;
+			children = (
+				1DBD93B41D08163D0050848D /* MGSwipeButton.h */,
+				1DBD93B51D08163D0050848D /* MGSwipeButton.m */,
+				1DBD93B61D08163D0050848D /* MGSwipeTableCell.h */,
+				1DBD93B71D08163D0050848D /* MGSwipeTableCell.m */,
+			);
+			name = CollectCell;
+			sourceTree = "<group>";
+		};
+		1DF940471D1B912700D808C1 /* NoteCell */ = {
+			isa = PBXGroup;
+			children = (
+				1DF9404A1D1B917700D808C1 /* MyNoteTableViewCell.xib */,
+				1DF940481D1B917700D808C1 /* MyNoteTableViewCell.h */,
+				1DF940491D1B917700D808C1 /* MyNoteTableViewCell.m */,
+			);
+			name = NoteCell;
+			sourceTree = "<group>";
+		};
 		1DF9473F1CF6C55A00CC4759 /* PracticeCenter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1974,6 +2006,7 @@
 				1D92C8951D138AB4006A937F /* TopicLookQtpye5TableViewCell.xib in Resources */,
 				1D31827B1CD8352D00AD4773 /* paterTopicQtype3Cell.xib in Resources */,
 				1D15C4511D191EE9006C15A7 /* img1.jpg in Resources */,
+				1DF940511D1BC72F00D808C1 /* NotesTopicViewController.xib in Resources */,
 				1DF947281CF6803800CC4759 /* grzx_icon2@2x.png in Resources */,
 				1DF9403D1D1B865900D808C1 /* TyPractice.storyboard in Resources */,
 				1DB777451CFFD1F7003AFE28 /* UptadePwdViewController.xib in Resources */,
@@ -1995,6 +2028,7 @@
 				1DF947341CF6908800CC4759 /* TableHeardViewForUser.xib in Resources */,
 				1DBD93AD1D07C24D0050848D /* ico_check_circle@3x.png in Resources */,
 				1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */,
+				1DF9404C1D1B917700D808C1 /* MyNoteTableViewCell.xib in Resources */,
 				1DF27B4E1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib in Resources */,
 				1DE5F8DD1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib in Resources */,
 				1D0794771CFBD943009A39E8 /* SJClickEnlarge.Bundle in Resources */,
@@ -2098,6 +2132,7 @@
 				1DDA96D21CDC3551001A7DAE /* StartAnalysisTopicViewController.m in Sources */,
 				1D165E721CD1F85800F61EAE /* ErrorView.m in Sources */,
 				1DEDC85B1C9FA2920083B394 /* SDWebImageDownloader.m in Sources */,
+				1DF940501D1BC72F00D808C1 /* NotesTopicViewController.m in Sources */,
 				1DEDC80D1C9F86170083B394 /* LoginViewController.m in Sources */,
 				1DE62EDA1D14E0A700BBE02A /* SelectParTopicViewController.m in Sources */,
 				1D1137211CF3FD8C0092DF02 /* MASConstraint.m in Sources */,
@@ -2170,6 +2205,7 @@
 				1DEDC87A1C9FA66B0083B394 /* AFURLRequestSerialization.m in Sources */,
 				1D579F011CE9668100578519 /* ZFLine.m in Sources */,
 				1DC9B90A1CE46A9E00A2E9A8 /* ZFPopupOverlayView.m in Sources */,
+				1DF9404B1D1B917700D808C1 /* MyNoteTableViewCell.m in Sources */,
 				1D0794791CFBD943009A39E8 /* UIView+ViewController.m in Sources */,
 				1D579EFD1CE9668100578519 /* ZFAxisLine.m in Sources */,
 				1DB777441CFFD1F7003AFE28 /* UptadePwdViewController.m in Sources */,

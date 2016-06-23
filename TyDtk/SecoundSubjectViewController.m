@@ -128,7 +128,7 @@
     return _arrayCurrSelectSubject.count;
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(15, 10, 10, 10);
+    return UIEdgeInsetsMake(10, 10, 10, 10);
 }
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     return 25;
@@ -159,9 +159,10 @@
     //学习人数
     UILabel *labPersonNub = (UILabel *)[cell.contentView viewWithTag:12];
     labPersonNub.adjustsFontSizeToFitWidth = YES;
+    NSString *studyNum = [NSString stringWithFormat:@"%ld 人在学",[dicCurrSubject[@"StudyNum"]integerValue]];
     //有待修改？？？？？？？？
-    NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:@"0人在学"];
-    [labPerson addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 1)];
+    NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:studyNum];
+    [labPerson addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, [NSString stringWithFormat:@"%ld",[dicCurrSubject[@"StudyNum"] integerValue]].length)];
     labPersonNub.attributedText = labPerson;
     cell.backgroundColor = ColorWithRGBWithAlpp(218, 218, 218, 0.5);
     cell.layer.masksToBounds = YES;

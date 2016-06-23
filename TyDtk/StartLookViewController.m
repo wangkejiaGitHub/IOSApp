@@ -150,30 +150,6 @@
         [SVProgressHUD showInfoWithStatus:@"网络异常！"];
     }];
 }
-/////按照章节考点id获取笔记试题列表
-//- (void)getNoteTopicWithChaperId:(NSInteger)chaperId{
-//    [SVProgressHUD showWithStatus:@"试题加载中..."];
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/GetNoteQuestions?access_token=%@&chapterid=%ld&page=%ld&size=5",systemHttps,_accessToken,chaperId,_pageCurr];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicNote = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        if ([dicNote[@"code"]integerValue] == 1) {
-//            NSArray *arrayNoteTopic= dicNote[@"datas"];
-//            //重置最新请求到的试题数量
-//            _newTopicCount = arrayNoteTopic.count;
-//            //追加方式添加试题
-//            for (NSDictionary *diccc in arrayNoteTopic) {
-//                [_arrayTopicLook addObject:diccc];
-//            }
-//            //获取最大页数
-//            NSDictionary *pageDatas = dicNote[@"page"];
-//            _pageCount = [pageDatas[@"pages"] integerValue];
-//            [self addChildViewLookTopic];
-//        }
-//        [SVProgressHUD dismiss];
-//    } RequestFaile:^(NSError *error) {
-//        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
-//    }];
-//}
 - (void)addChildViewLookTopic{
     ///添加试图前删除scrollView上面的所有试图
     for (id subView in _scrollViewPater.subviews) {

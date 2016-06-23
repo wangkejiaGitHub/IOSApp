@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface PaperLookViewController : UIViewController
-//每道题的字典
+///每道题的字典
 @property (nonatomic,strong) NSDictionary *dicTopic;
-//每道题的索引
+///每道题的索引
 @property (nonatomic,assign) NSInteger topicIndex;
-//是否是最后一题
+///是否是最后一题
 @property (nonatomic,assign) BOOL isLastTopic;
+///是否从笔记查看进入
+@property (nonatomic,assign) BOOL isFromNote;
 @end

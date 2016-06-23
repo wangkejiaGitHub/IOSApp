@@ -132,6 +132,7 @@
             if (userAnswer!=nil && [userAnswer rangeOfString:button.titleLabel.text].length >0) {
                 button.backgroundColor = ColorWithRGB(11, 141, 240);
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                _selectContentQtype2 = userAnswer;
             }
             
             if ([_dicSelectDone.allKeys containsObject:indexString]) {

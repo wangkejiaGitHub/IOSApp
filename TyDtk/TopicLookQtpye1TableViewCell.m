@@ -117,9 +117,9 @@
                 
             }
             else{
-                for (int i = 0; i<tureAnswerCount; i++) {
-                    NSString *A = [tureAnswer substringWithRange:NSMakeRange(i, 1)];
-                    NSRange ran = [userAnswer rangeOfString:A];
+                for (int i = 0; i<userAnswerCount; i++) {
+                    NSString *A = [userAnswer substringWithRange:NSMakeRange(i, 1)];
+                    NSRange ran = [tureAnswer rangeOfString:A];
                     if (ran.length > 0) {
                         alertB = YES;
 //                        colorString = @"purple";
@@ -143,7 +143,7 @@
                       "<td width = '80px' align = 'left'><font size='2' color = 'purple'>正确答案：</font></td><td width = '70%%' align = 'left'><font color = 'purple'>%@</font></td>"
                       "</tr>"
                       "<tr>"
-                      "<td width = '80px' align = 'left'><font size='2' color = 'purple'>你的答案：</font></td><td width = '70%%' align = 'left'><font color = 'red'>%@%@</font></td>"
+                      "<td width = '80px' align = 'left'><font size='2' color = 'purple'>你的答案：</font></td><td width = '70%%' align = 'left'><font color = 'red'>%@ %@</font></td>"
                       "</tr>"
                       "</table><br/>",dic[@"answer"],dic[@"userAnswer"],alertString];
         }
