@@ -5,9 +5,9 @@
 //  Created by 天一文化 on 16/6/22.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
-
 #import "SelectSubjectViewController.h"
-@interface SelectSubjectViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
+#import "viewSelectSubject.h"
+@interface SelectSubjectViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,SelectSubjectDelegate,CustomToolDelegate>
 //tableVIew 的宽度（页面适配）
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tabViewWidthCount;
 //collectionView
@@ -16,9 +16,17 @@
 @property (weak, nonatomic) IBOutlet UITableView *myTabViewSubject;
 //背景图片
 @property (weak, nonatomic) IBOutlet UIImageView *imageBackGrd;
+@property (nonatomic,strong) NSUserDefaults *tyUser;
 //当前选中的第一大科目下的所有第二大科目
 @property (nonatomic,strong) NSMutableArray *arrayCurrSelectSubject;
 @property (nonatomic,strong) ViewNullData *viewNullData;
+///动画
+@property (nonatomic,assign) BOOL isAnimation;
+///选择科目
+@property (nonatomic,strong) viewSelectSubject *viewSelectSubject;
+@property (nonatomic,strong) NSDictionary *dicSelectSubject;
+@property (nonatomic,strong) CustomTools *customTool;
+@property (nonatomic,strong) NSDictionary *dicClass;
 @end
 
 @implementation SelectSubjectViewController
@@ -26,6 +34,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _tyUser = [NSUserDefaults standardUserDefaults];
+
     [self viewLoad];
 }
 - (void)viewLoad{
@@ -46,7 +56,6 @@
  ****************************************
  ****************************************/
 - (void)getTopicErrorType{
-    
     NSString *urlString = [NSString stringWithFormat:@"%@api/Correct/GetCorrectLevels",systemHttps];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -166,20 +175,66 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *dic = _arrayCurrSelectSubject[indexPath.row];
     NSInteger courseNumId = [dic[@"CourseNum"] integerValue];
+    if (courseNumId == 0) {
+        [SVProgressHUD showInfoWithStatus:@"暂时还没有科目哦~"];
+        return;
+    }
+    _dicClass = dic;
     NSLog(@"%ld",courseNumId);
+    _isAnimation = !_isAnimation;
+    if (_isAnimation) {
+        [self viewSmallAnimation];
+        [self getAllSubject:dic];
+    }
+    else{
+        [self viewBigAnimation];
+        [_viewSelectSubject removeFromSuperview];
+    }
     
-//    [self getAllSubject:dic];
-//
-//    SelectSubTooViewController *selectSub = [[SelectSubTooViewController alloc]initWithNibName:@"SelectSubTooViewController" bundle:nil];
-//    selectSub.dicClass = dic;
-//    [self.navigationController pushViewController:selectSub animated:YES];
 }
+//试图还原动画
+- (void)viewBigAnimation{
+    CABasicAnimation *cba1=[CABasicAnimation animationWithKeyPath:@"position"];
+    cba1.fromValue=[NSValue valueWithCGPoint:CGPointMake(self.view.center.x, self.view.center.y - 30)];
+    cba1.toValue=[NSValue valueWithCGPoint:self.view.center];
+
+    CABasicAnimation *cba2=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    cba2.fromValue=[NSNumber numberWithFloat:0.85];
+    cba2.toValue=[NSNumber numberWithFloat:1];
+    
+    CAAnimationGroup *grop = [CAAnimationGroup animation];
+    grop.animations = @[cba1,cba2];
+    grop.duration = 0.3;
+    grop.removedOnCompletion=NO;
+    grop.fillMode=kCAFillModeForwards;
+    grop.delegate = self;
+    [self.navigationController.tabBarController.view.layer addAnimation:grop forKey:@"big"];
+}
+//试图缩小动画
+- (void)viewSmallAnimation{
+    CABasicAnimation *cba1=[CABasicAnimation animationWithKeyPath:@"position"];
+    cba1.fromValue=[NSValue valueWithCGPoint:self.view.center];
+    cba1.toValue=[NSValue valueWithCGPoint:CGPointMake(self.view.center.x, self.view.center.y - 30)];
+    
+    
+    CABasicAnimation *cba2=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    cba2.fromValue=[NSNumber numberWithFloat:1];
+    cba2.toValue=[NSNumber numberWithFloat:0.85];
+    
+    CAAnimationGroup *grop = [CAAnimationGroup animation];
+    grop.animations = @[cba1,cba2];
+    grop.duration = 0.3;
+    grop.removedOnCompletion=NO;
+    grop.fillMode=kCAFillModeForwards;
+    grop.delegate = self;
+    [self.navigationController.tabBarController.view.layer addAnimation:grop forKey:@"small"];
+}
+
 /**
  获取专业下所有科目
  */
 - (void)getAllSubject:(NSDictionary *)dic{
     [SVProgressHUD show];
-    //    _buttonHeard.enabled = NO;
     NSInteger subId = [dic[@"Id"] intValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,subId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -187,7 +242,10 @@
         NSInteger codeId = [dicSubject[@"code"] integerValue];
         if (codeId == 1) {
             NSArray *arrry = dicSubject[@"datas"];
-            NSLog(@"%@",arrry);
+            _viewSelectSubject = [[viewSelectSubject alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arraySubject:arrry];
+            _viewSelectSubject.delegateSelect = self;
+            UIWindow *dd = [[UIApplication sharedApplication] keyWindow];
+            [dd addSubview:_viewSelectSubject];
             [SVProgressHUD dismiss];
         }
         else{
@@ -197,7 +255,42 @@
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
+///科目选择回调
+- (void)selectSubjectViewDismiss:(NSDictionary *)dicSubject{
+    _dicSelectSubject = dicSubject;
+    _isAnimation = !_isAnimation;
+    [_viewSelectSubject removeFromSuperview];
+    [self viewBigAnimation];
+}
 
+///动画结束代理（主要判断选过科目之后的动画，执行授权操作）
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
+    if (anim == [self.navigationController.tabBarController.view.layer animationForKey:@"big"]) {
+        if (_dicSelectSubject != nil) {
+            [self getAccessToken];
+            NSLog(@"%@",_dicSelectSubject);
+        }
+    }
+}
+///重新授权，重置令牌
+- (void)getAccessToken{
+    _customTool = [[CustomTools alloc]init];
+    _customTool.delegateTool = self;
+    //获取储存的专业信息
+    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
+    NSString *classId = [NSString stringWithFormat:@"%ld",[_dicClass[@"Id"] integerValue]];
+    NSString *subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
+     [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:subjectId];
+}
+- (void)httpSussessReturnClick{
+    [_tyUser setObject:_dicClass forKey:tyUserClass];
+    [_tyUser setObject:_dicSelectSubject forKey:tyUserSelectSubject];
+    [_tyUser setObject:_dicSelectSubject forKey:tyUserSubject];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)httpErrorReturnClick{
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -107,8 +107,6 @@
         view.backgroundColor = [UIColor clearColor];
     }
     return nil;
-    
-    
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
@@ -148,7 +146,6 @@
             }
             else if (indexPath.row == 1){
 //                //当前科目
-//                [self performSegueWithIdentifier:@"selectSubject" sender:nil];
                 [self getSubjectClass];
 
             }

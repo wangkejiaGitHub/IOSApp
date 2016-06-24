@@ -52,6 +52,10 @@
 		1D1C5DD31D0659B500165ED6 /* ExerciseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1C5DD21D0659B500165ED6 /* ExerciseTableViewCell.m */; };
 		1D1CD88D1CD2EE4800A80E88 /* LXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1CD88A1CD2EE4800A80E88 /* LXAlertView.m */; };
 		1D1CD88E1CD2EE4800A80E88 /* UILabel+LXAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D1CD88C1CD2EE4800A80E88 /* UILabel+LXAdd.m */; };
+		1D1F10D71D1CD12C00B3DBBC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1F10D61D1CD12C00B3DBBC /* QuartzCore.framework */; };
+		1D1F10D91D1CD13500B3DBBC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1F10D81D1CD13500B3DBBC /* UIKit.framework */; };
+		1D1F10DB1D1CD13B00B3DBBC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1F10DA1D1CD13B00B3DBBC /* Foundation.framework */; };
+		1D1F10DD1D1CD14400B3DBBC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D1F10DC1D1CD14400B3DBBC /* CoreGraphics.framework */; };
 		1D211FD11D0D57C600B895C6 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FC41D0D57C600B895C6 /* TAAbstractDotView.m */; };
 		1D211FD21D0D57C600B895C6 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FC61D0D57C600B895C6 /* TAAnimatedDotView.m */; };
 		1D211FD31D0D57C600B895C6 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D211FC81D0D57C600B895C6 /* TADotView.m */; };
@@ -273,6 +277,7 @@
 		1DF950701CA3BFC500104597 /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF9506C1CA3BFC500104597 /* SVRadialGradientLayer.m */; };
 		1DF950721CA3C49D00104597 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF950711CA3C49D00104597 /* SystemConfiguration.framework */; };
 		1DF950751CA3C52200104597 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF950741CA3C52200104597 /* Reachability.m */; };
+		1DFE7A781D1D0BB800D7E504 /* viewSelectSubject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DFE7A771D1D0BB800D7E504 /* viewSelectSubject.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -378,6 +383,10 @@
 		1D1CD88A1CD2EE4800A80E88 /* LXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXAlertView.m; sourceTree = "<group>"; };
 		1D1CD88B1CD2EE4800A80E88 /* UILabel+LXAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+LXAdd.h"; sourceTree = "<group>"; };
 		1D1CD88C1CD2EE4800A80E88 /* UILabel+LXAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+LXAdd.m"; sourceTree = "<group>"; };
+		1D1F10D61D1CD12C00B3DBBC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1D1F10D81D1CD13500B3DBBC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		1D1F10DA1D1CD13B00B3DBBC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D1F10DC1D1CD14400B3DBBC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		1D211FC31D0D57C600B895C6 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
 		1D211FC41D0D57C600B895C6 /* TAAbstractDotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TAAbstractDotView.m; sourceTree = "<group>"; };
 		1D211FC51D0D57C600B895C6 /* TAAnimatedDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAnimatedDotView.h; sourceTree = "<group>"; };
@@ -759,6 +768,8 @@
 		1DF950711CA3C49D00104597 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1DF950731CA3C52200104597 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		1DF950741CA3C52200104597 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		1DFE7A761D1D0BB800D7E504 /* viewSelectSubject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viewSelectSubject.h; sourceTree = "<group>"; };
+		1DFE7A771D1D0BB800D7E504 /* viewSelectSubject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = viewSelectSubject.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -766,6 +777,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D1F10DD1D1CD14400B3DBBC /* CoreGraphics.framework in Frameworks */,
+				1D1F10DB1D1CD13B00B3DBBC /* Foundation.framework in Frameworks */,
+				1D1F10D91D1CD13500B3DBBC /* UIKit.framework in Frameworks */,
+				1D1F10D71D1CD12C00B3DBBC /* QuartzCore.framework in Frameworks */,
 				1DF950721CA3C49D00104597 /* SystemConfiguration.framework in Frameworks */,
 				1DEDC8821C9FD5CD0083B394 /* CoreLocation.framework in Frameworks */,
 			);
@@ -932,6 +947,13 @@
 				1D1CD88C1CD2EE4800A80E88 /* UILabel+LXAdd.m */,
 			);
 			path = LXAlertView;
+			sourceTree = "<group>";
+		};
+		1D1F10B91D1CC91F00B3DBBC /* PopAnimation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PopAnimation;
 			sourceTree = "<group>";
 		};
 		1D211FC11D0D57C600B895C6 /* SDCycleScrollView */ = {
@@ -1382,6 +1404,8 @@
 		1DD126BD1D1A60B6003853E5 /* MyCurrSubject */ = {
 			isa = PBXGroup;
 			children = (
+				1DFE7A761D1D0BB800D7E504 /* viewSelectSubject.h */,
+				1DFE7A771D1D0BB800D7E504 /* viewSelectSubject.m */,
 				1DD126C31D1A6FB4003853E5 /* SelectSubjectViewController.h */,
 				1DD126C41D1A6FB4003853E5 /* SelectSubjectViewController.m */,
 			);
@@ -1637,6 +1661,7 @@
 		1DEDC8331C9FA2920083B394 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				1D1F10B91D1CC91F00B3DBBC /* PopAnimation */,
 				1DD1270A1D1A87E3003853E5 /* HWPoTools */,
 				1D211FC11D0D57C600B895C6 /* SDCycleScrollView */,
 				1DBD937F1D07C1F90050848D /* ZPTree */,
@@ -1733,6 +1758,10 @@
 		1DEDC8801C9FD5770083B394 /* FrameWork */ = {
 			isa = PBXGroup;
 			children = (
+				1D1F10DC1D1CD14400B3DBBC /* CoreGraphics.framework */,
+				1D1F10DA1D1CD13B00B3DBBC /* Foundation.framework */,
+				1D1F10D81D1CD13500B3DBBC /* UIKit.framework */,
+				1D1F10D61D1CD12C00B3DBBC /* QuartzCore.framework */,
 				1DF950711CA3C49D00104597 /* SystemConfiguration.framework */,
 				1DEDC8811C9FD5CD0083B394 /* CoreLocation.framework */,
 			);
@@ -2116,6 +2145,7 @@
 				1D122BA21CDDBE4C00A0BA08 /* AnalysisQtype5TableViewCell.m in Sources */,
 				1D0794751CFBD943009A39E8 /* ImageEnlargeCell.m in Sources */,
 				1DBD93B91D08163D0050848D /* MGSwipeTableCell.m in Sources */,
+				1DFE7A781D1D0BB800D7E504 /* viewSelectSubject.m in Sources */,
 				1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */,
 				1DD127131D1A8F96003853E5 /* MyNoteViewController.m in Sources */,
 				1DC18F0D1CB795D50006D642 /* UIScrollView+MJExtension.m in Sources */,
@@ -2397,10 +2427,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.com.TyDtk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -2411,10 +2443,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = tywhdyk.com.TyDtk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
