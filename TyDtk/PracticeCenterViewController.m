@@ -13,6 +13,7 @@
 #import "IntelligentTopicViewController.h"
 #import "ExerciseRecordViewController.h"
 #import "MyCollectViewController.h"
+#import "MyNoteViewController.h"
 @interface PracticeCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCenter;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
@@ -29,7 +30,7 @@
     [super viewDidLoad];
     _tyUser =[NSUserDefaults standardUserDefaults];
     _arrayList = @[@"章节练习",@"模拟试卷",@"每周精选",@"智能出题"];
-    _arrayListSelf = @[@"做题记录",@"我的收藏",@"我的错题"];
+    _arrayListSelf = @[@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _tableViewCenter.backgroundColor = [UIColor clearColor];
     _tableViewCenter.separatorStyle = UITableViewCellSeparatorStyleNone;
     _imageViewBg.image = systemBackGrdImg;
@@ -187,6 +188,13 @@
             else if (indexPath.row == 2){
                 MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
                 collectVc.parameterView = 2;
+                [self.navigationController pushViewController:collectVc animated:YES];
+                NSLog(@"我的错题");
+            }
+            //我的笔记
+            else if (indexPath.row == 3){
+                MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                collectVc.parameterView = 3;
                 [self.navigationController pushViewController:collectVc animated:YES];
                 NSLog(@"我的错题");
             }

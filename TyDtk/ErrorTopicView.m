@@ -1,7 +1,7 @@
 //
 //  ErrorTopicView.m
 //  TyDtk
-//
+//  错误类型封装
 //  Created by 天一文化 on 16/4/25.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //

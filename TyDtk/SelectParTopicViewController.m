@@ -336,7 +336,6 @@
         [_arraySectionSelect addObject:str];
     }
     
-//    [_tableViewSelect reloadSections:[NSIndexSet indexSetWithIndex:sectoinId] withRowAnimation:UITableViewRowAnimationFade];
     [_tableViewSelect reloadData];
 
 }

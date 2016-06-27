@@ -7,8 +7,10 @@
 //
 
 #import "ChaptersViewController.h"
-
-@interface ChaptersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate>
+#import "MGSwipeTableCell.h"
+#import "selectChaperSubjectView.h"
+#import "SelectParTopicViewController.h"
+@interface ChaptersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate,SelectSubjectDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
@@ -16,48 +18,57 @@
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //朦层
 @property (nonatomic,strong) MZView *mzView;
-
-@property (nonatomic,strong) NSMutableArray *arrayChapterId;
-@property (nonatomic,strong) NSMutableArray *arrayChapter;
 @property (nonatomic,strong) NSDictionary *dicUserClass;
-@property (nonatomic,strong) NSArray *arrayAllChapter;
-@property (nonatomic,strong) NSMutableArray *arrayFirstChapter;
+
 @property (nonatomic,strong) ActiveVIew *hearhVIew;
 //section折叠数组
 @property (nonatomic ,strong) NSMutableArray *arraySection;
-//////////////////////////////////////////////////////////
-@property (nonatomic,assign) NSInteger intAllChapterCount;
-@property (nonatomic,assign) NSInteger Leeeeee;
-@property (nonatomic,strong) NSMutableArray *arrayTest;
+/****************************************************/
+/****************************************************/
+//////////////????? 06-27记录修改 ???????//////////////
+//////////////????? 06-27记录修改 ???????//////////////
+@property (nonatomic,strong) NSArray *arrayAllChap;
+//???????级数
+@property (nonatomic,assign) NSInteger levelTT;
+//??????????
+@property (nonatomic,strong) NSMutableArray *arrayLinS;
+//??????????
+@property (nonatomic,strong) NSArray *arrayZong;
+@property (nonatomic,strong) NSArray *arrayTableData;
+//section折叠数组
+//@property (nonatomic ,strong) NSMutableArray *arraySection;
+//所有科目
+@property (nonatomic,strong) NSArray *arraySubject;
+//当前科目id
+@property (nonatomic,assign) NSInteger intSubJectId;
+//空数据显示
+@property (nonatomic,strong) ViewNullData *viewNilData;
+//刷新
+@property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
+/****************************************************/
+/****************************************************/
+@property (nonatomic,strong) selectChaperSubjectView *viewSelectChaper;
+@property (nonatomic,strong) NSDictionary *dicSelectChaper;
 @end
 
 @implementation ChaptersViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _arrayTest = [NSMutableArray array];
-    // Do any additional setup after loading the view.
-    _arrayChapterId = [NSMutableArray array];
-    _arrayChapter = [NSMutableArray array];
-    _arrayFirstChapter = [NSMutableArray array];
     _arraySection = [NSMutableArray array];
-
     [self viewWillShow];
     
 }
 - (void)viewDidAppear:(BOOL)animated{
+//    [_arraySection removeAllObjects];
 //    self.tabBarController.tabBar.hidden = NO;
-   
-    [_arrayChapterId removeAllObjects];
-    [_arrayFirstChapter removeAllObjects];
-    [_arrayChapter removeAllObjects];
-    [_arraySection removeAllObjects];
     
-    [self getAccessToken];
 }
 - (void)viewWillAppear:(BOOL)animated{
      self.navigationController.tabBarController.tabBar.hidden = YES;
+    [self getAccessToken];
 }
+
 
 /**
  获取tableView的头试图，并设置其参数值
@@ -71,18 +82,21 @@
     if (!_hearhVIew) {
         _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
         _hearhVIew.delegateAtive = self;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 + 20)];
+        NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSubject];
+        _hearhVIew.subjectId = _subjectId;
+        [_hearhVIew setActiveValue:dicCurrSubject];
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 -10)];
         [view addSubview:_hearhVIew];
-        view.backgroundColor = [UIColor clearColor];
+        view.backgroundColor = [UIColor redColor];
         _myTableView.tableHeaderView = view;
     }
-    [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpImgs,_dicUserClass[@"ImageUrl"]]]];
-    _hearhVIew.labTitle.text = _dicUserClass[@"Names"];
-    _hearhVIew.labRemark.text = _dicUserClass[@"Names"];
-//    NSInteger personNum = [_dicUserClass[@"CourseNum"] integerValue];
-//    _hearhVIew.labSubjectNumber.text = [NSString stringWithFormat:@"%ld",personNum];
-//    _hearhVIew.labPersonNumber.text = @"0";
-    _hearhVIew.labPrice.text = @"0.0";
+//    [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpImgs,_dicUserClass[@"ImageUrl"]]]];
+//    _hearhVIew.labTitle.text = _dicUserClass[@"Names"];
+//    _hearhVIew.labRemark.text = _dicUserClass[@"Names"];
+////    NSInteger personNum = [_dicUserClass[@"CourseNum"] integerValue];
+////    _hearhVIew.labSubjectNumber.text = [NSString stringWithFormat:@"%ld",personNum];
+////    _hearhVIew.labPersonNumber.text = @"0";
+//    _hearhVIew.labPrice.text = @"0.0";
     
     
 }
@@ -111,10 +125,12 @@
     //获取储存的专业信息
     _dicUserClass = [_tyUser objectForKey:tyUserClass];
     NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
+    ///添加朦层
     if (!_mzView) {
         _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
     }
     [self.view addSubview:_mzView];
+    //开始授权
     //授权并收取令牌
     [SVProgressHUD show];
     NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
@@ -141,104 +157,28 @@
     NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetAll?access_token=%@",systemHttps,accessToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSDictionary *dicChaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         
-        _arrayAllChapter = dic[@"datas"];
-   
-        /////////////////////////////////
-        _intAllChapterCount = _arrayAllChapter.count;
-        //层级（用于获取最大层级）
-        NSInteger leave = 0;
-        
-        for (NSDictionary *dicArr in _arrayAllChapter) {
-            NSInteger le = [dicArr[@"Level"] integerValue];
-            if (le > leave) {
-                leave = le;
-            }
-        }
-        ///////////////////////////////////////////
-        
-        //最后一层的所有字典
-        NSMutableArray *arrayNewLast = [NSMutableArray array];
-        for (NSDictionary *dic in _arrayAllChapter) {
-            if ([dic[@"Level"] integerValue] == leave) {
-                [arrayNewLast addObject:dic];
-            }
-        }
-        //每一层的个数
-        NSMutableDictionary *dicNew = [NSMutableDictionary dictionary];
-        for (int i = 1; i<=leave; i++) {
-            NSMutableArray *arrayN = [NSMutableArray array];
-            for (NSDictionary *dic in _arrayAllChapter) {
-                if ([dic[@"Level"] integerValue] == i) {
-                    [arrayN addObject:dic];
-                }
-            }
-            [dicNew setValue:arrayN forKey:[NSString stringWithFormat:@"%d",i]];
-        }
-//        NSLog(@"%@",arrayNewLast);
-//        NSLog(@"%@",dicNew);
-//        for (NSInteger i = dicNew.allKeys.count; i>0; i--) {
-//            NSArray *arrayL = dicNew[[NSString stringWithFormat:@"%ld",i - 1]];
-//            NSArray *arrayN = dicNew[[NSString stringWithFormat:@"%ld",i]];
-//            for (NSDictionary *dicL in arrayL) {
-//                
-//                for (NSDictionary *dicN in arrayN) {
-//                    
-//                }
-//            }
-//        }
-        ///////////////////////////////////////////
-        
-        //获取层级上的Id
-        for (int i = 1; i<=leave; i++) {
-            NSMutableArray *arrayLea = [NSMutableArray array];
-            for (NSDictionary *dicLea in _arrayAllChapter) {
-                NSInteger interLea = [dicLea[@"Level"] integerValue];
-                if (interLea == i) {
-                    NSInteger perId = [dicLea[@"Id"] integerValue];
-                    [arrayLea addObject:[NSString stringWithFormat:@"%ld",perId]];
-                }
-            }
-            [_arrayChapterId addObject:arrayLea];
-        }
-        //根据每一级的层级，找到层级下面包含的信息
-        for (int i = 0; i<_arrayChapterId.count; i++) {
-            NSArray *arrayId = _arrayChapterId[i];
-            NSMutableDictionary *dicChapter = [NSMutableDictionary dictionary];
-            for (NSString *perIid in arrayId) {
-                NSMutableArray *arrayIII = [NSMutableArray array];
-                for (NSDictionary *dicCh in _arrayAllChapter) {
-                    NSString *persenId = [NSString stringWithFormat:@"%@",dicCh[@"ParentId"]];
-                    if ([persenId isEqualToString:perIid]) {
-                        [arrayIII addObject:dicCh];
+        if ([dicChaper[@"code"] integerValue] == 1) {
+            _arrayAllChap = dicChaper[@"datas"];
+            if (_arrayAllChap.count > 0) {
+                for (NSDictionary *dicArr in _arrayAllChap) {
+                    NSInteger le = [dicArr[@"Level"] integerValue];
+                    if (le > _levelTT) {
+                        _levelTT = le;
                     }
                 }
-                [dicChapter setValue:arrayIII forKey:perIid];
+                _myTableView.tableFooterView = [UIView new];
+                [self getFirstLevelAndDate];
             }
-            [_arrayChapter addObject:dicChapter];
+            ///没有收藏关于该科目的试题
+            else{
+                [self addNilDataViewForTableFooterView];
+            }
+
         }
+        ///////////////////////////////////////////
         
-        ///////////////////////////
-        ///////////////////////////
-        NSDictionary *dicTest = [_arrayChapter lastObject];
-        NSMutableArray *arrayTest = [NSMutableArray array];
-        for (NSString *idTest in dicTest.allKeys) {
-            for (NSDictionary *dicAlltest in _arrayAllChapter) {
-                NSInteger dicId = [dicAlltest[@"Id"] integerValue];
-                if ([idTest integerValue] == dicId) {
-                    [arrayTest addObject:dicAlltest];
-                }
-            }
-        }
-        /////////////////////////
-        /////////////////////////
-        for (NSDictionary *dicc in _arrayAllChapter) {
-            NSInteger perId = [dicc[@"ParentId"] integerValue];
-            if (perId == 0) {
-                [_arrayFirstChapter addObject:dicc];
-            }
-        }
         [_mzView removeFromSuperview];
         //重新刷新数据，让tableView返回到顶部
         [_myTableView reloadData];
@@ -248,64 +188,125 @@
         [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
-
-/////////////////////////////
-- (NSArray *)getCellArray:(NSInteger)teId{
-    NSMutableArray *arrayCurrRow = [NSMutableArray array];
-    for (NSDictionary *dicRow in _arrayAllChapter) {
-        NSInteger currPid = [dicRow[@"ParentId"] integerValue];
-        if (currPid == teId) {
-            [arrayCurrRow addObject:dicRow];
+///获取第一层和第二层显示的数据
+- (void)getFirstLevelAndDate{
+    NSMutableArray *arrayFirstLevel = [NSMutableArray array];
+    
+    for (NSDictionary *dicFirst in _arrayAllChap) {
+        if ([dicFirst[@"ParentId"] integerValue] == 0) {
+            [arrayFirstLevel addObject:dicFirst];
         }
     }
-    return arrayCurrRow;
+    
+    NSMutableArray *arrayZZZ = [NSMutableArray array];
+    
+    for (NSDictionary *dicFir in arrayFirstLevel) {
+        NSMutableArray *arrayFir = [NSMutableArray array];
+        NSMutableDictionary *dicFirrr = [NSMutableDictionary dictionary];
+        for (NSDictionary *dicA in _arrayAllChap) {
+            if ([dicFir[@"Id"] integerValue] == [dicA[@"ParentId"] integerValue]) {
+                [arrayFir addObject:dicA];
+            }
+        }
+        [dicFirrr setObject:arrayFir forKey:@"node"];
+        [dicFirrr setObject:dicFir forKey:@"id"];
+        [arrayZZZ addObject:dicFirrr];
+    }
+    _arrayTableData = arrayZZZ;
+    [_myTableView reloadData];
 }
+///当没有收藏选中科目下的试题时，显示空数据视图信息
+- (void)addNilDataViewForTableFooterView{
+    _arrayTableData = nil;
+    [_myTableView reloadData];
+    _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 69- 45 - (Scr_Width/2 -10)) showText:@"没有关于该科目的章节信息~"];
+    _myTableView.tableFooterView = _viewNilData;
+}
+
 ////////////////////////////
 //tableView 代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    NSDictionary *dicFirst = _arrayChapter[0];
-//    //获取Id
-//    NSString *perId = dicFirst.allKeys[section];
-//    NSArray *arrayChild = [dicFirst objectForKey:perId];
-//    return arrayChild.count;
-    NSString *sectionS = [NSString stringWithFormat:@"%ld",section];
-    if ([_arraySection containsObject:sectionS]) {
-        NSDictionary *dicCurr = _arrayFirstChapter[section];
-        NSInteger dicId = [dicCurr[@"Id"] integerValue];
-        NSArray *array = [self getCellArray:dicId];
-        return array.count;
+    NSString *str = [NSString stringWithFormat:@"%ld",section];
+    if ([_arraySection containsObject:str]) {
+        NSDictionary *dicData = _arrayTableData[section];
+        NSArray *arrayData = dicData[@"node"];
+        return arrayData.count;
     }
     else{
         return 0;
     }
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _arrayFirstChapter.count;
+     return _arrayTableData.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 40;
+    return 45;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 1;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    NSDictionary *dicCurr = _arrayFirstChapter[section];
-    UIView *heardView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
-    heardView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    UILabel *labNames = [[UILabel alloc]initWithFrame:CGRectMake(5, 0, Scr_Width - 10, 40)];
-    labNames.numberOfLines = 0;
-    labNames.font = [UIFont systemFontOfSize:15.0];
-    labNames.text = dicCurr[@"Names"];
-    [heardView addSubview:labNames];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 45)];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 5;
+    view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    NSDictionary *dicDate = _arrayTableData[section];
+    NSDictionary *dicHeader = dicDate[@"id"];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(0, 0, Scr_Width, view.frame.size.height);
+    button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    //    [button setTitle:dicHeader[@"Names"] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(buttonSectionClick:) forControlEvents:UIControlEventTouchUpInside];
+    button.titleLabel.font = [UIFont systemFontOfSize:13.0];
+    button.tag = 100 + section;
+    [view addSubview:button];
     
-    UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, 0, Scr_Width, 40);
-    btn.backgroundColor = [UIColor clearColor];
-    btn.tag = section + 1000;
-    [btn addTarget:self action:@selector(sectionBtnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [heardView addSubview:btn];
-    return heardView;
+    //title字符
+    NSString *titleString;
+  
+    titleString = [NSString stringWithFormat:@"%@（总共00题）★笔记：%ld  ★收藏:%ld",dicHeader[@"Names"],[dicHeader[@"NoteNum"] integerValue],[dicHeader[@"CollectionNum"] integerValue]];
+    
+    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 10 - 60, view.frame.size.height)];
+    //    labText.text = dicHeader[@"Names"];
+    labText.numberOfLines = 0;
+    labText.font = [UIFont systemFontOfSize:13.0];
+//    [labText setAttributedText:attriTitle];
+    labText.text = titleString;
+    [view addSubview:labText];
+    
+    UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnDoTopic.frame = CGRectMake(Scr_Width - 60, 0, 60, 45);
+    [btnDoTopic setTitle:@"做题" forState:UIControlStateNormal];
+    btnDoTopic.tag = 1000 +section;
+    btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:15.0];
+    [btnDoTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+    [btnDoTopic addTarget:self action:@selector(btnDoTopicClick:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:btnDoTopic];
+    return view;
 }
+- (void)btnDoTopicClick:(UIButton *)button{
+    NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
+    NSDictionary *dicHeader = dicDate[@"id"];
+    SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+    selectChap.chaperId = [dicHeader[@"Id"] integerValue];
+    selectChap.chaperName = dicHeader[@"Names"];
+    [self.navigationController pushViewController:selectChap animated:YES];
+}
+//section折叠
+- (void)buttonSectionClick:(UIButton *)sender{
+    NSInteger sectoinId = sender.tag - 100;
+    NSString *str = [NSString stringWithFormat:@"%ld",sectoinId];
+    if ([_arraySection containsObject:str]) {
+        [_arraySection removeObject:str];
+    }
+    else{
+        [_arraySection addObject:str];
+    }
+    
+    [_myTableView reloadSections:[NSIndexSet indexSetWithIndex:sectoinId] withRowAnimation:UITableViewRowAnimationFade];
+}
+
 - (void)sectionBtnClick:(UIButton *)sender{
         NSString *secString = [NSString stringWithFormat:@"%ld",sender.tag - 1000];
     if ([_arraySection containsObject:secString]) {
@@ -317,12 +318,140 @@
     [_myTableView reloadSections:[NSIndexSet indexSetWithIndex:sender.tag - 1000] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 30;
+    return 50;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellsub" forIndexPath:indexPath];
-    cell.textLabel.text = [NSString stringWithFormat:@"%ld",indexPath.row];
+    NSDictionary *dicData = _arrayTableData[indexPath.section];
+    NSArray *arrayData = dicData[@"node"];
+    NSDictionary *dic = arrayData[indexPath.row];
+    NSString *cellIdentifer = @"programmaticCell";
+    MGSwipeTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifer];
+    if (!cell) {
+        cell = [[MGSwipeTableCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellIdentifer];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    for (id subView in cell.contentView.subviews) {
+        [subView removeFromSuperview];
+    }
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(25, (50-8)/2, 8, 8)];
+    view.backgroundColor = ColorWithRGB(90, 144, 266);
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 4;
+    [cell.contentView addSubview:view];
+    UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 60, 50)];
+    labT.numberOfLines = 0;
+    labT.font = [UIFont systemFontOfSize:13.0];
+    NSString *titleString;
+    
+    titleString = [NSString stringWithFormat:@"%@（总共00题）★笔记：%ld  ★收藏:%ld",dic[@"Names"],[dic[@"NoteNum"] integerValue],[dic[@"CollectionNum"] integerValue]];
+    labT.text = titleString;
+    
+    MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
+        SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+        selectChap.chaperId = [dic[@"Id"] integerValue];
+        selectChap.chaperName = dic[@"Names"];
+        [self.navigationController pushViewController:selectChap animated:YES];
+        return YES;
+    }];
+    cell.rightButtons = @[btnTopic];
+    
+    [cell.contentView addSubview:labT];
     return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary *dicDate = _arrayTableData[indexPath.section];
+    NSDictionary *dicHeader = dicDate[@"id"];
+    [self getChildSubjectChaper:[dicHeader[@"Id"] integerValue]];
+}
+/**根据点击tableViewcell上的chaperid获取ParentId等于该id的所有章节数组
+ 并获取其对应的字章节数组
+ */
+- (void)getChildSubjectChaper:(NSInteger)chaperId{
+    NSMutableArray *arrayChaperIdCh = [NSMutableArray array];
+    for (NSDictionary *dicChild in _arrayAllChap) {
+        if ([dicChild[@"ParentId"] integerValue] == chaperId) {
+            [arrayChaperIdCh addObject:dicChild];
+        }
+    }
+    
+    NSMutableArray *arrayZZZ = [NSMutableArray array];
+    
+    for (NSDictionary *dicC in arrayChaperIdCh) {
+        NSMutableArray *arrayFir = [NSMutableArray array];
+        NSMutableDictionary *dicFirrr = [NSMutableDictionary dictionary];
+        for (NSDictionary *dicA in _arrayAllChap) {
+            if ([dicC[@"Id"] integerValue] == [dicA[@"ParentId"] integerValue]) {
+                [arrayFir addObject:dicA];
+            }
+        }
+        [dicFirrr setObject:arrayFir forKey:@"node"];
+        [dicFirrr setObject:dicC forKey:@"id"];
+        [arrayZZZ addObject:dicFirrr];
+    }
+    
+    [self viewSmallAnimation];
+    _viewSelectChaper = [[selectChaperSubjectView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arrayChaperSubject:arrayZZZ];
+    _viewSelectChaper.delegateChaper = self;
+    UIWindow *dd = [[UIApplication sharedApplication] keyWindow];
+    [dd addSubview:_viewSelectChaper];
+
+    
+    NSLog(@"%@",arrayZZZ);
+    
+}
+
+//试图还原动画
+- (void)viewBigAnimation{
+    CABasicAnimation *cba1=[CABasicAnimation animationWithKeyPath:@"position"];
+    cba1.fromValue=[NSValue valueWithCGPoint:CGPointMake(self.navigationController.tabBarController.view.center.x, self.navigationController.tabBarController.view.center.y - 30)];
+    cba1.toValue=[NSValue valueWithCGPoint:self.navigationController.tabBarController.view.center];
+    
+    CABasicAnimation *cba2=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    cba2.fromValue=[NSNumber numberWithFloat:0.85];
+    cba2.toValue=[NSNumber numberWithFloat:1];
+    
+    CAAnimationGroup *grop = [CAAnimationGroup animation];
+    grop.animations = @[cba1,cba2];
+    grop.duration = 0.3;
+    grop.removedOnCompletion=NO;
+    grop.fillMode=kCAFillModeForwards;
+    grop.delegate = self;
+    [self.navigationController.tabBarController.view.layer addAnimation:grop forKey:@"big"];
+}
+//试图缩小动画
+- (void)viewSmallAnimation{
+    CABasicAnimation *cba1=[CABasicAnimation animationWithKeyPath:@"position"];
+    cba1.fromValue=[NSValue valueWithCGPoint:self.navigationController.tabBarController.view.center];
+    cba1.toValue=[NSValue valueWithCGPoint:CGPointMake(self.navigationController.tabBarController.view.center.x, self.navigationController.tabBarController.view.center.y - 30)];
+    
+    
+    CABasicAnimation *cba2=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    cba2.fromValue=[NSNumber numberWithFloat:1];
+    cba2.toValue=[NSNumber numberWithFloat:0.85];
+    
+    CAAnimationGroup *grop = [CAAnimationGroup animation];
+    grop.animations = @[cba1,cba2];
+    grop.duration = 0.3;
+    grop.removedOnCompletion=NO;
+    grop.fillMode=kCAFillModeForwards;
+    grop.delegate = self;
+    [self.navigationController.tabBarController.view.layer addAnimation:grop forKey:@"small"];
+}
+///动画结束代理（主要判断选过科目之后的动画，执行授权操作）
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
+    if (anim == [self.navigationController.tabBarController.view.layer animationForKey:@"big"]) {
+        if (_dicSelectChaper != nil) {
+        SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+            selectChap.chaperId = [_dicSelectChaper[@"Id"] integerValue];
+            selectChap.chaperName = _dicSelectChaper[@"Names"];
+            [self.navigationController pushViewController:selectChap animated:YES];
+        }
+    }
+}
+- (void)selectSubjectViewDismiss:(NSDictionary *)dicSubject{
+    _dicSelectChaper = dicSubject;
+    [_viewSelectChaper removeFromSuperview];
+    [self viewBigAnimation];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -591,7 +591,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     else{
-//        [self performSegueWithIdentifier:@"mynote" sender:[NSString stringWithFormat:@"%ld",[dicHeader[@"Id"] integerValue]]];
+        
         [self performSegueWithIdentifier:@"mynote" sender:[NSString stringWithFormat:@"%ld",[dicHeader[@"Id"] integerValue]]];
     }
 }
@@ -703,7 +703,7 @@
     
     [labT setAttributedText:attriTitle];
     [cell.contentView addSubview:labT];
-    MGSwipeButton *btnLook = [MGSwipeButton buttonWithTitle:@"🔍 查看" icon:nil backgroundColor:ColorWithRGB(200, 200, 200) callback:^BOOL(MGSwipeTableCell *sender) {
+    MGSwipeButton *btnLook = [MGSwipeButton buttonWithTitle:@"查 看" icon:nil backgroundColor:ColorWithRGB(200, 200, 200) callback:^BOOL(MGSwipeTableCell *sender) {
         //收藏试题
         if (_parameterView == 1) {
             NSInteger collectCount = [dic[@"CollectionNum"] integerValue];
@@ -747,7 +747,7 @@
     
     [btnLook setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     btnLook.titleLabel.font = [UIFont systemFontOfSize:15.0];
-    MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"📓 做题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
+    MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
         NSLog(@"%ld",[dic[@"Id"] integerValue]);
         //        [self performSegueWithIdentifier:@"dotopic" sender:[NSString stringWithFormat:@"%ld",[dic[@"Id"] integerValue]]];
         NSLog(@"%ld == %ld",indexPath.section,indexPath.row);
@@ -760,7 +760,7 @@
     [btnTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     btnTopic.titleLabel.font = [UIFont systemFontOfSize:15.0];
     cell.rightButtons = @[btnTopic,btnLook];
-    cell.rightSwipeSettings.transition = MGSwipeTransitionRotate3D;
+    cell.rightSwipeSettings.transition = MGSwipeTransitionBorder;
     return cell;
 }
 

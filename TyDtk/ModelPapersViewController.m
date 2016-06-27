@@ -212,7 +212,6 @@
     _hearhVIew.subjectId = _subjectId;
     [_hearhVIew setActiveValue:dicCurrSubject];
     if (_isBuyDidSubject) {
-//        [_hearhVIew.buttonActive setTitle:@"科目已激活" forState:UIControlStateNormal];
         _hearhVIew.buttonActive.userInteractionEnabled = NO;
     }
     else{
@@ -220,8 +219,6 @@
             _hearhVIew.buttonActive.backgroundColor = ColorWithRGB(255, 121, 28);
             [_hearhVIew.buttonActive setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }
-//    _hearhVIew.buttonActive.backgroundColor = ColorWithRGB(255, 121, 28);
-//    [_hearhVIew.buttonActive setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _myTableView.tableHeaderView = view;
 }
 /**

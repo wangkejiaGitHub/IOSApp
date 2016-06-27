@@ -101,6 +101,8 @@
 }
 //根据点击的button不同，显示不同的子试图页面
 - (IBAction)downButtonClick:(UIButton *)sender {
+    
+    
     if (sender.tag == 3) {
         if ([self ifDataIsNil]) {
             UIStoryboard *sCommon = CustomStoryboard(@"Common");
@@ -169,6 +171,7 @@
             _chapterVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49-64);
         }
         _chapterVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
+        _chapterVc.title = @"章节考点";
         [self.view addSubview:_chapterVc.view];
     }
     

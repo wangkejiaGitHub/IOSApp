@@ -14,4 +14,12 @@
     _buttonUserImage.layer.masksToBounds = YES;
     _buttonUserImage.layer.cornerRadius = _buttonUserImage.bounds.size.height/2;
 }
+- (IBAction)btnImgClick:(UIButton *)sender {
+//    UIImagePickerController *imaP = [[UIImagePickerController alloc]init];
+//    imaP.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//    imaP.allowsEditing = YES;
+//    imaP.delegate = self;
+    
+}
+
 @end

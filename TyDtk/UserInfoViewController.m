@@ -180,6 +180,7 @@
         [SVProgressHUD showInfoWithStatus:@"操作失败！"];
     }];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

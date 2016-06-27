@@ -163,10 +163,12 @@
     //学习人数
     UILabel *labPersonNub = (UILabel *)[cell.contentView viewWithTag:12];
     labPersonNub.adjustsFontSizeToFitWidth = YES;
-    //有待修改？？？？？？？？
-    NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:@"0人在学"];
-    [labPerson addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, 1)];
+    NSString *studyNum = [NSString stringWithFormat:@"%ld 人在学",[dicCurrSubject[@"StudyNum"]integerValue]];
+    //有待修改
+    NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:studyNum];
+    [labPerson addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, [NSString stringWithFormat:@"%ld",[dicCurrSubject[@"StudyNum"] integerValue]].length)];
     labPersonNub.attributedText = labPerson;
+
     cell.backgroundColor = ColorWithRGBWithAlpp(218, 218, 218, 0.5);
     cell.layer.masksToBounds = YES;
     cell.layer.cornerRadius = 5;
@@ -183,7 +185,6 @@
     NSLog(@"%ld",courseNumId);
     _isAnimation = !_isAnimation;
     if (_isAnimation) {
-        [self viewSmallAnimation];
         [self getAllSubject:dic];
     }
     else{
@@ -241,6 +242,7 @@
         NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicSubject[@"code"] integerValue];
         if (codeId == 1) {
+            [self viewSmallAnimation];
             NSArray *arrry = dicSubject[@"datas"];
             _viewSelectSubject = [[viewSelectSubject alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arraySubject:arrry];
             _viewSelectSubject.delegateSelect = self;

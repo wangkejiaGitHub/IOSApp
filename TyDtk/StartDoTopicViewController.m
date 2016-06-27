@@ -539,6 +539,10 @@
         NSDictionary *dicChaperPaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if ([dicChaperPaper[@"code"] integerValue] == 1) {
             _arrayPaterData = dicChaperPaper[@"datas"];
+            if (_arrayPaterData.count == 0) {
+                [SVProgressHUD showInfoWithStatus:@"没有更多试题啦~"];
+                return;
+            }
             _scrollContentWidth = _arrayPaterData.count;
             _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
             

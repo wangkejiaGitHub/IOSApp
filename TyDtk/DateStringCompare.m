@@ -1,7 +1,7 @@
 //
 //  DateStringCompare.m
 //  TyDtk
-//
+//  过去时间与现在时间差值
 //  Created by 天一文化 on 16/6/6.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //

@@ -1,7 +1,7 @@
 //
 //  TopicAnalysisCardView.m
 //  TyDtk
-//
+//  试题解析答题卡
 //  Created by 天一文化 on 16/5/7.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //

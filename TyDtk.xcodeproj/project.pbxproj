@@ -104,6 +104,7 @@
 		1D92C8A81D139B9D006A937F /* StartLookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D92C8A61D139B9D006A937F /* StartLookViewController.xib */; };
 		1D92C8AD1D13D349006A937F /* AddNewNote.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D92C8AC1D13D349006A937F /* AddNewNote.xib */; };
 		1D92C8B01D13D36C006A937F /* AddNewNote.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D92C8AF1D13D36C006A937F /* AddNewNote.m */; };
+		1DAF02F61D20C9B40042C8D8 /* selectChaperSubjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF02F51D20C9B40042C8D8 /* selectChaperSubjectView.m */; };
 		1DB777441CFFD1F7003AFE28 /* UptadePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB777421CFFD1F7003AFE28 /* UptadePwdViewController.m */; };
 		1DB777451CFFD1F7003AFE28 /* UptadePwdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DB777431CFFD1F7003AFE28 /* UptadePwdViewController.xib */; };
 		1DB777491D0001E4003AFE28 /* ExerciseRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB777481D0001E4003AFE28 /* ExerciseRecordViewController.m */; };
@@ -477,6 +478,8 @@
 		1D92C8AC1D13D349006A937F /* AddNewNote.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddNewNote.xib; sourceTree = "<group>"; };
 		1D92C8AE1D13D36C006A937F /* AddNewNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewNote.h; sourceTree = "<group>"; };
 		1D92C8AF1D13D36C006A937F /* AddNewNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewNote.m; sourceTree = "<group>"; };
+		1DAF02F41D20C9B40042C8D8 /* selectChaperSubjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = selectChaperSubjectView.h; sourceTree = "<group>"; };
+		1DAF02F51D20C9B40042C8D8 /* selectChaperSubjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = selectChaperSubjectView.m; sourceTree = "<group>"; };
 		1DB777411CFFD1F7003AFE28 /* UptadePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UptadePwdViewController.h; sourceTree = "<group>"; };
 		1DB777421CFFD1F7003AFE28 /* UptadePwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UptadePwdViewController.m; sourceTree = "<group>"; };
 		1DB777431CFFD1F7003AFE28 /* UptadePwdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UptadePwdViewController.xib; sourceTree = "<group>"; };
@@ -1793,6 +1796,8 @@
 		1DF27B501CDB3AB700F35BB1 /* ChapterTestPaper */ = {
 			isa = PBXGroup;
 			children = (
+				1DAF02F41D20C9B40042C8D8 /* selectChaperSubjectView.h */,
+				1DAF02F51D20C9B40042C8D8 /* selectChaperSubjectView.m */,
 				1D2A6B161CB49B02005D3455 /* ChaptersViewController.h */,
 				1D2A6B171CB49B02005D3455 /* ChaptersViewController.m */,
 			);
@@ -2281,6 +2286,7 @@
 				1DEDC8781C9FA66B0083B394 /* AFNetworkReachabilityManager.m in Sources */,
 				1D211FD51D0D57C600B895C6 /* SDCollectionViewCell.m in Sources */,
 				1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */,
+				1DAF02F61D20C9B40042C8D8 /* selectChaperSubjectView.m in Sources */,
 				1DD126C51D1A6FB4003853E5 /* SelectSubjectViewController.m in Sources */,
 				1D211FD41D0D57C600B895C6 /* TAPageControl.m in Sources */,
 				1DF950751CA3C52200104597 /* Reachability.m in Sources */,

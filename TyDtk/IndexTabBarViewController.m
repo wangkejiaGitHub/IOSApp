@@ -21,23 +21,23 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     NSLog(@"hshhss");
-//    _tyUser = [NSUserDefaults standardUserDefaults];
-//    [_tyUser removeObjectForKey:tyUserFirstLoad];
-//    if (![_tyUser objectForKey:tyUserFirstLoad]) {
-////        NSArray *arrayImgName = @[@"img1.jpg",@"img2.jpg",@"img3.jpg"];
-////        _scrollViewFirst = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgName:arrayImgName];
-//        NSArray *arrayImgUrl = @[@"http://api.kaola100.com/Content/Images/face-2.jpg",@"http://api.kaola100.com/Content/Images/face-1.jpg",@"http://api.kaola100.com/Content/Images/face-3.jpg"];
-//        _scrollViewFirst  = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgUrl:arrayImgUrl];
-//        _scrollViewFirst.backgroundColor = [UIColor whiteColor];
-//        _scrollViewFirst.delegateGuideView = self;
-//        [self.view addSubview:_scrollViewFirst];
-//        [UIView animateWithDuration:0.3 animations:^{
-//            CGRect rect = _scrollViewFirst.frame;
-//            rect.origin.y = 0;
-//            _scrollViewFirst.frame = rect;
-//        }];
-//    }
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    [_tyUser removeObjectForKey:tyUserFirstLoad];
+    if (![_tyUser objectForKey:tyUserFirstLoad]) {
+        NSArray *arrayImgUrl = @[@"http://api.kaola100.com/Content/Images/face-2.jpg",@"http://api.kaola100.com/Content/Images/face-1.jpg",@"http://api.kaola100.com/Content/Images/face-3.jpg"];
+        _scrollViewFirst  = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgUrl:arrayImgUrl];
+        _scrollViewFirst.backgroundColor = [UIColor whiteColor];
+        _scrollViewFirst.delegateGuideView = self;
+        [self.view addSubview:_scrollViewFirst];
+        [UIView animateWithDuration:0.3 animations:^{
+            CGRect rect = _scrollViewFirst.frame;
+            rect.origin.y = 0;
+            _scrollViewFirst.frame = rect;
+        }];
+    }
+    //引导页加载完后，删除
     
+    /////////////////////////////////////////////////////////
     UIStoryboard *sTyDtk = CustomStoryboard(@"TyDtk");
     UIStoryboard *sTyPractice = CustomStoryboard(@"TyPractice");
     UIStoryboard *sTyUser = CustomStoryboard(@"TyUser");
@@ -49,13 +49,30 @@
 }
 //左滑或点击button回调
 - (void)GuideViewDismiss{
-    [UIView animateWithDuration:0.3 animations:^{
-        CGRect rect = _scrollViewFirst.frame;
-        rect.origin.x = -Scr_Width;
-        _scrollViewFirst.frame = rect;
-    }];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        CGRect rect = _scrollViewFirst.frame;
+//        rect.origin.x = -Scr_Width;
+//        _scrollViewFirst.frame = rect;
+//    }];
+    [self firstViewDismiss];
     ///下次进入不再出现
     [_tyUser setObject:@"yes" forKey:tyUserFirstLoad];
+}
+
+- (void)firstViewDismiss{
+    CABasicAnimation *cba1=[CABasicAnimation animationWithKeyPath:@"position"];
+    cba1.fromValue=[NSValue valueWithCGPoint:CGPointMake(self.view.center.x, self.view.center.y)];
+    cba1.toValue=[NSValue valueWithCGPoint:CGPointMake(self.view.center.x - Scr_Width, self.view.center.y)];
+    cba1.duration = 0.3;
+    cba1.removedOnCompletion=NO;
+    cba1.fillMode=kCAFillModeForwards;
+    cba1.delegate = self;
+    [_scrollViewFirst.layer addAnimation:cba1 forKey:@"first"];
+}
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
+    if (anim == [_scrollViewFirst.layer animationForKey:@"first"]) {
+        [_scrollViewFirst removeFromSuperview];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

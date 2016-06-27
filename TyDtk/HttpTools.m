@@ -1,7 +1,7 @@
 //
 //  HttpTools.m
 //  AFNetWorking封装
-//
+//  用于网络get post 请求
 //  Created by echo214 on 16/1/15.
 //  Copyright © 2016年 echo214. All rights reserved.
 //
@@ -17,8 +17,6 @@
     [manager GET:url parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        //        [task suspend];//暂停
-        //        [task resume];//恢复
         if (success) {//如果成功，返回结果
             success(responseObject,task);
         }
@@ -27,7 +25,7 @@
     }];
 }
 
-//post 上传
+//post 
 +(void)postHttpRequestURL:(NSString *)url RequestPram:(id)pram RequestSuccess:(void(^)(id respoes))success RequestFaile:(void(^)(NSError *erro))faile{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager POST:url parameters:pram progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -43,6 +41,7 @@
     
 }
 
+//上传
 +(void)uploadHttpRequestURL:(NSString *)url  RequestPram:(id)pram UploadData:(NSData *)data RequestSuccess:(void(^)(id respoes))success RequestFaile:(void(^)(NSError *erro))faile UploadProgress:(void(^)(NSProgress * uploadProgress))progress{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     [manager POST:url parameters:pram constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
