@@ -10,4 +10,5 @@
 
 @interface SubjectInfoViewController : UIViewController
 @property (nonatomic ,strong) NSDictionary *dicSubject;
+
 @end
