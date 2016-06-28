@@ -99,7 +99,7 @@
 //激活码做题回调代理
 - (void)activeForPapersClick{
     NSLog(@"激活码做题");
-    UIStoryboard *sCommon = [UIStoryboard storyboardWithName:@"TyCommon" bundle:nil];
+    UIStoryboard *sCommon = [UIStoryboard storyboardWithName:@"TyDTK" bundle:nil];
     UIViewController *payVc = [sCommon instantiateViewControllerWithIdentifier:@"PayViewController"];
     [self.navigationController pushViewController:payVc animated:YES];
 }

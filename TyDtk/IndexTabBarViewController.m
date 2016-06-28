@@ -38,7 +38,7 @@
     //引导页加载完后，删除
     
     /////////////////////////////////////////////////////////
-    UIStoryboard *sTyDtk = CustomStoryboard(@"TyDtk");
+    UIStoryboard *sTyDtk = CustomStoryboard(@"TyDTK");
     UIStoryboard *sTyPractice = CustomStoryboard(@"TyPractice");
     UIStoryboard *sTyUser = CustomStoryboard(@"TyUser");
     //

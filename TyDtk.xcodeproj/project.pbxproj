@@ -108,6 +108,7 @@
 		1D579F031CE9668100578519 /* ZFPieChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579EF41CE9668100578519 /* ZFPieChart.m */; };
 		1D579F041CE9668100578519 /* ZFTranslucencePath.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579EF61CE9668100578519 /* ZFTranslucencePath.m */; };
 		1D6A48481D2261B400070614 /* TyCommon.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A48471D2261B400070614 /* TyCommon.storyboard */; };
+		1D6A484C1D22676900070614 /* ttt.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A484B1D22676900070614 /* ttt.storyboard */; };
 		1D86FA331CCDFC23007DF87C /* ErrorTopicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */; };
 		1D92C8841D13828D006A937F /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D92C8821D13828D006A937F /* NotesViewController.m */; };
 		1D92C8851D13828D006A937F /* NotesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D92C8831D13828D006A937F /* NotesViewController.xib */; };
@@ -247,7 +248,6 @@
 		1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1DF8984C1CA5218000D726E3 /* loginBrg.jpeg */; };
 		1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF898591CA53D2B00D726E3 /* MZView.m */; };
 		1DF940391D1B81CA00D808C1 /* DtkNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF940381D1B81CA00D808C1 /* DtkNavViewController.m */; };
-		1DF9403B1D1B824400D808C1 /* TyDtk.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9403A1D1B824400D808C1 /* TyDtk.storyboard */; };
 		1DF9403D1D1B865900D808C1 /* TyPractice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9403C1D1B865900D808C1 /* TyPractice.storyboard */; };
 		1DF940401D1B868400D808C1 /* PracticeNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF9403F1D1B868400D808C1 /* PracticeNavViewController.m */; };
 		1DF940421D1B86C000D808C1 /* TyUser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF940411D1B86C000D808C1 /* TyUser.storyboard */; };
@@ -475,6 +475,7 @@
 		1D579EF51CE9668100578519 /* ZFTranslucencePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZFTranslucencePath.h; sourceTree = "<group>"; };
 		1D579EF61CE9668100578519 /* ZFTranslucencePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFTranslucencePath.m; sourceTree = "<group>"; };
 		1D6A48471D2261B400070614 /* TyCommon.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyCommon.storyboard; sourceTree = "<group>"; };
+		1D6A484B1D22676900070614 /* ttt.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ttt.storyboard; sourceTree = "<group>"; };
 		1D86FA311CCDFC23007DF87C /* ErrorTopicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorTopicView.h; sourceTree = "<group>"; };
 		1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorTopicView.m; sourceTree = "<group>"; };
 		1D92C8811D13828D006A937F /* NotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesViewController.h; sourceTree = "<group>"; };
@@ -730,7 +731,6 @@
 		1DF898591CA53D2B00D726E3 /* MZView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZView.m; sourceTree = "<group>"; };
 		1DF940371D1B81CA00D808C1 /* DtkNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DtkNavViewController.h; sourceTree = "<group>"; };
 		1DF940381D1B81CA00D808C1 /* DtkNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DtkNavViewController.m; sourceTree = "<group>"; };
-		1DF9403A1D1B824400D808C1 /* TyDtk.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyDtk.storyboard; sourceTree = "<group>"; };
 		1DF9403C1D1B865900D808C1 /* TyPractice.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyPractice.storyboard; sourceTree = "<group>"; };
 		1DF9403E1D1B868400D808C1 /* PracticeNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PracticeNavViewController.h; sourceTree = "<group>"; };
 		1DF9403F1D1B868400D808C1 /* PracticeNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PracticeNavViewController.m; sourceTree = "<group>"; };
@@ -1581,7 +1581,7 @@
 				1D2277F51D22576E00D2269C /* PayElse.storyboard */,
 				1DEDC7DF1C9F817B0083B394 /* Main.storyboard */,
 				1D6A48471D2261B400070614 /* TyCommon.storyboard */,
-				1DF9403A1D1B824400D808C1 /* TyDtk.storyboard */,
+				1D6A484B1D22676900070614 /* ttt.storyboard */,
 				1DF9403C1D1B865900D808C1 /* TyPractice.storyboard */,
 				1DF940411D1B86C000D808C1 /* TyUser.storyboard */,
 				1DEDC7E21C9F817B0083B394 /* Assets.xcassets */,
@@ -2049,7 +2049,6 @@
 				1D2277EC1D2229FE00D2269C /* ico_circle_o@2x.png in Resources */,
 				1D92C8A81D139B9D006A937F /* StartLookViewController.xib in Resources */,
 				1D2277CE1D22224B00D2269C /* errquests.png in Resources */,
-				1DF9403B1D1B824400D808C1 /* TyDtk.storyboard in Resources */,
 				1D347B651D0EA480006DB889 /* EditExamViewController.xib in Resources */,
 				1D15C4531D191EE9006C15A7 /* img3.jpg in Resources */,
 				1D92C88B1D138A22006A937F /* TopicLookQtpye1TableViewCell.xib in Resources */,
@@ -2074,6 +2073,7 @@
 				1D2277CD1D22224B00D2269C /* ebook.png in Resources */,
 				1DEDC8321C9F9F770083B394 /* login_person.png in Resources */,
 				1D2277CB1D22224B00D2269C /* collect.png in Resources */,
+				1D6A484C1D22676900070614 /* ttt.storyboard in Resources */,
 				1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */,
 				1DD2E6F81CB5F21700423484 /* ActiveView.xib in Resources */,
 				1DF947341CF6908800CC4759 /* TableHeardViewForUser.xib in Resources */,
