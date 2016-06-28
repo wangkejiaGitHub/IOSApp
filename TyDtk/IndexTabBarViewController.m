@@ -38,9 +38,9 @@
     //引导页加载完后，删除
     
     /////////////////////////////////////////////////////////
-    UIStoryboard *sTyDtk = CustomStoryboard(@"TyDtk");
-    UIStoryboard *sTyPractice = CustomStoryboard(@"TyPractice");
-    UIStoryboard *sTyUser = CustomStoryboard(@"TyUser");
+    UIStoryboard *sTyDtk = CustomStoryboard(@"TyDTK");
+    UIStoryboard *sTyPractice = CustomStoryboard(@"TyLearn");
+    UIStoryboard *sTyUser = CustomStoryboard(@"TyUserIn");
     //
     DtkNavViewController *dtkNavi = [sTyDtk instantiateViewControllerWithIdentifier:@"DtkNavViewController"];
     PracticeNavViewController *praNavi = [sTyPractice instantiateViewControllerWithIdentifier:@"PracticeNavViewController"];

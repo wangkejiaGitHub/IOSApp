@@ -199,7 +199,7 @@
 		1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEB178A1CBC90FA00C82293 /* timelog.png */; };
 		1DEDC7D81C9F817B0083B394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7D71C9F817B0083B394 /* main.m */; };
 		1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */; };
-		1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DF1C9F817B0083B394 /* Main.storyboard */; };
+		1DEDC7E11C9F817B0083B394 /* TyMain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DF1C9F817B0083B394 /* TyMain.storyboard */; };
 		1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7E21C9F817B0083B394 /* Assets.xcassets */; };
 		1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */; };
 		1DEDC7F11C9F817B0083B394 /* TyDtkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7F01C9F817B0083B394 /* TyDtkTests.m */; };
@@ -248,9 +248,9 @@
 		1DF8984D1CA5218000D726E3 /* loginBrg.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 1DF8984C1CA5218000D726E3 /* loginBrg.jpeg */; };
 		1DF8985A1CA53D2B00D726E3 /* MZView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF898591CA53D2B00D726E3 /* MZView.m */; };
 		1DF940391D1B81CA00D808C1 /* DtkNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF940381D1B81CA00D808C1 /* DtkNavViewController.m */; };
-		1DF9403D1D1B865900D808C1 /* TyPractice.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9403C1D1B865900D808C1 /* TyPractice.storyboard */; };
+		1DF9403D1D1B865900D808C1 /* TyLearn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9403C1D1B865900D808C1 /* TyLearn.storyboard */; };
 		1DF940401D1B868400D808C1 /* PracticeNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF9403F1D1B868400D808C1 /* PracticeNavViewController.m */; };
-		1DF940421D1B86C000D808C1 /* TyUser.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF940411D1B86C000D808C1 /* TyUser.storyboard */; };
+		1DF940421D1B86C000D808C1 /* TyUserIn.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DF940411D1B86C000D808C1 /* TyUserIn.storyboard */; };
 		1DF940451D1B86F000D808C1 /* UserNavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF940441D1B86F000D808C1 /* UserNavViewController.m */; };
 		1DF9404B1D1B917700D808C1 /* MyNoteTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF940491D1B917700D808C1 /* MyNoteTableViewCell.m */; };
 		1DF9404C1D1B917700D808C1 /* MyNoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF9404A1D1B917700D808C1 /* MyNoteTableViewCell.xib */; };
@@ -637,7 +637,7 @@
 		1DEDC7D71C9F817B0083B394 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1DEDC7D91C9F817B0083B394 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1DEDC7E01C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1DEDC7E01C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TyMain.storyboard; sourceTree = "<group>"; };
 		1DEDC7E21C9F817B0083B394 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1DEDC7E51C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1DEDC7E71C9F817B0083B394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -731,10 +731,10 @@
 		1DF898591CA53D2B00D726E3 /* MZView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MZView.m; sourceTree = "<group>"; };
 		1DF940371D1B81CA00D808C1 /* DtkNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DtkNavViewController.h; sourceTree = "<group>"; };
 		1DF940381D1B81CA00D808C1 /* DtkNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DtkNavViewController.m; sourceTree = "<group>"; };
-		1DF9403C1D1B865900D808C1 /* TyPractice.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyPractice.storyboard; sourceTree = "<group>"; };
+		1DF9403C1D1B865900D808C1 /* TyLearn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyLearn.storyboard; sourceTree = "<group>"; };
 		1DF9403E1D1B868400D808C1 /* PracticeNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PracticeNavViewController.h; sourceTree = "<group>"; };
 		1DF9403F1D1B868400D808C1 /* PracticeNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PracticeNavViewController.m; sourceTree = "<group>"; };
-		1DF940411D1B86C000D808C1 /* TyUser.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyUser.storyboard; sourceTree = "<group>"; };
+		1DF940411D1B86C000D808C1 /* TyUserIn.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TyUserIn.storyboard; sourceTree = "<group>"; };
 		1DF940431D1B86F000D808C1 /* UserNavViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserNavViewController.h; sourceTree = "<group>"; };
 		1DF940441D1B86F000D808C1 /* UserNavViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserNavViewController.m; sourceTree = "<group>"; };
 		1DF940481D1B917700D808C1 /* MyNoteTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNoteTableViewCell.h; sourceTree = "<group>"; };
@@ -1579,11 +1579,11 @@
 				1DF9473C1CF6C2B400CC4759 /* IndexTabBarViewController.h */,
 				1DF9473D1CF6C2B400CC4759 /* IndexTabBarViewController.m */,
 				1D2277F51D22576E00D2269C /* PayElse.storyboard */,
-				1DEDC7DF1C9F817B0083B394 /* Main.storyboard */,
+				1DEDC7DF1C9F817B0083B394 /* TyMain.storyboard */,
 				1D6A48471D2261B400070614 /* TyCommon.storyboard */,
 				1D6A484B1D22676900070614 /* TyDTK.storyboard */,
-				1DF9403C1D1B865900D808C1 /* TyPractice.storyboard */,
-				1DF940411D1B86C000D808C1 /* TyUser.storyboard */,
+				1DF9403C1D1B865900D808C1 /* TyLearn.storyboard */,
+				1DF940411D1B86C000D808C1 /* TyUserIn.storyboard */,
 				1DEDC7E21C9F817B0083B394 /* Assets.xcassets */,
 				1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */,
 				1DEDC7E71C9F817B0083B394 /* Info.plist */,
@@ -2059,7 +2059,7 @@
 				1DF940511D1BC72F00D808C1 /* NotesTopicViewController.xib in Resources */,
 				1DF947281CF6803800CC4759 /* grzx_icon2@2x.png in Resources */,
 				1D2277ED1D2229FE00D2269C /* ico_circle_o@3x.png in Resources */,
-				1DF9403D1D1B865900D808C1 /* TyPractice.storyboard in Resources */,
+				1DF9403D1D1B865900D808C1 /* TyLearn.storyboard in Resources */,
 				1DB777451CFFD1F7003AFE28 /* UptadePwdViewController.xib in Resources */,
 				1DF9506E1CA3BFC500104597 /* SVProgressHUD.bundle in Resources */,
 				1D11371E1CF3FD8C0092DF02 /* DTKDropdownMenuView.bundle in Resources */,
@@ -2087,7 +2087,7 @@
 				1DF947321CF680CA00CC4759 /* btm_icon4@2x.png in Resources */,
 				1D122B9F1CDDBE2D00A0BA08 /* AnalysisQtype5Cell.xib in Resources */,
 				1D2277D41D22244E00D2269C /* quest.png in Resources */,
-				1DF940421D1B86C000D808C1 /* TyUser.storyboard in Resources */,
+				1DF940421D1B86C000D808C1 /* TyUserIn.storyboard in Resources */,
 				1D2277EB1D2229FE00D2269C /* ico_circle_o.png in Resources */,
 				1D92C8901D138A81006A937F /* TopicLookQtpye3TableViewCell.xib in Resources */,
 				1D122BA41CDDC3DA00A0BA08 /* AnalysisQtype6Cell.xib in Resources */,
@@ -2098,7 +2098,7 @@
 				1D6A48481D2261B400070614 /* TyCommon.storyboard in Resources */,
 				1D92C89A1D138AD7006A937F /* TopicLookQtpye6TableViewCell.xib in Resources */,
 				1DF947301CF680C200CC4759 /* btm_icon4_hover@2x.png in Resources */,
-				1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */,
+				1DEDC7E11C9F817B0083B394 /* TyMain.storyboard in Resources */,
 				1DF947391CF692B700CC4759 /* backImgTest.jpg in Resources */,
 				1D92C8AD1D13D349006A937F /* AddNewNote.xib in Resources */,
 				1DF947261CF67FD100CC4759 /* dtk.png in Resources */,
@@ -2349,12 +2349,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1DEDC7DF1C9F817B0083B394 /* Main.storyboard */ = {
+		1DEDC7DF1C9F817B0083B394 /* TyMain.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1DEDC7E01C9F817B0083B394 /* Base */,
 			);
-			name = Main.storyboard;
+			name = TyMain.storyboard;
 			sourceTree = "<group>";
 		};
 		1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */ = {
