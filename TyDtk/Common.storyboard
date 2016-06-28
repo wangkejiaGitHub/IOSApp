@@ -452,25 +452,6 @@
             </objects>
             <point key="canvasLocation" x="-5256.5" y="-1655.5"/>
         </scene>
-        <!--Pay View Controller-->
-        <scene sceneID="6bF-Np-hNs">
-            <objects>
-                <viewController storyboardIdentifier="PayViewController" id="vwN-XK-68q" customClass="PayViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="noQ-rS-WeU"/>
-                        <viewControllerLayoutGuide type="bottom" id="k6d-LM-FNM"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="FRG-9f-KOs">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Oef-Vg-2bf" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-6227.5" y="-590.5"/>
-        </scene>
         <!--找回密码-->
         <scene sceneID="U5I-Kd-ofE">
             <objects>
