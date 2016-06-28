@@ -46,6 +46,7 @@
     PracticeNavViewController *praNavi = [sTyPractice instantiateViewControllerWithIdentifier:@"PracticeNavViewController"];
     UserNavViewController *userNavi = [sTyUser instantiateViewControllerWithIdentifier:@"UserNavViewController"];
     self.viewControllers = @[dtkNavi,praNavi,userNavi];
+    
 }
 //左滑或点击button回调
 - (void)GuideViewDismiss{
