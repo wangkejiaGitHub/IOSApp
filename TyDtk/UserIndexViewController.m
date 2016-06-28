@@ -143,7 +143,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         if ([self loginTest]) {
-            UIStoryboard *Scommon = CustomStoryboard(@"Common");
+            UIStoryboard *Scommon = CustomStoryboard(@"TyCommon");
             if (indexPath.row == 0) {
                 //个人资料
                 [self performSegueWithIdentifier:@"userinfo" sender:nil];
@@ -223,7 +223,7 @@
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
-            UIStoryboard *sCommon = CustomStoryboard(@"Common");
+            UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
             LoginViewController *loginVc =  [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
             loginVc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:loginVc animated:YES];

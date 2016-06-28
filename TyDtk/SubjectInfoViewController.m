@@ -105,7 +105,7 @@
     
     if (sender.tag == 3) {
         if ([self ifDataIsNil]) {
-            UIStoryboard *sCommon = CustomStoryboard(@"Common");
+            UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
             IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
             intellVc.dicSubject = _dicCurrSubject;
             [self.navigationController pushViewController:intellVc animated:YES];
@@ -206,7 +206,7 @@
  */
 - (void)addChildViewControllerForSelfWithUser{
     //添加章节考点子试图
-    UIStoryboard *sCommon = CustomStoryboard(@"Common");
+    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
     UIViewController *cZjVc = [sCommon instantiateViewControllerWithIdentifier:@"ChaptersViewController"];
     [self addChildViewController:cZjVc];
     //添加模拟试卷子试图
@@ -296,7 +296,7 @@
     if (_indexCurrChildView == 3) {
         if (indexItem != 0) {
             _dicCurrSubject = _arraySubject[indexItem - 1];
-            UIStoryboard *sCommon = CustomStoryboard(@"Common");
+            UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
             IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
             intellVc.dicSubject = _dicCurrSubject;
             [self.navigationController pushViewController:intellVc animated:YES];

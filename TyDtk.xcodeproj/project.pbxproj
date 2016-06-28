@@ -198,7 +198,7 @@
 		1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DEB178A1CBC90FA00C82293 /* timelog.png */; };
 		1DEDC7D81C9F817B0083B394 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7D71C9F817B0083B394 /* main.m */; };
 		1DEDC7DB1C9F817B0083B394 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */; };
-		1DEDC7E11C9F817B0083B394 /* TyMain.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DF1C9F817B0083B394 /* TyMain.storyboard */; };
+		1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7DF1C9F817B0083B394 /* Main.storyboard */; };
 		1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7E21C9F817B0083B394 /* Assets.xcassets */; };
 		1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */; };
 		1DEDC7F11C9F817B0083B394 /* TyDtkTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEDC7F01C9F817B0083B394 /* TyDtkTests.m */; };
@@ -635,7 +635,7 @@
 		1DEDC7D71C9F817B0083B394 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		1DEDC7D91C9F817B0083B394 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		1DEDC7E01C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/TyMain.storyboard; sourceTree = "<group>"; };
+		1DEDC7E01C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1DEDC7E21C9F817B0083B394 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1DEDC7E51C9F817B0083B394 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1DEDC7E71C9F817B0083B394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1576,7 +1576,7 @@
 				1DEDC7DA1C9F817B0083B394 /* AppDelegate.m */,
 				1DF9473C1CF6C2B400CC4759 /* IndexTabBarViewController.h */,
 				1DF9473D1CF6C2B400CC4759 /* IndexTabBarViewController.m */,
-				1DEDC7DF1C9F817B0083B394 /* TyMain.storyboard */,
+				1DEDC7DF1C9F817B0083B394 /* Main.storyboard */,
 				1D6A48471D2261B400070614 /* TyCommon.storyboard */,
 				1D6A484B1D22676900070614 /* TyDTK.storyboard */,
 				1DF9403C1D1B865900D808C1 /* TyLearn.storyboard */,
@@ -2094,7 +2094,7 @@
 				1D6A48481D2261B400070614 /* TyCommon.storyboard in Resources */,
 				1D92C89A1D138AD7006A937F /* TopicLookQtpye6TableViewCell.xib in Resources */,
 				1DF947301CF680C200CC4759 /* btm_icon4_hover@2x.png in Resources */,
-				1DEDC7E11C9F817B0083B394 /* TyMain.storyboard in Resources */,
+				1DEDC7E11C9F817B0083B394 /* Main.storyboard in Resources */,
 				1DF947391CF692B700CC4759 /* backImgTest.jpg in Resources */,
 				1D92C8AD1D13D349006A937F /* AddNewNote.xib in Resources */,
 				1DF947261CF67FD100CC4759 /* dtk.png in Resources */,
@@ -2345,12 +2345,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1DEDC7DF1C9F817B0083B394 /* TyMain.storyboard */ = {
+		1DEDC7DF1C9F817B0083B394 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				1DEDC7E01C9F817B0083B394 /* Base */,
 			);
-			name = TyMain.storyboard;
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		1DEDC7E41C9F817B0083B394 /* LaunchScreen.storyboard */ = {
