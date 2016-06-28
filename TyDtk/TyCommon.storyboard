@@ -1897,42 +1897,6 @@
             </objects>
             <point key="canvasLocation" x="-7840.5" y="4337.5"/>
         </scene>
-        <!--Pay View Controller-->
-        <scene sceneID="mgt-Rf-h7L">
-            <objects>
-                <viewController storyboardIdentifier="PayViewController" id="pRb-rU-JTX" customClass="PayViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Ax6-6q-ObO"/>
-                        <viewControllerLayoutGuide type="bottom" id="gWi-Uu-jzt"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="yTl-z5-OWg">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0Qg-r6-oDV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-7728" y="5105"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="kys-B5-UyC">
-            <objects>
-                <viewController storyboardIdentifier="uuuuu" id="1KV-Nl-ezT" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="mbx-Gl-WCN"/>
-                        <viewControllerLayoutGuide type="bottom" id="kcQ-TE-1VW"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="kwh-4o-8k4">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8Pf-Jm-eGe" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-7344" y="5291"/>
-        </scene>
     </scenes>
     <resources>
         <image name="loginBrg.jpeg" width="700" height="1308"/>
