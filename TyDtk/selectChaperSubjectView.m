@@ -11,15 +11,17 @@
 @interface selectChaperSubjectView()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong) UITableView *tableViewChaper;
 @property (nonatomic,strong) NSArray *arrayZZZData;
+@property (nonatomic,strong) NSString *chaperName;
 //section折叠数组
 @property (nonatomic ,strong) NSMutableArray *arraySection;
 @end
 @implementation selectChaperSubjectView
-- (id)initWithFrame:(CGRect)frame arrayChaperSubject:(NSArray *)arrayZZZ{
+- (id)initWithFrame:(CGRect)frame arrayChaperSubject:(NSArray *)arrayZZZ chaperName:(NSString *)chaperName{
     self = [super initWithFrame:frame];
     if (self) {
         _arraySection = [NSMutableArray array];
         _arrayZZZData = arrayZZZ;
+        _chaperName = chaperName;
         self.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.6);
 //        [self addTableViewChaperSubject];
         [self addTapGest];
@@ -41,14 +43,29 @@
 }
 
 - (void)addTableViewChaperSubject{
-    _tableViewChaper = [[UITableView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height - (Scr_Height/3)) style:UITableViewStyleGrouped];
+    UIView *viewZ = [[UIView alloc]initWithFrame:CGRectMake(0, Scr_Height/3, Scr_Width, Scr_Height - (Scr_Height/3))];
+    viewZ.backgroundColor = [UIColor whiteColor];
+    [self addSubview:viewZ];
+    _tableViewChaper = [[UITableView alloc]initWithFrame:CGRectMake(10, Scr_Height, Scr_Width - 20, Scr_Height - (Scr_Height/3)) style:UITableViewStyleGrouped];
+    _tableViewChaper.showsVerticalScrollIndicator = NO;
     _tableViewChaper.delegate = self;
     _tableViewChaper.dataSource = self;
     _tableViewChaper.backgroundColor = [UIColor whiteColor];
     _tableViewChaper.userInteractionEnabled = YES;
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 20)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-20, 50)];
     view.backgroundColor = [UIColor whiteColor];
+    UIView *viewL = [[UIView alloc]initWithFrame:CGRectMake(0, 48, Scr_Width - 20, 2)];
+    viewL.backgroundColor = ColorWithRGB(190, 200, 252);
+    [view addSubview:viewL];
+    UILabel *labChaperName = [[UILabel alloc]initWithFrame:CGRectMake(0, 13, Scr_Width - 40, 30)];
+    labChaperName.text = _chaperName;
+    labChaperName.textColor = ColorWithRGB(90, 144, 266);
+    labChaperName.font = [UIFont systemFontOfSize:16.0];
+    labChaperName.backgroundColor = [UIColor clearColor];
+    labChaperName.numberOfLines = 0;
+    [view addSubview:labChaperName];
     _tableViewChaper.tableHeaderView = view;
+    
     _tableViewChaper.tableFooterView = [UIView new];
     [self addSubview:_tableViewChaper];
     
@@ -76,9 +93,9 @@
 
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *viewH = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 45)];
+    UIView *viewH = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width - 20, 45)];
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(5, 0, Scr_Width - 10, 45)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width - 20, 45)];
     view.layer.masksToBounds = YES;
     view.layer.cornerRadius = 5;
     view.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -97,24 +114,26 @@
     UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
     btnDoTopic.frame = CGRectMake(Scr_Width - 20 - 50, 0, 50, 45);
     [btnDoTopic setTitle:@"做题" forState:UIControlStateNormal];
-    btnDoTopic.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+//    btnDoTopic.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     [btnDoTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [btnDoTopic addTarget:self action:@selector(BtnDoTopicClick:) forControlEvents:UIControlEventTouchUpInside];
     btnDoTopic.tag = 1000 + section;
     [view addSubview:btnDoTopic];
-//
-//    //title字符
-    NSString *titleString;
+    //title字符
+    NSString *titleString = [NSString stringWithFormat:@"%@（总共%ld题）",dicHeader[@"Names"],[dicHeader[@"Quantity"] integerValue]];
+    //标题属性字符串
+    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
     
-    titleString = [NSString stringWithFormat:@"%@（总共00题）★笔记：%ld  ★收藏:%ld",dicHeader[@"Names"],[dicHeader[@"NoteNum"] integerValue],[dicHeader[@"CollectionNum"] integerValue]];
-    
+    [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
+                       range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length,5+[NSString stringWithFormat:@"%ld",[dicHeader[@"Quantity"] integerValue]].length)];
+    UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+    [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                       range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length ,5+[NSString stringWithFormat:@"%ld",[dicHeader[@"Quantity"] integerValue]].length)];
     UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 20 - 50, view.frame.size.height)];
-    //    labText.text = dicHeader[@"Names"];
     labText.numberOfLines = 0;
     labText.font = [UIFont systemFontOfSize:13.0];
-    //    [labText setAttributedText:attriTitle];
-    labText.text = titleString;
+        [labText setAttributedText:attriTitle];
     [view addSubview:labText];
     [viewH addSubview:view];
     return viewH;
@@ -174,13 +193,21 @@
     view.layer.masksToBounds = YES;
     view.layer.cornerRadius = 4;
     [cell.contentView addSubview:view];
+    
+    NSString *titleString = [NSString stringWithFormat:@"%@（总共%ld题）",dic[@"Names"],[dic[@"Quantity"] integerValue]];
+    //标题属性字符串
+    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
+    
+    [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
+                       range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length,5+[NSString stringWithFormat:@"%ld",[dic[@"Quantity"] integerValue]].length)];
+    UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+    [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                       range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length ,5+[NSString stringWithFormat:@"%ld",[dic[@"Quantity"] integerValue]].length)];
+    
     UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 60, 50)];
     labT.numberOfLines = 0;
     labT.font = [UIFont systemFontOfSize:13.0];
-    NSString *titleString;
-    
-    titleString = [NSString stringWithFormat:@"%@（总共00题）★笔记：%ld  ★收藏:%ld",dic[@"Names"],[dic[@"NoteNum"] integerValue],[dic[@"CollectionNum"] integerValue]];
-    labT.text = titleString;
+    [labT setAttributedText:attriTitle];
     
     MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
         [self.delegateChaper selectSubjectViewDismiss:dic];

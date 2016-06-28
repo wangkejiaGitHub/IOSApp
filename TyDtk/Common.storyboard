@@ -452,6 +452,25 @@
             </objects>
             <point key="canvasLocation" x="-5256.5" y="-1655.5"/>
         </scene>
+        <!--Pay View Controller-->
+        <scene sceneID="6bF-Np-hNs">
+            <objects>
+                <viewController storyboardIdentifier="PayViewController" id="vwN-XK-68q" customClass="PayViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="noQ-rS-WeU"/>
+                        <viewControllerLayoutGuide type="bottom" id="k6d-LM-FNM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FRG-9f-KOs">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Oef-Vg-2bf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6227.5" y="-590.5"/>
+        </scene>
         <!--找回密码-->
         <scene sceneID="U5I-Kd-ofE">
             <objects>
@@ -1831,25 +1850,6 @@
             </objects>
             <point key="canvasLocation" x="-6227.5" y="4313.5"/>
         </scene>
-        <!--支付-->
-        <scene sceneID="Mck-g8-3NU">
-            <objects>
-                <viewController id="s3w-ra-D4c" userLabel="支付" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="VcP-p8-Msn"/>
-                        <viewControllerLayoutGuide type="bottom" id="jWc-fh-ea6"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="G1b-yN-Ga7">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="KjO-9f-hdY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-6227.5" y="5173.5"/>
-        </scene>
         <!--My Note View Controller-->
         <scene sceneID="xSa-Du-Ij1">
             <objects>
@@ -1907,7 +1907,7 @@
         <image name="top_backbtn" width="12" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="TEs-tZ-mH0"/>
         <segue reference="hw8-NI-svL"/>
+        <segue reference="TEs-tZ-mH0"/>
     </inferredMetricsTieBreakers>
 </document>

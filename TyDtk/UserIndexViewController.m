@@ -41,6 +41,7 @@
     _imageViewBg.image = systemBackGrdImg;
     self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的考试",@"我的订单",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
+    _arrayCellImage = @[@"",@"course",@"quest",@"order",@"learnrecord",@"collect",@"errquests",@"ebook"];
     _tyUser = [NSUserDefaults standardUserDefaults];
     [self addTableViewHeardView];
     /////专业分类科目信息
@@ -79,7 +80,7 @@
     
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 50;
+    return 60;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     if (section != 0) {
@@ -114,8 +115,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellUser" forIndexPath:indexPath];
     UILabel *labTitle =(UILabel *)[cell.contentView viewWithTag:11];
+    UIImageView *img = (UIImageView *)[cell.contentView viewWithTag:10];
     
     if (indexPath.section == 0) {
+        img.image = [UIImage imageNamed:_arrayCellImage[indexPath.row]];
         labTitle.text = _arrayCellTitle[indexPath.row];
         if (indexPath.row == 1) {
             UILabel *labSiubject = (UILabel *)[cell.contentView viewWithTag:12];
@@ -130,6 +133,7 @@
         }
     }
     else{
+        img.image = [UIImage imageNamed:@"about"];
         labTitle.text = @"关于我们";
     }
     return  cell;

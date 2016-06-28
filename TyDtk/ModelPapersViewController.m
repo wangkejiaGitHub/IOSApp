@@ -261,7 +261,7 @@
     [self addHeardViewForPaterList];
     [SVProgressHUD show];
     //获取试卷级别
-    [self.view addSubview:_mzView];
+    [self.navigationController.tabBarController.view addSubview:_mzView];
     //获取试卷级别
     //    [self getModelPaterLevel];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPapers?access_token=%@&courseId=%@&page=%ld&level=%@&year=%@",systemHttps,_accessToken,_subjectId,_paterIndexPage,_paterLevel,_paterYear];

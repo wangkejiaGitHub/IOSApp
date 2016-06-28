@@ -153,7 +153,7 @@
             return;
         }
     }
-    [self.view addSubview:_mzView];
+    [self.navigationController.tabBarController.view addSubview:_mzView];
     [SVProgressHUD show];
     [self addHeardViewForPaterList];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/GetWeeklyList?access_token=%@&page=%ld",systemHttps,_accessToken,_paterIndexPage];

@@ -19,7 +19,6 @@
 //    imaP.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 //    imaP.allowsEditing = YES;
 //    imaP.delegate = self;
-    
 }
 
 @end

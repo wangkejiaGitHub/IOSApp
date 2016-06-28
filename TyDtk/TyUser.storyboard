@@ -51,23 +51,23 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zXh-iC-0Ww">
-                                                    <rect key="frame" x="10" y="15" width="20" height="20"/>
+                                                    <rect key="frame" x="15" y="5" width="40" height="40"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="20" id="ggf-ab-LOm"/>
-                                                        <constraint firstAttribute="height" constant="20" id="nxv-Al-quv"/>
+                                                        <constraint firstAttribute="width" constant="40" id="ggf-ab-LOm"/>
+                                                        <constraint firstAttribute="height" constant="40" id="nxv-Al-quv"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnr-8y-jZg">
-                                                    <rect key="frame" x="40" y="15" width="70" height="20"/>
+                                                    <rect key="frame" x="65" y="15" width="70" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="2n8-Li-NJX"/>
                                                         <constraint firstAttribute="width" constant="70" id="qn2-qP-fqc"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" tag="12" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eWA-eR-vB5">
-                                                    <rect key="frame" x="120" y="15" width="222" height="20"/>
+                                                    <rect key="frame" x="145" y="15" width="197" height="20"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="EtF-gS-Z8L"/>
@@ -80,7 +80,7 @@
                                             <constraints>
                                                 <constraint firstItem="eWA-eR-vB5" firstAttribute="centerY" secondItem="sre-p9-jQg" secondAttribute="centerY" id="5h0-OZ-bo0"/>
                                                 <constraint firstItem="dnr-8y-jZg" firstAttribute="leading" secondItem="zXh-iC-0Ww" secondAttribute="trailing" constant="10" id="7MV-4R-67r"/>
-                                                <constraint firstItem="zXh-iC-0Ww" firstAttribute="leading" secondItem="sre-p9-jQg" secondAttribute="leading" constant="10" id="DOF-Z1-Lh4"/>
+                                                <constraint firstItem="zXh-iC-0Ww" firstAttribute="leading" secondItem="sre-p9-jQg" secondAttribute="leading" constant="15" id="DOF-Z1-Lh4"/>
                                                 <constraint firstAttribute="trailing" secondItem="eWA-eR-vB5" secondAttribute="trailing" id="QVZ-iD-mWk"/>
                                                 <constraint firstItem="eWA-eR-vB5" firstAttribute="leading" secondItem="dnr-8y-jZg" secondAttribute="trailing" constant="10" id="eQD-TD-Ok8"/>
                                                 <constraint firstItem="dnr-8y-jZg" firstAttribute="centerY" secondItem="sre-p9-jQg" secondAttribute="centerY" id="o7A-sI-cSE"/>

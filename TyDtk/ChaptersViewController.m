@@ -10,6 +10,8 @@
 #import "MGSwipeTableCell.h"
 #import "selectChaperSubjectView.h"
 #import "SelectParTopicViewController.h"
+/////?????????????
+//#import "SubjectPayViewController.h"
 @interface ChaptersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate,SelectSubjectDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 //授权工具
@@ -90,15 +92,6 @@
         view.backgroundColor = [UIColor redColor];
         _myTableView.tableHeaderView = view;
     }
-//    [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpImgs,_dicUserClass[@"ImageUrl"]]]];
-//    _hearhVIew.labTitle.text = _dicUserClass[@"Names"];
-//    _hearhVIew.labRemark.text = _dicUserClass[@"Names"];
-////    NSInteger personNum = [_dicUserClass[@"CourseNum"] integerValue];
-////    _hearhVIew.labSubjectNumber.text = [NSString stringWithFormat:@"%ld",personNum];
-////    _hearhVIew.labPersonNumber.text = @"0";
-//    _hearhVIew.labPrice.text = @"0.0";
-    
-    
 }
 /**
  头试图回调代理
@@ -106,6 +99,9 @@
 //激活码做题回调代理
 - (void)activeForPapersClick{
     NSLog(@"激活码做题");
+    UIStoryboard *sCommon = CustomStoryboard(@"Common");
+    UIViewController *payVc = [sCommon instantiateViewControllerWithIdentifier:@"UIViewController-7H7-nb-Qwq"];
+    [self.navigationController pushViewController:payVc animated:YES];
 }
 //获取激活码回调代理
 - (void)getActiveMaClick{
@@ -125,14 +121,8 @@
     //获取储存的专业信息
     _dicUserClass = [_tyUser objectForKey:tyUserClass];
     NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
-    ///添加朦层
-    if (!_mzView) {
-        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-    }
-    [self.view addSubview:_mzView];
     //开始授权
     //授权并收取令牌
-    [SVProgressHUD show];
     NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
     [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
 }
@@ -154,11 +144,15 @@
  获取章节考点信息,并根据节点进行章节分类
  */
 - (void)getChaptersInfo:(NSString *)accessToken{
+    [SVProgressHUD show];
+    ///添加朦层
+    if (!_mzView) {
+        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    }
+    [self.navigationController.tabBarController.view addSubview:_mzView];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetAll?access_token=%@",systemHttps,accessToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        
         NSDictionary *dicChaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        
         if ([dicChaper[@"code"] integerValue] == 1) {
             _arrayAllChap = dicChaper[@"datas"];
             if (_arrayAllChap.count > 0) {
@@ -197,7 +191,6 @@
             [arrayFirstLevel addObject:dicFirst];
         }
     }
-    
     NSMutableArray *arrayZZZ = [NSMutableArray array];
     
     for (NSDictionary *dicFir in arrayFirstLevel) {
@@ -263,16 +256,22 @@
     [view addSubview:button];
     
     //title字符
-    NSString *titleString;
-  
-    titleString = [NSString stringWithFormat:@"%@（总共00题）★笔记：%ld  ★收藏:%ld",dicHeader[@"Names"],[dicHeader[@"NoteNum"] integerValue],[dicHeader[@"CollectionNum"] integerValue]];
+    NSString *titleString = [NSString stringWithFormat:@"%@（总共%ld题）",dicHeader[@"Names"],[dicHeader[@"Quantity"] integerValue]];
+    //标题属性字符串
+    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
+    
+    [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
+                       range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length,5+[NSString stringWithFormat:@"%ld",[dicHeader[@"Quantity"] integerValue]].length)];
+    UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+    [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                       range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length ,5+[NSString stringWithFormat:@"%ld",[dicHeader[@"Quantity"] integerValue]].length)];
     
     UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 10 - 60, view.frame.size.height)];
     //    labText.text = dicHeader[@"Names"];
     labText.numberOfLines = 0;
-    labText.font = [UIFont systemFontOfSize:13.0];
-//    [labText setAttributedText:attriTitle];
-    labText.text = titleString;
+    labText.font = [UIFont systemFontOfSize:14.0];
+    
+    [labText setAttributedText:attriTitle];
     [view addSubview:labText];
     
     UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -338,13 +337,21 @@
     view.layer.masksToBounds = YES;
     view.layer.cornerRadius = 4;
     [cell.contentView addSubview:view];
+    
+     NSString *titleString = [NSString stringWithFormat:@"%@（总共%ld题）",dic[@"Names"],[dic[@"Quantity"] integerValue]];
+    //标题属性字符串
+    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
+    
+    [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
+                       range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length,5+[NSString stringWithFormat:@"%ld",[dic[@"Quantity"] integerValue]].length)];
+    UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+    [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                       range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length ,5+[NSString stringWithFormat:@"%ld",[dic[@"Quantity"] integerValue]].length)];
+    
     UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 60, 50)];
     labT.numberOfLines = 0;
     labT.font = [UIFont systemFontOfSize:13.0];
-    NSString *titleString;
-    
-    titleString = [NSString stringWithFormat:@"%@（总共00题）★笔记：%ld  ★收藏:%ld",dic[@"Names"],[dic[@"NoteNum"] integerValue],[dic[@"CollectionNum"] integerValue]];
-    labT.text = titleString;
+    [labT setAttributedText:attriTitle];
     
     MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
         SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
@@ -361,12 +368,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *dicDate = _arrayTableData[indexPath.section];
     NSDictionary *dicHeader = dicDate[@"id"];
-    [self getChildSubjectChaper:[dicHeader[@"Id"] integerValue]];
+    [self getChildSubjectChaper:dicHeader];
 }
 /**根据点击tableViewcell上的chaperid获取ParentId等于该id的所有章节数组
  并获取其对应的字章节数组
  */
-- (void)getChildSubjectChaper:(NSInteger)chaperId{
+- (void)getChildSubjectChaper:(NSDictionary *)dicChaper{
+    NSInteger chaperId = [dicChaper[@"Id"] integerValue];
+    
     NSMutableArray *arrayChaperIdCh = [NSMutableArray array];
     for (NSDictionary *dicChild in _arrayAllChap) {
         if ([dicChild[@"ParentId"] integerValue] == chaperId) {
@@ -390,7 +399,7 @@
     }
     
     [self viewSmallAnimation];
-    _viewSelectChaper = [[selectChaperSubjectView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arrayChaperSubject:arrayZZZ];
+    _viewSelectChaper = [[selectChaperSubjectView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arrayChaperSubject:arrayZZZ chaperName:dicChaper[@"Names"]];
     _viewSelectChaper.delegateChaper = self;
     UIWindow *dd = [[UIApplication sharedApplication] keyWindow];
     [dd addSubview:_viewSelectChaper];
