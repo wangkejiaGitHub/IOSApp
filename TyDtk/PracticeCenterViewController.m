@@ -133,7 +133,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     if ([_tyUser objectForKey:tyUserSelectSubject]&&[_tyUser objectForKey:tyUserUser]) {
-        UIStoryboard *sCommon = CustomStoryboard(@"Com");
+        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
         if (indexPath.section == 0) {
             //章节练习
             if (indexPath.row == 0) {

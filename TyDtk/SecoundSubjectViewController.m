@@ -179,7 +179,7 @@
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     if (![tyUser objectForKey:tyUserUser]) {
         [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];
-        UIStoryboard *sCommon = CustomStoryboard(@"Com");
+        UIStoryboard *sCommon = CustomStoryboard(@"Common");
         LoginViewController *loginVc = [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
         loginVc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:loginVc animated:YES];
