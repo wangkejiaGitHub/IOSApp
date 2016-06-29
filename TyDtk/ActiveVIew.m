@@ -13,7 +13,7 @@
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)renfgnfct {
     // Drawing code
  
 }
@@ -21,6 +21,7 @@
 - (void)awakeFromNib{
     self.frame = CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10);
     _buttonActive.layer.masksToBounds = YES;
+    
     _buttonActive.layer.cornerRadius = 3;
     _labTitle.adjustsFontSizeToFitWidth = YES;
     _labRemark.adjustsFontSizeToFitWidth = YES;

@@ -131,25 +131,6 @@
 		1DB777451CFFD1F7003AFE28 /* UptadePwdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DB777431CFFD1F7003AFE28 /* UptadePwdViewController.xib */; };
 		1DB777491D0001E4003AFE28 /* ExerciseRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB777481D0001E4003AFE28 /* ExerciseRecordViewController.m */; };
 		1DBD935B1D07A4DF0050848D /* MyCollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD935A1D07A4DF0050848D /* MyCollectViewController.m */; };
-		1DBD93731D07C1200050848D /* KOTreeItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD935E1D07C1200050848D /* KOTreeItem.m */; };
-		1DBD93741D07C1200050848D /* RATreeNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93601D07C1200050848D /* RATreeNode.m */; };
-		1DBD93751D07C1200050848D /* RATreeNodeCollectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93621D07C1200050848D /* RATreeNodeCollectionController.m */; };
-		1DBD93761D07C1200050848D /* RATreeNodeInfo+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93641D07C1200050848D /* RATreeNodeInfo+Private.m */; };
-		1DBD93771D07C1200050848D /* RATreeNodeInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93661D07C1200050848D /* RATreeNodeInfo.m */; };
-		1DBD93781D07C1200050848D /* RATreeView+Enums.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93681D07C1200050848D /* RATreeView+Enums.m */; };
-		1DBD93791D07C1200050848D /* RATreeView+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD936A1D07C1200050848D /* RATreeView+Private.m */; };
-		1DBD937A1D07C1200050848D /* RATreeView+TableViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD936C1D07C1200050848D /* RATreeView+TableViewDataSource.m */; };
-		1DBD937B1D07C1200050848D /* RATreeView+TableViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD936E1D07C1200050848D /* RATreeView+TableViewDelegate.m */; };
-		1DBD937C1D07C1200050848D /* RATreeView+UIScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93701D07C1200050848D /* RATreeView+UIScrollView.m */; };
-		1DBD937D1D07C1200050848D /* RATreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93721D07C1200050848D /* RATreeView.m */; };
-		1DBD938D1D07C1F90050848D /* MKPeopleCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93811D07C1F90050848D /* MKPeopleCellModel.m */; };
-		1DBD938E1D07C1F90050848D /* MKPeopleHeadTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93831D07C1F90050848D /* MKPeopleHeadTableViewCell.m */; };
-		1DBD938F1D07C1F90050848D /* MKPeopleHeadTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DBD93841D07C1F90050848D /* MKPeopleHeadTableViewCell.xib */; };
-		1DBD93901D07C1F90050848D /* MKPeopleSelectTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93861D07C1F90050848D /* MKPeopleSelectTableCell.m */; };
-		1DBD93911D07C1F90050848D /* MKPeopleSelectTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DBD93871D07C1F90050848D /* MKPeopleSelectTableCell.xib */; };
-		1DBD93921D07C1F90050848D /* MKSelectArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93891D07C1F90050848D /* MKSelectArray.m */; };
-		1DBD93931D07C1F90050848D /* MKTreeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD938B1D07C1F90050848D /* MKTreeView.m */; };
-		1DBD93941D07C1F90050848D /* MKTreeView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DBD938C1D07C1F90050848D /* MKTreeView.xib */; };
 		1DBD93B81D08163D0050848D /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93B51D08163D0050848D /* MGSwipeButton.m */; };
 		1DBD93B91D08163D0050848D /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93B71D08163D0050848D /* MGSwipeTableCell.m */; };
 		1DC18EFD1CB795D50006D642 /* MJRefreshAutoFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC18ED31CB795D50006D642 /* MJRefreshAutoFooter.m */; };
@@ -512,41 +493,6 @@
 		1DB777481D0001E4003AFE28 /* ExerciseRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExerciseRecordViewController.m; sourceTree = "<group>"; };
 		1DBD93591D07A4DF0050848D /* MyCollectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectViewController.h; sourceTree = "<group>"; };
 		1DBD935A1D07A4DF0050848D /* MyCollectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectViewController.m; sourceTree = "<group>"; };
-		1DBD935D1D07C1200050848D /* KOTreeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KOTreeItem.h; sourceTree = "<group>"; };
-		1DBD935E1D07C1200050848D /* KOTreeItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KOTreeItem.m; sourceTree = "<group>"; };
-		1DBD935F1D07C1200050848D /* RATreeNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RATreeNode.h; sourceTree = "<group>"; };
-		1DBD93601D07C1200050848D /* RATreeNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RATreeNode.m; sourceTree = "<group>"; };
-		1DBD93611D07C1200050848D /* RATreeNodeCollectionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RATreeNodeCollectionController.h; sourceTree = "<group>"; };
-		1DBD93621D07C1200050848D /* RATreeNodeCollectionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RATreeNodeCollectionController.m; sourceTree = "<group>"; };
-		1DBD93631D07C1200050848D /* RATreeNodeInfo+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RATreeNodeInfo+Private.h"; sourceTree = "<group>"; };
-		1DBD93641D07C1200050848D /* RATreeNodeInfo+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RATreeNodeInfo+Private.m"; sourceTree = "<group>"; };
-		1DBD93651D07C1200050848D /* RATreeNodeInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RATreeNodeInfo.h; sourceTree = "<group>"; };
-		1DBD93661D07C1200050848D /* RATreeNodeInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RATreeNodeInfo.m; sourceTree = "<group>"; };
-		1DBD93671D07C1200050848D /* RATreeView+Enums.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RATreeView+Enums.h"; sourceTree = "<group>"; };
-		1DBD93681D07C1200050848D /* RATreeView+Enums.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RATreeView+Enums.m"; sourceTree = "<group>"; };
-		1DBD93691D07C1200050848D /* RATreeView+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RATreeView+Private.h"; sourceTree = "<group>"; };
-		1DBD936A1D07C1200050848D /* RATreeView+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RATreeView+Private.m"; sourceTree = "<group>"; };
-		1DBD936B1D07C1200050848D /* RATreeView+TableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RATreeView+TableViewDataSource.h"; sourceTree = "<group>"; };
-		1DBD936C1D07C1200050848D /* RATreeView+TableViewDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RATreeView+TableViewDataSource.m"; sourceTree = "<group>"; };
-		1DBD936D1D07C1200050848D /* RATreeView+TableViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RATreeView+TableViewDelegate.h"; sourceTree = "<group>"; };
-		1DBD936E1D07C1200050848D /* RATreeView+TableViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RATreeView+TableViewDelegate.m"; sourceTree = "<group>"; };
-		1DBD936F1D07C1200050848D /* RATreeView+UIScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RATreeView+UIScrollView.h"; sourceTree = "<group>"; };
-		1DBD93701D07C1200050848D /* RATreeView+UIScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RATreeView+UIScrollView.m"; sourceTree = "<group>"; };
-		1DBD93711D07C1200050848D /* RATreeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RATreeView.h; sourceTree = "<group>"; };
-		1DBD93721D07C1200050848D /* RATreeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RATreeView.m; sourceTree = "<group>"; };
-		1DBD93801D07C1F90050848D /* MKPeopleCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKPeopleCellModel.h; sourceTree = "<group>"; };
-		1DBD93811D07C1F90050848D /* MKPeopleCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKPeopleCellModel.m; sourceTree = "<group>"; };
-		1DBD93821D07C1F90050848D /* MKPeopleHeadTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKPeopleHeadTableViewCell.h; sourceTree = "<group>"; };
-		1DBD93831D07C1F90050848D /* MKPeopleHeadTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKPeopleHeadTableViewCell.m; sourceTree = "<group>"; };
-		1DBD93841D07C1F90050848D /* MKPeopleHeadTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MKPeopleHeadTableViewCell.xib; sourceTree = "<group>"; };
-		1DBD93851D07C1F90050848D /* MKPeopleSelectTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKPeopleSelectTableCell.h; sourceTree = "<group>"; };
-		1DBD93861D07C1F90050848D /* MKPeopleSelectTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKPeopleSelectTableCell.m; sourceTree = "<group>"; };
-		1DBD93871D07C1F90050848D /* MKPeopleSelectTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MKPeopleSelectTableCell.xib; sourceTree = "<group>"; };
-		1DBD93881D07C1F90050848D /* MKSelectArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKSelectArray.h; sourceTree = "<group>"; };
-		1DBD93891D07C1F90050848D /* MKSelectArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKSelectArray.m; sourceTree = "<group>"; };
-		1DBD938A1D07C1F90050848D /* MKTreeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MKTreeView.h; sourceTree = "<group>"; };
-		1DBD938B1D07C1F90050848D /* MKTreeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MKTreeView.m; sourceTree = "<group>"; };
-		1DBD938C1D07C1F90050848D /* MKTreeView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MKTreeView.xib; sourceTree = "<group>"; };
 		1DBD93B41D08163D0050848D /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
 		1DBD93B51D08163D0050848D /* MGSwipeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MGSwipeButton.m; sourceTree = "<group>"; };
 		1DBD93B61D08163D0050848D /* MGSwipeTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeTableCell.h; sourceTree = "<group>"; };
@@ -1237,55 +1183,6 @@
 			name = MyCollectAndNotesAndError;
 			sourceTree = "<group>";
 		};
-		1DBD935C1D07C1200050848D /* RATreeView */ = {
-			isa = PBXGroup;
-			children = (
-				1DBD935D1D07C1200050848D /* KOTreeItem.h */,
-				1DBD935E1D07C1200050848D /* KOTreeItem.m */,
-				1DBD935F1D07C1200050848D /* RATreeNode.h */,
-				1DBD93601D07C1200050848D /* RATreeNode.m */,
-				1DBD93611D07C1200050848D /* RATreeNodeCollectionController.h */,
-				1DBD93621D07C1200050848D /* RATreeNodeCollectionController.m */,
-				1DBD93631D07C1200050848D /* RATreeNodeInfo+Private.h */,
-				1DBD93641D07C1200050848D /* RATreeNodeInfo+Private.m */,
-				1DBD93651D07C1200050848D /* RATreeNodeInfo.h */,
-				1DBD93661D07C1200050848D /* RATreeNodeInfo.m */,
-				1DBD93671D07C1200050848D /* RATreeView+Enums.h */,
-				1DBD93681D07C1200050848D /* RATreeView+Enums.m */,
-				1DBD93691D07C1200050848D /* RATreeView+Private.h */,
-				1DBD936A1D07C1200050848D /* RATreeView+Private.m */,
-				1DBD936B1D07C1200050848D /* RATreeView+TableViewDataSource.h */,
-				1DBD936C1D07C1200050848D /* RATreeView+TableViewDataSource.m */,
-				1DBD936D1D07C1200050848D /* RATreeView+TableViewDelegate.h */,
-				1DBD936E1D07C1200050848D /* RATreeView+TableViewDelegate.m */,
-				1DBD936F1D07C1200050848D /* RATreeView+UIScrollView.h */,
-				1DBD93701D07C1200050848D /* RATreeView+UIScrollView.m */,
-				1DBD93711D07C1200050848D /* RATreeView.h */,
-				1DBD93721D07C1200050848D /* RATreeView.m */,
-			);
-			path = RATreeView;
-			sourceTree = "<group>";
-		};
-		1DBD937F1D07C1F90050848D /* ZPTree */ = {
-			isa = PBXGroup;
-			children = (
-				1DBD93801D07C1F90050848D /* MKPeopleCellModel.h */,
-				1DBD93811D07C1F90050848D /* MKPeopleCellModel.m */,
-				1DBD93821D07C1F90050848D /* MKPeopleHeadTableViewCell.h */,
-				1DBD93831D07C1F90050848D /* MKPeopleHeadTableViewCell.m */,
-				1DBD93841D07C1F90050848D /* MKPeopleHeadTableViewCell.xib */,
-				1DBD93851D07C1F90050848D /* MKPeopleSelectTableCell.h */,
-				1DBD93861D07C1F90050848D /* MKPeopleSelectTableCell.m */,
-				1DBD93871D07C1F90050848D /* MKPeopleSelectTableCell.xib */,
-				1DBD93881D07C1F90050848D /* MKSelectArray.h */,
-				1DBD93891D07C1F90050848D /* MKSelectArray.m */,
-				1DBD938A1D07C1F90050848D /* MKTreeView.h */,
-				1DBD938B1D07C1F90050848D /* MKTreeView.m */,
-				1DBD938C1D07C1F90050848D /* MKTreeView.xib */,
-			);
-			path = ZPTree;
-			sourceTree = "<group>";
-		};
 		1DBD93BA1D0816580050848D /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -1690,8 +1587,6 @@
 				1D1F10B91D1CC91F00B3DBBC /* PopAnimation */,
 				1DD1270A1D1A87E3003853E5 /* HWPoTools */,
 				1D211FC11D0D57C600B895C6 /* SDCycleScrollView */,
-				1DBD937F1D07C1F90050848D /* ZPTree */,
-				1DBD935C1D07C1200050848D /* RATreeView */,
 				1DEDC8341C9FA2920083B394 /* SDWebImage */,
 				1D07946B1CFBD943009A39E8 /* SJClickEnlarge */,
 				1D579ED11CE9668100578519 /* ZFChart */,
@@ -2067,11 +1962,9 @@
 				1DB777451CFFD1F7003AFE28 /* UptadePwdViewController.xib in Resources */,
 				1DF9506E1CA3BFC500104597 /* SVProgressHUD.bundle in Resources */,
 				1D11371E1CF3FD8C0092DF02 /* DTKDropdownMenuView.bundle in Resources */,
-				1DBD93911D07C1F90050848D /* MKPeopleSelectTableCell.xib in Resources */,
 				1DEDC8311C9F9F770083B394 /* login_password.png in Resources */,
 				1DEDC8671C9FA40A0083B394 /* mainbg.png in Resources */,
 				1DF9472E1CF680B700CC4759 /* btm_icon1@2x.png in Resources */,
-				1DBD938F1D07C1F90050848D /* MKPeopleHeadTableViewCell.xib in Resources */,
 				1D92C8851D13828D006A937F /* NotesViewController.xib in Resources */,
 				1D2277CA1D22224B00D2269C /* chapter.png in Resources */,
 				1D2277CD1D22224B00D2269C /* ebook.png in Resources */,
@@ -2095,7 +1988,6 @@
 				1D92C8901D138A81006A937F /* TopicLookQtpye3TableViewCell.xib in Resources */,
 				1D122BA41CDDC3DA00A0BA08 /* AnalysisQtype6Cell.xib in Resources */,
 				1D165E6F1CD1F84700F61EAE /* ErrorView.xib in Resources */,
-				1DBD93941D07C1F90050848D /* MKTreeView.xib in Resources */,
 				1DF950591CA38F5800104597 /* km_icon.png in Resources */,
 				1D2277E91D2229FE00D2269C /* ico_check_circle@2x.png in Resources */,
 				1D6A484E1D22768300070614 /* wxpay.png in Resources */,
@@ -2145,20 +2037,17 @@
 				1DC18F021CB795D50006D642 /* MJRefreshAutoGifFooter.m in Sources */,
 				1DEDC8581C9FA2920083B394 /* SDImageCache.m in Sources */,
 				1D92C8981D138AC8006A937F /* TopicLookQtpye6TableViewCell.m in Sources */,
-				1DBD937D1D07C1200050848D /* RATreeView.m in Sources */,
 				1DEDC85C1C9FA2920083B394 /* SDWebImageDownloaderOperation.m in Sources */,
 				1DF9473E1CF6C2B400CC4759 /* IndexTabBarViewController.m in Sources */,
 				1D18A02D1CAB7D690022642C /* CustomTools.m in Sources */,
 				1D211FD61D0D57C600B895C6 /* SDCycleScrollView.m in Sources */,
 				1DB777491D0001E4003AFE28 /* ExerciseRecordViewController.m in Sources */,
-				1DBD93901D07C1F90050848D /* MKPeopleSelectTableCell.m in Sources */,
 				1DC18F0C1CB795D50006D642 /* MJRefreshConst.m in Sources */,
 				1D347B1D1D0E5629006DB889 /* MyExamViewController.m in Sources */,
 				1D122B9B1CDDBB7C00A0BA08 /* AnalysisQtype3TableViewCell.m in Sources */,
 				1DEDC8651C9FA2920083B394 /* UIView+WebCacheOperation.m in Sources */,
 				1DC18F041CB795D50006D642 /* MJRefreshAutoStateFooter.m in Sources */,
 				1DC18F091CB795D50006D642 /* MJRefreshNormalHeader.m in Sources */,
-				1DBD937C1D07C1200050848D /* RATreeView+UIScrollView.m in Sources */,
 				1DF9506F1CA3BFC500104597 /* SVProgressHUD.m in Sources */,
 				1D1CD88D1CD2EE4800A80E88 /* LXAlertView.m in Sources */,
 				1DEDC8161C9F880E0083B394 /* IndexViewController.m in Sources */,
@@ -2197,7 +2086,6 @@
 				1DE62EDA1D14E0A700BBE02A /* SelectParTopicViewController.m in Sources */,
 				1D1137211CF3FD8C0092DF02 /* MASConstraint.m in Sources */,
 				1DF950701CA3BFC500104597 /* SVRadialGradientLayer.m in Sources */,
-				1DBD937B1D07C1200050848D /* RATreeView+TableViewDelegate.m in Sources */,
 				1DBD935B1D07A4DF0050848D /* MyCollectViewController.m in Sources */,
 				1D1137231CF3FD8C0092DF02 /* MASLayoutConstraint.m in Sources */,
 				1DEDC87F1C9FA6810083B394 /* HttpTools.m in Sources */,
@@ -2211,7 +2099,6 @@
 				1DEDC8621C9FA2920083B394 /* UIImage+WebP.m in Sources */,
 				1DEDC8641C9FA2920083B394 /* UIImageView+WebCache.m in Sources */,
 				1D579EFC1CE9668100578519 /* ZFBarChart.m in Sources */,
-				1DBD93731D07C1200050848D /* KOTreeItem.m in Sources */,
 				1DC18EFD1CB795D50006D642 /* MJRefreshAutoFooter.m in Sources */,
 				1DC18F0A1CB795D50006D642 /* MJRefreshStateHeader.m in Sources */,
 				1D211FD71D0D57C600B895C6 /* UIView+SDExtension.m in Sources */,
@@ -2227,7 +2114,6 @@
 				1D1137221CF3FD8C0092DF02 /* MASConstraintMaker.m in Sources */,
 				1D211FD21D0D57C600B895C6 /* TAAnimatedDotView.m in Sources */,
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
-				1DBD93931D07C1F90050848D /* MKTreeView.m in Sources */,
 				1D122BA71CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m in Sources */,
 				1D92C8891D1389EB006A937F /* TopicLookQtpye1TableViewCell.m in Sources */,
 				1D11372D1CF42D5B0092DF02 /* IntelligentTopicViewController.m in Sources */,
@@ -2235,14 +2121,12 @@
 				1DEDC8851C9FEDDE0083B394 /* LocationViewController.m in Sources */,
 				1D1137261CF3FD8C0092DF02 /* NSArray+MASAdditions.m in Sources */,
 				1D347B191D0E4FB1006DB889 /* MyOrderViewController.m in Sources */,
-				1DBD93751D07C1200050848D /* RATreeNodeCollectionController.m in Sources */,
 				1DE5F8D91CD0B3F60046CD8A /* paterTopicQtype1and2TableViewCell.m in Sources */,
 				1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */,
 				1D579EF71CE9668100578519 /* NSObject+Zirkfied.m in Sources */,
 				1D2A6B181CB49B02005D3455 /* ChaptersViewController.m in Sources */,
 				1DCA16341CFD7DD10045229B /* UserInfoViewController.m in Sources */,
 				1D1CD88E1CD2EE4800A80E88 /* UILabel+LXAdd.m in Sources */,
-				1DBD93791D07C1200050848D /* RATreeView+Private.m in Sources */,
 				1DF947371CF690CF00CC4759 /* TableHeardView.m in Sources */,
 				1DBD93B81D08163D0050848D /* MGSwipeButton.m in Sources */,
 				1DF765901CE16E32002DE129 /* NotesElseUserViewController.m in Sources */,
@@ -2256,11 +2140,8 @@
 				1DEDC8591C9FA2920083B394 /* SDWebImageCompat.m in Sources */,
 				1DEDC87B1C9FA66B0083B394 /* AFURLResponseSerialization.m in Sources */,
 				1D86FA331CCDFC23007DF87C /* ErrorTopicView.m in Sources */,
-				1DBD938D1D07C1F90050848D /* MKPeopleCellModel.m in Sources */,
 				1D347B641D0EA480006DB889 /* EditExamViewController.m in Sources */,
 				1D1137241CF3FD8C0092DF02 /* MASViewAttribute.m in Sources */,
-				1DBD938E1D07C1F90050848D /* MKPeopleHeadTableViewCell.m in Sources */,
-				1DBD937A1D07C1200050848D /* RATreeView+TableViewDataSource.m in Sources */,
 				1DC9B9081CE46A9E00A2E9A8 /* ZFPopupMenu.m in Sources */,
 				1DC18F0F1CB795D50006D642 /* UIView+MJExtension.m in Sources */,
 				1DEDC87A1C9FA66B0083B394 /* AFURLRequestSerialization.m in Sources */,
@@ -2272,16 +2153,11 @@
 				1DB777441CFFD1F7003AFE28 /* UptadePwdViewController.m in Sources */,
 				1D579EFE1CE9668100578519 /* ZFGenericChart.m in Sources */,
 				1D0794781CFBD943009A39E8 /* UIImageView+SJClickEnlarge.m in Sources */,
-				1DBD93761D07C1200050848D /* RATreeNodeInfo+Private.m in Sources */,
 				1DC18F051CB795D50006D642 /* MJRefreshBackGifFooter.m in Sources */,
 				1D579EF91CE9668100578519 /* UIColor+Zirkfied.m in Sources */,
 				1D1137201CF3FD8C0092DF02 /* MASCompositeConstraint.m in Sources */,
-				1DBD93741D07C1200050848D /* RATreeNode.m in Sources */,
-				1DBD93781D07C1200050848D /* RATreeView+Enums.m in Sources */,
 				1D1137251CF3FD8C0092DF02 /* MASViewConstraint.m in Sources */,
 				1DE695E21CA8D39200ED1DA3 /* EmailReViewController.m in Sources */,
-				1DBD93921D07C1F90050848D /* MKSelectArray.m in Sources */,
-				1DBD93771D07C1200050848D /* RATreeNodeInfo.m in Sources */,
 				1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */,
 				1DF940391D1B81CA00D808C1 /* DtkNavViewController.m in Sources */,
 				1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */,
