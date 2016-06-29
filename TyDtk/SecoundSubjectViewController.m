@@ -67,7 +67,9 @@
 }
 /***************************************
 ****************************************/
-
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = NO;
+}
 - (void)viewDidAppear:(BOOL)animated{
     [SVProgressHUD dismiss];
 }
@@ -188,6 +190,11 @@
         NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
         [tyUser setObject:dic forKey:tyUserClass];
         [self performSegueWithIdentifier:@"subjectin" sender:dic];
+      ////??????????????
+//        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+//        PaperViewController *pVc = [sCommon instantiateViewControllerWithIdentifier:@"PaperViewController"];
+//        pVc.dicSubject = dic;
+//        [self.navigationController pushViewController:pVc animated:YES];
     }
 
 }

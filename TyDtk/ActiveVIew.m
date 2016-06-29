@@ -25,10 +25,6 @@
     _buttonActive.layer.cornerRadius = 3;
     _labTitle.adjustsFontSizeToFitWidth = YES;
     _labRemark.adjustsFontSizeToFitWidth = YES;
-//    _imageView.layer.masksToBounds = YES;
-//    _imageView.layer.cornerRadius = 5;
-//    _labSubjectNumber.textColor = [UIColor purpleColor];
-//    _labPersonNumber.textColor = [UIColor purpleColor];
     _labPrice.textColor = [UIColor redColor];
     _imageWidth.constant = Scr_Width/2 - 10;
     _imageHeight.constant = _imageWidth.constant - 40;
@@ -59,7 +55,6 @@
     self.labPrice.text = priceSub;
     
 }
-
 - (void)addgestForlabActive{
     UITapGestureRecognizer *tapLabGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labClick)];
     [_labGetActiveAcc addGestureRecognizer:tapLabGest];

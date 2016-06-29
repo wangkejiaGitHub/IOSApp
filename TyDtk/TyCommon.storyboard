@@ -822,6 +822,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="pEc-Ki-kxs"/>
                     <navigationItem key="navigationItem" title="章节考点" id="teL-C8-UDe"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -844,8 +845,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="syM-ZE-3S8">
-                                <rect key="frame" x="0.0" y="40" width="375" height="627"/>
+                            <tableView clipsSubviews="YES" tag="10" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="120" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="syM-ZE-3S8">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellmodel" rowHeight="120" id="Toc-X0-jBV">
@@ -983,15 +984,17 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="syM-ZE-3S8" secondAttribute="trailing" id="AEq-Hl-2Yd"/>
                             <constraint firstItem="syM-ZE-3S8" firstAttribute="leading" secondItem="AoJ-dc-RQA" secondAttribute="leading" id="DUh-an-Wjh"/>
-                            <constraint firstAttribute="bottom" secondItem="syM-ZE-3S8" secondAttribute="bottom" id="afi-pW-2qf"/>
-                            <constraint firstItem="syM-ZE-3S8" firstAttribute="top" secondItem="AoJ-dc-RQA" secondAttribute="top" constant="40" id="uEq-cs-RmY"/>
+                            <constraint firstItem="syM-ZE-3S8" firstAttribute="top" secondItem="AoJ-dc-RQA" secondAttribute="top" id="Fyw-t7-UTt"/>
+                            <constraint firstItem="Hkx-zg-0eI" firstAttribute="top" secondItem="syM-ZE-3S8" secondAttribute="bottom" id="PO4-UR-kNb"/>
                         </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="vBX-5f-Wgj"/>
                     <navigationItem key="navigationItem" title="模拟试卷" id="SL9-h5-lDb"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="myTableView" destination="syM-ZE-3S8" id="X7v-wS-QSV"/>
-                        <outlet property="tableViewLayoutTop" destination="uEq-cs-RmY" id="53h-A7-nr8"/>
+                        <outlet property="tableViewLauoutBottom" destination="PO4-UR-kNb" id="uNe-Bh-dB9"/>
+                        <outlet property="tableViewLayoutTop" destination="Fyw-t7-UTt" id="Evi-WO-MZb"/>
                         <segue destination="dbs-DQ-tMd" kind="show" identifier="topicStar" id="5XK-db-80A">
                             <nil key="action"/>
                         </segue>
@@ -1127,6 +1130,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="Kdw-dR-v6c"/>
                     <navigationItem key="navigationItem" title="每周精选" id="xKH-CT-Isn"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
@@ -1945,6 +1949,32 @@
             </objects>
             <point key="canvasLocation" x="-8283.5" y="5233.5"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="FlZ-ch-JCy">
+            <objects>
+                <viewController id="0w0-Y3-mAp" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dmi-Og-xfi"/>
+                        <viewControllerLayoutGuide type="bottom" id="by9-aC-1vX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="etM-UE-MtY">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NGf-tS-vp9">
+                                <rect key="frame" x="71" y="106" width="232" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZYz-D5-ptT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7840.5" y="5239.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="loginBrg.jpeg" width="700" height="1308"/>
@@ -1954,7 +1984,7 @@
         <image name="top_backbtn" width="12" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Qot-Ol-gXn"/>
-        <segue reference="5ot-CK-4YJ"/>
+        <segue reference="5XK-db-80A"/>
+        <segue reference="3TO-hV-wL9"/>
     </inferredMetricsTieBreakers>
 </document>

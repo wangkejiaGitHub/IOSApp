@@ -12,7 +12,7 @@
 #import "SelectParTopicViewController.h"
 /////?????????????
 //#import "SubjectPayViewController.h"
-@interface ChaptersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate,SelectSubjectDelegate>
+@interface ChaptersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveDelegate,SelectSubjectDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
@@ -67,8 +67,11 @@
     
 }
 - (void)viewWillAppear:(BOOL)animated{
-     self.navigationController.tabBarController.tabBar.hidden = YES;
-    [self getAccessToken];
+//     self.navigationController.tabBarController.tabBar.hidden = YES;
+//    [self getAccessToken];
+    
+    NSString *acc = [_tyUser objectForKey:tyUserAccessToken];
+    [self getChaptersInfo:acc];
 }
 
 
@@ -110,35 +113,35 @@
 /**
  科目授权，获取令牌
  */
-- (void)getAccessToken{
-    if (!_customTools) {
-        _customTools = [[CustomTools alloc]init];
-        _customTools.delegateTool = self;
-    }
-    if (!_tyUser) {
-        _tyUser = [NSUserDefaults standardUserDefaults];
-    }
-    //获取储存的专业信息
-    _dicUserClass = [_tyUser objectForKey:tyUserClass];
-    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
-    //开始授权
-    //授权并收取令牌
-    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
-    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
-}
+//- (void)getAccessToken{
+//    if (!_customTools) {
+//        _customTools = [[CustomTools alloc]init];
+//        _customTools.delegateTool = self;
+//    }
+//    if (!_tyUser) {
+//        _tyUser = [NSUserDefaults standardUserDefaults];
+//    }
+//    //获取储存的专业信息
+//    _dicUserClass = [_tyUser objectForKey:tyUserClass];
+//    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
+//    //开始授权
+//    //授权并收取令牌
+//    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
+//    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
+//}
 /**
  获取令牌成功，并开始回调
  */
-- (void)httpSussessReturnClick{
-    NSString *acc = [_tyUser objectForKey:tyUserAccessToken];
-    [self getChaptersInfo:acc];
-}
-/**
- 获取令牌失败
- */
-- (void)httpErrorReturnClick{
-    [_mzView removeFromSuperview];
-}
+//- (void)httpSussessReturnClick{
+//    NSString *acc = [_tyUser objectForKey:tyUserAccessToken];
+//    [self getChaptersInfo:acc];
+//}
+///**
+// 获取令牌失败
+// */
+//- (void)httpErrorReturnClick{
+//    [_mzView removeFromSuperview];
+//}
 
 /**
  获取章节考点信息,并根据节点进行章节分类
@@ -171,8 +174,7 @@
             }
 
         }
-        ///////////////////////////////////////////
-        
+
         [_mzView removeFromSuperview];
         //重新刷新数据，让tableView返回到顶部
         [_myTableView reloadData];

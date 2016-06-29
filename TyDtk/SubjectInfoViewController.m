@@ -15,7 +15,7 @@
 #import "WeekSelectViewController.h"
 //智能出题
 #import "IntelligentTopicViewController.h"
-@interface SubjectInfoViewController ()
+@interface SubjectInfoViewController ()<CustomToolDelegate>
 //@property (weak, nonatomic) IBOutlet UIView *viewNaviTitle;
 //@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonLayoutWidth;
 //@property (weak, nonatomic) IBOutlet UIButton *buttonHeard;
@@ -34,6 +34,8 @@
 @property (nonatomic,strong) CustomTools *customTool;
 //专业下所有科目科目
 @property (nonatomic,strong) NSArray *arraySubject;
+//储存的专业信息
+@property (nonatomic,strong) NSDictionary *dicUserClass;
 //@property (nonatomic,strong) UIView *viewDroupDownList;
 @property (nonatomic,assign) BOOL allowMenu;
 //@property (nonatomic,assign) CGFloat tableHeight;
@@ -56,8 +58,8 @@
 @property (nonatomic,strong) WeekSelectViewController *weekSelectVc;
 //智能出题
 @property (nonatomic,strong) IntelligentTopicViewController *intelligentVc;
-
 @property (nonatomic,strong) NSString *currSubject;
+
 @end
 
 @implementation SubjectInfoViewController
@@ -293,32 +295,44 @@
 }
 ///下拉菜单中的item点击事件
 - (void)itemMenuClick:(NSInteger)indexItem{
-    if (_indexCurrChildView == 3) {
-        if (indexItem != 0) {
-            _dicCurrSubject = _arraySubject[indexItem - 1];
-            UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-            IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
-            intellVc.dicSubject = _dicCurrSubject;
-            [self.navigationController pushViewController:intellVc animated:YES];
-        }
-        [_tyUser setObject:_dicCurrSubject forKey:tyUserSubject];
-        [_tyUser setObject:_dicCurrSubject forKey:tyUserSelectSubject];
-        return;
-    }
     _dropDownCurrIndex = indexItem;
     [_viewNilData removeFromSuperview];
     if (indexItem!=0) {
+        ////先授权
         _dicCurrSubject = _arraySubject[indexItem - 1];
         [_tyUser setObject:_dicCurrSubject forKey:tyUserSubject];
         [_tyUser setObject:_dicCurrSubject forKey:tyUserSelectSubject];
-        [self showSelfChildViewWithViewIndex];
+        _customTool = [[CustomTools alloc]init];
+        _customTool.delegateTool = self;
+        _tyUser = [NSUserDefaults standardUserDefaults];
+        //获取储存的专业信息
+        NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
+        _dicUserClass = [_tyUser objectForKey:tyUserClass];
+        NSString *subjectId = [NSString stringWithFormat:@"%ld",[_dicCurrSubject[@"Id"] integerValue]];
+        //授权并收取令牌
+        NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
+        [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:subjectId];
     }
     else{
         _dicCurrSubject = nil;
         [self ifDataIsNil];
     }
 }
-
+////授权成功
+- (void)httpSussessReturnClick{
+    if (_indexCurrChildView == 3) {
+        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+        IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
+        intellVc.dicSubject = _dicCurrSubject;
+        [self.navigationController pushViewController:intellVc animated:YES];
+    }
+    else{
+        [self showSelfChildViewWithViewIndex];
+    }
+}
+-(void)httpErrorReturnClick{
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

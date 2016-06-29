@@ -21,7 +21,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"科目激活";
-    _arrayCellImg = @[@"",@"alipay",@"wxpay"];
+    _arrayCellImg = @[@"alipay",@"wxpay"];
     self.tableViewPay.backgroundColor = [UIColor whiteColor];
     
     UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 200)];
@@ -44,7 +44,7 @@
     
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return _arrayCellImg.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 60;
@@ -69,7 +69,7 @@
     [cell.contentView addSubview:imagePay];
     
     
-    if (indexPath.row == 2) {
+    if (indexPath.row == 1) {
         imagePay.frame = CGRectMake(60, 10, 140, 40);
     }
     

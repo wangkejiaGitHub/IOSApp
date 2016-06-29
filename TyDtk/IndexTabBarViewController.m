@@ -11,7 +11,7 @@
 #import "DtkNavViewController.h"
 #import "PracticeNavViewController.h"
 #import "UserNavViewController.h"
-@interface IndexTabBarViewController ()<GuideViewDelegate>
+@interface IndexTabBarViewController ()<GuideViewDelegate,UITabBarControllerDelegate>
 @property (nonatomic,strong) GuideView *scrollViewFirst;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @end
@@ -38,6 +38,7 @@
     //引导页加载完后，删除
     
     /////////////////////////////////////////////////////////
+    self.delegate  = self;
     UIStoryboard *sTyDtk = CustomStoryboard(@"TyDTK");
     UIStoryboard *sTyPractice = CustomStoryboard(@"TyLearn");
     UIStoryboard *sTyUser = CustomStoryboard(@"TyUserIn");
@@ -46,7 +47,6 @@
     PracticeNavViewController *praNavi = [sTyPractice instantiateViewControllerWithIdentifier:@"PracticeNavViewController"];
     UserNavViewController *userNavi = [sTyUser instantiateViewControllerWithIdentifier:@"UserNavViewController"];
     self.viewControllers = @[dtkNavi,praNavi,userNavi];
-    
 }
 //左滑或点击button回调
 - (void)GuideViewDismiss{
@@ -74,6 +74,10 @@
     if (anim == [_scrollViewFirst.layer animationForKey:@"first"]) {
         [_scrollViewFirst removeFromSuperview];
     }
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+    NSLog(@"fdsff");
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

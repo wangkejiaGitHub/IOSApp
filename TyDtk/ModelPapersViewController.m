@@ -7,10 +7,11 @@
 //
 
 #import "ModelPapersViewController.h"
-@interface ModelPapersViewController ()<CustomToolDelegate,UITableViewDataSource,UITableViewDelegate,ActiveDelegate,UIScrollViewDelegate>
+@interface ModelPapersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveDelegate,UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewLayoutTop;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewLauoutBottom;
 
 @property (nonatomic, strong) UIButton *buttonLeveles;
 @property (nonatomic, strong) UIButton *buttonYear;
@@ -72,11 +73,13 @@
     _myTableView.tableFooterView = [UIView new];
     [_buttonYear setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+//    _accessToken = 
 }
 - (void)viewWillAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = YES;
+    _myTableView.backgroundColor = [UIColor redColor];
+    
     if (!_viewHeader) {
-        _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
+        _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, 40)];
         _viewHeader.backgroundColor =ColorWithRGB(210, 210, 210);
         UILabel *labTiopicType = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 60, 30)];
         labTiopicType.font = [UIFont systemFontOfSize:12.0];
@@ -114,11 +117,13 @@
     if (_intPushWhere == 0) {
       
         _viewHeader.frame = CGRectMake(0, 0, Scr_Width, 40);
+        _tableViewLayoutTop.constant = 40;
     }
     //从练习中心进入
     else{
        
         _viewHeader.frame = CGRectMake(0, 64, Scr_Width, 40);
+        _tableViewLayoutTop.constant = 0;
     }
 }
 - (void)viewDidAppear:(BOOL)animated{
@@ -137,8 +142,8 @@
 ///判断是否购买了该科目（是否激活了科目）
 - (void)isBuySubject{
     _tyUser = [NSUserDefaults standardUserDefaults];
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     NSDictionary *dicUser = [_tyUser objectForKey:tyUserUser];
-    //ty/mobile/order/productValidate?productId=662
     NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,_subjectId,dicUser[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicIsBuy = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -155,17 +160,21 @@
             else{
                 _isBuyDidSubject = YES;
             }
-            
-            //试卷授权一次
-            if (_allowToken) {
-                //        _paterLevel = @"0";
-                //        _paterYear =@"0";
-                _paterPages = 0;
-                _paterIndexPage = 1;
-                [_arrayPapers removeAllObjects];
-                [self getAccessToken];
-            }
-            _allowToken = NO;
+            _paterPages = 0;
+            _paterIndexPage = 1;
+            [_arrayPapers removeAllObjects];
+            [self getModelPapersData];
+            [self getPaperLevels];
+//            //试卷授权一次
+//            if (_allowToken) {
+//                //        _paterLevel = @"0";
+//                //        _paterYear =@"0";
+//                _paterPages = 0;
+//                _paterIndexPage = 1;
+//                [_arrayPapers removeAllObjects];
+//                [self getAccessToken];
+//            }
+//            _allowToken = NO;
 
             NSLog(@"%@",dicDatas);
         }
@@ -183,20 +192,20 @@
 /**
  授权，收取令牌
  */
-- (void)getAccessToken{
-    _customTools = [[CustomTools alloc]init];
-    _customTools.delegateTool = self;
-    _tyUser = [NSUserDefaults standardUserDefaults];
-    //获取储存的专业信息
-    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
-    _dicUserClass = [_tyUser objectForKey:tyUserClass];
-    if (!_mzView) {
-        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-    }
-    //授权并收取令牌
-    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
-    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
-}
+//- (void)getAccessToken{
+//    _customTools = [[CustomTools alloc]init];
+//    _customTools.delegateTool = self;
+//    _tyUser = [NSUserDefaults standardUserDefaults];
+//    //获取储存的专业信息
+//    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
+//    _dicUserClass = [_tyUser objectForKey:tyUserClass];
+//    if (!_mzView) {
+//        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+//    }
+//    //授权并收取令牌
+//    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
+//    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
+//}
 /**
  试卷信息列表的头试图
  */
@@ -235,18 +244,18 @@
 /**
  授权成功回调，用与第一次授权加载数据
  */
-- (void)httpSussessReturnClick{
-    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-    //获取试卷信息
-    [self getModelPapersData];
-    [self getPaperLevels];
-}
-/**
- 授权失败
- */
-- (void)httpErrorReturnClick{
-    
-}
+//- (void)httpSussessReturnClick{
+//    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+//    //获取试卷信息
+//    [self getModelPapersData];
+//    [self getPaperLevels];
+//}
+///**
+// 授权失败
+// */
+//- (void)httpErrorReturnClick{
+//    
+//}
 /**
  获取试卷数据
  */
@@ -261,6 +270,10 @@
     [self addHeardViewForPaterList];
     [SVProgressHUD show];
     //获取试卷级别
+    ///添加朦层
+    if (!_mzView) {
+        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    }
     [self.navigationController.tabBarController.view addSubview:_mzView];
     //获取试卷级别
     //    [self getModelPaterLevel];
@@ -335,6 +348,9 @@
 }
 //tableView上的scroll代理，用户判断是否显示'回到顶部'按钮
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    if (scrollView == _myTableView) {
+//        NSLog(@"fsf");
+//    }
     if (_myTableView.contentOffset.y > Scr_Height - 64 - 50) {
         [_buttonTopTable removeFromSuperview];
         if (!_buttonTopTable) {
@@ -364,6 +380,7 @@
                 rect.origin.y = -40;
                 _viewHeader.frame = rect;
             }];
+            _tableViewLayoutTop.constant = 0;
         }
         //从练习中心进入
         else{
@@ -372,8 +389,9 @@
                 rect.origin.y = 24;
                 _viewHeader.frame = rect;
             }];
+            _tableViewLayoutTop.constant = 0;
         }
-        _tableViewLayoutTop.constant = 0;
+        
     }else{
         //从题库进入
         if (_intPushWhere == 0) {
@@ -383,6 +401,7 @@
                 rect.origin.y = 0;
                 _viewHeader.frame = rect;
             }];
+            _tableViewLayoutTop.constant = 40;
         }
         //从练习中心进入
         else{
@@ -391,9 +410,8 @@
                 rect.origin.y = 64;
                 _viewHeader.frame = rect;
             }];
-
+            _tableViewLayoutTop.constant = 40;
         }
-        _tableViewLayoutTop.constant = 40;
     }
 
 }

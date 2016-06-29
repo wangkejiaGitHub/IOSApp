@@ -8,7 +8,7 @@
 
 #import "WeekSelectViewController.h"
 
-@interface WeekSelectViewController ()<CustomToolDelegate,ActiveDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface WeekSelectViewController ()<ActiveDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewWeek;
 
 //授权工具
@@ -46,7 +46,9 @@
     // Do any additional setup after loading the view.
 }
 - (void)viewWillAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = YES;
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+  
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
@@ -55,15 +57,19 @@
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _tableViewWeek.mj_footer = _refreshFooter;
     //试卷授权一次
-    if (_allowToken) {
-        //        _paterLevel = @"0";
-        //        _paterYear =@"0";
-        _paterPages = 0;
-        _paterIndexPage = 1;
-        [_arrayPapers removeAllObjects];
-        [self getAccessToken];
-    }
-    _allowToken = NO;
+//    if (_allowToken) {
+//        //        _paterLevel = @"0";
+//        //        _paterYear =@"0";
+//        _paterPages = 0;
+//        _paterIndexPage = 1;
+//        [_arrayPapers removeAllObjects];
+//        [self getAccessToken];
+//    }
+//    _allowToken = NO;
+    _paterPages = 0;
+    _paterIndexPage = 1;
+    [_arrayPapers removeAllObjects];
+    [self getWeekSelectPaper];
 }
 - (void)viewDidAppear:(BOOL)animated{
     
@@ -110,33 +116,33 @@
 /**
  授权，收取令牌
  */
-- (void)getAccessToken{
-    _customTools = [[CustomTools alloc]init];
-    _customTools.delegateTool = self;
-    _tyUser = [NSUserDefaults standardUserDefaults];
-    //获取储存的专业信息
-    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
-    _dicUserClass = [_tyUser objectForKey:tyUserClass];
-    if (!_mzView) {
-        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-    }
-    //授权并收取令牌
-    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
-    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
-}
-/**
- 授权成功
- */
-- (void)httpSussessReturnClick{
-     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-    [self getWeekSelectPaper];
-}
-/**
-授权失败
-*/
--(void)httpErrorReturnClick{
-    
-}
+//- (void)getAccessToken{
+//    _customTools = [[CustomTools alloc]init];
+//    _customTools.delegateTool = self;
+//    _tyUser = [NSUserDefaults standardUserDefaults];
+//    //获取储存的专业信息
+//    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
+//    _dicUserClass = [_tyUser objectForKey:tyUserClass];
+//    if (!_mzView) {
+//        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+//    }
+//    //授权并收取令牌
+//    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
+//    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
+//}
+///**
+// 授权成功
+// */
+//- (void)httpSussessReturnClick{
+//     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+//    [self getWeekSelectPaper];
+//}
+///**
+//授权失败
+//*/
+//-(void)httpErrorReturnClick{
+//    
+//}
 //上拉刷新
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
     [self getWeekSelectPaper];
@@ -152,6 +158,9 @@
             [_refreshFooter endRefreshingWithNoMoreData];
             return;
         }
+    }
+    if (!_mzView) {
+    _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
     }
     [self.navigationController.tabBarController.view addSubview:_mzView];
     [SVProgressHUD show];
