@@ -1195,7 +1195,7 @@
 		1DC18ECC1CB77D540006D642 /* SimulateTestPaper */ = {
 			isa = PBXGroup;
 			children = (
-				1DD2E6F61CB5F1C800423484 /* XibForTk */,
+				1DD2E6F61CB5F1C800423484 /* ActiveSubject */,
 				1D2A6B191CB4AC72005D3455 /* ModelPapersViewController.h */,
 				1D2A6B1A1CB4AC72005D3455 /* ModelPapersViewController.m */,
 			);
@@ -1346,14 +1346,14 @@
 			path = HWPoTools;
 			sourceTree = "<group>";
 		};
-		1DD2E6F61CB5F1C800423484 /* XibForTk */ = {
+		1DD2E6F61CB5F1C800423484 /* ActiveSubject */ = {
 			isa = PBXGroup;
 			children = (
 				1DD2E6F71CB5F21600423484 /* ActiveView.xib */,
 				1DD2E6F91CB5F25800423484 /* ActiveVIew.h */,
 				1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */,
 			);
-			name = XibForTk;
+			name = ActiveSubject;
 			sourceTree = "<group>";
 		};
 		1DDA96CE1CDC34A6001A7DAE /* AnswerTopic */ = {
