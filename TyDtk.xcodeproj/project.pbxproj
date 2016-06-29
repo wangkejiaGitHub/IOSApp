@@ -92,6 +92,8 @@
 		1D347B641D0EA480006DB889 /* EditExamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D347B621D0EA480006DB889 /* EditExamViewController.m */; };
 		1D347B651D0EA480006DB889 /* EditExamViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D347B631D0EA480006DB889 /* EditExamViewController.xib */; };
 		1D4227041D05879200A9B816 /* DateStringCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4227031D05879200A9B816 /* DateStringCompare.m */; };
+		1D436DC11D23CF5700D424F8 /* ActiveSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D436DBF1D23CF5700D424F8 /* ActiveSubjectViewController.m */; };
+		1D436DC21D23CF5700D424F8 /* ActiveSubjectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D436DC01D23CF5700D424F8 /* ActiveSubjectViewController.xib */; };
 		1D579EF71CE9668100578519 /* NSObject+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */; };
 		1D579EF81CE9668100578519 /* NSString+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED61CE9668100578519 /* NSString+Zirkfied.m */; };
 		1D579EF91CE9668100578519 /* UIColor+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED81CE9668100578519 /* UIColor+Zirkfied.m */; };
@@ -424,6 +426,9 @@
 		1D347B631D0EA480006DB889 /* EditExamViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditExamViewController.xib; sourceTree = "<group>"; };
 		1D4227021D05879200A9B816 /* DateStringCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateStringCompare.h; sourceTree = "<group>"; };
 		1D4227031D05879200A9B816 /* DateStringCompare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateStringCompare.m; sourceTree = "<group>"; };
+		1D436DBE1D23CF5700D424F8 /* ActiveSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveSubjectViewController.h; sourceTree = "<group>"; };
+		1D436DBF1D23CF5700D424F8 /* ActiveSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveSubjectViewController.m; sourceTree = "<group>"; };
+		1D436DC01D23CF5700D424F8 /* ActiveSubjectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActiveSubjectViewController.xib; sourceTree = "<group>"; };
 		1D579ED31CE9668100578519 /* NSObject+Zirkfied.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zirkfied.h"; sourceTree = "<group>"; };
 		1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Zirkfied.m"; sourceTree = "<group>"; };
 		1D579ED51CE9668100578519 /* NSString+Zirkfied.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Zirkfied.h"; sourceTree = "<group>"; };
@@ -977,6 +982,9 @@
 			children = (
 				1D2277F21D224E1400D2269C /* PayViewController.h */,
 				1D2277F31D224E1400D2269C /* PayViewController.m */,
+				1D436DBE1D23CF5700D424F8 /* ActiveSubjectViewController.h */,
+				1D436DBF1D23CF5700D424F8 /* ActiveSubjectViewController.m */,
+				1D436DC01D23CF5700D424F8 /* ActiveSubjectViewController.xib */,
 			);
 			name = SubjectPay;
 			sourceTree = "<group>";
@@ -1933,6 +1941,7 @@
 				1D122B9D1CDDBB9800A0BA08 /* AnalysisQtype3Cell.xib in Resources */,
 				1D165E681CD1DA1E00F61EAE /* NotesView.xib in Resources */,
 				1DE5F8D31CD092BD0046CD8A /* paterTopicQtype5Cell.xib in Resources */,
+				1D436DC21D23CF5700D424F8 /* ActiveSubjectViewController.xib in Resources */,
 				1DF9473B1CF6936E00CC4759 /* TouXinagTest.jpg in Resources */,
 				1DF765921CE183B2002DE129 /* NotesUserCell.xib in Resources */,
 				1DC18F0B1CB795D50006D642 /* MJRefresh.bundle in Resources */,
@@ -2114,6 +2123,7 @@
 				1D1137221CF3FD8C0092DF02 /* MASConstraintMaker.m in Sources */,
 				1D211FD21D0D57C600B895C6 /* TAAnimatedDotView.m in Sources */,
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
+				1D436DC11D23CF5700D424F8 /* ActiveSubjectViewController.m in Sources */,
 				1D122BA71CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m in Sources */,
 				1D92C8891D1389EB006A937F /* TopicLookQtpye1TableViewCell.m in Sources */,
 				1D11372D1CF42D5B0092DF02 /* IntelligentTopicViewController.m in Sources */,

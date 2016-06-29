@@ -10,8 +10,7 @@
 #import "MGSwipeTableCell.h"
 #import "selectChaperSubjectView.h"
 #import "SelectParTopicViewController.h"
-/////?????????????
-//#import "SubjectPayViewController.h"
+#import "ActiveSubjectViewController.h"
 @interface ChaptersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveDelegate,SelectSubjectDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 //授权工具
@@ -62,14 +61,10 @@
     
 }
 - (void)viewDidAppear:(BOOL)animated{
-//    [_arraySection removeAllObjects];
-//    self.tabBarController.tabBar.hidden = NO;
-    
+ 
 }
 - (void)viewWillAppear:(BOOL)animated{
-//     self.navigationController.tabBarController.tabBar.hidden = YES;
-//    [self getAccessToken];
-    
+
     NSString *acc = [_tyUser objectForKey:tyUserAccessToken];
     [self getChaptersInfo:acc];
 }
@@ -102,47 +97,14 @@
 //激活码做题回调代理
 - (void)activeForPapersClick{
     NSLog(@"激活码做题");
-    UIStoryboard *sCommon = [UIStoryboard storyboardWithName:@"TyCommon" bundle:nil];
-    UIViewController *payVc = [sCommon instantiateViewControllerWithIdentifier:@"PayViewController"];
-    [self.navigationController pushViewController:payVc animated:YES];
+    ActiveSubjectViewController *acVc = [[ActiveSubjectViewController alloc]initWithNibName:@"ActiveSubjectViewController" bundle:nil];
+    acVc.subjectId = [_subjectId integerValue];
+    [self.navigationController pushViewController:acVc animated:YES];
 }
 //获取激活码回调代理
 - (void)getActiveMaClick{
     NSLog(@"如何获取激活码");
 }
-/**
- 科目授权，获取令牌
- */
-//- (void)getAccessToken{
-//    if (!_customTools) {
-//        _customTools = [[CustomTools alloc]init];
-//        _customTools.delegateTool = self;
-//    }
-//    if (!_tyUser) {
-//        _tyUser = [NSUserDefaults standardUserDefaults];
-//    }
-//    //获取储存的专业信息
-//    _dicUserClass = [_tyUser objectForKey:tyUserClass];
-//    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
-//    //开始授权
-//    //授权并收取令牌
-//    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
-//    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
-//}
-/**
- 获取令牌成功，并开始回调
- */
-//- (void)httpSussessReturnClick{
-//    NSString *acc = [_tyUser objectForKey:tyUserAccessToken];
-//    [self getChaptersInfo:acc];
-//}
-///**
-// 获取令牌失败
-// */
-//- (void)httpErrorReturnClick{
-//    [_mzView removeFromSuperview];
-//}
-
 /**
  获取章节考点信息,并根据节点进行章节分类
  */

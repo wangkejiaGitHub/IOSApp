@@ -185,7 +185,6 @@
         }
         _modelPapersVc.intPushWhere = 0;
         _modelPapersVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
-        _modelPapersVc.allowToken = YES;
         [self.view addSubview:_modelPapersVc.view];
     }
     //每周精选
@@ -195,7 +194,6 @@
             _weekSelectVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49 - 64);
         }
         _weekSelectVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
-        _weekSelectVc.allowToken = YES;
         [self.view addSubview:_weekSelectVc.view];
     }
 }

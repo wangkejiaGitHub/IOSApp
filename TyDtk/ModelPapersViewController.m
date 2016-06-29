@@ -64,7 +64,6 @@
     [self viewLoad];
 }
 - (void)viewLoad{
-    _allowToken = YES;
     _paterPages = 0;
     _paterIndexPage = 1;
     _paterYear = @"0";
@@ -73,7 +72,6 @@
     _myTableView.tableFooterView = [UIView new];
     [_buttonYear setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-//    _accessToken = 
 }
 - (void)viewWillAppear:(BOOL)animated{
     _myTableView.backgroundColor = [UIColor redColor];
@@ -165,17 +163,6 @@
             [_arrayPapers removeAllObjects];
             [self getModelPapersData];
             [self getPaperLevels];
-//            //试卷授权一次
-//            if (_allowToken) {
-//                //        _paterLevel = @"0";
-//                //        _paterYear =@"0";
-//                _paterPages = 0;
-//                _paterIndexPage = 1;
-//                [_arrayPapers removeAllObjects];
-//                [self getAccessToken];
-//            }
-//            _allowToken = NO;
-
             NSLog(@"%@",dicDatas);
         }
         //用户未登录或者登录超时
@@ -189,23 +176,6 @@
 - (void)viewWillDisappear:(BOOL)animated{
     _refreshFooter = nil;
 }
-/**
- 授权，收取令牌
- */
-//- (void)getAccessToken{
-//    _customTools = [[CustomTools alloc]init];
-//    _customTools.delegateTool = self;
-//    _tyUser = [NSUserDefaults standardUserDefaults];
-//    //获取储存的专业信息
-//    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
-//    _dicUserClass = [_tyUser objectForKey:tyUserClass];
-//    if (!_mzView) {
-//        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-//    }
-//    //授权并收取令牌
-//    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
-//    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
-//}
 /**
  试卷信息列表的头试图
  */
@@ -235,27 +205,13 @@
  */
 //激活码做题回调代理
 - (void)activeForPapersClick{
+    
     NSLog(@"激活码做题");
 }
 //获取激活码回调代理
 - (void)getActiveMaClick{
     NSLog(@"如何获取激活码");
 }
-/**
- 授权成功回调，用与第一次授权加载数据
- */
-//- (void)httpSussessReturnClick{
-//    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-//    //获取试卷信息
-//    [self getModelPapersData];
-//    [self getPaperLevels];
-//}
-///**
-// 授权失败
-// */
-//- (void)httpErrorReturnClick{
-//    
-//}
 /**
  获取试卷数据
  */
@@ -348,9 +304,6 @@
 }
 //tableView上的scroll代理，用户判断是否显示'回到顶部'按钮
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    if (scrollView == _myTableView) {
-//        NSLog(@"fsf");
-//    }
     if (_myTableView.contentOffset.y > Scr_Height - 64 - 50) {
         [_buttonTopTable removeFromSuperview];
         if (!_buttonTopTable) {

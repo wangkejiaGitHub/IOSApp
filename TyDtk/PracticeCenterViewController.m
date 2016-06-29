@@ -147,7 +147,6 @@
             else if (indexPath.row == 1){
                 ModelPapersViewController *modelVc = [sCommon instantiateViewControllerWithIdentifier:@"ModelPapersViewController"];
                 modelVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-                modelVc.allowToken = YES;
                 modelVc.intPushWhere = 1;
                 modelVc.title = @"模拟试卷";
                 [self.navigationController pushViewController:modelVc animated:YES];
@@ -157,7 +156,6 @@
             else if (indexPath.row == 2){
                 WeekSelectViewController *weekVc = [sCommon instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
                 weekVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-                weekVc.allowToken = YES;
                 weekVc.title = @"每周精选";
                 [self.navigationController pushViewController:weekVc animated:YES];
                 NSLog(@"每周精选");
