@@ -10,4 +10,6 @@
 
 @interface ActiveSubjectViewController : UIViewController
 @property (nonatomic,assign) NSInteger subjectId;
+///判断是购买还是直接激活（0.激活、1.下单）
+@property (nonatomic,assign) NSInteger payParameter;
 @end

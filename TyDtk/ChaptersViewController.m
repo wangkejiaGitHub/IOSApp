@@ -61,15 +61,9 @@
     
 }
 - (void)viewDidAppear:(BOOL)animated{
- 
-}
-- (void)viewWillAppear:(BOOL)animated{
-
     NSString *acc = [_tyUser objectForKey:tyUserAccessToken];
     [self getChaptersInfo:acc];
 }
-
-
 /**
  获取tableView的头试图，并设置其参数值
  */
@@ -97,9 +91,13 @@
 //激活码做题回调代理
 - (void)activeForPapersClick{
     NSLog(@"激活码做题");
-    ActiveSubjectViewController *acVc = [[ActiveSubjectViewController alloc]initWithNibName:@"ActiveSubjectViewController" bundle:nil];
+    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+    
+    ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
     acVc.subjectId = [_subjectId integerValue];
+    acVc.payParameter = 1;
     [self.navigationController pushViewController:acVc animated:YES];
+    
 }
 //获取激活码回调代理
 - (void)getActiveMaClick{

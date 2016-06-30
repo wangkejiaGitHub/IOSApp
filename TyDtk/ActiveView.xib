@@ -77,7 +77,7 @@
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <state key="normal" title="用激活码做题">
-                        <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
                         <action selector="activeBtnClick:" destination="iN0-l3-epB" eventType="touchUpInside" id="fma-Kx-DjB"/>

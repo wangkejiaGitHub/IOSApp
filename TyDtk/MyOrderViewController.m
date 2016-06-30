@@ -9,16 +9,28 @@
 #import "MyOrderViewController.h"
 
 @interface MyOrderViewController ()
-
+@property (nonatomic,strong) NSUserDefaults *tyUser;
+@property (nonatomic,strong) NSDictionary *dicUserInfo;
 @end
 
 @implementation MyOrderViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    _dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
     // Do any additional setup after loading the view.
+    [self getAllOrderList];
 }
-
+- (void)getAllOrderList{
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/orderList?jeeId=%@&fromSystem=902&page=1&size=5",systemHttpsKaoLaTopicImg,_dicUserInfo[@"jeeId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicOrder = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicOrder);
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
