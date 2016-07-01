@@ -7,8 +7,8 @@
 //
 
 #import "WeekSelectViewController.h"
-
-@interface WeekSelectViewController ()<ActiveDelegate,UITableViewDataSource,UITableViewDelegate>
+#import "ActiveSubjectViewController.h"
+@interface WeekSelectViewController ()<ActiveSubjectDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewWeek;
 
 //授权工具
@@ -18,7 +18,7 @@
 //朦层
 @property (nonatomic,strong) MZView *mzView;
 //头试图
-@property (nonatomic,strong) ActiveVIew *hearhVIew;
+@property (nonatomic,strong) ActiveSubjectView *hearhVIew;
 //空数据显示层
 @property (nonatomic,strong) ViewNullData *viewNilData;
 //令牌
@@ -56,30 +56,19 @@
     [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _tableViewWeek.mj_footer = _refreshFooter;
-    //试卷授权一次
-//    if (_allowToken) {
-//        //        _paterLevel = @"0";
-//        //        _paterYear =@"0";
-//        _paterPages = 0;
-//        _paterIndexPage = 1;
-//        [_arrayPapers removeAllObjects];
-//        [self getAccessToken];
-//    }
-//    _allowToken = NO;
+}
+- (void)viewDidAppear:(BOOL)animated{
     _paterPages = 0;
     _paterIndexPage = 1;
     [_arrayPapers removeAllObjects];
     [self getWeekSelectPaper];
-}
-- (void)viewDidAppear:(BOOL)animated{
-    
 }
 /**
  试卷信息列表的头试图
  */
 - (void)addHeardViewForPaterList{
     if (!_hearhVIew) {
-        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
+        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
         _hearhVIew.delegateAtive = self;
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10)];
         [view addSubview:_hearhVIew];
@@ -105,44 +94,15 @@
 /**
  头试图回调代理
  */
-//激活码做题回调代理
-- (void)activeForPapersClick{
-    NSLog(@"激活码做题");
+//激活码做题或购买商品回调代理
+- (void)paySubjectProductWithPayParameter:(NSInteger)PayParameter{
+    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+    ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
+    acVc.subjectId = [_subjectId integerValue];
+    acVc.payParameter = PayParameter;
+    [self.navigationController pushViewController:acVc animated:YES];
 }
-//获取激活码回调代理
-- (void)getActiveMaClick{
-    NSLog(@"如何获取激活码");
-}
-/**
- 授权，收取令牌
- */
-//- (void)getAccessToken{
-//    _customTools = [[CustomTools alloc]init];
-//    _customTools.delegateTool = self;
-//    _tyUser = [NSUserDefaults standardUserDefaults];
-//    //获取储存的专业信息
-//    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
-//    _dicUserClass = [_tyUser objectForKey:tyUserClass];
-//    if (!_mzView) {
-//        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-//    }
-//    //授权并收取令牌
-//    NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
-//    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
-//}
-///**
-// 授权成功
-// */
-//- (void)httpSussessReturnClick{
-//     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-//    [self getWeekSelectPaper];
-//}
-///**
-//授权失败
-//*/
-//-(void)httpErrorReturnClick{
-//    
-//}
+
 //上拉刷新
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
     [self getWeekSelectPaper];

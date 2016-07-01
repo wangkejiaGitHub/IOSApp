@@ -163,12 +163,12 @@
 		1DD126C51D1A6FB4003853E5 /* SelectSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD126C41D1A6FB4003853E5 /* SelectSubjectViewController.m */; };
 		1DD1270D1D1A87E3003853E5 /* HWPopTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD1270C1D1A87E3003853E5 /* HWPopTool.m */; };
 		1DD127131D1A8F96003853E5 /* MyNoteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD127111D1A8F96003853E5 /* MyNoteViewController.m */; };
-		1DD2E6F81CB5F21700423484 /* ActiveView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD2E6F71CB5F21600423484 /* ActiveView.xib */; };
-		1DD2E6FB1CB5F25800423484 /* ActiveVIew.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */; };
 		1DDA96CD1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */; };
 		1DDA96D21CDC3551001A7DAE /* StartAnalysisTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDA96D11CDC3551001A7DAE /* StartAnalysisTopicViewController.m */; };
 		1DDA96D61CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDA96D51CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m */; };
 		1DDA96D81CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDA96D71CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib */; };
+		1DDBBFE31D25F9130009C59F /* ActiveSubjetView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDBBFE21D25F9130009C59F /* ActiveSubjetView.xib */; };
+		1DDBBFE61D25FBB40009C59F /* ActiveSubjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBBFE51D25FBB40009C59F /* ActiveSubjectView.m */; };
 		1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */; };
 		1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE066A1CAA296A00FA1505 /* EmailForPwdViewController.m */; };
 		1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */; };
@@ -558,9 +558,6 @@
 		1DD1270C1D1A87E3003853E5 /* HWPopTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HWPopTool.m; sourceTree = "<group>"; };
 		1DD127101D1A8F96003853E5 /* MyNoteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNoteViewController.h; sourceTree = "<group>"; };
 		1DD127111D1A8F96003853E5 /* MyNoteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyNoteViewController.m; sourceTree = "<group>"; };
-		1DD2E6F71CB5F21600423484 /* ActiveView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActiveView.xib; sourceTree = "<group>"; };
-		1DD2E6F91CB5F25800423484 /* ActiveVIew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveVIew.h; sourceTree = "<group>"; };
-		1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveVIew.m; sourceTree = "<group>"; };
 		1DDA96CB1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperTopicAnalysisViewController.h; sourceTree = "<group>"; };
 		1DDA96CC1CDC33F9001A7DAE /* PaperTopicAnalysisViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperTopicAnalysisViewController.m; sourceTree = "<group>"; };
 		1DDA96D01CDC3551001A7DAE /* StartAnalysisTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartAnalysisTopicViewController.h; sourceTree = "<group>"; };
@@ -568,6 +565,9 @@
 		1DDA96D41CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisQtype1And2TableViewCell.h; sourceTree = "<group>"; };
 		1DDA96D51CDC7ED6001A7DAE /* AnalysisQtype1And2TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisQtype1And2TableViewCell.m; sourceTree = "<group>"; };
 		1DDA96D71CDC7F1E001A7DAE /* AnalysisQtype1And2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnalysisQtype1And2Cell.xib; sourceTree = "<group>"; };
+		1DDBBFE21D25F9130009C59F /* ActiveSubjetView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ActiveSubjetView.xib; sourceTree = "<group>"; };
+		1DDBBFE41D25FBB30009C59F /* ActiveSubjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveSubjectView.h; sourceTree = "<group>"; };
+		1DDBBFE51D25FBB40009C59F /* ActiveSubjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveSubjectView.m; sourceTree = "<group>"; };
 		1DDE06661CAA295B00FA1505 /* PhoneForPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhoneForPwdViewController.h; sourceTree = "<group>"; };
 		1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneForPwdViewController.m; sourceTree = "<group>"; };
 		1DDE06691CAA296A00FA1505 /* EmailForPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailForPwdViewController.h; sourceTree = "<group>"; };
@@ -1362,9 +1362,9 @@
 		1DD2E6F61CB5F1C800423484 /* ActiveSubject */ = {
 			isa = PBXGroup;
 			children = (
-				1DD2E6F71CB5F21600423484 /* ActiveView.xib */,
-				1DD2E6F91CB5F25800423484 /* ActiveVIew.h */,
-				1DD2E6FA1CB5F25800423484 /* ActiveVIew.m */,
+				1DDBBFE21D25F9130009C59F /* ActiveSubjetView.xib */,
+				1DDBBFE41D25FBB30009C59F /* ActiveSubjectView.h */,
+				1DDBBFE51D25FBB40009C59F /* ActiveSubjectView.m */,
 			);
 			name = ActiveSubject;
 			sourceTree = "<group>";
@@ -1985,7 +1985,6 @@
 				1D2277CB1D22224B00D2269C /* collect.png in Resources */,
 				1D6A484C1D22676900070614 /* TyDTK.storyboard in Resources */,
 				1DEDC7E61C9F817B0083B394 /* LaunchScreen.storyboard in Resources */,
-				1DD2E6F81CB5F21700423484 /* ActiveView.xib in Resources */,
 				1DF947341CF6908800CC4759 /* TableHeardViewForUser.xib in Resources */,
 				1DEDC7E31C9F817B0083B394 /* Assets.xcassets in Resources */,
 				1DF9404C1D1B917700D808C1 /* MyNoteTableViewCell.xib in Resources */,
@@ -1993,6 +1992,7 @@
 				1DF27B4E1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib in Resources */,
 				1DE5F8DD1CD0BCC30046CD8A /* paterTopicQtype6Cell.xib in Resources */,
 				1D0794771CFBD943009A39E8 /* SJClickEnlarge.Bundle in Resources */,
+				1DDBBFE31D25F9130009C59F /* ActiveSubjetView.xib in Resources */,
 				1DF947321CF680CA00CC4759 /* btm_icon4@2x.png in Resources */,
 				1D122B9F1CDDBE2D00A0BA08 /* AnalysisQtype5Cell.xib in Resources */,
 				1D2277D41D22244E00D2269C /* quest.png in Resources */,
@@ -2043,7 +2043,6 @@
 				1DEDC8101C9F86400083B394 /* RegisterViewController.m in Sources */,
 				1DF940401D1B868400D808C1 /* PracticeNavViewController.m in Sources */,
 				1DEDC85D1C9FA2920083B394 /* SDWebImageManager.m in Sources */,
-				1DD2E6FB1CB5F25800423484 /* ActiveVIew.m in Sources */,
 				1D30ED9D1CEC3F97005046DB /* WeekSelectViewController.m in Sources */,
 				1D1C5DD31D0659B500165ED6 /* ExerciseTableViewCell.m in Sources */,
 				1DC18F011CB795D50006D642 /* MJRefreshHeader.m in Sources */,
@@ -2104,6 +2103,7 @@
 				1D1137231CF3FD8C0092DF02 /* MASLayoutConstraint.m in Sources */,
 				1DEDC87F1C9FA6810083B394 /* HttpTools.m in Sources */,
 				1DF947421CF6C61600CC4759 /* PracticeCenterViewController.m in Sources */,
+				1DDBBFE61D25FBB40009C59F /* ActiveSubjectView.m in Sources */,
 				1D347B211D0E6407006DB889 /* ExamTableViewCell.m in Sources */,
 				1D07941B1CFBCD87009A39E8 /* ImageTopicViewController.m in Sources */,
 				1DF940451D1B86F000D808C1 /* UserNavViewController.m in Sources */,

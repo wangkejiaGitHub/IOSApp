@@ -11,7 +11,7 @@
 #import "selectChaperSubjectView.h"
 #import "SelectParTopicViewController.h"
 #import "ActiveSubjectViewController.h"
-@interface ChaptersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveDelegate,SelectSubjectDelegate>
+@interface ChaptersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveSubjectDelegate,SelectSubjectDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
@@ -21,7 +21,7 @@
 @property (nonatomic,strong) MZView *mzView;
 @property (nonatomic,strong) NSDictionary *dicUserClass;
 
-@property (nonatomic,strong) ActiveVIew *hearhVIew;
+@property (nonatomic,strong) ActiveSubjectView *hearhVIew;
 //section折叠数组
 @property (nonatomic ,strong) NSMutableArray *arraySection;
 /****************************************************/
@@ -74,7 +74,7 @@
     _dicUserClass = [_tyUser objectForKey:tyUserClass];
     
     if (!_hearhVIew) {
-        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
+        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
         _hearhVIew.delegateAtive = self;
         NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSubject];
         _hearhVIew.subjectId = _subjectId;
@@ -88,21 +88,15 @@
 /**
  头试图回调代理
  */
-//激活码做题回调代理
-- (void)activeForPapersClick{
-    NSLog(@"激活码做题");
+//激活码做题或购买商品回调代理
+- (void)paySubjectProductWithPayParameter:(NSInteger)PayParameter{
     UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-    
     ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
     acVc.subjectId = [_subjectId integerValue];
-    acVc.payParameter = 1;
+    acVc.payParameter = PayParameter;
     [self.navigationController pushViewController:acVc animated:YES];
-    
 }
-//获取激活码回调代理
-- (void)getActiveMaClick{
-    NSLog(@"如何获取激活码");
-}
+
 /**
  获取章节考点信息,并根据节点进行章节分类
  */

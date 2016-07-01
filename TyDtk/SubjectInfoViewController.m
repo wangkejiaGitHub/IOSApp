@@ -78,7 +78,14 @@
     self.tabBarController.tabBar.hidden = YES;
 }
 - (void)viewDidAppear:(BOOL)animated{
-    [self getAllSubject];
+    ///不是第一次加载（直接加载下拉菜单）
+    if (_arraySubject.count > 0) {
+         [self addDropDownListMenu];
+    }
+    ///第一次加载页面
+    else{
+        [self getAllSubject];
+    }
 }
 - (void)viewLoad{
     _allowMenu = NO;
@@ -303,13 +310,14 @@
         _customTool = [[CustomTools alloc]init];
         _customTool.delegateTool = self;
         _tyUser = [NSUserDefaults standardUserDefaults];
+        //获取储存的用户信息
+        NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
         //获取储存的专业信息
-        NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
         _dicUserClass = [_tyUser objectForKey:tyUserClass];
         NSString *subjectId = [NSString stringWithFormat:@"%ld",[_dicCurrSubject[@"Id"] integerValue]];
         //授权并收取令牌
         NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
-        [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:subjectId];
+        [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userCode:dicUserInfo[@"userCode"] classId:classId subjectId:subjectId];
     }
     else{
         _dicCurrSubject = nil;

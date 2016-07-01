@@ -56,7 +56,7 @@
     
     _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefreshClick:)];
     _tableViewNotes.mj_header = _refreshHeader;
-
+    [_arrayNotes removeAllObjects];
     _pageCurrIndex = 1;
     _pages = 0;
     [self getUserNotes];
@@ -97,7 +97,6 @@
             }
             [_tableViewNotes reloadData];
             [_refreshFooter endRefreshing];
-            [_refreshHeader endRefreshing];
         }
         NSLog(@"%@",dicNotes);
     } RequestFaile:^(NSError *error) {

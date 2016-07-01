@@ -1722,11 +1722,17 @@
                             <constraint firstAttribute="trailing" secondItem="jNe-yc-LB6" secondAttribute="trailing" id="25b-13-Jt7"/>
                             <constraint firstItem="k1d-gZ-0Ae" firstAttribute="top" secondItem="39U-JM-SDq" secondAttribute="bottom" id="Njq-v7-UsA"/>
                             <constraint firstItem="jNe-yc-LB6" firstAttribute="leading" secondItem="h6P-9Q-53T" secondAttribute="leading" id="WAG-Sp-Pdy"/>
+                            <constraint firstAttribute="bottom" secondItem="39U-JM-SDq" secondAttribute="bottom" id="XvM-UF-ruo"/>
                             <constraint firstItem="jNe-yc-LB6" firstAttribute="top" secondItem="lXh-fe-dNM" secondAttribute="bottom" id="la5-Mb-RZk"/>
                             <constraint firstItem="39U-JM-SDq" firstAttribute="leading" secondItem="h6P-9Q-53T" secondAttribute="leading" id="pHP-G2-tMO"/>
                             <constraint firstAttribute="trailing" secondItem="39U-JM-SDq" secondAttribute="trailing" id="t1x-tB-tB8"/>
                             <constraint firstItem="39U-JM-SDq" firstAttribute="top" secondItem="h6P-9Q-53T" secondAttribute="top" constant="45" id="x5r-Jg-Ex5"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Njq-v7-UsA"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="做题记录" id="wDG-Kk-9t8"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -1986,7 +1992,7 @@
         <image name="top_backbtn" width="12" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5XK-db-80A"/>
-        <segue reference="3TO-hV-wL9"/>
+        <segue reference="5ot-CK-4YJ"/>
+        <segue reference="Qot-Ol-gXn"/>
     </inferredMetricsTieBreakers>
 </document>

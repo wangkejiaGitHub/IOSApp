@@ -7,7 +7,8 @@
 //
 
 #import "ModelPapersViewController.h"
-@interface ModelPapersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveDelegate,UIScrollViewDelegate>
+#import "ActiveSubjectViewController.h"
+@interface ModelPapersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveSubjectDelegate,UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewLayoutTop;
@@ -23,7 +24,7 @@
 //朦层
 @property (nonatomic,strong) MZView *mzView;
 //头试图
-@property (nonatomic,strong) ActiveVIew *hearhVIew;
+@property (nonatomic,strong) ActiveSubjectView *hearhVIew;
 //空数据显示层
 @property (nonatomic,strong) ViewNullData *viewNilData;
 //令牌
@@ -74,8 +75,6 @@
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
 }
 - (void)viewWillAppear:(BOOL)animated{
-    _myTableView.backgroundColor = [UIColor redColor];
-    
     if (!_viewHeader) {
         _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, 40)];
         _viewHeader.backgroundColor =ColorWithRGB(210, 210, 210);
@@ -181,7 +180,7 @@
  */
 - (void)addHeardViewForPaterList{
 
-    _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveView" owner:self options:nil]lastObject];
+    _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
     _hearhVIew.delegateAtive = self;
 
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10)];
@@ -191,26 +190,23 @@
     _hearhVIew.subjectId = _subjectId;
     [_hearhVIew setActiveValue:dicCurrSubject];
     if (_isBuyDidSubject) {
-        _hearhVIew.buttonActive.userInteractionEnabled = NO;
+       ////已购买
     }
     else{
-        _hearhVIew.labGetActiveAcc.textColor = [UIColor blueColor];
-            _hearhVIew.buttonActive.backgroundColor = ColorWithRGB(255, 121, 28);
-            [_hearhVIew.buttonActive setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        ////未购买
     }
     _myTableView.tableHeaderView = view;
 }
 /**
  头试图回调代理
  */
-//激活码做题回调代理
-- (void)activeForPapersClick{
-    
-    NSLog(@"激活码做题");
-}
-//获取激活码回调代理
-- (void)getActiveMaClick{
-    NSLog(@"如何获取激活码");
+//激活码做题或购买商品回调代理
+- (void)paySubjectProductWithPayParameter:(NSInteger)PayParameter{
+    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+    ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
+    acVc.subjectId = [_subjectId integerValue];
+    acVc.payParameter = PayParameter;
+    [self.navigationController pushViewController:acVc animated:YES];
 }
 /**
  获取试卷数据

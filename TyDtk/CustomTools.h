@@ -25,5 +25,5 @@
   cateOrClassId:专业分类id
   courseIdOrSubjectId:科目id
  */
--(void)empowerAndSignatureWithUserId:(NSString *)userId userName:(NSString *)user classId:(NSString *)cateOrClassId subjectId:(NSString *)courseIdOrSubjectId;
+-(void)empowerAndSignatureWithUserId:(NSString *)userId userCode:(NSString *)userCode classId:(NSString *)cateOrClassId subjectId:(NSString *)courseIdOrSubjectId;
 @end

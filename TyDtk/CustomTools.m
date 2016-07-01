@@ -22,11 +22,11 @@
 }
 
 ///授权
--(void)empowerAndSignatureWithUserId:(NSString *)userId userName:(NSString *)user classId:(NSString *)cateOrClassId subjectId:(NSString *)courseIdOrSubjectId{
-    NSUserDefaults *tyUser1 = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dicUser = [tyUser1 objectForKey:tyUserUserInfo];
+-(void)empowerAndSignatureWithUserId:(NSString *)userId userCode:(NSString *)userCode classId:(NSString *)cateOrClassId subjectId:(NSString *)courseIdOrSubjectId{
+//    NSUserDefaults *tyUser1 = [NSUserDefaults standardUserDefaults];
+//    NSDictionary *dicUser = [tyUser1 objectForKey:tyUserUserInfo];
     //建立易操作字典
-    NSDictionary *dicUserPar = @{@"appId":@"dtkios",@"userId":userId,@"user":dicUser[@"userCode"],@"cate":cateOrClassId,@"courseId":courseIdOrSubjectId,@"appKey":@"Xdtkm17070316begg"};
+    NSDictionary *dicUserPar = @{@"appId":@"dtkios",@"userId":userId,@"user":userCode,@"cate":cateOrClassId,@"courseId":courseIdOrSubjectId,@"appKey":@"Xdtkm17070316begg"};
      NSArray *arrayDic = [dicUserPar allKeys];
     //所有key按照字母排序后的数组
      NSArray *arrayCompare = [arrayDic sortedArrayUsingSelector:@selector(compare:)];
@@ -41,7 +41,7 @@
     //获取sha1加密后的签名
     NSString *qM = [self sha1EncryptString:signatureEver];
     //请求服务器，获取令牌
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Authorise/GetAccessToken?appId=dtkios&userId=%@&user=%@&cate=%@&courseId=%@&signature=%@",systemHttps,userId,dicUser[@"userCode"],cateOrClassId,courseIdOrSubjectId,qM];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Authorise/GetAccessToken?appId=dtkios&userId=%@&user=%@&cate=%@&courseId=%@&signature=%@",systemHttps,userId,userCode,cateOrClassId,courseIdOrSubjectId,qM];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dic[@"code"] integerValue];

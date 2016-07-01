@@ -94,7 +94,13 @@
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSMutableDictionary *dicc = [NSMutableDictionary dictionaryWithDictionary:dicUserInfo];
-        [dicc setObject:@"" forKey:@"headImg"];
+//        [dicc setObject:@"" forKey:@"headImg"];
+        ///如果是nsnull 转化为空
+        for (NSString *keyDic in dicc.allKeys) {
+            if ([dicc[keyDic] isEqual:[NSNull null]]) {
+                [dicc setObject:@"" forKey:keyDic];
+            }
+        }
         [tyUser setObject:dicc forKey:tyUserUserInfo];
         [self.navigationController popViewControllerAnimated:YES];
     } RequestFaile:^(NSError *error) {

@@ -46,11 +46,11 @@
     _customTools.delegateTool = self;
     _tyUser = [NSUserDefaults standardUserDefaults];
     //获取储存的专业信息
-    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
+    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
     NSDictionary *dicCurrClass = [_tyUser objectForKey:tyUserClass];
     NSString *classId = [NSString stringWithFormat:@"%@",dicCurrClass[@"Id"]];
     NSString *subjectId = [NSString stringWithFormat:@"%@",_dicSubject[@"Id"]];
-    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:subjectId];
+    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userCode:dicUserInfo[@"userCode"] classId:classId subjectId:subjectId];
 }
 - (void)httpSussessReturnClick{
     _btnStartTopic.userInteractionEnabled = YES;

@@ -1,45 +1,42 @@
 //
-//  ActiveVIew.m
+//  ActiveSubjectView.m
 //  TyDtk
 //
-//  Created by 天一文化 on 16/4/7.
+//  Created by 天一文化 on 16/7/1.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
-#import "ActiveVIew.h"
+#import "ActiveSubjectView.h"
 
-@implementation ActiveVIew
+@implementation ActiveSubjectView
 
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)renfgnfct {
+- (void)drawRect:(CGRect)rect {
     // Drawing code
- 
 }
 */
 - (void)awakeFromNib{
     self.frame = CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10);
     _buttonActive.layer.masksToBounds = YES;
-    
     _buttonActive.layer.cornerRadius = 3;
+    _buttonActive.backgroundColor = ColorWithRGB(255, 121, 28);
+    [_buttonActive setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _buttonPay.layer.masksToBounds = YES;
+    _buttonPay.layer.cornerRadius = 3;
+    _buttonPay.backgroundColor = ColorWithRGB(255, 121, 28);
+    [_buttonPay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
     _labTitle.adjustsFontSizeToFitWidth = YES;
     _labRemark.adjustsFontSizeToFitWidth = YES;
     _labPrice.textColor = [UIColor redColor];
     _imageWidth.constant = Scr_Width/2 - 10;
     _imageHeight.constant = _imageWidth.constant - 40;
     NSLog(@"%f",Scr_Width);
-    //iPhone5以上的设备
-    if (Scr_Width > 323) {
-        _buttonWidth.constant = Scr_Width/4 - 10;
-        _buttonHeight.constant = 30;
-        _buttonActive.titleLabel.font = [UIFont systemFontOfSize:13.0];
-        _buttonActive.layer.cornerRadius = 5;
-        _labGetActiveAcc.font = [UIFont systemFontOfSize:11.0];
-    }
-    [self addgestForlabActive];
-    _labGetActiveAcc.userInteractionEnabled = YES;
+    
 }
+
 //设置显示属性
 - (void)setActiveValue:(NSDictionary *)dicSubject{
     NSString *imgsUrlSub = dicSubject[@"productImageListStore"];
@@ -55,15 +52,13 @@
     self.labPrice.text = priceSub;
     
 }
-- (void)addgestForlabActive{
-    UITapGestureRecognizer *tapLabGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labClick)];
-    [_labGetActiveAcc addGestureRecognizer:tapLabGest];
-}
-- (void)labClick{
-    [self.delegateAtive getActiveMaClick];
-}
+///激活按钮
 - (IBAction)activeBtnClick:(UIButton *)sender {
-    [self.delegateAtive activeForPapersClick];
+    [self.delegateAtive paySubjectProductWithPayParameter:0];
+}
+///购买按钮
+- (IBAction)buttonPayClick:(UIButton *)sender {
+    [self.delegateAtive paySubjectProductWithPayParameter:1];
 }
 
 @end

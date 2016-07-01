@@ -36,7 +36,7 @@
     //    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     
     _arrayCurrSelectSubject = [NSMutableArray array];
-    self.title = @"选择科目";
+//    self.title = @"相关科目";
     _myTabViewSubject.tableFooterView = [UIView new];
     [_myTabViewSubject selectRowAtIndexPath:[NSIndexPath indexPathForRow:_selectSubject inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     //背景图片拉伸

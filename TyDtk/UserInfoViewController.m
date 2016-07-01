@@ -95,10 +95,21 @@
                     labValue.text = _dicUserInfo[@"userName"];
                 }
                 else if (indexPath.row == 2){
-                    labValue.text =_dicUserInfo[@"mobile"];
+                    if (![_dicUserInfo[@"mobile"]isEqual:[NSNull null]]) {
+                        labValue.text =_dicUserInfo[@"mobile"];
+                    }
+                    else{
+                        labValue.text =@"无";
+                    }
+                    
                 }
                 else if (indexPath.row == 3){
-                    labValue.text = _dicUserInfo[@"email"];
+                    if (![_dicUserInfo[@"email"]isEqual:[NSNull null]]) {
+                        labValue.text =_dicUserInfo[@"email"];
+                    }
+                    else{
+                        labValue.text =@"无";
+                    }
                 }
             }
         }

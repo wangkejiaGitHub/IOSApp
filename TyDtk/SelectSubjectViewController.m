@@ -279,10 +279,10 @@
     _customTool = [[CustomTools alloc]init];
     _customTool.delegateTool = self;
     //获取储存的专业信息
-    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUser];
+    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
     NSString *classId = [NSString stringWithFormat:@"%ld",[_dicClass[@"Id"] integerValue]];
     NSString *subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-     [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:subjectId];
+     [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userCode:dicUserInfo[@"userCode"] classId:classId subjectId:subjectId];
 }
 - (void)httpSussessReturnClick{
     [_tyUser setObject:_dicClass forKey:tyUserClass];

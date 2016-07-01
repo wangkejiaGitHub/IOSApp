@@ -96,6 +96,7 @@
 }
 ///根据科目id获取商品信息
 - (void)getProductInfoWithSubjectId{
+    [SVProgressHUD show];
     NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productInfo?productId=%ld&jeeId=%@&fromSystem=902",systemHttpsKaoLaTopicImg,_subjectId,_dicUserInfo[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicProduct = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -109,15 +110,17 @@
             [self addTableViewFooterView];
             [_tableViewProduct reloadData];
         }
+        [SVProgressHUD dismiss];
         NSLog(@"%@",dicProduct);
     } RequestFaile:^(NSError *error) {
-        
+         [SVProgressHUD showInfoWithStatus:@"操作异常！"];
     }];
 }
 /**
  激活科目
  */
 - (void)activeSubject{
+    [SVProgressHUD show];
     NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/payCode?code=%@&productId=%ld&jeeId=%@&fromSystem=902",systemHttpsKaoLaTopicImg,_textFile.text,_subjectId,_dicUserInfo[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicAc = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -131,7 +134,7 @@
         }
         
     }RequestFaile:^(NSError *error) {
-    
+       [SVProgressHUD showInfoWithStatus:@"操作异常！"];
     }];
 }
 /**
@@ -139,6 +142,7 @@
  */
 - (void)createProductOrder{
 //    /ty/mobile/order/orderCreate?productId=662&fromSystem=4
+    [SVProgressHUD showWithStatus:@"订单创建中..."];
     NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/orderCreate?productId=%ld&jeeId=%@&fromSystem=902",systemHttpsKaoLaTopicImg,_subjectId,_dicUserInfo[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicOrder = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -148,8 +152,9 @@
             NSLog(@"%@",dicOrderInfo);
             [self goOrderInfoView:dicOrderInfo];
         }
+        [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"操作异常！"];
     }];
 }
 ///跳转到订单详情页面

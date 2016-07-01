@@ -152,13 +152,13 @@
  */
 - (void)customGetAccessToken:(NSInteger)subjectId{
     [SVProgressHUD show];
-    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUser];
+    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUserInfo];
     NSDictionary *dicClass = [_tyUser objectForKey:tyUserClass];
     /**
      [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userName:dicUserInfo[@"name"] classId:classId subjectId:_subjectId];
      */
     NSString *classId = [NSString stringWithFormat:@"%@",dicClass[@"Id"]];
-    [_customTools empowerAndSignatureWithUserId:dicUser[@"userId"] userName:dicUser[@"name"] classId: classId subjectId:[NSString stringWithFormat:@"%ld",subjectId]];
+    [_customTools empowerAndSignatureWithUserId:dicUser[@"userId"] userCode:dicUser[@"userCode"] classId: classId subjectId:[NSString stringWithFormat:@"%ld",subjectId]];
 }
 /**
  授权回调

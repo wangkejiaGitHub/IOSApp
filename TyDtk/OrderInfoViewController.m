@@ -33,32 +33,42 @@
     _tableViewOrder.tableHeaderView = orderView;
     ///未付款
     if ([_dicOrder[@"paymentStatus"] integerValue] == 5001) {
+        orderView.labOrderPayStatus.textColor = [UIColor redColor];
         [self addTableViewFooterView];
     }
     else{
+        orderView.labOrderPayStatus.text = [NSString stringWithFormat:@"%@（%@）",_dicOrder[@"paymentStatusName"],_dicOrder[@"paymentConfigName"]];
         _tableViewOrder.tableFooterView = [UIView new];
     }
 }
 ///如果未付款，添加付款按钮
 - (void)addTableViewFooterView{
     UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 90)];
+    UIView *viewL = [[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 15, 1)];
+    viewL.backgroundColor = [UIColor lightGrayColor];
+    [viewFooter addSubview:viewL];
     UIButton *btnPay = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnPay.frame = CGRectMake(30, 30, Scr_Width - 60, 35);
+    btnPay.frame = CGRectMake(30, 30, Scr_Width - 60, 45);
     btnPay.layer.masksToBounds = YES;
     btnPay.layer.cornerRadius = 3;
     btnPay.backgroundColor = ColorWithRGB(55, 155, 255);
     [btnPay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btnPay setTitle:@"付 款" forState:UIControlStateNormal];
+    [btnPay addTarget:self action:@selector(btnPayClick:) forControlEvents:UIControlEventTouchUpInside];
     [viewFooter addSubview:btnPay];
     _tableViewOrder.tableFooterView = viewFooter;
     
+}
+///付款按钮
+- (void)btnPayClick:(UIButton *)button{
+    NSLog(@"付款");
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSArray *arrayProduct = _dicOrder[@"shopOrderitems"];
     return arrayProduct.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 100;
+    return 150;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 40;
@@ -67,25 +77,48 @@
     UIView *viewSec = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
     viewSec.backgroundColor = ColorWithRGB(200, 200, 200);
     
-    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, 80, 20)];
+    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 80, 20)];
     labTitle.text = @"商品详情";
     labTitle.font = [UIFont systemFontOfSize:16.0];
     labTitle.textColor = ColorWithRGB(55, 155, 255);
     [viewSec addSubview:labTitle];
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(Scr_Width - 80, 15/2, 70, 25);
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius = 3;
+    btn.backgroundColor = ColorWithRGB(55, 155, 255);
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    ///未付款
+    if ([_dicOrder[@"paymentStatus"] integerValue] == 5001) {
+        [btn setTitle:@"付 款" forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(btnPayClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    ///已付款
+    else{
+        [btn setTitle:@"已付款" forState:UIControlStateNormal];
+    }
+    [viewSec addSubview:btn];
     return viewSec;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"productcell" forIndexPath:indexPath];
     NSArray *arrayProduct = _dicOrder[@"shopOrderitems"];
     NSDictionary *dicProduct = arrayProduct[indexPath.row];
-    UIImageView *imagePro = (UIImageView *)[cell.contentView viewWithTag:9];
-    [imagePro sd_setImageWithURL:[NSURL URLWithString:dicProduct[@"imgUrl"]]];
+//    UIImageView *imagePro = (UIImageView *)[cell.contentView viewWithTag:9];
+//    if (![dicProduct[@"imgUrl"] isEqual:[NSNull null]]) {
+//        [imagePro sd_setImageWithURL:[NSURL URLWithString:dicProduct[@"imgUrl"]]];
+//    }
     UILabel *labName = (UILabel *)[cell.contentView viewWithTag:10];
     labName.text = dicProduct[@"productName"];
     UILabel *labCount = (UILabel *)[cell.contentView viewWithTag:11];
     labCount.text = [NSString stringWithFormat:@"数量：%ld",[dicProduct[@"productQuantity"] integerValue]];
     UILabel *labMoney = (UILabel *)[cell.contentView viewWithTag:12];
     labMoney.text = [NSString stringWithFormat:@"价格：￥%.2f",[dicProduct[@"productPrice"] floatValue]];
+    
+    UILabel *labType = (UILabel *)[cell.contentView viewWithTag:13];
+    labType.text = [NSString stringWithFormat:@"商品类型：%@",dicProduct[@"typeName"]];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 - (void)didReceiveMemoryWarning {

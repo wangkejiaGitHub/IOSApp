@@ -32,7 +32,7 @@
 //自定义封装方法
 #import "CustomTools.h"
 //带有激活码的tableView头试图
-#import "ActiveVIew.h"
+#import "ActiveSubjectView.h"
 //刷新
 #import "MJRefresh.h"
 //自定义提示框
