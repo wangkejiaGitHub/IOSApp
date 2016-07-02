@@ -12,10 +12,10 @@
 #import "SelectSubjectViewController.h"
 #import "LoginViewController.h"
 #import "ExerciseRecordViewController.h"
-@interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewList;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
-
+@property (nonatomic,strong) UIImagePickerController *imagePickerG;
 @property (nonatomic,strong) TableHeardView *tableHeardView;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSDictionary *dicUser;
@@ -59,11 +59,13 @@
 - (void)addTableViewHeardView{
     _tableHeardView = [[[NSBundle mainBundle] loadNibNamed:@"TableHeardViewForUser" owner:self options:nil]lastObject];
     _tableHeardView.frame = CGRectMake(0, 0, Scr_Width, 200);
+    _tableHeardView.delegateImg = self;
     _tableViewList.tableHeaderView = _tableHeardView;
     if ([self loginTest]) {
         NSLog(@"%@",_dicUser);
     }
 }
+
 ///判断是否登录
 - (BOOL)loginTest{
     if ([_tyUser objectForKey:tyUserUser]) {
@@ -231,49 +233,33 @@
     }
 }
 
-///用户退出登录
-//- (void)logOutUser{
-//    [SVProgressHUD show];
-//    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-//    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
-//    ///logout/json
-//    NSString *urlString = [NSString stringWithFormat:@"%@logout/json?SHAREJSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicOut = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        NSInteger codeId = [dicOut[@"code"] integerValue];
-//        if (codeId == 1) {
-//            [SVProgressHUD showSuccessWithStatus:@"退出成功！"];
-//            //            [_tyUser removeObjectForKey:tyUserUser];
-//        }
-//        else{
-//            [SVProgressHUD showInfoWithStatus:@"操作失败！"];
-//        }
-//        NSLog(@"%@",dicOut);
-//    } RequestFaile:^(NSError *error) {
-//        [SVProgressHUD showInfoWithStatus:@"操作失败！"];
-//    }];
-//}
 
 /////获取用户信息
 - (void)getUserInfo{
 //    [SVProgressHUD show];
-    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUserInfo];
     NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
     NSLog(@"%@",urlString);
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if (dicUserInfo != nil) {
             _tableHeardView.labUserName.text = dicUserInfo[@"userName"];
-//            [self getUserImage];
+            if (![dicUserInfo[@"headImg"] isEqual:[NSNull null]]) {
+                [_tableHeardView.imageHeardImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dicUserInfo[@"headImg"]]]];
+            }
+            else{
+                _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
+            }
         }
         else{
-            [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
+//            [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
             _tableHeardView.labUserName.text = @"未登录";
+            _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
 //？？        [_tyUser removeObjectForKey:tyUserAccessToken];
 //            [_tyUser removeObjectForKey:tyUserClass];
 //            [_tyUser removeObjectForKey:tyUserSelectSubject];
 //            [_tyUser removeObjectForKey:tyUserSubject];
+            [_tyUser removeObjectForKey:tyUserUserInfo];
             [_tyUser removeObjectForKey:tyUserUser];
         }
 //        [SVProgressHUD dismiss];
@@ -284,8 +270,7 @@
 }
 ///获取用户头像
 - (void)getUserImage{
-    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUser];
     NSLog(@"%@",dicUser);
     NSString *urlString = [NSString stringWithFormat:@"%@front/user/findheadimg;JSESSIONID=%@&userId=%@&formSystem=902",systemHttpsTyUser,dicUser[@"jeeId"],dicUser[@"userId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -328,7 +313,108 @@
         [_arraySecoundSubject removeAllObjects];
     }];
 }
+///点击头像回调
+///imgParameter:0、未登录（跳转到登录界面）1、已登录（换头像）
+- (void)ImgButtonClick:(NSInteger)imgParameter{
+    if (imgParameter == 0) {
+        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+        LoginViewController *loginVc =  [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
+        loginVc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:loginVc animated:YES];
+    }
+    else{
+        ///换头像
+        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"上传图片" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self persentImagePicker:0];
+        }];
+        
+        UIAlertAction *acCream = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self persentImagePicker:1];
+        }];
+        
+        UIAlertAction *acCan = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alertImg addAction:acPhoto];
+        [alertImg addAction:acCream];
+        [alertImg addAction:acCan];
+        [self.navigationController presentViewController:alertImg animated:YES completion:nil];
+    }
+}
+///调用本地相册或摄像头(picParameter:0、手机相册，1、手机摄像头
+- (void)persentImagePicker:(NSInteger)picParameter{
+    if (!_imagePickerG) {
+        _imagePickerG = [[UIImagePickerController alloc]init];
+        _imagePickerG.delegate = self;
+    }
+    
+    if (picParameter == 0) {
+        _imagePickerG.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    else{
+        _imagePickerG.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }
+    _imagePickerG.allowsEditing = YES;
+    [self.navigationController presentViewController:_imagePickerG animated:YES completion:nil];
+}
+///选择图片完成（从相册或者拍照完成）
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    ///如果是拍照先把修剪前的照片保存到本地
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        UIImage *imageCream = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [self imageTopicSave:imageCream];
+    }
+    //将修剪后的图片
+    UIImage *imageUp = [info objectForKey:UIImagePickerControllerEditedImage];
+    //压缩后的图片
+//    UIImage *imageYS = [UIImage imageWithData:[self imageData:imageUp]];
+    ///上传到服务器
+    //servlet/fileupload;SHAREJSESSIONID=3eef1620-cd60-4e21-827e-ec2e3a83d0b7
+    NSDictionary *dicUserIn = [_tyUser objectForKey:tyUserUserInfo];
+    NSString *urlString = [NSString stringWithFormat:@"%@app/uploadimg;JSESSIONID=%@?formSystem=902",systemHttpsTyUser,dicUserIn[@"jeeId"]];
+    NSDictionary *dicPara = @{@"userId":dicUserIn[@"userId"]};
+    
+    [HttpTools uploadHttpRequestURL:urlString RequestPram:dicPara UploadData:[self imageData:imageUp] RequestSuccess:^(id respoes) {
+        NSLog(@"%@",respoes);
+    } RequestFaile:^(NSError *erro) {
+        NSLog(@"%@",erro);
+    } UploadProgress:^(NSProgress *uploadProgress) {
+        NSLog(@"%@",uploadProgress);
+    }];
+}
+///压缩图片
+-(NSData *)imageData:(UIImage *)myimage{
+    NSData *data=UIImageJPEGRepresentation(myimage, 1.0);
+    if (data.length>300*1024) {
+        if (data.length>1024*1024) {//1M以及以上
+            data=UIImageJPEGRepresentation(myimage, 0.1);
+        }else if (data.length>512*1024) {//0.5M-1M
+            data=UIImageJPEGRepresentation(myimage, 0.5);
+        }else if (data.length>300*1024) {//0.25M-0.5M
+            data=UIImageJPEGRepresentation(myimage, 0.9);
+        }
+    }
+    return data;
+}
 
+///取消选择图片
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+///保存图片到本地相册
+-(void)imageTopicSave:(UIImage *)image{
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+}
+///保存到本地手机后回调
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    if (error == nil) {
+//        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"图片未能保存到本地！"];
+    }
+}
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     //选择科目
     if ([segue.identifier isEqualToString:@"selectSubject"]){
@@ -338,6 +424,8 @@
         selectSubVc.selectSubject = 0;
     }
 }
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

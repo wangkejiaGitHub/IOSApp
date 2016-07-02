@@ -7,57 +7,52 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="8rI-Tb-KEi" customClass="TableHeardView">
+        <view contentMode="scaleToFill" id="yt6-f2-7re" customClass="TableHeardView" propertyAccessControl="none">
             <rect key="frame" x="0.0" y="0.0" width="403" height="224"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backImgTest.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="XIF-QR-y22">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="backImgTest.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="f5b-f5-omk">
                     <rect key="frame" x="0.0" y="0.0" width="403" height="224"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jPV-ec-pqf">
-                    <rect key="frame" x="171" y="62" width="60" height="60"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zge-0r-PA7">
+                    <rect key="frame" x="20" y="137" width="363" height="20"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="60" id="4Zz-81-7Ef"/>
-                        <constraint firstAttribute="height" constant="60" id="bmv-oA-RvY"/>
-                    </constraints>
-                    <state key="normal" image="TouXinagTest.jpg"/>
-                    <connections>
-                        <action selector="btnImgClick:" destination="8rI-Tb-KEi" eventType="touchUpInside" id="5xA-qI-K0L"/>
-                    </connections>
-                </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKE-H9-htD">
-                    <rect key="frame" x="101" y="132" width="200" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="ARe-nw-5Em"/>
-                        <constraint firstAttribute="width" constant="200" id="IIS-3C-ftu"/>
+                        <constraint firstAttribute="height" constant="20" id="ymS-gs-8X3"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="KKs-ax-bAh">
+                    <rect key="frame" x="166" y="57" width="70" height="70"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="70" id="R7V-gn-HAp"/>
+                        <constraint firstAttribute="width" constant="70" id="onL-dO-z76"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="jPV-ec-pqf" firstAttribute="centerY" secondItem="8rI-Tb-KEi" secondAttribute="centerY" constant="-20" id="AAP-cR-Nol"/>
-                <constraint firstAttribute="bottom" secondItem="XIF-QR-y22" secondAttribute="bottom" id="Csb-RY-qS5"/>
-                <constraint firstAttribute="trailing" secondItem="XIF-QR-y22" secondAttribute="trailing" id="Gmp-B2-UQ1"/>
-                <constraint firstItem="fKE-H9-htD" firstAttribute="centerX" secondItem="8rI-Tb-KEi" secondAttribute="centerX" id="a6Y-1N-4Dx"/>
-                <constraint firstItem="jPV-ec-pqf" firstAttribute="centerX" secondItem="8rI-Tb-KEi" secondAttribute="centerX" id="p7k-VR-Mea"/>
-                <constraint firstItem="fKE-H9-htD" firstAttribute="top" secondItem="jPV-ec-pqf" secondAttribute="bottom" constant="10" id="qAM-e9-QnT"/>
-                <constraint firstItem="XIF-QR-y22" firstAttribute="leading" secondItem="8rI-Tb-KEi" secondAttribute="leading" id="qEL-b0-PV3"/>
-                <constraint firstItem="XIF-QR-y22" firstAttribute="top" secondItem="8rI-Tb-KEi" secondAttribute="top" id="zrI-X1-6fk"/>
+                <constraint firstAttribute="trailing" secondItem="Zge-0r-PA7" secondAttribute="trailing" constant="20" id="VR6-e9-KeJ"/>
+                <constraint firstItem="f5b-f5-omk" firstAttribute="top" secondItem="yt6-f2-7re" secondAttribute="top" id="XE8-IF-8WO"/>
+                <constraint firstItem="KKs-ax-bAh" firstAttribute="centerY" secondItem="yt6-f2-7re" secondAttribute="centerY" constant="-20" id="e9a-Bi-xF6"/>
+                <constraint firstItem="Zge-0r-PA7" firstAttribute="top" secondItem="KKs-ax-bAh" secondAttribute="bottom" constant="10" id="eLJ-yd-djo"/>
+                <constraint firstAttribute="trailing" secondItem="f5b-f5-omk" secondAttribute="trailing" id="eku-x6-Fk6"/>
+                <constraint firstItem="Zge-0r-PA7" firstAttribute="leading" secondItem="yt6-f2-7re" secondAttribute="leading" constant="20" id="nAb-B1-79G"/>
+                <constraint firstItem="KKs-ax-bAh" firstAttribute="centerX" secondItem="yt6-f2-7re" secondAttribute="centerX" id="ogH-Fu-FD6"/>
+                <constraint firstItem="f5b-f5-omk" firstAttribute="leading" secondItem="yt6-f2-7re" secondAttribute="leading" id="si4-f5-gAp"/>
+                <constraint firstAttribute="bottom" secondItem="f5b-f5-omk" secondAttribute="bottom" id="wJs-ul-d03"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="buttonUserImage" destination="jPV-ec-pqf" id="Cka-t2-ZW9"/>
-                <outlet property="imageViewBack" destination="XIF-QR-y22" id="kQ4-Gm-bb3"/>
-                <outlet property="labUserName" destination="fKE-H9-htD" id="0Bj-b4-lJt"/>
+                <outlet property="imageHeardImg" destination="KKs-ax-bAh" id="Mty-hI-t5y"/>
+                <outlet property="imageViewBack" destination="f5b-f5-omk" id="g7M-1F-FUQ"/>
+                <outlet property="labUserName" destination="Zge-0r-PA7" id="cpv-Gg-KGs"/>
             </connections>
             <point key="canvasLocation" x="338.5" y="-59"/>
         </view>
     </objects>
     <resources>
-        <image name="TouXinagTest.jpg" width="300" height="300"/>
         <image name="backImgTest.jpg" width="500" height="313"/>
     </resources>
 </document>

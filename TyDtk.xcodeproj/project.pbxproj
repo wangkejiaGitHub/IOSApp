@@ -265,6 +265,7 @@
 		1DF950721CA3C49D00104597 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF950711CA3C49D00104597 /* SystemConfiguration.framework */; };
 		1DF950751CA3C52200104597 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF950741CA3C52200104597 /* Reachability.m */; };
 		1DFE7A781D1D0BB800D7E504 /* viewSelectSubject.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DFE7A771D1D0BB800D7E504 /* viewSelectSubject.m */; };
+		1DFF7F751D27671700AB62C7 /* imgNullPer.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DFF7F741D27671700AB62C7 /* imgNullPer.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -732,6 +733,7 @@
 		1DF950741CA3C52200104597 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		1DFE7A761D1D0BB800D7E504 /* viewSelectSubject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viewSelectSubject.h; sourceTree = "<group>"; };
 		1DFE7A771D1D0BB800D7E504 /* viewSelectSubject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = viewSelectSubject.m; sourceTree = "<group>"; };
+		1DFF7F741D27671700AB62C7 /* imgNullPer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = imgNullPer.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -951,6 +953,7 @@
 			isa = PBXGroup;
 			children = (
 				1D2277D31D22244E00D2269C /* quest.png */,
+				1DFF7F741D27671700AB62C7 /* imgNullPer.png */,
 				1D2277BF1D22224B00D2269C /* about.png */,
 				1D2277C01D22224B00D2269C /* chapter.png */,
 				1D2277C11D22224B00D2269C /* collect.png */,
@@ -2000,6 +2003,7 @@
 				1D2277EB1D2229FE00D2269C /* ico_circle_o.png in Resources */,
 				1D92C8901D138A81006A937F /* TopicLookQtpye3TableViewCell.xib in Resources */,
 				1D122BA41CDDC3DA00A0BA08 /* AnalysisQtype6Cell.xib in Resources */,
+				1DFF7F751D27671700AB62C7 /* imgNullPer.png in Resources */,
 				1D165E6F1CD1F84700F61EAE /* ErrorView.xib in Resources */,
 				1D079CDA1D25104F00313255 /* OrderHeardView.xib in Resources */,
 				1DF950591CA38F5800104597 /* km_icon.png in Resources */,
