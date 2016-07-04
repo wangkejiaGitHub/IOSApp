@@ -30,4 +30,6 @@
  faile  失败的信息
  */
 + (void)uploadHttpRequestURL:(NSString *)url  RequestPram:(id)pram UploadData:(NSData *)data RequestSuccess:(void(^)(id respoes))success RequestFaile:(void(^)(NSError *erro))faile UploadProgress:(void(^)(NSProgress * uploadProgress))progress;
+///测试
++(void)uploadHttpRequestUrl:(NSString *)urlString Parameters:(id)parameters UpaloadData:(NSData *)data RequestSuccess:(void(^)(id respoes))success RequestFaile:(void(^)(NSError *error))faile;
 @end

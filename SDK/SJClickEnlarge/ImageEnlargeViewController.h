@@ -2,7 +2,7 @@
 //  ImageEnlargeViewController.h
 //  Init
 //
-//  Created by 赵世杰 on 16/4/11.
+//  Created by  on 16/4/11.
 //  Copyright © 2016年 zhaoshijie. All rights reserved.
 //
 

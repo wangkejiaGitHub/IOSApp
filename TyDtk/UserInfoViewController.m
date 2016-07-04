@@ -62,6 +62,7 @@
         if (indexPath.row == 0) {
             return 60;
         }
+        return 50;
     }
     return 50;
 }
@@ -82,7 +83,19 @@
         if (indexPath.row == 0) {
             cell = [tableView dequeueReusableCellWithIdentifier:@"imgcell" forIndexPath:indexPath];
             if (_dicUserInfo.allKeys.count > 0) {
-                
+                UILabel *labText = (UILabel *)[cell.contentView viewWithTag:10];
+                labText.text = @"头像";
+                UIImageView *imageVU = (UIImageView *)[cell.contentView viewWithTag:11];
+                imageVU.layer.masksToBounds = YES;
+                imageVU.layer.cornerRadius = imageVU.frame.size.height/2;
+                imageVU.layer.borderWidth = 1;
+                imageVU.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+                if (![_dicUserInfo[@"headimg"]isEqual:[NSNull null]]) {
+                    [imageVU sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,_dicUserInfo[@"headImg"]]]];
+                }
+                else{
+                    imageVU.image = [UIImage imageNamed:@"imgNullPer"];
+                }
             }
         }
         else{

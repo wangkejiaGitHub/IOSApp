@@ -346,7 +346,6 @@
     imageEnlargeVC.imageUrlArrays = imageArray;
     imageEnlargeVC.imageIndex = imageIndex;
     [self presentViewController:imageEnlargeVC animated:YES completion:nil];
-    NSLog(@"%@",imageArray);
 }
 //- (void)imageSaveQtype1Test:(UIImage *)image{
 //    [self imageTopicSave:image];

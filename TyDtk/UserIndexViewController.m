@@ -61,9 +61,6 @@
     _tableHeardView.frame = CGRectMake(0, 0, Scr_Width, 200);
     _tableHeardView.delegateImg = self;
     _tableViewList.tableHeaderView = _tableHeardView;
-    if ([self loginTest]) {
-        NSLog(@"%@",_dicUser);
-    }
 }
 
 ///判断是否登录
@@ -250,6 +247,8 @@
             else{
                 _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
             }
+            _tableHeardView.imageHeardImg.layer.borderWidth = 1;
+            _tableHeardView.imageHeardImg.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         }
         else{
 //            [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
@@ -271,7 +270,6 @@
 ///获取用户头像
 - (void)getUserImage{
     NSDictionary *dicUser = [_tyUser objectForKey:tyUserUser];
-    NSLog(@"%@",dicUser);
     NSString *urlString = [NSString stringWithFormat:@"%@front/user/findheadimg;JSESSIONID=%@&userId=%@&formSystem=902",systemHttpsTyUser,dicUser[@"jeeId"],dicUser[@"userId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSString *string = [[NSString alloc]initWithData:repoes encoding:NSUTF8StringEncoding];
@@ -324,18 +322,22 @@
     }
     else{
         ///换头像
-        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"上传图片" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self persentImagePicker:0];
-        }];
-        
-        UIAlertAction *acCream = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             [self persentImagePicker:1];
         }];
         
+        UIAlertAction *acCream = [UIAlertAction actionWithTitle:@"手机相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self persentImagePicker:0];
+        }];
+        
+        UIAlertAction *acLook = [UIAlertAction actionWithTitle:@"查看大图" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
         UIAlertAction *acCan = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         [alertImg addAction:acPhoto];
         [alertImg addAction:acCream];
+        [alertImg addAction:acLook];
         [alertImg addAction:acCan];
         [self.navigationController presentViewController:alertImg animated:YES completion:nil];
     }
@@ -351,14 +353,29 @@
         _imagePickerG.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     }
     else{
+        // 前面的摄像头是否可用
+        if ([self isFrontCameraAvailable]) {
+            
+        }
+        else if ([self isFirstResponder]){
+            
+        }
         _imagePickerG.sourceType = UIImagePickerControllerSourceTypeCamera;
     }
     _imagePickerG.allowsEditing = YES;
     [self.navigationController presentViewController:_imagePickerG animated:YES completion:nil];
 }
+// 前面的摄像头是否可用
+- (BOOL)isFrontCameraAvailable{
+    return [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront];
+}
+
+// 后面的摄像头是否可用
+- (BOOL)isRearCameraAvailable{
+    return [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear];
+}
 ///选择图片完成（从相册或者拍照完成）
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
-    [picker dismissViewControllerAnimated:YES completion:nil];
     ///如果是拍照先把修剪前的照片保存到本地
     if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         UIImage *imageCream = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -367,21 +384,22 @@
     //将修剪后的图片
     UIImage *imageUp = [info objectForKey:UIImagePickerControllerEditedImage];
     //压缩后的图片
-//    UIImage *imageYS = [UIImage imageWithData:[self imageData:imageUp]];
-    ///上传到服务器
-    //servlet/fileupload;SHAREJSESSIONID=3eef1620-cd60-4e21-827e-ec2e3a83d0b7
+    //UIImage *imageYS = [UIImage imageWithData:[self imageData:imageUp]];
     NSDictionary *dicUserIn = [_tyUser objectForKey:tyUserUserInfo];
+    
     NSString *urlString = [NSString stringWithFormat:@"%@app/uploadimg;JSESSIONID=%@?formSystem=902",systemHttpsTyUser,dicUserIn[@"jeeId"]];
     NSDictionary *dicPara = @{@"userId":dicUserIn[@"userId"]};
     
     [HttpTools uploadHttpRequestURL:urlString RequestPram:dicPara UploadData:[self imageData:imageUp] RequestSuccess:^(id respoes) {
-        NSLog(@"%@",respoes);
+    [picker dismissViewControllerAnimated:YES completion:nil];
+        
     } RequestFaile:^(NSError *erro) {
         NSLog(@"%@",erro);
     } UploadProgress:^(NSProgress *uploadProgress) {
         NSLog(@"%@",uploadProgress);
     }];
 }
+
 ///压缩图片
 -(NSData *)imageData:(UIImage *)myimage{
     NSData *data=UIImageJPEGRepresentation(myimage, 1.0);
