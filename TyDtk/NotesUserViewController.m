@@ -56,6 +56,7 @@
     
     _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefreshClick:)];
     _tableViewNotes.mj_header = _refreshHeader;
+    //每次首次加载
     [_arrayNotes removeAllObjects];
     _pageCurrIndex = 1;
     _pages = 0;
@@ -96,6 +97,7 @@
 
             }
             [_tableViewNotes reloadData];
+            [_refreshHeader endRefreshing];
             [_refreshFooter endRefreshing];
         }
         NSLog(@"%@",dicNotes);

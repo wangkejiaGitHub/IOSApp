@@ -85,6 +85,7 @@
         _myTableView.tableHeaderView = view;
     }
 }
+
 /**
  头试图回调代理
  */
@@ -322,9 +323,10 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSDictionary *dicDate = _arrayTableData[indexPath.section];
-    NSDictionary *dicHeader = dicDate[@"id"];
-    [self getChildSubjectChaper:dicHeader];
+    NSDictionary *dicData = _arrayTableData[indexPath.section];
+    NSArray *arrayData = dicData[@"node"];
+    NSDictionary *dic = arrayData[indexPath.row];
+    [self getChildSubjectChaper:dic];
 }
 /**根据点击tableViewcell上的chaperid获取ParentId等于该id的所有章节数组
  并获取其对应的字章节数组
@@ -338,9 +340,7 @@
             [arrayChaperIdCh addObject:dicChild];
         }
     }
-    
     NSMutableArray *arrayZZZ = [NSMutableArray array];
-    
     for (NSDictionary *dicC in arrayChaperIdCh) {
         NSMutableArray *arrayFir = [NSMutableArray array];
         NSMutableDictionary *dicFirrr = [NSMutableDictionary dictionary];

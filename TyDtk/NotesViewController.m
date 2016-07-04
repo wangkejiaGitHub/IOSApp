@@ -46,6 +46,7 @@
     [self addNotesView];
 }
 - (void)addNotesView{
+    self.navigationController.tabBarController.tabBar.hidden = YES;
 //    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(Scr_Width*2, 0, Scr_Width, _scrolViewNotes.bounds.size.height)];
 //    view.backgroundColor = [UIColor groupTableViewBackgroundColor];
 //    [_scrolViewNotes addSubview:view];
@@ -66,7 +67,17 @@
     [_noteView.textViewNote resignFirstResponder];
     [_scrolViewNotes setContentOffset:CGPointMake(sender.selectedSegmentIndex*Scr_Width, 0) animated:YES];
 }
-
+//完成拖拽
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    NSLog(@"eeeee");
+    if (scrollView.contentOffset.x<0) {
+        NSLog(@"fsfffff");
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    NSLog(@"gggggggg");
+}
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     [_noteView.textViewNote resignFirstResponder];
     NSInteger selectIndex = scrollView.contentOffset.x/Scr_Width;

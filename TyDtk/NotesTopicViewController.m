@@ -21,6 +21,9 @@
     NSLog(@"%@",_dicNoteTopic);
     [self addNoteTopicChildView];
 }
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = NO;
+}
 - (void)addNoteTopicChildView{
     PaperLookViewController *paperLookVc = [[PaperLookViewController alloc]init];
     [self addChildViewController:paperLookVc];

@@ -34,11 +34,11 @@
     }
     else if (_updateInfoPar == 2){
         self.title = @"手机号";
-        _textValue.placeholder = @"填写手机号";
+        _textValue.placeholder = @"填写手机号码";
     }
     else if (_updateInfoPar == 3){
         self.title = @"邮箱";
-        _textValue.placeholder = @"填写邮箱";
+        _textValue.placeholder = @"填写邮箱地址";
     }
     //添加手势
     UITapGestureRecognizer *tapView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
@@ -57,14 +57,26 @@
 //保存按钮
 - (IBAction)buttonSaveClick:(UIButton *)sender {
     if (self.updateInfoPar == 1) {
+        if ([_textValue.text isEqualToString:@""]) {
+            [SVProgressHUD showInfoWithStatus:@"用户名不能为空！"];
+            return;
+        }
         //用户名
         [self updateUserName];
     }
     else if (self.updateInfoPar ==2){
+        if ([_textValue.text isEqualToString:@""]) {
+            [SVProgressHUD showInfoWithStatus:@"手机号码不能为空！"];
+            return;
+        }
         //手机号
         [self updateUserPhone];
     }
     else if (self.updateInfoPar == 3){
+        if ([_textValue.text isEqualToString:@""]) {
+            [SVProgressHUD showInfoWithStatus:@"邮箱地址不能为空！"];
+            return;
+        }
         //邮箱
         [self updateUserEmail];
     }
@@ -85,6 +97,7 @@
 }
 ///修改用户名
 - (void)updateUserName{
+  
     [self updateUserInfo:@"name" stringValue:_textValue.text];
 }
 //手机号匹配

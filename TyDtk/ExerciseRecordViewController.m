@@ -64,11 +64,11 @@
     _tableViewRe.tableFooterView = [UIView new];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = NO;
     _pageCurr = 1;
     [self viewLoad];
 }
 - (void)viewDidAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = NO;
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多记录" forState:MJRefreshStateIdle];

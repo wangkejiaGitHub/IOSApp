@@ -16,7 +16,11 @@
     _imageUser.layer.cornerRadius = 20;
     _buttonDelete.layer.masksToBounds = YES;
     _buttonDelete.layer.cornerRadius = 2;
-    _buttonDelete.backgroundColor = ColorWithRGB(200, 200, 200);
+    NSUserDefaults *tyUseri = [NSUserDefaults standardUserDefaults];
+    if ([tyUseri objectForKey:tyUserUserInfo]) {
+        NSDictionary *dicUserInfo = [tyUseri objectForKey:tyUserUserInfo];
+        [_imageUser sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dicUserInfo[@"headImg"]]]];
+    }
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic{
     _dicNotes = dic;

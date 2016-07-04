@@ -56,7 +56,7 @@
     
     _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefreshClick:)];
     _tableViewNotes.mj_header = _refreshHeader;
-    
+    //每次页面重新显示时重新加载数据
     _pageCurrIndex = 1;
     _pages = 0;
     [_arrayNotes removeAllObjects];
@@ -67,6 +67,7 @@
     if (_pages != 0) {
         if (_pageCurrIndex > _pages) {
             [_refreshFooter endRefreshingWithNoMoreData];
+            [_refreshHeader endRefreshing];
             return;
         }
     }

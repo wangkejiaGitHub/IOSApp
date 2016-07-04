@@ -9,10 +9,14 @@
 #import "UserInfoViewController.h"
 #import "UpdateUserInfoViewController.h"
 #import "UptadePwdViewController.h"
-@interface UserInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
+#import "ImageEnlargeViewController.h"
+@interface UserInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewUser;
 @property (nonatomic,strong) NSArray *arrayListName1;
 @property (nonatomic,strong) NSArray *arrayListName2;
+@property (nonatomic,strong) NSArray *arrayImg1;
+@property (nonatomic,strong) NSArray *arrayImg2;
+@property (nonatomic,strong) UIImagePickerController *imagePickerG;
 //用户信息
 @property (nonatomic,strong) NSDictionary *dicUserInfo;
 //当前需要修改的参数值
@@ -28,7 +32,9 @@
     _tyUser = [NSUserDefaults standardUserDefaults];
     self.title = @"我的信息";
     _arrayListName1 = @[@"用户名",@"手机号",@"邮箱"];
+    _arrayImg1 = @[@"u_name",@"u_phone",@"u_emall"];
     _arrayListName2 = @[@"修改密码",@"退出登录"];
+    _arrayImg2 = @[@"u_pwd",@"u_out"];
 //    [self updateTest];
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -96,12 +102,25 @@
                 else{
                     imageVU.image = [UIImage imageNamed:@"imgNullPer"];
                 }
+                
+                UIImageView *imgP = (UIImageView *)[cell.contentView viewWithTag:12];
+                imgP.layer.masksToBounds = YES;
+                imgP.layer.cornerRadius = imgP.bounds.size.width/2;
+                imgP.layer.borderWidth = 1;
+                imgP.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+                imgP.image = [UIImage imageNamed:@"user"];
             }
         }
         else{
             cell = [tableView dequeueReusableCellWithIdentifier:@"usercell" forIndexPath:indexPath];
             UILabel *labText = (UILabel *)[cell.contentView viewWithTag:10];
             if (_dicUserInfo.allKeys.count > 0) {
+                UIImageView *imgP = (UIImageView *)[cell.contentView viewWithTag:12];
+                imgP.image = [UIImage imageNamed:_arrayImg1[indexPath.row - 1]];
+                imgP.layer.masksToBounds = YES;
+                imgP.layer.cornerRadius = imgP.bounds.size.width/2;
+                imgP.layer.borderWidth = 1;
+                imgP.layer.borderColor = [[UIColor lightGrayColor] CGColor];
                 labText.text = _arrayListName1[indexPath.row - 1];
                 UILabel *labValue = (UILabel *)[cell.contentView viewWithTag:11];
                 if (indexPath.row == 1) {
@@ -129,6 +148,12 @@
     }
     else{
         cell = [tableView dequeueReusableCellWithIdentifier:@"usercell" forIndexPath:indexPath];
+        UIImageView *imgP = (UIImageView *)[cell.contentView viewWithTag:12];
+        imgP.image = [UIImage imageNamed:_arrayImg2[indexPath.row]];
+        imgP.layer.masksToBounds = YES;
+        imgP.layer.cornerRadius = imgP.bounds.size.width/2;
+        imgP.layer.borderWidth = 1;
+        imgP.layer.borderColor = [[UIColor lightGrayColor] CGColor];
         UILabel *labText = (UILabel *)[cell.contentView viewWithTag:10];
         labText.text = _arrayListName2[indexPath.row];
     }
@@ -139,6 +164,30 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     //修改头像
     if (indexPath.section == 0&&indexPath.row == 0) {
+        ///换头像
+        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self persentImagePicker:1];
+        }];
+        
+        UIAlertAction *acCream = [UIAlertAction actionWithTitle:@"手机相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self persentImagePicker:0];
+        }];
+        
+        UIAlertAction *acLook = [UIAlertAction actionWithTitle:@"查看大图" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSDictionary *dic = [_tyUser objectForKey:tyUserUserInfo];
+            ImageEnlargeViewController *imageEnlargeVC = [[ImageEnlargeViewController alloc]init];
+            imageEnlargeVC.imageUrlArrays = @[[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dic[@"headImg"]]];
+            imageEnlargeVC.imageIndex = 1;
+            [self presentViewController:imageEnlargeVC animated:YES completion:nil];
+        }];
+        UIAlertAction *acCan = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alertImg addAction:acPhoto];
+        [alertImg addAction:acCream];
+        [alertImg addAction:acLook];
+        [alertImg addAction:acCan];
+        [self.navigationController presentViewController:alertImg animated:YES completion:nil];
+
         NSLog(@"修改头像");
     }
     //修改基本信息（用户名，手机号，邮箱）
@@ -151,8 +200,6 @@
     else if (indexPath.section == 1&&indexPath.row == 0){
         UptadePwdViewController *upVe= [[UptadePwdViewController alloc]initWithNibName:@"UptadePwdViewController" bundle:nil];
         [self.navigationController pushViewController:upVe animated:YES];
-//        [self performSegueWithIdentifier:@"fffff" sender:nil];
-        
     }
     //退出登录
     else if (indexPath.section == 1&&indexPath.row != 0){
@@ -165,15 +212,103 @@
         NSLog(@"退出登录");
     }
 }
-//传递修改参数
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"updateinfo"]) {
-        UpdateUserInfoViewController *updateVc = segue.destinationViewController;
-        updateVc.updateInfoPar =[sender integerValue];
-        updateVc.stringCurr = _updateStringCurr;
+
+
+///调用本地相册或摄像头(picParameter:0、手机相册，1、手机摄像头
+- (void)persentImagePicker:(NSInteger)picParameter{
+    if (!_imagePickerG) {
+        _imagePickerG = [[UIImagePickerController alloc]init];
+        _imagePickerG.delegate = self;
     }
-    else if ([segue.identifier isEqualToString:@"updatepwd"]){
+    
+    if (picParameter == 0) {
+        _imagePickerG.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    else{
+        // 前面的摄像头是否可用
+        if ([self isFrontCameraAvailable]) {
+            _imagePickerG.sourceType = UIImagePickerControllerSourceTypeCamera;
+        }
+        // 后面的摄像头是否可用
+        else if ([self isFirstResponder]){
+            _imagePickerG.sourceType = UIImagePickerControllerSourceTypeCamera;
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"没有相机可用~"];
+            return;
+        }
+    }
+    _imagePickerG.allowsEditing = YES;
+    [self.navigationController presentViewController:_imagePickerG animated:YES completion:nil];
+}
+// 前面的摄像头是否可用
+- (BOOL)isFrontCameraAvailable{
+    return [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront];
+}
+
+// 后面的摄像头是否可用
+- (BOOL)isRearCameraAvailable{
+    return [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear];
+}
+///选择图片完成（从相册或者拍照完成）
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    ///如果是拍照先把修剪前的照片保存到本地
+    [SVProgressHUD show];
+    if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+        UIImage *imageCream = [info objectForKey:UIImagePickerControllerOriginalImage];
+        [self imageTopicSave:imageCream];
+    }
+    //将修剪后的图片
+    UIImage *imageUp = [info objectForKey:UIImagePickerControllerEditedImage];
+    //压缩后的图片
+    //UIImage *imageYS = [UIImage imageWithData:[self imageData:imageUp]];
+    NSDictionary *dicUserIn = [_tyUser objectForKey:tyUserUserInfo];
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@app/uploadimg;JSESSIONID=%@?formSystem=902",systemHttpsTyUser,dicUserIn[@"jeeId"]];
+    NSDictionary *dicPara = @{@"userId":dicUserIn[@"userId"]};
+    
+    [HttpTools uploadHttpRequestURL:urlString RequestPram:dicPara UploadData:[self imageData:imageUp] RequestSuccess:^(id respoes) {
+        [SVProgressHUD dismiss];
+        [picker dismissViewControllerAnimated:YES completion:nil];
         
+    } RequestFaile:^(NSError *erro) {
+        NSLog(@"%@",erro);
+    } UploadProgress:^(NSProgress *uploadProgress) {
+        NSLog(@"%@",uploadProgress);
+    }];
+}
+
+///压缩图片
+-(NSData *)imageData:(UIImage *)myimage{
+    NSData *data=UIImageJPEGRepresentation(myimage, 1.0);
+    if (data.length>300*1024) {
+        if (data.length>1024*1024) {//1M以及以上
+            data=UIImageJPEGRepresentation(myimage, 0.1);
+        }else if (data.length>512*1024) {//0.5M-1M
+            data=UIImageJPEGRepresentation(myimage, 0.5);
+        }else if (data.length>300*1024) {//0.25M-0.5M
+            data=UIImageJPEGRepresentation(myimage, 0.9);
+        }
+    }
+    return data;
+}
+
+///取消选择图片
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
+///保存图片到本地相册
+-(void)imageTopicSave:(UIImage *)image{
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
+}
+///保存到本地手机后回调
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
+    if (error == nil) {
+        //        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"图片未能保存到本地！"];
     }
 }
 ///用户退出登录
@@ -189,10 +324,10 @@
         if (codeId == 1) {
             [SVProgressHUD showSuccessWithStatus:@"退出成功！"];
             //            [_tyUser removeObjectForKey:tyUserUser];
-//            [_tyUser removeObjectForKey:tyUserAccessToken];
-//            [_tyUser removeObjectForKey:tyUserClass];
-//            [_tyUser removeObjectForKey:tyUserSelectSubject];
-//            [_tyUser removeObjectForKey:tyUserSubject];
+            //            [_tyUser removeObjectForKey:tyUserAccessToken];
+            //            [_tyUser removeObjectForKey:tyUserClass];
+            //            [_tyUser removeObjectForKey:tyUserSelectSubject];
+            //            [_tyUser removeObjectForKey:tyUserSubject];
             [_tyUser removeObjectForKey:tyUserUser];
             [self.navigationController popViewControllerAnimated:YES];
         }
@@ -204,7 +339,17 @@
         [SVProgressHUD showInfoWithStatus:@"操作失败！"];
     }];
 }
-
+//传递修改参数
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"updateinfo"]) {
+        UpdateUserInfoViewController *updateVc = segue.destinationViewController;
+        updateVc.updateInfoPar =[sender integerValue];
+        updateVc.stringCurr = _updateStringCurr;
+    }
+    else if ([segue.identifier isEqualToString:@"updatepwd"]){
+        
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

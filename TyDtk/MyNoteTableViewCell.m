@@ -13,7 +13,13 @@
 - (void)awakeFromNib {
     _buttonDelete.layer.masksToBounds = YES;
     _buttonDelete.layer.cornerRadius= 2;
-    _buttonDelete.backgroundColor = ColorWithRGB(200, 200, 200);
+    _imageUser.layer.masksToBounds = YES;
+    _imageUser.layer.cornerRadius = _imageUser.frame.size.height/2;
+    NSUserDefaults *tyUseri = [NSUserDefaults standardUserDefaults];
+    if ([tyUseri objectForKey:tyUserUserInfo]) {
+        NSDictionary *dicUserInfo = [tyUseri objectForKey:tyUserUserInfo];
+        [_imageUser sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dicUserInfo[@"headImg"]]]];
+    }
 }
 - (CGFloat)setModelValueForCellWitnDic:(NSDictionary *)dicNote{
     _noteId = [dicNote[@"Id"] integerValue];

@@ -75,13 +75,13 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = NO;
     //??????
     //    [self chapterInfoTest];
     //    [self getCollectTopicWithChaperId];
     //??????
 }
 - (void)viewDidAppear:(BOOL)animated{
-    self.navigationController.tabBarController.tabBar.hidden = NO;
     _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
     _tableViewCollect.mj_header = _refreshHeader;
     
