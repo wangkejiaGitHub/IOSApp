@@ -244,7 +244,7 @@
         if (codeId == 1) {
             [self viewSmallAnimation];
             NSArray *arrry = dicSubject[@"datas"];
-            _viewSelectSubject = [[viewSelectSubject alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arraySubject:arrry];
+            _viewSelectSubject = [[viewSelectSubject alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arraySubject:arrry className:dic[@"Names"]];
             _viewSelectSubject.delegateSelect = self;
             UIWindow *dd = [[UIApplication sharedApplication] keyWindow];
             [dd addSubview:_viewSelectSubject];

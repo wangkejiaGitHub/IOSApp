@@ -38,8 +38,6 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         faile(error);
     }];
-    
-    
 }
 
 //图片上传

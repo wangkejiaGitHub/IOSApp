@@ -29,6 +29,7 @@
     _dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
     _arrayTitle = @[@"专业类别",@"所属专业",@"科目",@"价格"];
     _arrayProduct = [NSMutableArray array];
+    _tableViewProduct.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self addLiftButtonitem];
     [self getProductInfoWithSubjectId];
     // Do any additional setup after loading the view from its nib.

@@ -89,26 +89,26 @@
     }
     
     
-    [self addTapGest];
+//    [self addTapGest];
 }
 //??????????????????????????????????????????????????????????????????
 ///添加手势，用户隐藏答题卡
-- (void)addTapGest{
-    UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestClick:)];
-    [self.view addGestureRecognizer:tapGest];
-}
-///点击手势（主要用于隐藏答题卡）
-- (void)tapGestClick:(UITapGestureRecognizer *)tapGest{
-    _isShowTopicCard = NO;
-    [_buttonRight setTitle:@"答题卡" forState:UIControlStateNormal];
-    [UIView animateWithDuration:0.2 animations:^{
-        CGRect rect = _collectionViewTopicCard.frame;
-        rect.origin.x = Scr_Width;
-        _collectionViewTopicCard.frame = rect;
-    }];
-
-    NSLog(@"fsfffsfds");
-}
+//- (void)addTapGest{
+//    UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestClick:)];
+//    [self.view addGestureRecognizer:tapGest];
+//}
+/////点击手势（主要用于隐藏答题卡）
+//- (void)tapGestClick:(UITapGestureRecognizer *)tapGest{
+//    _isShowTopicCard = NO;
+//    [_buttonRight setTitle:@"答题卡" forState:UIControlStateNormal];
+//    [UIView animateWithDuration:0.2 animations:^{
+//        CGRect rect = _collectionViewTopicCard.frame;
+//        rect.origin.x = Scr_Width;
+//        _collectionViewTopicCard.frame = rect;
+//    }];
+//
+//    NSLog(@"fsfffsfds");
+//}
 //??????????????????????????????????????????????????????????????????
 - (void)viewWillAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden = YES;
@@ -566,8 +566,6 @@
             }
             _scrollContentWidth = _arrayPaterData.count;
             _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
-            
-            
             //判断是否是继续做题，如果是，rid有值,将用户做过的题的数量和已做过的试题存放起来
             if (_ridContinue.length > 0) {
                 for (NSDictionary *dicAllTopic in _arrayPaterData) {
@@ -620,7 +618,6 @@
                     }
                 }
             }
-            
             
             [self addChildViewWithTopicForSelf];
             for (id subView in _viewNaviHeardView.subviews) {

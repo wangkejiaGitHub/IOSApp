@@ -8,6 +8,7 @@
 
 #import "OrderInfoViewController.h"
 #import "OrderHeardView.h"
+#import "PayMoneyViewController.h"
 @interface OrderInfoViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewOrder;
 
@@ -61,6 +62,11 @@
 }
 ///付款按钮
 - (void)btnPayClick:(UIButton *)button{
+    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+    PayMoneyViewController *payVc = [sCommon instantiateViewControllerWithIdentifier:@"PayMoneyViewController"];
+    payVc.payMoneyAll = [_dicOrder[@"totalAmount"] floatValue];
+    payVc.dicOrder = _dicOrder;
+    [self.navigationController pushViewController:payVc animated:YES];
     NSLog(@"付款");
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

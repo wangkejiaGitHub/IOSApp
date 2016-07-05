@@ -11,14 +11,18 @@
 #import "EditExamViewController.h"
 @interface MyExamViewController ()<UITableViewDataSource,UITableViewDelegate,ExamCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewExam;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonLiftItem;
 
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSString *accessToken;
 @property (nonatomic,strong) NSMutableArray *arrayIsActived;
 @property (nonatomic,strong) NSMutableArray *arrayNoActived;
 @property (nonatomic,assign) CGFloat cellHeight;
-//下拉菜单
-@property (nonatomic,strong) DTKDropdownMenuView *menuView;
+//下拉刷新
+@property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
+@property (nonatomic,strong) NSArray *arrayCurrActive;
+///1.未激活，2.已激活
+@property (nonatomic,assign) NSInteger intCurrActive;
 @end
 
 @implementation MyExamViewController
@@ -31,8 +35,13 @@
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _arrayIsActived = [NSMutableArray array];
     _arrayNoActived = [NSMutableArray array];
+    
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
+    _tableViewExam.mj_header = _refreshHeader;
+    
     _cellHeight = 210;
     _tableViewExam.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _intCurrActive = 1;
     [self getExamInfo];
     
 }
@@ -42,6 +51,12 @@
         [_arrayNoActived removeAllObjects];
         [self getExamInfo];
     }
+}
+//下拉刷新
+- (void)headerRefereshClick:(MJRefreshNormalHeader *)refresh{
+    [_arrayIsActived removeAllObjects];
+    [_arrayNoActived removeAllObjects];
+    [self getExamInfo];
 }
 ///获取所有考试信息
 - (void)getExamInfo{
@@ -62,72 +77,76 @@
                 }
             }
             
-            //            for (int i = 0; i<_arrayNoActived.count - 1; i++) {
-            //                for (int j = 0; j<_arrayNoActived.count - 1 - i; j++) {
-            //                    NSDictionary *dicL = _arrayNoActived[j];
-            //                    NSDictionary *dicN = _arrayNoActived[j+1];
-            //                    NSInteger isDefaultL = [dicL[@"IsDefault"] integerValue];
-            //                    NSInteger isDefaultN = [dicN[@"IsDefault"] integerValue];
-            //                    if (isDefaultN == 1 && isDefaultL == 0) {
-            //                        [_arrayNoActived exchangeObjectAtIndex:i withObjectAtIndex:i+1];
-            //                    }
-            //
-            //                }
-            //            }
-            
+            if (_intCurrActive == 1) {
+                _arrayCurrActive = _arrayNoActived;
+            }
+            else{
+                _arrayCurrActive = _arrayIsActived;
+            }
+            NSLog(@"%@ == %@",_arrayIsActived,_arrayNoActived);
         }
+        [_refreshHeader endRefreshing];
         [_tableViewExam reloadData];
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD showInfoWithStatus:@"操作异常！"];
     }];
 }
-///添加激活状态选项
-- (void)addNavRightItem{
+///激活。未激活按钮
+- (IBAction)btnActiveClick:(UIBarButtonItem *)sender {
+    [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
+    [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
+    [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
+    ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self LevelsMenuItemArray]];
+    CGRect rectBtn;
+    rectBtn.origin.y = 60;
+    rectBtn.origin.x = Scr_Width - 30;
+    [popupMenu showInView:self.navigationController.view fromRect:rectBtn layoutType:Vertical];
+    [self.navigationController.view addSubview:popupMenu];
+}
 
-    NSMutableArray *arrayMenuItem = [NSMutableArray array];
-    DTKDropdownItem *item1 = [DTKDropdownItem itemWithTitle:@"未激活" callBack:^(NSUInteger index, id info) {
-        
-    }];
-    [arrayMenuItem addObject:item1];
-    
-    DTKDropdownItem *item2 = [DTKDropdownItem itemWithTitle:@"已激活" callBack:^(NSUInteger index, id info) {
-        
-    }];
-    [arrayMenuItem addObject:item2];
-//    _menuView = [DTKDropdownMenuView dropdownMenuViewForNavbarTitleViewWithFrame:CGRectMake(46, 0, Scr_Width - 92, 44) dropdownItems:arrayMenuItem];
-//    _menuView.currentNav = self.navigationController;
-//    _menuView.dropWidth = menuStringLength*19 - 15;
-//    if (menuStringLength <= 10) {
-//        _menuView.dropWidth = 200;
-//    }
-//    _menuView.titleFont = [UIFont systemFontOfSize:13.0];
-//    _menuView.textColor = [UIColor brownColor];
-//    _menuView.titleColor = [UIColor purpleColor];
-//    _menuView.textFont = [UIFont systemFontOfSize:13.f];
-//    _menuView.cellSeparatorColor = [UIColor lightGrayColor];
-//    _menuView.textFont = [UIFont systemFontOfSize:14.f];
-//    _menuView.animationDuration = 0.2f;
-//    self.navigationItem.titleView = _menuView;
+//返回试题类型菜单item数组
+- (NSArray *)LevelsMenuItemArray{
+    NSMutableArray *arrayTypeMuen = [NSMutableArray array];
+    ZFPopupMenuItem *item1 = [ZFPopupMenuItem initWithMenuName:@"未激活" image:nil action:@selector(menuTypeClick:) target:self];
+    item1.tag = 100 + 1;
+    ZFPopupMenuItem *item2 = [ZFPopupMenuItem initWithMenuName:@"已激活" image:nil action:@selector(menuTypeClick:) target:self];
+    item2.tag = 100 + 2;
+    [arrayTypeMuen addObject:item1];
+    [arrayTypeMuen addObject:item2];
+    return arrayTypeMuen;
+}
+//激活，未激活切换点击事件
+- (void)menuTypeClick:(ZFPopupMenuItem *)item{
+    _buttonLiftItem.title = item.itemName;
+    NSLog(@"%ld",item.tag);
+    if (item.tag == 101) {
+        NSLog(@"未激活");
+        _intCurrActive = 1;
+        _arrayCurrActive = _arrayNoActived;
+    }
+    else{
+        _intCurrActive = 2;
+        _arrayCurrActive = _arrayIsActived;
+        NSLog(@"已激活");
+    }
+    [_tableViewExam reloadData];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _arrayNoActived.count + 1;
+    return _arrayCurrActive.count + 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row < _arrayNoActived.count) {
+    if (indexPath.row < _arrayCurrActive.count) {
         return _cellHeight;
     }
     return 100;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    if (_arrayNoActived.count > 0) {
-//        
-//    }
-    if (indexPath.row < _arrayNoActived.count) {
+    if (indexPath.row < _arrayCurrActive.count) {
         ExamTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellexam" forIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.delegateExam = self;
-        NSDictionary *dicExam = _arrayNoActived[indexPath.row];
+        NSDictionary *dicExam = _arrayCurrActive[indexPath.row];
         _cellHeight = [cell setCellModelValueWithDictionary:dicExam];
         return cell;
     }
@@ -146,7 +165,7 @@
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == _arrayNoActived.count) {
+    if (indexPath.row == _arrayCurrActive.count) {
         self.navigationController.tabBarController.selectedIndex = 0;
     }
 }

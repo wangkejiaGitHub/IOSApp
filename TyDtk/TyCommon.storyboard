@@ -1983,6 +1983,54 @@
             </objects>
             <point key="canvasLocation" x="-8283.5" y="5093.5"/>
         </scene>
+        <!--Pay Money View Controller-->
+        <scene sceneID="aMW-VK-fvt">
+            <objects>
+                <viewController storyboardIdentifier="PayMoneyViewController" id="DPc-aH-9w9" customClass="PayMoneyViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DaE-hJ-aLB"/>
+                        <viewControllerLayoutGuide type="bottom" id="1OX-Wz-c4t"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GXy-Pj-ydg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="73" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="V41-sX-ydG">
+                                <rect key="frame" x="0.0" y="-44" width="375" height="711"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="paycell" rowHeight="73" id="V95-xM-AQ4">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="73"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V95-xM-AQ4" id="BkL-ht-i1Q">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="72"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="DPc-aH-9w9" id="408-Lc-MKy"/>
+                                    <outlet property="delegate" destination="DPc-aH-9w9" id="pNe-Tf-k7f"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="V41-sX-ydG" firstAttribute="top" secondItem="DaE-hJ-aLB" secondAttribute="bottom" constant="-64" id="Gjo-7d-VMe"/>
+                            <constraint firstItem="V41-sX-ydG" firstAttribute="leading" secondItem="GXy-Pj-ydg" secondAttribute="leading" id="RRN-SL-928"/>
+                            <constraint firstAttribute="trailing" secondItem="V41-sX-ydG" secondAttribute="trailing" id="t5j-mQ-EFo"/>
+                            <constraint firstItem="1OX-Wz-c4t" firstAttribute="top" secondItem="V41-sX-ydG" secondAttribute="bottom" id="zG4-JT-bcN"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="tableViewPay" destination="V41-sX-ydG" id="gXw-l2-V4w"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wzz-zF-V78" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7840.5" y="5100.5"/>
+        </scene>
     </scenes>
     <resources>
         <image name="loginBrg.jpeg" width="700" height="1308"/>

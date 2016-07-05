@@ -12,5 +12,5 @@
 @end
 @interface viewSelectSubject : UIView
 @property (nonatomic,assign) id <SelectSubjectDelegate> delegateSelect;
-- (id)initWithFrame:(CGRect)frame arraySubject:(NSArray *)arraySubject;
+- (id)initWithFrame:(CGRect)frame arraySubject:(NSArray *)arraySubject className:(NSString *)className;
 @end

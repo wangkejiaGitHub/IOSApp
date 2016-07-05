@@ -8,13 +8,11 @@
 
 #import "IntelligentTopicViewController.h"
 
-@interface IntelligentTopicViewController ()<UITableViewDataSource,UITableViewDelegate,CustomToolDelegate>
+@interface IntelligentTopicViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewIn;
 @property (nonatomic,assign) CGFloat viewCellWidth;
 @property (nonatomic,strong) NSMutableArray *arraySelectView;
-//授权工具
-@property (nonatomic,strong) CustomTools *customTools;
 //本地信息存储
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //令牌
@@ -25,8 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _btnStartTopic = [UIButton buttonWithType:UIButtonTypeCustom];
-    _btnStartTopic.userInteractionEnabled = NO;
     self.title = @"智能出题";
     _arraySelectView = [NSMutableArray array];
     _viewCellWidth = (Scr_Width-10-10-15-15)/3;
@@ -38,27 +37,6 @@
     [viewHeader addSubview:imageV];
     _tableViewIn.tableHeaderView = viewHeader;
     _tableViewIn.tableFooterView = [UIView new];
-    [self getAccessToken];
-}
-///授权
-- (void)getAccessToken{
-    _customTools = [[CustomTools alloc]init];
-    _customTools.delegateTool = self;
-    _tyUser = [NSUserDefaults standardUserDefaults];
-    //获取储存的专业信息
-    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
-    NSDictionary *dicCurrClass = [_tyUser objectForKey:tyUserClass];
-    NSString *classId = [NSString stringWithFormat:@"%@",dicCurrClass[@"Id"]];
-    NSString *subjectId = [NSString stringWithFormat:@"%@",_dicSubject[@"Id"]];
-    [_customTools empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userCode:dicUserInfo[@"userCode"] classId:classId subjectId:subjectId];
-}
-- (void)httpSussessReturnClick{
-    _btnStartTopic.userInteractionEnabled = YES;
-    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-    NSLog(@"授权成功！");
-}
--(void)httpErrorReturnClick{
-    NSLog(@"授权失败！");
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -164,19 +142,20 @@
 //开始做题按钮
 - (void)buttonStartTopic:(UIButton *)sender{
     NSLog(@"buttonStartTopic");
-    [SVProgressHUD showInfoWithStatus:@"暂未开放，我们正在努力~"];
-//    [self getRidMakeTopic];
+//    [SVProgressHUD showInfoWithStatus:@"暂未开放，我们正在努力~"];
+    [self getRidMakeTopic];
 }
 ///开始做题，获取rid
-//- (void)getRidMakeTopic{
-//    //api/Smart/MakeSmartQuestions?access_token={access_token}
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Smart/MakeSmartQuestions?access_token=%@",systemHttps,_accessToken];
-//    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
-//        NSDictionary *dicTopic = (NSDictionary *)respoes;
-//    } RequestFaile:^(NSError *erro) {
-//        
-//    }];
-//}
+- (void)getRidMakeTopic{
+    //api/Smart/MakeSmartQuestions?access_token={access_token}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Smart/MakeSmartQuestions?access_token=%@",systemHttps,_accessToken];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *dicTopic = (NSDictionary *)respoes;
+        NSLog(@"%@",dicTopic);
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

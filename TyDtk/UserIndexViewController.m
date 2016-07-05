@@ -244,7 +244,7 @@
             NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"欢迎回来：%@",dicUserInfo[@"userName"]]];
             
             [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%@",dicUserInfo[@"userName"]].length)];
-            UIFont *titleFont = [UIFont systemFontOfSize:18.0];
+            UIFont *titleFont = [UIFont systemFontOfSize:19.0];
             [attriTitle addAttribute:NSFontAttributeName value:titleFont
                                range:NSMakeRange(5,[NSString stringWithFormat:@"%@",dicUserInfo[@"userName"]].length)];
             [_tableHeardView.labUserName setAttributedText:attriTitle];
