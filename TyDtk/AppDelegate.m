@@ -30,7 +30,7 @@
      参数1 : 微信Appid
      参数2 : 对项目的描述信息(用项目名称)
      */
-    [WXApi registerApp:@"wx09a984b788a8a0b0" withDescription:@"kaka"];
+    [WXApi registerApp:@"wxb4ba3c02aa476ea1" withDescription:@"ff"];
     
     return YES;
 }

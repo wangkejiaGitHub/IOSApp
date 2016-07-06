@@ -58,7 +58,6 @@
     [btnPay addTarget:self action:@selector(btnPayClick:) forControlEvents:UIControlEventTouchUpInside];
     [viewFooter addSubview:btnPay];
     _tableViewOrder.tableFooterView = viewFooter;
-    
 }
 ///付款按钮
 - (void)btnPayClick:(UIButton *)button{
@@ -95,6 +94,7 @@
     btn.backgroundColor = ColorWithRGB(55, 155, 255);
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    ///设置显示付款状态按钮字符串
     ///未付款
     if ([_dicOrder[@"paymentStatus"] integerValue] == 5001) {
         [btn setTitle:@"付 款" forState:UIControlStateNormal];

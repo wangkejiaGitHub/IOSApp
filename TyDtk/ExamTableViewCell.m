@@ -88,6 +88,7 @@
 }
 ///设置默认
 - (void)setExamDefault{
+    ////待测试
     NSString *urlString = [NSString stringWithFormat:@"%@api/ExamSet/SetDefault/%@?access_token=%@",systemHttps,_dicExam[@"Id"],_accessToken];
     [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
         NSDictionary *dicExam = (NSDictionary *)respoes;

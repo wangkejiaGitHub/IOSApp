@@ -15,6 +15,8 @@
 #import "WXApi.h"
 @interface PayMoneyViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewPay;
+@property (nonatomic,strong) NSUserDefaults *tyUser;
+@property (nonatomic,strong) NSDictionary *dicUserInfo;
 @property (nonatomic,assign) NSInteger intCurrSelect;
 @end
 
@@ -23,6 +25,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    _dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
     _intCurrSelect = 0;
     _tableViewPay.tableFooterView = [UIView new];
     _tableViewPay.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -38,7 +42,7 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOrderPayResult:) name:@"WXPay" object:nil];
     }
 }
-#pragma mark - 事件
+#pragma mark - 事件（支付回调）
 - (void)getOrderPayResult:(NSNotification *)notification{
     NSLog(@"userInfo: %@",notification.userInfo);
     
@@ -147,6 +151,7 @@
  支付宝支付
  */
 - (void)alipayPayment{
+
 /*======================================================================*/
 /*===================需要填写商户app申请的=================================*/
     NSString *partner = @"";
@@ -207,83 +212,73 @@
  微信支付
  */
 - (void)sendNetWorking_WXPay{
-    NSString * urlStr = [NSString stringWithFormat:@"%@",YYIP];
-//    NSString * urlStr = [NSString stringWithFormat:@"%@%@",YYIP,@"wx/pay"];
-    
-    NSDictionary * parameter = @{
-                                 @"pay_type"       : @"1",
-                                 @"total_price"    : @"0.01",
-                                 @"appointment_id" : @"208"
-                                 };
-    
-    [self sendNetWorkingWith:urlStr andParameter:parameter];
-}
-
-#pragma mark 网络请求 -->> post
-- (void)sendNetWorkingWith:(NSString *)url andParameter:(NSDictionary *)parameter{
-    [HttpTools postHttpRequestURL:url RequestPram:parameter RequestSuccess:^(id respoes) {
-//        NSDictionary * result = responseObject[@"result"];
-//        
-//        NSString * appid         = result[@"appid"];
-//        NSString * noncestr      = result[@"noncestr"];
-//        NSString * package1      = result[@"package1"];
-//        NSString * partnerid     = result[@"partnerid"];
-//        NSString * paySign       = result[@"paySign"];
-//        NSString * prepayid      = result[@"prepayid"];
-//        NSString * timestamp     = result[@"timestamp"];
-//    [self WXPayRequest:appid nonceStr:noncestr package:package1 partnerId:partnerid prepayId:prepayid timeStamp:timestamp sign:paySign];
-        
-    } RequestFaile:^(NSError *erro) {
+    if (![WXApi isWXAppInstalled]) {
+        [SVProgressHUD showInfoWithStatus:@"没有安装微信！"];
+        return;
+    }
+//    NSString * urlStr = [NSString stringWithFormat:@"%@/ty/mobile/order/wxPay?orderSN=%@&jeeId=%@&fromSystem=902",systemHttpsKaoLaTopicImg,_dicOrder[@"id"],_dicUserInfo[@"jeeId"]];
+    NSString *urlStr = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
+    [HttpTools getHttpRequestURL:urlStr RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicWx = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        if ([dicWx[@"code"] integerValue] == 1) {
+//            NSDictionary *dicDatas = dicWx[@"datas"];
+//            if ([dicDatas[@"status"] integerValue] == 1) {
+//                NSDictionary *dicDataWx = dicDatas[@"data"];
+//                NSString * appid = dicDataWx[@"appid"];
+//                NSString * noncestr = dicDataWx[@"noncestr"];
+//                NSString * packageStr = dicDataWx[@"packageStr"];
+//                NSString * partnerid = dicDataWx[@"partnerid"];
+//                NSString * prepayid = dicDataWx[@"prepayid"];
+//                NSString * sign  = dicDataWx[@"sign"];
+//                NSString * timestamp = dicDataWx[@"timestamp"];
+//                
+//                PayReq* wxreq = [[PayReq alloc] init];
+//                wxreq.openID = appid;
+//                wxreq.nonceStr = noncestr;
+//                wxreq.package = packageStr;
+//                wxreq.partnerId = partnerid;
+//                wxreq.prepayId = prepayid;
+//                wxreq.timeStamp = [timestamp intValue];
+//                wxreq.sign = sign;
+//                [WXApi sendReq:wxreq];
+//            }
+//        }
+        NSString * appid = dicWx[@"appid"];
+        NSString * noncestr = dicWx[@"noncestr"];
+        NSString * packageStr = dicWx[@"package"];
+        NSString * partnerid = dicWx[@"partnerid"];
+        NSString * prepayid = dicWx[@"prepayid"];
+        NSString * sign  = dicWx[@"sign"];
+        NSString * timestamp = dicWx[@"timestamp"];
+        PayReq* wxreq = [[PayReq alloc] init];
+        wxreq.openID = appid;
+        wxreq.nonceStr = noncestr;
+        wxreq.package = packageStr;
+        wxreq.partnerId = partnerid;
+        wxreq.prepayId = prepayid;
+        wxreq.timeStamp = [timestamp intValue];
+        wxreq.sign = sign;
+        [WXApi sendReq:wxreq];
+    } RequestFaile:^(NSError *error) {
         
     }];
     
-//    AFHTTPSessionManager * manager = [AFHTTPSessionManager manager];
-//    
-//    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        
-//        NSLog(@"%@",responseObject);
-//        
-//        //网络请求回来的8个参数.详见微信开发平台
-//        
-//        NSDictionary * result = responseObject[@"result"];
-//        
-//        NSString * appid         = result[@"appid"];
-//        NSString * noncestr      = result[@"noncestr"];
-//        NSString * package1      = result[@"package1"];
-//        NSString * partnerid     = result[@"partnerid"];
-//        NSString * paySign       = result[@"paySign"];
-//        NSString * prepayid      = result[@"prepayid"];
-//        NSString * timestamp     = result[@"timestamp"];
-//        
-//        
-//        //        NSString * err_code      = result[@"err_code"];
-//        //        NSString * timeStamp     = result[@"timeStamp"];
-//        //        NSString * tradeid       = result[@"tradeid"];
-//        
-//        
-//        [self WXPayRequest:appid nonceStr:noncestr package:package1 partnerId:partnerid prepayId:prepayid timeStamp:timestamp sign:paySign];
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        NSLog(@"%@",error);
-//    }];
+//    [self sendNetWorkingWith:urlStr andParameter:parameter];
 }
-
 #pragma mark - 调起微信支付
-- (void)WXPayRequest:(NSString *)appId nonceStr:(NSString *)nonceStr package:(NSString *)package partnerId:(NSString *)partnerId prepayId:(NSString *)prepayId timeStamp:(NSString *)timeStamp sign:(NSString *)sign{
+- (void)WXPayRequestAppid:(NSString *)appId nonceStr:(NSString *)nonceStr package:(NSString *)package partnerId:(NSString *)partnerId prepayId:(NSString *)prepayId timeStamp:(NSString *)timeStamp sign:(NSString *)sign{
     //调起微信支付
-    PayReq* wxreq             = [[PayReq alloc] init];
-    
-    wxreq.openID              = appId; // 微信的appid
-    wxreq.partnerId           = partnerId;
-    wxreq.prepayId            = prepayId;
-    wxreq.nonceStr            = nonceStr;
-    wxreq.timeStamp           = [timeStamp intValue];
-    wxreq.package             = package;
-    wxreq.sign                = sign;
-    
+    PayReq* wxreq = [[PayReq alloc] init];
+    wxreq.openID = appId; // 微信的appid
+    wxreq.partnerId = partnerId;
+    wxreq.prepayId = prepayId;
+    wxreq.nonceStr = nonceStr;
+    wxreq.timeStamp = [timeStamp intValue];
+    wxreq.package = package;
+    wxreq.sign = sign;
     [WXApi sendReq:wxreq];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

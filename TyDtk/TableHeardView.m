@@ -31,5 +31,4 @@
     }
     NSLog(@"delegateImg");
 }
-
 @end

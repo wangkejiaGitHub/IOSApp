@@ -115,8 +115,6 @@
 		1D489F1E1D2B8C7A00D8665F /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D489F1D1D2B8C7A00D8665F /* CoreText.framework */; };
 		1D489F201D2B8C9400D8665F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D489F1F1D2B8C9400D8665F /* CFNetwork.framework */; };
 		1D489F221D2B8C9D00D8665F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D489F211D2B8C9D00D8665F /* CoreMotion.framework */; };
-		1D489F251D2B8CB900D8665F /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1D489F231D2B8CB900D8665F /* AlipaySDK.bundle */; };
-		1D489F261D2B8CB900D8665F /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D489F241D2B8CB900D8665F /* AlipaySDK.framework */; };
 		1D489F851D2B8CF200D8665F /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D489F751D2B8CF200D8665F /* base64.m */; };
 		1D489F861D2B8CF200D8665F /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D489F781D2B8CF200D8665F /* DataSigner.m */; };
 		1D489F871D2B8CF200D8665F /* DataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D489F7A1D2B8CF200D8665F /* DataVerifier.m */; };
@@ -263,6 +261,10 @@
 		1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */; };
 		1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF27B4B1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m */; };
 		1DF27B4E1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF27B4D1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib */; };
+		1DF5B6D81D2C87D30087057B /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1DF5B6D61D2C87D30087057B /* AlipaySDK.bundle */; };
+		1DF5B6D91D2C87D30087057B /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5B6D71D2C87D30087057B /* AlipaySDK.framework */; };
+		1DF5B7231D2D008D0087057B /* getIPhoneIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF5B7221D2D008D0087057B /* getIPhoneIP.m */; };
+		1DF5B7261D2D00990087057B /* DataMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF5B7251D2D00990087057B /* DataMD5.m */; };
 		1DF7658D1CE16E11002DE129 /* NotesUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF7658C1CE16E11002DE129 /* NotesUserViewController.m */; };
 		1DF765901CE16E32002DE129 /* NotesElseUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF7658F1CE16E32002DE129 /* NotesElseUserViewController.m */; };
 		1DF765921CE183B2002DE129 /* NotesUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF765911CE183B2002DE129 /* NotesUserCell.xib */; };
@@ -489,8 +491,6 @@
 		1D489F1D1D2B8C7A00D8665F /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		1D489F1F1D2B8C9400D8665F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		1D489F211D2B8C9D00D8665F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		1D489F231D2B8CB900D8665F /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = AlipaySDK.bundle; path = ../AlipaySDK.bundle; sourceTree = "<group>"; };
-		1D489F241D2B8CB900D8665F /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlipaySDK.framework; path = ../AlipaySDK.framework; sourceTree = "<group>"; };
 		1D489F281D2B8CEE00D8665F /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		1D489F291D2B8CEE00D8665F /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
 		1D489F2A1D2B8CEE00D8665F /* asn1_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1_mac.h; sourceTree = "<group>"; };
@@ -837,6 +837,12 @@
 		1DF27B4A1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype4TableViewCell.h; sourceTree = "<group>"; };
 		1DF27B4B1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicQtype4TableViewCell.m; sourceTree = "<group>"; };
 		1DF27B4D1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = paterTopicQtype4Cell.xib; sourceTree = "<group>"; };
+		1DF5B6D61D2C87D30087057B /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		1DF5B6D71D2C87D30087057B /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		1DF5B7211D2D008D0087057B /* getIPhoneIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getIPhoneIP.h; sourceTree = "<group>"; };
+		1DF5B7221D2D008D0087057B /* getIPhoneIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = getIPhoneIP.m; sourceTree = "<group>"; };
+		1DF5B7241D2D00990087057B /* DataMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataMD5.h; sourceTree = "<group>"; };
+		1DF5B7251D2D00990087057B /* DataMD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataMD5.m; sourceTree = "<group>"; };
 		1DF7658B1CE16E11002DE129 /* NotesUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesUserViewController.h; sourceTree = "<group>"; };
 		1DF7658C1CE16E11002DE129 /* NotesUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesUserViewController.m; sourceTree = "<group>"; };
 		1DF7658E1CE16E32002DE129 /* NotesElseUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesElseUserViewController.h; sourceTree = "<group>"; };
@@ -904,6 +910,7 @@
 			files = (
 				1D489FF41D2BBB4F00D8665F /* libsqlite3.0.tbd in Frameworks */,
 				1D489F221D2B8C9D00D8665F /* CoreMotion.framework in Frameworks */,
+				1DF5B6D91D2C87D30087057B /* AlipaySDK.framework in Frameworks */,
 				1D489F201D2B8C9400D8665F /* CFNetwork.framework in Frameworks */,
 				1D489FF11D2BBB0D00D8665F /* libWeChatSDK.a in Frameworks */,
 				1D489F1E1D2B8C7A00D8665F /* CoreText.framework in Frameworks */,
@@ -916,7 +923,6 @@
 				1D1F10DD1D1CD14400B3DBBC /* CoreGraphics.framework in Frameworks */,
 				1D1F10DB1D1CD13B00B3DBBC /* Foundation.framework in Frameworks */,
 				1D1F10D91D1CD13500B3DBBC /* UIKit.framework in Frameworks */,
-				1D489F261D2B8CB900D8665F /* AlipaySDK.framework in Frameworks */,
 				1DF950721CA3C49D00104597 /* SystemConfiguration.framework in Frameworks */,
 				1DEDC8821C9FD5CD0083B394 /* CoreLocation.framework in Frameworks */,
 			);
@@ -1361,6 +1367,7 @@
 		1D489FEB1D2BBB0D00D8665F /* WeChatSDK */ = {
 			isa = PBXGroup;
 			children = (
+				1DF5B7201D2D008D0087057B /* GetIphoneIP */,
 				1D489FEC1D2BBB0D00D8665F /* libWeChatSDK.a */,
 				1D489FED1D2BBB0D00D8665F /* README.txt */,
 				1D489FEE1D2BBB0D00D8665F /* WechatAuthSDK.h */,
@@ -2023,9 +2030,9 @@
 		1DEDC8801C9FD5770083B394 /* FrameWork */ = {
 			isa = PBXGroup;
 			children = (
+				1DF5B6D61D2C87D30087057B /* AlipaySDK.bundle */,
+				1DF5B6D71D2C87D30087057B /* AlipaySDK.framework */,
 				1D489FF31D2BBB4F00D8665F /* libsqlite3.0.tbd */,
-				1D489F231D2B8CB900D8665F /* AlipaySDK.bundle */,
-				1D489F241D2B8CB900D8665F /* AlipaySDK.framework */,
 				1D489F211D2B8C9D00D8665F /* CoreMotion.framework */,
 				1D489F1F1D2B8C9400D8665F /* CFNetwork.framework */,
 				1D489F1D1D2B8C7A00D8665F /* CoreText.framework */,
@@ -2100,6 +2107,17 @@
 				1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */,
 			);
 			name = TyProgramDtkMain;
+			sourceTree = "<group>";
+		};
+		1DF5B7201D2D008D0087057B /* GetIphoneIP */ = {
+			isa = PBXGroup;
+			children = (
+				1DF5B7241D2D00990087057B /* DataMD5.h */,
+				1DF5B7251D2D00990087057B /* DataMD5.m */,
+				1DF5B7211D2D008D0087057B /* getIPhoneIP.h */,
+				1DF5B7221D2D008D0087057B /* getIPhoneIP.m */,
+			);
+			path = GetIphoneIP;
 			sourceTree = "<group>";
 		};
 		1DF7658A1CE16DF8002DE129 /* Notes */ = {
@@ -2306,7 +2324,6 @@
 				1DEB178B1CBC90FA00C82293 /* timelog.png in Resources */,
 				1D2277EC1D2229FE00D2269C /* ico_circle_o@2x.png in Resources */,
 				1D92C8A81D139B9D006A937F /* StartLookViewController.xib in Resources */,
-				1D489F251D2B8CB900D8665F /* AlipaySDK.bundle in Resources */,
 				1D2277CE1D22224B00D2269C /* errquests.png in Resources */,
 				1D347B651D0EA480006DB889 /* EditExamViewController.xib in Resources */,
 				1D15C4531D191EE9006C15A7 /* img3.jpg in Resources */,
@@ -2357,6 +2374,7 @@
 				1D165E6F1CD1F84700F61EAE /* ErrorView.xib in Resources */,
 				1D079CDA1D25104F00313255 /* OrderHeardView.xib in Resources */,
 				1DF950591CA38F5800104597 /* km_icon.png in Resources */,
+				1DF5B6D81D2C87D30087057B /* AlipaySDK.bundle in Resources */,
 				1D2277E91D2229FE00D2269C /* ico_check_circle@2x.png in Resources */,
 				1D6A484E1D22768300070614 /* wxpay.png in Resources */,
 				1D6A48481D2261B400070614 /* TyCommon.storyboard in Resources */,
@@ -2490,6 +2508,7 @@
 				1D1137221CF3FD8C0092DF02 /* MASConstraintMaker.m in Sources */,
 				1D211FD21D0D57C600B895C6 /* TAAnimatedDotView.m in Sources */,
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
+				1DF5B7261D2D00990087057B /* DataMD5.m in Sources */,
 				1D436DC11D23CF5700D424F8 /* ActiveSubjectViewController.m in Sources */,
 				1D122BA71CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m in Sources */,
 				1D92C8891D1389EB006A937F /* TopicLookQtpye1TableViewCell.m in Sources */,
@@ -2569,6 +2588,7 @@
 				1D03B2921CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m in Sources */,
 				1DEDC8781C9FA66B0083B394 /* AFNetworkReachabilityManager.m in Sources */,
 				1D211FD51D0D57C600B895C6 /* SDCollectionViewCell.m in Sources */,
+				1DF5B7231D2D008D0087057B /* getIPhoneIP.m in Sources */,
 				1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */,
 				1DAF02F61D20C9B40042C8D8 /* selectChaperSubjectView.m in Sources */,
 				1DD126C51D1A6FB4003853E5 /* SelectSubjectViewController.m in Sources */,
@@ -2718,6 +2738,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/TyDtk",
 				);
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/TyDtk";
@@ -2744,6 +2765,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/TyDtk",
 				);
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/TyDtk";

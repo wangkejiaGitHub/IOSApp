@@ -141,8 +141,7 @@
 }
 //开始做题按钮
 - (void)buttonStartTopic:(UIButton *)sender{
-    NSLog(@"buttonStartTopic");
-//    [SVProgressHUD showInfoWithStatus:@"暂未开放，我们正在努力~"];
+    //[SVProgressHUD showInfoWithStatus:@"暂未开放，我们正在努力~"];
     [self getRidMakeTopic];
 }
 ///开始做题，获取rid
