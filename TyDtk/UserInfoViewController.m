@@ -10,7 +10,7 @@
 #import "UpdateUserInfoViewController.h"
 #import "UptadePwdViewController.h"
 #import "ImageEnlargeViewController.h"
-@interface UserInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface UserInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,LoginDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewUser;
 @property (nonatomic,strong) NSArray *arrayListName1;
 @property (nonatomic,strong) NSArray *arrayListName2;
@@ -22,6 +22,7 @@
 //当前需要修改的参数值
 @property (nonatomic,strong) NSString *updateStringCurr;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
+@property (nonatomic,strong) LoginUser *loginUser;
 @end
 
 @implementation UserInfoViewController
@@ -29,6 +30,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _loginUser = [[LoginUser alloc]init];
+    _loginUser.delegateLogin = self;
     _tyUser = [NSUserDefaults standardUserDefaults];
     self.title = @"我的信息";
     _arrayListName1 = @[@"用户名",@"手机号",@"邮箱"];
@@ -42,17 +45,30 @@
 }
 ///获取用户信息
 - (void)getUserInfo{
-    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUser];
-    NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
-    NSLog(@"%@",urlString);
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        _dicUserInfo = dicUserInfo;
+    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUserInfo];
+    [_loginUser getUserInformationoWithJeeId:dicUser[@"jeeId"]];
+//    NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
+//    NSLog(@"%@",urlString);
+//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+//        _dicUserInfo = dicUserInfo;
+//        [_tableViewUser reloadData];
+//    } RequestFaile:^(NSError *error) {
+//        
+//    }];
+//    NSLog(@"%@",dicUser);
+}
+///获取用户信息回调
+- (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
+    ///成功获取信息
+    if (msgPara == 1) {
+        _dicUserInfo = dicUser;
         [_tableViewUser reloadData];
-    } RequestFaile:^(NSError *error) {
+    }
+    ///获取信息失败
+    else{
         
-    }];
-    NSLog(@"%@",dicUser);
+    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
@@ -187,8 +203,6 @@
         [alertImg addAction:acLook];
         [alertImg addAction:acCan];
         [self.navigationController presentViewController:alertImg animated:YES completion:nil];
-
-        NSLog(@"修改头像");
     }
     //修改基本信息（用户名，手机号，邮箱）
     else if (indexPath.section == 0&&indexPath.row != 0) {

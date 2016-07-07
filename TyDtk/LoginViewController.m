@@ -8,14 +8,14 @@
 
 #import "LoginViewController.h"
 
-@interface LoginViewController ()<UITextFieldDelegate>
+@interface LoginViewController ()<UITextFieldDelegate,LoginDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *buttonLogin;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBrg;
 @property (weak, nonatomic) IBOutlet UIView *viewName;
 @property (weak, nonatomic) IBOutlet UIView *viewPwd;
 @property (weak, nonatomic) IBOutlet UITextField *textName;
 @property (weak, nonatomic) IBOutlet UITextField *textPwd;
-
+@property (nonatomic,strong) LoginUser *loginUser;
 //朦层
 @property (nonatomic,strong) MZView *mzView;
 //点击屏幕的手势
@@ -26,6 +26,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _loginUser = [[LoginUser alloc]init];
+    _loginUser.delegateLogin = self;
     [self viewLoad];
     
 }
@@ -62,51 +64,18 @@
     if (!_mzView) {
         _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
     }
-    
     [self.view addSubview:_mzView];
-    NSDictionary *dicLogin = @{@"account":_textName.text,@"password":_textPwd.text};
-    [HttpTools postHttpRequestURL:@"http://www.tydlk.cn/tyuser/login/json" RequestPram:dicLogin RequestSuccess:^(id respoes) {
-        NSDictionary *dic = respoes;
-        NSInteger codeUser = [dic[@"code"] integerValue];
-        NSDictionary *dicUser = dic[@"datas"];
-        NSLog(@"%@",dicUser);
-        if (codeUser == 1) {
-            [SVProgressHUD showSuccessWithStatus:@"登录成功"];
-            NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-            [tyUser setObject:dicUser forKey:tyUserUser];
-            [self getUserInfo];
-        }
-        else{
-            [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
-        }
-        [_mzView removeFromSuperview];
-    } RequestFaile:^(NSError *erro) {
-        [_mzView removeFromSuperview];
-        [SVProgressHUD showInfoWithStatus:@"网络异常"];
-    }];
+    [_loginUser LoginAppWithAccount:_textName.text password:_textPwd.text];
+    
 }
-///获取用户信息
-- (void)getUserInfo{
-    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
-    NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
-    NSLog(@"%@",urlString);
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSMutableDictionary *dicc = [NSMutableDictionary dictionaryWithDictionary:dicUserInfo];
-        ///如果是nsnull 转化为空
-        for (NSString *keyDic in dicc.allKeys) {
-            if ([dicc[keyDic] isEqual:[NSNull null]]) {
-                [dicc setObject:@"" forKey:keyDic];
-            }
-        }
-        [tyUser setObject:dicc forKey:tyUserUserInfo];
+///登录成功回调
+- (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
+    [_mzView removeFromSuperview];
+    if (msgPara == 1) {
         [self.navigationController popViewControllerAnimated:YES];
-    } RequestFaile:^(NSError *error) {
-        
-    }];
-    NSLog(@"%@",dicUser);
+    }
 }
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;

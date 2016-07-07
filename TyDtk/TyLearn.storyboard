@@ -54,46 +54,43 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wcH-r6-PA7">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
-                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="60" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="qVn-gv-H9X">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="60" id="1zg-XG-Vu4">
-                                        <rect key="frame" x="0.0" y="50" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="114" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1zg-XG-Vu4" id="fZd-hB-5qx">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="59"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="练习中心" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nlb-VU-3WJ">
-                                                    <rect key="frame" x="20" y="10" width="335" height="40"/>
-                                                    <color key="backgroundColor" red="0.84801682690000002" green="0.84758275679999995" blue="0.7809274759" alpha="1" colorSpace="calibratedRGB"/>
+                                                <imageView userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VxT-ma-rXT">
+                                                    <rect key="frame" x="15" y="7" width="45" height="45"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="muc-aP-WKV"/>
+                                                        <constraint firstAttribute="width" constant="45" id="etd-Ze-i4i"/>
+                                                        <constraint firstAttribute="height" constant="45" id="tQp-Gu-SHU"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
-                                                    <color key="textColor" red="0.33455159159999998" green="0.66627948130000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="11" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WF9-R1-nPh">
+                                                    <rect key="frame" x="70" y="20" width="275" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="PHj-BE-WlQ"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="nlb-VU-3WJ" firstAttribute="leading" secondItem="fZd-hB-5qx" secondAttribute="leading" constant="20" id="I2w-hK-18Q"/>
-                                                <constraint firstItem="nlb-VU-3WJ" firstAttribute="leading" secondItem="fZd-hB-5qx" secondAttribute="leading" constant="20" id="MSX-mz-xmM"/>
-                                                <constraint firstAttribute="trailing" secondItem="nlb-VU-3WJ" secondAttribute="trailing" constant="15" id="hrY-mv-dK8"/>
-                                                <constraint firstAttribute="trailing" secondItem="nlb-VU-3WJ" secondAttribute="trailing" constant="20" id="p5E-kE-UNE"/>
-                                                <constraint firstItem="nlb-VU-3WJ" firstAttribute="centerY" secondItem="fZd-hB-5qx" secondAttribute="centerY" id="xPI-Mx-SDi"/>
+                                                <constraint firstItem="WF9-R1-nPh" firstAttribute="centerY" secondItem="fZd-hB-5qx" secondAttribute="centerY" id="6cP-k6-odi"/>
+                                                <constraint firstItem="VxT-ma-rXT" firstAttribute="leading" secondItem="fZd-hB-5qx" secondAttribute="leading" constant="15" id="75f-4d-cXV"/>
+                                                <constraint firstItem="WF9-R1-nPh" firstAttribute="leading" secondItem="VxT-ma-rXT" secondAttribute="trailing" constant="10" id="Ay7-wp-UGg"/>
+                                                <constraint firstAttribute="trailing" secondItem="WF9-R1-nPh" secondAttribute="trailing" constant="30" id="b7W-Yu-MKo"/>
+                                                <constraint firstItem="VxT-ma-rXT" firstAttribute="centerY" secondItem="fZd-hB-5qx" secondAttribute="centerY" id="uY2-dt-vpF"/>
                                             </constraints>
-                                            <variation key="default">
-                                                <mask key="constraints">
-                                                    <exclude reference="I2w-hK-18Q"/>
-                                                    <exclude reference="hrY-mv-dK8"/>
-                                                </mask>
-                                            </variation>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -104,20 +101,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="wcH-r6-PA7" secondAttribute="trailing" id="LGi-Li-srA"/>
-                            <constraint firstItem="wcH-r6-PA7" firstAttribute="leading" secondItem="vn4-Wo-YBz" secondAttribute="leading" id="Ra0-FL-q4Z"/>
                             <constraint firstItem="qVn-gv-H9X" firstAttribute="leading" secondItem="vn4-Wo-YBz" secondAttribute="leading" id="VLv-1t-T3f"/>
                             <constraint firstItem="WT9-03-BDk" firstAttribute="top" secondItem="qVn-gv-H9X" secondAttribute="bottom" id="fud-iP-Ksf"/>
                             <constraint firstAttribute="trailing" secondItem="qVn-gv-H9X" secondAttribute="trailing" id="gca-Up-tlr"/>
-                            <constraint firstItem="qVn-gv-H9X" firstAttribute="top" secondItem="YuO-Ya-bqV" secondAttribute="bottom" id="gls-np-9oA"/>
-                            <constraint firstItem="WT9-03-BDk" firstAttribute="top" secondItem="wcH-r6-PA7" secondAttribute="bottom" id="nNX-pW-2Y9"/>
-                            <constraint firstItem="wcH-r6-PA7" firstAttribute="top" secondItem="YuO-Ya-bqV" secondAttribute="bottom" id="piG-9F-KFw"/>
+                            <constraint firstItem="qVn-gv-H9X" firstAttribute="top" secondItem="YuO-Ya-bqV" secondAttribute="bottom" constant="-64" id="gls-np-9oA"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="练习中心" id="xI5-l9-wR4"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="imageViewBg" destination="wcH-r6-PA7" id="9f6-3h-BCk"/>
                         <outlet property="tableViewCenter" destination="qVn-gv-H9X" id="mKI-CE-a32"/>
                     </connections>
                 </viewController>

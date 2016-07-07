@@ -166,7 +166,7 @@
                     _scrollContentWidth = _scrollContentWidth + arrayDic.count;
                 }
             }
-            else if (_paperAnalysisParameter == 3 | _paperAnalysisParameter == 1){
+            else if (_paperAnalysisParameter == 3 | _paperAnalysisParameter == 1 | _paperAnalysisParameter == 4){
                 _scrollContentWidth = _arrayPaterAnalysisData.count;
             }
             _intTpoicCount = _scrollContentWidth;
@@ -185,6 +185,9 @@
             }
             else if (_paperAnalysisParameter == 3){
                 [self getWeekPaperAnalysisReportInfo];
+            }
+            else if (_paperAnalysisParameter == 4){
+                [self getIntelligentPaperAnalysisReportInfo];
             }
             _buttonAnalysis.userInteractionEnabled = YES;
             [SVProgressHUD dismiss];
@@ -265,12 +268,37 @@
             [self addViewAnalysisForAnalysis];
 
         }
-        NSLog(@"%@",dicAnalysis);
     } RequestFaile:^(NSError *error) {
         
     }];
 }
 /////////////////////章节练习模块分析报告//////////////////////////////
+
+/**
+ 获取智能做题分析报告
+ */
+- (void)getIntelligentPaperAnalysisReportInfo{
+//    api/Smart/GetSmartReport?access_token={access_token}&rid={rid}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Smart/GetSmartReport?access_token=%@&rid=%@",systemHttps,_accessToken,_rId];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        if ([dicAnalysis[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicAnalysis[@"datas"];
+            _intDoTopic = [dicDatas[@"DoneNum"] integerValue];
+            _intRightTopic = [dicDatas[@"RightNum"] integerValue];
+            _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
+            _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
+            _intScore = [dicDatas[@"Score"] integerValue];
+            [self addViewAnalysisForAnalysis];
+        }
+
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/////////////////////智能做题模块分析报告//////////////////////////////
+
+/////////////////////智能做题模块分析报告//////////////////////////////
 /**
 添加数据分析报告试图
  */
@@ -386,7 +414,6 @@
     UISwipeGestureRecognizer *swipeView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(viewAnalysisHiden:)];
     swipeView.direction = UISwipeGestureRecognizerDirectionDown;
     [_viewAnalysis addGestureRecognizer:swipeView];
-    //
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rectAna =_viewAnalysis.frame;
         rectAna.origin.y =200;
@@ -508,7 +535,7 @@
             }
         }
         //每周精选模块
-        else if (_paperAnalysisParameter == 3 | _paperAnalysisParameter == 1){
+        else if (_paperAnalysisParameter == 3 | _paperAnalysisParameter == 1 | _paperAnalysisParameter == 4){
             paterVc.dicTopic = _arrayPaterAnalysisData[i];
         }
         if (i == _scrollContentWidth - 1) {

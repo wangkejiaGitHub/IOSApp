@@ -203,7 +203,7 @@
                 //            NSArray *arrayImg = @[@"001.jpg",@"002.jpg",@"003.jpg"];
                 //            _scrollviewTimer = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width*0.53) imageNamesGroup:arrayImg];
                 
-                _scrollviewTimer = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width*0.53) imageURLStringsGroup:arrayUrlImg];
+                _scrollviewTimer = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, Scr_Width*0.53) imageURLStringsGroup:arrayUrlImg];
                 //每张图片显示的文字数组
                 _scrollviewTimer.titlesGroup = @[@"第【1】张图片",@"第【2】张图片",@"第【3】张图片"];
                 //图片滚动时间间隔

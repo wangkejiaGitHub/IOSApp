@@ -60,7 +60,7 @@
     NSInteger classId = [dicSubject[@"Id"] integerValue];
     [_arrayExRe removeAllObjects];
     [self getAllSubjectWithClass:classId];
-    _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableViewRe.tableFooterView = [UIView new];
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -211,7 +211,6 @@
             for (NSDictionary *dicP in arrayDatas) {
                 [_arrayExRe addObject:dicP];
             }
-             NSLog(@"%@",_arrayExRe);
             ///判断第一次加载时是否为空数据
             if (_arrayExRe.count == 0) {
                 _viewDataNil = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 45, Scr_Width, Scr_Height - 45 - 64- 49) showText:@"没有更多记录了，换个做题试试看~"];

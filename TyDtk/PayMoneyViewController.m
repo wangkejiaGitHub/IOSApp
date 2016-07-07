@@ -212,53 +212,53 @@
  微信支付
  */
 - (void)sendNetWorking_WXPay{
-    if (![WXApi isWXAppInstalled]) {
-        [SVProgressHUD showInfoWithStatus:@"没有安装微信！"];
-        return;
-    }
-//    NSString * urlStr = [NSString stringWithFormat:@"%@/ty/mobile/order/wxPay?orderSN=%@&jeeId=%@&fromSystem=902",systemHttpsKaoLaTopicImg,_dicOrder[@"id"],_dicUserInfo[@"jeeId"]];
-    NSString *urlStr = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
+//    if (![WXApi isWXAppInstalled]) {
+//        [SVProgressHUD showInfoWithStatus:@"没有安装微信！"];
+//        return;
+//    }
+    NSString * urlStr = [NSString stringWithFormat:@"%@/ty/mobile/order/wxPay?orderSN=%@&jeeId=%@&fromSystem=902&type=APP",systemHttpsKaoLaTopicImg,_dicOrder[@"id"],_dicUserInfo[@"jeeId"]];
+//    NSString *urlStr = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
     [HttpTools getHttpRequestURL:urlStr RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicWx = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        if ([dicWx[@"code"] integerValue] == 1) {
-//            NSDictionary *dicDatas = dicWx[@"datas"];
-//            if ([dicDatas[@"status"] integerValue] == 1) {
-//                NSDictionary *dicDataWx = dicDatas[@"data"];
-//                NSString * appid = dicDataWx[@"appid"];
-//                NSString * noncestr = dicDataWx[@"noncestr"];
-//                NSString * packageStr = dicDataWx[@"packageStr"];
-//                NSString * partnerid = dicDataWx[@"partnerid"];
-//                NSString * prepayid = dicDataWx[@"prepayid"];
-//                NSString * sign  = dicDataWx[@"sign"];
-//                NSString * timestamp = dicDataWx[@"timestamp"];
-//                
-//                PayReq* wxreq = [[PayReq alloc] init];
-//                wxreq.openID = appid;
-//                wxreq.nonceStr = noncestr;
-//                wxreq.package = packageStr;
-//                wxreq.partnerId = partnerid;
-//                wxreq.prepayId = prepayid;
-//                wxreq.timeStamp = [timestamp intValue];
-//                wxreq.sign = sign;
-//                [WXApi sendReq:wxreq];
-//            }
-//        }
-        NSString * appid = dicWx[@"appid"];
-        NSString * noncestr = dicWx[@"noncestr"];
-        NSString * packageStr = dicWx[@"package"];
-        NSString * partnerid = dicWx[@"partnerid"];
-        NSString * prepayid = dicWx[@"prepayid"];
-        NSString * sign  = dicWx[@"sign"];
-        NSString * timestamp = dicWx[@"timestamp"];
-        PayReq* wxreq = [[PayReq alloc] init];
-        wxreq.openID = appid;
-        wxreq.nonceStr = noncestr;
-        wxreq.package = packageStr;
-        wxreq.partnerId = partnerid;
-        wxreq.prepayId = prepayid;
-        wxreq.timeStamp = [timestamp intValue];
-        wxreq.sign = sign;
-        [WXApi sendReq:wxreq];
+        if ([dicWx[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicWx[@"datas"];
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                NSDictionary *dicDataWx = dicDatas[@"data"];
+                NSString * appid = dicDataWx[@"appid"];
+                NSString * noncestr = dicDataWx[@"noncestr"];
+                NSString * packageStr = dicDataWx[@"packageStr"];
+                NSString * partnerid = dicDataWx[@"partnerid"];
+                NSString * prepayid = dicDataWx[@"prepayid"];
+                NSString * sign  = dicDataWx[@"sign"];
+                NSString * timestamp = dicDataWx[@"timestamp"];
+                
+                PayReq* wxreq = [[PayReq alloc] init];
+                wxreq.openID = appid;
+                wxreq.nonceStr = noncestr;
+                wxreq.package = packageStr;
+                wxreq.partnerId = partnerid;
+                wxreq.prepayId = prepayid;
+                wxreq.timeStamp = [timestamp intValue];
+                wxreq.sign = sign;
+                [WXApi sendReq:wxreq];
+            }
+        }
+//        NSString * appid = dicWx[@"appid"];
+//        NSString * noncestr = dicWx[@"noncestr"];
+//        NSString * packageStr = dicWx[@"package"];
+//        NSString * partnerid = dicWx[@"partnerid"];
+//        NSString * prepayid = dicWx[@"prepayid"];
+//        NSString * sign  = dicWx[@"sign"];
+//        NSString * timestamp = dicWx[@"timestamp"];
+//        PayReq* wxreq = [[PayReq alloc] init];
+//        wxreq.openID = appid;
+//        wxreq.nonceStr = noncestr;
+//        wxreq.package = packageStr;
+//        wxreq.partnerId = partnerid;
+//        wxreq.prepayId = prepayid;
+//        wxreq.timeStamp = [timestamp intValue];
+//        wxreq.sign = sign;
+//        [WXApi sendReq:wxreq];
     } RequestFaile:^(NSError *error) {
         
     }];

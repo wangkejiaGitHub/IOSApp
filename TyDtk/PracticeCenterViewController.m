@@ -6,14 +6,24 @@
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
 
+///
 #import "PracticeCenterViewController.h"
+///章节练习
 #import "ChaptersViewController.h"
+///模拟试卷
 #import "ModelPapersViewController.h"
+///每周精选
 #import "WeekSelectViewController.h"
+///智能做题
 #import "IntelligentTopicViewController.h"
+///练习记录
 #import "ExerciseRecordViewController.h"
+///我的收藏
 #import "MyCollectViewController.h"
+///我的笔记
 #import "MyNoteViewController.h"
+///科目选择
+#import "SelectSubjectViewController.h"
 @interface PracticeCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCenter;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
@@ -22,17 +32,29 @@
 @property (nonatomic,strong) NSDictionary *dicSelectSubject;
 @property (nonatomic,strong) NSArray *arrayList;
 @property (nonatomic,strong) NSArray *arrayListSelf;
+@property (nonatomic,strong) NSArray *arrayImg;
+@property (nonatomic,strong) NSArray *arrayImgSelf;
+//////
+//所有专业分类
+@property (nonatomic,strong) NSMutableArray *arraySubject;
+//所有专业
+@property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
 @end
 
 @implementation PracticeCenterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    /////专业分类科目信息
+    _arraySubject = [NSMutableArray array];
+    _arraySecoundSubject = [NSMutableArray array];
     _tyUser =[NSUserDefaults standardUserDefaults];
     _arrayList = @[@"章节练习",@"模拟试卷",@"每周精选",@"智能出题"];
     _arrayListSelf = @[@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
+    _arrayImg = @[@"chapter",@"paper",@"weeksift",@"quest"];
+    _arrayImgSelf = @[@"learnrecord",@"collect",@"errquests",@"ebook"];
     _tableViewCenter.backgroundColor = [UIColor clearColor];
-    _tableViewCenter.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    _tableViewCenter.separatorStyle = UITableViewCellSeparatorStyleNone;
     _imageViewBg.image = systemBackGrdImg;
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -44,21 +66,22 @@
 ///添加头试图，用于显示用户最近一次所选的科目
 - (void)addTableHeardView{
     UIView *heardView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 60)];
-    heardView.backgroundColor = [UIColor clearColor];
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(20, 10, Scr_Width - 40, 50)];
-    view.layer.masksToBounds = YES;
-    view.layer.cornerRadius = 5;
-    view.backgroundColor = [UIColor clearColor];
+    heardView.backgroundColor = [UIColor whiteColor];
+//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(20, 10, Scr_Width - 40, 50)];
+//    view.layer.masksToBounds = YES;
+//    view.layer.cornerRadius = 5;
+//    view.backgroundColor = [UIColor clearColor];
     
-    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 10, 70, 30)];
+    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, 70, 30)];
     lab.font = [UIFont systemFontOfSize:15.0];
     lab.textColor = [UIColor orangeColor];
     lab.text = @"当前科目:";
     //显示科目名字
-    UILabel *labSubject =[[UILabel alloc]initWithFrame:CGRectMake(70, 10,Scr_Width - 40 - 70 , 30)];
+    UILabel *labSubject =[[UILabel alloc]initWithFrame:CGRectMake(80, 15,Scr_Width - 80-10 , 30)];
     labSubject.adjustsFontSizeToFitWidth = YES;
     labSubject.font = [UIFont systemFontOfSize:17.0];
-    labSubject.textColor = [UIColor purpleColor];
+    labSubject.textColor = ColorWithRGB(55, 155, 255);
+    labSubject.userInteractionEnabled = YES;
     if ([_tyUser objectForKey:tyUserSelectSubject]) {
         _dicSelectSubject = [_tyUser objectForKey:tyUserSelectSubject];
         labSubject.text = _dicSelectSubject[@"Names"];
@@ -67,10 +90,29 @@
         labSubject.text = @"您还没有选过任何科目";
         labSubject.textColor = [UIColor redColor];
     }
-    [view addSubview:labSubject];
-    [view addSubview:lab];
-    [heardView addSubview:view];
+    [heardView addSubview:lab];
+    [heardView addSubview:labSubject];
+    UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestAClick)];
+    [labSubject addGestureRecognizer:tapGest];
     _tableViewCenter.tableHeaderView = heardView;
+}
+///科目选择，跳到科目选择页面
+- (void)tapGestAClick{
+    if (_arraySubject.count >0 && _arraySecoundSubject.count > 0) {
+        [self goSelectSubjectView];
+    }
+    else{
+        [self getSubjectClass];
+    }
+}
+- (void)goSelectSubjectView{
+    UIStoryboard *sUser = CustomStoryboard(@"TyUserIn");
+    SelectSubjectViewController *subjectVc = [sUser instantiateViewControllerWithIdentifier:@"SelectSubjectViewController"];
+    subjectVc.arraySubject = _arraySubject;
+    subjectVc.arraySecoundSubject = _arraySecoundSubject;
+    subjectVc.selectSubject = 0;
+    [self.navigationController pushViewController:subjectVc animated:YES];
+
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
@@ -85,26 +127,21 @@
     return 60;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
-        return 40;
-    }
-    return 30;
+    return 40;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 30)];
-    view.backgroundColor = [UIColor clearColor];
-    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 30)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
+    view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, Scr_Width - 30, 30)];
     labTitle.font = [UIFont systemFontOfSize:18.0];
-    labTitle.textAlignment = NSTextAlignmentCenter;
-    labTitle.textColor = [UIColor orangeColor];
+//    labTitle.textAlignment = NSTextAlignmentCenter;
+    labTitle.textColor = ColorWithRGB(55, 155, 255);
     labTitle.backgroundColor = [UIColor clearColor];
     if (section == 0) {
-        labTitle.text = @"<模块练习>";
-        view.frame = CGRectMake(0, 0, Scr_Width, 40);
-        labTitle.frame = CGRectMake(0, 10, Scr_Width , 30);
+        labTitle.text = @"（题库模块练习）";
     }
     else{
-        labTitle.text = @"<我的练习>";
+        labTitle.text = @"（个人中心练习）";
     }
     [view addSubview:labTitle];
     return view;
@@ -117,21 +154,21 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    cell.layer.masksToBounds = YES;
-    cell.layer.cornerRadius = 5;
-    UILabel *labText = (UILabel *)[cell.contentView viewWithTag:10];
-    labText.layer.masksToBounds = YES;
-    labText.layer.cornerRadius = 5;
+    UIImageView *img = (UIImageView *)[cell.contentView viewWithTag:10];
+    UILabel *labTitle = (UILabel *)[cell.contentView viewWithTag:11];
     if (indexPath.section == 0) {
-        labText.text = _arrayList[indexPath.row];
+        img.image = [UIImage imageNamed:_arrayImg[indexPath.row]];
+        labTitle.text = _arrayList[indexPath.row];
     }
     else{
-        labText.text = _arrayListSelf[indexPath.row];
+        img.image = [UIImage imageNamed:_arrayImgSelf[indexPath.row]];
+        labTitle.text = _arrayListSelf[indexPath.row];
     }
+    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if ([_tyUser objectForKey:tyUserSelectSubject]&&[_tyUser objectForKey:tyUserUser]) {
         UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
         if (indexPath.section == 0) {
@@ -202,6 +239,36 @@
         [SVProgressHUD showInfoWithStatus:@"您还没有登录或未选过科目~"];
         self.tabBarController.selectedIndex = 0;
     }
+}
+//////////////////专业科目信息//////////////////
+//数据请求，获取专业信息
+- (void)getSubjectClass{
+    [SVProgressHUD show];
+    [HttpTools getHttpRequestURL:[NSString stringWithFormat:@"%@api/Classify/GetAll",systemHttps] RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        
+        NSDictionary *dicSubject =[NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        
+        NSArray *arrayDatas = dicSubject[@"datas"];
+        
+        for (NSDictionary *dicArr in arrayDatas) {
+            NSInteger ParentId = [dicArr[@"ParentId"] integerValue];
+            if (ParentId==0) {
+                [_arraySubject addObject:dicArr];
+            }
+            else{
+                [_arraySecoundSubject addObject:dicArr];
+            }
+        }
+        
+        [self goSelectSubjectView];
+        
+        [SVProgressHUD dismiss];
+        
+    } RequestFaile:^(NSError *error) {
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [_arraySubject removeAllObjects];
+        [_arraySecoundSubject removeAllObjects];
+    }];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

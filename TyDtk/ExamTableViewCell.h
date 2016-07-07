@@ -20,6 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonEdit;
 @property (weak, nonatomic) IBOutlet UILabel *labRemark;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *labRemarkHeight;
+@property (weak, nonatomic) IBOutlet UIImageView *imageLab;
 
 @property (nonatomic,assign) id <ExamCellDelegate> delegateExam;
 - (CGFloat)setCellModelValueWithDictionary:(NSDictionary *)dicExam;

@@ -30,6 +30,21 @@
 }
 //设置cell上面的值并返回
 - (CGFloat)setCellModelValueWithDictionary:(NSDictionary *)dicExam{
+    if ([dicExam[@"IsDefault"] integerValue] == 1) {
+        [_buttonSet setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
+        [_buttonSet setTitle:@"" forState:UIControlStateNormal];
+        [_buttonSet setImage:nil forState:UIControlStateNormal];
+        _imageLab.image = [UIImage imageNamed:@"label"];
+        _buttonSet.userInteractionEnabled = NO;
+//        [_buttonSet removeFromSuperview];
+    }
+    else{
+       [_buttonSet setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [_buttonSet setTitle:@"设置默认" forState:UIControlStateNormal];
+        [_buttonSet setImage:[UIImage imageNamed:@"cog"] forState:UIControlStateNormal];
+        _imageLab.image = nil;
+        _buttonSet.userInteractionEnabled = YES;
+    }
     _dicExam = dicExam;
     CGFloat cellHeight = 0;
     _labTitle.text = dicExam[@"CourseName"];

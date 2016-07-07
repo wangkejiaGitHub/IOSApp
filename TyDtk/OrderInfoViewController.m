@@ -111,10 +111,6 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"productcell" forIndexPath:indexPath];
     NSArray *arrayProduct = _dicOrder[@"shopOrderitems"];
     NSDictionary *dicProduct = arrayProduct[indexPath.row];
-//    UIImageView *imagePro = (UIImageView *)[cell.contentView viewWithTag:9];
-//    if (![dicProduct[@"imgUrl"] isEqual:[NSNull null]]) {
-//        [imagePro sd_setImageWithURL:[NSURL URLWithString:dicProduct[@"imgUrl"]]];
-//    }
     UILabel *labName = (UILabel *)[cell.contentView viewWithTag:10];
     labName.text = dicProduct[@"productName"];
     UILabel *labCount = (UILabel *)[cell.contentView viewWithTag:11];

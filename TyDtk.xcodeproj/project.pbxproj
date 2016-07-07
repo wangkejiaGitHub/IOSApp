@@ -11,7 +11,6 @@
 		1D04BE3A1CFEC3A800BCEFA0 /* UpdateUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D04BE391CFEC3A800BCEFA0 /* UpdateUserInfoViewController.m */; };
 		1D064E031CBB3303007BD4E4 /* StartDoTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */; };
 		1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */; };
-		1D07941B1CFBCD87009A39E8 /* ImageTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D07941A1CFBCD87009A39E8 /* ImageTopicViewController.m */; };
 		1D0794751CFBD943009A39E8 /* ImageEnlargeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D07946D1CFBD943009A39E8 /* ImageEnlargeCell.m */; };
 		1D0794761CFBD943009A39E8 /* ImageEnlargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D07946F1CFBD943009A39E8 /* ImageEnlargeViewController.m */; };
 		1D0794771CFBD943009A39E8 /* SJClickEnlarge.Bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1D0794701CFBD943009A39E8 /* SJClickEnlarge.Bundle */; };
@@ -207,6 +206,8 @@
 		1DDBBFE61D25FBB40009C59F /* ActiveSubjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBBFE51D25FBB40009C59F /* ActiveSubjectView.m */; };
 		1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */; };
 		1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE066A1CAA296A00FA1505 /* EmailForPwdViewController.m */; };
+		1DE3C1591D2E268300415120 /* LoginUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C1581D2E268300415120 /* LoginUser.m */; };
+		1DE3C15B1D2E48C100415120 /* label.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE3C15A1D2E48C100415120 /* label.png */; };
 		1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */; };
 		1DE5F8D31CD092BD0046CD8A /* paterTopicQtype5Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DE5F8D21CD092BD0046CD8A /* paterTopicQtype5Cell.xib */; };
 		1DE5F8D61CD093190046CD8A /* paterTopicQtype5TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE5F8D51CD093190046CD8A /* paterTopicQtype5TableViewCell.m */; };
@@ -332,8 +333,6 @@
 		1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartDoTopicViewController.m; sourceTree = "<group>"; };
 		1D064E441CBB6A4B007BD4E4 /* PatersTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PatersTopicViewController.h; sourceTree = "<group>"; };
 		1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PatersTopicViewController.m; sourceTree = "<group>"; };
-		1D0794191CFBCD87009A39E8 /* ImageTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTopicViewController.h; sourceTree = "<group>"; };
-		1D07941A1CFBCD87009A39E8 /* ImageTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageTopicViewController.m; sourceTree = "<group>"; };
 		1D07946C1CFBD943009A39E8 /* ImageEnlargeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEnlargeCell.h; sourceTree = "<group>"; };
 		1D07946D1CFBD943009A39E8 /* ImageEnlargeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageEnlargeCell.m; sourceTree = "<group>"; };
 		1D07946E1CFBD943009A39E8 /* ImageEnlargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageEnlargeViewController.h; sourceTree = "<group>"; };
@@ -736,6 +735,9 @@
 		1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneForPwdViewController.m; sourceTree = "<group>"; };
 		1DDE06691CAA296A00FA1505 /* EmailForPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailForPwdViewController.h; sourceTree = "<group>"; };
 		1DDE066A1CAA296A00FA1505 /* EmailForPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailForPwdViewController.m; sourceTree = "<group>"; };
+		1DE3C1571D2E268300415120 /* LoginUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUser.h; sourceTree = "<group>"; };
+		1DE3C1581D2E268300415120 /* LoginUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUser.m; sourceTree = "<group>"; };
+		1DE3C15A1D2E48C100415120 /* label.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = label.png; sourceTree = "<group>"; };
 		1DE3F88D1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+FDFullscreenPopGesture.h"; sourceTree = "<group>"; };
 		1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		1DE5F8D21CD092BD0046CD8A /* paterTopicQtype5Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = paterTopicQtype5Cell.xib; sourceTree = "<group>"; };
@@ -964,6 +966,8 @@
 				1D4227031D05879200A9B816 /* DateStringCompare.m */,
 				1D15C49B1D193C5A006C15A7 /* GuideView.h */,
 				1D15C49C1D193C5A006C15A7 /* GuideView.m */,
+				1DE3C1571D2E268300415120 /* LoginUser.h */,
+				1DE3C1581D2E268300415120 /* LoginUser.m */,
 			);
 			name = CustomTools;
 			sourceTree = "<group>";
@@ -1707,8 +1711,6 @@
 				1D064E021CBB3303007BD4E4 /* StartDoTopicViewController.m */,
 				1D064E441CBB6A4B007BD4E4 /* PatersTopicViewController.h */,
 				1D064E451CBB6A4B007BD4E4 /* PatersTopicViewController.m */,
-				1D0794191CFBCD87009A39E8 /* ImageTopicViewController.h */,
-				1D07941A1CFBCD87009A39E8 /* ImageTopicViewController.m */,
 			);
 			name = AnswerTopic;
 			sourceTree = "<group>";
@@ -1908,6 +1910,7 @@
 				1DF947381CF692B700CC4759 /* backImgTest.jpg */,
 				1D0D0EA81D2A45770041E1BE /* edit001.png */,
 				1D0D0EAA1D2A46960041E1BE /* edit002.png */,
+				1DE3C15A1D2E48C100415120 /* label.png */,
 				1DF947311CF680CA00CC4759 /* btm_icon4@2x.png */,
 				1DF9472F1CF680C200CC4759 /* btm_icon4_hover@2x.png */,
 				1DF9472D1CF680B700CC4759 /* btm_icon1@2x.png */,
@@ -2386,6 +2389,7 @@
 				1DF947261CF67FD100CC4759 /* dtk.png in Resources */,
 				1DF947241CF67C5800CC4759 /* sayD.png in Resources */,
 				1DF947221CF67C5200CC4759 /* picon.png in Resources */,
+				1DE3C15B1D2E48C100415120 /* label.png in Resources */,
 				1D0D0EA91D2A45770041E1BE /* edit001.png in Resources */,
 				1D2277CF1D22224B00D2269C /* learnrecord.png in Resources */,
 				1D0D0EA51D2A43A20041E1BE /* lajitong.png in Resources */,
@@ -2475,6 +2479,7 @@
 				1DEDC80D1C9F86170083B394 /* LoginViewController.m in Sources */,
 				1DE62EDA1D14E0A700BBE02A /* SelectParTopicViewController.m in Sources */,
 				1D1137211CF3FD8C0092DF02 /* MASConstraint.m in Sources */,
+				1DE3C1591D2E268300415120 /* LoginUser.m in Sources */,
 				1DF950701CA3BFC500104597 /* SVRadialGradientLayer.m in Sources */,
 				1DBD935B1D07A4DF0050848D /* MyCollectViewController.m in Sources */,
 				1D489F8B1D2B8CF200D8665F /* RSADataSigner.m in Sources */,
@@ -2483,7 +2488,6 @@
 				1DF947421CF6C61600CC4759 /* PracticeCenterViewController.m in Sources */,
 				1DDBBFE61D25FBB40009C59F /* ActiveSubjectView.m in Sources */,
 				1D347B211D0E6407006DB889 /* ExamTableViewCell.m in Sources */,
-				1D07941B1CFBCD87009A39E8 /* ImageTopicViewController.m in Sources */,
 				1DF940451D1B86F000D808C1 /* UserNavViewController.m in Sources */,
 				1D489F851D2B8CF200D8665F /* base64.m in Sources */,
 				1DC18F081CB795D50006D642 /* MJRefreshGifHeader.m in Sources */,

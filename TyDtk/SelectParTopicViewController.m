@@ -349,9 +349,6 @@
     }
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     cell.backgroundColor = [UIColor whiteColor];
-//    NSString *secString = [NSString stringWithFormat:@"%ld",indexPath.section];
-//    NSString *arrayString = [_dicData objectForKey:secString];
-//    NSArray *array = [arrayString componentsSeparatedByString:@","];
     NSDictionary *dicCurr = [[NSDictionary alloc]init];
     if (indexPath.section == 0) {
         dicCurr = _arrayModel[indexPath.row];

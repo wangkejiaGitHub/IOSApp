@@ -23,7 +23,7 @@
 @property (nonatomic,assign) NSDictionary *dicPater;
 
 /**
- 每周精选、章节练习所需参数rid,
+ 每周精选、章节练习、智能做题所需参数rid,
  rid
  */
 @property (nonatomic,strong) NSString *rIdString;

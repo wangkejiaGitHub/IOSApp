@@ -85,7 +85,11 @@
     }
     //智能出题
     else if (self.paperParameter == 4){
-        
+         _buttonSaveSch.backgroundColor = [UIColor lightGrayColor];
+        self.navigationItem.titleView = nil;
+        self.title = @"智能出题";
+        [_buttonSubPater setTitle:@"结束答题" forState:UIControlStateNormal];
+        [self getIntelligentPaperData];
     }
     
     
@@ -256,9 +260,6 @@
                 }
             }
         }
-        
-        NSLog(@"%@",_arrayUserAnswer);
-        NSLog(@"%ld",_intUserDidTopic);
         
         [self addChildViewWithTopicForSelf];
         [self addTimerForPater];
@@ -636,7 +637,6 @@
             [SVProgressHUD dismiss];
             
         }
-        NSLog(@"%@",dicChaperPaper);
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD showInfoWithStatus:@"网络异常！"];
     }];
@@ -646,7 +646,6 @@
  */
 - (void)submitChaperPaper{
     [SVProgressHUD showWithStatus:@"正在提交..."];
-    //如果是继续做题，改变rid的值
     NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/Submit?access_token=%@",systemHttps,_accessToken];
     //讲用户答过的试题信息进行编码转json
     NSData *dataPostStr = [NSJSONSerialization dataWithJSONObject:_arrayUserAnswer options:NSJSONWritingPrettyPrinted error:nil];
@@ -660,7 +659,6 @@
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
             [self performSegueWithIdentifier:@"topicAnalysis" sender:dicDatas[@"rid"]];
         }
-        NSLog(@"%@",dicChaper);
     } RequestFaile:^(NSError *erro) {
         
     }];
@@ -668,6 +666,54 @@
 }
 //****************************章节练习模块****************************//
 //////////////////////////////章节练习模块//////////////////////////////
+
+//////////////////////////////智能做题模块//////////////////////////////
+//****************************智能做题模块****************************//
+///获取智能出题试题
+- (void)getIntelligentPaperData{
+    [SVProgressHUD showWithStatus:@"试卷加载中..."];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Smart/GetSmartQuestions?access_token=%@&rid=%@",systemHttps,_accessToken,_rIdString];
+    
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicIntelligent = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicIntelligent[@"code"] integerValue];
+        if (codeId == 1) {
+            _arrayPaterData = dicIntelligent[@"datas"];
+            _scrollContentWidth = _arrayPaterData.count;
+            _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
+            
+            [self addChildViewWithTopicForSelf];
+            for (id subView in _viewNaviHeardView.subviews) {
+                [subView removeFromSuperview];
+            }
+            _buttonRight.userInteractionEnabled = YES;
+            //////////////////////////////////////////
+            //实例化答题卡
+            if (!_collectionViewTopicCard) {
+                UICollectionViewFlowLayout *la =[[UICollectionViewFlowLayout alloc]init];
+                _collectionViewTopicCard = [[TopicCardCollectionView alloc]initWithFrame:CGRectMake(Scr_Width, 64, Scr_Width,Scr_Height/2) collectionViewLayout:la withTopicArray:_arrayPaterData paperParameter:_paperParameter];
+                _collectionViewTopicCard.delegateCellClick = self;
+                [self.view addSubview:_collectionViewTopicCard];
+            }
+            /////////////////////////////////////////////////////////////
+            [SVProgressHUD dismiss];
+        }
+        else{
+            
+            [SVProgressHUD showInfoWithStatus:dicIntelligent[@"errmsg"]];
+        }
+    } RequestFaile:^(NSError *error) {
+        [SVProgressHUD showInfoWithStatus:@"请求异常"];
+    }];
+
+    
+}
+///智能出题交卷
+- (void)submitIntelligentPaper{
+    [self submitChaperPaper];
+}
+//****************************智能做题模块****************************//
+//////////////////////////////智能做题模块//////////////////////////////
 
 /**
  添加子试图，（每一个子试图相当于一道题）并依次在scrollView中显示出来
@@ -688,7 +734,7 @@
                 paterVc.topicTitle = topString;
             }
         }
-        else if (_paperParameter == 3 | _paperParameter == 1){
+        else if (_paperParameter == 3 | _paperParameter == 1 | _paperParameter ==4){
             paterVc.dicTopic = _arrayPaterData[i];
         }
         if (i == _scrollContentWidth - 1) {
@@ -868,7 +914,7 @@
         dicPost = @{@"Id":paterId,@"Title":paterTitle,@"PostStr":postStr};
     }
     //其他模块(暂时只有每周精选)
-    else if(_paperParameter == 3 | _paperParameter == 1){
+    else if(_paperParameter == 1){
         //api/Answer/SaveAnswer?access_token={access_token}
         urlString = [NSString stringWithFormat:@"%@api/Answer/SaveAnswer?access_token=%@",systemHttps,_accessToken];
         //讲用户答过的试题信息进行编码转json
@@ -905,7 +951,7 @@
             topicCount = topicCount + array.count;
         }
     }
-    else if (_paperParameter == 3 | _paperParameter == 1){
+    else if (_paperParameter == 3 | _paperParameter == 1|_paperParameter == 4){
         topicCount = _arrayPaterData.count;
     }
     
@@ -934,6 +980,10 @@
                 else if (_paperParameter == 3){
                     [self submitWeekPater];
                 }
+                //智能做题试卷提交
+                else if (_paperParameter == 4){
+                    [self submitIntelligentPaper];
+                }
                 
             }
         }];
@@ -953,6 +1003,10 @@
                 else if (_paperParameter == 3){
                     [self submitWeekPater];
                 }
+                //智能做题试卷提交
+                else if (_paperParameter == 4){
+                    [self submitIntelligentPaper];
+                }
             }
         }];
     }
@@ -968,17 +1022,7 @@
     analysisVc.isFromTiKu = YES;
     analysisVc.rId = sender;
 }
-//- (void)paterAnalysis:(NSString *)rId{
-//    //api/Resolve/GetPaperResolveQuestions/{id}?access_token={access_token}&rid={rid}
-//    NSInteger paterId = [_dicPater[@"Id"] integerValue];
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,paterId,_accessToken,rId];
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        NSLog(@"%@",dicAnalysis);
-//    } RequestFaile:^(NSError *error) {
-//        
-//    }];
-//}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

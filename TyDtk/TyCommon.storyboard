@@ -1519,6 +1519,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="tableViewIn" destination="ktC-Qi-Kqf" id="o2l-Ke-UY0"/>
+                        <segue destination="dbs-DQ-tMd" kind="show" identifier="strtopic" id="Cnp-rZ-Spx"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9x3-LU-mNp" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2040,7 +2041,7 @@
         <image name="top_backbtn" width="12" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5ot-CK-4YJ"/>
-        <segue reference="Qot-Ol-gXn"/>
+        <segue reference="Cnp-rZ-Spx"/>
+        <segue reference="3TO-hV-wL9"/>
     </inferredMetricsTieBreakers>
 </document>

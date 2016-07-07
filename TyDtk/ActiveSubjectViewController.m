@@ -112,7 +112,6 @@
             [_tableViewProduct reloadData];
         }
         [SVProgressHUD dismiss];
-        NSLog(@"%@",dicProduct);
     } RequestFaile:^(NSError *error) {
          [SVProgressHUD showInfoWithStatus:@"操作异常！"];
     }];
@@ -150,7 +149,6 @@
         if ([dicOrder[@"code"] integerValue] == 1) {
             NSDictionary *dicDatas = dicOrder[@"datas"];
             NSDictionary *dicOrderInfo = dicDatas[@"data"];
-            NSLog(@"%@",dicOrderInfo);
             [self goOrderInfoView:dicOrderInfo];
         }
         [SVProgressHUD dismiss];

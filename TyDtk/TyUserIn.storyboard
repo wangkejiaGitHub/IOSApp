@@ -641,6 +641,13 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="coZ-gn-yLT">
                                                             <rect key="frame" x="0.0" y="0.0" width="335" height="45"/>
                                                             <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HQS-ll-5N2">
+                                                                    <rect key="frame" x="303" y="0.0" width="32" height="32"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="32" id="iEV-HO-ymP"/>
+                                                                        <constraint firstAttribute="height" constant="32" id="o8I-sw-grI"/>
+                                                                    </constraints>
+                                                                </imageView>
                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lCZ-hC-HR6">
                                                                     <rect key="frame" x="5" y="5" width="251" height="36"/>
                                                                     <constraints>
@@ -658,7 +665,7 @@
                                                                         <constraint firstAttribute="width" constant="75" id="DBb-Q5-GKv"/>
                                                                     </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                    <inset key="imageEdgeInsets" minX="-3" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                                    <inset key="imageEdgeInsets" minX="-4" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                                     <state key="normal" title="设为默认" image="cog.png">
                                                                         <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                                     </state>
@@ -670,6 +677,8 @@
                                                             <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="trailing" secondItem="1jA-Bz-zeX" secondAttribute="trailing" constant="1" id="4sM-do-iZQ"/>
+                                                                <constraint firstAttribute="trailing" secondItem="HQS-ll-5N2" secondAttribute="trailing" id="8VZ-8U-QUd"/>
+                                                                <constraint firstItem="HQS-ll-5N2" firstAttribute="top" secondItem="coZ-gn-yLT" secondAttribute="top" id="Ppa-7V-huy"/>
                                                                 <constraint firstItem="lCZ-hC-HR6" firstAttribute="leading" secondItem="coZ-gn-yLT" secondAttribute="leading" constant="5" id="Yb8-Ln-UtQ"/>
                                                                 <constraint firstAttribute="height" constant="45" id="ax2-zz-2F5"/>
                                                                 <constraint firstItem="lCZ-hC-HR6" firstAttribute="centerY" secondItem="coZ-gn-yLT" secondAttribute="centerY" id="j2J-Ra-CQH"/>
@@ -765,6 +774,7 @@
                                             <outlet property="buttonDelete" destination="JnC-Ns-v1y" id="Nzi-VO-a3a"/>
                                             <outlet property="buttonEdit" destination="mUs-gV-HBO" id="q1Y-z0-SnY"/>
                                             <outlet property="buttonSet" destination="1jA-Bz-zeX" id="d5R-ug-mlY"/>
+                                            <outlet property="imageLab" destination="HQS-ll-5N2" id="JIe-z6-tSv"/>
                                             <outlet property="labRemark" destination="bB6-Iu-Dnd" id="zV8-DC-2Vl"/>
                                             <outlet property="labRemarkHeight" destination="uAK-gP-f23" id="NfJ-cn-tdX"/>
                                             <outlet property="labTime" destination="TVG-j7-rqL" id="3ep-k9-cJY"/>
@@ -844,7 +854,7 @@
         <!--专业分类-->
         <scene sceneID="Xg9-Qm-Zhs">
             <objects>
-                <viewController id="4sg-5j-LrH" customClass="SelectSubjectViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SelectSubjectViewController" id="4sg-5j-LrH" customClass="SelectSubjectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="xwA-i7-qC6"/>
                         <viewControllerLayoutGuide type="bottom" id="KYZ-0L-6Tb"/>

@@ -119,11 +119,11 @@
             return;
         }
     }
+    [SVProgressHUD show];
     if (!_mzView) {
     _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
     }
     [self.navigationController.tabBarController.view addSubview:_mzView];
-    [SVProgressHUD show];
     [self addHeardViewForPaterList];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/GetWeeklyList?access_token=%@&page=%ld",systemHttps,_accessToken,_paterIndexPage];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {

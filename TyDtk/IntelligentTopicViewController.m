@@ -7,7 +7,7 @@
 //
 
 #import "IntelligentTopicViewController.h"
-
+#import "StartDoTopicViewController.h"
 @interface IntelligentTopicViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewIn;
@@ -150,10 +150,22 @@
     NSString *urlString = [NSString stringWithFormat:@"%@api/Smart/MakeSmartQuestions?access_token=%@",systemHttps,_accessToken];
     [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
         NSDictionary *dicTopic = (NSDictionary *)respoes;
+        if ([dicTopic[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicTopic[@"datas"];
+            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+            [self performSegueWithIdentifier:@"strtopic" sender:dicDatas[@"rid"]];
+        }
         NSLog(@"%@",dicTopic);
     } RequestFaile:^(NSError *erro) {
         
     }];
+}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"strtopic"]) {
+        StartDoTopicViewController *startDTopicVc = segue.destinationViewController;
+        startDTopicVc.rIdString = sender;
+        startDTopicVc.paperParameter = 4;
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

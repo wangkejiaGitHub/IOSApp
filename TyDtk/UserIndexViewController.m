@@ -13,7 +13,7 @@
 #import "LoginViewController.h"
 #import "ExerciseRecordViewController.h"
 #import "ImageEnlargeViewController.h"
-@interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate>
+@interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate,LoginDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewList;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
 @property (nonatomic,strong) UIImagePickerController *imagePickerG;
@@ -28,6 +28,8 @@
 @property (nonatomic,strong) NSMutableArray *arraySubject;
 //所有专业
 @property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
+
+@property (nonatomic,strong) LoginUser *loginUser;
 @end
 
 @implementation UserIndexViewController
@@ -35,7 +37,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    _loginUser = [[LoginUser alloc]init];
+    _loginUser.delegateLogin = self;
     [self viewLoad];
 }
 - (void)viewLoad{
@@ -52,9 +55,8 @@
 - (void)viewWillAppear:(BOOL)animated{
     [SVProgressHUD dismiss];
     [_tableViewList reloadData];
-    //登录是否超时（没有其他定义）
+    //获取用户信息
     [self getUserInfo];
-    //    [self getUserImage];
 }
 ///添加tableView头试图
 - (void)addTableViewHeardView{
@@ -149,7 +151,7 @@
                 [self performSegueWithIdentifier:@"userinfo" sender:nil];
             }
             else if (indexPath.row == 1){
-                //                //当前科目
+               //当前科目
                 [self getSubjectClass];
                 
             }
@@ -218,7 +220,6 @@
                 else{
                     [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
                 }
-                
             }
         }
         else{
@@ -230,44 +231,38 @@
         }
     }
 }
-
 /////获取用户信息
 - (void)getUserInfo{
     NSDictionary *dicUser = [_tyUser objectForKey:tyUserUserInfo];
-    NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
-    NSLog(@"%@",urlString);
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        if (dicUserInfo != nil) {
-            
-            //标题属性字符串
-            NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"欢迎回来：%@",dicUserInfo[@"userName"]]];
-            
-            [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%@",dicUserInfo[@"userName"]].length)];
-            UIFont *titleFont = [UIFont systemFontOfSize:19.0];
-            [attriTitle addAttribute:NSFontAttributeName value:titleFont
-                               range:NSMakeRange(5,[NSString stringWithFormat:@"%@",dicUserInfo[@"userName"]].length)];
-            [_tableHeardView.labUserName setAttributedText:attriTitle];
-            if (![dicUserInfo[@"headImg"] isEqual:[NSNull null]]) {
-                [_tableHeardView.imageHeardImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dicUserInfo[@"headImg"]]]];
-            }
-            else{
-                _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
-            }
-            [_tyUser setObject:dicUserInfo forKey:tyUserUserInfo];
+    [_loginUser getUserInformationoWithJeeId:dicUser[@"jeeId"]];
+}
+///获取用户信息回调
+- (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
+    ///成功
+    if (msgPara == 1) {
+        //标题属性字符串
+        NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"欢迎回来：%@",dicUser[@"userName"]]];
+        
+        [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%@",dicUser[@"userName"]].length)];
+        UIFont *titleFont = [UIFont systemFontOfSize:19.0];
+        [attriTitle addAttribute:NSFontAttributeName value:titleFont
+                           range:NSMakeRange(5,[NSString stringWithFormat:@"%@",dicUser[@"userName"]].length)];
+        [_tableHeardView.labUserName setAttributedText:attriTitle];
+        
+        if (![dicUser[@"headImg"] isEqualToString:@""]) {
+            [_tableHeardView.imageHeardImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dicUser[@"headImg"]]]];
         }
         else{
-            _tableHeardView.labUserName.text = @"点击开始登录";
             _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
-            [_tyUser removeObjectForKey:tyUserUserInfo];
-            [_tyUser removeObjectForKey:tyUserUser];
         }
-        _tableHeardView.imageHeardImg.layer.borderWidth = 1;
-        _tableHeardView.imageHeardImg.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"异常！"];
-    }];
-    NSLog(@"%@",dicUser);
+    }
+    ///超时
+    else{
+        _tableHeardView.labUserName.text = @"点击开始登录";
+        _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
+        [_tyUser removeObjectForKey:tyUserUserInfo];
+        [_tyUser removeObjectForKey:tyUserUser];
+    }
 }
 //////////////////专业科目信息//////////////////
 //数据请求，获取专业信息
@@ -372,6 +367,7 @@
 }
 ///选择图片完成（从相册或者拍照完成）
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    [SVProgressHUD show];
     ///如果是拍照先把修剪前的照片保存到本地
     if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
         UIImage *imageCream = [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -387,10 +383,11 @@
     NSDictionary *dicPara = @{@"userId":dicUserIn[@"userId"]};
     
     [HttpTools uploadHttpRequestURL:urlString RequestPram:dicPara UploadData:[self imageData:imageUp] RequestSuccess:^(id respoes) {
+        [SVProgressHUD showSuccessWithStatus:@"图片上传成功！"];
         [picker dismissViewControllerAnimated:YES completion:nil];
         
     } RequestFaile:^(NSError *erro) {
-        NSLog(@"%@",erro);
+        [SVProgressHUD showInfoWithStatus:@"图片上传失败！"];
     } UploadProgress:^(NSProgress *uploadProgress) {
         NSLog(@"%@",uploadProgress);
     }];
@@ -423,7 +420,7 @@
 ///保存到本地手机后回调
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
     if (error == nil) {
-        //        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
+        // [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
     }
     else{
         [SVProgressHUD showInfoWithStatus:@"图片未能保存到本地！"];
