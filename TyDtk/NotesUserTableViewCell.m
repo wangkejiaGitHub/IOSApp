@@ -24,7 +24,6 @@
 }
 - (CGFloat)setvalueForCellModel:(NSDictionary *)dic{
     _dicNotes = dic;
-//    [self setUserImage];
     CGFloat cellHeight = 0;
     _labUserName.text = dic[@"UserName"];
     _labAddTime.text = dic[@"AddTimeString"];
@@ -36,18 +35,6 @@
         [_buttonDelete removeFromSuperview];
     }
     return cellHeight+20;
-}
-- (void)setUserImage{
-    //c1c8a307-697d-4bce-86ad-27d928c64854
-    NSString *userId = _dicNotes[@"UserId"];
-    NSString *urlString = [NSString stringWithFormat:@"http://www.tydlk.cn/tyuser/front/user/look/json?formSystem=902&id=%@",userId];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicUser = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dicUser);
-    } RequestFaile:^(NSError *error) {
-        
-    }];
-    
 }
 - (IBAction)buttonDeleteClick:(UIButton *)sender {
     NSInteger noteId = [_dicNotes[@"Id"] integerValue];

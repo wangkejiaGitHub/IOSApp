@@ -179,23 +179,9 @@
         return;
     }
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    if (![tyUser objectForKey:tyUserUser]) {
-        [SVProgressHUD showInfoWithStatus:@"亲,您还没有登录~"];
-        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-        LoginViewController *loginVc = [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        loginVc.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:loginVc animated:YES];
-    }
-    else{
-        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-        [tyUser setObject:dic forKey:tyUserClass];
-        [self performSegueWithIdentifier:@"subjectin" sender:dic];
-      ////??????????????
-//        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-//        PaperViewController *pVc = [sCommon instantiateViewControllerWithIdentifier:@"PaperViewController"];
-//        pVc.dicSubject = dic;
-//        [self.navigationController pushViewController:pVc animated:YES];
-    }
+    [tyUser setObject:dic forKey:tyUserClass];
+    [self performSegueWithIdentifier:@"subjectin" sender:dic];
+    
 
 }
 //页面跳转调用
@@ -203,14 +189,16 @@
     if ([segue.identifier isEqualToString:@"subjectin"]) {
         SubjectInfoViewController *subVc = segue.destinationViewController;
         subVc.dicSubject = sender;
+        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+        if ([tyUser objectForKey:tyUserUserInfo]) {
+            subVc.isUserLogin = YES;
+        }
+        else{
+            subVc.isUserLogin = NO;
+        }
         //隐藏tabbar
         subVc.hidesBottomBarWhenPushed = YES;
     }
-//    else if ([segue.identifier isEqualToString:@"gologin"]){
-//        LoginViewController *logVc = segue.destinationViewController;
-//        //隐藏tabbar
-//        logVc.hidesBottomBarWhenPushed = YES;
-//    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

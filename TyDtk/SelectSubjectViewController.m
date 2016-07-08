@@ -8,6 +8,8 @@
 #import "SelectSubjectViewController.h"
 #import "viewSelectSubject.h"
 @interface SelectSubjectViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource,SelectSubjectDelegate,CustomToolDelegate>
+///判断用户是否登录
+@property (nonatomic,assign) BOOL isLoginUser;
 //tableVIew 的宽度（页面适配）
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tabViewWidthCount;
 //collectionView
@@ -35,7 +37,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _tyUser = [NSUserDefaults standardUserDefaults];
-
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        _isLoginUser = YES;
+    }
+    else{
+        _isLoginUser = NO;
+    }
     [self viewLoad];
 }
 - (void)viewLoad{
@@ -278,16 +285,22 @@
 - (void)getAccessToken{
     _customTool = [[CustomTools alloc]init];
     _customTool.delegateTool = self;
-    //获取储存的专业信息
-    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
     NSString *classId = [NSString stringWithFormat:@"%ld",[_dicClass[@"Id"] integerValue]];
     NSString *subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-     [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userCode:dicUserInfo[@"userCode"] classId:classId subjectId:subjectId];
+    ///登录状态下的授权
+    if (_isLoginUser) {
+        //获取储存的专业信息
+        NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
+        [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userCode:dicUserInfo[@"userCode"] classId:classId subjectId:subjectId];
+    }
+    ///未登录状态下的授权
+    else{
+        [_customTool empowerAndSignatureWithUserId:@"6353e6759c5bb80e35fc89d19fb856d5" userCode:@"18999999999" classId:classId subjectId:subjectId];
+    }
 }
 - (void)httpSussessReturnClick{
     [_tyUser setObject:_dicClass forKey:tyUserClass];
     [_tyUser setObject:_dicSelectSubject forKey:tyUserSelectSubject];
-    [_tyUser setObject:_dicSelectSubject forKey:tyUserSubject];
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)httpErrorReturnClick{

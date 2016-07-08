@@ -65,7 +65,7 @@
 ///修改用户密码
 - (void)updateUserPwd{
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+    NSDictionary *dicUser = [tyUser objectForKey:tyUserUserInfo];
     NSString *urlString = [NSString stringWithFormat:@"%@app/updatepwd;JSESSIONID=%@?fromSystem=902",systemHttpsTyUser,dicUser[@"jeeId"]];
     NSDictionary *dic =@{@"oldpwd":_textOldPwd.text,@"password":_textPwdAg.text};
     [HttpTools postHttpRequestURL:urlString RequestPram:dic RequestSuccess:^(id respoes) {

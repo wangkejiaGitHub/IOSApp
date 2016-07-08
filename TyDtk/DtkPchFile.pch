@@ -105,13 +105,13 @@
 // 包含的key对应服务器发送过来的Key
 #define tyNSUserDefaults [NSUserDefaults standardUserDefaults]
 #define tyUserUserInfo @"tyUserAllInfo"
-#define tyUserUser @"tyUserInfo"
+//存储用户的账户登录信息 acc:用户名或者邮箱，pwd:密码
+#define tyUserAccount @"tyUserAccount"
 //令牌
 #define tyUserAccessToken @"tyAccessToken"
 //专业
 #define tyUserClass @"tyClass"
 //科目
-#define tyUserSubject @"tySubject"
 ///用户最近一次选择的科目*****
 #define tyUserSelectSubject @"tyUserSelectSubject"
 //纠错类型

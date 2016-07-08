@@ -46,7 +46,7 @@
     [super viewDidLoad];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-    NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
+    NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
     if (self.parameterView == 1) {
         self.title = @"我的收藏";
     }
@@ -224,7 +224,7 @@
         urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,_intSubJectId];
     }
     else{
-        NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
+        NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
         urlString = [NSString stringWithFormat:@"%@api/Collection/GetCollectionAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,[dicSubject[@"Id"] integerValue]];
     }
     
@@ -271,7 +271,7 @@
         urlString = [NSString stringWithFormat:@"%@api/Error/GetErrorAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,_intSubJectId];
     }
     else{
-        NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
+        NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
         urlString = [NSString stringWithFormat:@"%@api/Error/GetErrorAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,[dicSubject[@"Id"] integerValue]];
     }
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -316,7 +316,7 @@
         urlString = [NSString stringWithFormat:@"%@api/Note/GetMyNotesAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,_intSubJectId];
     }
     else{
-        NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSubject];
+        NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
         urlString = [NSString stringWithFormat:@"%@api/Note/GetMyNotesAboutChapters?access_token=%@&courseId=%ld",systemHttps,_accessToken,[dicSubject[@"Id"] integerValue]];
     }
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {

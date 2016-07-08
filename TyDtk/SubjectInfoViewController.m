@@ -192,6 +192,7 @@
         }
         _modelPapersVc.intPushWhere = 0;
         _modelPapersVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
+        _modelPapersVc.dicSubject = _dicCurrSubject;
         [self.view addSubview:_modelPapersVc.view];
     }
     //每周精选
@@ -303,21 +304,30 @@
     _dropDownCurrIndex = indexItem;
     [_viewNilData removeFromSuperview];
     if (indexItem!=0) {
-        ////先授权
         _dicCurrSubject = _arraySubject[indexItem - 1];
-        [_tyUser setObject:_dicCurrSubject forKey:tyUserSubject];
-        [_tyUser setObject:_dicCurrSubject forKey:tyUserSelectSubject];
         _customTool = [[CustomTools alloc]init];
         _customTool.delegateTool = self;
-        _tyUser = [NSUserDefaults standardUserDefaults];
-        //获取储存的用户信息
-        NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
-        //获取储存的专业信息
+        //获取储存的专业、科目信息
         _dicUserClass = [_tyUser objectForKey:tyUserClass];
         NSString *subjectId = [NSString stringWithFormat:@"%ld",[_dicCurrSubject[@"Id"] integerValue]];
-        //授权并收取令牌
         NSString *classId = [NSString stringWithFormat:@"%@",_dicUserClass[@"Id"]];
-        [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userCode:dicUserInfo[@"userCode"] classId:classId subjectId:subjectId];
+        [_tyUser setObject:_dicCurrSubject forKey:tyUserSelectSubject];
+        ///先授权
+        ///登录状态
+        if (_isUserLogin) {
+            ///使用用户账户
+            //获取储存的用户信息
+            NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
+            //授权并收取令牌
+            [_customTool empowerAndSignatureWithUserId:dicUserInfo[@"userId"] userCode:dicUserInfo[@"userCode"] classId:classId subjectId:subjectId];
+        }
+        ///未登录状态
+        else{
+            ///使用默认账户
+//        userid:6353e6759c5bb80e35fc89d19fb856d5
+//        user:18999999999
+            [_customTool empowerAndSignatureWithUserId:@"6353e6759c5bb80e35fc89d19fb856d5" userCode:@"18999999999" classId:classId subjectId:subjectId];
+        }
     }
     else{
         _dicCurrSubject = nil;

@@ -76,7 +76,7 @@
     if (!_hearhVIew) {
         _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
         _hearhVIew.delegateAtive = self;
-        NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSubject];
+        NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
         _hearhVIew.subjectId = _subjectId;
         [_hearhVIew setActiveValue:dicCurrSubject];
         UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 -10)];
@@ -169,8 +169,15 @@
 - (void)addNilDataViewForTableFooterView{
     _arrayTableData = nil;
     [_myTableView reloadData];
-    _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 69- 45 - (Scr_Width/2 -10)) showText:@"没有关于该科目的章节信息~"];
-    _myTableView.tableFooterView = _viewNilData;
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 100)];
+    view.backgroundColor = [UIColor whiteColor];
+    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(30, 30, Scr_Width - 60, 30)];
+    labText.font = [UIFont systemFontOfSize:18.0];
+    labText.textColor= [UIColor lightGrayColor];
+    labText.textAlignment = NSTextAlignmentCenter;
+    labText.text = @"没有更多试卷了";
+    [view addSubview:labText];
+    _myTableView.tableFooterView = view;
 }
 
 ////////////////////////////

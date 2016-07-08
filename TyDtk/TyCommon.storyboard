@@ -1116,24 +1116,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="esk-Gw-iM1" firstAttribute="top" secondItem="oyo-Ch-fjG" secondAttribute="bottom" id="6Xh-y0-ww0"/>
                             <constraint firstItem="oyo-Ch-fjG" firstAttribute="top" secondItem="20s-Vc-46i" secondAttribute="top" id="BR5-g8-Dgl"/>
                             <constraint firstItem="oyo-Ch-fjG" firstAttribute="leading" secondItem="20s-Vc-46i" secondAttribute="leading" id="O4c-Ga-Drr"/>
                             <constraint firstAttribute="trailing" secondItem="oyo-Ch-fjG" secondAttribute="trailing" id="jPX-3u-0td"/>
-                            <constraint firstItem="esk-Gw-iM1" firstAttribute="top" secondItem="oyo-Ch-fjG" secondAttribute="bottom" id="jX6-sU-XIN"/>
                             <constraint firstAttribute="bottomMargin" secondItem="oyo-Ch-fjG" secondAttribute="bottom" id="sHL-r7-BC1"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="6Xh-y0-ww0"/>
-                                <exclude reference="jX6-sU-XIN"/>
-                            </mask>
-                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="Kdw-dR-v6c"/>
                     <navigationItem key="navigationItem" title="每周精选" id="xKH-CT-Isn"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="tableViewBottom" destination="sHL-r7-BC1" id="P0l-TC-Jzr"/>
                         <outlet property="tableViewWeek" destination="oyo-Ch-fjG" id="GbD-z0-25v"/>
                         <segue destination="dbs-DQ-tMd" kind="show" identifier="topicStar" id="t9q-ND-zPo">
                             <nil key="action"/>
@@ -2041,7 +2034,7 @@
         <image name="top_backbtn" width="12" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cnp-rZ-Spx"/>
+        <segue reference="t9q-ND-zPo"/>
         <segue reference="3TO-hV-wL9"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -108,7 +108,7 @@
     return isMatch;
 }
 - (void)updateUserInfo:(NSString *)stringKey stringValue:(NSString *)value{
-    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUser];
+    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUserInfo];
     NSString *urlString = [NSString stringWithFormat:@"%@updateuser/json;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
     NSDictionary *dic =@{stringKey:value};
     [HttpTools postHttpRequestURL:urlString RequestPram:dic RequestSuccess:^(id respoes) {

@@ -274,6 +274,7 @@
 }
 /////////////////////章节练习模块分析报告//////////////////////////////
 
+/////////////////////智能做题模块分析报告//////////////////////////////
 /**
  获取智能做题分析报告
  */
@@ -297,8 +298,6 @@
     }];
 }
 /////////////////////智能做题模块分析报告//////////////////////////////
-
-/////////////////////智能做题模块分析报告//////////////////////////////
 /**
 添加数据分析报告试图
  */
@@ -308,15 +307,11 @@
     _viewAnalysis = [[UIView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height - 190)];
     _viewAnalysis.layer.masksToBounds = YES;
     _viewAnalysis.layer.cornerRadius = 10;
-    _viewAnalysis.backgroundColor = ColorWithRGBWithAlpp(200, 200, 200, 1);
+    _viewAnalysis.backgroundColor = [UIColor groupTableViewBackgroundColor];
     //添加关闭按钮
     UIButton *btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
     btnCancel.frame = CGRectMake(Scr_Width - 30, 0, 30, 30);
-//    btnCancel.layer.masksToBounds = YES;
-//    btnCancel.layer.cornerRadius = 15;
-//    btnCancel.backgroundColor = [UIColor blackColor];
-//    [btnCancel setTitle:@"x" forState:UIControlStateNormal];
-    [btnCancel setImage:[UIImage imageNamed:@"backlog"] forState:UIControlStateNormal];
+    [btnCancel setImage:[UIImage imageNamed:@"icon_close"] forState:UIControlStateNormal];
     btnCancel.highlighted = YES;
     [btnCancel addTarget:self action:@selector(buttonHidenViewAnalysisClick:) forControlEvents:UIControlEventTouchUpInside];
     [_viewAnalysis addSubview:btnCancel];
@@ -392,18 +387,18 @@
     [attrAccuracy addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intAccuracy].length+1)];
     [labAccuracy setAttributedText:attrAccuracy];
     [_viewAnalysis addSubview:labAccuracy];
-    //所用时间
-    UILabel *labTime =[[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 80, Scr_Width/2 - 40, 30)];
-    labTime.font = [UIFont systemFontOfSize:15.0];
-    NSMutableAttributedString *attrTime = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"答题时间：%@",@"0"]];
-    [attrTime addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(5,1)];
-    [labTime setAttributedText:attrTime];
-    [_viewAnalysis addSubview:labTime];
+//    //所用时间
+//    UILabel *labTime =[[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 80, Scr_Width/2 - 40, 30)];
+//    labTime.font = [UIFont systemFontOfSize:15.0];
+//    NSMutableAttributedString *attrTime = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"答题时间：%@",@"0"]];
+//    [attrTime addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(5,1)];
+//    [labTime setAttributedText:attrTime];
+//    [_viewAnalysis addSubview:labTime];
     
     //如果是模拟试卷做题，添加得分
     if (_paperAnalysisParameter == 2) {
         ///得分
-        UILabel *labScore = [[UILabel alloc]initWithFrame:CGRectMake(20, labTime.frame.origin.y+30, Scr_Width/2 - 40, 30)];
+        UILabel *labScore = [[UILabel alloc]initWithFrame:CGRectMake(20, labAccuracy.frame.origin.y+30, Scr_Width/2 - 40, 30)];
         labScore.font = [UIFont systemFontOfSize:15.0];
         NSMutableAttributedString *attrScore = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"得分：【%ld】分",_intScore]];
         [attrScore addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intScore].length)];

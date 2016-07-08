@@ -262,6 +262,9 @@
 		1DEFF1E31CA122D200994E2C /* SecoundSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */; };
 		1DF27B4C1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF27B4B1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m */; };
 		1DF27B4E1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF27B4D1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib */; };
+		1DF499381D2F930800EF80E5 /* icon_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF499371D2F930800EF80E5 /* icon_close.png */; };
+		1DF4993B1D2FAE1A00EF80E5 /* ic_business_detail_mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF499391D2FAE1A00EF80E5 /* ic_business_detail_mark.png */; };
+		1DF4993C1D2FAE1A00EF80E5 /* ic_business_detail_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF4993A1D2FAE1A00EF80E5 /* ic_business_detail_mark@2x.png */; };
 		1DF5B6D81D2C87D30087057B /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1DF5B6D61D2C87D30087057B /* AlipaySDK.bundle */; };
 		1DF5B6D91D2C87D30087057B /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5B6D71D2C87D30087057B /* AlipaySDK.framework */; };
 		1DF5B7231D2D008D0087057B /* getIPhoneIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF5B7221D2D008D0087057B /* getIPhoneIP.m */; };
@@ -839,6 +842,9 @@
 		1DF27B4A1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaterTopicQtype4TableViewCell.h; sourceTree = "<group>"; };
 		1DF27B4B1CDAD4D900F35BB1 /* PaterTopicQtype4TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaterTopicQtype4TableViewCell.m; sourceTree = "<group>"; };
 		1DF27B4D1CDAD4F500F35BB1 /* paterTopicQtype4Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = paterTopicQtype4Cell.xib; sourceTree = "<group>"; };
+		1DF499371D2F930800EF80E5 /* icon_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_close.png; sourceTree = "<group>"; };
+		1DF499391D2FAE1A00EF80E5 /* ic_business_detail_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_business_detail_mark.png; sourceTree = "<group>"; };
+		1DF4993A1D2FAE1A00EF80E5 /* ic_business_detail_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_business_detail_mark@2x.png"; sourceTree = "<group>"; };
 		1DF5B6D61D2C87D30087057B /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		1DF5B6D71D2C87D30087057B /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		1DF5B7211D2D008D0087057B /* getIPhoneIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getIPhoneIP.h; sourceTree = "<group>"; };
@@ -1911,7 +1917,10 @@
 				1D0D0EA81D2A45770041E1BE /* edit001.png */,
 				1D0D0EAA1D2A46960041E1BE /* edit002.png */,
 				1DE3C15A1D2E48C100415120 /* label.png */,
+				1DF499391D2FAE1A00EF80E5 /* ic_business_detail_mark.png */,
+				1DF4993A1D2FAE1A00EF80E5 /* ic_business_detail_mark@2x.png */,
 				1DF947311CF680CA00CC4759 /* btm_icon4@2x.png */,
+				1DF499371D2F930800EF80E5 /* icon_close.png */,
 				1DF9472F1CF680C200CC4759 /* btm_icon4_hover@2x.png */,
 				1DF9472D1CF680B700CC4759 /* btm_icon1@2x.png */,
 				1DF9472B1CF680AD00CC4759 /* btm_icon1_hover@2x.png */,
@@ -2316,6 +2325,7 @@
 				1DC18F0B1CB795D50006D642 /* MJRefresh.bundle in Resources */,
 				1D0D0E9B1D2A3D7E0041E1BE /* u_email.png in Resources */,
 				1D2277D21D22224B00D2269C /* weeksift.png in Resources */,
+				1DF4993B1D2FAE1A00EF80E5 /* ic_business_detail_mark.png in Resources */,
 				1DE5F8DB1CD0B42D0046CD8A /* TopicQtype1and2Cell.xib in Resources */,
 				1D6A48501D22768800070614 /* alipay.png in Resources */,
 				1D2277E81D2229FE00D2269C /* ico_check_circle.png in Resources */,
@@ -2341,6 +2351,8 @@
 				1DF9403D1D1B865900D808C1 /* TyLearn.storyboard in Resources */,
 				1D0D0E9C1D2A3D7E0041E1BE /* u_pwd.png in Resources */,
 				1DB777451CFFD1F7003AFE28 /* UptadePwdViewController.xib in Resources */,
+				1DF4993C1D2FAE1A00EF80E5 /* ic_business_detail_mark@2x.png in Resources */,
+				1DF499381D2F930800EF80E5 /* icon_close.png in Resources */,
 				1DF9506E1CA3BFC500104597 /* SVProgressHUD.bundle in Resources */,
 				1D11371E1CF3FD8C0092DF02 /* DTKDropdownMenuView.bundle in Resources */,
 				1DEDC8311C9F9F770083B394 /* login_password.png in Resources */,

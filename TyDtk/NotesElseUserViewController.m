@@ -98,7 +98,6 @@
             [_refreshHeader endRefreshing];
             [_refreshFooter endRefreshing];
         }
-        NSLog(@"%@",dicNotes);
     } RequestFaile:^(NSError *error) {
         
     }];

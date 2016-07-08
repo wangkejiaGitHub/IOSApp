@@ -47,16 +47,6 @@
 - (void)getUserInfo{
     NSDictionary *dicUser = [_tyUser objectForKey:tyUserUserInfo];
     [_loginUser getUserInformationoWithJeeId:dicUser[@"jeeId"]];
-//    NSString *urlString = [NSString stringWithFormat:@"%@front/user/finduserinfo;JSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
-//    NSLog(@"%@",urlString);
-//    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-//        NSDictionary *dicUserInfo = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-//        _dicUserInfo = dicUserInfo;
-//        [_tableViewUser reloadData];
-//    } RequestFaile:^(NSError *error) {
-//        
-//    }];
-//    NSLog(@"%@",dicUser);
 }
 ///获取用户信息回调
 - (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
@@ -67,7 +57,7 @@
     }
     ///获取信息失败
     else{
-        
+        _tableViewUser.userInteractionEnabled = NO;
     }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -286,6 +276,8 @@
         [picker dismissViewControllerAnimated:YES completion:nil];
         
     } RequestFaile:^(NSError *erro) {
+        [picker dismissViewControllerAnimated:YES completion:nil];
+        [SVProgressHUD showInfoWithStatus:@"图片上传失败！"];
         NSLog(@"%@",erro);
     } UploadProgress:^(NSProgress *uploadProgress) {
         NSLog(@"%@",uploadProgress);
@@ -329,7 +321,7 @@
 - (void)logOutUser{
     [SVProgressHUD show];
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    NSDictionary *dicUser = [tyUser objectForKey:tyUserUser];
+    NSDictionary *dicUser = [tyUser objectForKey:tyUserUserInfo];
     ///logout/json
     NSString *urlString = [NSString stringWithFormat:@"%@logout/json?SHAREJSESSIONID=%@",systemHttpsTyUser,dicUser[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -337,12 +329,13 @@
         NSInteger codeId = [dicOut[@"code"] integerValue];
         if (codeId == 1) {
             [SVProgressHUD showSuccessWithStatus:@"退出成功！"];
-            //            [_tyUser removeObjectForKey:tyUserUser];
-            //            [_tyUser removeObjectForKey:tyUserAccessToken];
-            //            [_tyUser removeObjectForKey:tyUserClass];
-            //            [_tyUser removeObjectForKey:tyUserSelectSubject];
-            //            [_tyUser removeObjectForKey:tyUserSubject];
-            [_tyUser removeObjectForKey:tyUserUser];
+            [_tyUser removeObjectForKey:tyUserAccessToken];
+//            [_tyUser removeObjectForKey:tyUserClass];
+//            [_tyUser removeObjectForKey:tyUserSelectSubject];
+            [_tyUser removeObjectForKey:tyUserUserInfo];
+            [_tyUser removeObjectForKey:tyUserAccount];
+            ///退出后用默认的账号授权
+            [_loginUser empFirstComeAppWithUserId:@"6353e6759c5bb80e35fc89d19fb856d5" userCode:@"18999999999"];
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{

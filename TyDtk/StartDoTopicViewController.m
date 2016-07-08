@@ -9,6 +9,8 @@
 #import "PatersTopicViewController.h"
 #import "StartAnalysisTopicViewController.h"
 @interface StartDoTopicViewController ()<UIScrollViewDelegate,TopicCardDelegate,TopicCardRefreshDelegate>
+///判断用户是否登录
+@property (nonatomic,assign) BOOL isUserLogin;
 //ScrollView所有展示试题的容器
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
 @property (weak, nonatomic) IBOutlet UIButton *buttonRight;
@@ -43,6 +45,24 @@
 @property (nonatomic,assign) NSInteger timeHo;
 @property (nonatomic,assign) NSInteger timeMin;
 @property (nonatomic,assign) NSInteger timeSe;
+
+/////////////////////////////////////////////////////////
+//试卷做题情况
+//试题总数（只包含大题）
+@property (nonatomic,assign) NSInteger intTpoicCount;
+//总做题数
+@property (nonatomic,assign) NSInteger intDoTopic;
+//做错题数
+@property (nonatomic,assign) NSInteger intWrongTopic;
+//做对题数
+@property (nonatomic,assign) NSInteger intRightTopic;
+//正确率
+@property (nonatomic,assign) NSInteger intAccuracy;
+//总的得分（只有模拟试卷有得分）
+@property (nonatomic,assign) NSInteger intScore;
+//用于展示试卷分析数据的view（总题，错题，对题，正确率等概要）
+@property (nonatomic,strong) UIView *viewAnalysis;
+
 @end
 
 @implementation StartDoTopicViewController
@@ -52,6 +72,13 @@
     _arrayUserAnswer = [NSMutableArray array];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    ///判断用户是否登录
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        _isUserLogin = YES;
+    }
+    else{
+        _isUserLogin = NO;
+    }
     _buttonRight.userInteractionEnabled = NO;
     [_buttonRight setTitle:@"答题卡" forState:UIControlStateNormal];
     [_buttonSubPater setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
@@ -128,9 +155,6 @@
         [alert showLXAlertView];
     }
     
-}
-- (void)viewWillDisappear:(BOOL)animated{
-//    self.navigationController.navigationItem.titleView = nil;
 }
 - (void)viewDidDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
@@ -404,8 +428,13 @@
         NSInteger codeId = [dic[@"code"] integerValue];
         if (codeId == 1) {
             NSDictionary *dicDatas = dic[@"datas"];
-            NSString *rId = dicDatas[@"rid"];
-            [self performSegueWithIdentifier:@"topicAnalysis" sender:rId];
+            if (_isUserLogin) {
+                NSString *rId = dicDatas[@"rid"];
+                [self performSegueWithIdentifier:@"topicAnalysis" sender:rId];
+            }
+            else{
+                [self getSimulatePaperAnalysisReportInfoWithRid:dicDatas[@"rid"]];
+            }
         }
         else{
             [SVProgressHUD showInfoWithStatus:@"提交失败"];
@@ -534,8 +563,14 @@
         NSInteger codeId = [dicWeekR[@"code"] integerValue];
         if (codeId == 1) {
             NSDictionary *dicDatas = dicWeekR[@"datas"];
-            NSString *rId = dicDatas[@"rid"];
-            [self performSegueWithIdentifier:@"topicAnalysis" sender:rId];
+            if (_isUserLogin) {
+                NSString *rId = dicDatas[@"rid"];
+                [self performSegueWithIdentifier:@"topicAnalysis" sender:rId];
+            }
+            else{
+                [self getWeekPaperAnalysisReportInfoWithRid:dicDatas[@"rid"]];
+            }
+            
         }
     } RequestFaile:^(NSError *erro) {
         [SVProgressHUD showInfoWithStatus:@"操作异常!"];
@@ -645,7 +680,7 @@
  章节考点提交试卷
  */
 - (void)submitChaperPaper{
-    [SVProgressHUD showWithStatus:@"正在提交..."];
+//    [SVProgressHUD showWithStatus:@"正在提交..."];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/Submit?access_token=%@",systemHttps,_accessToken];
     //讲用户答过的试题信息进行编码转json
     NSData *dataPostStr = [NSJSONSerialization dataWithJSONObject:_arrayUserAnswer options:NSJSONWritingPrettyPrinted error:nil];
@@ -656,8 +691,19 @@
         NSDictionary *dicChaper =(NSDictionary *)respoes;
         if ([dicChaper[@"code"] integerValue] == 1 ) {
             NSDictionary *dicDatas = dicChaper[@"datas"];
-            [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
-            [self performSegueWithIdentifier:@"topicAnalysis" sender:dicDatas[@"rid"]];
+            if (_isUserLogin) {
+                [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
+                [self performSegueWithIdentifier:@"topicAnalysis" sender:dicDatas[@"rid"]];
+            }
+            else{
+                if (self.paperParameter == 1) {
+                    [self getChaperPaperAnalysisReportInfoWithRid:dicDatas[@"rid"]];
+                }
+                else if (self.paperParameter == 4){
+                    [self getIntelligentPaperAnalysisReportInfoWithRid:dicDatas[@"rid"]];
+                }
+
+            }
         }
     } RequestFaile:^(NSError *erro) {
         
@@ -863,16 +909,10 @@
 }
 //保存进度按钮
 - (IBAction)buttonSaveSchClick:(UIButton *)sender {
-    //    NSInteger topicCount = 0;
-    //    if (_paperParameter == 2) {
-    //        for (NSDictionary *dicTopicType in _arrayPaterData) {
-    //            NSArray *array = dicTopicType[@"Questions"];
-    //            topicCount = topicCount + array.count;
-    //        }
-    //    }
-    //    else if (_paperParameter == 3){
-    //        topicCount = _arrayPaterData.count;
-    //    }
+    if (!_isUserLogin) {
+        [SVProgressHUD showInfoWithStatus:@"你还没有登录，不能保存进度哦"];
+        return;
+    }
     
     //aleat View 提示框
     LXAlertView *alertSaveSch;
@@ -1013,6 +1053,287 @@
     
     alertSubmit.animationStyle = LXASAnimationTopShake;
     [alertSubmit showLXAlertView];
+}
+/////////////////////试卷试题分析（公共）//////////////////////////////
+/////////////////////试卷试题分析（公共）//////////////////////////////
+///////////2016-05-13进度记录 /////试题分析报告
+
+/////////////////////模拟试卷模块分析报告//////////////////////////////
+/**
+ 获取模拟试卷模块分析报告
+ */
+- (void)getSimulatePaperAnalysisReportInfoWithRid:(NSString *)rid{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/LookReportInfo?access_token=%@&rid=%@",systemHttps,_accessToken,rid];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *dicReport = (NSDictionary *)respoes;
+        NSInteger codeId = [dicReport[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicReport[@"datas"];
+            _intDoTopic = [dicDatas[@"DoneNum"] integerValue];
+            _intRightTopic = [dicDatas[@"RightNum"]integerValue];
+            _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
+            _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
+            _intScore = [dicDatas[@"Score"] integerValue];
+            [self addViewAnalysisForAnalysis];
+        }
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+}
+/////////////////////模拟试卷模块分析报告//////////////////////////////
+//05-25 0.5记录
+/////////////////////每周精选模块分析报告//////////////////////////////
+- (void)getWeekPaperAnalysisReportInfoWithRid:(NSString *)rid{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/GetWeeklyReport?access_token=%@&rid=%@",systemHttps,_accessToken,rid];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicAnalysis[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = dicAnalysis[@"datas"];
+            _intDoTopic = [dicDatas[@"DoneNum"] integerValue];
+            _intRightTopic = [dicDatas[@"RightNum"] integerValue];
+            _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
+            _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
+            _intScore = [dicDatas[@"Score"] integerValue];
+            [self addViewAnalysisForAnalysis];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+    
+}
+/////////////////////每周精选模块分析报告//////////////////////////////
+
+/////////////////////章节练习模块分析报告//////////////////////////////
+/**
+ 章节练习分析报告
+ */
+- (void)getChaperPaperAnalysisReportInfoWithRid:(NSString *)rid{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetReportInfo?access_token=%@&rid=%@",systemHttps,_accessToken,rid];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        if ([dicAnalysis[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicAnalysis[@"datas"];
+            _intDoTopic = [dicDatas[@"DoneNum"] integerValue];
+            _intRightTopic = [dicDatas[@"RightNum"] integerValue];
+            _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
+            _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
+            _intScore = [dicDatas[@"Score"] integerValue];
+            [self addViewAnalysisForAnalysis];
+            
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/////////////////////章节练习模块分析报告//////////////////////////////
+
+/////////////////////智能做题模块分析报告//////////////////////////////
+/**
+ 获取智能做题分析报告
+ */
+- (void)getIntelligentPaperAnalysisReportInfoWithRid:(NSString *)rid{
+    //    api/Smart/GetSmartReport?access_token={access_token}&rid={rid}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Smart/GetSmartReport?access_token=%@&rid=%@",systemHttps,_accessToken,rid];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicAnalysis = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        if ([dicAnalysis[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicAnalysis[@"datas"];
+            _intDoTopic = [dicDatas[@"DoneNum"] integerValue];
+            _intRightTopic = [dicDatas[@"RightNum"] integerValue];
+            _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
+            _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
+            _intScore = [dicDatas[@"Score"] integerValue];
+            [self addViewAnalysisForAnalysis];
+        }
+        
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/////////////////////智能做题模块分析报告//////////////////////////////
+/**
+ 添加数据分析报告试图
+ */
+- (void)addViewAnalysisForAnalysis{
+    NSString *messageTopic = [NSString stringWithFormat:@"总做题数：【%ld】题\n答对题数：【%ld】题\n答错题数：【%ld】题\n正确率：【%ld%%】",_intDoTopic,_intRightTopic,_intWrongTopic,_intAccuracy];
+    LXAlertView *viewTest = [[LXAlertView alloc]initWithTitle:@"试题分析" message: messageTopic cancelBtnTitle:@"直接退出" otherBtnTitle:@"再做一次" clickIndexBlock:^(NSInteger clickIndex) {
+        if (clickIndex == 0) {
+            NSLog(@"0");
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else{
+            //章节练习
+            if (self.paperParameter == 1) {
+//                self.navigationItem.titleView = nil;
+//                self.title = @"章节练习";
+//                _buttonSaveSch.userInteractionEnabled = YES;
+                [self getChaperPaperData];
+            }
+            //模拟试卷
+            else if (self.paperParameter == 2){
+                _buttonSaveSch.userInteractionEnabled = YES;
+                [self getPaterDatas];
+            }
+            //每周精选
+            else if (self.paperParameter == 3){
+//                _buttonSaveSch.backgroundColor = [UIColor lightGrayColor];
+//                //去掉剩余时间显示字段
+//                self.navigationItem.titleView = nil;
+//                self.title = @"每周精选";
+//                [_buttonSubPater setTitle:@"结束答题" forState:UIControlStateNormal];
+                [self getWeekPaperData];
+            }
+            //智能出题
+            else if (self.paperParameter == 4){
+//                _buttonSaveSch.backgroundColor = [UIColor lightGrayColor];
+//                self.navigationItem.titleView = nil;
+//                self.title = @"智能出题";
+//                [_buttonSubPater setTitle:@"结束答题" forState:UIControlStateNormal];
+                [self getIntelligentPaperData];
+            }
+
+            NSLog(@"1");
+        }
+    }];
+    viewTest.animationStyle = LXASAnimationTopShake;
+    [viewTest showLXAlertView];
+//    [_viewAnalysis removeFromSuperview];
+//    //试题统计总试图
+//    _viewAnalysis = [[UIView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height - 190)];
+//    _viewAnalysis.layer.masksToBounds = YES;
+//    _viewAnalysis.layer.cornerRadius = 10;
+//    _viewAnalysis.backgroundColor = ColorWithRGBWithAlpp(200, 200, 200, 1);
+//    //添加关闭按钮
+//    UIButton *btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btnCancel.frame = CGRectMake(Scr_Width - 30, 0, 30, 30);
+//    //    btnCancel.layer.masksToBounds = YES;
+//    //    btnCancel.layer.cornerRadius = 15;
+//    //    btnCancel.backgroundColor = [UIColor blackColor];
+//    //    [btnCancel setTitle:@"x" forState:UIControlStateNormal];
+//    [btnCancel setImage:[UIImage imageNamed:@"backlog"] forState:UIControlStateNormal];
+//    btnCancel.highlighted = YES;
+//    [btnCancel addTarget:self action:@selector(buttonHidenViewAnalysisClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [_viewAnalysis addSubview:btnCancel];
+//    //添加绘制图表
+//    ZFPieChart *pieChartAnalysis = [[ZFPieChart alloc]initWithFrame:CGRectMake(Scr_Width/2, 70, Scr_Width/2, _viewAnalysis.frame.size.height - 233)];
+//    //    pieChartAnalysis.title = @"试题分析";
+//    pieChartAnalysis.valueArray = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%ld",_intRightTopic], [NSString stringWithFormat:@"%ld",_intWrongTopic], nil];
+//    pieChartAnalysis.nameArray = [NSMutableArray arrayWithObjects:@"答对", @"答错", nil];
+//    pieChartAnalysis.colorArray = [NSMutableArray arrayWithObjects:ZFColor(71, 204, 255, 1), ZFColor(253, 203, 76, 1), ZFColor(214, 205, 153, 1), ZFColor(78, 250, 188, 1), ZFColor(16, 140, 39, 1), ZFColor(45, 92, 34, 1), nil];
+//    [_viewAnalysis addSubview:pieChartAnalysis];
+//    [pieChartAnalysis strokePath];
+//    //添加正确率等数据
+//    //试题总数
+//    UILabel *labTopicCount = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, Scr_Width - 20, 25)];
+//    labTopicCount.font = [UIFont systemFontOfSize:15.0];
+//    //    labTopicCount.textAlignment = NSTextAlignmentCenter;
+//    //属性字符串试题的总数
+//    NSMutableAttributedString *attrTopicCount = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"该试卷共【%ld】题(所指大题数)",_intTpoicCount]];
+//    [attrTopicCount addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%ld",_intTpoicCount].length)];
+//    [labTopicCount setAttributedText:attrTopicCount];
+//    [_viewAnalysis addSubview:labTopicCount];
+//    //做题数
+//    UILabel *labDoTopic = [[UILabel alloc]initWithFrame:CGRectMake(20, 50, Scr_Width - 20, 25)];
+//    labDoTopic.font = [UIFont systemFontOfSize:15.0];
+//    //属性字符串试题的总数
+//    NSMutableAttributedString *attrDoTopic = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"您共做了【%ld】题(包含所有大题下面的小题)",_intDoTopic]];
+//    [attrDoTopic addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%ld",_intDoTopic].length)];
+//    [labDoTopic setAttributedText:attrDoTopic];
+//    [_viewAnalysis addSubview:labDoTopic];
+//    
+//    //正确率试图
+//    UIView *viewAccuracy = [[UIView alloc]initWithFrame:CGRectMake(20, 123, Scr_Width/2 - 60, Scr_Width/2 - 60)];
+//    CGRect rectVV = viewAccuracy.frame;
+//    if (Scr_Width == 320) {
+//        rectVV.origin.y = 90;
+//    }
+//    else if (Scr_Width == 375){
+//        rectVV.origin.y = 123;
+//    }
+//    else{
+//        rectVV.origin.y = 150;
+//    }
+//    viewAccuracy.frame = rectVV;
+//    viewAccuracy.layer.masksToBounds = YES;
+//    viewAccuracy.layer.cornerRadius = viewAccuracy.frame.size.height/2;
+//    viewAccuracy.backgroundColor = [UIColor clearColor];
+//    viewAccuracy.layer.borderWidth = 5;
+//    viewAccuracy.layer.borderColor = [[UIColor orangeColor] CGColor];
+//    [_viewAnalysis addSubview:viewAccuracy];
+//    //试图中的数字，显示百分比
+//    CGFloat labX = viewAccuracy.frame.origin.x+(viewAccuracy.frame.size.width)/2;
+//    CGFloat labY = viewAccuracy.frame.origin.y + (viewAccuracy.frame.size.width)/2;
+//    UILabel *labViewAccuracy = [[UILabel alloc]initWithFrame:CGRectMake(labX - 25, labY - 15, 50, 30)];
+//    labViewAccuracy.text = [NSString stringWithFormat:@"%ld",_intAccuracy];
+//    labViewAccuracy.font = [UIFont systemFontOfSize:18.0];
+//    labViewAccuracy.textAlignment = NSTextAlignmentCenter;
+//    [_viewAnalysis addSubview:labViewAccuracy];
+//    //百分号
+//    UILabel *labBfh = [[UILabel alloc] initWithFrame:CGRectMake(viewAccuracy.frame.origin.x+viewAccuracy.frame.size.width - 40, viewAccuracy.frame.origin.y+viewAccuracy.frame.size.height - 40, 40, 40)];
+//    labBfh.layer.masksToBounds = YES;
+//    labBfh.layer.cornerRadius = 20;
+//    labBfh.backgroundColor =[UIColor orangeColor];
+//    labBfh.textColor = [UIColor whiteColor];
+//    labBfh.textAlignment = NSTextAlignmentCenter;
+//    labBfh.text = @"%";
+//    labBfh.font = [UIFont systemFontOfSize:23.0];
+//    [_viewAnalysis addSubview:labBfh];
+//    
+//    //正确率
+//    UILabel *labAccuracy = [[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 50, Scr_Width/2 - 40, 30)];
+//    labAccuracy.font = [UIFont systemFontOfSize:15.0];
+//    NSMutableAttributedString *attrAccuracy = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"正确率：%ld%%",_intAccuracy]];
+//    [attrAccuracy addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intAccuracy].length+1)];
+//    [labAccuracy setAttributedText:attrAccuracy];
+//    [_viewAnalysis addSubview:labAccuracy];
+//    //所用时间
+//    UILabel *labTime =[[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 80, Scr_Width/2 - 40, 30)];
+//    labTime.font = [UIFont systemFontOfSize:15.0];
+//    NSMutableAttributedString *attrTime = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"答题时间：%@",@"0"]];
+//    [attrTime addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(5,1)];
+//    [labTime setAttributedText:attrTime];
+//    [_viewAnalysis addSubview:labTime];
+//    
+//    //如果是模拟试卷做题，添加得分
+//    if (_paperParameter == 2) {
+//        ///得分
+//        UILabel *labScore = [[UILabel alloc]initWithFrame:CGRectMake(20, labTime.frame.origin.y+30, Scr_Width/2 - 40, 30)];
+//        labScore.font = [UIFont systemFontOfSize:15.0];
+//        NSMutableAttributedString *attrScore = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"得分：【%ld】分",_intScore]];
+//        [attrScore addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intScore].length)];
+//        [labScore setAttributedText:attrScore];
+//        [_viewAnalysis addSubview:labScore];
+//    }
+//    [self.view addSubview:_viewAnalysis];
+//    UISwipeGestureRecognizer *swipeView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(viewAnalysisHiden:)];
+//    swipeView.direction = UISwipeGestureRecognizerDirectionDown;
+//    [_viewAnalysis addGestureRecognizer:swipeView];
+//    [UIView animateWithDuration:0.2 animations:^{
+//        CGRect rectAna =_viewAnalysis.frame;
+//        rectAna.origin.y =200;
+//        _viewAnalysis.frame = rectAna;
+//    }];
+//    
+}
+//向下滑动隐藏试题分析
+- (void)viewAnalysisHiden:(UISwipeGestureRecognizer *)swipe{
+    [self hidenViewAnalysis];
+}
+
+//隐藏试卷解析报告试图
+- (void)buttonHidenViewAnalysisClick:(UIButton *)sender{
+    [self hidenViewAnalysis];
+}
+/**
+ 隐藏数据分析报告试图
+ */
+- (void)hidenViewAnalysis{
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rectAna =_viewAnalysis.frame;
+        rectAna.origin.y = Scr_Height;
+        _viewAnalysis.frame = rectAna;
+    }];
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     

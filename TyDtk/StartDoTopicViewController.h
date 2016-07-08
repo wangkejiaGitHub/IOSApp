@@ -40,6 +40,4 @@
 @property (nonatomic,strong) NSString *ridContinue;
 /*********继续做题模块参数**********/
 
-
-
 @end

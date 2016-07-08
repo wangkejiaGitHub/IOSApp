@@ -42,13 +42,13 @@
     NSString *imgsUrlSub = dicSubject[@"productImageListStore"];
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:imgsUrlSub]];
     self.labTitle.text = dicSubject[@"Names"];
-    NSString *remarkPriceSub =[NSString stringWithFormat:@"￥ %ld",[dicSubject[@"marketPrice"] integerValue]];
+    NSString *remarkPriceSub =[NSString stringWithFormat:@"￥ %.2f",[dicSubject[@"marketPrice"] floatValue]];
     //市场价格用属性字符串添加删除线
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:remarkPriceSub];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleSingle | NSUnderlineStyleSingle) range:NSMakeRange(2,remarkPriceSub.length -2)];
     [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(2,remarkPriceSub.length-2)];
     [self.labRemark setAttributedText:attri];
-    NSString *priceSub = [NSString stringWithFormat:@"￥ %ld",[dicSubject[@"price"] integerValue]];
+    NSString *priceSub = [NSString stringWithFormat:@"￥ %.2f",[dicSubject[@"price"] floatValue]];
     self.labPrice.text = priceSub;
     
 }

@@ -57,7 +57,7 @@
     self.title = @"章节练习";
     [self viewLoad];
 }
-- (void)viewDidAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated{
     self.navigationController.tabBarController.tabBar.hidden = NO;
 }
 - (void)viewLoad{

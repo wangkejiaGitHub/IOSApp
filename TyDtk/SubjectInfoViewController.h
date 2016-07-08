@@ -10,4 +10,6 @@
 
 @interface SubjectInfoViewController : UIViewController
 @property (nonatomic ,strong) NSDictionary *dicSubject;
+///用户判断用户是否登录
+@property (nonatomic ,assign) BOOL isUserLogin;
 @end

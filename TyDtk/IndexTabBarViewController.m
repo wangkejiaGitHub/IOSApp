@@ -11,17 +11,24 @@
 #import "DtkNavViewController.h"
 #import "PracticeNavViewController.h"
 #import "UserNavViewController.h"
-@interface IndexTabBarViewController ()<GuideViewDelegate,UITabBarControllerDelegate>
+@interface IndexTabBarViewController ()<GuideViewDelegate,UITabBarControllerDelegate,LoginDelegate>
 @property (nonatomic,strong) GuideView *scrollViewFirst;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
+///用户判断用户是否登录
+@property (nonatomic,strong) LoginUser *loginUser;
 @end
 @implementation IndexTabBarViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    NSLog(@"hshhss");
-//    _tyUser = [NSUserDefaults standardUserDefaults];
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    _loginUser = [[LoginUser alloc]init];
+    _loginUser.delegateLogin = self;
+    ///如果是在用户没有手动退出的时候、先判断是否登录超时
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
+        [_loginUser getUserInformationoWithJeeId:dicUserInfo[@"jeeId"]];
+    }
 //    [_tyUser removeObjectForKey:tyUserFirstLoad];
 //    if (![_tyUser objectForKey:tyUserFirstLoad]) {
 //        NSArray *arrayImgUrl = @[@"http://api.kaola100.com/Content/Images/face-2.jpg",@"http://api.kaola100.com/Content/Images/face-1.jpg",@"http://api.kaola100.com/Content/Images/face-3.jpg"];
@@ -77,7 +84,20 @@
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
-    NSLog(@"fdsff");
+    
+}
+///在用户未手动退出的时候，判断是否超时回调
+- (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
+    ///登录超时,发起自动登录
+    if (msgPara == 0) {
+        NSDictionary *dicAccount = [_tyUser objectForKey:tyUserAccount];
+        [_loginUser LoginAppWithAccount:dicAccount[@"acc"] password:dicAccount[@"pwd"]];
+        
+    }
+    ///登录未超时
+    else{
+        [_tyUser setObject:dicUser forKey:tyUserUserInfo];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

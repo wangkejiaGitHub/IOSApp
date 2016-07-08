@@ -229,7 +229,7 @@
         }
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
     }];
 }
 ///删除记录，单个删除

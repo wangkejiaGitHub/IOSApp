@@ -13,7 +13,6 @@
 @implementation TableHeardView
 -(void)awakeFromNib{
     _tyUser = [NSUserDefaults standardUserDefaults];
-    NSLog(@"awakeFromNib");
     _imageHeardImg.layer.masksToBounds = YES;
     _imageHeardImg.layer.cornerRadius = _imageHeardImg.bounds.size.height/2;
     _imageHeardImg.userInteractionEnabled = YES;
@@ -22,7 +21,7 @@
 }
 - (void)imgClick:(UITapGestureRecognizer *)tapGest{
     ///已登录
-    if ([_tyUser objectForKey:tyUserUser]) {
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
         [self.delegateImg ImgButtonClick:1];
     }
     ///未登录

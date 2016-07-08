@@ -14,6 +14,8 @@
 #import "ExerciseRecordViewController.h"
 #import "ImageEnlargeViewController.h"
 @interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate,LoginDelegate>
+///用于判断用户是否登录
+@property (nonatomic,assign) BOOL isLoginUser;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewList;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
 @property (nonatomic,strong) UIImagePickerController *imagePickerG;
@@ -37,6 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _tyUser = [NSUserDefaults standardUserDefaults];
     _loginUser = [[LoginUser alloc]init];
     _loginUser.delegateLogin = self;
     [self viewLoad];
@@ -46,17 +49,24 @@
     self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的考试",@"我的订单",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _arrayCellImage = @[@"persenself",@"course",@"quest",@"order",@"learnrecord",@"collect",@"errquests",@"ebook"];
-    _tyUser = [NSUserDefaults standardUserDefaults];
     [self addTableViewHeardView];
     /////专业分类科目信息
     _arraySubject = [NSMutableArray array];
     _arraySecoundSubject = [NSMutableArray array];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        _isLoginUser = YES;
+        //获取用户信息
+        [self getUserInfo];
+    }
+    else{
+        _isLoginUser = NO;
+        _tableHeardView.labUserName.text = @"点击开始登录";
+        _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
+    }
     [SVProgressHUD dismiss];
     [_tableViewList reloadData];
-    //获取用户信息
-    [self getUserInfo];
 }
 ///添加tableView头试图
 - (void)addTableViewHeardView{
@@ -68,8 +78,8 @@
 
 ///判断是否登录
 - (BOOL)loginTest{
-    if ([_tyUser objectForKey:tyUserUser]) {
-        _dicUser = [_tyUser objectForKey:tyUserUser];
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        _dicUser = [_tyUser objectForKey:tyUserUserInfo];
         return YES;
     }
     return NO;
@@ -144,92 +154,91 @@
     // _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的考试",@"我的订单",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
-        if ([self loginTest]) {
-            UIStoryboard *Scommon = CustomStoryboard(@"TyCommon");
-            if (indexPath.row == 0) {
-                //个人资料
-                [self performSegueWithIdentifier:@"userinfo" sender:nil];
-            }
-            else if (indexPath.row == 1){
-               //当前科目
-                [self getSubjectClass];
-                
-            }
-            else if (indexPath.row == 2){
-                //我的考试
-                if ([_tyUser objectForKey:tyUserSubject]) {
+        UIStoryboard *Scommon = CustomStoryboard(@"TyCommon");
+        ///除了科目选择其他要验证科目
+        if (indexPath.row != 1) {
+            ///判断是否登录
+            if (_isLoginUser) {
+                if (indexPath.row == 0) {
+                    //个人资料
+                    [self performSegueWithIdentifier:@"userinfo" sender:nil];
+                }
+                else if (indexPath.row == 2){
+                    //我的考试
                     [self performSegueWithIdentifier:@"myexam" sender:nil];
                 }
-                else{
-                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
-                }
-                NSLog(@"1");
-            }
-            else if (indexPath.row == 3){
-                //我的订单
-                if ([_tyUser objectForKey:tyUserSubject]) {
+                else if (indexPath.row == 3){
+                    //我的订单
                     [self performSegueWithIdentifier:@"myorder" sender:nil];
+                    NSLog(@"2");
                 }
-                else{
-                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                //做题记录
+                else if (indexPath.row == 4){
+                    if ([_tyUser objectForKey:tyUserSelectSubject]) {
+                        ExerciseRecordViewController *execVc = [Scommon instantiateViewControllerWithIdentifier:@"ExerciseRecordViewController"];
+                        [self.navigationController pushViewController:execVc animated:YES];
+                    }
+                    else{
+                        [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                    }
+                    
                 }
-                
-                NSLog(@"2");
+                //我的收藏
+                else if (indexPath.row == 5){
+                    if ([_tyUser objectForKey:tyUserSelectSubject]) {
+                        MyCollectViewController *collectVc = [Scommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                        collectVc.parameterView = 1;
+                        [self.navigationController pushViewController:collectVc animated:YES];
+                    }
+                    else{
+                        [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                    }
+                }
+                //我的错题
+                else if (indexPath.row == 6){
+                    if ([_tyUser objectForKey:tyUserSelectSubject]) {
+                        MyCollectViewController *collectVc = [Scommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                        collectVc.parameterView = 2;
+                        [self.navigationController pushViewController:collectVc animated:YES];
+                    }
+                    else{
+                        [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                    }
+                    
+                }
+                //我的笔记
+                else if (indexPath.row == 7){
+                    if ([_tyUser objectForKey:tyUserSelectSubject]) {
+                        MyCollectViewController *collectVc = [Scommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                        collectVc.parameterView = 3;
+                        [self.navigationController pushViewController:collectVc animated:YES];
+                    }
+                    else{
+                        [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                    }
+                }
+
             }
-            //做题记录
-            else if (indexPath.row == 4){
-                if ([_tyUser objectForKey:tyUserSubject]) {
-                    ExerciseRecordViewController *execVc = [Scommon instantiateViewControllerWithIdentifier:@"ExerciseRecordViewController"];
-                    [self.navigationController pushViewController:execVc animated:YES];
-                }
-                else{
-                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
-                }
-                
-            }
-            //我的收藏
-            else if (indexPath.row == 5){
-                if ([_tyUser objectForKey:tyUserSubject]) {
-                    MyCollectViewController *collectVc = [Scommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
-                    collectVc.parameterView = 1;
-                    [self.navigationController pushViewController:collectVc animated:YES];
-                }
-                else{
-                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
-                }
-            }
-            //我的错题
-            else if (indexPath.row == 6){
-                if ([_tyUser objectForKey:tyUserSubject]) {
-                    MyCollectViewController *collectVc = [Scommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
-                    collectVc.parameterView = 2;
-                    [self.navigationController pushViewController:collectVc animated:YES];
-                }
-                else{
-                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
-                }
-                
-            }
-            //我的笔记
-            else if (indexPath.row == 7){
-                if ([_tyUser objectForKey:tyUserSubject]) {
-                    MyCollectViewController *collectVc = [Scommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
-                    collectVc.parameterView = 3;
-                    [self.navigationController pushViewController:collectVc animated:YES];
-                }
-                else{
-                    [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
-                }
+            ///未登录
+            else{
+                [SVProgressHUD showInfoWithStatus:@"您还没有登录"];
+                UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+                LoginViewController *loginVc =  [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
+                loginVc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:loginVc animated:YES];
             }
         }
+        ///row == 1
         else{
-            [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
-            UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-            LoginViewController *loginVc =  [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
-            loginVc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:loginVc animated:YES];
+            [self getSubjectClass];
         }
     }
+//        [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
+//        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+//        LoginViewController *loginVc =  [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
+//        loginVc.hidesBottomBarWhenPushed = YES;
+//        [self.navigationController pushViewController:loginVc animated:YES];
+    //    }
 }
 /////获取用户信息
 - (void)getUserInfo{
@@ -258,10 +267,10 @@
     }
     ///超时
     else{
-        _tableHeardView.labUserName.text = @"点击开始登录";
-        _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
-        [_tyUser removeObjectForKey:tyUserUserInfo];
-        [_tyUser removeObjectForKey:tyUserUser];
+        ///用户没有手动退出，则意为超时，需要重新登录
+        NSDictionary *dicAccount = [_tyUser objectForKey:tyUserAccount];
+        [_loginUser LoginAppWithAccount:dicAccount[@"acc"] password:dicAccount[@"pwd"]];
+
     }
 }
 //////////////////专业科目信息//////////////////
@@ -306,7 +315,7 @@
     else{
         ///换头像
         UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self persentImagePicker:1];
         }];
         
@@ -387,6 +396,7 @@
         [picker dismissViewControllerAnimated:YES completion:nil];
         
     } RequestFaile:^(NSError *erro) {
+        [picker dismissViewControllerAnimated:YES completion:nil];
         [SVProgressHUD showInfoWithStatus:@"图片上传失败！"];
     } UploadProgress:^(NSProgress *uploadProgress) {
         NSLog(@"%@",uploadProgress);

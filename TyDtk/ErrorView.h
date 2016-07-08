@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface ErrorView : UIView
 @property (weak, nonatomic) IBOutlet UIButton *buttonSubmit;
 @property (weak, nonatomic) IBOutlet UIButton *buttonClear;

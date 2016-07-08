@@ -100,7 +100,6 @@
             [_refreshHeader endRefreshing];
             [_refreshFooter endRefreshing];
         }
-        NSLog(@"%@",dicNotes);
     } RequestFaile:^(NSError *error) {
         
     }];
@@ -164,7 +163,6 @@
             [self getUserNotes];
             [SVProgressHUD showSuccessWithStatus:dicccc[@"msg"]];
         }
-        NSLog(@"%@",dicDele);
     } RequestFaile:^(NSError *erro) {
         
     }];

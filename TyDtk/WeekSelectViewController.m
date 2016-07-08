@@ -11,6 +11,7 @@
 @interface WeekSelectViewController ()<ActiveSubjectDelegate,UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewWeek;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewBottom;
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
 //本地信息存储
@@ -48,7 +49,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-  
+    self.navigationController.tabBarController.tabBar.hidden = YES;
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
@@ -56,6 +57,10 @@
     [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _tableViewWeek.mj_footer = _refreshFooter;
+    
+    if (_intPushWhere == 1) {
+        _tableViewBottom.constant = -49;
+    }
 }
 - (void)viewDidAppear:(BOOL)animated{
     _paterPages = 0;
@@ -76,7 +81,7 @@
         _tableViewWeek.tableHeaderView = view;
     }
     
-    NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSubject];
+    NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
     NSString *imgsUrlSub = dicCurrSubject[@"productImageListStore"];
     [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:imgsUrlSub]];
     _hearhVIew.labTitle.text = dicCurrSubject[@"Names"];
@@ -136,9 +141,15 @@
             _paterIndexPage = _paterIndexPage+1;
             NSArray *arrayDatas = dicWeek[@"datas"];
             if (arrayDatas.count == 0) {
-                
-                _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 40, Scr_Width, Scr_Height - 64 - 40 - 50 - Scr_Width/2 + 10) showText:@"没有更多试卷"];
-                _tableViewWeek.tableFooterView = _viewNilData;
+                UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 100)];
+                view.backgroundColor = [UIColor whiteColor];
+                UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(30, 30, Scr_Width - 60, 30)];
+                labText.font = [UIFont systemFontOfSize:18.0];
+                labText.textColor= [UIColor lightGrayColor];
+                labText.textAlignment = NSTextAlignmentCenter;
+                labText.text = @"没有更多试卷了";
+                [view addSubview:labText];
+                _tableViewWeek.tableFooterView = view;
             }
             else{
                 //追加数据

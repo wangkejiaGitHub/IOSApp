@@ -26,7 +26,7 @@
 //头试图
 @property (nonatomic,strong) ActiveSubjectView *hearhVIew;
 //空数据显示层
-@property (nonatomic,strong) ViewNullData *viewNilData;
+//@property (nonatomic,strong) ViewNullData *viewNilData;
 //令牌
 @property (nonatomic,strong)NSString *accessToken;
 //储存的专业信息
@@ -65,6 +65,8 @@
     [self viewLoad];
 }
 - (void)viewLoad{
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _paterPages = 0;
     _paterIndexPage = 1;
     _paterYear = @"0";
@@ -75,6 +77,7 @@
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = YES;
     if (!_viewHeader) {
         _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, 40)];
         _viewHeader.backgroundColor =ColorWithRGB(210, 210, 210);
@@ -121,6 +124,7 @@
        
         _viewHeader.frame = CGRectMake(0, 64, Scr_Width, 40);
         _tableViewLayoutTop.constant = 0;
+        _tableViewLauoutBottom.constant = -49;
     }
 }
 - (void)viewDidAppear:(BOOL)animated{
@@ -133,44 +137,23 @@
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _myTableView.mj_footer = _refreshFooter;
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self isBuySubject];
+    [self isActiveSubject];
 }
-//
 ///判断是否购买了该科目（是否激活了科目）
-- (void)isBuySubject{
-    _tyUser = [NSUserDefaults standardUserDefaults];
-    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-    NSDictionary *dicUser = [_tyUser objectForKey:tyUserUser];
-    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,_subjectId,dicUser[@"jeeId"]];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicIsBuy = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSInteger codeId = [dicIsBuy[@"code"] integerValue];
-        //查看激活状态
-        if (codeId == 1) {
-            NSDictionary *dicDatas = dicIsBuy[@"datas"];
-            NSInteger buyStatus = [dicDatas[@"status"] integerValue];
-            //未激活
-            if (buyStatus == 0) {
-                _isBuyDidSubject = NO;
-            }
-            //已激活
-            else{
-                _isBuyDidSubject = YES;
-            }
-            _paterPages = 0;
-            _paterIndexPage = 1;
-            [_arrayPapers removeAllObjects];
-            [self getModelPapersData];
-            [self getPaperLevels];
-            NSLog(@"%@",dicDatas);
-        }
-        //用户未登录或者登录超时
-        else{
-            
-        }
-    } RequestFaile:^(NSError *error) {
-        
-    }];
+- (void)isActiveSubject{
+    NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
+    if ([subPrice floatValue] > 0) {
+        _isBuyDidSubject = NO;
+    }
+    else{
+        _isBuyDidSubject = YES;
+    }
+    
+    _paterPages = 0;
+    _paterIndexPage = 1;
+    [_arrayPapers removeAllObjects];
+    [self getModelPapersData];
+    [self getPaperLevels];
 }
 - (void)viewWillDisappear:(BOOL)animated{
     _refreshFooter = nil;
@@ -186,9 +169,8 @@
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10)];
     [view addSubview:_hearhVIew];
     view.backgroundColor = [UIColor clearColor];
-    NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSubject];
     _hearhVIew.subjectId = _subjectId;
-    [_hearhVIew setActiveValue:dicCurrSubject];
+    [_hearhVIew setActiveValue:_dicSubject];
     if (_isBuyDidSubject) {
        ////已购买
     }
@@ -241,9 +223,17 @@
             //追加数据
             NSArray *arrayPaters = dicModelPapers[@"datas"];
             if (arrayPaters.count == 0) {
-                
-            _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 40, Scr_Width, Scr_Height - 64 - 40 - 50 - Scr_Width/2+10) showText:@"没有更多试卷"];
-                _myTableView.tableFooterView = _viewNilData;
+//            _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 40 - 50 - Scr_Width/2+10) showText:@"没有更多试卷"];
+//                _myTableView.tableFooterView = _viewNilData;
+                UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 100)];
+                view.backgroundColor = [UIColor whiteColor];
+                UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(30, 30, Scr_Width - 60, 30)];
+                labText.font = [UIFont systemFontOfSize:18.0];
+                labText.textColor= [UIColor lightGrayColor];
+                labText.textAlignment = NSTextAlignmentCenter;
+                labText.text = @"没有更多试卷了";
+                [view addSubview:labText];
+                _myTableView.tableFooterView = view;
             }
             else{
                 for (NSDictionary *dicPater in arrayPaters) {
@@ -431,12 +421,12 @@
                        range:NSMakeRange(0,[NSString stringWithFormat:@"%ld",[dicCurrPater[@"DoNum"] integerValue]].length )];
     [labPerson setAttributedText:attriperson];
     
-    if (!_isBuyDidSubject) {
-        cell.backgroundColor = ColorWithRGB(200, 200, 200);
-    }
-    else{
+//    if (!_isBuyDidSubject) {
+//        cell.backgroundColor = ColorWithRGB(200, 200, 200);
+//    }
+//    else{
         cell.backgroundColor = [UIColor whiteColor];
-    }
+//    }
     return cell;
     
     
@@ -446,9 +436,9 @@
     if (_isBuyDidSubject) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         NSDictionary *diccc = _arrayPapers[indexPath.row];
-        for (NSString *key in diccc) {
-            NSLog(@"%@ == %@",key,diccc[key]);
-        }
+//        for (NSString *key in diccc) {
+//            NSLog(@"%@ == %@",key,diccc[key]);
+//        }
         [self performSegueWithIdentifier:@"topicStar" sender:diccc];
     }
     else{

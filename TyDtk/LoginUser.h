@@ -14,5 +14,6 @@
 @interface LoginUser : NSObject
 - (void)LoginAppWithAccount:(NSString *)account password:(NSString *)pwd;
 - (void)getUserInformationoWithJeeId:(NSString *)jeeId;
+- (void)empFirstComeAppWithUserId:(NSString *)userId userCode:(NSString *)user;
 @property (nonatomic,assign) id<LoginDelegate> delegateLogin;
 @end

@@ -24,10 +24,10 @@
 #import "MyNoteViewController.h"
 ///科目选择
 #import "SelectSubjectViewController.h"
+///登录
+#import "LoginViewController.h"
 @interface PracticeCenterViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCenter;
-@property (weak, nonatomic) IBOutlet UIImageView *imageViewBg;
-
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSDictionary *dicSelectSubject;
 @property (nonatomic,strong) NSArray *arrayList;
@@ -54,23 +54,22 @@
     _arrayImg = @[@"chapter",@"paper",@"weeksift",@"quest"];
     _arrayImgSelf = @[@"learnrecord",@"collect",@"errquests",@"ebook"];
     _tableViewCenter.backgroundColor = [UIColor clearColor];
-//    _tableViewCenter.separatorStyle = UITableViewCellSeparatorStyleNone;
-    _imageViewBg.image = systemBackGrdImg;
+    //    _tableViewCenter.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 - (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = NO;
     [self addTableHeardView];
 }
 - (void)viewDidAppear:(BOOL)animated{
-    self.navigationController.tabBarController.tabBar.hidden = NO;
 }
 ///添加头试图，用于显示用户最近一次所选的科目
 - (void)addTableHeardView{
     UIView *heardView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 60)];
     heardView.backgroundColor = [UIColor whiteColor];
-//    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(20, 10, Scr_Width - 40, 50)];
-//    view.layer.masksToBounds = YES;
-//    view.layer.cornerRadius = 5;
-//    view.backgroundColor = [UIColor clearColor];
+    //    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(20, 10, Scr_Width - 40, 50)];
+    //    view.layer.masksToBounds = YES;
+    //    view.layer.cornerRadius = 5;
+    //    view.backgroundColor = [UIColor clearColor];
     
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, 70, 30)];
     lab.font = [UIFont systemFontOfSize:15.0];
@@ -87,7 +86,7 @@
         labSubject.text = _dicSelectSubject[@"Names"];
     }
     else{
-        labSubject.text = @"您还没有选过任何科目";
+        labSubject.text = @"未选择科目";
         labSubject.textColor = [UIColor redColor];
     }
     [heardView addSubview:lab];
@@ -112,7 +111,7 @@
     subjectVc.arraySecoundSubject = _arraySecoundSubject;
     subjectVc.selectSubject = 0;
     [self.navigationController pushViewController:subjectVc animated:YES];
-
+    
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
@@ -134,7 +133,7 @@
     view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, Scr_Width - 30, 30)];
     labTitle.font = [UIFont systemFontOfSize:18.0];
-//    labTitle.textAlignment = NSTextAlignmentCenter;
+    //    labTitle.textAlignment = NSTextAlignmentCenter;
     labTitle.textColor = ColorWithRGB(55, 155, 255);
     labTitle.backgroundColor = [UIColor clearColor];
     if (section == 0) {
@@ -169,7 +168,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if ([_tyUser objectForKey:tyUserSelectSubject]&&[_tyUser objectForKey:tyUserUser]) {
+    if ([_tyUser objectForKey:tyUserSelectSubject]) {
         UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
         if (indexPath.section == 0) {
             //章节练习
@@ -178,7 +177,6 @@
                 chaperVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
                 chaperVc.title = @"章节练习";
                 [self.navigationController pushViewController:chaperVc animated:YES];
-                NSLog(@"章节练习");
             }
             //模拟试卷
             else if (indexPath.row == 1){
@@ -187,56 +185,59 @@
                 modelVc.intPushWhere = 1;
                 modelVc.title = @"模拟试卷";
                 [self.navigationController pushViewController:modelVc animated:YES];
-                NSLog(@"模拟试卷");
             }
             //每周精选
             else if (indexPath.row == 2){
                 WeekSelectViewController *weekVc = [sCommon instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
                 weekVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
+                weekVc.intPushWhere = 1;
                 weekVc.title = @"每周精选";
                 [self.navigationController pushViewController:weekVc animated:YES];
-                NSLog(@"每周精选");
             }
             //智能做题
             else if (indexPath.row == 3){
                 IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
                 intellVc.dicSubject = _dicSelectSubject;
                 [self.navigationController pushViewController:intellVc animated:YES];
-                NSLog(@"智能做题");
             }
         }
         else{
-            //做题记录
-            if (indexPath.row == 0) {
-                ExerciseRecordViewController *execVc = [sCommon instantiateViewControllerWithIdentifier:@"ExerciseRecordViewController"];
-                [self.navigationController pushViewController:execVc animated:YES];
-                NSLog(@"做题记录");
+            ///判断是否登录
+            if ([_tyUser objectForKey:tyUserUserInfo]) {
+                //做题记录
+                if (indexPath.row == 0) {
+                    ExerciseRecordViewController *execVc = [sCommon instantiateViewControllerWithIdentifier:@"ExerciseRecordViewController"];
+                    [self.navigationController pushViewController:execVc animated:YES];
+                }
+                //我的收藏
+                else if (indexPath.row == 1){
+                    MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                    collectVc.parameterView = 1;
+                    [self.navigationController pushViewController:collectVc animated:YES];
+                }
+                //我的错题
+                else if (indexPath.row == 2){
+                    MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                    collectVc.parameterView = 2;
+                    [self.navigationController pushViewController:collectVc animated:YES];
+                }
+                //我的笔记
+                else if (indexPath.row == 3){
+                    MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
+                    collectVc.parameterView = 3;
+                    [self.navigationController pushViewController:collectVc animated:YES];
+                }
             }
-            //我的收藏
-            else if (indexPath.row == 1){
-                MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
-                collectVc.parameterView = 1;
-                [self.navigationController pushViewController:collectVc animated:YES];
-                NSLog(@"我的收藏");
-            }
-            //我的错题
-            else if (indexPath.row == 2){
-                MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
-                collectVc.parameterView = 2;
-                [self.navigationController pushViewController:collectVc animated:YES];
-                NSLog(@"我的错题");
-            }
-            //我的笔记
-            else if (indexPath.row == 3){
-                MyCollectViewController *collectVc = [sCommon instantiateViewControllerWithIdentifier:@"MyCollectViewController"];
-                collectVc.parameterView = 3;
-                [self.navigationController pushViewController:collectVc animated:YES];
-                NSLog(@"我的错题");
+            ///跳转到登录页面
+            else{
+                UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+                LoginViewController *loginVc = [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
+                [self.navigationController pushViewController:loginVc animated:YES];
             }
         }
     }
     else{
-        [SVProgressHUD showInfoWithStatus:@"您还没有登录或未选过科目~"];
+        [SVProgressHUD showInfoWithStatus:@"您还未选过科目~"];
         self.tabBarController.selectedIndex = 0;
     }
 }

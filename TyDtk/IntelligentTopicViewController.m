@@ -38,7 +38,9 @@
     _tableViewIn.tableHeaderView = viewHeader;
     _tableViewIn.tableFooterView = [UIView new];
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+     self.navigationController.tabBarController.tabBar.hidden = YES;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
@@ -146,7 +148,6 @@
 }
 ///开始做题，获取rid
 - (void)getRidMakeTopic{
-    //api/Smart/MakeSmartQuestions?access_token={access_token}
     NSString *urlString = [NSString stringWithFormat:@"%@api/Smart/MakeSmartQuestions?access_token=%@",systemHttps,_accessToken];
     [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
         NSDictionary *dicTopic = (NSDictionary *)respoes;
@@ -155,7 +156,6 @@
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
             [self performSegueWithIdentifier:@"strtopic" sender:dicDatas[@"rid"]];
         }
-        NSLog(@"%@",dicTopic);
     } RequestFaile:^(NSError *erro) {
         
     }];

@@ -133,6 +133,7 @@
 
 //保存图片
 -(void)imageTopicSave:(UIImage *)image{
+    [SVProgressHUD showWithStatus:@"正在保存图片..."];
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
 }
 //保存到本地手机后回调
