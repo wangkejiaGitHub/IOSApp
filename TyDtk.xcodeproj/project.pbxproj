@@ -107,6 +107,8 @@
 		1D347B641D0EA480006DB889 /* EditExamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D347B621D0EA480006DB889 /* EditExamViewController.m */; };
 		1D347B651D0EA480006DB889 /* EditExamViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D347B631D0EA480006DB889 /* EditExamViewController.xib */; };
 		1D4227041D05879200A9B816 /* DateStringCompare.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4227031D05879200A9B816 /* DateStringCompare.m */; };
+		1D42F00C1D33A59100C31095 /* AnalysisQtype4TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D42F00A1D33A59100C31095 /* AnalysisQtype4TableViewCell.m */; };
+		1D42F00D1D33A59100C31095 /* AnalysisQtype4TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D42F00B1D33A59100C31095 /* AnalysisQtype4TableViewCell.xib */; };
 		1D436DC11D23CF5700D424F8 /* ActiveSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D436DBF1D23CF5700D424F8 /* ActiveSubjectViewController.m */; };
 		1D489F181D2B8C2600D8665F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D489F171D2B8C2600D8665F /* libc++.tbd */; };
 		1D489F1A1D2B8C3200D8665F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D489F191D2B8C3200D8665F /* libz.tbd */; };
@@ -485,6 +487,9 @@
 		1D347B631D0EA480006DB889 /* EditExamViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EditExamViewController.xib; sourceTree = "<group>"; };
 		1D4227021D05879200A9B816 /* DateStringCompare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateStringCompare.h; sourceTree = "<group>"; };
 		1D4227031D05879200A9B816 /* DateStringCompare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateStringCompare.m; sourceTree = "<group>"; };
+		1D42F0091D33A59100C31095 /* AnalysisQtype4TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisQtype4TableViewCell.h; sourceTree = "<group>"; };
+		1D42F00A1D33A59100C31095 /* AnalysisQtype4TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisQtype4TableViewCell.m; sourceTree = "<group>"; };
+		1D42F00B1D33A59100C31095 /* AnalysisQtype4TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AnalysisQtype4TableViewCell.xib; sourceTree = "<group>"; };
 		1D436DBE1D23CF5700D424F8 /* ActiveSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveSubjectViewController.h; sourceTree = "<group>"; };
 		1D436DBF1D23CF5700D424F8 /* ActiveSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActiveSubjectViewController.m; sourceTree = "<group>"; };
 		1D489F171D2B8C2600D8665F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -1743,6 +1748,9 @@
 				1D122B9C1CDDBB9800A0BA08 /* AnalysisQtype3Cell.xib */,
 				1D122B991CDDBB7C00A0BA08 /* AnalysisQtype3TableViewCell.h */,
 				1D122B9A1CDDBB7C00A0BA08 /* AnalysisQtype3TableViewCell.m */,
+				1D42F00B1D33A59100C31095 /* AnalysisQtype4TableViewCell.xib */,
+				1D42F0091D33A59100C31095 /* AnalysisQtype4TableViewCell.h */,
+				1D42F00A1D33A59100C31095 /* AnalysisQtype4TableViewCell.m */,
 				1D122B9E1CDDBE2D00A0BA08 /* AnalysisQtype5Cell.xib */,
 				1D122BA01CDDBE4C00A0BA08 /* AnalysisQtype5TableViewCell.h */,
 				1D122BA11CDDBE4C00A0BA08 /* AnalysisQtype5TableViewCell.m */,
@@ -2384,6 +2392,7 @@
 				1DF940421D1B86C000D808C1 /* TyUserIn.storyboard in Resources */,
 				1D2277EB1D2229FE00D2269C /* ico_circle_o.png in Resources */,
 				1D92C8901D138A81006A937F /* TopicLookQtpye3TableViewCell.xib in Resources */,
+				1D42F00D1D33A59100C31095 /* AnalysisQtype4TableViewCell.xib in Resources */,
 				1D122BA41CDDC3DA00A0BA08 /* AnalysisQtype6Cell.xib in Resources */,
 				1D0D0E901D2A389D0041E1BE /* imgNullPer.png in Resources */,
 				1D165E6F1CD1F84700F61EAE /* ErrorView.xib in Resources */,
@@ -2467,6 +2476,7 @@
 				1D0794761CFBD943009A39E8 /* ImageEnlargeViewController.m in Sources */,
 				1D579EFA1CE9668100578519 /* UIView+Zirkfied.m in Sources */,
 				1D1137271CF3FD8C0092DF02 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				1D42F00C1D33A59100C31095 /* AnalysisQtype4TableViewCell.m in Sources */,
 				1D122BA21CDDBE4C00A0BA08 /* AnalysisQtype5TableViewCell.m in Sources */,
 				1D0794751CFBD943009A39E8 /* ImageEnlargeCell.m in Sources */,
 				1DBD93B91D08163D0050848D /* MGSwipeTableCell.m in Sources */,

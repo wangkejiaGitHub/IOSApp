@@ -170,7 +170,6 @@
                 else if (indexPath.row == 3){
                     //我的订单
                     [self performSegueWithIdentifier:@"myorder" sender:nil];
-                    NSLog(@"2");
                 }
                 //做题记录
                 else if (indexPath.row == 4){

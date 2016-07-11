@@ -39,6 +39,7 @@
     _webViewTitle.delegate = self;
 }
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+    NSLog(@"56666666666666666666666666666");
     NSString *topicTitle = dic[@"title"];
     topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
     NSString *htmlString = [NSString stringWithFormat:@"<html><body><div style='word-break:break-all;' id='content' contenteditable='false' >%@</div></body></html>",topicTitle];
@@ -116,6 +117,8 @@
     if (_isWebFirstLoading) {
         [self.delegateAnalysisCellClick isWebLoadingCellHeight:cellHeightL + 60 withButtonOy:cellHeightL];
     }
+    
+     NSLog(@"56666666666666666666666666666");
 }
 //主要处理试题中的图片问题
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{

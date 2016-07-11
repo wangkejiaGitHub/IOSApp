@@ -433,17 +433,17 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (_isBuyDidSubject) {
+//    if (_isBuyDidSubject) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         NSDictionary *diccc = _arrayPapers[indexPath.row];
 //        for (NSString *key in diccc) {
 //            NSLog(@"%@ == %@",key,diccc[key]);
 //        }
         [self performSegueWithIdentifier:@"topicStar" sender:diccc];
-    }
-    else{
-        [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目！"];
-    }
+//    }
+//    else{
+//        [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目！"];
+//    }
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"topicStar"]) {

@@ -114,12 +114,12 @@
     UILabel *labName = (UILabel *)[cell.contentView viewWithTag:10];
     labName.text = dicProduct[@"productName"];
     UILabel *labCount = (UILabel *)[cell.contentView viewWithTag:11];
-    labCount.text = [NSString stringWithFormat:@"数量：%ld",[dicProduct[@"productQuantity"] integerValue]];
+    labCount.text = [NSString stringWithFormat:@"%ld",[dicProduct[@"productQuantity"] integerValue]];
     UILabel *labMoney = (UILabel *)[cell.contentView viewWithTag:12];
-    labMoney.text = [NSString stringWithFormat:@"价格：￥%.2f",[dicProduct[@"productPrice"] floatValue]];
+    labMoney.text = [NSString stringWithFormat:@"￥%.2f",[dicProduct[@"productPrice"] floatValue]];
     
     UILabel *labType = (UILabel *)[cell.contentView viewWithTag:13];
-    labType.text = [NSString stringWithFormat:@"商品类型：%@",dicProduct[@"typeName"]];
+    labType.text = [NSString stringWithFormat:@"%@",dicProduct[@"typeName"]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

@@ -136,9 +136,6 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (_qType == 6) {
         if (indexPath.row == 0) {
-            //            if (_cellWebLoadingheight != 0) {
-            //                return _cellWebLoadingheight;
-            //            }
             return _cellWebLoadingheight;
             
         }
@@ -150,7 +147,7 @@
         }
     }
     else{
-        if (_qType ==1 | _qType == 2 |_qType == 3 | _qType == 5) {
+        if (_qType ==1 | _qType == 2 |_qType == 3 | _qType == 5 |_qType == 4) {
             return _cellWebLoadingheight;
         }
         return _cellHeight;
@@ -203,11 +200,12 @@
         }
         cell4.isLastTopic = _isLastTopic;
         cell4.delegateCellClick = self;
-        cell4.isFirstLoad = _isFirstLoad;
+        cell4.isWebFirstLoading = _isWebFirstLoading;
+        cell4.buttonOy = _buttonOy;
         cell4.indexTopic = _topicIndex;
         cell4.dicCollectDone = _dicUserCollectTopic;
         cell4.selectionStyle = UITableViewCellSelectionStyleNone;
-        _cellHeight = [cell4 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+        [cell4 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell4;
     }
     //简答题
@@ -279,6 +277,24 @@
                 cell3.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
                 return cell3;
+            }
+            else if (_qType == 4){
+                PaterTopicQtype4TableViewCell *cell4 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype4Cell" owner:self options:nil] lastObject];
+                
+                cell4.delegateCellClick = self;
+                cell4.dicSelectDone = _dicUserAnswer;
+                cell4.dicCollectDone = _dicUserCollectTopic;
+                cell4.indexTopic = indexPath.row;
+                cell4.arrayFirstLoading = _arrayFirstLoading;
+                cell4.buttonSubOy = _buttonSubOy;
+                if ([_dicSubButtonSubOy.allKeys containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]]) {
+                    cell4.buttonSubOy = [[_dicSubButtonSubOy valueForKey:[NSString stringWithFormat:@"%ld",indexPath.row]] floatValue];
+                }
+                
+                cell4.selectionStyle = UITableViewCellSelectionStyleNone;
+                [cell4 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
+                return cell4;
+
             }
             else{
                 paterTopicQtype5TableViewCell *cellQtype5 = [[[NSBundle mainBundle] loadNibNamed:@"paterTopicQtype5Cell" owner:self options:nil]lastObject];

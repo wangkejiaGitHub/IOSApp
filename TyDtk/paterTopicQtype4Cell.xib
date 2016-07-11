@@ -62,8 +62,8 @@
                             <action selector="buttonCollectClick:" destination="4Uq-7f-7Er" eventType="touchUpInside" id="Wbg-OZ-T0s"/>
                         </connections>
                     </button>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nw5-iF-0K2">
-                        <rect key="frame" x="15" y="117" width="358" height="90"/>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="3333" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nw5-iF-0K2">
+                        <rect key="frame" x="15" y="107" width="358" height="90"/>
                         <color key="backgroundColor" red="0.93414017403846161" green="0.93414017403846161" blue="0.93414017403846161" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="90" id="Jfw-Sw-phB"/>
@@ -73,7 +73,7 @@
                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                     </textView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="填空答题区：(提示：空与空之间的答案用换行分隔开，填完每个空请换行)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xje-x5-xoz">
-                        <rect key="frame" x="15" y="75" width="358" height="32"/>
+                        <rect key="frame" x="15" y="65" width="358" height="32"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="32" id="B7r-mh-Myl"/>
                         </constraints>
@@ -81,23 +81,9 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UA3-4q-ZM9">
-                        <rect key="frame" x="213" y="222" width="160" height="25"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="160" id="JbS-Fk-mzp"/>
-                            <constraint firstAttribute="height" constant="25" id="XdH-0u-Cge"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="保存本题答案并跳转下一题">
-                            <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                        </state>
-                        <connections>
-                            <action selector="buttonSaveAnswerClick:" destination="4Uq-7f-7Er" eventType="touchUpInside" id="uQ5-I4-G5d"/>
-                        </connections>
-                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="xje-x5-xoz" firstAttribute="top" secondItem="55I-cG-GvL" secondAttribute="bottom" constant="20" id="0cZ-tx-vhR"/>
+                    <constraint firstItem="xje-x5-xoz" firstAttribute="top" secondItem="55I-cG-GvL" secondAttribute="bottom" constant="10" id="0cZ-tx-vhR"/>
                     <constraint firstItem="vD4-wA-cqu" firstAttribute="top" secondItem="s71-S4-xW7" secondAttribute="top" id="0pK-zG-sd2"/>
                     <constraint firstItem="sRM-ZS-ZFd" firstAttribute="top" secondItem="EQT-b6-Uhz" secondAttribute="top" constant="15" id="5Um-68-viE"/>
                     <constraint firstItem="sRM-ZS-ZFd" firstAttribute="leading" secondItem="EQT-b6-Uhz" secondAttribute="leading" constant="15" id="5Yk-Za-dtI"/>
@@ -109,19 +95,16 @@
                     <constraint firstAttribute="trailing" secondItem="fxc-D9-7Jh" secondAttribute="trailing" constant="10" id="Ycw-8r-3iv"/>
                     <constraint firstItem="s71-S4-xW7" firstAttribute="leading" secondItem="sRM-ZS-ZFd" secondAttribute="trailing" id="Yq5-n0-xMQ"/>
                     <constraint firstAttribute="trailing" secondItem="xje-x5-xoz" secondAttribute="trailing" constant="15" id="Z7h-FE-gum"/>
-                    <constraint firstItem="UA3-4q-ZM9" firstAttribute="top" secondItem="nw5-iF-0K2" secondAttribute="bottom" constant="15" id="aZ4-kM-Dr7"/>
                     <constraint firstAttribute="trailing" secondItem="55I-cG-GvL" secondAttribute="trailing" constant="10" id="gX2-H2-BoV"/>
                     <constraint firstItem="s71-S4-xW7" firstAttribute="bottom" secondItem="sRM-ZS-ZFd" secondAttribute="bottom" id="isn-ub-Ep9"/>
                     <constraint firstItem="fxc-D9-7Jh" firstAttribute="top" secondItem="s71-S4-xW7" secondAttribute="top" id="mIN-NU-ZCq"/>
                     <constraint firstItem="55I-cG-GvL" firstAttribute="top" secondItem="fxc-D9-7Jh" secondAttribute="bottom" constant="10" id="pX6-vY-afz"/>
                     <constraint firstItem="55I-cG-GvL" firstAttribute="leading" secondItem="EQT-b6-Uhz" secondAttribute="leading" constant="10" id="zQt-lk-F3E"/>
-                    <constraint firstAttribute="trailing" secondItem="UA3-4q-ZM9" secondAttribute="trailing" constant="15" id="zmg-4c-TBi"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="buttonCollect" destination="fxc-D9-7Jh" id="EdC-eF-dfq"/>
                 <outlet property="buttonCollectWidth" destination="o5E-CG-Gpz" id="rKs-ow-mnS"/>
-                <outlet property="buttonSaveAnswer" destination="UA3-4q-ZM9" id="SMk-55-9lS"/>
                 <outlet property="imageCollect" destination="vD4-wA-cqu" id="hlS-zC-ezK"/>
                 <outlet property="labNumber" destination="sRM-ZS-ZFd" id="Xoh-Nh-fBr"/>
                 <outlet property="labNumberWidth" destination="TNb-09-ukq" id="5Wl-tJ-mkI"/>
@@ -130,7 +113,7 @@
                 <outlet property="webViewTitle" destination="55I-cG-GvL" id="vNj-Kv-5qO"/>
                 <outlet property="webViewTitleHeight" destination="Dnm-78-xao" id="YGB-k4-S7n"/>
             </connections>
-            <point key="canvasLocation" x="377" y="377"/>
+            <point key="canvasLocation" x="147" y="240"/>
         </tableViewCell>
     </objects>
     <resources>

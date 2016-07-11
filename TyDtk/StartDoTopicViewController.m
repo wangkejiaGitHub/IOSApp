@@ -122,25 +122,7 @@
     
 //    [self addTapGest];
 }
-//??????????????????????????????????????????????????????????????????
-///添加手势，用户隐藏答题卡
-//- (void)addTapGest{
-//    UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestClick:)];
-//    [self.view addGestureRecognizer:tapGest];
-//}
-/////点击手势（主要用于隐藏答题卡）
-//- (void)tapGestClick:(UITapGestureRecognizer *)tapGest{
-//    _isShowTopicCard = NO;
-//    [_buttonRight setTitle:@"答题卡" forState:UIControlStateNormal];
-//    [UIView animateWithDuration:0.2 animations:^{
-//        CGRect rect = _collectionViewTopicCard.frame;
-//        rect.origin.x = Scr_Width;
-//        _collectionViewTopicCard.frame = rect;
-//    }];
-//
-//    NSLog(@"fsfffsfds");
-//}
-//??????????????????????????????????????????????????????????????????
+
 - (void)viewWillAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -213,12 +195,15 @@
  */
 - (void)getPaterDatas{
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
-    NSInteger paterId = [_dicPater[@"Id"] integerValue];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
-    //判断是否是继续做题，如果是，rid有值
-    if (_ridContinue.length > 0) {
-        urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&rid=%@",_ridContinue]];
-    }
+//    NSInteger paterId = [_dicPater[@"Id"] integerValue];
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+//    //判断是否是继续做题，如果是，rid有值
+//    if (_ridContinue.length > 0) {
+//        urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&rid=%@",_ridContinue]];
+//    }
+    //????????????????????????????????????????????
+    NSString *urlString = @"http://api.kaola100.com/api/Paper/GetPaperQuestions/278?access_token=1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2";
+    //????????????????????????????????????????????
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
@@ -421,8 +406,14 @@
     NSData *dataPostStr = [NSJSONSerialization dataWithJSONObject:_arrayUserAnswer options:NSJSONWritingPrettyPrinted error:nil];
     NSString *postStr = [[NSString alloc]initWithData:dataPostStr encoding:NSUTF8StringEncoding];
     //参数字典
-    NSDictionary *dicPost = @{@"Id":paterId,@"Title":paterTitle,@"PostStr":postStr};
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/SubmitPaper?access_token=%@",systemHttps,_accessToken];
+    //????????????????????????????????????????????
+//    NSDictionary *dicPost = @{@"Id":paterId,@"Title":paterTitle,@"PostStr":postStr};
+    //????????????????????????????????????????????
+     NSDictionary *dicPost = @{@"Id":@"278",@"Title":@"2014年10月全国高等教育自学考试《现代汉语》真题",@"PostStr":postStr};
+    //????????????????????????????????????????????
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/SubmitPaper?access_token=%@",systemHttps,_accessToken];
+    //????????????????????????????????????????????
+    NSString *urlString = @"http://api.kaola100.com/api/Paper/SubmitPaper?access_token=1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2";
     [HttpTools postHttpRequestURL:urlString RequestPram:dicPost RequestSuccess:^(id respoes) {
         NSDictionary *dic =(NSDictionary *)respoes;
         NSInteger codeId = [dic[@"code"] integerValue];

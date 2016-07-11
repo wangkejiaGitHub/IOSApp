@@ -27,8 +27,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *webViewTitleHeight;
 //试题答题区
 @property (weak, nonatomic) IBOutlet UITextView *textViewAnswer;
-//保存答案按钮
-@property (weak, nonatomic) IBOutlet UIButton *buttonSaveAnswer;
+//第一次加载webview
+@property (nonatomic,assign) BOOL isWebFirstLoading;
+@property (nonatomic,assign) BOOL isWebSubFirstLoading;
 //已经收藏过的试题
 @property (nonatomic,strong) NSDictionary *dicCollectDone;
 //试题信息
@@ -37,10 +38,14 @@
 @property (nonatomic,assign) NSInteger indexTopic;
 //是否第一次加载
 @property (nonatomic,assign) BOOL isFirstLoad;
+//是否包含第一次刷新的试题
+@property (nonatomic,strong) NSArray *arrayFirstLoading;
+@property (nonatomic,assign) CGFloat buttonOy;
+@property (nonatomic,assign) CGFloat buttonSubOy;
 //已经做过的试题
 @property (nonatomic,strong) NSDictionary *dicSelectDone;
 //是否是最后一题
 @property (nonatomic,assign) BOOL isLastTopic;
 @property (nonatomic,assign) id <TopicCellDelegateTest> delegateCellClick;
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index;
 @end

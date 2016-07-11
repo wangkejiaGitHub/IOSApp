@@ -189,10 +189,19 @@
     return @"删 除";
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView setEditing:NO animated:YES];
-    NSDictionary *dicOrder = _arrayOrderList[indexPath.row];
-    [self deleteOrderWithOrderId:dicOrder[@"id"]];
-//    NSLog(@"fdsfs");
+    LXAlertView *deleteAl = [[LXAlertView alloc]initWithTitle:@"订单删除" message:@"确认删除该订单信息吗？" cancelBtnTitle:@"删除" otherBtnTitle:@"保留" clickIndexBlock:^(NSInteger clickIndex) {
+        if (clickIndex == 0) {
+            //删除
+            NSDictionary *dicOrder = _arrayOrderList[indexPath.row];
+            [self deleteOrderWithOrderId:dicOrder[@"id"]];
+        }
+        else{
+            //保留
+            [tableView setEditing:NO animated:YES];
+        }
+    }];
+    deleteAl.animationStyle = LXASAnimationTopShake;
+    [deleteAl showLXAlertView];
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"orderinfo"]) {

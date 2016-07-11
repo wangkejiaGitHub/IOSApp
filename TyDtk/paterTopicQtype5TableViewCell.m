@@ -59,10 +59,13 @@
     //一题多问下面的小题
     if (parentId != 0) {
         _buttonOrginY = _buttonSubOy;
-        _labNumber.text = [NSString stringWithFormat:@"(%ld)、",index];
+        _labNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labNumber.textColor = [UIColor orangeColor];
+        _labNumberWidth.constant = _labNumber.text.length*10;
     }
-    _labNumberWidth.constant = _labNumber.text.length*10+15;
+    else{
+        _labNumberWidth.constant = _labNumber.text.length*10+10;
+    }
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];

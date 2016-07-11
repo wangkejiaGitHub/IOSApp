@@ -25,6 +25,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"科目激活";
+    if (_payParameter == 1) {
+        self.title = @"科目订单";
+    }
     _tyUser = [NSUserDefaults standardUserDefaults];
     _dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
     _arrayTitle = @[@"专业类别",@"所属专业",@"科目",@"价格"];

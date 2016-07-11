@@ -32,7 +32,6 @@
     // Do any additional setup after loading the view from its nib.
     
   
-    
     [self ViewLoad];
 }
 ///viewDidLoad
@@ -57,7 +56,17 @@
     _stringRemark = _dicExam[@"Note"];
     [self addTapGest];
     
-    
+    ///根据是否是默认考试，显示不同的button的图片
+    //没有默认
+    if ([_dicExam[@"IsDefault"] integerValue] == 0) {
+        [_buttonDefult setImage:[UIImage imageNamed:@"check_unchecked"] forState:UIControlStateNormal];
+    }
+    //默认
+    else{
+        ///默认选中
+        _buttonDefult.selected = YES;
+        [_buttonDefult setImage:[UIImage imageNamed:@"check_checked"] forState:UIControlStateNormal];
+    }
     for (NSString *kee in _dicExam) {
         NSLog(@"%@ == %@",kee,_dicExam[kee]);
     }
@@ -168,7 +177,31 @@
         return;
     }
     [self saveExamInfo];
+//    ///如果选择了设置默认
+//    if (_buttonDefult.selected) {
+//        [self setExamDefault];
+//    }
+//    else{
+//        [self saveExamInfo];
+//    }
+    
+    
 }
+///设置默认
+- (void)setExamDefault{
+    NSString *urlString = [NSString stringWithFormat:@"%@api/ExamSet/SetDefault/%@?access_token=%@",systemHttps,_dicExam[@"Id"],_accessToken];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *dicExam = (NSDictionary *)respoes;
+        NSInteger codeId = [dicExam[@"code"] integerValue];
+        if (codeId == 1) {
+        [self saveExamInfo];
+        }
+        NSLog(@"%@",dicExam);
+    } RequestFaile:^(NSError *erro) {
+        
+    }];
+}
+
 /**
  保存考试信息
  */

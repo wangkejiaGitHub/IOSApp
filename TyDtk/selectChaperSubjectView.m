@@ -112,11 +112,14 @@
     [view addSubview:button];
     /////
     UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDoTopic.frame = CGRectMake(Scr_Width - 20 - 50, 0, 50, 45);
+    btnDoTopic.frame = CGRectMake(Scr_Width - 20 - 55, 12.5, 50, 20);
+    btnDoTopic.layer.masksToBounds = YES;
+    btnDoTopic.layer.cornerRadius = 3;
+    btnDoTopic.backgroundColor = ColorWithRGB(200, 200, 200);
     [btnDoTopic setTitle:@"做题" forState:UIControlStateNormal];
 //    btnDoTopic.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-    [btnDoTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-    btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:15.0];
+    [btnDoTopic setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:14.0];
     [btnDoTopic addTarget:self action:@selector(BtnDoTopicClick:) forControlEvents:UIControlEventTouchUpInside];
     btnDoTopic.tag = 1000 + section;
     [view addSubview:btnDoTopic];

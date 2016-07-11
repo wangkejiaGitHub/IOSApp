@@ -46,9 +46,9 @@
     _webViewTitle.delegate = self;
 }
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+    NSLog(@"11111111111122222222222222");
     _indexTopic = index;
     _dicTopic = dic;
-    NSLog(@"%@",dic);
     if (index == 19) {
         NSLog(@"11");
     }
@@ -62,10 +62,14 @@
     //一题多问下面的小题
     if (parentId != 0) {
         _buttonOrginY = _buttonSubOy;
-        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)、",index];
+        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labTopicNumber.textColor = [UIColor orangeColor];
+        _labNumberWidth.constant = _labTopicNumber.text.length*10;
     }
-    _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
+    else{
+        _labNumberWidth.constant = _labTopicNumber.text.length*10+10;
+    }
+    
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     NSString *selectOptions = dic[@"options"];
@@ -143,6 +147,7 @@
         }
         
     }
+     NSLog(@"11111111111122222222222222");
 }
 //笔记按钮
 - (IBAction)buttonNoteClick:(UIButton *)sender {

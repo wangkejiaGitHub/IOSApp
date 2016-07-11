@@ -10,14 +10,6 @@
 @interface TopicLookQtpye1TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong) UIWebView *webViewSelectCustom;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
-////??????????????????????????????????????????????????????
-//@property (weak, nonatomic) UIScrollView *scrollView;
-//@property (weak, nonatomic) UIImageView *lastImageView;
-//@property (nonatomic, assign)CGRect originalFrame;
-//@property (nonatomic, assign)BOOL isDoubleTap;
-//
-//@property (nonatomic,strong) UIImageView *selectTapView;
-//??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
 ///试题中所有图片的数组
 @property (nonatomic,strong) NSMutableArray *arrayImgUrl;
@@ -62,10 +54,14 @@
     //一题多问下面的小题
     if (parentId != 0) {
         _buttonOrginY = _buttonSubOy;
-        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)、",index];
+        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labTopicNumber.textColor = [UIColor orangeColor];
+        _labNumberWidth.constant = _labTopicNumber.text.length*10;
     }
-    _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
+    else{
+        _labNumberWidth.constant = _labTopicNumber.text.length*10+10;
+    }
+
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     NSString *selectOptions = dic[@"options"];

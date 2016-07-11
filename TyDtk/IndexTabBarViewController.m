@@ -92,7 +92,6 @@
     if (msgPara == 0) {
         NSDictionary *dicAccount = [_tyUser objectForKey:tyUserAccount];
         [_loginUser LoginAppWithAccount:dicAccount[@"acc"] password:dicAccount[@"pwd"]];
-        
     }
     ///登录未超时
     else{
@@ -103,7 +102,12 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+///填空题测试，授权获取相关令牌
+- (void)emememememme{
+    NSDictionary *dicUU = [_tyUser objectForKey:tyUserUserInfo];
+    CustomTools *cusTom = [[CustomTools alloc]init];
+    [cusTom empowerAndSignatureWithUserId:dicUU[@"userId"] userCode:@"18838263542" classId:@"39" subjectId:@"37"];
+}
 /*
 #pragma mark - Navigation
 

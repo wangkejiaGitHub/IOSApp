@@ -12,6 +12,7 @@
 #import "AnalysisQtype5TableViewCell.h"
 #import "AnalysisQtype6TableViewCell.h"
 #import "ImageEnlargeViewController.h"
+#import "AnalysisQtype4TableViewCell.h"
 #import "NotesViewController.h"
 @interface PaperTopicAnalysisViewController ()<UITableViewDelegate,UITableViewDataSource,TopicAnalysisCellDelegateTest>
 @property (nonatomic,strong) UITableView *tableViewPater;
@@ -90,7 +91,6 @@
     return 1;
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    
     if (_topicTitle!=nil) {
         UIView *viewTitle = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, _cellHeardHeight+30)];
         viewTitle.backgroundColor = ColorWithRGB(210, 210, 205);
@@ -118,9 +118,14 @@
         }
     }
     else{
-        if (_qType ==1 | _qType == 2 | _qType) {
+        if (_qType ==1 | _qType == 2 | _qType == 3 | _qType == 5) {
             return _cellWebLoadingheight;
         }
+        //?????????
+        if (_qType == 4) {
+            return 100;
+        }
+        //?????????
         return _cellHeight = 50;
     }
 }
@@ -171,6 +176,10 @@
         [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell3;
 
+    }
+    else if (_qType == 4){
+        AnalysisQtype4TableViewCell *cell4 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype4TableViewCell" owner:self options:nil]lastObject];
+        return cell4;
     }
     else if (_qType == 5){
         AnalysisQtype5TableViewCell *cell5 = (AnalysisQtype5TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"AnalysisQtype5Cell"];

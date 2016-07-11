@@ -172,7 +172,7 @@
     if (indexPath.section == 0&&indexPath.row == 0) {
         ///换头像
         UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self persentImagePicker:1];
         }];
         
@@ -330,8 +330,8 @@
         if (codeId == 1) {
             [SVProgressHUD showSuccessWithStatus:@"退出成功！"];
             [_tyUser removeObjectForKey:tyUserAccessToken];
-//            [_tyUser removeObjectForKey:tyUserClass];
-//            [_tyUser removeObjectForKey:tyUserSelectSubject];
+            // [_tyUser removeObjectForKey:tyUserClass];
+            // [_tyUser removeObjectForKey:tyUserSelectSubject];
             [_tyUser removeObjectForKey:tyUserUserInfo];
             [_tyUser removeObjectForKey:tyUserAccount];
             ///退出后用默认的账号授权

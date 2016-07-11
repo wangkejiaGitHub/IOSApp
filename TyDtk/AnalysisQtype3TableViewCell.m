@@ -38,9 +38,9 @@
 
 }
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+     NSLog(@"333333333333333333333333333333");
     _indexTopic = index;
     _dicTopic = dic;
-    NSLog(@"%@",dic);
     if (index == 19) {
         NSLog(@"11");
     }
@@ -52,11 +52,14 @@
     NSInteger parentId = [dic[@"parentId"] integerValue];
     //一题多问下面的小题
     if (parentId != 0) {
-        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)、",index];
+        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labTopicNumber.textColor = [UIColor orangeColor];
+        _labNumberWidth.constant = _labTopicNumber.text.length*10;
     }
-    _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
-    //试题类型（单选，多选）
+    else{
+        _labNumberWidth.constant = _labTopicNumber.text.length*10+10;
+    }
+
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
   
     topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
@@ -92,7 +95,6 @@
                   "</table><br/>",dic[@"userAnswer"],dic[@"answer"]];
     }
     
-    
     ///////////解析
     NSString *analysisString = dic[@"analysis"];
     analysisString = [analysisString stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
@@ -126,7 +128,8 @@
             _buttonCollectWidth.constant = 40;
         }
         
-    }    
+    }
+     NSLog(@"33333333333333333333333333");
 }
 //笔记按钮
 - (IBAction)buttonNoteClick:(UIButton *)sender {

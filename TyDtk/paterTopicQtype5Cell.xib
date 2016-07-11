@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <objects>
@@ -24,7 +25,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="题型" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m2k-V3-G9T">
-                        <rect key="frame" x="47" y="15" width="133" height="20"/>
+                        <rect key="frame" x="45" y="15" width="133" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="dl0-Oi-ZJB"/>
                             <constraint firstAttribute="width" constant="133" id="xOg-gc-Fuc"/>
@@ -109,7 +110,7 @@
                     <constraint firstItem="mcN-WN-JKV" firstAttribute="top" secondItem="6cj-JF-kPS" secondAttribute="bottom" constant="15" id="6KB-3a-Xhl"/>
                     <constraint firstItem="9FN-G3-tHX" firstAttribute="trailing" secondItem="JMo-13-jlr" secondAttribute="trailing" id="7p9-8D-9nw"/>
                     <constraint firstItem="rWP-pa-utE" firstAttribute="top" secondItem="u3v-SX-Oqf" secondAttribute="top" constant="15" id="BUz-on-aSR"/>
-                    <constraint firstItem="m2k-V3-G9T" firstAttribute="leading" secondItem="rWP-pa-utE" secondAttribute="trailing" constant="2" id="DpG-JB-QZK"/>
+                    <constraint firstItem="m2k-V3-G9T" firstAttribute="leading" secondItem="rWP-pa-utE" secondAttribute="trailing" id="DpG-JB-QZK"/>
                     <constraint firstItem="6cj-JF-kPS" firstAttribute="top" secondItem="m2k-V3-G9T" secondAttribute="bottom" constant="10" id="Fad-4Z-wLR"/>
                     <constraint firstItem="9FN-G3-tHX" firstAttribute="leading" secondItem="mcN-WN-JKV" secondAttribute="trailing" constant="10" id="GJy-IB-PiM"/>
                     <constraint firstItem="rWP-pa-utE" firstAttribute="leading" secondItem="u3v-SX-Oqf" secondAttribute="leading" constant="15" id="I3I-ob-QBv"/>

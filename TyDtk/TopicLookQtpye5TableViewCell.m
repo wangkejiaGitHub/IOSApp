@@ -60,11 +60,13 @@
     NSInteger parentId = [dic[@"parentId"] integerValue];
     //一题多问下面的小题
     if (parentId != 0) {
-        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)、",index];
+        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labTopicNumber.textColor = [UIColor orangeColor];
+        _labNumberWidth.constant = _labTopicNumber.text.length*10;
     }
-    
-    _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
+    else{
+        _labNumberWidth.constant = _labTopicNumber.text.length*10+10;
+    }
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     ////试题标题

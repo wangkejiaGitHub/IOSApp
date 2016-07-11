@@ -230,7 +230,7 @@
     [attriTitle addAttribute:NSFontAttributeName value:titleFont
                        range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length ,5+[NSString stringWithFormat:@"%ld",[dicHeader[@"Quantity"] integerValue]].length)];
     
-    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 10 - 60, view.frame.size.height)];
+    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 10 - 60 - 20, view.frame.size.height)];
     //    labText.text = dicHeader[@"Names"];
     labText.numberOfLines = 0;
     labText.font = [UIFont systemFontOfSize:14.0];
@@ -239,11 +239,14 @@
     [view addSubview:labText];
     
     UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDoTopic.frame = CGRectMake(Scr_Width - 60, 0, 60, 45);
+    btnDoTopic.frame = CGRectMake(Scr_Width - 55, 12.5, 50, 20);
+    btnDoTopic.layer.masksToBounds = YES;
+    btnDoTopic.layer.cornerRadius = 3;
+    btnDoTopic.backgroundColor = ColorWithRGB(200, 200, 200);
     [btnDoTopic setTitle:@"做题" forState:UIControlStateNormal];
     btnDoTopic.tag = 1000 +section;
-    btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:15.0];
-    [btnDoTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+    btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    [btnDoTopic setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     [btnDoTopic addTarget:self action:@selector(btnDoTopicClick:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:btnDoTopic];
     return view;

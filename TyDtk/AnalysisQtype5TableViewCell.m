@@ -44,27 +44,30 @@
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     _dicTopic = dic;
     _indexTopic = index;
-
+ NSLog(@"5555555555555555555555555");
     NSString *topicTitle = dic[@"title"];
     //题目
-    UILabel *labTest = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 30, 30)];
-    labTest.numberOfLines = 0;
-    labTest.font = [UIFont systemFontOfSize:17.0];
-    if (Scr_Width > 320) {
-        labTest.font = [UIFont systemFontOfSize:19.0];
-    }
-    labTest.text = topicTitle;
+//    UILabel *labTest = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 30, 30)];
+//    labTest.numberOfLines = 0;
+//    labTest.font = [UIFont systemFontOfSize:17.0];
+//    if (Scr_Width > 320) {
+//        labTest.font = [UIFont systemFontOfSize:19.0];
+//    }
+//    labTest.text = topicTitle;
     //试题编号
     _labTopicNumber.text = [NSString stringWithFormat:@"%ld、",index];
     //判断是否为一题多问下面的简答题
     NSInteger parentId = [dic[@"parentId"] integerValue];
     //一题多问下面的小题
     if (parentId != 0) {
-        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)、",index];
+        _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labTopicNumber.textColor = [UIColor orangeColor];
+        _labNumberWidth.constant = _labTopicNumber.text.length*10;
     }
-    
-    _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
+    else{
+        _labNumberWidth.constant = _labTopicNumber.text.length*10+10;
+    }
+
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
     /////////试题标题
@@ -116,6 +119,7 @@
             _buttonCollectWidth.constant = 40;
         }
     }
+    NSLog(@"5555555555555555555555555");
 }
 //笔记按钮
 - (IBAction)buttonNoteClick:(UIButton *)sender {

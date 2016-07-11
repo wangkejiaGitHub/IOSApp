@@ -1,11 +1,10 @@
 //
 //  LoginUser.m
 //  TyDtk
-//
+//  登录，→ 测试登录超时
 //  Created by 天一文化 on 16/7/7.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
-
 #import "LoginUser.h"
 @implementation LoginUser
 -(void)LoginAppWithAccount:(NSString *)account password:(NSString *)pwd{
@@ -15,7 +14,7 @@
         NSInteger codeUser = [dic[@"code"] integerValue];
         NSDictionary *dicUser = dic[@"datas"];
         if (codeUser == 1) {
-            [SVProgressHUD showSuccessWithStatus:@"登录成功"];
+            //[SVProgressHUD showSuccessWithStatus:@"登录成功"];
             NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
             NSDictionary *dicAccount = @{@"acc":account,@"pwd":pwd};
             [tyUser setObject:dicAccount forKey:tyUserAccount];
@@ -62,7 +61,12 @@
     }];
 }
 
-///第一次登录且一选过科目,用当前选过的科目进行授权，保证用户中心显示用户信息
+/**
+ 用于授权
+ 1.第一次登录且已经选过科目（tyUserSelectSubject 有对象存在）,用当前选过的科目进行授权,
+ 保证用户中心显示的相关信息是当前科目的相关信息
+ 2.用默认科目授权
+ */
 - (void)empFirstComeAppWithUserId:(NSString *)userId userCode:(NSString *)user{
     CustomTools *tools = [[CustomTools alloc]init];
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];

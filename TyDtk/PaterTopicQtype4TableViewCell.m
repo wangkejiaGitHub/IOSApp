@@ -9,15 +9,11 @@
 #import "PaterTopicQtype4TableViewCell.h"
 @interface PaterTopicQtype4TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
 @property (nonatomic,strong) NSUserDefaults *tyUser;
-//??????????????????????????????????????????????????????
-@property (weak, nonatomic) UIScrollView *scrollView;
-@property (weak, nonatomic) UIImageView *lastImageView;
-@property (nonatomic, assign)CGRect originalFrame;
-@property (nonatomic, assign)BOOL isDoubleTap;
-
-@property (nonatomic,strong) UIImageView *selectTapView;
-//??????????????????????????????????????????????????????
 @property (nonatomic,assign) CGFloat viewImageOy;
+
+@property (nonatomic,strong) NSMutableArray *arrayImgUrl;
+//选项按钮起点坐标
+@property (nonatomic,assign) CGFloat buttonOrginY;
 @end
 @implementation PaterTopicQtype4TableViewCell
 
@@ -29,122 +25,85 @@
     _buttonCollect.layer.cornerRadius = 2;
     _webViewTitle.backgroundColor = [UIColor clearColor];
     _webViewTitle.scrollView.scrollEnabled = NO;
+    _webViewTitle.delegate = self;
     _webViewTitle.opaque = NO;
-    
     _tyUser = [NSUserDefaults standardUserDefaults];
+    _textViewAnswer.layer.masksToBounds = YES;
+    _textViewAnswer.layer.cornerRadius = 3;
+    _textViewAnswer.layer.borderWidth = 1;
+    _textViewAnswer.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    _textViewAnswer.backgroundColor = [UIColor clearColor];
 }
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-    CGFloat allowRet = 0;
-    //判断视图是否有图片
-    NSDictionary *dicImg = dic[@"ImageDictionary"];
+- (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
+    _indexTopic = index;
+    _dicTopic = dic;
+//    NSInteger qtypeTopic = [dic[@"qtype"] integerValue];
     NSString *topicTitle = dic[@"title"];
-    topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"\n" withString:@"<br/>"];
-    if (dicImg.allKeys.count>0) {
-        NSString *keysFirst = [NSString stringWithFormat:@"[%@]",[dicImg.allKeys firstObject]];
-        NSRange ranFirst = [topicTitle rangeOfString:keysFirst];
-        NSString *keysLast = [NSString stringWithFormat:@"[%@]",[dicImg.allKeys lastObject]];
-        NSRange ranLast = [topicTitle rangeOfString:keysLast];
-        topicTitle = [topicTitle stringByReplacingCharactersInRange:NSMakeRange(ranFirst.location, ranLast.location - ranFirst.location + keysLast.length) withString:@""];
-    }
-    
-    ///////////////////////////////
-    //题目
-    UILabel *labTest = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, Scr_Width - 30, 30)];
-    labTest.numberOfLines = 0;
-    labTest.font = [UIFont systemFontOfSize:17.0];
-    if (Scr_Width > 320) {
-        labTest.font = [UIFont systemFontOfSize:19.0];
-    }
-    labTest.text = topicTitle;
-    
     //试题编号
     _labNumber.text = [NSString stringWithFormat:@"%ld、",index];
     //判断是否为一题多问下面的简答题
     NSInteger parentId = [dic[@"parentId"] integerValue];
+    _buttonOrginY = _buttonOy;
     //一题多问下面的小题
     if (parentId != 0) {
-        _labNumber.text = [NSString stringWithFormat:@"(%ld)、",index];
+        _buttonOrginY = _buttonSubOy;
+        _labNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labNumber.textColor = [UIColor orangeColor];
-    }
-    
-    _labNumberWidth.constant = _labNumber.text.length*10+10;
-    //试题类型
-    _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
-    CGSize labSize = [labTest sizeThatFits:CGSizeMake(labTest.frame.size.width, MAXFLOAT)];
-    [_webViewTitle loadHTMLString:topicTitle baseURL:nil];
-    _webViewTitleHeight.constant = labSize.height;
-    _webViewTitleHeight.constant = _webViewTitleHeight.constant + 50;
-    allowRet = _webViewTitleHeight.constant + 50 +20;
-    /// 如果试题有图片，就加载图片显示
-    ////////////////////////////////////////////
-    //防止图片试图复用时重复加载
-    for (id subView in self.contentView.subviews) {
-        if ([subView isKindOfClass:[UIView class]]) {
-            UIView *vvv = (UIView *)subView;
-            if (vvv.tag == 6666) {
-                [vvv removeFromSuperview];
-            }
-        }
-    }
-    
-    //用于展示图片的view层
-    UIView *viewImage =[[UIView alloc]initWithFrame:CGRectMake(15, 0, Scr_Width-30, 50)];
-    viewImage.backgroundColor =[UIColor clearColor];
-    viewImage.tag = 6666;
-    /**
-     有关cell的高 viewImgsH
-     */
-    CGFloat viewImgsH = 0;
-    
-    if (dicImg.allKeys.count>0) {
-        for (NSString *keyImg in dicImg.allKeys) {
-            NSString *imagUrl = dicImg[keyImg];
-            __block UIImage *imageTop = [[UIImage alloc]init];
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            
-            [manager downloadImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsKaoLaTopicImg,imagUrl]] options:SDWebImageRetryFailed progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                imageTop = image;
-                //如果是第一次加载，再次刷新ui让图片显示出来
-                if (parentId == 0) {
-                    if (_isFirstLoad) {
-                        [self.delegateCellClick IsFirstload:NO];
-                    }
-                }
-                
-            }];
-            
-            CGSize sizeImg = imageTop.size;
-            
-            if (sizeImg.width>Scr_Width - 30) {
-                CGFloat wHBL = sizeImg.height/sizeImg.width;
-                sizeImg.width = Scr_Width-30;
-                sizeImg.height = (Scr_Width-30)*wHBL;
-            }
-            UIImageView *imgViewTop = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewImgsH, sizeImg.width, sizeImg.height)];
-            imgViewTop.image = imageTop;
-            //??????????????????????????????
-            UITapGestureRecognizer *tapImage = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showZoomImageView:)];
-            imgViewTop.userInteractionEnabled = YES;
-            [imgViewTop addGestureRecognizer:tapImage];
-            //??????????????????????????????
-            [viewImage addSubview:imgViewTop];
-            viewImgsH = viewImgsH+sizeImg.height;
-        }
-        viewImage.frame = CGRectMake(15, allowRet - 10, Scr_Width - 30, viewImgsH);
-        _viewImageOy = viewImage.frame.origin.y;
-        [self.contentView addSubview:viewImage];
-        allowRet = allowRet + viewImgsH + 30;
+        _labNumberWidth.constant = _labNumber.text.length*10;
     }
     else{
-        viewImage = nil;
+        _labNumberWidth.constant = _labNumber.text.length*10+10;
     }
     
+    //试题类型（单选，多选）
+    _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
+    topicTitle = [topicTitle stringByReplacingOccurrencesOfString:@"/tiku/common/getAttachment" withString:[NSString stringWithFormat:@"%@/tiku/common/getAttachment",systemHttpsKaoLaTopicImg]];
+    NSString *htmlString = [NSString stringWithFormat:@"<html><body><div id='conten' contenteditable='false' style='word-break:break-all;'>%@</div></body></html>",topicTitle];
+    [_webViewTitle loadHTMLString:htmlString baseURL:nil];
+    
+    /////////////进度节点///////////////////////////////
+    /////////////删除button 防止复用////////////////////
+    for (id subView in self.contentView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)subView;
+            if (btn.tag == 2222) {
+                [btn removeFromSuperview];
+            }
+        }
+    }
+    ///////////////////////////////////////////////
+    //是否有做过的试题，防止cell复用的时候做过的试题标记消失
+    
+    if (dic[@"userAnswer"]) {
+        _textViewAnswer.text = dic[@"userAnswer"];
+    }
+    
+    NSString *indexString = [NSString stringWithFormat:@"%ld",index];
+    if ([_dicSelectDone.allKeys containsObject:indexString]) {
+        NSString *selectString = _dicSelectDone[indexString];
+        _textViewAnswer.text = selectString;
+    }
+
+    /////////////////////////////////////////
+    UIButton *btnSubmit = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnSubmit.frame = CGRectMake((Scr_Width - 133)/2, _buttonOrginY+115, 133, 23);
+    [btnSubmit setTitle:@"保存答案跳转下一题" forState:UIControlStateNormal];
+    btnSubmit.tag = 2222;
+    if (_isLastTopic) {
+        [btnSubmit setTitle:@"保存答案" forState:UIControlStateNormal];
+    }
+    btnSubmit.layer.masksToBounds = YES;
+    btnSubmit.layer.cornerRadius = 3;
+    btnSubmit.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    btnSubmit.titleLabel.font = [UIFont systemFontOfSize:12.0];
+    [btnSubmit setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+    [btnSubmit addTarget:self action:@selector(buttonSubmit:) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:btnSubmit];
+
     //最后分别添加笔记和纠错按钮
     //添加笔记按钮
     UIButton *buttonNotes = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonNotes.frame = CGRectMake(Scr_Width - 75, allowRet - 5, 60, 23);
+    buttonNotes.frame = CGRectMake(Scr_Width - 75, _buttonOrginY + 115, 60, 23);
     buttonNotes.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonNotes.layer.masksToBounds = YES;
     buttonNotes.layer.cornerRadius = 2;
@@ -153,12 +112,12 @@
     [buttonNotes setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
     buttonNotes.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonNotes setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    buttonNotes.tag = 1111;
+    buttonNotes.tag = 2222;
     [buttonNotes addTarget:self action:@selector(buttonNotesClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:buttonNotes];
     //添加纠错按钮
     UIButton *buttonError = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonError.frame = CGRectMake(15, allowRet - 5, 60, 23);
+    buttonError.frame = CGRectMake(15, _buttonOrginY + 115, 60, 23);
     buttonError.backgroundColor = ColorWithRGB(200, 200, 200);
     buttonError.layer.masksToBounds = YES;
     buttonError.layer.cornerRadius = 2;
@@ -167,12 +126,27 @@
     [buttonError setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 25)];
     buttonError.titleLabel.font = [UIFont systemFontOfSize:15.0];
     [buttonError setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    buttonError.tag = 1111;
+    buttonError.tag = 2222;
     [buttonError addTarget:self action:@selector(buttonErrorClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:buttonError];
-    allowRet = allowRet + 40;
     self.backgroundColor = [UIColor clearColor];
     _dicTopic = dic;
+    
+    //判断是否是最一题，给用户提示
+    if (_isLastTopic) {
+        UIButton *btnLastTopic =[UIButton buttonWithType:UIButtonTypeCustom];
+        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 115 + 30, 100, 23);
+        btnLastTopic.tag = 1111;
+        btnLastTopic.backgroundColor =ColorWithRGB(200, 200, 200);
+        btnLastTopic.layer.masksToBounds = YES;
+        btnLastTopic.layer.cornerRadius = 2;
+        btnLastTopic.titleLabel.font = [UIFont systemFontOfSize:12.0];
+        [btnLastTopic setTitle:@"已是最后一题了" forState:UIControlStateNormal];
+        [btnLastTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+        [self.contentView addSubview:btnLastTopic];
+        
+    }
+    
     //判断是否已经收藏试题
     NSInteger collectId = [dic[@"collectId"] integerValue];
     //已收藏
@@ -200,14 +174,37 @@
         }
         
     }
-    
-    //判断是否已经做过该题
-    if ([_dicSelectDone.allKeys containsObject:[NSString stringWithFormat:@"%ld",index]]) {
-        NSString *textString = _dicSelectDone[[NSString stringWithFormat:@"%ld",index]];
-        _textViewAnswer.text = textString;
+
+}
+//保存答案按钮
+- (void)buttonSubmit:(UIButton *)sender{
+    //????????????????????????????????????
+    //添加已经选过的选项数组
+    NSString *textViewString = sender.titleLabel.text;
+    //        [_arraySelectDone removeAllObjects];
+    //        [_arraySelectDone addObject:btnString];
+    [_dicSelectDone setValue:textViewString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
+    NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:textViewString};
+    [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
+    //////////////////////////////////////
+    //////////////////////////////////////
+    //判断是否是一题多问下面的选择题
+    NSInteger topicParentId = [_dicTopic[@"parentId"] integerValue];
+    BOOL isRefresh = NO;
+    if (topicParentId == 0) {
+        isRefresh = YES;
     }
-    
-    return allowRet;
+    //试题Id
+    NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
+    //试题类型
+    NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
+    //正确答案
+    NSString *answer = _dicTopic[@"answer"];
+    //用户答案
+    NSString *userAnswer = _textViewAnswer.text;
+    NSInteger score = [_dicTopic[@"score"] integerValue];
+    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"Score":[NSString stringWithFormat:@"%ld",score],@"trueAnswer":answer};
+    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
 }
 //收藏按钮
 - (IBAction)buttonCollectClick:(UIButton *)sender {
@@ -309,116 +306,89 @@
     [self.delegateCellClick saveNotesOrErrorClick:questionId executeParameter:0];
 }
 
-//??????????????????????????????????????????????????
--(void)showZoomImageView:(UITapGestureRecognizer *)tap{
-    if (![(UIImageView *)tap.view image]) {
-        return;
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    //这里是js，主要目的实现对url的获取
+    static  NSString * const jsGetImages =
+    @"function getImages(){\
+    var objs = document.getElementsByTagName(\"img\");\
+    var imgScr = '';\
+    for(var i=0;i<objs.length;i++){\
+    imgScr = imgScr + objs[i].src + '+';\
+    };\
+    return imgScr;\
+    };";
+    
+    [webView stringByEvaluatingJavaScriptFromString:jsGetImages];//注入js方法
+    NSString *urlResurlt = [webView stringByEvaluatingJavaScriptFromString:@"getImages()"];
+    _arrayImgUrl = [NSMutableArray arrayWithArray:[urlResurlt componentsSeparatedByString:@"+"]];
+    if (_arrayImgUrl.count >= 2) {
+        [_arrayImgUrl removeLastObject];
     }
-    _selectTapView = (UIImageView *)tap.view;
-    //scrollView作为背景
-    UIScrollView *bgView = [[UIScrollView alloc] init];
-    bgView.frame = [UIScreen mainScreen].bounds;
-    bgView.backgroundColor = [UIColor blackColor];
-    UITapGestureRecognizer *tapBg = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBgView:)];
-    UILongPressGestureRecognizer *tapmy = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longGestTap:)];
-    tapmy.minimumPressDuration = 1.0;
-    tapmy.numberOfTouchesRequired = 1;
-    [bgView addGestureRecognizer:tapmy];
-    [bgView addGestureRecognizer:tapBg];
-    UIImageView *picView = (UIImageView *)tap.view;
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.image = picView.image;
-    imageView.frame = [bgView convertRect:picView.frame fromView:self.contentView];
-    CGRect rectImg = imageView.frame;
-    rectImg.origin.y = rectImg.origin.y + _viewImageOy;
-    rectImg.origin.x = 15.0;
-    imageView.frame = rectImg;
-    [bgView addSubview:imageView];
-    [[[UIApplication sharedApplication] keyWindow] addSubview:bgView];
-    self.lastImageView = imageView;
-    self.originalFrame = imageView.frame;
-    self.scrollView = bgView;
-    //最大放大比例
-    self.scrollView.maximumZoomScale = 1.5;
-    self.scrollView.delegate = self;
+    //mUrlArray就是所有Url的数组
+    //添加图片可点击js
+    [webView stringByEvaluatingJavaScriptFromString:@"function registerImageClickAction(){\
+     var imgs=document.getElementsByTagName('img');\
+     var length=imgs.length;\
+     for(var i=0;i<length;i++){\
+     img=imgs[i];\
+     img.onclick=function(){\
+     window.location.href='image-preview:'+this.src}\
+     }\
+     }"];
+    [webView stringByEvaluatingJavaScriptFromString:@"registerImageClickAction();"];
+    NSString *imgS = [NSString stringWithFormat:@"var script = document.createElement('script');"
+                      "script.type = 'text/javascript';"
+                      "script.text = \"function ResizeImages() { "
+                      "var myimg,oldwidth,oldheight;"
+                      "var maxwidth=%f;"// 图片宽度(屏宽)
+                      "for(i=0;i <document.images.length;i++){"
+                      "myimg = document.images[i];"
+                      //判断webview上的图片是否超过屏宽，进行适配
+                      "if(myimg.width > maxwidth){"
+                      "myimg.width = maxwidth - 50;"
+                      "}"
+                      "}"
+                      "}\";"
+                      "document.getElementsByTagName('head')[0].appendChild(script);",Scr_Width];
+    [webView stringByEvaluatingJavaScriptFromString:imgS];
+    [webView stringByEvaluatingJavaScriptFromString:@"ResizeImages();"];
     
-    [UIView animateWithDuration:0.5 animations:^{
-        CGRect frame = imageView.frame;
-        frame.size.width = bgView.frame.size.width;
-        frame.size.height = frame.size.width * (imageView.image.size.height / imageView.image.size.width);
-        frame.origin.x = 0;
-        frame.origin.y = (bgView.frame.size.height - frame.size.height) * 0.5;
-        imageView.frame = frame;
-    }];
+    CGFloat documentHeight = [[webView stringByEvaluatingJavaScriptFromString:@"document.getElementById(\"conten\").offsetHeight;"] floatValue];
+    //    webView.frame = CGRectMake(15, 50, Scr_Width - 30, documentHeight + 20);
+    CGFloat cellHeightL = _webViewTitle.frame.origin.y + documentHeight;
+    NSInteger dicpaperId = [_dicTopic[@"parentId"] integerValue];
+    ////////////////////////////////////////////////////////////
+    //获取页面高度（像素）
+    NSString * clientheight_str = [webView stringByEvaluatingJavaScriptFromString: @"document.body.offsetHeight"];
+    float clientheight = [clientheight_str floatValue];
+    //设置到WebView上
+    webView.frame = CGRectMake(15, 50, Scr_Width - 30, clientheight);
+    //获取WebView最佳尺寸（点）
+    CGSize frame = [webView sizeThatFits:webView.frame.size];
+    //获取内容实际高度（像素）
+    NSString * height_str= [webView stringByEvaluatingJavaScriptFromString: @"document.getElementById('conten').offsetHeight + parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('margin-top'))  + parseInt(window.getComputedStyle(document.getElementsByTagName('body')[0]).getPropertyValue('margin-bottom'))"];
+    float height = [height_str floatValue];
+    //内容实际高度（像素）* 点和像素的比
+    height = height * frame.height / clientheight;
+    //再次设置WebView高度（点）
+    //    webView.frame = CGRectMake(15, 50, Scr_Width - 30, height);
+    _webViewTitleHeight.constant = height;
+    cellHeightL = _webViewTitle.frame.origin.y+height;
+    //    CGFloat cellHeightLL = _webViewTitle.frame.origin.y + height;
+    ////////////////////////////////////////////////////////////
     
-    if (![_tyUser objectForKey:tyUserShowSaveImgAlert]) {
-        LXAlertView *alertIms = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"长按图片可将图片保存到手机相册哦" cancelBtnTitle:@"我知道了" otherBtnTitle:@"不在提醒" clickIndexBlock:^(NSInteger clickIndex) {
-            if (clickIndex == 1) {
-                [_tyUser setObject:@"yes" forKey:tyUserShowSaveImgAlert];
-            }
-        }];
-        alertIms.animationStyle = LXASAnimationLeftShake;
-        [alertIms showLXAlertView];
+    if (dicpaperId == 0) {
+        if (_isWebFirstLoading) {
+            //非小题试题二次刷新
+            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL + 230 withButtonOy:cellHeightL + 50];
+        }
     }
-    
-    
-}
-
--(void)tapBgView:(UITapGestureRecognizer *)tapBgRecognizer{
-    self.scrollView.contentOffset = CGPointZero;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.lastImageView.frame = self.originalFrame;
-        tapBgRecognizer.view.backgroundColor = [UIColor clearColor];
-    } completion:^(BOOL finished) {
-        [tapBgRecognizer.view removeFromSuperview];
-        self.scrollView = nil;
-        self.lastImageView = nil;
-    }];
-}
-//长按保存图片
-- (void)longGestTap:(UILongPressGestureRecognizer *)longTap{
-    if (longTap.state == UIGestureRecognizerStateBegan) {
-        [_scrollView removeFromSuperview];
-//        [self.delegateCellClick imageSaveQtype1Test:_selectTapView.image];
+    else{
+        //小题试题二次刷新
+        if (![_arrayFirstLoading containsObject:[NSString stringWithFormat:@"%ld",_indexTopic]]) {
+            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL +230 withButtonOy:cellHeightL +50 withIndex:_indexTopic];
+        }
     }
-    
-}
-//返回可缩放的视图
--(UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
-{
-    return self.lastImageView;
-}
-- (void)webViewDidStartLoad:(UIWebView *)webView{
-    _webViewTitleHeight.constant = webView.scrollView.contentSize.height;
-}
-
-//保存答案按钮
-- (IBAction)buttonSaveAnswerClick:(UIButton *)sender {
-    //????????????????????????????????????
-    //添加已经选过的选项数组
-    NSString *answerString = _textViewAnswer.text;
-    //    [_dicSelectDone setValue:answerString forKey:[NSString stringWithFormat:@"%ld",_indexTopic]];
-    NSDictionary *dicTest = @{[NSString stringWithFormat:@"%ld",_indexTopic]:answerString};
-    [self.delegateCellClick saveUserAnswerUseDictonary:dicTest];
-    
-    //////////////////////////////////////
-    //判断是否是一题多问下面的选择题
-    NSInteger topicParentId = [_dicTopic[@"parentId"] integerValue];
-    BOOL isRefresh = NO;
-    if (topicParentId == 0) {
-        isRefresh = YES;
-    }
-    
-    //试题Id
-    NSString *questionId =[NSString stringWithFormat:@"%ld",[_dicTopic[@"questionId"] integerValue]];
-    //试题类型
-    NSString *qtype =[NSString stringWithFormat:@"%ld",[_dicTopic[@"qtype"] integerValue]];
-    //正确答案
-    NSString *answer = _dicTopic[@"answer"];
-    
-    NSDictionary *dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":answerString,@"TrueAnswer":answer,@"Score":@"0"};
-    [self.delegateCellClick topicCellSelectClickTest:_indexTopic selectDone:dicUserAnswer isRefresh:isRefresh];
-    
 }
 //主要处理试题中的图片问题
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
@@ -427,11 +397,13 @@
         NSString *path = [request.URL.absoluteString substringFromIndex:[@"image-preview:" length]];
         //path 就是被点击图片的url
         NSLog(@"%@",path);
-        
+        NSInteger imageClickIndex = [_arrayImgUrl indexOfObject:path];
+        [self.delegateCellClick imageTopicArray:_arrayImgUrl withImageIndex:imageClickIndex];
         return NO;
     }
     return YES;
 }
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

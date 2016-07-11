@@ -67,8 +67,8 @@
 }
 ///删除按钮
 - (IBAction)buttonDeleteExam:(UIButton *)sender {
-    LXAlertView *alert = [[LXAlertView alloc]initWithTitle:@"温馨提示" message:@"确定要删除吗？" cancelBtnTitle:@"取消" otherBtnTitle:@"删除" clickIndexBlock:^(NSInteger clickIndex) {
-        if (clickIndex == 1) {
+    LXAlertView *alert = [[LXAlertView alloc]initWithTitle:@"考试删除" message:@"确定要删除该考试信息吗？" cancelBtnTitle:@"删除" otherBtnTitle:@"保留" clickIndexBlock:^(NSInteger clickIndex) {
+        if (clickIndex == 0) {
             [self deleteExam];
         }
     }];
