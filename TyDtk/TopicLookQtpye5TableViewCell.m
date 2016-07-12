@@ -63,9 +63,11 @@
         _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labTopicNumber.textColor = [UIColor orangeColor];
         _labNumberWidth.constant = _labTopicNumber.text.length*10;
+         _labTopicNumber.font = [UIFont systemFontOfSize:13.0];
     }
     else{
-        _labNumberWidth.constant = _labTopicNumber.text.length*10+10;
+        _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
+         _labTopicNumber.font = [UIFont systemFontOfSize:15.0];
     }
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
@@ -270,13 +272,13 @@
     if (dicpaperId == 0) {
         if (_isWebFirstLoading) {
             //非小题试题二次刷新
-            [self.delegateAnalysisCellClick isWebLoadingCellHeight:cellHeightL + 123 withButtonOy:cellHeightL];
+            [self.delegateAnalysisCellClick isWebLoadingCellHeight:cellHeightL + 133 withButtonOy:cellHeightL];
         }
     }
     else{
         //小题试题二次刷新
         if (![_arrayFirstLoading containsObject:[NSString stringWithFormat:@"%ld",_indexTopic]]) {
-            [self.delegateAnalysisCellClick isWebLoadingCellHeight:cellHeightL +123 withButtonOy:cellHeightL withIndex:_indexTopic];
+            [self.delegateAnalysisCellClick isWebLoadingCellHeight:cellHeightL +133 withButtonOy:cellHeightL withIndex:_indexTopic];
         }
     }
     

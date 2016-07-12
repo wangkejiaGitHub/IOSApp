@@ -47,7 +47,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imageViewTapAction)] ;
     [self.imageView addGestureRecognizer:tap] ;
     UILongPressGestureRecognizer *longGest = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longSaveImage:)];
-    longGest.minimumPressDuration = 0.8;
+    longGest.minimumPressDuration = 1.0;
     [self.imageView addGestureRecognizer:longGest];
 }
 

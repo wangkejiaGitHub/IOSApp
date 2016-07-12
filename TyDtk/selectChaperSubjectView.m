@@ -112,12 +112,13 @@
     [view addSubview:button];
     /////
     UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDoTopic.frame = CGRectMake(Scr_Width - 20 - 55, 12.5, 50, 20);
+    btnDoTopic.frame = CGRectMake(Scr_Width - 20 - 55, 11, 50, 23);
     btnDoTopic.layer.masksToBounds = YES;
     btnDoTopic.layer.cornerRadius = 3;
     btnDoTopic.backgroundColor = ColorWithRGB(200, 200, 200);
     [btnDoTopic setTitle:@"做题" forState:UIControlStateNormal];
-//    btnDoTopic.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    btnDoTopic.layer.borderWidth = 1;
+    btnDoTopic.layer.borderColor = [ColorWithRGBWithAlpp(0, 0, 0, 0.3) CGColor];
     [btnDoTopic setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:14.0];
     [btnDoTopic addTarget:self action:@selector(BtnDoTopicClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -133,7 +134,7 @@
     UIFont *titleFont = [UIFont systemFontOfSize:12.0];
     [attriTitle addAttribute:NSFontAttributeName value:titleFont
                        range:NSMakeRange([NSString stringWithFormat:@"%@",dicHeader[@"Names"]].length ,5+[NSString stringWithFormat:@"%ld",[dicHeader[@"Quantity"] integerValue]].length)];
-    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 20 - 50, view.frame.size.height)];
+    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 20 - 50 - 20, view.frame.size.height)];
     labText.numberOfLines = 0;
     labText.font = [UIFont systemFontOfSize:13.0];
         [labText setAttributedText:attriTitle];
@@ -191,12 +192,23 @@
     for (id subView in cell.contentView.subviews) {
         [subView removeFromSuperview];
     }
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(25, (50-8)/2, 8, 8)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(25, (50-9)/2, 9, 9)];
     view.backgroundColor = ColorWithRGB(90, 144, 266);
     view.layer.masksToBounds = YES;
-    view.layer.cornerRadius = 4;
+    view.layer.cornerRadius = 4.5;
     [cell.contentView addSubview:view];
-    
+    if (arrayData.count > 1) {
+        UIView *viewLY = [[UIView alloc]initWithFrame:CGRectMake(29, 0, 1, 50)];
+        if (indexPath.row == 0) {
+            viewLY.frame = CGRectMake(29, 25, 1, 25);
+        }
+        else if (indexPath.row == arrayData.count - 1){
+            viewLY.frame = CGRectMake(29, 0, 1, 25);
+        }
+        viewLY.backgroundColor = ColorWithRGB(90, 144, 266);
+        [cell.contentView addSubview:viewLY];
+
+    }
     NSString *titleString = [NSString stringWithFormat:@"%@（总共%ld题）",dic[@"Names"],[dic[@"Quantity"] integerValue]];
     //标题属性字符串
     NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];

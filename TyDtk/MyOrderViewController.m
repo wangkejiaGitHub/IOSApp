@@ -141,6 +141,7 @@
             }
             else{
                 [_viewMz removeFromSuperview];
+                [_tableViewOrder setEditing:NO animated:YES];
                 [SVProgressHUD showSuccessWithStatus:dicData[@"message"]];
             }
         }

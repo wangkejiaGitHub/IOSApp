@@ -51,22 +51,24 @@
     [_buttonTypeTopic setTitle:@"全部" forState:UIControlStateNormal];
     _topicModel = 0;
     _subjectId = 0;
+    _pageCurr = 1;
+    
+    
     NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
     [_buttonSubject setTitle:dicCurrSubject[@"Names"] forState:UIControlStateNormal];
     _buttonSubject.titleLabel.adjustsFontSizeToFitWidth = YES;
+    [_arrayExRe removeAllObjects];
+    [self viewLoad];
 }
 - (void)viewLoad{
     NSDictionary *dicSubject = [_tyUser objectForKey:tyUserClass];
     NSInteger classId = [dicSubject[@"Id"] integerValue];
-    [_arrayExRe removeAllObjects];
     [self getAllSubjectWithClass:classId];
 //    _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableViewRe.tableFooterView = [UIView new];
 }
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.tabBarController.tabBar.hidden = NO;
-    _pageCurr = 1;
-    [self viewLoad];
 }
 - (void)viewDidAppear:(BOOL)animated{
     //设置tableView的上拉控件

@@ -148,10 +148,9 @@
 - (void)getTopicAnalysisPaper{
     [SVProgressHUD showWithStatus:@"正在获取试题分析..."];
     ///模拟试卷模块的解析试题
-    //????????????????????????????????????????????
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
-    //????????????????????????????????????????????
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/278?access_token=%@&rid=%@",systemHttps,@"1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2",_rId];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/%ld?access_token=%@&rid=%@",systemHttps,_PaperId,_accessToken,_rId];
+    ///测试填空题的令牌
+//    NSString *urlString = [NSString stringWithFormat:@"%@api/Resolve/GetPaperResolveQuestions/278?access_token=%@&rid=%@",systemHttps,@"1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2",_rId];
     
     if (_paperAnalysisParameter != 2) {
         ///章节考点、每周精选、智能出题等板块的解析试题
@@ -398,7 +397,6 @@
 //    [attrTime addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(5,1)];
 //    [labTime setAttributedText:attrTime];
 //    [_viewAnalysis addSubview:labTime];
-    
     //如果是模拟试卷做题，添加得分
     if (_paperAnalysisParameter == 2) {
         ///得分

@@ -9,12 +9,15 @@
 #import "EditExamViewController.h"
 #import "MyExamViewController.h"
 @interface EditExamViewController ()<UITextFieldDelegate,UITextViewDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *labTitle;
 @property (weak, nonatomic) IBOutlet UITextField *textTime;
 @property (weak, nonatomic) IBOutlet UITextView *textViewRemark;
 @property (weak, nonatomic) IBOutlet UIButton *buttonDefult;
 @property (weak, nonatomic) IBOutlet UIButton *buttonReset;
 @property (weak, nonatomic) IBOutlet UIButton *buttonSave;
+@property (weak, nonatomic) IBOutlet UIView *viewLine;
+@property (weak, nonatomic) IBOutlet UIView *viewHeader;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewWidth;
+
 //时间选择器
 @property (nonatomic,strong) UIDatePicker *datePickerDate;
 //用于显示时间选择器的试图
@@ -23,6 +26,8 @@
 @property (nonatomic,strong) NSString *stringRemark;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSString *accessToken;
+
+@property (nonatomic ,assign) CGFloat rectH;
 @end
 
 @implementation EditExamViewController
@@ -34,6 +39,59 @@
   
     [self ViewLoad];
 }
+//View即将呈现(加载)
+- (void)viewWillAppear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    if (Scr_Height < 560) {
+        _textViewWidth.constant = 50;
+    }
+    NSLog(@"%f",Scr_Height);
+}
+//View即将消失或隐藏
+-(void)viewWillDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+
+///////////
+//键盘监听//
+//键盘出现//
+- (void)keyboardShow:(NSNotification *)note{
+    [self keyboardHide:nil];
+    NSDictionary *userInfo = [note userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    //键盘高度
+    CGFloat keyBoardHeight = keyboardRect.size.height;
+    CGFloat cH = Scr_Height - keyBoardHeight;
+    CGFloat textFoldH = _textViewRemark.frame.origin.y;
+    //如果键盘能够覆盖文本框，让试图向上移动
+    if (cH < (textFoldH + 40 + 69)) {
+        _rectH =(textFoldH + 40 + 69) - cH;
+        CGRect rect = self.view.frame;
+        rect.origin.y = rect.origin.y-_rectH -15;
+        [UIView animateWithDuration:0.2 animations:^{
+            self.view.frame = rect;
+        }];
+    }
+}
+///////////
+//键盘监听//
+//键盘消失//
+- (void)keyboardHide:(NSNotification *)note{
+    if (_rectH > 0) {
+        CGRect rect = self.view.frame;
+        rect.origin.y = rect.origin.y+_rectH +15;
+        [UIView animateWithDuration:0.2 animations:^{
+            self.view.frame = rect;
+        }];
+    }
+    _rectH = 0;
+}
+
+
 ///viewDidLoad
 - (void)ViewLoad{
     self.title = @"修改考试信息";
@@ -48,7 +106,23 @@
     _buttonReset.backgroundColor =[UIColor lightGrayColor];
     _buttonSave.layer.masksToBounds = YES;
     _buttonSave.layer.cornerRadius = 3;
-    _labTitle.text = [NSString stringWithFormat:@"(%@)",_dicExam[@"CourseName"]];
+    
+//    labChp.backgroundColor = ColorWithRGB(190, 200, 252);
+//    labChp.textAlignment = NSTextAlignmentCenter;
+//    labChp.textColor = ColorWithRGB(90, 144, 266);
+    
+    _viewLine.backgroundColor = ColorWithRGB(190, 200, 252);
+    NSString *examName = _dicExam[@"CourseName"];
+//    CGSize labSize = sizeWithStrinfLength(examName, 16.0, 20);
+    UILabel *labName = [[UILabel alloc]init];
+    labName.font = [UIFont systemFontOfSize:16.0];
+    labName.text = examName;
+    labName.backgroundColor = ColorWithRGB(190, 200, 252);
+    labName.textColor = ColorWithRGB(90, 144, 266);
+    labName.textAlignment = NSTextAlignmentCenter;
+    CGSize labSize = [labName sizeThatFits:CGSizeMake(MAXFLOAT, 20)];
+    labName.frame = CGRectMake(20, 28, labSize.width + 30, 30);
+    [_viewHeader addSubview:labName];
     NSString *time = _dicExam[@"ExamTime"];
     time = [time substringToIndex:10];
     _textTime.text = time;
@@ -72,6 +146,8 @@
     }
 
 }
+
+
 //添加手势按钮
 - (void)addTapGest{
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
@@ -94,7 +170,7 @@
         _viewDatePicker.layer.masksToBounds = YES;
         _viewDatePicker.layer.cornerRadius = 5;
         _viewDatePicker.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        _viewDatePicker.layer.borderWidth = 3;
+        _viewDatePicker.layer.borderWidth = 2;
         _datePickerDate = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 150)];
         _datePickerDate.backgroundColor = [UIColor clearColor];
         _datePickerDate.datePickerMode = UIDatePickerModeDate;

@@ -118,14 +118,9 @@
         }
     }
     else{
-        if (_qType ==1 | _qType == 2 | _qType == 3 | _qType == 5) {
+        if (_qType ==1 | _qType == 2 | _qType == 3 | _qType == 5 | _qType == 4) {
             return _cellWebLoadingheight;
         }
-        //?????????
-        if (_qType == 4) {
-            return 100;
-        }
-        //?????????
         return _cellHeight = 50;
     }
 }
@@ -179,6 +174,15 @@
     }
     else if (_qType == 4){
         AnalysisQtype4TableViewCell *cell4 = [[[NSBundle mainBundle] loadNibNamed:@"AnalysisQtype4TableViewCell" owner:self options:nil]lastObject];
+        cell4.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell4.dicTopic = _dicTopic;
+        cell4.topicType = _qType;
+        cell4.indexTopic = _topicIndex;
+        cell4.isFirstLoad = _isFirstLoad;
+        cell4.isWebFirstLoading = _isWebFirstLoading;
+        cell4.buttonOy = _buttonOy;
+        cell4.delegateAnalysisCellClick = self;
+        [cell4 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell4;
     }
     else if (_qType == 5){
@@ -193,7 +197,6 @@
         cell5.isFirstLoad = _isFirstLoad;
         cell5.isWebFirstLoading = _isWebFirstLoading;
         cell5.buttonOy = _buttonOy;
-
         cell5.delegateAnalysisCellClick = self;
         [cell5 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell5;

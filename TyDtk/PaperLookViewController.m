@@ -9,6 +9,7 @@
 #import "PaperLookViewController.h"
 #import "TopicLookQtpye1TableViewCell.h"
 #import "TopicLookQtype3TableViewCell.h"
+#import "TopicLookQtype4TableViewCell.h"
 #import "TopicLookQtpye5TableViewCell.h"
 #import "TopicLookQtpye6TableViewCell.h"
 #import "ImageEnlargeViewController.h"
@@ -106,7 +107,7 @@
         }
     }
     else{
-        if (_qType ==1 | _qType == 2 | _qType == 5) {
+        if (_qType ==1 | _qType == 2 | _qType == 5 | _qType == 3 | _qType == 4) {
             return _cellWebLoadingheight;
         }
         return _cellHeight = 50;
@@ -145,6 +146,24 @@
         [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
         return cell3;
         
+    }
+    else if (_qType == 4){
+        TopicLookQtype4TableViewCell *cell4 = (TopicLookQtype4TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicLookQtype4TableViewCell"];
+        if (cell4 == nil) {
+            cell4 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtype4TableViewCell" owner:self options:nil]lastObject];
+        }
+        cell4.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell4.dicTopic = _dicTopic;
+        cell4.topicType = _qType;
+        cell4.indexTopic = _topicIndex;
+        cell4.dicCollectDone = _dicUserCollectTopic;
+        cell4.isFirstLoad = _isFirstLoad;
+        cell4.isWebFirstLoading = _isWebFirstLoading;
+        cell4.delegateAnalysisCellClick = self;
+        [cell4 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
+        return cell4;
+
+
     }
     else if (_qType == 5){
         TopicLookQtpye5TableViewCell *cell5 = (TopicLookQtpye5TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicLookQtpye5TableViewCell"];
@@ -213,6 +232,24 @@
                 cell3.selectionStyle = UITableViewCellSelectionStyleNone;
                 [cell3 setvalueForCellModel:_dicTopic topicIndex:_topicIndex];
                 return cell3;
+            }
+            else if (_qType == 4){
+                TopicLookQtype4TableViewCell *cell4 = (TopicLookQtype4TableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"TopicLookQtype4TableViewCell"];
+                if (cell4 == nil) {
+                    cell4 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtype4TableViewCell" owner:self options:nil]lastObject];
+                }
+                cell4.delegateAnalysisCellClick = self;
+                cell4.dicCollectDone = _dicUserCollectTopic;
+                cell4.indexTopic = indexPath.row;
+                cell4.arrayFirstLoading = _arrayFirstLoading;
+                cell4.buttonSubOy = _buttonSubOy;
+                if ([_dicSubButtonSubOy.allKeys containsObject:[NSString stringWithFormat:@"%ld",indexPath.row]]) {
+                    cell4.buttonSubOy = [[_dicSubButtonSubOy valueForKey:[NSString stringWithFormat:@"%ld",indexPath.row]] floatValue];
+                }
+                
+                cell4.selectionStyle = UITableViewCellSelectionStyleNone;
+                [cell4 setvalueForCellModel:dicSubQues topicIndex:indexPath.row];
+                return cell4;
             }
             else{
                 TopicLookQtpye5TableViewCell *cell5 = [[[NSBundle mainBundle] loadNibNamed:@"TopicLookQtpye5TableViewCell" owner:self options:nil]lastObject];

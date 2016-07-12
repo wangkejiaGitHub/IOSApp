@@ -38,7 +38,7 @@
     _arrayImg1 = @[@"u_name",@"u_phone",@"u_emall"];
     _arrayListName2 = @[@"修改密码",@"退出登录"];
     _arrayImg2 = @[@"u_pwd",@"u_out"];
-//    [self updateTest];
+    [SVProgressHUD show];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [self getUserInfo];
@@ -50,6 +50,7 @@
 }
 ///获取用户信息回调
 - (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
+    [SVProgressHUD dismiss];
     ///成功获取信息
     if (msgPara == 1) {
         _dicUserInfo = dicUser;
@@ -102,11 +103,11 @@
                 imageVU.layer.cornerRadius = imageVU.frame.size.height/2;
                 imageVU.layer.borderWidth = 1;
                 imageVU.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-                if (![_dicUserInfo[@"headimg"]isEqual:[NSNull null]]) {
+                if (![_dicUserInfo[@"headImg"] isEqualToString:@""]) {
                     [imageVU sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,_dicUserInfo[@"headImg"]]]];
                 }
                 else{
-                    imageVU.image = [UIImage imageNamed:@"imgNullPer"];
+                    imageVU.image = [UIImage imageNamed:@"heardNilImg"];
                 }
                 
                 UIImageView *imgP = (UIImageView *)[cell.contentView viewWithTag:12];

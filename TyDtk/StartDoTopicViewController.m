@@ -118,9 +118,6 @@
         [_buttonSubPater setTitle:@"结束答题" forState:UIControlStateNormal];
         [self getIntelligentPaperData];
     }
-    
-    
-//    [self addTapGest];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -195,15 +192,18 @@
  */
 - (void)getPaterDatas{
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
-//    NSInteger paterId = [_dicPater[@"Id"] integerValue];
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
-//    //判断是否是继续做题，如果是，rid有值
-//    if (_ridContinue.length > 0) {
-//        urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&rid=%@",_ridContinue]];
-//    }
+    NSInteger paterId = [_dicPater[@"Id"] integerValue];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPaperQuestions/%ld?access_token=%@",systemHttps,paterId,_accessToken];
+    //判断是否是继续做题，如果是，rid有值
+    if (_ridContinue.length > 0) {
+        urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&rid=%@",_ridContinue]];
+    }
+    
     //????????????????????????????????????????????
-    NSString *urlString = @"http://api.kaola100.com/api/Paper/GetPaperQuestions/278?access_token=1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2";
+    ////包含填空题试卷测试
+    //NSString *urlString = @"http://api.kaola100.com/api/Paper/GetPaperQuestions/278?access_token=1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2";
     //????????????????????????????????????????????
+    
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
@@ -407,13 +407,14 @@
     NSString *postStr = [[NSString alloc]initWithData:dataPostStr encoding:NSUTF8StringEncoding];
     //参数字典
     //????????????????????????????????????????????
-//    NSDictionary *dicPost = @{@"Id":paterId,@"Title":paterTitle,@"PostStr":postStr};
+    NSDictionary *dicPost = @{@"Id":paterId,@"Title":paterTitle,@"PostStr":postStr};
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/SubmitPaper?access_token=%@",systemHttps,_accessToken];
+    ///测试填空题的令牌
     //????????????????????????????????????????????
-     NSDictionary *dicPost = @{@"Id":@"278",@"Title":@"2014年10月全国高等教育自学考试《现代汉语》真题",@"PostStr":postStr};
+//     NSDictionary *dicPost = @{@"Id":@"278",@"Title":@"2014年10月全国高等教育自学考试《现代汉语》真题",@"PostStr":postStr};
     //????????????????????????????????????????????
-//    NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/SubmitPaper?access_token=%@",systemHttps,_accessToken];
     //????????????????????????????????????????????
-    NSString *urlString = @"http://api.kaola100.com/api/Paper/SubmitPaper?access_token=1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2";
+//    NSString *urlString = @"http://api.kaola100.com/api/Paper/SubmitPaper?access_token=1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2";
     [HttpTools postHttpRequestURL:urlString RequestPram:dicPost RequestSuccess:^(id respoes) {
         NSDictionary *dic =(NSDictionary *)respoes;
         NSInteger codeId = [dic[@"code"] integerValue];

@@ -55,9 +55,11 @@
         _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labTopicNumber.textColor = [UIColor orangeColor];
         _labNumberWidth.constant = _labTopicNumber.text.length*10;
+         _labTopicNumber.font = [UIFont systemFontOfSize:13.0];
     }
     else{
-        _labNumberWidth.constant = _labTopicNumber.text.length*10+10;
+        _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
+         _labTopicNumber.font = [UIFont systemFontOfSize:15.0];
     }
 
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
@@ -67,12 +69,19 @@
     //作答状态
     NSString *userDo;
     NSInteger levelTopic = [dic[@"level"] integerValue];
+    NSString *answerU;
+    if ([dic[@"userAnswer"] integerValue] == 0) {
+        answerU = @"×";
+    }
+    else{
+        answerU = @"√";
+    }
     if (levelTopic == 0) {
         userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'red'>未作答</font></p><br/>"
                   "<table cellpadding ='0' cellspacing = '0' width = '100%%' align = 'center'>"
                   "<tr>"
-                  "<td width = '30%%'><font size='2'>你的答案：</font></td><td width = '20%%' align = 'left'><font color = 'red'>未作答</font></td>"
-                  "<td width = '30%%' align = 'right'><font size='2'>正确答案：</font></td><td width = '20%%'><font color = 'purple'>%@</font></td>"
+                  "<td width = '20%%'><font size='2'>你的答案：</font></td><td width = '20%%' align = 'left'><font color = 'red'>未作答</font></td>"
+                  "<td width = '20%%' align = 'right'><font size='2'>正确答案：</font></td><td width = '20%%'><font color = 'purple'>%@</font></td>"
                   "</tr>"
                   "</table><br/>",dic[@"answer"]];
     }
@@ -80,19 +89,19 @@
         userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'purple'>答题正确</font></p><br/>"
                   "<table cellpadding ='0' cellspacing = '0' width = '100%%' align = 'center'>"
                   "<tr>"
-                  "<td width = '30%%'><font size='2'>你的答案：</font></td><td width = '20%%' align = 'left'><font color = 'purple'>%@</font></td>"
-                  "<td width = '30%%' align = 'right'><font size='2'>正确答案：</td><td width = '20%%'><font color = 'purple'>%@</font></td>"
+                  "<td width = '20%%'><font size='2'>你的答案：</font></td><td width = '20%%' align = 'left'><font color = 'purple'>%@</font></td>"
+                  "<td width = '20%%' align = 'right'><font size='2'>正确答案：</td><td width = '20%%'><font color = 'purple'>%@</font></td>"
                   "</tr>"
-                  "</table><br/>",dic[@"userAnswer"],dic[@"answer"]];
+                  "</table><br/>",answerU,dic[@"answer"]];
     }
     else if (levelTopic == 2){
         userDo = [NSString stringWithFormat:@"<p>答题状态：<font color = 'red'>答题错误</font></p><br/>"
                   "<table cellpadding ='0' cellspacing = '0' width = '100%%' align = 'center'>"
                   "<tr>"
-                  "<td width = '30%%'><font size='2'>你的答案：</font></td><td width = '20%%' align = 'left'><font color = 'red'>%@</font></td>"
-                  "<td width = '30%%' align = 'right'><font size='2'>正确答案：</font></td><td width = '20%%'><font color = 'purple'>%@</font></td>"
+                  "<td width = '20%%'><font size='2'>你的答案：</font></td><td width = '20%%' align = 'left'><font color = 'red'>%@</font></td>"
+                  "<td width = '20%%' align = 'right'><font size='2'>正确答案：</font></td><td width = '20%%'><font color = 'purple'>%@</font></td>"
                   "</tr>"
-                  "</table><br/>",dic[@"userAnswer"],dic[@"answer"]];
+                  "</table><br/>",answerU,dic[@"answer"]];
     }
     
     ///////////解析

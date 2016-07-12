@@ -24,24 +24,28 @@
     _tyUser = [NSUserDefaults standardUserDefaults];
     _loginUser = [[LoginUser alloc]init];
     _loginUser.delegateLogin = self;
-    ///如果是在用户没有手动退出的时候、先判断是否登录超时
+    ///提前获取纠错类型
+    if (![_tyUser objectForKey:tyUserErrorTopic]) {
+         [self getTopicErrorType];
+    }
+    ///如果是在用户没有手动退出的时候、先判断是否登录超时（如果是手动退出，不做操作）
     if ([_tyUser objectForKey:tyUserUserInfo]) {
         NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
         [_loginUser getUserInformationoWithJeeId:dicUserInfo[@"jeeId"]];
     }
-//    [_tyUser removeObjectForKey:tyUserFirstLoad];
-//    if (![_tyUser objectForKey:tyUserFirstLoad]) {
-//        NSArray *arrayImgUrl = @[@"http://api.kaola100.com/Content/Images/face-2.jpg",@"http://api.kaola100.com/Content/Images/face-1.jpg",@"http://api.kaola100.com/Content/Images/face-3.jpg"];
-//        _scrollViewFirst  = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgUrl:arrayImgUrl];
-//        _scrollViewFirst.backgroundColor = [UIColor whiteColor];
-//        _scrollViewFirst.delegateGuideView = self;
-//        [self.view addSubview:_scrollViewFirst];
-//        [UIView animateWithDuration:0.3 animations:^{
-//            CGRect rect = _scrollViewFirst.frame;
-//            rect.origin.y = 0;
-//            _scrollViewFirst.frame = rect;
-//        }];
-//    }
+    
+    if (![_tyUser objectForKey:tyUserFirstLoad]) {
+        NSArray *arrayImgUrl = @[@"http://api.kaola100.com/Content/Images/face-2.jpg",@"http://api.kaola100.com/Content/Images/face-1.jpg",@"http://api.kaola100.com/Content/Images/face-3.jpg"];
+        _scrollViewFirst  = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgUrl:arrayImgUrl];
+        _scrollViewFirst.backgroundColor = [UIColor whiteColor];
+        _scrollViewFirst.delegateGuideView = self;
+        [self.view addSubview:_scrollViewFirst];
+        [UIView animateWithDuration:0.3 animations:^{
+            CGRect rect = _scrollViewFirst.frame;
+            rect.origin.y = 0;
+            _scrollViewFirst.frame = rect;
+        }];
+    }
     //引导页加载完后，删除
     
     /////////////////////////////////////////////////////////
@@ -57,12 +61,7 @@
 }
 //左滑或点击button回调
 - (void)GuideViewDismiss{
-//    [UIView animateWithDuration:0.3 animations:^{
-//        CGRect rect = _scrollViewFirst.frame;
-//        rect.origin.x = -Scr_Width;
-//        _scrollViewFirst.frame = rect;
-//    }];
-//    [self firstViewDismiss];
+    [self firstViewDismiss];
     ///下次进入不再出现
     [_tyUser setObject:@"yes" forKey:tyUserFirstLoad];
 }
@@ -82,7 +81,7 @@
         [_scrollViewFirst removeFromSuperview];
     }
 }
-
+///测试tabbar选中
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
     
 }
@@ -98,16 +97,35 @@
         [_tyUser setObject:dicUser forKey:tyUserUserInfo];
     }
 }
+
+/****************************************
+ ****************************************
+ 提前获取试题的纠错类型，并存在 NSUserDefaults
+ ****************************************
+ ****************************************/
+- (void)getTopicErrorType{
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Correct/GetCorrectLevels",systemHttps];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dic[@"code"] integerValue];
+        if (codeId == 1) {
+            NSArray *arrayError = dic[@"datas"];
+            NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+            [tyUser setObject:arrayError forKey:tyUserErrorTopic];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+/***************************************
+ ****************************************/
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-///填空题测试，授权获取相关令牌
-- (void)emememememme{
-    NSDictionary *dicUU = [_tyUser objectForKey:tyUserUserInfo];
-    CustomTools *cusTom = [[CustomTools alloc]init];
-    [cusTom empowerAndSignatureWithUserId:dicUU[@"userId"] userCode:@"18838263542" classId:@"39" subjectId:@"37"];
-}
+
 /*
 #pragma mark - Navigation
 

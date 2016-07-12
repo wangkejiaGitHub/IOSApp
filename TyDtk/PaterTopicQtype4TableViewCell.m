@@ -50,9 +50,11 @@
         _labNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labNumber.textColor = [UIColor orangeColor];
         _labNumberWidth.constant = _labNumber.text.length*10;
+        _labNumber.font = [UIFont systemFontOfSize:13.0];
     }
     else{
-        _labNumberWidth.constant = _labNumber.text.length*10+10;
+        _labNumber.font = [UIFont systemFontOfSize:15.0];
+        _labNumberWidth.constant = _labNumber.text.length*10+15;
     }
     
     //试题类型（单选，多选）
@@ -132,20 +134,20 @@
     self.backgroundColor = [UIColor clearColor];
     _dicTopic = dic;
     
-    //判断是否是最一题，给用户提示
-    if (_isLastTopic) {
-        UIButton *btnLastTopic =[UIButton buttonWithType:UIButtonTypeCustom];
-        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 115 + 30, 100, 23);
-        btnLastTopic.tag = 1111;
-        btnLastTopic.backgroundColor =ColorWithRGB(200, 200, 200);
-        btnLastTopic.layer.masksToBounds = YES;
-        btnLastTopic.layer.cornerRadius = 2;
-        btnLastTopic.titleLabel.font = [UIFont systemFontOfSize:12.0];
-        [btnLastTopic setTitle:@"已是最后一题了" forState:UIControlStateNormal];
-        [btnLastTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-        [self.contentView addSubview:btnLastTopic];
-        
-    }
+//    //判断是否是最一题，给用户提示
+//    if (_isLastTopic) {
+//        UIButton *btnLastTopic =[UIButton buttonWithType:UIButtonTypeCustom];
+//        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 115 + 30, 100, 23);
+//        btnLastTopic.tag = 1111;
+//        btnLastTopic.backgroundColor =ColorWithRGB(200, 200, 200);
+//        btnLastTopic.layer.masksToBounds = YES;
+//        btnLastTopic.layer.cornerRadius = 2;
+//        btnLastTopic.titleLabel.font = [UIFont systemFontOfSize:12.0];
+//        [btnLastTopic setTitle:@"已是最后一题了" forState:UIControlStateNormal];
+//        [btnLastTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+//        [self.contentView addSubview:btnLastTopic];
+//        
+//    }
     
     //判断是否已经收藏试题
     NSInteger collectId = [dic[@"collectId"] integerValue];

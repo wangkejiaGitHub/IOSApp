@@ -133,7 +133,10 @@
     [_tableViewExam reloadData];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _arrayCurrActive.count + 1;
+    if (_arrayCurrActive.count > 0) {
+        return _arrayCurrActive.count + 1;
+    }
+    return 0;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row < _arrayCurrActive.count) {
@@ -158,9 +161,10 @@
         view.layer.cornerRadius = 5;
         view.layer.borderWidth = 2;
         view.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-        UILabel *lab = (UILabel *)[cell.contentView viewWithTag:101];
-        lab.layer.masksToBounds = YES;
-        lab.layer.cornerRadius = 3;
+        UIButton *btn = (UIButton *)[cell.contentView viewWithTag:101];
+        btn.layer.masksToBounds = YES;
+        btn.layer.cornerRadius = 3;
+        btn.userInteractionEnabled = NO;
         return cell;
     }
 }

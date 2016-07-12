@@ -165,12 +165,12 @@
 
     _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
     _hearhVIew.delegateAtive = self;
-
+    NSDictionary *dicsubjectCu = [_tyUser objectForKey:tyUserSelectSubject];
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10)];
     [view addSubview:_hearhVIew];
     view.backgroundColor = [UIColor clearColor];
     _hearhVIew.subjectId = _subjectId;
-    [_hearhVIew setActiveValue:_dicSubject];
+    [_hearhVIew setActiveValue:dicsubjectCu];
     if (_isBuyDidSubject) {
        ////已购买
     }

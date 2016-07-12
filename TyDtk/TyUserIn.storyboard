@@ -826,32 +826,34 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view tag="100" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lHy-Gg-dvV">
-                                                    <rect key="frame" x="30" y="15" width="315" height="69"/>
+                                                    <rect key="frame" x="30" y="18" width="315" height="63"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" tag="101" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+ 添加考试" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SlC-w3-YW5">
-                                                            <rect key="frame" x="20" y="15" width="275" height="40"/>
-                                                            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Eqz-SX-XIZ">
+                                                            <rect key="frame" x="20" y="14" width="275" height="35"/>
+                                                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="height" constant="40" id="Q7i-v1-o8n"/>
+                                                                <constraint firstAttribute="height" constant="35" id="cPR-Er-Rji"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <inset key="titleEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                            <state key="normal" title="添加考试" image="add_exam.png">
+                                                                <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
-                                                        <constraint firstItem="SlC-w3-YW5" firstAttribute="centerY" secondItem="lHy-Gg-dvV" secondAttribute="centerY" id="859-IC-gJx"/>
-                                                        <constraint firstItem="SlC-w3-YW5" firstAttribute="leading" secondItem="lHy-Gg-dvV" secondAttribute="leading" constant="20" id="agY-UR-MWN"/>
-                                                        <constraint firstAttribute="trailing" secondItem="SlC-w3-YW5" secondAttribute="trailing" constant="20" id="lLB-Kf-5jA"/>
+                                                        <constraint firstAttribute="trailing" secondItem="Eqz-SX-XIZ" secondAttribute="trailing" constant="20" id="DNC-c4-a2s"/>
+                                                        <constraint firstItem="Eqz-SX-XIZ" firstAttribute="leading" secondItem="lHy-Gg-dvV" secondAttribute="leading" constant="20" id="U7j-DE-a6d"/>
+                                                        <constraint firstItem="Eqz-SX-XIZ" firstAttribute="centerY" secondItem="lHy-Gg-dvV" secondAttribute="centerY" id="pKg-xm-yJz"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="lHy-Gg-dvV" firstAttribute="leading" secondItem="IuE-T5-qMe" secondAttribute="leading" constant="30" id="0oF-It-R71"/>
                                                 <constraint firstAttribute="trailing" secondItem="lHy-Gg-dvV" secondAttribute="trailing" constant="30" id="90f-Gm-WMb"/>
-                                                <constraint firstItem="lHy-Gg-dvV" firstAttribute="top" secondItem="IuE-T5-qMe" secondAttribute="top" constant="15" id="Wcy-Mv-RQ2"/>
-                                                <constraint firstAttribute="bottom" secondItem="lHy-Gg-dvV" secondAttribute="bottom" constant="15" id="utn-gp-4iC"/>
+                                                <constraint firstItem="lHy-Gg-dvV" firstAttribute="top" secondItem="IuE-T5-qMe" secondAttribute="top" constant="18" id="Wcy-Mv-RQ2"/>
+                                                <constraint firstAttribute="bottom" secondItem="lHy-Gg-dvV" secondAttribute="bottom" constant="18" id="utn-gp-4iC"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -1087,6 +1089,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add_exam.png" width="32" height="32"/>
         <image name="btm_icon4" width="20" height="20"/>
         <image name="cog.png" width="20" height="20"/>
         <image name="edit002.png" width="48" height="48"/>

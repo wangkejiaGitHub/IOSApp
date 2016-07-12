@@ -13,6 +13,9 @@
 #import "LoginViewController.h"
 #import "ExerciseRecordViewController.h"
 #import "ImageEnlargeViewController.h"
+#import <AVFoundation/AVCaptureDevice.h>
+#import <AVFoundation/AVMediaFormat.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 @interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate,LoginDelegate>
 ///用于判断用户是否登录
 @property (nonatomic,assign) BOOL isLoginUser;
@@ -47,8 +50,8 @@
 - (void)viewLoad{
     _imageViewBg.image = systemBackGrdImg;
     self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的考试",@"我的订单",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
-    _arrayCellImage = @[@"persenself",@"course",@"quest",@"order",@"learnrecord",@"collect",@"errquests",@"ebook"];
+    _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的订单",@"我的考试",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
+    _arrayCellImage = @[@"persenself",@"course",@"order",@"quest",@"learnrecord",@"collect",@"errquests",@"ebook"];
     [self addTableViewHeardView];
     /////专业分类科目信息
     _arraySubject = [NSMutableArray array];
@@ -164,12 +167,18 @@
                     [self performSegueWithIdentifier:@"userinfo" sender:nil];
                 }
                 else if (indexPath.row == 2){
-                    //我的考试
-                    [self performSegueWithIdentifier:@"myexam" sender:nil];
-                }
-                else if (indexPath.row == 3){
                     //我的订单
                     [self performSegueWithIdentifier:@"myorder" sender:nil];
+                }
+                else if (indexPath.row == 3){
+                    if ([_tyUser objectForKey:tyUserSelectSubject]) {
+                        //我的考试
+                        [self performSegueWithIdentifier:@"myexam" sender:nil];
+                    }
+                    else{
+                        [SVProgressHUD showInfoWithStatus:@"还没有选择过相关科目"];
+                    }
+                    
                 }
                 //做题记录
                 else if (indexPath.row == 4){
@@ -232,12 +241,6 @@
             [self getSubjectClass];
         }
     }
-//        [SVProgressHUD showInfoWithStatus:@"登录超时或未登录"];
-//        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-//        LoginViewController *loginVc =  [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
-//        loginVc.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:loginVc animated:YES];
-    //    }
 }
 /////获取用户信息
 - (void)getUserInfo{
@@ -261,7 +264,7 @@
             [_tableHeardView.imageHeardImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dicUser[@"headImg"]]]];
         }
         else{
-            _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
+            _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"heardNilImg"];
         }
     }
     ///超时

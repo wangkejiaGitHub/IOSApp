@@ -46,7 +46,6 @@
     _webViewTitle.delegate = self;
 }
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
-    NSLog(@"11111111111122222222222222");
     _indexTopic = index;
     _dicTopic = dic;
     if (index == 19) {
@@ -65,9 +64,11 @@
         _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labTopicNumber.textColor = [UIColor orangeColor];
         _labNumberWidth.constant = _labTopicNumber.text.length*10;
+        _labTopicNumber.font = [UIFont systemFontOfSize:13.0];
     }
     else{
-        _labNumberWidth.constant = _labTopicNumber.text.length*10+10;
+         _labTopicNumber.font = [UIFont systemFontOfSize:15.0];
+        _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
     }
     
     //试题类型（单选，多选）

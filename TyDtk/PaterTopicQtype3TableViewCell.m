@@ -61,10 +61,12 @@
         _buttonOrginY = _buttonSubOy;
         _labNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labNumber.textColor = [UIColor orangeColor];
+        _labNumber.font = [UIFont systemFontOfSize:13.0];
         _labNumberWidth.constant = _labNumber.text.length*10;
     }
     else{
-        _labNumberWidth.constant = _labNumber.text.length*10+10;
+        _labNumber.font = [UIFont systemFontOfSize:15.0];
+        _labNumberWidth.constant = _labNumber.text.length*10+15;
     }
     
     //试题类型（单选，多选）
@@ -167,7 +169,7 @@
     //判断是否是最一题，给用户提示
     if (_isLastTopic) {
         UIButton *btnLastTopic =[UIButton buttonWithType:UIButtonTypeCustom];
-        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 30 + 30, 100, 23);
+        btnLastTopic.frame = CGRectMake((Scr_Width - 100)/2, _buttonOrginY + 30, 100, 23);
         btnLastTopic.tag = 1111;
         btnLastTopic.backgroundColor =ColorWithRGB(200, 200, 200);
         btnLastTopic.layer.masksToBounds = YES;

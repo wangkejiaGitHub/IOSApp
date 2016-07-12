@@ -183,6 +183,7 @@
                 ModelPapersViewController *modelVc = [sCommon instantiateViewControllerWithIdentifier:@"ModelPapersViewController"];
                 modelVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
                 modelVc.intPushWhere = 1;
+                modelVc.dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
                 modelVc.title = @"模拟试卷";
                 [self.navigationController pushViewController:modelVc animated:YES];
             }

@@ -62,9 +62,11 @@
         _labNumber.text = [NSString stringWithFormat:@"(%ld)",index];
         _labNumber.textColor = [UIColor orangeColor];
         _labNumberWidth.constant = _labNumber.text.length*10;
+        _labNumber.font = [UIFont systemFontOfSize:13.0];
     }
     else{
-        _labNumberWidth.constant = _labNumber.text.length*10+10;
+        _labNumberWidth.constant = _labNumber.text.length*10+15;
+        _labNumber.font = [UIFont systemFontOfSize:15.0];
     }
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
@@ -167,7 +169,7 @@
     //判断是否是最一题，给用户提示
     if (_isLastTopic) {
         UIButton *btnLastTopic =[UIButton buttonWithType:UIButtonTypeCustom];
-        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 50 + 25, 100, 23);
+        btnLastTopic.frame = CGRectMake((Scr_Width - 100)/2, _buttonOrginY + 50, 100, 23);
         btnLastTopic.tag = 1111;
         btnLastTopic.backgroundColor =ColorWithRGB(200, 200, 200);
         btnLastTopic.layer.masksToBounds = YES;
@@ -438,13 +440,13 @@
     if (dicpaperId == 0) {
         if (_isWebFirstLoading) {
             //非小题试题二次刷新
-            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL + 150 withButtonOy:cellHeightL + 50];
+            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL + 160 withButtonOy:cellHeightL + 50];
         }
     }
     else{
         //小题试题二次刷新
         if (![_arrayFirstLoading containsObject:[NSString stringWithFormat:@"%ld",_indexTopic]]) {
-            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL +150 withButtonOy:cellHeightL +50 withIndex:_indexTopic];
+            [self.delegateCellClick isWebLoadingCellHeight:cellHeightL +160 withButtonOy:cellHeightL +50 withIndex:_indexTopic];
         }
     }
 }

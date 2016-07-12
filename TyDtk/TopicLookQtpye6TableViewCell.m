@@ -8,7 +8,6 @@
 
 #import "TopicLookQtpye6TableViewCell.h"
 @interface TopicLookQtpye6TableViewCell()<UIWebViewDelegate,UIScrollViewDelegate>
-
 @property (nonatomic,strong) NSMutableArray *arrayImgUrl;
 @property (nonatomic,strong) UIWebView *webViewTitle;
 @end

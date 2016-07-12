@@ -55,11 +55,13 @@
     if (parentId != 0) {
         _buttonOrginY = _buttonSubOy;
         _labTopicNumber.text = [NSString stringWithFormat:@"(%ld)",index];
+        _labTopicNumber.font = [UIFont systemFontOfSize:13.0];
         _labTopicNumber.textColor = [UIColor orangeColor];
         _labNumberWidth.constant = _labTopicNumber.text.length*10;
     }
     else{
-        _labNumberWidth.constant = _labTopicNumber.text.length*10+10;
+        _labTopicNumber.font = [UIFont systemFontOfSize:15.0];
+        _labNumberWidth.constant = _labTopicNumber.text.length*10+15;
     }
     //试题类型（单选，多选）
     _labTopicType.text = [NSString stringWithFormat:@"(%@)",dic[@"typeName"]];
@@ -205,9 +207,9 @@
     [buttonError addTarget:self action:@selector(buttonErrorClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:buttonError];
     //判断是否是最一题，给用户提示
-    if (_isLastTopic) {
+    if (_isLastTopic && topicType == 1) {
         UIButton *btnLastTopic =[UIButton buttonWithType:UIButtonTypeCustom];
-        btnLastTopic.frame = CGRectMake(Scr_Width - 110, _buttonOrginY + 110 + 30 + 5, 100, 23);
+        btnLastTopic.frame = CGRectMake((Scr_Width - 100)/2, _buttonOrginY + 110, 100, 23);
         btnLastTopic.tag = 2222;
         btnLastTopic.backgroundColor =ColorWithRGB(200, 200, 200);
         btnLastTopic.layer.masksToBounds = YES;
