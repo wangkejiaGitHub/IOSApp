@@ -9,4 +9,6 @@
 #import <UIKit/UIKit.h>
 @interface ChaptersViewController : UIViewController
 @property (nonatomic,strong) NSString *subjectId;
+///科目信息
+@property (nonatomic,strong) NSDictionary *dicSubject;
 @end

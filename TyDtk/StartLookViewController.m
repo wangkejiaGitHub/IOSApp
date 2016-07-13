@@ -144,10 +144,13 @@
             NSDictionary *pageDatas = dicError[@"page"];
             _pageCount = [pageDatas[@"pages"] integerValue];
             [self addChildViewLookTopic];
+            [SVProgressHUD dismiss];
         }
-        [SVProgressHUD dismiss];
+        else{
+            [SVProgressHUD showErrorWithStatus:dicError[@"errmsg"]];
+        }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
+        [SVProgressHUD showErrorWithStatus:@"网络异常！"];
     }];
 }
 - (void)addChildViewLookTopic{
@@ -206,7 +209,6 @@
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{
     _lastButton.userInteractionEnabled = YES;
     _nextButton.userInteractionEnabled =YES;
-//    NSLog(@"scrollViewDidEndScrollingAnimation");
 }
 //降速结束
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{

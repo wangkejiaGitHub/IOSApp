@@ -117,7 +117,7 @@
         }
     } RequestFaile:^(NSError *error) {
         [_viewMz removeFromSuperview];
-        [SVProgressHUD showInfoWithStatus:@"操作异常！"];
+        [SVProgressHUD showInfoWithStatus:@"操作异常"];
     }];
 }
 ///删除订单
@@ -147,7 +147,7 @@
         }
     } RequestFaile:^(NSError *error) {
         [_viewMz removeFromSuperview];
-        [SVProgressHUD showInfoWithStatus:@"操作异常！"];
+        [SVProgressHUD showInfoWithStatus:@"操作异常"];
     }];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

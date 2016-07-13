@@ -72,7 +72,7 @@
         NSDictionary *dicUpdate = respoes;
         NSInteger codeId = [dicUpdate[@"code"] integerValue];
         if (codeId == 1) {
-            [SVProgressHUD showSuccessWithStatus:@"保存成功！"];
+            [SVProgressHUD showSuccessWithStatus:@"保存成功"];
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{

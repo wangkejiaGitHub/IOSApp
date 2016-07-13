@@ -80,7 +80,6 @@
         view.backgroundColor = [UIColor clearColor];
         _tableViewWeek.tableHeaderView = view;
     }
-    
     NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
     NSString *imgsUrlSub = dicCurrSubject[@"productImageListStore"];
     [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:imgsUrlSub]];
@@ -165,7 +164,8 @@
         }
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
-        [SVProgressHUD showInfoWithStatus:@"请求异常"];
+        [_refreshFooter endRefreshing];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 /////////////////////////////////////////

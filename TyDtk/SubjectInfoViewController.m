@@ -180,6 +180,7 @@
             _chapterVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height - 49-64);
         }
         _chapterVc.subjectId = [NSString stringWithFormat:@"%@",_dicCurrSubject[@"Id"]];
+        _chapterVc.dicSubject = _dicCurrSubject;
         _chapterVc.title = @"章节考点";
         [self.view addSubview:_chapterVc.view];
     }
@@ -250,7 +251,7 @@
             [SVProgressHUD showInfoWithStatus:dicSubject[@"errmsg"]];
         }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 ///添加下拉菜单

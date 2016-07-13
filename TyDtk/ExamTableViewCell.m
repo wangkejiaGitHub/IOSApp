@@ -93,17 +93,17 @@
             [self.delegateExam reFreshExamInfo];
         }
         else{
-            [SVProgressHUD showInfoWithStatus:@"操作异常！"];
+            [SVProgressHUD showInfoWithStatus:@"操作异常"];
         }
         NSLog(@"%@",dicExam);
         
     } RequestFaile:^(NSError *erro) {
-        
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 ///设置默认
 - (void)setExamDefault{
-    ////待测试
+    ////
     NSString *urlString = [NSString stringWithFormat:@"%@api/ExamSet/SetDefault/%@?access_token=%@",systemHttps,_dicExam[@"Id"],_accessToken];
     [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
         NSDictionary *dicExam = (NSDictionary *)respoes;
@@ -113,7 +113,7 @@
         }
         NSLog(@"%@",dicExam);
     } RequestFaile:^(NSError *erro) {
-        
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 ///编辑考试

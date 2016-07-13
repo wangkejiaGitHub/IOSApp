@@ -24,6 +24,10 @@
 }
 ///添加头试图（展示订单信息）
 - (void)addTableViewHeardOrderView{
+    ///添加viewH的目的是为了防止在6p或者6sp的手机运行时出现图层紊乱现象
+    UIView *viewH = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 200)];
+    viewH.backgroundColor = [UIColor whiteColor];
+    //////////////////////////////////////////////////
     OrderHeardView *orderView = [[[NSBundle mainBundle] loadNibNamed:@"OrderHeardView" owner:self options:nil]lastObject];
     orderView.frame = CGRectMake(0, 0, Scr_Width, 200);
     orderView.labOrderId.text = _dicOrder[@"id"];
@@ -31,7 +35,8 @@
     orderView.labOrderCount.text = [NSString stringWithFormat:@"%ld",[_dicOrder[@"productTotalQuantity"] integerValue]];;
     orderView.labOrderMoney.text = [NSString stringWithFormat:@"￥%.2f",[_dicOrder[@"productTotalPrice"] floatValue]];
     orderView.labOrderPayStatus.text = _dicOrder[@"paymentStatusName"];
-    _tableViewOrder.tableHeaderView = orderView;
+    [viewH addSubview:orderView];
+    _tableViewOrder.tableHeaderView = viewH;
     ///未付款
     if ([_dicOrder[@"paymentStatus"] integerValue] == 5001) {
         orderView.labOrderPayStatus.textColor = [UIColor redColor];

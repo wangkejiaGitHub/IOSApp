@@ -45,7 +45,6 @@
 //页面加载，设置页面的背景图片等
 - (void)addDataView{
 //    self.tabBarController.tabBar.tintColor = [UIColor redColor];
-    self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon1_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [_buttonLeftItem setTitle:@"地区" forState:UIControlStateNormal];
     _imageBackGround.image = systemBackGrdImg;
     _arraySubject = [NSMutableArray array];
@@ -156,7 +155,7 @@
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
         [_arraySubject removeAllObjects];
         [_arraySecoundSubject removeAllObjects];
         [_myCollectionView reloadData];

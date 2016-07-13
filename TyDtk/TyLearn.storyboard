@@ -9,7 +9,7 @@
         <scene sceneID="NxL-67-ctV">
             <objects>
                 <navigationController storyboardIdentifier="PracticeNavViewController" id="yxs-RS-x0k" customClass="PracticeNavViewController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="练习中心" id="Tbq-g4-05J"/>
+                    <tabBarItem key="tabBarItem" title="练习中心" image="btm_icon4" id="Tbq-g4-05J"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="svG-d2-juS">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -136,4 +136,7 @@
             <point key="canvasLocation" x="-422" y="327"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="btm_icon4" width="20" height="20"/>
+    </resources>
 </document>

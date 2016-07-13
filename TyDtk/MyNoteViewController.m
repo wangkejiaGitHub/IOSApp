@@ -96,7 +96,7 @@
         }
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

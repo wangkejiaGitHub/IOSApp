@@ -58,7 +58,7 @@
 - (IBAction)buttonSaveClick:(UIButton *)sender {
     if (self.updateInfoPar == 1) {
         if ([_textValue.text isEqualToString:@""]) {
-            [SVProgressHUD showInfoWithStatus:@"用户名不能为空！"];
+            [SVProgressHUD showInfoWithStatus:@"用户名不能为空"];
             return;
         }
         //用户名
@@ -66,7 +66,7 @@
     }
     else if (self.updateInfoPar ==2){
         if ([_textValue.text isEqualToString:@""]) {
-            [SVProgressHUD showInfoWithStatus:@"手机号码不能为空！"];
+            [SVProgressHUD showInfoWithStatus:@"手机号码不能为空"];
             return;
         }
         //手机号
@@ -74,7 +74,7 @@
     }
     else if (self.updateInfoPar == 3){
         if ([_textValue.text isEqualToString:@""]) {
-            [SVProgressHUD showInfoWithStatus:@"邮箱地址不能为空！"];
+            [SVProgressHUD showInfoWithStatus:@"邮箱地址不能为空"];
             return;
         }
         //邮箱
@@ -115,14 +115,14 @@
         NSDictionary *dicUpdate = respoes;
         NSInteger codeId = [dicUpdate[@"code"] integerValue];
         if (codeId == 1) {
-            [SVProgressHUD showSuccessWithStatus:@"保存成功！"];
+            [SVProgressHUD showSuccessWithStatus:@"保存成功"];
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{
             [SVProgressHUD showInfoWithStatus:dicUpdate[@"errmsg"]];
         }
     } RequestFaile:^(NSError *erro) {
-        
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 //textField 代理

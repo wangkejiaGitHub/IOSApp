@@ -25,7 +25,8 @@
             [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
         }
     } RequestFaile:^(NSError *erro) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
+//        [self.delegateLogin getUserInfoIsDictionary:nil messagePara:0];
     }];
 }
 
@@ -54,10 +55,10 @@
         }
         ///登录超时
         else{
-            [self.delegateLogin getUserInfoIsDictionary:dicUserInfo messagePara:0];
+            [self.delegateLogin getUserInfoIsDictionary:nil messagePara:0];
         }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"异常！"];
+        [self.delegateLogin getUserInfoIsDictionary:@{@"msg":@"异常"} messagePara:0];
     }];
 }
 

@@ -13,9 +13,6 @@
 #import "LoginViewController.h"
 #import "ExerciseRecordViewController.h"
 #import "ImageEnlargeViewController.h"
-#import <AVFoundation/AVCaptureDevice.h>
-#import <AVFoundation/AVMediaFormat.h>
-#import <AssetsLibrary/AssetsLibrary.h>
 @interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate,LoginDelegate>
 ///用于判断用户是否登录
 @property (nonatomic,assign) BOOL isLoginUser;
@@ -49,7 +46,6 @@
 }
 - (void)viewLoad{
     _imageViewBg.image = systemBackGrdImg;
-    self.navigationController.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的订单",@"我的考试",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _arrayCellImage = @[@"persenself",@"course",@"order",@"quest",@"learnrecord",@"collect",@"errquests",@"ebook"];
     [self addTableViewHeardView];
@@ -131,12 +127,11 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellUser" forIndexPath:indexPath];
     UILabel *labTitle =(UILabel *)[cell.contentView viewWithTag:11];
     UIImageView *img = (UIImageView *)[cell.contentView viewWithTag:10];
-    
+    UILabel *labSiubject = (UILabel *)[cell.contentView viewWithTag:12];
     if (indexPath.section == 0) {
         img.image = [UIImage imageNamed:_arrayCellImage[indexPath.row]];
         labTitle.text = _arrayCellTitle[indexPath.row];
         if (indexPath.row == 1) {
-            UILabel *labSiubject = (UILabel *)[cell.contentView viewWithTag:12];
             labSiubject.adjustsFontSizeToFitWidth = YES;
             if ([_tyUser objectForKey:tyUserSelectSubject]) {
                 NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
@@ -146,10 +141,14 @@
                 labSiubject.text = @"未选择科目";
             }
         }
+        else{
+            labSiubject.text = @"";
+        }
     }
     else{
         img.image = [UIImage imageNamed:@"about"];
         labTitle.text = @"关于我们";
+        labSiubject.text = @"";
     }
     return  cell;
 }
@@ -268,11 +267,17 @@
         }
     }
     ///超时
-    else{
+    else if (msgPara == 0 && dicUser == nil){
         ///用户没有手动退出，则意为超时，需要重新登录
         NSDictionary *dicAccount = [_tyUser objectForKey:tyUserAccount];
         [_loginUser LoginAppWithAccount:dicAccount[@"acc"] password:dicAccount[@"pwd"]];
 
+    }
+    //网络异常
+    else{
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
+        _tableHeardView.labUserName.text = @"请检查您的网络";
     }
 }
 //////////////////专业科目信息//////////////////
@@ -394,12 +399,12 @@
     NSDictionary *dicPara = @{@"userId":dicUserIn[@"userId"]};
     
     [HttpTools uploadHttpRequestURL:urlString RequestPram:dicPara UploadData:[self imageData:imageUp] RequestSuccess:^(id respoes) {
-        [SVProgressHUD showSuccessWithStatus:@"图片上传成功！"];
+        [SVProgressHUD showSuccessWithStatus:@"图片上传成功"];
         [picker dismissViewControllerAnimated:YES completion:nil];
         
     } RequestFaile:^(NSError *erro) {
         [picker dismissViewControllerAnimated:YES completion:nil];
-        [SVProgressHUD showInfoWithStatus:@"图片上传失败！"];
+        [SVProgressHUD showInfoWithStatus:@"图片上传失败"];
     } UploadProgress:^(NSProgress *uploadProgress) {
         NSLog(@"%@",uploadProgress);
     }];
@@ -435,7 +440,7 @@
         // [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
     }
     else{
-        [SVProgressHUD showInfoWithStatus:@"图片未能保存到本地！"];
+        [SVProgressHUD showInfoWithStatus:@"图片未能保存到本地"];
     }
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{

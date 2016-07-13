@@ -30,8 +30,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageVIewCollect;
 //已经收藏的试题
 @property (nonatomic,strong) NSDictionary *dicCollectDone;
-@property (weak, nonatomic) IBOutlet UIButton *buttonNote;
-@property (weak, nonatomic) IBOutlet UIButton *buttonError;
+@property (weak, nonatomic) IBOutlet UIButton *buttonNot;
+@property (weak, nonatomic) IBOutlet UIButton *buttonErro;
 
 //@property (weak, nonatomic) IBOutlet UIView *viewLine;
 //下划线

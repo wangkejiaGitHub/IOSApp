@@ -1,7 +1,7 @@
 //
 //  PracticeNavViewController.m
 //  TyDtk
-//
+//   练习中心
 //  Created by 天一文化 on 16/6/23.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
 - (void)didReceiveMemoryWarning {

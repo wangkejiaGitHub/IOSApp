@@ -108,7 +108,7 @@
             [self getExerciseRe];
         }
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 ////////////////////////////////////////////////////
@@ -223,15 +223,17 @@
             }
             _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
             [_tableViewRe reloadData];
-            [_refreshFooter endRefreshing];
-            [_refreshHeader endRefreshing];
         }
         else{
             
         }
+        [_refreshFooter endRefreshing];
+        [_refreshHeader endRefreshing];
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
+        [_refreshFooter endRefreshing];
+        [_refreshHeader endRefreshing];
+        [SVProgressHUD showInfoWithStatus:@"网络异常"];
     }];
 }
 ///删除记录，单个删除
@@ -254,7 +256,7 @@
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
         }
         else{
-            [SVProgressHUD showInfoWithStatus:@"操作失败！"];
+            [SVProgressHUD showInfoWithStatus:@"操作失败"];
         }
     } RequestFaile:^(NSError *error) {
         

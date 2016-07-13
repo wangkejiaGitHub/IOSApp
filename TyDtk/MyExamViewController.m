@@ -8,7 +8,7 @@
 
 #import "MyExamViewController.h"
 #import "ExamTableViewCell.h"
-#import "EditExamViewController.h"
+#import "EditSetExamViewController.h"
 @interface MyExamViewController ()<UITableViewDataSource,UITableViewDelegate,ExamCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewExam;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonLiftItem;
@@ -46,11 +46,13 @@
     
 }
 - (void)viewDidAppear:(BOOL)animated{
+    ///修改之后刷新列表
     if (!_isFirstLoad) {
         [_arrayIsActived removeAllObjects];
         [_arrayNoActived removeAllObjects];
         [self getExamInfo];
     }
+    [_tableViewExam reloadData];
 }
 //下拉刷新
 - (void)headerRefereshClick:(MJRefreshNormalHeader *)refresh{
@@ -83,13 +85,13 @@
             else{
                 _arrayCurrActive = _arrayIsActived;
             }
-            NSLog(@"%@ == %@",_arrayIsActived,_arrayNoActived);
         }
         [_refreshHeader endRefreshing];
         [_tableViewExam reloadData];
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"操作异常！"];
+        [_refreshHeader endRefreshing];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 ///激活。未激活按钮
@@ -119,7 +121,6 @@
 //激活，未激活切换点击事件
 - (void)menuTypeClick:(ZFPopupMenuItem *)item{
     _buttonLiftItem.title = item.itemName;
-    NSLog(@"%ld",item.tag);
     if (item.tag == 101) {
         NSLog(@"未激活");
         _intCurrActive = 1;
@@ -173,17 +174,21 @@
         self.navigationController.tabBarController.selectedIndex = 0;
     }
 }
-//删除或设置默认后刷新考试信息
+//删除或设置默认后回调刷新考试信息
 - (void)reFreshExamInfo{
     [_arrayIsActived removeAllObjects];
     [_arrayNoActived removeAllObjects];
     [self getExamInfo];
 }
-//编辑考试信息
+//编辑考试信息回调跳转到编辑考试信息页面
 - (void)editExamInfo:(NSDictionary *)dicExam{
-    EditExamViewController *editExamVc =[[EditExamViewController alloc]initWithNibName:@"EditExamViewController" bundle:nil];
-    editExamVc.dicExam = dicExam;
-    [self.navigationController pushViewController:editExamVc animated:YES];
+    [self performSegueWithIdentifier:@"editexam" sender:dicExam];
+}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"editexam"]) {
+        EditSetExamViewController *editvc = segue.destinationViewController;
+        editvc.dicExam = sender;
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -162,7 +162,6 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     CGFloat scrollOff = scrollView.contentOffset.x + self.bounds.size.width;
     if (scrollOff >= self.bounds.size.width*_ImageCount + 60) {
-        NSLog(@"_arrayImgName");
         [self.delegateGuideView GuideViewDismiss];
     }
 }

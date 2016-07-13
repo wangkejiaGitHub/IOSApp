@@ -175,6 +175,7 @@
             if (indexPath.row == 0) {
                 ChaptersViewController *chaperVc = [sCommon instantiateViewControllerWithIdentifier:@"ChaptersViewController"];
                 chaperVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
+                chaperVc.dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
                 chaperVc.title = @"章节练习";
                 [self.navigationController pushViewController:chaperVc animated:YES];
             }
@@ -267,7 +268,7 @@
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
         [_arraySubject removeAllObjects];
         [_arraySecoundSubject removeAllObjects];
     }];

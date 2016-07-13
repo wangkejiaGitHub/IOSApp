@@ -24,12 +24,12 @@
     _imageVIewCollect.layer.cornerRadius = 2;
     _buttonCollect.layer.masksToBounds = YES;
     _buttonCollect.layer.cornerRadius = 2;
-    _buttonNote.backgroundColor = ColorWithRGB(200, 200, 200);
-    _buttonNote.layer.masksToBounds = YES;
-    _buttonNote.layer.cornerRadius = 2;
-    _buttonError.backgroundColor = ColorWithRGB(200, 200, 200);
-    _buttonError.layer.masksToBounds = YES;
-    _buttonError.layer.cornerRadius = 2;
+    _buttonNot.backgroundColor = ColorWithRGB(200, 200, 200);
+    _buttonNot.layer.masksToBounds = YES;
+    _buttonNot.layer.cornerRadius = 2;
+    _buttonErro.backgroundColor = ColorWithRGB(200, 200, 200);
+    _buttonErro.layer.masksToBounds = YES;
+    _buttonErro.layer.cornerRadius = 2;
     _webViewTitle.scrollView.scrollEnabled = NO;
     _webViewTitle.opaque = NO;
     _webViewTitle.backgroundColor =[UIColor clearColor];
@@ -184,17 +184,17 @@
     }
 }
 //笔记按钮
-- (IBAction)buttonNoteClick:(UIButton *)sender {
+- (IBAction)buttonNotClick:(UIButton *)sender {
     NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
     [self.delegateAnalysisCellClick saveNotesOrErrorClick:questionId executeParameter:1];
 }
 //纠错按钮
-- (IBAction)buttonErrorClick:(UIButton *)sender {
+- (IBAction)buttonErroClick:(UIButton *)sender {
     NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
     [self.delegateAnalysisCellClick saveNotesOrErrorClick:questionId executeParameter:0];
 }
 //收藏按钮
-- (IBAction)buttonCollectClick:(UIButton *)sender {
+- (IBAction)buttonCollecClick:(UIButton *)sender {
     NSString *buttonString = sender.titleLabel.text;
     //收藏
     if ([buttonString isEqualToString:@"收藏"]) {

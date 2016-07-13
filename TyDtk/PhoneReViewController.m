@@ -189,7 +189,7 @@
         [_mzView removeFromSuperview];
     } RequestFaile:^(NSError *erro) {
         [_mzView removeFromSuperview];
-        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 /**

@@ -79,7 +79,7 @@
     [_arrayCurrSelectSubject removeAllObjects];
     [_viewNullData removeFromSuperview];
     if (_arraySubject.count == 0) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
         _viewNullData = [[ViewNullData alloc]initWithFrame:CGRectMake(_tabViewWidthCount.constant, 0, Scr_Width - _tabViewWidthCount.constant, Scr_Height) showText:@"点击左边菜单刷新"];
         [self.view addSubview:_viewNullData];
         return;

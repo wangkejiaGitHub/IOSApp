@@ -116,7 +116,7 @@
         }
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-         [SVProgressHUD showInfoWithStatus:@"操作异常！"];
+         [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 /**

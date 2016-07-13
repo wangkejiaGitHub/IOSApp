@@ -56,6 +56,8 @@
 ///用户判断tableView的滑动方向
 @property (nonatomic,assign) CGFloat lastContentOffset;
 @property (nonatomic,strong) UIView *viewHeader;
+///判断是否登录
+@property (nonatomic,assign) BOOL isLoginUser;
 @end
 @implementation ModelPapersViewController
 
@@ -77,6 +79,12 @@
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        _isLoginUser = YES;
+    }
+    else{
+        _isLoginUser = NO;
+    }
     self.navigationController.tabBarController.tabBar.hidden = YES;
     if (!_viewHeader) {
         _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, 40)];
@@ -184,11 +192,17 @@
  */
 //激活码做题或购买商品回调代理
 - (void)paySubjectProductWithPayParameter:(NSInteger)PayParameter{
-    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-    ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
-    acVc.subjectId = [_subjectId integerValue];
-    acVc.payParameter = PayParameter;
-    [self.navigationController pushViewController:acVc animated:YES];
+    if (_isLoginUser) {
+        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+        ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
+        acVc.subjectId = [_subjectId integerValue];
+        acVc.payParameter = PayParameter;
+        [self.navigationController pushViewController:acVc animated:YES];
+    }
+    else{
+        ///
+        [SVProgressHUD showInfoWithStatus:@"您还没有登录"];
+    }
 }
 /**
  获取试卷数据
@@ -245,12 +259,17 @@
             [SVProgressHUD dismiss];
             [_refreshFooter endRefreshing];
             [_myTableView reloadData];
+            _buttonLeveles.userInteractionEnabled = YES;
+            _buttonYear.userInteractionEnabled = YES;
             
         }
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
-        [SVProgressHUD showInfoWithStatus:@"请求异常"];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        [_refreshFooter endRefreshing];
+        _buttonYear.userInteractionEnabled = NO;
+        _buttonLeveles.userInteractionEnabled = NO;
     }];
 }
 
@@ -433,17 +452,17 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (_isBuyDidSubject) {
+    if (_isBuyDidSubject) {
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         NSDictionary *diccc = _arrayPapers[indexPath.row];
-//        for (NSString *key in diccc) {
-//            NSLog(@"%@ == %@",key,diccc[key]);
-//        }
+        for (NSString *key in diccc) {
+            NSLog(@"%@ == %@",key,diccc[key]);
+        }
         [self performSegueWithIdentifier:@"topicStar" sender:diccc];
-//    }
-//    else{
-//        [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目！"];
-//    }
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目！"];
+    }
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"topicStar"]) {

@@ -50,15 +50,23 @@
 }
 ///获取用户信息回调
 - (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
-    [SVProgressHUD dismiss];
     ///成功获取信息
     if (msgPara == 1) {
+        [SVProgressHUD dismiss];
         _dicUserInfo = dicUser;
         [_tableViewUser reloadData];
     }
-    ///获取信息失败
-    else{
+    ///获取信息失败(超时)
+    else if(dicUser == nil && msgPara == 0){
+        [SVProgressHUD dismiss];
         _tableViewUser.userInteractionEnabled = NO;
+    }
+    else{
+        //网络异常
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        //让当前的tableView失去用户交互
+        _tableViewUser.userInteractionEnabled = NO;
+        
     }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -278,7 +286,7 @@
         
     } RequestFaile:^(NSError *erro) {
         [picker dismissViewControllerAnimated:YES completion:nil];
-        [SVProgressHUD showInfoWithStatus:@"图片上传失败！"];
+        [SVProgressHUD showInfoWithStatus:@"图片上传失败"];
         NSLog(@"%@",erro);
     } UploadProgress:^(NSProgress *uploadProgress) {
         NSLog(@"%@",uploadProgress);
@@ -315,7 +323,7 @@
         //        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
     }
     else{
-        [SVProgressHUD showInfoWithStatus:@"图片未能保存到本地！"];
+        [SVProgressHUD showInfoWithStatus:@"图片未能保存到本地"];
     }
 }
 ///用户退出登录
@@ -329,7 +337,7 @@
         NSDictionary *dicOut = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicOut[@"code"] integerValue];
         if (codeId == 1) {
-            [SVProgressHUD showSuccessWithStatus:@"退出成功！"];
+            [SVProgressHUD showSuccessWithStatus:@"退出成功"];
             [_tyUser removeObjectForKey:tyUserAccessToken];
             // [_tyUser removeObjectForKey:tyUserClass];
             // [_tyUser removeObjectForKey:tyUserSelectSubject];
@@ -340,11 +348,11 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{
-            [SVProgressHUD showInfoWithStatus:@"操作失败！"];
+            [SVProgressHUD showInfoWithStatus:@"操作失败"];
         }
         NSLog(@"%@",dicOut);
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"操作失败！"];
+        [SVProgressHUD showInfoWithStatus:@"操作失败"];
     }];
 }
 //传递修改参数

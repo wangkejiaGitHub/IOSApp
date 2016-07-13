@@ -72,8 +72,11 @@
 - (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
     [_mzView removeFromSuperview];
     if (msgPara == 1) {
-        [SVProgressHUD showSuccessWithStatus:@"登录成功!"];
+        [SVProgressHUD showSuccessWithStatus:@"登录成功"];
         [self.navigationController popViewControllerAnimated:YES];
+    }
+    else{
+        
     }
 }
 

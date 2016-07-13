@@ -50,6 +50,11 @@
 /****************************************************/
 @property (nonatomic,strong) selectChaperSubjectView *viewSelectChaper;
 @property (nonatomic,strong) NSDictionary *dicSelectChaper;
+
+///判断是否已购买科目
+@property (nonatomic,assign) BOOL isBuyDidSubject;
+///判断是否登录
+@property (nonatomic,assign) BOOL isLoginUser;
 @end
 
 @implementation ChaptersViewController
@@ -60,11 +65,31 @@
     _tyUser = [NSUserDefaults standardUserDefaults];
 
 }
+- (void)viewWillAppear:(BOOL)animated{
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        _isLoginUser = YES;
+    }
+    else{
+        _isLoginUser = NO;
+    }
+}
 - (void)viewDidAppear:(BOOL)animated{
     NSString *acc = [_tyUser objectForKey:tyUserAccessToken];
+    [self isActiveSubject];
     [self getChaptersInfo:acc];
     [self viewWillShow];
 }
+///判断是否购买了该科目（是否激活了科目）
+- (void)isActiveSubject{
+    NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
+    if ([subPrice floatValue] > 0) {
+        _isBuyDidSubject = NO;
+    }
+    else{
+        _isBuyDidSubject = YES;
+    }
+}
+
 /**
  获取tableView的头试图，并设置其参数值
  */
@@ -88,11 +113,16 @@
  */
 //激活码做题或购买商品回调代理
 - (void)paySubjectProductWithPayParameter:(NSInteger)PayParameter{
-    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-    ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
-    acVc.subjectId = [_subjectId integerValue];
-    acVc.payParameter = PayParameter;
-    [self.navigationController pushViewController:acVc animated:YES];
+    if (_isLoginUser) {
+        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+        ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
+        acVc.subjectId = [_subjectId integerValue];
+        acVc.payParameter = PayParameter;
+        [self.navigationController pushViewController:acVc animated:YES];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"您还没有登录"];
+    }
 }
 
 /**
@@ -133,7 +163,8 @@
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
-        [SVProgressHUD showInfoWithStatus:@"网络异常"];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        [_refreshHeader endRefreshing];
     }];
 }
 ///获取第一层和第二层显示的数据

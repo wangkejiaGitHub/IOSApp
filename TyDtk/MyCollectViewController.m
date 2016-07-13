@@ -205,9 +205,10 @@
             else if (self.parameterView == 3){
                 [self getAboutChaperNotes];
             }
+            
         }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD dismiss];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 //*****************************************//
@@ -252,7 +253,8 @@
         [_refreshHeader endRefreshing];
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD dismiss];
+        [_refreshHeader endRefreshing];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 /////////////////我的收藏（模块）////////////////////
@@ -298,7 +300,8 @@
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD dismiss];
+        [_refreshHeader endRefreshing];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 ////////////// 我的错题（模块）////////////////
@@ -344,7 +347,8 @@
         [SVProgressHUD dismiss];
         
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD dismiss];
+        [_refreshHeader endRefreshing];
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
     
 }
