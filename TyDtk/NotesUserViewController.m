@@ -101,7 +101,9 @@
             [_refreshFooter endRefreshing];
         }
     } RequestFaile:^(NSError *error) {
-        
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        [_refreshFooter endRefreshing];
+        [_refreshHeader endRefreshing];
     }];
     
 }
@@ -137,7 +139,7 @@
     cell.delegateNotes = self;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSDictionary *dic = _arrayNotes[indexPath.row];
-   _cellHeight = [cell setvalueForCellModel:dic];
+   _cellHeight = [cell setvalueForCellModel:dic withNotsPara:1];
     cell.userInteractionEnabled = YES;
     return cell;
 }

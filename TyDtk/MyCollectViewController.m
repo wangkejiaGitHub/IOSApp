@@ -655,11 +655,25 @@
     for (id subView in cell.contentView.subviews) {
         [subView removeFromSuperview];
     }
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(25, (50-8)/2, 8, 8)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(25, (50-9)/2, 9, 9)];
     view.backgroundColor = ColorWithRGB(90, 144, 266);
     view.layer.masksToBounds = YES;
-    view.layer.cornerRadius = 4;
+    view.layer.cornerRadius = 4.5;
     [cell.contentView addSubview:view];
+    
+    if (arrayData.count > 1) {
+        UIView *viewLY = [[UIView alloc]initWithFrame:CGRectMake(29, 0, 1, 50)];
+        if (indexPath.row == 0) {
+            viewLY.frame = CGRectMake(29, 25, 1, 25);
+        }
+        else if (indexPath.row == arrayData.count - 1){
+            viewLY.frame = CGRectMake(29, 0, 1, 25);
+        }
+        viewLY.backgroundColor = ColorWithRGB(90, 144, 266);
+        [cell.contentView addSubview:viewLY];
+    }
+
+    
     UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 60, 50)];
     labT.numberOfLines = 0;
     labT.font = [UIFont systemFontOfSize:15.0];

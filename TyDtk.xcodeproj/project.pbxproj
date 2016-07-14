@@ -170,7 +170,6 @@
 		1DB95A8B1D348F2E00DEF474 /* TopicLookQtype4TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB95A891D348F2E00DEF474 /* TopicLookQtype4TableViewCell.m */; };
 		1DB95A8C1D348F2E00DEF474 /* TopicLookQtype4TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DB95A8A1D348F2E00DEF474 /* TopicLookQtype4TableViewCell.xib */; };
 		1DB95A901D34C25400DEF474 /* add_exam.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB95A8F1D34C25400DEF474 /* add_exam.png */; };
-		1DB95A921D34E8B900DEF474 /* heardNilImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB95A911D34E8B900DEF474 /* heardNilImg.png */; };
 		1DBD935B1D07A4DF0050848D /* MyCollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD935A1D07A4DF0050848D /* MyCollectViewController.m */; };
 		1DBD93B81D08163D0050848D /* MGSwipeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93B51D08163D0050848D /* MGSwipeButton.m */; };
 		1DBD93B91D08163D0050848D /* MGSwipeTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD93B71D08163D0050848D /* MGSwipeTableCell.m */; };
@@ -209,6 +208,7 @@
 		1DDBBFE61D25FBB40009C59F /* ActiveSubjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDBBFE51D25FBB40009C59F /* ActiveSubjectView.m */; };
 		1DDE06681CAA295B00FA1505 /* PhoneForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */; };
 		1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDE066A1CAA296A00FA1505 /* EmailForPwdViewController.m */; };
+		1DE281A11D3741A8008FA2F0 /* heardNilImg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE281A01D3741A8008FA2F0 /* heardNilImg.png */; };
 		1DE3C1591D2E268300415120 /* LoginUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3C1581D2E268300415120 /* LoginUser.m */; };
 		1DE3C15B1D2E48C100415120 /* label.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE3C15A1D2E48C100415120 /* label.png */; };
 		1DE3F88F1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3F88E1CAE52CA00A290CF /* UINavigationController+FDFullscreenPopGesture.m */; };
@@ -672,7 +672,6 @@
 		1DB95A891D348F2E00DEF474 /* TopicLookQtype4TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicLookQtype4TableViewCell.m; sourceTree = "<group>"; };
 		1DB95A8A1D348F2E00DEF474 /* TopicLookQtype4TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopicLookQtype4TableViewCell.xib; sourceTree = "<group>"; };
 		1DB95A8F1D34C25400DEF474 /* add_exam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_exam.png; sourceTree = "<group>"; };
-		1DB95A911D34E8B900DEF474 /* heardNilImg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heardNilImg.png; sourceTree = "<group>"; };
 		1DBD93591D07A4DF0050848D /* MyCollectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectViewController.h; sourceTree = "<group>"; };
 		1DBD935A1D07A4DF0050848D /* MyCollectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectViewController.m; sourceTree = "<group>"; };
 		1DBD93B41D08163D0050848D /* MGSwipeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MGSwipeButton.h; sourceTree = "<group>"; };
@@ -746,6 +745,7 @@
 		1DDE06671CAA295B00FA1505 /* PhoneForPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhoneForPwdViewController.m; sourceTree = "<group>"; };
 		1DDE06691CAA296A00FA1505 /* EmailForPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmailForPwdViewController.h; sourceTree = "<group>"; };
 		1DDE066A1CAA296A00FA1505 /* EmailForPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmailForPwdViewController.m; sourceTree = "<group>"; };
+		1DE281A01D3741A8008FA2F0 /* heardNilImg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heardNilImg.png; sourceTree = "<group>"; };
 		1DE3C1571D2E268300415120 /* LoginUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginUser.h; sourceTree = "<group>"; };
 		1DE3C1581D2E268300415120 /* LoginUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginUser.m; sourceTree = "<group>"; };
 		1DE3C15A1D2E48C100415120 /* label.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = label.png; sourceTree = "<group>"; };
@@ -1161,6 +1161,7 @@
 		1D2277BE1D2221DF00D2269C /* ImgPers */ = {
 			isa = PBXGroup;
 			children = (
+				1DE281A01D3741A8008FA2F0 /* heardNilImg.png */,
 				1D0D0E911D2A38F70041E1BE /* persenself.png */,
 				1D2277D31D22244E00D2269C /* quest.png */,
 				1D2277BF1D22224B00D2269C /* about.png */,
@@ -1931,7 +1932,6 @@
 				1DF499391D2FAE1A00EF80E5 /* ic_business_detail_mark.png */,
 				1DF4993A1D2FAE1A00EF80E5 /* ic_business_detail_mark@2x.png */,
 				1DF947311CF680CA00CC4759 /* btm_icon4@2x.png */,
-				1DB95A911D34E8B900DEF474 /* heardNilImg.png */,
 				1DF499371D2F930800EF80E5 /* icon_close.png */,
 				1DF9472F1CF680C200CC4759 /* btm_icon4_hover@2x.png */,
 				1DF9472D1CF680B700CC4759 /* btm_icon1@2x.png */,
@@ -2398,7 +2398,6 @@
 				1D122BA41CDDC3DA00A0BA08 /* AnalysisQtype6Cell.xib in Resources */,
 				1D0D0E901D2A389D0041E1BE /* imgNullPer.png in Resources */,
 				1D165E6F1CD1F84700F61EAE /* ErrorView.xib in Resources */,
-				1DB95A921D34E8B900DEF474 /* heardNilImg.png in Resources */,
 				1D079CDA1D25104F00313255 /* OrderHeardView.xib in Resources */,
 				1DB95A901D34C25400DEF474 /* add_exam.png in Resources */,
 				1DF950591CA38F5800104597 /* km_icon.png in Resources */,
@@ -2414,6 +2413,7 @@
 				1D92C8AD1D13D349006A937F /* AddNewNote.xib in Resources */,
 				1DF947261CF67FD100CC4759 /* dtk.png in Resources */,
 				1DF947241CF67C5800CC4759 /* sayD.png in Resources */,
+				1DE281A11D3741A8008FA2F0 /* heardNilImg.png in Resources */,
 				1DF947221CF67C5200CC4759 /* picon.png in Resources */,
 				1DE3C15B1D2E48C100415120 /* label.png in Resources */,
 				1D0D0EA91D2A45770041E1BE /* edit001.png in Resources */,

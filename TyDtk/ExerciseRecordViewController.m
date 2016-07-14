@@ -256,7 +256,7 @@
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];
         }
         else{
-            [SVProgressHUD showInfoWithStatus:@"操作失败"];
+            [SVProgressHUD showInfoWithStatus:dicRe[@"errmsg"]];
         }
     } RequestFaile:^(NSError *error) {
         

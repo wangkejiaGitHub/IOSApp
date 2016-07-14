@@ -64,7 +64,7 @@
     _dicSubButtonSubOy = [NSMutableDictionary dictionary];
     _tableViewPater = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 44) style:UITableViewStyleGrouped];
     if (_isFromNote) {
-        _tableViewPater.frame = CGRectMake(0, 0, Scr_Width, self.view.bounds.size.height);
+        _tableViewPater.frame = CGRectMake(0, 0, Scr_Width, self.view.bounds.size.height - 64 - 49);
     }
     _tableViewPater.delegate = self;
     _tableViewPater.dataSource = self;

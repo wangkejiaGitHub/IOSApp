@@ -20,5 +20,8 @@
 @property (nonatomic,assign) NSInteger userParameter;
 @property (nonatomic,assign) id <NotesDelegateDelete> delegateNotes;
 @property (nonatomic,strong) NSDictionary *dicNotes;
-- (CGFloat)setvalueForCellModel:(NSDictionary *)dic;
+/**
+ dic：笔记信息  notePara：判断是用户笔记还是网友笔记(0:网友笔记，1.用户笔记)
+ */
+- (CGFloat)setvalueForCellModel:(NSDictionary *)dic withNotsPara:(NSInteger)notePara;
 @end

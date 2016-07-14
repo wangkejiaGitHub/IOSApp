@@ -9,7 +9,7 @@
 #import "NotesTopicViewController.h"
 #import "PaperLookViewController.h"
 @interface NotesTopicViewController ()
-
+@property (nonatomic,strong) PaperLookViewController *paperVc;
 @end
 
 @implementation NotesTopicViewController
@@ -19,22 +19,34 @@
     // Do any additional setup after loading the view from its nib.
     self.title = @"笔记试题";
     NSLog(@"%@",_dicNoteTopic);
-    [self addNoteTopicChildView];
+    PaperLookViewController *paperChvc = [[PaperLookViewController alloc]init];
+    [self addChildViewController:paperChvc];
+//    [self addNoteTopicChildView];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    ///////
+    [_paperVc.view removeFromSuperview];
     self.navigationController.tabBarController.tabBar.hidden = NO;
 }
+- (void)viewDidAppear:(BOOL)animated{
+    _paperVc = [self.childViewControllers firstObject];
+    _paperVc.dicTopic = _dicNoteTopic;
+    _paperVc.topicIndex = 1;
+    _paperVc.isLastTopic = NO;
+    _paperVc.isFromNote = YES;
+    _paperVc.view.frame = CGRectMake(0, 64, Scr_Width, Scr_Height);
+    [self.view addSubview:_paperVc.view];
+}
 - (void)addNoteTopicChildView{
-    PaperLookViewController *paperLookVc = [[PaperLookViewController alloc]init];
-    [self addChildViewController:paperLookVc];
+
     
-    PaperLookViewController *paVc = (PaperLookViewController *)[self.childViewControllers firstObject];
-    paVc.dicTopic = _dicNoteTopic;
-    paVc.topicIndex = 1;
-    paVc.isLastTopic = NO;
-    paVc.isFromNote = YES;
-    paVc.view.frame = CGRectMake(0, 0, Scr_Width, Scr_Height);
-    [self.view addSubview:paVc.view];
+//    PaperLookViewController *paVc = (PaperLookViewController *)[self.childViewControllers firstObject];
+//    paVc.dicTopic = _dicNoteTopic;
+//    paVc.topicIndex = 1;
+//    paVc.isLastTopic = NO;
+//    paVc.isFromNote = YES;
+//    paVc.view.frame = CGRectMake(0, 0, Scr_Width, Scr_Height);
+//    [self.view addSubview:paVc.view];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

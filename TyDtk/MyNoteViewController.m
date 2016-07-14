@@ -61,7 +61,7 @@
 - (void)headerRefereshClick:(MJRefreshNormalHeader *)reFresh{
     _pageCount= 0;
     _pageCurr = 1;
-    [_arrayNotes removeAllObjects];
+//    [_arrayNotes removeAllObjects];
     [self getNoteWipthChaperId];
 }
 //上拉刷新
@@ -81,6 +81,11 @@
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicNote = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if ([dicNote[@"code"] integerValue] == 1) {
+            
+            if (_pageCurr == 1) {
+                [_arrayNotes removeAllObjects];
+            }
+            
             _pageCurr = _pageCurr + 1;
             NSArray *arrayNote = dicNote[@"datas"];
             for (NSDictionary *dicN in arrayNote) {

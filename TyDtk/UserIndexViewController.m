@@ -74,7 +74,6 @@
     _tableHeardView.delegateImg = self;
     _tableViewList.tableHeaderView = _tableHeardView;
 }
-
 ///判断是否登录
 - (BOOL)loginTest{
     if ([_tyUser objectForKey:tyUserUserInfo]) {

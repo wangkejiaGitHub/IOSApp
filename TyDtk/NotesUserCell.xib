@@ -14,7 +14,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="400" height="134"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="persenself.png" translatesAutoresizingMaskIntoConstraints="NO" id="Jm5-XA-UuB">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jm5-XA-UuB">
                         <rect key="frame" x="15" y="15" width="40" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="B9B-9U-2oL"/>
@@ -98,6 +98,5 @@
     </objects>
     <resources>
         <image name="ljt001.png" width="48" height="48"/>
-        <image name="persenself.png" width="48" height="48"/>
     </resources>
 </document>

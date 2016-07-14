@@ -134,7 +134,7 @@
     cell.userParameter = 0;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     NSDictionary *dic = _arrayNotes[indexPath.row];
-    _cellHeight = [cell setvalueForCellModel:dic];
+    _cellHeight = [cell setvalueForCellModel:dic withNotsPara:0];
     cell.userInteractionEnabled = YES;
     return cell;
 }
