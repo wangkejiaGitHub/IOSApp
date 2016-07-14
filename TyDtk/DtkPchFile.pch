@@ -78,6 +78,8 @@
 #define CustomStoryboard(storyboardName) [UIStoryboard storyboardWithName:storyboardName bundle:nil]
 
 #define sizeWithStrinfLength(string,fontSize,height) [string sizeWithFont:[UIFont systemFontOfSize:fontSize] constrainedToSize:CGSizeMake(MAXFLOAT, height)]
+///网络异常
+#define httpsErrorShow [SVProgressHUD showErrorWithStatus:@"网络异常"]
 /**********************
  服务器请求相关地址
  *********************/
@@ -101,6 +103,9 @@
 /**********************
   NSUserDefaults 信息储存字段
  *********************/
+///默认账户信息（在用户未登录情况下）
+#define defaultUserId @"6353e6759c5bb80e35fc89d19fb856d5"
+#define defaultUserCode @"18999999999"
 //用户信息（字典模型
 // 包含的key对应服务器发送过来的Key
 #define tyNSUserDefaults [NSUserDefaults standardUserDefaults]

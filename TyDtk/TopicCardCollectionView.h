@@ -18,6 +18,9 @@
 @property (nonatomic,strong) NSMutableArray *arrayisMakeTopic;
 @property (nonatomic,assign) id <TopicCardDelegate> delegateCellClick;
 @property (nonatomic,strong) UILabel *labTimeString;
+@property (nonatomic,assign) NSInteger intHour;
+@property (nonatomic,assign) NSInteger intMinutes;
+@property (nonatomic,assign) NSInteger intSecond;
 @property (nonatomic,strong) NSTimer *timerCard;
 /**
  重写实例化方法

@@ -148,7 +148,6 @@
         }
         
     }
-     NSLog(@"11111111111122222222222222");
 }
 //笔记按钮
 - (IBAction)buttonNoteClick:(UIButton *)sender {
@@ -177,6 +176,7 @@
  收藏试题
  */
 - (void)collectTopic{
+    [SVProgressHUD show];
     NSString *accessToken = [_tyUser objectForKey:tyUserAccessToken];
     NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/Add/%ld?access_token=%@",systemHttps,questionId,accessToken];
@@ -211,14 +211,14 @@
             [SVProgressHUD showInfoWithStatus:@"操作失败!"];
         }
     } RequestFaile:^(NSError *error) {
-        
+        httpsErrorShow;
     }];
 }
 /**
  取消收藏
  */
 - (void)cancelCollectTopic{
-    
+    [SVProgressHUD show];
     NSString *accessToken = [_tyUser objectForKey:tyUserAccessToken];
     NSInteger questionId = [_dicTopic[@"questionId"] integerValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Collection/Del/%ld?access_token=%@",systemHttps,questionId,accessToken];
@@ -245,7 +245,7 @@
         }
         
     } RequestFaile:^(NSError *error) {
-        
+        httpsErrorShow;
     }];
     
     

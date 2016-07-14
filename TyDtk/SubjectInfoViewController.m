@@ -232,7 +232,6 @@
 
 /**
  获取专业下所有科目
- getTikuSubjects?classId=
  */
 - (void)getAllSubject{
     [SVProgressHUD show];
@@ -325,9 +324,7 @@
         ///未登录状态
         else{
             ///使用默认账户
-//        userid:6353e6759c5bb80e35fc89d19fb856d5
-//        user:18999999999
-            [_customTool empowerAndSignatureWithUserId:@"6353e6759c5bb80e35fc89d19fb856d5" userCode:@"18999999999" classId:classId subjectId:subjectId];
+            [_customTool empowerAndSignatureWithUserId:defaultUserId userCode:defaultUserCode classId:classId subjectId:subjectId];
         }
     }
     else{

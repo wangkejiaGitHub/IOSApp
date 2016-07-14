@@ -75,9 +75,6 @@
         [SVProgressHUD showSuccessWithStatus:@"登录成功"];
         [self.navigationController popViewControllerAnimated:YES];
     }
-    else{
-        
-    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

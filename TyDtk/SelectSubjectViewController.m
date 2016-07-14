@@ -189,7 +189,6 @@
         return;
     }
     _dicClass = dic;
-    NSLog(@"%ld",courseNumId);
     _isAnimation = !_isAnimation;
     if (_isAnimation) {
         [self getAllSubject:dic];
@@ -277,7 +276,6 @@
     if (anim == [self.navigationController.tabBarController.view.layer animationForKey:@"big"]) {
         if (_dicSelectSubject != nil) {
             [self getAccessToken];
-            NSLog(@"%@",_dicSelectSubject);
         }
     }
 }
@@ -295,7 +293,7 @@
     }
     ///未登录状态下的授权
     else{
-        [_customTool empowerAndSignatureWithUserId:@"6353e6759c5bb80e35fc89d19fb856d5" userCode:@"18999999999" classId:classId subjectId:subjectId];
+        [_customTool empowerAndSignatureWithUserId:defaultUserId userCode:defaultUserCode classId:classId subjectId:subjectId];
     }
 }
 - (void)httpSussessReturnClick{

@@ -137,19 +137,21 @@
     labTitle.textColor = ColorWithRGB(55, 155, 255);
     labTitle.backgroundColor = [UIColor clearColor];
     if (section == 0) {
-        labTitle.text = @"（题库模块练习）";
+        labTitle.text = @"题库模块练习";
     }
     else{
-        labTitle.text = @"（个人中心练习）";
+        labTitle.text = @"个人中心练习";
     }
     [view addSubview:labTitle];
     return view;
 }
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    return nil;
-}
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 1;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 1)];
+    viewFooter.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    return viewFooter;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];

@@ -245,7 +245,7 @@
             [SVProgressHUD showInfoWithStatus:@"操作失败!"];
         }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        httpsErrorShow;
     }];
 }
 /**
@@ -279,7 +279,7 @@
         }
         
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        httpsErrorShow;
     }];
     
     

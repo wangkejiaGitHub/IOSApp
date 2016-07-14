@@ -344,7 +344,7 @@
             [_tyUser removeObjectForKey:tyUserUserInfo];
             [_tyUser removeObjectForKey:tyUserAccount];
             ///退出后用默认的账号授权
-            [_loginUser empFirstComeAppWithUserId:@"6353e6759c5bb80e35fc89d19fb856d5" userCode:@"18999999999"];
+            [_loginUser empFirstComeAppWithUserId:defaultUserId userCode:defaultUserCode];
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{

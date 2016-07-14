@@ -1122,13 +1122,6 @@
 			path = LXAlertView;
 			sourceTree = "<group>";
 		};
-		1D1F10B91D1CC91F00B3DBBC /* PopAnimation */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = PopAnimation;
-			sourceTree = "<group>";
-		};
 		1D211FC11D0D57C600B895C6 /* SDCycleScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1960,7 +1953,6 @@
 		1DEDC8331C9FA2920083B394 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
-				1D1F10B91D1CC91F00B3DBBC /* PopAnimation */,
 				1DD1270A1D1A87E3003853E5 /* HWPoTools */,
 				1D211FC11D0D57C600B895C6 /* SDCycleScrollView */,
 				1DEDC8341C9FA2920083B394 /* SDWebImage */,
@@ -2776,7 +2768,7 @@
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/TyDtk";
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2805,7 +2797,7 @@
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/TyDtk";
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

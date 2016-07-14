@@ -244,10 +244,7 @@
         NSDictionary *dicRe = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicRe[@"code"] integerValue];
         if (codeId == 1) {
-//            [_arrayExRe removeObjectAtIndex:dicIndexPath.row];
-//            [_tableViewRe deleteRowsAtIndexPaths:@[dicIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            [_tableViewRe reloadData];
-            
+
             //删除成功后重新获取记录，科目、做题模式不改变，初始页为1，清除记录数组
             _pageCurr = 1;
             [_arrayExRe removeAllObjects];
@@ -418,7 +415,6 @@
         if (_topicModelCell == 1 ) {
             starVc.paperParameter = _topicModelCell;
             starVc.rIdString = _ridAgainWeekTopic;
-//            starVc.rIdString = _dicSelectSubject[@"Rid"];
         }
         if (_topicModelCell == 2) {
             //智能出题

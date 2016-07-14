@@ -340,6 +340,11 @@
         }];
     }
     else{
+        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+        if (![tyUser objectForKey:tyUserUserInfo]) {
+            [SVProgressHUD showInfoWithStatus:@"您还没有登录哦"];
+            return;
+        }
         _notesView = nil;
         if (!_notesView) {
             _notesView = [[[NSBundle mainBundle] loadNibNamed:@"NotesView" owner:self options:nil]lastObject];

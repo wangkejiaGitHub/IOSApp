@@ -8,9 +8,6 @@
 
 #import "TopicCardCollectionView.h"
 @interface TopicCardCollectionView()<UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
-@property (nonatomic,assign) NSInteger intHour;
-@property (nonatomic,assign) NSInteger intMinutes;
-@property (nonatomic,assign) NSInteger intSecond;
 ///parameter（1章节练习，2模拟试卷，3每周精选，4智能出题）等
 @property (nonatomic,assign) NSInteger parameter;
 @end

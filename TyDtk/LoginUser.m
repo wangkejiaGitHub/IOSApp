@@ -26,7 +26,7 @@
         }
     } RequestFaile:^(NSError *erro) {
         [SVProgressHUD showInfoWithStatus:@"网络异常！"];
-//        [self.delegateLogin getUserInfoIsDictionary:nil messagePara:0];
+        [self.delegateLogin getUserInfoIsDictionary:nil messagePara:0];
     }];
 }
 

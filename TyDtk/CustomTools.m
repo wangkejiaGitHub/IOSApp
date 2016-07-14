@@ -8,7 +8,7 @@
 
 #import "CustomTools.h"
 @implementation CustomTools
-
+///sha1 加密
 -(NSString *)sha1EncryptString:(NSString *)srcString{
     const char *cstr = [srcString cStringUsingEncoding:NSUTF8StringEncoding];
     NSData *data = [NSData dataWithBytes:cstr length:srcString.length];

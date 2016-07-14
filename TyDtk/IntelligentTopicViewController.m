@@ -33,7 +33,7 @@
     UIView *viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 0.613*Scr_Width)];
     viewHeader.backgroundColor = [UIColor clearColor];
     UIImageView *imageV = [[UIImageView alloc]initWithFrame:viewHeader.frame];
-    imageV.image = [UIImage imageNamed:@"sma_img1"];
+    imageV.image = [UIImage imageNamed:@"sma_img1.jpg"];
     [viewHeader addSubview:imageV];
     _tableViewIn.tableHeaderView = viewHeader;
     _tableViewIn.tableFooterView = [UIView new];

@@ -138,7 +138,8 @@
 - (void)viewDidDisappear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-    _timeLong = nil;
+    [_timeLong invalidate];
+    [_collectionViewTopicCard.timerCard invalidate];
 }
 //pop
 - (IBAction)popButtonClick:(UIBarButtonItem *)sender {
@@ -284,7 +285,7 @@
         /////////////////////////////////////////////////////////////
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD dismiss];
+        httpsErrorShow;
     }];
 }
 //倒计时时间事件
@@ -305,9 +306,7 @@
  添加试卷剩余时间定时器
  */
 - (void)addTimerForPater{
-    if (!_timeLong) {
-        _timeLong = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeClick:) userInfo:nil repeats:YES];
-    }
+    _timeLong = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeClick:) userInfo:nil repeats:YES];
     _timeLong.fireDate = [NSDate distantPast];
     _labSurplus.text = @"剩余时间";
 }
@@ -409,12 +408,6 @@
     //????????????????????????????????????????????
     NSDictionary *dicPost = @{@"Id":paterId,@"Title":paterTitle,@"PostStr":postStr};
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/SubmitPaper?access_token=%@",systemHttps,_accessToken];
-    ///测试填空题的令牌
-    //????????????????????????????????????????????
-//     NSDictionary *dicPost = @{@"Id":@"278",@"Title":@"2014年10月全国高等教育自学考试《现代汉语》真题",@"PostStr":postStr};
-    //????????????????????????????????????????????
-    //????????????????????????????????????????????
-//    NSString *urlString = @"http://api.kaola100.com/api/Paper/SubmitPaper?access_token=1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2";
     [HttpTools postHttpRequestURL:urlString RequestPram:dicPost RequestSuccess:^(id respoes) {
         NSDictionary *dic =(NSDictionary *)respoes;
         NSInteger codeId = [dic[@"code"] integerValue];
@@ -425,6 +418,8 @@
                 [self performSegueWithIdentifier:@"topicAnalysis" sender:rId];
             }
             else{
+                [SVProgressHUD dismiss];
+                _rIdString = dicDatas[@"rid"];
                 [self getSimulatePaperAnalysisReportInfoWithRid:dicDatas[@"rid"]];
             }
         }
@@ -432,7 +427,7 @@
             [SVProgressHUD showInfoWithStatus:@"提交失败"];
         }
     } RequestFaile:^(NSError *erro) {
-        
+        httpsErrorShow;
     }];
 }
 
@@ -537,7 +532,7 @@
             [SVProgressHUD showInfoWithStatus:dicWeekPaper[@"errmsg"]];
         }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"请求异常"];
+        httpsErrorShow;
     }];
 }
 /**
@@ -560,12 +555,13 @@
                 [self performSegueWithIdentifier:@"topicAnalysis" sender:rId];
             }
             else{
+                _rIdString = dicDatas[@"rid"];
                 [self getWeekPaperAnalysisReportInfoWithRid:dicDatas[@"rid"]];
             }
             
         }
     } RequestFaile:^(NSError *erro) {
-        [SVProgressHUD showInfoWithStatus:@"操作异常!"];
+        httpsErrorShow;
     }];
 }
 //****************************每周精选模块****************************//
@@ -664,8 +660,11 @@
             [SVProgressHUD dismiss];
             
         }
+        else{
+            [SVProgressHUD showInfoWithStatus:dicChaperPaper[@"errmsg"]];
+        }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
+        httpsErrorShow;
     }];
 }
 /**
@@ -688,6 +687,7 @@
                 [self performSegueWithIdentifier:@"topicAnalysis" sender:dicDatas[@"rid"]];
             }
             else{
+                _rIdString = dicDatas[@"rid"];
                 if (self.paperParameter == 1) {
                     [self getChaperPaperAnalysisReportInfoWithRid:dicDatas[@"rid"]];
                 }
@@ -698,7 +698,7 @@
             }
         }
     } RequestFaile:^(NSError *erro) {
-        
+        httpsErrorShow;
     }];
     
 }
@@ -741,7 +741,7 @@
             [SVProgressHUD showInfoWithStatus:dicIntelligent[@"errmsg"]];
         }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"请求异常"];
+        httpsErrorShow;
     }];
 
     
@@ -964,7 +964,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
     } RequestFaile:^(NSError *erro) {
-        [SVProgressHUD showInfoWithStatus:@"操作异常！"];
+        httpsErrorShow;
     }];
 }
 //////////////////////////////////
@@ -1069,7 +1069,7 @@
             [self addViewAnalysisForAnalysis];
         }
     } RequestFaile:^(NSError *erro) {
-        
+        httpsErrorShow;
     }];
 }
 /////////////////////模拟试卷模块分析报告//////////////////////////////
@@ -1090,7 +1090,7 @@
             [self addViewAnalysisForAnalysis];
         }
     } RequestFaile:^(NSError *error) {
-        
+        httpsErrorShow;
     }];
     
 }
@@ -1115,7 +1115,7 @@
             
         }
     } RequestFaile:^(NSError *error) {
-        
+        httpsErrorShow;
     }];
 }
 /////////////////////章节练习模块分析报告//////////////////////////////
@@ -1140,7 +1140,7 @@
         }
         
     } RequestFaile:^(NSError *error) {
-        
+        httpsErrorShow;
     }];
 }
 /////////////////////智能做题模块分析报告//////////////////////////////
@@ -1150,163 +1150,18 @@
 - (void)addViewAnalysisForAnalysis{
     NSString *messageTopic = [NSString stringWithFormat:@"总做题数：【%ld】题\n答对题数：【%ld】题\n答错题数：【%ld】题\n正确率：【%ld%%】",_intDoTopic,_intRightTopic,_intWrongTopic,_intAccuracy];
     LXAlertView *viewTest = [[LXAlertView alloc]initWithTitle:@"试题分析" message: messageTopic cancelBtnTitle:@"直接退出" otherBtnTitle:@"再做一次" clickIndexBlock:^(NSInteger clickIndex) {
+        ///直接退出
         if (clickIndex == 0) {
             NSLog(@"0");
             [self.navigationController popViewControllerAnimated:YES];
         }
+        ///再做一次
         else{
-            //章节练习
-            if (self.paperParameter == 1) {
-//                self.navigationItem.titleView = nil;
-//                self.title = @"章节练习";
-//                _buttonSaveSch.userInteractionEnabled = YES;
-                [self getChaperPaperData];
-            }
-            //模拟试卷
-            else if (self.paperParameter == 2){
-                _buttonSaveSch.userInteractionEnabled = YES;
-                [self getPaterDatas];
-            }
-            //每周精选
-            else if (self.paperParameter == 3){
-//                _buttonSaveSch.backgroundColor = [UIColor lightGrayColor];
-//                //去掉剩余时间显示字段
-//                self.navigationItem.titleView = nil;
-//                self.title = @"每周精选";
-//                [_buttonSubPater setTitle:@"结束答题" forState:UIControlStateNormal];
-                [self getWeekPaperData];
-            }
-            //智能出题
-            else if (self.paperParameter == 4){
-//                _buttonSaveSch.backgroundColor = [UIColor lightGrayColor];
-//                self.navigationItem.titleView = nil;
-//                self.title = @"智能出题";
-//                [_buttonSubPater setTitle:@"结束答题" forState:UIControlStateNormal];
-                [self getIntelligentPaperData];
-            }
-
-            NSLog(@"1");
+            [self againDoTopicRidClear];
         }
     }];
     viewTest.animationStyle = LXASAnimationTopShake;
     [viewTest showLXAlertView];
-//    [_viewAnalysis removeFromSuperview];
-//    //试题统计总试图
-//    _viewAnalysis = [[UIView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height - 190)];
-//    _viewAnalysis.layer.masksToBounds = YES;
-//    _viewAnalysis.layer.cornerRadius = 10;
-//    _viewAnalysis.backgroundColor = ColorWithRGBWithAlpp(200, 200, 200, 1);
-//    //添加关闭按钮
-//    UIButton *btnCancel = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btnCancel.frame = CGRectMake(Scr_Width - 30, 0, 30, 30);
-//    //    btnCancel.layer.masksToBounds = YES;
-//    //    btnCancel.layer.cornerRadius = 15;
-//    //    btnCancel.backgroundColor = [UIColor blackColor];
-//    //    [btnCancel setTitle:@"x" forState:UIControlStateNormal];
-//    [btnCancel setImage:[UIImage imageNamed:@"backlog"] forState:UIControlStateNormal];
-//    btnCancel.highlighted = YES;
-//    [btnCancel addTarget:self action:@selector(buttonHidenViewAnalysisClick:) forControlEvents:UIControlEventTouchUpInside];
-//    [_viewAnalysis addSubview:btnCancel];
-//    //添加绘制图表
-//    ZFPieChart *pieChartAnalysis = [[ZFPieChart alloc]initWithFrame:CGRectMake(Scr_Width/2, 70, Scr_Width/2, _viewAnalysis.frame.size.height - 233)];
-//    //    pieChartAnalysis.title = @"试题分析";
-//    pieChartAnalysis.valueArray = [NSMutableArray arrayWithObjects:[NSString stringWithFormat:@"%ld",_intRightTopic], [NSString stringWithFormat:@"%ld",_intWrongTopic], nil];
-//    pieChartAnalysis.nameArray = [NSMutableArray arrayWithObjects:@"答对", @"答错", nil];
-//    pieChartAnalysis.colorArray = [NSMutableArray arrayWithObjects:ZFColor(71, 204, 255, 1), ZFColor(253, 203, 76, 1), ZFColor(214, 205, 153, 1), ZFColor(78, 250, 188, 1), ZFColor(16, 140, 39, 1), ZFColor(45, 92, 34, 1), nil];
-//    [_viewAnalysis addSubview:pieChartAnalysis];
-//    [pieChartAnalysis strokePath];
-//    //添加正确率等数据
-//    //试题总数
-//    UILabel *labTopicCount = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, Scr_Width - 20, 25)];
-//    labTopicCount.font = [UIFont systemFontOfSize:15.0];
-//    //    labTopicCount.textAlignment = NSTextAlignmentCenter;
-//    //属性字符串试题的总数
-//    NSMutableAttributedString *attrTopicCount = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"该试卷共【%ld】题(所指大题数)",_intTpoicCount]];
-//    [attrTopicCount addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%ld",_intTpoicCount].length)];
-//    [labTopicCount setAttributedText:attrTopicCount];
-//    [_viewAnalysis addSubview:labTopicCount];
-//    //做题数
-//    UILabel *labDoTopic = [[UILabel alloc]initWithFrame:CGRectMake(20, 50, Scr_Width - 20, 25)];
-//    labDoTopic.font = [UIFont systemFontOfSize:15.0];
-//    //属性字符串试题的总数
-//    NSMutableAttributedString *attrDoTopic = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"您共做了【%ld】题(包含所有大题下面的小题)",_intDoTopic]];
-//    [attrDoTopic addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%ld",_intDoTopic].length)];
-//    [labDoTopic setAttributedText:attrDoTopic];
-//    [_viewAnalysis addSubview:labDoTopic];
-//    
-//    //正确率试图
-//    UIView *viewAccuracy = [[UIView alloc]initWithFrame:CGRectMake(20, 123, Scr_Width/2 - 60, Scr_Width/2 - 60)];
-//    CGRect rectVV = viewAccuracy.frame;
-//    if (Scr_Width == 320) {
-//        rectVV.origin.y = 90;
-//    }
-//    else if (Scr_Width == 375){
-//        rectVV.origin.y = 123;
-//    }
-//    else{
-//        rectVV.origin.y = 150;
-//    }
-//    viewAccuracy.frame = rectVV;
-//    viewAccuracy.layer.masksToBounds = YES;
-//    viewAccuracy.layer.cornerRadius = viewAccuracy.frame.size.height/2;
-//    viewAccuracy.backgroundColor = [UIColor clearColor];
-//    viewAccuracy.layer.borderWidth = 5;
-//    viewAccuracy.layer.borderColor = [[UIColor orangeColor] CGColor];
-//    [_viewAnalysis addSubview:viewAccuracy];
-//    //试图中的数字，显示百分比
-//    CGFloat labX = viewAccuracy.frame.origin.x+(viewAccuracy.frame.size.width)/2;
-//    CGFloat labY = viewAccuracy.frame.origin.y + (viewAccuracy.frame.size.width)/2;
-//    UILabel *labViewAccuracy = [[UILabel alloc]initWithFrame:CGRectMake(labX - 25, labY - 15, 50, 30)];
-//    labViewAccuracy.text = [NSString stringWithFormat:@"%ld",_intAccuracy];
-//    labViewAccuracy.font = [UIFont systemFontOfSize:18.0];
-//    labViewAccuracy.textAlignment = NSTextAlignmentCenter;
-//    [_viewAnalysis addSubview:labViewAccuracy];
-//    //百分号
-//    UILabel *labBfh = [[UILabel alloc] initWithFrame:CGRectMake(viewAccuracy.frame.origin.x+viewAccuracy.frame.size.width - 40, viewAccuracy.frame.origin.y+viewAccuracy.frame.size.height - 40, 40, 40)];
-//    labBfh.layer.masksToBounds = YES;
-//    labBfh.layer.cornerRadius = 20;
-//    labBfh.backgroundColor =[UIColor orangeColor];
-//    labBfh.textColor = [UIColor whiteColor];
-//    labBfh.textAlignment = NSTextAlignmentCenter;
-//    labBfh.text = @"%";
-//    labBfh.font = [UIFont systemFontOfSize:23.0];
-//    [_viewAnalysis addSubview:labBfh];
-//    
-//    //正确率
-//    UILabel *labAccuracy = [[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 50, Scr_Width/2 - 40, 30)];
-//    labAccuracy.font = [UIFont systemFontOfSize:15.0];
-//    NSMutableAttributedString *attrAccuracy = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"正确率：%ld%%",_intAccuracy]];
-//    [attrAccuracy addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intAccuracy].length+1)];
-//    [labAccuracy setAttributedText:attrAccuracy];
-//    [_viewAnalysis addSubview:labAccuracy];
-//    //所用时间
-//    UILabel *labTime =[[UILabel alloc]initWithFrame:CGRectMake(20, viewAccuracy.frame.origin.y + viewAccuracy.frame.size.height + 80, Scr_Width/2 - 40, 30)];
-//    labTime.font = [UIFont systemFontOfSize:15.0];
-//    NSMutableAttributedString *attrTime = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"答题时间：%@",@"0"]];
-//    [attrTime addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(5,1)];
-//    [labTime setAttributedText:attrTime];
-//    [_viewAnalysis addSubview:labTime];
-//    
-//    //如果是模拟试卷做题，添加得分
-//    if (_paperParameter == 2) {
-//        ///得分
-//        UILabel *labScore = [[UILabel alloc]initWithFrame:CGRectMake(20, labTime.frame.origin.y+30, Scr_Width/2 - 40, 30)];
-//        labScore.font = [UIFont systemFontOfSize:15.0];
-//        NSMutableAttributedString *attrScore = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"得分：【%ld】分",_intScore]];
-//        [attrScore addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor] range:NSMakeRange(4,[NSString stringWithFormat:@"%ld",_intScore].length)];
-//        [labScore setAttributedText:attrScore];
-//        [_viewAnalysis addSubview:labScore];
-//    }
-//    [self.view addSubview:_viewAnalysis];
-//    UISwipeGestureRecognizer *swipeView = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(viewAnalysisHiden:)];
-//    swipeView.direction = UISwipeGestureRecognizerDirectionDown;
-//    [_viewAnalysis addGestureRecognizer:swipeView];
-//    [UIView animateWithDuration:0.2 animations:^{
-//        CGRect rectAna =_viewAnalysis.frame;
-//        rectAna.origin.y =200;
-//        _viewAnalysis.frame = rectAna;
-//    }];
-//    
 }
 //向下滑动隐藏试题分析
 - (void)viewAnalysisHiden:(UISwipeGestureRecognizer *)swipe{
@@ -1326,6 +1181,61 @@
         rectAna.origin.y = Scr_Height;
         _viewAnalysis.frame = rectAna;
     }];
+}
+
+//************************再次做题（再做一次）/////////////////////////
+///再做一次时重置当前的记录(点击重新做题的一次时间)
+- (void)againDoTopicRidClear{
+    //api/Chapter/ResetRecord?access_token={access_token}&rid={rid}
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/ResetRecord?access_token=%@&rid=%@",systemHttps,_accessToken,_rIdString];
+    [HttpTools postHttpRequestURL:urlString RequestPram:nil RequestSuccess:^(id respoes) {
+        NSDictionary *diccc = (NSDictionary *)respoes;
+        NSInteger codeId = [diccc[@"code"] integerValue];
+        if (codeId == 1) {
+            NSDictionary *dicDatas = diccc[@"datas"];
+            NSString *ridString = dicDatas[@"rid"];
+            _rIdString = ridString;
+            [self clearChildViewControl];
+            if (self.paperParameter == 1) {
+                ///章节练习
+                [self getChaperPaperData];
+            }
+            else if (self.paperParameter == 2){
+                ///模拟试卷
+                [_timeLong invalidate];
+                [self setTimeForTopic];
+                [self getPaterDatas];
+            }
+            else if (self.paperParameter == 3){
+                ///每周精选
+                [self getWeekPaperData];
+            }
+            else if (self.paperParameter == 4){
+                ///智能做题
+                [self getIntelligentPaperData];
+            }
+            
+            [self.scrollViewPater setContentOffset:CGPointMake(0, 0) animated:YES];
+        }
+    } RequestFaile:^(NSError *erro) {
+        httpsErrorShow;
+    }];
+}
+///清除self.view的所有的子试图并清除scrollView上的子试图
+- (void)clearChildViewControl{
+    _intUserDidTopic = 0;
+    [_collectionViewTopicCard.arrayisMakeTopic removeAllObjects];
+    _collectionViewTopicCard.intHour = 0;
+    _collectionViewTopicCard.intMinutes = 0;
+    _collectionViewTopicCard.intSecond = 0;
+    [_collectionViewTopicCard reloadData];
+    for (UIViewController *Vc in self.childViewControllers) {
+        [Vc removeFromParentViewController];
+    }
+    
+    for (id subView in _scrollViewPater.subviews) {
+        [subView removeFromSuperview];
+    }
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     

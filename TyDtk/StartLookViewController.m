@@ -74,7 +74,9 @@
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     [_scrollViewPater setContentSize:CGSizeMake(Scr_Width * _arrayTopicLook.count, Scr_Height - 64 - 44)];
-//    
+     _scrollViewPater.showsHorizontalScrollIndicator = YES;
+    _scrollViewPater.showsVerticalScrollIndicator = YES;
+    
 //    for (int i = 0; i<5; i++) {
 //        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(Scr_Width*i, 0, Scr_Width, Scr_Height - 64 - 44)];
 //        view.backgroundColor = colorSuiJi;
@@ -243,6 +245,7 @@
 }
 //完成拖拽（放手）
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    ///用于分页
     CGFloat scrollConSize = scrollView.contentOffset.x + Scr_Width;
     if (scrollConSize >= _arrayTopicLook.count*Scr_Width + 60) {
         _pageCurr = _pageCurr + 1;
@@ -264,6 +267,11 @@
 //        else if (self.parameterView == 3){
 //            [self getNoteTopicWithChaperId:_chaperId];
 //        }
+    }
+    
+    ///向左拖拽pop返回上一页
+    if (scrollView.contentOffset.x < -10) {
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
