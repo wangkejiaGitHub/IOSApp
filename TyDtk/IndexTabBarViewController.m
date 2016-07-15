@@ -66,7 +66,7 @@
     ///下次进入不再出现
     [_tyUser setObject:@"yes" forKey:tyUserFirstLoad];
 }
-
+///移除引导页动画
 - (void)firstViewDismiss{
     CABasicAnimation *cba1=[CABasicAnimation animationWithKeyPath:@"position"];
     cba1.fromValue=[NSValue valueWithCGPoint:CGPointMake(self.view.center.x, self.view.center.y)];
@@ -102,6 +102,7 @@
         
     }
 }
+
 ///自动登录失败（密码错误）
 - (void)loginUserError{
     [SVProgressHUD showInfoWithStatus:@"您的账户或密码已过期"];
