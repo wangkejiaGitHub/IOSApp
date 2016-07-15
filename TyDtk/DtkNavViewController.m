@@ -20,7 +20,7 @@
 //    UIStoryboard *sTyDty = CustomStoryboard(@"TyDtk");
 //    IndexViewController *indexVc = [sTyDty instantiateViewControllerWithIdentifier:@"IndexViewController"];
 //    self.viewControllers = @[indexVc];
-        self.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon1_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.tabBarItem.selectedImage = [[UIImage imageNamed:@"btm_icon4_hover"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 
 - (void)didReceiveMemoryWarning {

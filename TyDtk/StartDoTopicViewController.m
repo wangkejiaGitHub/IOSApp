@@ -199,12 +199,6 @@
     if (_ridContinue.length > 0) {
         urlString = [urlString stringByAppendingString:[NSString stringWithFormat:@"&rid=%@",_ridContinue]];
     }
-    
-    //????????????????????????????????????????????
-    ////包含填空题试卷测试
-    //NSString *urlString = @"http://api.kaola100.com/api/Paper/GetPaperQuestions/278?access_token=1Ak0ePXnVNoeh7MfuxD3yYUxNzyFQoDee5Ehh1%2BdoNgqCCeWsjZBwU0QCLmsv6vaC1eyTdsatHcThK621xUl%2BcYXvV5%2B2sClbhWdkCo9Wf%2BGxVgPN6EGZeD3KgkIOfUxP0pTyXF6ZsAcpkmSgiU7i2Zcqo3JchyjBdbUe8Ukw654WQ9e/SupJgFxoc/QB3b2";
-    //????????????????????????????????????????????
-    
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicPater = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         _arrayPaterData = dicPater[@"datas"];
@@ -215,7 +209,7 @@
         }
         _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
         
-        //判断是否是继续做题，如果是，rid有值,将用户做过的题的数量和已做过的试题存放起来
+        //判断是否是继续做题，如果是，ridContinue有值,将用户做过的题的数量和已做过的试题存放起来
         if (_ridContinue.length > 0) {
             for (NSDictionary *dicAllTopic in _arrayPaterData) {
                 NSArray *arrayTypeTopic = dicAllTopic[@"Questions"];
@@ -288,7 +282,7 @@
         httpsErrorShow;
     }];
 }
-//倒计时时间事件
+//倒计时时间时分秒设置
 - (void)setTimeForTopic{
     NSInteger timeLong = [_dicPater[@"TimeLong"] integerValue];
     if (timeLong % 60 == 0) {
@@ -307,6 +301,7 @@
  */
 - (void)addTimerForPater{
     _timeLong = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeClick:) userInfo:nil repeats:YES];
+    ///开始定时器
     _timeLong.fireDate = [NSDate distantPast];
     _labSurplus.text = @"剩余时间";
 }
@@ -314,6 +309,14 @@
  时间倒计时
  */
 - (void)timeClick:(NSTimer*)timer{
+    if (_timeHo == 0 && _timeMin == 0 && _timeSe == 0) {
+        [SVProgressHUD showInfoWithStatus:@"预计答题时间已过，您可以继续做题"];
+        ///暂停定时器
+//        [timer setFireDate:[NSDate distantFuture]];
+        ///释放定时器
+        [timer invalidate];
+        return;
+    }
     //先判断秒为0
     if (_timeSe == 0) {
         //判断分钟是否同时为0

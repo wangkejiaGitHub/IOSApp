@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 @protocol LoginDelegate<NSObject>
-///msgPara:0.失败、1.成功
+///获取用户信息 msgPara:0.失败、1.成功
 - (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara;
+///登录失败
+- (void)loginUserError;
 @end
 @interface LoginUser : NSObject
 - (void)LoginAppWithAccount:(NSString *)account password:(NSString *)pwd;

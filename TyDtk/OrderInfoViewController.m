@@ -82,12 +82,15 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 40;
+//    ↑
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *viewSec = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
     viewSec.backgroundColor = ColorWithRGB(200, 200, 200);
-    
-    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 80, 20)];
+    UIImageView *imgGoods = [[UIImageView alloc]initWithFrame:CGRectMake(10, 0, 40, 40)];
+    imgGoods.image = [UIImage imageNamed:@"goods"];
+    [viewSec addSubview:imgGoods];
+    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(50, 10, 80, 20)];
     labTitle.text = @"商品详情";
     labTitle.font = [UIFont systemFontOfSize:16.0];
     labTitle.textColor = ColorWithRGB(55, 155, 255);

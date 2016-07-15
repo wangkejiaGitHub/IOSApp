@@ -73,13 +73,20 @@
         NSInteger codeId = [dicUpdate[@"code"] integerValue];
         if (codeId == 1) {
             [SVProgressHUD showSuccessWithStatus:@"保存成功"];
+            ///更新本地存储的用户账号和密码
+            NSUserDefaults *tyUserAcc = [NSUserDefaults standardUserDefaults];
+            NSDictionary *dicAccount = [tyUserAcc objectForKey:tyUserAccount];
+            NSMutableDictionary *dicAcc = [NSMutableDictionary dictionaryWithDictionary:dicAccount];
+            [dicAcc setObject:_textPwdAg.text forKey:@"pwd"];
+            [tyUserAcc setObject:dicAcc forKey:tyUserAccount];
+            /////////////////////////////////////////////////
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{
             [SVProgressHUD showInfoWithStatus:dicUpdate[@"errmsg"]];
         }
     } RequestFaile:^(NSError *erro) {
-        
+        httpsErrorShow;
     }];
 }
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

@@ -218,7 +218,7 @@
     else{
         [dicModel setObject:@"0" forKey:@"IsDefault"];
     }
-    // POST api/ExamSet/Update?access_token={access_token}
+    //POST api/ExamSet/Update?access_token={access_token}
     NSString *urlString = [NSString stringWithFormat:@"%@api/ExamSet/Update?access_token=%@",systemHttps,_accessToken];
     [HttpTools postHttpRequestURL:urlString RequestPram:dicModel RequestSuccess:^(id respoes) {
         NSDictionary *dicUpdate = (NSDictionary *)respoes;
@@ -231,7 +231,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{
-            [SVProgressHUD showInfoWithStatus:@"操作失败"];
+            [SVProgressHUD showInfoWithStatus:dicUpdate[@"errmsg"]];
         }
     } RequestFaile:^(NSError *erro) {
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
@@ -247,7 +247,7 @@
         _viewDatePicker.layer.masksToBounds = YES;
         _viewDatePicker.layer.cornerRadius = 5;
         _viewDatePicker.layer.borderColor = [[UIColor groupTableViewBackgroundColor] CGColor];
-        _viewDatePicker.layer.borderWidth = 1;
+        _viewDatePicker.layer.borderWidth = 2;
         _datePickerDate = [[UIDatePicker alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 150)];
         _datePickerDate.backgroundColor = [UIColor clearColor];
         _datePickerDate.datePickerMode = UIDatePickerModeDate;

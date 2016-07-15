@@ -131,16 +131,19 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
     view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, Scr_Width - 30, 30)];
+    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(15, 5, Scr_Width - 30, 30)];
     labTitle.font = [UIFont systemFontOfSize:18.0];
     //    labTitle.textAlignment = NSTextAlignmentCenter;
     labTitle.textColor = ColorWithRGB(55, 155, 255);
     labTitle.backgroundColor = [UIColor clearColor];
     if (section == 0) {
-        labTitle.text = @"题库模块练习";
+        UIView *viewL = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 1)];
+        viewL.backgroundColor = ColorWithRGB(200, 200, 200);
+        [view addSubview:viewL];
+        labTitle.text = @"题库模块";
     }
     else{
-        labTitle.text = @"个人中心练习";
+        labTitle.text = @"个人中心";
     }
     [view addSubview:labTitle];
     return view;

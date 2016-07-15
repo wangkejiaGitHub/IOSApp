@@ -11,6 +11,7 @@
 #import "DtkNavViewController.h"
 #import "PracticeNavViewController.h"
 #import "UserNavViewController.h"
+#import "LoginViewController.h"
 @interface IndexTabBarViewController ()<GuideViewDelegate,UITabBarControllerDelegate,LoginDelegate>
 @property (nonatomic,strong) GuideView *scrollViewFirst;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
@@ -22,18 +23,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _tyUser = [NSUserDefaults standardUserDefaults];
-    _loginUser = [[LoginUser alloc]init];
-    _loginUser.delegateLogin = self;
-    ///提前获取纠错类型
-    if (![_tyUser objectForKey:tyUserErrorTopic]) {
-         [self getTopicErrorType];
-    }
-    ///如果是在用户没有手动退出的时候、先判断是否登录超时（如果是手动退出，不做操作）
-    if ([_tyUser objectForKey:tyUserUserInfo]) {
-        NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
-        [_loginUser getUserInformationoWithJeeId:dicUserInfo[@"jeeId"]];
-    }
-    
+    ///加载引导页
     if (![_tyUser objectForKey:tyUserFirstLoad]) {
         NSArray *arrayImgUrl = @[@"http://api.kaola100.com/Content/Images/face-2.jpg",@"http://api.kaola100.com/Content/Images/face-1.jpg",@"http://api.kaola100.com/Content/Images/face-3.jpg"];
         _scrollViewFirst  = [[GuideView alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, Scr_Height) arrayImgUrl:arrayImgUrl];
@@ -46,7 +36,6 @@
             _scrollViewFirst.frame = rect;
         }];
     }
-    //引导页加载完后，删除
     
     /////////////////////////////////////////////////////////
     self.delegate  = self;
@@ -58,8 +47,20 @@
     PracticeNavViewController *praNavi = [sTyPractice instantiateViewControllerWithIdentifier:@"PracticeNavViewController"];
     UserNavViewController *userNavi = [sTyUser instantiateViewControllerWithIdentifier:@"UserNavViewController"];
     self.viewControllers = @[dtkNavi,praNavi,userNavi];
+    ////////////////////////////////////////////////////////////
+    _loginUser = [[LoginUser alloc]init];
+    _loginUser.delegateLogin = self;
+    ///提前获取纠错类型
+    if (![_tyUser objectForKey:tyUserErrorTopic]) {
+         [self getTopicErrorType];
+    }
+    ///如果是在用户没有手动退出的时候、先判断是否登录超时（如果是手动退出，不做操作）
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
+        [_loginUser getUserInformationoWithJeeId:dicUserInfo[@"jeeId"]];
+    }
 }
-//左滑或点击button回调
+//左滑或点击button回调  引导页加载完后，删除
 - (void)GuideViewDismiss{
     [self firstViewDismiss];
     ///下次进入不再出现
@@ -87,17 +88,30 @@
 }
 ///在用户未手动退出的时候，判断是否超时回调
 - (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
-    ///登录超时,发起自动登录
-    if (msgPara == 0) {
+    ///未超时
+    if (msgPara == 1) {
+        [_tyUser setObject:dicUser forKey:tyUserUserInfo];
+    }
+    ///超时
+    else if(msgPara == 0 && dicUser == nil){
         NSDictionary *dicAccount = [_tyUser objectForKey:tyUserAccount];
         [_loginUser LoginAppWithAccount:dicAccount[@"acc"] password:dicAccount[@"pwd"]];
     }
-    ///登录未超时
+    ///网络异常
     else{
-        [_tyUser setObject:dicUser forKey:tyUserUserInfo];
+        
     }
 }
-
+///自动登录失败（密码错误）
+- (void)loginUserError{
+    [SVProgressHUD showInfoWithStatus:@"您的账户或密码已过期"];
+    UINavigationController *nav = self.viewControllers[0];
+    ///重新登录
+    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+    LoginViewController *loginVc = [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    loginVc.hidesBottomBarWhenPushed = YES;
+    [nav pushViewController:loginVc animated:YES];
+}
 /****************************************
  ****************************************
  提前获取试题的纠错类型，并存在 NSUserDefaults

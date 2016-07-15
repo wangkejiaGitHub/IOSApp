@@ -22,6 +22,8 @@
 @property (nonatomic,assign) NSInteger intPageSize;
 //上拉刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
+//下拉刷新控件
+@property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
 //没有订单时显示的view
 @property (nonatomic,strong) ViewNullData *viewNilData;
 //朦层
@@ -36,11 +38,18 @@
     _dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
     _tableViewOrder.separatorStyle = UITableViewCellSeparatorStyleNone;
     _arrayOrderList = [NSMutableArray array];
+    [self addTableViewHeardView];
+    [self addRefreshForTableViewHeader];
     _intPageSize = 10;
     _intPages = 0;
     _intCurrPage = 1;
     [SVProgressHUD show];
     [self getAllOrderList];
+}
+///添加下拉刷新
+- (void)addRefreshForTableViewHeader{
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerTabRefereshClick:)];
+    _tableViewOrder.mj_header = _refreshHeader;
 }
 ///添加上拉刷新
 - (void)addRefreshForTableViewOrder{
@@ -69,6 +78,13 @@
     [viewHeard addSubview:labText];
     _tableViewOrder.tableHeaderView = viewHeard;
 }
+//下拉刷新
+- (void)headerTabRefereshClick:(MJRefreshNormalHeader *)header{
+    _intPageSize = 10;
+    _intPages = 0;
+    _intCurrPage = 1;
+    [self getAllOrderList];
+}
 ///上拉刷新
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)refreshFooter{
     [self getAllOrderList];
@@ -87,13 +103,16 @@
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicOrder = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if ([dicOrder[@"code"] integerValue] == 1) {
+            ///下拉刷新（防止重复添加菜单列表）
+            if (_intCurrPage == 1) {
+                [_arrayOrderList removeAllObjects];
+            }
             NSDictionary *dicDatas = dicOrder[@"datas"];
             if ([dicDatas[@"status"] integerValue] == 1) {
                 NSArray *arrayOrderList = dicDatas[@"data"];
                 if (arrayOrderList.count != 0) {
                     if (_intPages == 0) {
                         [self addRefreshForTableViewOrder];
-                        [self addTableViewHeardView];
                     }
                     for (NSDictionary *dicOrderList in arrayOrderList) {
                         [_arrayOrderList addObject:dicOrderList];
@@ -111,12 +130,15 @@
             _intPages = [dicPage[@"pages"] integerValue];
             _intCurrPage = _intCurrPage + 1;
             [_refreshFooter endRefreshing];
+            [_refreshHeader endRefreshing];
             [_tableViewOrder reloadData];
             [_viewMz removeFromSuperview];
             [SVProgressHUD dismiss];
         }
     } RequestFaile:^(NSError *error) {
         [_viewMz removeFromSuperview];
+        [_refreshFooter endRefreshing];
+        [_refreshHeader endRefreshing];
         [SVProgressHUD showInfoWithStatus:@"操作异常"];
     }];
 }
@@ -187,7 +209,7 @@
     
 }
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return @"删 除";
+    return @"删除订单";
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     LXAlertView *deleteAl = [[LXAlertView alloc]initWithTitle:@"订单删除" message:@"确认删除该订单信息吗？" cancelBtnTitle:@"删除" otherBtnTitle:@"保留" clickIndexBlock:^(NSInteger clickIndex) {

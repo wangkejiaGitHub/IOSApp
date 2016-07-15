@@ -88,10 +88,23 @@
     return 50;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 35;
+    return 40;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 35)];
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
+    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 80, 20)];
+    labTitle.font = [UIFont systemFontOfSize:17.0];
+    labTitle.textColor = ColorWithRGB(100, 134, 167);
+    if (section == 0) {
+        UIView *viewL = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 1)];
+        viewL.backgroundColor = ColorWithRGB(200, 199, 204);
+        [view addSubview:viewL];
+        labTitle.text = @"我的信息";
+    }
+    else{
+        labTitle.text = @"系统操作";
+    }
+    [view addSubview:labTitle];
     view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     return view;
 }
@@ -225,7 +238,6 @@
         NSLog(@"退出登录");
     }
 }
-
 
 ///调用本地相册或摄像头(picParameter:0、手机相册，1、手机摄像头
 - (void)persentImagePicker:(NSInteger)picParameter{

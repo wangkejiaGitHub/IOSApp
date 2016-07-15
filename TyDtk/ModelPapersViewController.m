@@ -145,6 +145,7 @@
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _myTableView.mj_footer = _refreshFooter;
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    ///判断是否购买激活了该科目（未登录状态下和登录状态下）
     [self isActiveSubject];
 }
 ///判断是否购买了该科目（是否激活了科目）
@@ -223,7 +224,7 @@
         _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
     }
     [self.navigationController.tabBarController.view addSubview:_mzView];
-    //获取试卷级别
+    //
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPapers?access_token=%@&courseId=%@&page=%ld&level=%@&year=%@",systemHttps,_accessToken,_subjectId,_paterIndexPage,_paterLevel,_paterYear];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicModelPapers = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -237,8 +238,6 @@
             //追加数据
             NSArray *arrayPaters = dicModelPapers[@"datas"];
             if (arrayPaters.count == 0) {
-//            _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height - 64 - 40 - 50 - Scr_Width/2+10) showText:@"没有更多试卷"];
-//                _myTableView.tableFooterView = _viewNilData;
                 UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 100)];
                 view.backgroundColor = [UIColor whiteColor];
                 UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(30, 30, Scr_Width - 60, 30)];
@@ -266,7 +265,7 @@
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
-        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        httpsErrorShow;
         [_refreshFooter endRefreshing];
         _buttonYear.userInteractionEnabled = NO;
         _buttonLeveles.userInteractionEnabled = NO;
@@ -285,7 +284,7 @@
             _arrayLevels = dicLevels[@"datas"];
         }
     } RequestFaile:^(NSError *error) {
-        
+        httpsErrorShow;
     }];
 }
 /**
@@ -300,7 +299,7 @@
             _arrayYears = dicYesrs[@"datas"];
         }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"系统异常"];
+        httpsErrorShow;
     }];
 }
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
@@ -433,7 +432,7 @@
                       range:NSMakeRange(0,[NSString stringWithFormat:@"%ld",[dicCurrPater[@"Score"] integerValue]].length )];
     [labScore setAttributedText:attriScore];
     //参数人数
-    NSString *personString = [NSString stringWithFormat:@"%ld人参与",[dicCurrPater[@"DoNum"] integerValue]];
+    NSString *personString = [NSString stringWithFormat:@"%ld 人参与",[dicCurrPater[@"DoNum"] integerValue]];
     //参与人数属性字符串
     NSMutableAttributedString *attriperson = [[NSMutableAttributedString alloc] initWithString:personString];
     [attriperson addAttribute:NSForegroundColorAttributeName value:[UIColor brownColor]

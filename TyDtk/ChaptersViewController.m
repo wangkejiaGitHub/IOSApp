@@ -63,7 +63,7 @@
     [super viewDidLoad];
     _arraySection = [NSMutableArray array];
     _tyUser = [NSUserDefaults standardUserDefaults];
-
+    _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 - (void)viewWillAppear:(BOOL)animated{
     if ([_tyUser objectForKey:tyUserUserInfo]) {
@@ -409,9 +409,6 @@
     _viewSelectChaper.delegateChaper = self;
     UIWindow *dd = [[UIApplication sharedApplication] keyWindow];
     [dd addSubview:_viewSelectChaper];
-
-    
-    NSLog(@"%@",arrayZZZ);
     
 }
 

@@ -77,7 +77,7 @@
         }
     }
     [SVProgressHUD show];
-    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/GetUserChapterNotes?access_token=%@&chapterId=%ld&page=%ld&size=2",systemHttps,_accessToken,_chaperId,_pageCurr];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Note/GetUserChapterNotes?access_token=%@&chapterId=%ld&page=%ld&size=20",systemHttps,_accessToken,_chaperId,_pageCurr];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicNote = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if ([dicNote[@"code"] integerValue] == 1) {
@@ -172,7 +172,7 @@
         }
         NSLog(@"%@",dicDele);
     } RequestFaile:^(NSError *erro) {
-        
+        httpsErrorShow;
     }];
     
 }
@@ -180,7 +180,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 /*
 #pragma mark - Navigation
 

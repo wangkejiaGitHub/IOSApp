@@ -106,7 +106,6 @@
     acVc.payParameter = PayParameter;
     [self.navigationController pushViewController:acVc animated:YES];
 }
-
 //上拉刷新
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
     [self getWeekSelectPaper];

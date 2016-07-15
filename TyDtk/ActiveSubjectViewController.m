@@ -128,14 +128,15 @@
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicAc = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSDictionary *dicDatas = dicAc[@"datas"];
+        ///激活未成功提示信息
         if ([dicDatas[@"status"] integerValue] == 0) {
             [SVProgressHUD showInfoWithStatus:dicDatas[@"message"]];
-            [self.navigationController popViewControllerAnimated:YES];
         }
+        ///激活成功（回调服务器）
         else{
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"data"]];
+            [self.navigationController popViewControllerAnimated:YES];
         }
-        
     }RequestFaile:^(NSError *error) {
        [SVProgressHUD showInfoWithStatus:@"操作异常！"];
     }];
@@ -144,7 +145,6 @@
  创建订单
  */
 - (void)createProductOrder{
-//    /ty/mobile/order/orderCreate?productId=662&fromSystem=4
     [SVProgressHUD showWithStatus:@"订单创建中..."];
     NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/orderCreate?productId=%ld&jeeId=%@&fromSystem=902",systemHttpsKaoLaTopicImg,_subjectId,_dicUserInfo[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -156,16 +156,17 @@
         }
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showInfoWithStatus:@"操作异常！"];
+        httpsErrorShow;
     }];
 }
-///跳转到订单详情页面
+///下单过后跳转到订单详情页面
 - (void)goOrderInfoView:(NSDictionary *)dicOrder{
     UIStoryboard *sUser = CustomStoryboard(@"TyUserIn");
     OrderInfoViewController *orderVc = [sUser instantiateViewControllerWithIdentifier:@"OrderInfoViewController"];
     orderVc.dicOrder = dicOrder;
     [self.navigationController pushViewController:orderVc animated:YES];
 }
+///////////
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _arrayProduct.count;
 }

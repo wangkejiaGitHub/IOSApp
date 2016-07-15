@@ -51,6 +51,7 @@
     _tableViewChaper.delegate = self;
     _tableViewChaper.dataSource = self;
     _tableViewChaper.backgroundColor = [UIColor whiteColor];
+    _tableViewChaper.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableViewChaper.userInteractionEnabled = YES;
     UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width-20, 50)];
     view.backgroundColor = [UIColor whiteColor];

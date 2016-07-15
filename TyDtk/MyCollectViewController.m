@@ -46,6 +46,7 @@
     [super viewDidLoad];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    _tableViewCollect.separatorStyle = UITableViewCellSeparatorStyleNone;
     NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
     if (self.parameterView == 1) {
         self.title = @"我的收藏";

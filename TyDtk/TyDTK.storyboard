@@ -504,7 +504,7 @@
         <scene sceneID="Oed-S6-vR8">
             <objects>
                 <navigationController storyboardIdentifier="DtkNavViewController" id="dVa-dp-cd9" customClass="DtkNavViewController" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="题库" image="btm_icon1" id="aOS-Qo-303"/>
+                    <tabBarItem key="tabBarItem" title="题库" image="btm_icon4" id="aOS-Qo-303"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="lt2-yk-JAI">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -521,7 +521,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="btm_icon1" width="20" height="20"/>
+        <image name="btm_icon4" width="20" height="20"/>
         <image name="ic_business_detail_mark" width="10" height="10"/>
         <image name="km_icon.png" width="12" height="14"/>
         <image name="top_backbtn" width="12" height="20"/>

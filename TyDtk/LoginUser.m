@@ -21,12 +21,13 @@
             [self getUserInformationoWithJeeId:dicUser[@"jeeId"]];
         }
         else{
-            [self.delegateLogin getUserInfoIsDictionary:nil messagePara:0];
             [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
+            ///登录失败
+            [self.delegateLogin loginUserError];
         }
     } RequestFaile:^(NSError *erro) {
-        [SVProgressHUD showInfoWithStatus:@"网络异常！"];
-        [self.delegateLogin getUserInfoIsDictionary:nil messagePara:0];
+        httpsErrorShow;
+//        [self.delegateLogin getUserInfoIsDictionary:nil messagePara:0];
     }];
 }
 
@@ -59,6 +60,7 @@
         }
     } RequestFaile:^(NSError *error) {
         [self.delegateLogin getUserInfoIsDictionary:@{@"msg":@"异常"} messagePara:0];
+//        httpsErrorShow;
     }];
 }
 

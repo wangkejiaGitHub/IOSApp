@@ -61,6 +61,8 @@
  */
 - (void)netWorkChange{
     [_viewNilData removeFromSuperview];
+    [_arraySecoundSubject removeAllObjects];
+    [_arraySubject removeAllObjects];
 //    [_labText removeFromSuperview];
     [self getSubjectClass];
 }

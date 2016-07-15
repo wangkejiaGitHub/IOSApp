@@ -61,7 +61,7 @@
     }
     else{
         _isLoginUser = NO;
-        _tableHeardView.labUserName.text = @"点击开始登录";
+        _tableHeardView.labUserName.text = @"点击登录";
         _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
     }
     [SVProgressHUD dismiss];
@@ -131,7 +131,7 @@
         img.image = [UIImage imageNamed:_arrayCellImage[indexPath.row]];
         labTitle.text = _arrayCellTitle[indexPath.row];
         if (indexPath.row == 1) {
-            labSiubject.adjustsFontSizeToFitWidth = YES;
+//            labSiubject.adjustsFontSizeToFitWidth = YES;
             if ([_tyUser objectForKey:tyUserSelectSubject]) {
                 NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
                 labSiubject.text= dicCurrSubject[@"Names"];
@@ -278,6 +278,30 @@
         _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
         _tableHeardView.labUserName.text = @"请检查您的网络";
     }
+}
+///自动登录不成功，回调，退出或跳转到登录界面
+- (void)loginUserError{
+    ///提示是否跳转到登录页面
+    LXAlertView *loginAlert = [[LXAlertView alloc]initWithTitle:@"账户错误" message:@"您可能修改了账户密码等信息，是否重修登录" cancelBtnTitle:@"不登录" otherBtnTitle:@"重新登录" clickIndexBlock:^(NSInteger clickIndex) {
+        if (clickIndex == 0) {
+            ///不登录 （清除所有信息，保持退出状态）
+            [_tyUser removeObjectForKey:tyUserAccount];
+            [_tyUser removeObjectForKey:tyUserUserInfo];
+            [_tyUser removeObjectForKey:tyUserAccessToken];
+            _isLoginUser = NO;
+            [_tableViewList reloadData];
+        }
+        else{
+            ///重新登录
+            UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+            LoginViewController *loginVc = [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
+            loginVc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:loginVc animated:YES];
+        }
+    }];
+    
+    loginAlert.animationStyle = LXASAnimationTopShake;
+    [loginAlert showLXAlertView];
 }
 //////////////////专业科目信息//////////////////
 //数据请求，获取专业信息
