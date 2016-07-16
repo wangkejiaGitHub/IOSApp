@@ -49,6 +49,7 @@
     _tapGestView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTap)];
     [self.view addGestureRecognizer:_tapGestView];
 }
+
 - (void)viewWillDisappear:(BOOL)animated{
     [_tapGestView removeTarget:self action:@selector(viewTap)];
 }
@@ -68,6 +69,7 @@
     [_loginUser LoginAppWithAccount:_textName.text password:_textPwd.text];
     
 }
+
 ///登录成功回调
 - (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
     [_mzView removeFromSuperview];
@@ -77,6 +79,12 @@
     }
 }
 
+///登录失败回调
+- (void)loginUserErrorString:(NSString *)errorStr{
+    ///弹出失败消息（不做任何处理，此页面默认起始登录）
+    [_mzView removeFromSuperview];
+    [SVProgressHUD showInfoWithStatus:errorStr];
+}
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;

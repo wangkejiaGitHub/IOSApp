@@ -54,6 +54,11 @@
     _arraySecoundSubject = [NSMutableArray array];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    [self userLoginStatus];
+    [SVProgressHUD dismiss];
+}
+///判断用户的登录状态
+- (void)userLoginStatus{
     if ([_tyUser objectForKey:tyUserUserInfo]) {
         _isLoginUser = YES;
         //获取用户信息
@@ -61,12 +66,12 @@
     }
     else{
         _isLoginUser = NO;
-        _tableHeardView.labUserName.text = @"点击登录";
+        _tableHeardView.labUserName.text = @"点击登录点题库";
         _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
     }
-    [SVProgressHUD dismiss];
     [_tableViewList reloadData];
 }
+
 ///添加tableView头试图
 - (void)addTableViewHeardView{
     _tableHeardView = [[[NSBundle mainBundle] loadNibNamed:@"TableHeardViewForUser" owner:self options:nil]lastObject];
@@ -122,6 +127,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellUser" forIndexPath:indexPath];
     UILabel *labTitle =(UILabel *)[cell.contentView viewWithTag:11];
@@ -280,16 +286,21 @@
     }
 }
 ///自动登录不成功，回调，退出或跳转到登录界面
-- (void)loginUserError{
+- (void)loginUserErrorString:(NSString *)errorStr{
     ///提示是否跳转到登录页面
-    LXAlertView *loginAlert = [[LXAlertView alloc]initWithTitle:@"账户错误" message:@"您可能修改了账户密码等信息，是否重修登录" cancelBtnTitle:@"不登录" otherBtnTitle:@"重新登录" clickIndexBlock:^(NSInteger clickIndex) {
+    LXAlertView *loginAlert = [[LXAlertView alloc]initWithTitle:@"账户错误" message:@"您的账户或密码已过期，是否重修登录" cancelBtnTitle:@"不登录" otherBtnTitle:@"重新登录" clickIndexBlock:^(NSInteger clickIndex) {
         if (clickIndex == 0) {
-            ///不登录 （清除所有信息，保持退出状态）
+            ///不登录 （清除所有信息，使用户保持退出状态）
+            
             [_tyUser removeObjectForKey:tyUserAccount];
             [_tyUser removeObjectForKey:tyUserUserInfo];
             [_tyUser removeObjectForKey:tyUserAccessToken];
-            _isLoginUser = NO;
-            [_tableViewList reloadData];
+            
+            if ([_tyUser objectForKey:tyUserSelectSubject]) {
+                ///退出后用默认的账号授权
+                [_loginUser empFirstComeAppWithUserId:defaultUserId userCode:defaultUserCode];
+            }
+            [self userLoginStatus];
         }
         else{
             ///重新登录

@@ -164,6 +164,7 @@
 		1DA62EB21D35EAF300ECE405 /* book_test.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA62EB11D35EAF300ECE405 /* book_test.png */; };
 		1DA62EB51D361E1700ECE405 /* EditSetExamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA62EB41D361E1700ECE405 /* EditSetExamViewController.m */; };
 		1DAF02F61D20C9B40042C8D8 /* selectChaperSubjectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DAF02F51D20C9B40042C8D8 /* selectChaperSubjectView.m */; };
+		1DB5A0E01D3A182B00482624 /* TopicNumberCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB5A0DF1D3A182B00482624 /* TopicNumberCard.m */; };
 		1DB777441CFFD1F7003AFE28 /* UptadePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB777421CFFD1F7003AFE28 /* UptadePwdViewController.m */; };
 		1DB777451CFFD1F7003AFE28 /* UptadePwdViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DB777431CFFD1F7003AFE28 /* UptadePwdViewController.xib */; };
 		1DB777491D0001E4003AFE28 /* ExerciseRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB777481D0001E4003AFE28 /* ExerciseRecordViewController.m */; };
@@ -663,6 +664,8 @@
 		1DA62EB41D361E1700ECE405 /* EditSetExamViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditSetExamViewController.m; sourceTree = "<group>"; };
 		1DAF02F41D20C9B40042C8D8 /* selectChaperSubjectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = selectChaperSubjectView.h; sourceTree = "<group>"; };
 		1DAF02F51D20C9B40042C8D8 /* selectChaperSubjectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = selectChaperSubjectView.m; sourceTree = "<group>"; };
+		1DB5A0DE1D3A182B00482624 /* TopicNumberCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicNumberCard.h; sourceTree = "<group>"; };
+		1DB5A0DF1D3A182B00482624 /* TopicNumberCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicNumberCard.m; sourceTree = "<group>"; };
 		1DB777411CFFD1F7003AFE28 /* UptadePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UptadePwdViewController.h; sourceTree = "<group>"; };
 		1DB777421CFFD1F7003AFE28 /* UptadePwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UptadePwdViewController.m; sourceTree = "<group>"; };
 		1DB777431CFFD1F7003AFE28 /* UptadePwdViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UptadePwdViewController.xib; sourceTree = "<group>"; };
@@ -1249,6 +1252,8 @@
 				1D92C8A61D139B9D006A937F /* StartLookViewController.xib */,
 				1D92C8A41D139B9D006A937F /* StartLookViewController.h */,
 				1D92C8A51D139B9D006A937F /* StartLookViewController.m */,
+				1DB5A0DE1D3A182B00482624 /* TopicNumberCard.h */,
+				1DB5A0DF1D3A182B00482624 /* TopicNumberCard.m */,
 			);
 			name = LookTopic;
 			sourceTree = "<group>";
@@ -2493,6 +2498,7 @@
 				1D579EFF1CE9668100578519 /* ZFLabel.m in Sources */,
 				1DDA96D21CDC3551001A7DAE /* StartAnalysisTopicViewController.m in Sources */,
 				1D165E721CD1F85800F61EAE /* ErrorView.m in Sources */,
+				1DB5A0E01D3A182B00482624 /* TopicNumberCard.m in Sources */,
 				1DEDC85B1C9FA2920083B394 /* SDWebImageDownloader.m in Sources */,
 				1DF940501D1BC72F00D808C1 /* NotesTopicViewController.m in Sources */,
 				1DEDC80D1C9F86170083B394 /* LoginViewController.m in Sources */,

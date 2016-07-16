@@ -17,13 +17,13 @@
             //[SVProgressHUD showSuccessWithStatus:@"登录成功"];
             NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
             NSDictionary *dicAccount = @{@"acc":account,@"pwd":pwd};
+            ///储存最新的用户登录账户信息
             [tyUser setObject:dicAccount forKey:tyUserAccount];
             [self getUserInformationoWithJeeId:dicUser[@"jeeId"]];
         }
         else{
-            [SVProgressHUD showInfoWithStatus:dic[@"errmsg"]];
             ///登录失败
-            [self.delegateLogin loginUserError];
+            [self.delegateLogin loginUserErrorString:dic[@"errmsg"]];
         }
     } RequestFaile:^(NSError *erro) {
         httpsErrorShow;
@@ -46,7 +46,7 @@
                 }
             }
             ////////////////////////////////////////////////////
-            ///如果获取到信息，但是用户是第一次登录，用当前的专业、科目授权
+            ///如果获取到信息，如果用户是第一次登录，用当前的专业、科目授权（在登录之前选过科目的操作）
             if ([tyUser objectForKey:tyUserSelectSubject] && ![tyUser objectForKey:tyUserUserInfo]) {
                 [self empFirstComeAppWithUserId:dicc[@"userId"] userCode:dicc[@"userCode"]];
             }
@@ -60,7 +60,6 @@
         }
     } RequestFaile:^(NSError *error) {
         [self.delegateLogin getUserInfoIsDictionary:@{@"msg":@"异常"} messagePara:0];
-//        httpsErrorShow;
     }];
 }
 

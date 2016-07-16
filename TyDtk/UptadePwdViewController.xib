@@ -46,7 +46,7 @@
                         <action selector="buttonSaveClick:" destination="-1" eventType="touchUpInside" id="8Op-yo-3SX"/>
                     </connections>
                 </button>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="确认密码" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="PEl-Ka-nDE">
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入新密码" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="PEl-Ka-nDE">
                     <rect key="frame" x="40" y="169" width="295" height="40"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="40" id="xdz-cH-QBu"/>

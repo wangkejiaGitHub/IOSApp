@@ -32,6 +32,8 @@
 @property (nonatomic,strong) NSArray *arraySubject;
 //当前科目id
 @property (nonatomic,assign) NSInteger intSubJectId;
+//选中科目
+@property (nonatomic,strong) NSDictionary *selectSubject;
 //空数据显示
 @property (nonatomic,strong) ViewNullData *viewNilData;
 //授权工具
@@ -129,8 +131,8 @@
 ///科目选择点击事件
 - (void)menuSubjectClick:(ZFPopupMenuItem *)item{
     _labSubject.text = item.itemName;
-    NSDictionary *dicSelectSubject = _arraySubject[item.tag - 100];
-    _intSubJectId = [dicSelectSubject[@"Id"] integerValue];
+    _selectSubject = _arraySubject[item.tag - 100];
+    _intSubJectId = [_selectSubject[@"Id"] integerValue];
     _levelTT = 0;
     [_arraySection removeAllObjects];
     if (self.parameterView == 1) {
@@ -167,6 +169,7 @@
 //授权成功
 - (void)httpSussessReturnClick{
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    [_tyUser setObject:_selectSubject forKey:tyUserSelectSubject];
     if (self.parameterView == 1) {
         [self getAboutChaperCollect];
     }

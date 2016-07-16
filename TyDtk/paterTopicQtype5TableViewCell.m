@@ -129,7 +129,6 @@
                         [button setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
                     }
                 }
-                
             }
         }
     }

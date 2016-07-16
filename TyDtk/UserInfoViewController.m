@@ -69,6 +69,10 @@
         
     }
 }
+///登录失败处理，在此不做任何操作
+- (void)loginUserErrorString:(NSString *)errorStr{
+    NSLog(@"%@",errorStr);
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
         return _arrayListName1.count + 1;
@@ -355,8 +359,11 @@
             // [_tyUser removeObjectForKey:tyUserSelectSubject];
             [_tyUser removeObjectForKey:tyUserUserInfo];
             [_tyUser removeObjectForKey:tyUserAccount];
-            ///退出后用默认的账号授权
-            [_loginUser empFirstComeAppWithUserId:defaultUserId userCode:defaultUserCode];
+            
+            if ([_tyUser objectForKey:tyUserSelectSubject]) {
+                ///退出后用默认的账号授权
+                [_loginUser empFirstComeAppWithUserId:defaultUserId userCode:defaultUserCode];
+            }
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{

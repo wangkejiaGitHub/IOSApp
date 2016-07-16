@@ -37,6 +37,9 @@
 
 //回到顶部的按钮
 @property (nonatomic,strong) UIButton *buttonTopTable;
+
+///判断是否登录
+@property (nonatomic,assign) BOOL isLoginUser;
 @end
 @implementation WeekSelectViewController
 
@@ -49,6 +52,15 @@
 - (void)viewWillAppear:(BOOL)animated{
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        _isLoginUser = YES;
+    }
+    else{
+        _isLoginUser = NO;
+    }
+
+    
     self.navigationController.tabBarController.tabBar.hidden = YES;
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
@@ -100,11 +112,16 @@
  */
 //激活码做题或购买商品回调代理
 - (void)paySubjectProductWithPayParameter:(NSInteger)PayParameter{
-    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-    ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
-    acVc.subjectId = [_subjectId integerValue];
-    acVc.payParameter = PayParameter;
-    [self.navigationController pushViewController:acVc animated:YES];
+    if (_isLoginUser) {
+        UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+        ActiveSubjectViewController *acVc = [sCommon instantiateViewControllerWithIdentifier:@"ActiveSubjectViewController"];
+        acVc.subjectId = [_subjectId integerValue];
+        acVc.payParameter = PayParameter;
+        [self.navigationController pushViewController:acVc animated:YES];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"您还没有登录"];
+    }
 }
 //上拉刷新
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{

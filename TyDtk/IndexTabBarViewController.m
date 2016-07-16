@@ -54,10 +54,11 @@
     if (![_tyUser objectForKey:tyUserErrorTopic]) {
          [self getTopicErrorType];
     }
-    ///如果是在用户没有手动退出的时候、先判断是否登录超时（如果是手动退出，不做操作）
+    ///如果是在用户没有手动退出的时候、每次进入程序先登录，防止登录超时
     if ([_tyUser objectForKey:tyUserUserInfo]) {
-        NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
-        [_loginUser getUserInformationoWithJeeId:dicUserInfo[@"jeeId"]];
+        ///使用在本地储存的最新登录成功后的账户和密码登录(acc、pwd标示)
+        NSDictionary *dicAccount = [_tyUser objectForKey:tyUserAccount];
+        [_loginUser LoginAppWithAccount:dicAccount[@"acc"] password:dicAccount[@"pwd"]];
     }
 }
 //左滑或点击button回调  引导页加载完后，删除
@@ -84,28 +85,25 @@
 }
 ///测试tabbar选中
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
-    
+    NSLog(@"IndexTabBarController");
 }
-///在用户未手动退出的时候，判断是否超时回调
+///在用户未手动退出的时候，登录成功后回调（此代理在这里只有登录成功才会回调，不做任何操作）
 - (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{
     ///未超时
     if (msgPara == 1) {
         [_tyUser setObject:dicUser forKey:tyUserUserInfo];
     }
-    ///超时
-    else if(msgPara == 0 && dicUser == nil){
-        NSDictionary *dicAccount = [_tyUser objectForKey:tyUserAccount];
-        [_loginUser LoginAppWithAccount:dicAccount[@"acc"] password:dicAccount[@"pwd"]];
-    }
-    ///网络异常
-    else{
-        
-    }
 }
-
-///自动登录失败（密码错误）
-- (void)loginUserError{
+///自动登录失败（密码错误：可能在其他平台修改了登录密码）
+- (void)loginUserErrorString:(NSString *)errorStr{
     [SVProgressHUD showInfoWithStatus:@"您的账户或密码已过期"];
+    [_tyUser removeObjectForKey:tyUserAccount];
+    [_tyUser removeObjectForKey:tyUserUserInfo];
+    [_tyUser removeObjectForKey:tyUserAccessToken];
+    if ([_tyUser objectForKey:tyUserSelectSubject]) {
+        ///退出后用默认的账号授权
+        [_loginUser empFirstComeAppWithUserId:defaultUserId userCode:defaultUserCode];
+    }
     UINavigationController *nav = self.viewControllers[0];
     ///重新登录
     UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");

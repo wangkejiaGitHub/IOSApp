@@ -46,7 +46,6 @@
 }
 - (void)viewDidAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden = NO;
-    
     _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
     _tableViewNote.mj_header = _refreshHeader;
     //设置tableView的上拉控件

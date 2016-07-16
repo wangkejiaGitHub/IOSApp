@@ -8,10 +8,12 @@
 
 #import "StartLookViewController.h"
 #import "PaperLookViewController.h"
-@interface StartLookViewController ()<UIScrollViewDelegate>
+#import "TopicNumberCard.h"
+@interface StartLookViewController ()<UIScrollViewDelegate,NumberCardDelegate>
 @property (nonatomic,strong) UIScrollView *scrollViewPater;
 @property (weak, nonatomic) IBOutlet UIButton *lastButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
+@property (weak, nonatomic) IBOutlet UIButton *buttonTopNum;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //scrollview 的宽度，单位是以屏宽的个数去计算(所有试题的个数)
 @property (nonatomic,assign) NSInteger scrollContentWidth;
@@ -35,7 +37,8 @@
 用户设置scrollView的容量和偏移量
 */
 @property (nonatomic,assign) NSInteger newTopicCount;
-//@property (nonatomic,assign) BOOL isFirstRequest;
+///显示题号索引题卡
+@property (nonatomic,strong) TopicNumberCard *topicNumberCard;
 @end
 
 @implementation StartLookViewController
@@ -46,6 +49,11 @@
     [self viewLoad];
 }
 - (void)viewLoad{
+    _buttonTopNum.userInteractionEnabled = NO;
+    _buttonTopNum.layer.masksToBounds = YES;
+    _buttonTopNum.layer.cornerRadius = 3;
+    _buttonTopNum.layer.borderWidth = 1;
+    _buttonTopNum.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     _arrayTopicLook = [NSMutableArray array];
     self.navigationController.tabBarController.tabBar.hidden = YES;
     ////添加scrollView分页提示显示view
@@ -122,6 +130,7 @@
             NSDictionary *pageDatas = dicCollect[@"page"];
             _pageCount = [pageDatas[@"pages"] integerValue];
             [self addChildViewLookTopic];
+            [self addTopicNumberCardForTopic];
         }
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
@@ -146,6 +155,7 @@
             NSDictionary *pageDatas = dicError[@"page"];
             _pageCount = [pageDatas[@"pages"] integerValue];
             [self addChildViewLookTopic];
+            [self addTopicNumberCardForTopic];
             [SVProgressHUD dismiss];
         }
         else{
@@ -263,10 +273,6 @@
         else if (self.parameterView == 2){
             [self getErrorTopicWithChaperId:_chaperId];
         }
-//        //添加过笔记试题
-//        else if (self.parameterView == 3){
-//            [self getNoteTopicWithChaperId:_chaperId];
-//        }
     }
     
     ///向左拖拽pop返回上一页
@@ -274,7 +280,73 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
-
+//////////////////////////////////////////////////////////////////
+- (IBAction)buttonTopicCardClick:(UIButton *)sender {
+    sender.selected = !sender.selected;
+    if (sender.selected) {
+        [sender setTitle:@"隐藏" forState:UIControlStateNormal];
+        [self showTopicNumberCard];
+    }
+    else{
+        [sender setTitle:@"试题编号" forState:UIControlStateNormal];
+        [self hidenTopicNumberCard];
+    }
+}
+///添加试题编号
+- (void)addTopicNumberCardForTopic{
+    if (!_topicNumberCard) {
+        _topicNumberCard = [[TopicNumberCard alloc]initWithFrame:CGRectMake(0, Scr_Height, Scr_Width, [self getTopicNumberCardHeight:_arrayTopicLook.count]) withTopicNumber:_arrayTopicLook.count];
+        _topicNumberCard.delegateNumberTop = self;
+        _buttonTopNum.userInteractionEnabled = YES;
+        [self.view addSubview:_topicNumberCard];
+    }
+    _topicNumberCard.topicNumber = _arrayTopicLook.count;
+    [_topicNumberCard.collectionViewCard reloadData];
+}
+///获取编号试图高度
+- (CGFloat)getTopicNumberCardHeight:(NSInteger)topicNumber{
+    ///先计算题号的行数
+    ///每个item的高 (Scr_Width-20-5*10)/6
+    NSInteger itemRows;
+    CGFloat cardHeight;
+    if (topicNumber%6 == 0) {
+        itemRows = topicNumber/6;
+    }
+    else{
+        itemRows = topicNumber/6 + 1;
+    }
+    
+    if (itemRows <= 5) {
+        cardHeight = 20 + itemRows*((Scr_Width-20-5*10)/6) + (itemRows - 1)*10;
+    }
+    else{
+        cardHeight = 20 + 5*((Scr_Width-20-5*10)/6) + (5-1)*10;
+    }
+    return cardHeight;
+}
+///显示题卡
+- (void)showTopicNumberCard{
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rect = _topicNumberCard.frame;
+        rect.origin.y = Scr_Height - rect.size.height - 44;
+        _topicNumberCard.frame = rect;
+    }];
+}
+///隐藏题卡
+- (void)hidenTopicNumberCard{
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rect = _topicNumberCard.frame;
+        rect.origin.y = Scr_Height;
+        _topicNumberCard.frame = rect;
+    }];
+}
+///点击编号回调
+- (void)getTopicNumber:(NSInteger)topicNumber{
+    [_scrollViewPater setContentOffset:CGPointMake(_scrollViewPater.frame.size.width * topicNumber, 0) animated:YES];
+    _buttonTopNum.selected = NO;
+    [_buttonTopNum setTitle:@"试题编号" forState:UIControlStateNormal];
+    [self hidenTopicNumberCard];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

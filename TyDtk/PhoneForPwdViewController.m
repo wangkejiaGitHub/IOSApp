@@ -96,6 +96,7 @@
         NSInteger codeId = [dicRe[@"code"] integerValue];
         if (codeId == 1) {
             [SVProgressHUD showSuccessWithStatus:@"密码更新成功"];
+            
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{
