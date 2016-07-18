@@ -115,8 +115,6 @@
                 button.backgroundColor = ColorWithRGB(11, 141, 240);
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             }
-          
-            
             if ([_dicSelectDone.allKeys containsObject:indexString]) {
                 NSString *selectString = _dicSelectDone[indexString];
                 if ([button.titleLabel.text isEqualToString:selectString]) {
@@ -174,9 +172,6 @@
         [btnSubmit addTarget:self action:@selector(buttonSubmit:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:btnSubmit];
     }
-//    else{
-//        
-//    }
     //最后分别添加笔记和纠错按钮
     //添加笔记按钮
     UIButton *buttonNotes = [UIButton buttonWithType:UIButtonTypeCustom];

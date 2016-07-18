@@ -309,14 +309,6 @@
  时间倒计时
  */
 - (void)timeClick:(NSTimer*)timer{
-    if (_timeHo == 0 && _timeMin == 0 && _timeSe == 0) {
-        [SVProgressHUD showInfoWithStatus:@"预计答题时间已过，您可以继续做题"];
-        ///暂停定时器
-//        [timer setFireDate:[NSDate distantFuture]];
-        ///释放定时器
-        [timer invalidate];
-        return;
-    }
     //先判断秒为0
     if (_timeSe == 0) {
         //判断分钟是否同时为0
@@ -357,6 +349,16 @@
         seTIme = [NSString stringWithFormat:@"0%@",seTIme];
     }
     _labTime.text = [NSString stringWithFormat:@"%@:%@:%@",hTime,MinTime,seTIme];
+    ///如果时间倒计时走完，让其暂停（此时_labTime的显示值为：00:00:00）
+    if (_timeHo == 0 && _timeMin == 0 && _timeSe == 0) {
+        [SVProgressHUD showInfoWithStatus:@"预计答题时间已过，您可以继续做题并交卷"];
+        //暂停定时器
+        [timer setFireDate:[NSDate distantFuture]];
+        ///释放定时器
+        // [timer invalidate];
+//        return;
+    }
+
 }
 
 //传递题干信息，每一类试题的第一道题，传递题干信息
@@ -675,6 +677,7 @@
  */
 - (void)submitChaperPaper{
 //    [SVProgressHUD showWithStatus:@"正在提交..."];
+    
     NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/Submit?access_token=%@",systemHttps,_accessToken];
     //讲用户答过的试题信息进行编码转json
     NSData *dataPostStr = [NSJSONSerialization dataWithJSONObject:_arrayUserAnswer options:NSJSONWritingPrettyPrinted error:nil];
@@ -712,6 +715,10 @@
 //****************************智能做题模块****************************//
 ///获取智能出题试题
 - (void)getIntelligentPaperData{
+    //如果是继续做题，改变rid的值
+    if (_ridContinue.length > 0) {
+        _rIdString = _ridContinue;
+    }
     [SVProgressHUD showWithStatus:@"试卷加载中..."];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Smart/GetSmartQuestions?access_token=%@&rid=%@",systemHttps,_accessToken,_rIdString];
     
@@ -722,7 +729,60 @@
             _arrayPaterData = dicIntelligent[@"datas"];
             _scrollContentWidth = _arrayPaterData.count;
             _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
+            //判断是否是继续做题，如果是，rid有值,将用户做过的题的数量和已做过的试题存放起来
+            if (_ridContinue.length > 0) {
+                for (NSDictionary *dicAllTopic in _arrayPaterData) {
+                    NSInteger qType = [dicAllTopic[@"qtype"] integerValue];
+                    ///用于存放用于保存记录里面已经做过的试题
+                    NSDictionary *dicUserAnswer = [[NSDictionary alloc]init];
+                    ///不是一题多问的情况
+                    if (qType != 6) {
+                        if ([dicAllTopic objectForKey:@"userAnswer"]) {
+                            //试题Id
+                            NSString *questionId =[NSString stringWithFormat:@"%ld",[dicAllTopic[@"questionId"] integerValue]];
+                            //试题类型
+                            NSString *qtype =[NSString stringWithFormat:@"%ld",[dicAllTopic[@"qtype"] integerValue]];
+                            //正确答案
+                            NSString *answer = dicAllTopic[@"answer"];
+                            //用户答案
+                            NSString *userAnswer = dicAllTopic[@"userAnswer"];
+                            //试题分值
+                            NSInteger score = [dicAllTopic[@"score"] integerValue];
+                            dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
+                            [_arrayUserAnswer addObject:dicUserAnswer];
+                            _intUserDidTopic = _intUserDidTopic +1;
+                        }
+                    }
+                    ///一题多问的情况
+                    else{
+                        ///所有一题多问下面的小题
+                        NSArray *arraySubQuestion = dicAllTopic[@"subQuestion"];
+                        //                        NSInteger didTopicCountType6 = 0;
+                        for (NSDictionary *dicSubQuestion in arraySubQuestion) {
+                            if ([dicSubQuestion objectForKey:@"userAnswer"]) {
+                                //试题Id
+                                NSString *questionId =[NSString stringWithFormat:@"%ld",[dicSubQuestion[@"questionId"] integerValue]];
+                                //试题类型
+                                NSString *qtype =[NSString stringWithFormat:@"%ld",[dicSubQuestion[@"qtype"] integerValue]];
+                                //正确答案
+                                NSString *answer = dicSubQuestion[@"answer"];
+                                //用户答案
+                                NSString *userAnswer = dicSubQuestion[@"userAnswer"];
+                                //试题分值
+                                NSInteger score = [dicSubQuestion[@"score"] integerValue];
+                                dicUserAnswer = @{@"QuestionID":questionId,@"QType":qtype,@"UserAnswer":userAnswer,@"TrueAnswer":answer,@"Score":[NSString stringWithFormat:@"%ld",score]};
+                                [_arrayUserAnswer addObject:dicUserAnswer];
+                                //                                if (didTopicCountType6 == 0) {
+                                //                                    _intUserDidTopic = _intUserDidTopic + 1;
+                                //                                }
+                                //                                didTopicCountType6 = didTopicCountType6 + 1;
+                            }
+                        }
+                    }
+                }
+            }
             
+
             [self addChildViewWithTopicForSelf];
             for (id subView in _viewNaviHeardView.subviews) {
                 [subView removeFromSuperview];
@@ -1069,7 +1129,8 @@
             _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
             _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
             _intScore = [dicDatas[@"Score"] integerValue];
-            [self addViewAnalysisForAnalysis];
+            
+            [self addTopicAnalysisNoLoginForView];
         }
     } RequestFaile:^(NSError *erro) {
         httpsErrorShow;
@@ -1090,7 +1151,7 @@
             _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
             _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
             _intScore = [dicDatas[@"Score"] integerValue];
-            [self addViewAnalysisForAnalysis];
+            [self addTopicAnalysisNoLoginForView];
         }
     } RequestFaile:^(NSError *error) {
         httpsErrorShow;
@@ -1114,7 +1175,7 @@
             _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
             _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
             _intScore = [dicDatas[@"Score"] integerValue];
-            [self addViewAnalysisForAnalysis];
+            [self addTopicAnalysisNoLoginForView];
             
         }
     } RequestFaile:^(NSError *error) {
@@ -1139,7 +1200,7 @@
             _intWrongTopic = [dicDatas[@"ErrorNum"] integerValue];
             _intAccuracy = [dicDatas[@"Accuracy"] integerValue];
             _intScore = [dicDatas[@"Score"] integerValue];
-            [self addViewAnalysisForAnalysis];
+            [self addTopicAnalysisNoLoginForView];
         }
         
     } RequestFaile:^(NSError *error) {
@@ -1150,41 +1211,141 @@
 /**
  添加数据分析报告试图
  */
-- (void)addViewAnalysisForAnalysis{
-    NSString *messageTopic = [NSString stringWithFormat:@"总做题数：【%ld】题\n答对题数：【%ld】题\n答错题数：【%ld】题\n正确率：【%ld%%】",_intDoTopic,_intRightTopic,_intWrongTopic,_intAccuracy];
-    LXAlertView *viewTest = [[LXAlertView alloc]initWithTitle:@"试题分析" message: messageTopic cancelBtnTitle:@"直接退出" otherBtnTitle:@"再做一次" clickIndexBlock:^(NSInteger clickIndex) {
-        ///直接退出
-        if (clickIndex == 0) {
-            NSLog(@"0");
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-        ///再做一次
-        else{
-            [self againDoTopicRidClear];
-        }
-    }];
-    viewTest.animationStyle = LXASAnimationTopShake;
-    [viewTest showLXAlertView];
-}
-//向下滑动隐藏试题分析
-- (void)viewAnalysisHiden:(UISwipeGestureRecognizer *)swipe{
-    [self hidenViewAnalysis];
-}
-
-//隐藏试卷解析报告试图
-- (void)buttonHidenViewAnalysisClick:(UIButton *)sender{
-    [self hidenViewAnalysis];
-}
-/**
- 隐藏数据分析报告试图
- */
-- (void)hidenViewAnalysis{
+- (void)addTopicAnalysisNoLoginForView{
+    _viewAnalysis = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    _viewAnalysis.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.6);
+    UIView *viewAnalyParticulars = [[UIView alloc]initWithFrame:CGRectMake((Scr_Width-253)/2, Scr_Height, 253, 215)];
+    viewAnalyParticulars.backgroundColor =[UIColor whiteColor];
+    UILabel *labTitle = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, viewAnalyParticulars.frame.size.width, 48)];
+    labTitle.text = @"试卷分析";
+    labTitle.textColor = [UIColor lightGrayColor];
+    labTitle.font = [UIFont systemFontOfSize:18.0];
+    labTitle.textAlignment = NSTextAlignmentCenter;
+    [viewAnalyParticulars addSubview:labTitle];
+    UIView *viewL1 = [[UIView alloc]initWithFrame:CGRectMake(0, labTitle.frame.origin.y+labTitle.frame.size.height, viewAnalyParticulars.frame.size.width, 2)];
+    viewL1.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [viewAnalyParticulars addSubview:viewL1];
+    ///总做题数
+    UILabel *labDoNum = [[UILabel alloc]initWithFrame:CGRectMake(0, viewL1.frame.origin.y + 2 + 10, (viewAnalyParticulars.bounds.size.width)/2, 20)];
+    labDoNum.text = @"总做题数：";
+    labDoNum.textAlignment = NSTextAlignmentRight;
+    labDoNum.font = [UIFont systemFontOfSize:16.0];
+    [viewAnalyParticulars addSubview:labDoNum];
+    
+    UILabel *labDoNumText = [[UILabel alloc]initWithFrame:CGRectMake((viewAnalyParticulars.bounds.size.width)/2, viewL1.frame.origin.y + 2 + 10, (viewAnalyParticulars.bounds.size.width)/2, 20)];
+    labDoNumText.adjustsFontSizeToFitWidth = YES;
+    labDoNumText.text = [NSString stringWithFormat:@"【 %ld 】题",_intDoTopic];
+    labDoNumText.textColor = [UIColor blueColor];
+    labDoNum.font = [UIFont systemFontOfSize:16.0];
+    [viewAnalyParticulars addSubview:labDoNumText];
+    ///答对题数
+    UILabel *labRightNum = [[UILabel alloc]initWithFrame:CGRectMake(0, labDoNum.frame.origin.y+20+5, (viewAnalyParticulars.bounds.size.width)/2, 20)];
+    labRightNum.text = @"答对题数：";
+    labRightNum.textAlignment = NSTextAlignmentRight;
+    labRightNum.font = [UIFont systemFontOfSize:16.0];
+    [viewAnalyParticulars addSubview:labRightNum];
+    
+    UILabel *labRightNumText = [[UILabel alloc]initWithFrame:CGRectMake((viewAnalyParticulars.bounds.size.width)/2, labDoNum.frame.origin.y+20+5, (viewAnalyParticulars.bounds.size.width)/2, 20)];
+    labRightNumText.adjustsFontSizeToFitWidth = YES;
+    labRightNumText.text = [NSString stringWithFormat:@"【 %ld 】题",_intRightTopic];
+    labRightNumText.textColor = [UIColor blueColor];
+    labRightNumText.font = [UIFont systemFontOfSize:16.0];
+    [viewAnalyParticulars addSubview:labRightNumText];
+    
+    ///答错题数
+    UILabel *labErrorNum = [[UILabel alloc]initWithFrame:CGRectMake(0, labRightNum.frame.origin.y+20+5, (viewAnalyParticulars.bounds.size.width)/2, 20)];
+    labErrorNum.text = @"答错题数：";
+    labErrorNum.textAlignment = NSTextAlignmentRight;
+    labErrorNum.font = [UIFont systemFontOfSize:16.0];
+    [viewAnalyParticulars addSubview:labErrorNum];
+    
+    UILabel *labErrorNumText = [[UILabel alloc]initWithFrame:CGRectMake((viewAnalyParticulars.bounds.size.width)/2, labRightNum.frame.origin.y+20+5, (viewAnalyParticulars.bounds.size.width)/2, 20)];
+    labErrorNumText.adjustsFontSizeToFitWidth = YES;
+    labErrorNumText.text = [NSString stringWithFormat:@"【 %ld 】题",_intWrongTopic];
+    labErrorNumText.textColor = [UIColor blueColor];
+    labErrorNumText.font = [UIFont systemFontOfSize:16.0];
+    [viewAnalyParticulars addSubview:labErrorNumText];
+    ///正确率
+    UILabel *labAccuracy = [[UILabel alloc]initWithFrame:CGRectMake(0, labErrorNum.frame.origin.y+20+5, (viewAnalyParticulars.bounds.size.width)/2, 20)];
+    labAccuracy.text = @"正确率：";
+    labAccuracy.textAlignment = NSTextAlignmentRight;
+    labAccuracy.font = [UIFont systemFontOfSize:16.0];
+    [viewAnalyParticulars addSubview:labAccuracy];
+    
+    UILabel *labAccuracyText = [[UILabel alloc]initWithFrame:CGRectMake((viewAnalyParticulars.bounds.size.width)/2, labErrorNum.frame.origin.y+20+5, (viewAnalyParticulars.bounds.size.width)/2, 20)];
+    labAccuracyText.text = [NSString stringWithFormat:@"  %ld %%",_intAccuracy];
+    labAccuracyText.textColor = [UIColor orangeColor];
+    labAccuracyText.font = [UIFont systemFontOfSize:20.0];
+    [viewAnalyParticulars addSubview:labAccuracyText];
+    ///第二条线
+    UIView *view2 = [[UIView alloc]initWithFrame:CGRectMake(0, labAccuracy.frame.origin.y + 20 + 10, viewAnalyParticulars.frame.size.width, 2)];
+    view2.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [viewAnalyParticulars addSubview:view2];
+    ///退出按钮
+    UIButton *btnOut = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnOut.frame = CGRectMake(15, view2.frame.origin.y+2 + 8, (viewAnalyParticulars.bounds.size.width)/2 - 20, 30);
+    [btnOut setTitle:@"直接退出" forState:UIControlStateNormal];
+    btnOut.titleLabel.font = [UIFont systemFontOfSize:15.0];
+    btnOut.layer.masksToBounds = YES;
+    btnOut.layer.cornerRadius = 3;
+    btnOut.backgroundColor = [UIColor lightGrayColor];
+    btnOut.tag = 1000;
+    [btnOut addTarget:self action:@selector(btnAnalysisClick:) forControlEvents:UIControlEventTouchUpInside];
+    [viewAnalyParticulars addSubview:btnOut];
+    
+    ///再做一次按钮
+    UIButton *btnAgain = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnAgain.frame = CGRectMake((viewAnalyParticulars.bounds.size.width)/2 + 5, view2.frame.origin.y+2 + 8, (viewAnalyParticulars.bounds.size.width)/2 - 20, 30);
+    [btnAgain setTitle:@"再做一次" forState:UIControlStateNormal];
+    btnAgain.titleLabel.font = [UIFont systemFontOfSize:15.0];
+    btnAgain.backgroundColor = [UIColor orangeColor];
+    btnAgain.layer.masksToBounds = YES;
+    btnAgain.layer.cornerRadius = 3;
+    btnAgain.tag = 1001;
+    [btnAgain addTarget:self action:@selector(btnAnalysisClick:) forControlEvents:UIControlEventTouchUpInside];
+    [viewAnalyParticulars addSubview:btnAgain];
+    ////设置弹出试图样式
+    viewAnalyParticulars.layer.masksToBounds = YES;
+    viewAnalyParticulars.layer.cornerRadius = 5;
+    [_viewAnalysis addSubview:viewAnalyParticulars];
+    [self.navigationController.tabBarController.view addSubview:_viewAnalysis];
     [UIView animateWithDuration:0.2 animations:^{
-        CGRect rectAna =_viewAnalysis.frame;
-        rectAna.origin.y = Scr_Height;
-        _viewAnalysis.frame = rectAna;
+        CGRect rect = viewAnalyParticulars.frame;
+        rect.origin.y = (Scr_Height - viewAnalyParticulars.bounds.size.height)/2;
+        viewAnalyParticulars.frame = rect;
     }];
 }
+///未登录做题提交试卷，点击弹出选择按钮
+- (void)btnAnalysisClick:(UIButton *)button{
+    [_viewAnalysis removeFromSuperview];
+    ///直接退出
+    if (button.tag == 1000) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    ///再做一次
+    else{
+        [self againDoTopicRidClear];
+    }
+}
+////向下滑动隐藏试题分析
+//- (void)viewAnalysisHiden:(UISwipeGestureRecognizer *)swipe{
+//    [self hidenViewAnalysis];
+//}
+//
+////隐藏试卷解析报告试图
+//- (void)buttonHidenViewAnalysisClick:(UIButton *)sender{
+//    [self hidenViewAnalysis];
+//}
+///**
+// 隐藏数据分析报告试图
+// */
+//- (void)hidenViewAnalysis{
+//    [UIView animateWithDuration:0.2 animations:^{
+//        CGRect rectAna =_viewAnalysis.frame;
+//        rectAna.origin.y = Scr_Height;
+//        _viewAnalysis.frame = rectAna;
+//    }];
+//}
 
 //************************再次做题（再做一次）/////////////////////////
 ///再做一次时重置当前的记录(点击重新做题的一次时间)

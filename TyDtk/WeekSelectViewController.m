@@ -181,7 +181,7 @@
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
         [_refreshFooter endRefreshing];
-        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        httpsErrorShow;
     }];
 }
 /////////////////////////////////////////

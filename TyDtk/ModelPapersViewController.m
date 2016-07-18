@@ -67,8 +67,6 @@
     [self viewLoad];
 }
 - (void)viewLoad{
-    _tyUser = [NSUserDefaults standardUserDefaults];
-    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     _paterPages = 0;
     _paterIndexPage = 1;
     _paterYear = @"0";
@@ -79,6 +77,8 @@
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
 }
 - (void)viewWillAppear:(BOOL)animated{
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     if ([_tyUser objectForKey:tyUserUserInfo]) {
         _isLoginUser = YES;
     }
@@ -134,6 +134,9 @@
         _tableViewLayoutTop.constant = 0;
         _tableViewLauoutBottom.constant = -49;
     }
+    
+    ///判断是否购买激活了该科目（未登录状态下和登录状态下）
+    [self isActiveSubject];
 }
 - (void)viewDidAppear:(BOOL)animated{
     [self getPaperYears];
@@ -145,24 +148,58 @@
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _myTableView.mj_footer = _refreshFooter;
     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    ///判断是否购买激活了该科目（未登录状态下和登录状态下）
-    [self isActiveSubject];
+
 }
 ///判断是否购买了该科目（是否激活了科目）
 - (void)isActiveSubject{
-    NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
-    if ([subPrice floatValue] > 0) {
-        _isBuyDidSubject = NO;
+    ///登录状态下判断，直接调用接口判断
+    if (_isLoginUser) {
+        [self isUserActiveSubject];
     }
+    ///未登录状态根据价格判断
     else{
-        _isBuyDidSubject = YES;
+        NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
+        if ([subPrice floatValue] > 0) {
+            _isBuyDidSubject = NO;
+        }
+        else{
+            _isBuyDidSubject = YES;
+        }
+        
+        _paterPages = 0;
+        _paterIndexPage = 1;
+        [_arrayPapers removeAllObjects];
+        [self getModelPapersData];
+        [self getPaperLevels];
+
     }
-    
-    _paterPages = 0;
-    _paterIndexPage = 1;
-    [_arrayPapers removeAllObjects];
-    [self getModelPapersData];
-    [self getPaperLevels];
+}
+- (void)isUserActiveSubject{
+    NSDictionary *dicUserIn = [_tyUser objectForKey:tyUserUserInfo];
+    ///ty/mobile/order/productValidate?productId systemHttpsKaoLaTopicImg
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicSubject[@"Id"] integerValue]],dicUserIn[@"jeeId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicActive);
+        if ([dicActive[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicActive[@"datas"];
+            ///激活
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                _isBuyDidSubject = YES;
+            }
+            ///未激活
+            else{
+                _isBuyDidSubject = NO;
+            }
+            _paterPages = 0;
+            _paterIndexPage = 1;
+            [_arrayPapers removeAllObjects];
+            [self getModelPapersData];
+            [self getPaperLevels];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
 }
 - (void)viewWillDisappear:(BOOL)animated{
     _refreshFooter = nil;
@@ -439,29 +476,28 @@
                        range:NSMakeRange(0,[NSString stringWithFormat:@"%ld",[dicCurrPater[@"DoNum"] integerValue]].length )];
     [labPerson setAttributedText:attriperson];
     
-//    if (!_isBuyDidSubject) {
-//        cell.backgroundColor = ColorWithRGB(200, 200, 200);
-//    }
-//    else{
-        cell.backgroundColor = [UIColor whiteColor];
-//    }
+    cell.backgroundColor = [UIColor whiteColor];
     return cell;
     
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (_isBuyDidSubject) {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        NSDictionary *diccc = _arrayPapers[indexPath.row];
-        for (NSString *key in diccc) {
-            NSLog(@"%@ == %@",key,diccc[key]);
-        }
+    NSDictionary *diccc = _arrayPapers[indexPath.row];
+//    for (NSString *key in diccc) {
+//        NSLog(@"%@ == %@",key,diccc[key]);
+//    }
+    if (_isBuyDidSubject) {
         [self performSegueWithIdentifier:@"topicStar" sender:diccc];
-//    }
-//    else{
-//        [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目！"];
-//    }
+    }
+    else{
+        if (_isLoginUser) {
+            [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目哦"];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"此科目需要激活哦"];
+        }
+    }
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"topicStar"]) {

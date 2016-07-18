@@ -20,7 +20,7 @@
 //朦层
 @property (nonatomic,strong) MZView *mzView;
 @property (nonatomic,strong) NSDictionary *dicUserClass;
-
+@property (nonatomic,strong) NSString *accessToken;
 @property (nonatomic,strong) ActiveSubjectView *hearhVIew;
 //section折叠数组
 @property (nonatomic ,strong) NSMutableArray *arraySection;
@@ -61,39 +61,67 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _arraySection = [NSMutableArray array];
-    _tyUser = [NSUserDefaults standardUserDefaults];
-    _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 - (void)viewWillAppear:(BOOL)animated{
+    _arraySection = [NSMutableArray array];
+    _tyUser = [NSUserDefaults standardUserDefaults];
+    _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
     if ([_tyUser objectForKey:tyUserUserInfo]) {
         _isLoginUser = YES;
     }
     else{
         _isLoginUser = NO;
     }
-}
-- (void)viewDidAppear:(BOOL)animated{
-    NSString *acc = [_tyUser objectForKey:tyUserAccessToken];
     [self isActiveSubject];
-    [self getChaptersInfo:acc];
-    [self viewWillShow];
-}
-///判断是否购买了该科目（是否激活了科目）
-- (void)isActiveSubject{
-    NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
-    if ([subPrice floatValue] > 0) {
-        _isBuyDidSubject = NO;
-    }
-    else{
-        _isBuyDidSubject = YES;
-    }
+    [self addTableHeaderView];
+
 }
 
+///判断是否购买了该科目（是否激活了科目）
+- (void)isActiveSubject{
+    if (_isLoginUser) {
+        [self isUserActiveSubject];
+    }
+    else{
+        NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
+        if ([subPrice floatValue] > 0) {
+            _isBuyDidSubject = NO;
+        }
+        else{
+            _isBuyDidSubject = YES;
+        }
+        [self getChaptersInfo:_accessToken];
+    }
+}
+- (void)isUserActiveSubject{
+    NSDictionary *dicUserIn = [_tyUser objectForKey:tyUserUserInfo];
+    ///ty/mobile/order/productValidate?productId systemHttpsKaoLaTopicImg
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicSubject[@"Id"] integerValue]],dicUserIn[@"jeeId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicActive);
+        if ([dicActive[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicActive[@"datas"];
+            ///激活
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                _isBuyDidSubject = YES;
+            }
+            ///未激活
+            else{
+                _isBuyDidSubject = NO;
+            }
+            [self getChaptersInfo:_accessToken];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
 /**
  获取tableView的头试图，并设置其参数值
  */
-- (void)viewWillShow{
+- (void)addTableHeaderView{
     _dicUserClass = [_tyUser objectForKey:tyUserClass];
     NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
     if (!_hearhVIew) {
@@ -282,12 +310,23 @@
     return view;
 }
 - (void)btnDoTopicClick:(UIButton *)button{
-    NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
-    NSDictionary *dicHeader = dicDate[@"id"];
-    SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
-    selectChap.chaperId = [dicHeader[@"Id"] integerValue];
-    selectChap.chaperName = dicHeader[@"Names"];
-    [self.navigationController pushViewController:selectChap animated:YES];
+    if (_isBuyDidSubject) {
+        NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
+        NSDictionary *dicHeader = dicDate[@"id"];
+        SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+        selectChap.chaperId = [dicHeader[@"Id"] integerValue];
+        selectChap.chaperName = dicHeader[@"Names"];
+        [self.navigationController pushViewController:selectChap animated:YES];
+    }
+    else{
+        if (_isLoginUser) {
+            [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目哦"];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"此科目需要激活哦"];
+        }
+
+    }
 }
 //section折叠
 - (void)buttonSectionClick:(UIButton *)sender{
@@ -361,10 +400,22 @@
     [labT setAttributedText:attriTitle];
     
     MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
-        SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
-        selectChap.chaperId = [dic[@"Id"] integerValue];
-        selectChap.chaperName = dic[@"Names"];
-        [self.navigationController pushViewController:selectChap animated:YES];
+        if (_isBuyDidSubject) {
+            SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+            selectChap.chaperId = [dic[@"Id"] integerValue];
+            selectChap.chaperName = dic[@"Names"];
+            [self.navigationController pushViewController:selectChap animated:YES];
+
+        }
+        else{
+            if (_isLoginUser) {
+                [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目哦"];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:@"此科目需要激活哦"];
+            }
+
+        }
         return YES;
     }];
     cell.rightButtons = @[btnTopic];
@@ -453,10 +504,20 @@
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
     if (anim == [self.navigationController.tabBarController.view.layer animationForKey:@"big"]) {
         if (_dicSelectChaper != nil) {
-        SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
-            selectChap.chaperId = [_dicSelectChaper[@"Id"] integerValue];
-            selectChap.chaperName = _dicSelectChaper[@"Names"];
-            [self.navigationController pushViewController:selectChap animated:YES];
+            if (_isBuyDidSubject) {
+                SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+                selectChap.chaperId = [_dicSelectChaper[@"Id"] integerValue];
+                selectChap.chaperName = _dicSelectChaper[@"Names"];
+                [self.navigationController pushViewController:selectChap animated:YES];
+            }
+            else{
+                if (_isLoginUser) {
+                    [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目哦"];
+                }
+                else{
+                    [SVProgressHUD showInfoWithStatus:@"此科目需要激活哦"];
+                }
+            }
         }
     }
 }

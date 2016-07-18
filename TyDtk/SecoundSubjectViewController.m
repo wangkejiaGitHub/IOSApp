@@ -135,7 +135,7 @@
     return 25;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(((Scr_Width-_tabViewWidthCount.constant)-20), ((Scr_Width-_tabViewWidthCount.constant)-20)/2 - 10+30);
+    return CGSizeMake(((Scr_Width-_tabViewWidthCount.constant)-10), ((Scr_Width-_tabViewWidthCount.constant)-10)/2 - 10+30);
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"sscell" forIndexPath:indexPath];

@@ -197,7 +197,7 @@
     //修改头像
     if (indexPath.section == 0&&indexPath.row == 0) {
         ///换头像
-        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"我的头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self persentImagePicker:1];
         }];
@@ -233,7 +233,7 @@
     }
     //退出登录
     else if (indexPath.section == 1&&indexPath.row != 0){
-        LXAlertView *alertLx = [[LXAlertView alloc]initWithTitle:@"退出登录" message:@"确认退出登录" cancelBtnTitle:@"取消" otherBtnTitle:@"退出" clickIndexBlock:^(NSInteger clickIndex) {
+        LXAlertView *alertLx = [[LXAlertView alloc]initWithTitle:@"退出登录" message:@"确认退出登录吗？" cancelBtnTitle:@"取消" otherBtnTitle:@"退出" clickIndexBlock:^(NSInteger clickIndex) {
             if (clickIndex == 1) {
                 [self logOutUser];
             }

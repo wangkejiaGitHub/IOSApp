@@ -71,7 +71,6 @@
     payVc.payMoneyAll = [_dicOrder[@"totalAmount"] floatValue];
     payVc.dicOrder = _dicOrder;
     [self.navigationController pushViewController:payVc animated:YES];
-    NSLog(@"付款");
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSArray *arrayProduct = _dicOrder[@"shopOrderitems"];
@@ -82,7 +81,6 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 40;
-//    ↑
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *viewSec = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 40)];
@@ -96,7 +94,7 @@
     labTitle.textColor = ColorWithRGB(55, 155, 255);
     [viewSec addSubview:labTitle];
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(Scr_Width - 80, 15/2, 70, 25);
+    btn.frame = CGRectMake(Scr_Width - 80, 5, 70, 30);
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = 3;
     btn.backgroundColor = ColorWithRGB(55, 155, 255);

@@ -368,28 +368,7 @@
     imageEnlargeVC.imageIndex = imageIndex;
     [self presentViewController:imageEnlargeVC animated:YES completion:nil];
 }
-//- (void)imageSaveQtype1Test:(UIImage *)image{
-//    [self imageTopicSave:image];
-//}
-////保存图片
-//-(void)imageTopicSave:(UIImage *)image{
-//    LXAlertView *alertDSaveImg = [[LXAlertView alloc]initWithTitle:@"图片保存" message:@"要将图片保存到手机相册吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"保存" clickIndexBlock:^(NSInteger clickIndex) {
-//        //保存
-//        if (clickIndex == 1) {
-//            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image: didFinishSavingWithError: contextInfo:), nil);
-//        }
-//    }];
-//    [alertDSaveImg showLXAlertView];
-//}
-////保存到本地手机后回调
-//- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo{
-//    if (error == nil) {
-//        [SVProgressHUD showSuccessWithStatus:@"已成功保存到相册！"];
-//    }
-//    else{
-//        [SVProgressHUD showInfoWithStatus:@"保存失败！"];
-//    }
-//}
+
 //暂时保存用户答案，用于cell复用使用
 - (void)saveUserAnswerUseDictonary:(NSDictionary *)dic{
     [_dicUserAnswer setValue:dic.allValues.firstObject forKey:dic.allKeys.firstObject];
@@ -405,7 +384,6 @@
     [_tableViewPater reloadData];
     [_tableViewPater reloadData];
 }
-
 //不是一题多问下的小题二次刷新
 - (void)isWebLoadingCellHeight:(CGFloat)cellHeight withButtonOy:(CGFloat)buttonOy{
     _cellWebLoadingheight = cellHeight;
@@ -423,7 +401,6 @@
     [_dicSubHeight setValue:[NSString stringWithFormat:@"%f",cellHeight] forKey:[NSString stringWithFormat:@"%ld",index]];
     [_dicSubButtonSubOy setValue:[NSString stringWithFormat:@"%f",buttonOy] forKey:[NSString stringWithFormat:@"%ld",index]];
     [_tableViewPater reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:YES];
-    
 }
 //self.cell上的点击选项按钮（A、B、C、D..）代理回调 点击保存并跳转下一题回调 // 用于刷新答题卡
 - (void)topicCellSelectClickTest:(NSInteger)indexTpoic selectDone:(NSDictionary *)dicUserAnswer isRefresh:(BOOL)isResfresh{
@@ -453,7 +430,6 @@
         else{
             [_buttonTopTable removeFromSuperview];
         }
-
     }
 }
 //回到顶部按钮点击事件

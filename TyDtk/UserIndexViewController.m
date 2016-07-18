@@ -257,13 +257,11 @@
     if (msgPara == 1) {
         //标题属性字符串
         NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"欢迎回来：%@",dicUser[@"userName"]]];
-        
         [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(5,[NSString stringWithFormat:@"%@",dicUser[@"userName"]].length)];
         UIFont *titleFont = [UIFont systemFontOfSize:19.0];
         [attriTitle addAttribute:NSFontAttributeName value:titleFont
                            range:NSMakeRange(5,[NSString stringWithFormat:@"%@",dicUser[@"userName"]].length)];
         [_tableHeardView.labUserName setAttributedText:attriTitle];
-        
         if (![dicUser[@"headImg"] isEqualToString:@""]) {
             [_tableHeardView.imageHeardImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dicUser[@"headImg"]]]];
         }
@@ -355,7 +353,7 @@
     }
     else{
         ///换头像
-        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"我的头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self persentImagePicker:1];
         }];

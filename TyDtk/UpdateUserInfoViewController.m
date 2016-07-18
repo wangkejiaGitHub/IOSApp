@@ -44,7 +44,7 @@
     UITapGestureRecognizer *tapView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
     [self.view addGestureRecognizer:tapView];
     //文本框获取焦点
-     [_textValue becomeFirstResponder];
+//     [_textValue becomeFirstResponder];
     _textValue.text = _stringCurr;
 }
 - (void)viewWillDisappear:(BOOL)animated{

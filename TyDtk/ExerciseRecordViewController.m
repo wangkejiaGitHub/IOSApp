@@ -256,7 +256,7 @@
             [SVProgressHUD showInfoWithStatus:dicRe[@"errmsg"]];
         }
     } RequestFaile:^(NSError *error) {
-        
+        httpsErrorShow;
     }];
 }
 //tableView代理
@@ -322,6 +322,9 @@
             //章节练习继续做题，直接传rid
             [self performSegueWithIdentifier:@"startDoTopic" sender:_dicSelectSubject[@"Rid"]];
             
+        }
+        else if (_topicModelCell == 2){
+            [self performSegueWithIdentifier:@"startDoTopic" sender:_dicSelectSubject[@"Rid"]];
         }
         else if (_topicModelCell == 3){
             //每周精选继续做题，直接传rid
@@ -391,7 +394,7 @@
         NSInteger codeId = [diccc[@"code"] integerValue];
         if (codeId == 1) {
             ///每周精选 //章节练习
-            if (_topicModelCell == 3 | _topicModelCell == 1) {
+            if (_topicModelCell == 3 | _topicModelCell == 1 |_topicModelCell == 2) {
                 NSDictionary *dicDatas = diccc[@"datas"];
                 NSString *ridString = dicDatas[@"rid"];
                 _ridAgainWeekTopic = ridString;
