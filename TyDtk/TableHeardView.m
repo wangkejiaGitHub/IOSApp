@@ -18,6 +18,7 @@
     _imageHeardImg.userInteractionEnabled = YES;
     UITapGestureRecognizer *imgTapGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(imgClick:)];
     [_imageHeardImg addGestureRecognizer:imgTapGest];
+    _labUserName.adjustsFontSizeToFitWidth = YES;
 }
 - (void)imgClick:(UITapGestureRecognizer *)tapGest{
     ///已登录

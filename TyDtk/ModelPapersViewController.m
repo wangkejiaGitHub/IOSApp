@@ -67,16 +67,6 @@
     [self viewLoad];
 }
 - (void)viewLoad{
-    _paterPages = 0;
-    _paterIndexPage = 1;
-    _paterYear = @"0";
-    _paterLevel = @"0";
-    _arrayPapers = [NSMutableArray array];
-    _myTableView.tableFooterView = [UIView new];
-    [_buttonYear setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-    [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-}
-- (void)viewWillAppear:(BOOL)animated{
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     if ([_tyUser objectForKey:tyUserUserInfo]) {
@@ -85,7 +75,6 @@
     else{
         _isLoginUser = NO;
     }
-    self.navigationController.tabBarController.tabBar.hidden = YES;
     if (!_viewHeader) {
         _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, 40)];
         _viewHeader.backgroundColor =ColorWithRGB(210, 210, 210);
@@ -120,23 +109,37 @@
         [_viewHeader addSubview:_buttonYear];
         [self.view addSubview:_viewHeader];
     }
-
+    
     //从题库进入
     if (_intPushWhere == 0) {
-      
+        
         _viewHeader.frame = CGRectMake(0, 0, Scr_Width, 40);
         _tableViewLayoutTop.constant = 40;
     }
     //从练习中心进入
     else{
-       
+        
         _viewHeader.frame = CGRectMake(0, 64, Scr_Width, 40);
         _tableViewLayoutTop.constant = 0;
         _tableViewLauoutBottom.constant = -49;
     }
+
     
+    _paterPages = 0;
+    _paterIndexPage = 1;
+    _paterYear = @"0";
+    _paterLevel = @"0";
+    _arrayPapers = [NSMutableArray array];
+    _myTableView.tableFooterView = [UIView new];
+    [_buttonYear setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+    [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+     _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+
     ///判断是否购买激活了该科目（未登录状态下和登录状态下）
     [self isActiveSubject];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = YES;
 }
 - (void)viewDidAppear:(BOOL)animated{
     [self getPaperYears];
@@ -147,8 +150,6 @@
     [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _myTableView.mj_footer = _refreshFooter;
-    _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
 }
 ///判断是否购买了该科目（是否激活了科目）
 - (void)isActiveSubject{
@@ -254,14 +255,16 @@
     }
     //添加试卷列表的头试图 科目信息
     [self addHeardViewForPaterList];
-    [SVProgressHUD show];
-    //获取试卷级别
-    ///添加朦层
-    if (!_mzView) {
-        _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    if (self.intPushWhere == 1) {
+        [SVProgressHUD show];
+        //获取试卷级别
+        ///添加朦层
+        if (!_mzView) {
+            _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+        }
+        [self.navigationController.tabBarController.view addSubview:_mzView];
+
     }
-    [self.navigationController.tabBarController.view addSubview:_mzView];
-    //
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPapers?access_token=%@&courseId=%@&page=%ld&level=%@&year=%@",systemHttps,_accessToken,_subjectId,_paterIndexPage,_paterLevel,_paterYear];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicModelPapers = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -513,7 +516,13 @@
     [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
     ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self LevelsMenuItemArray]];
     CGRect rectBtn = sender.frame;
-    rectBtn.origin.y = rectBtn.origin.y + 60;
+    if (self.intPushWhere == 0) {
+        rectBtn.origin.y = rectBtn.origin.y + 60 + 40;
+    }
+    else{
+        rectBtn.origin.y = rectBtn.origin.y + 55;
+    }
+    
     rectBtn.origin.x = rectBtn.origin.x - 10;
     [popupMenu showInView:self.navigationController.view fromRect:rectBtn layoutType:Vertical];
     [self.navigationController.view addSubview:popupMenu];
@@ -525,7 +534,12 @@
     [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
     ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self yearMenuItemArray]];
     CGRect rectBtn = sender.frame;
-    rectBtn.origin.y = rectBtn.origin.y + 60;
+    if (self.intPushWhere == 0) {
+        rectBtn.origin.y = rectBtn.origin.y + 60 + 40;
+    }
+    else{
+        rectBtn.origin.y = rectBtn.origin.y + 55;
+    }
     rectBtn.origin.x = rectBtn.origin.x - 10;
     [popupMenu showInView:self.navigationController.view fromRect:rectBtn layoutType:Vertical];
     [self.navigationController.view addSubview:popupMenu];

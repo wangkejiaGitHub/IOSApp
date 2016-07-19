@@ -76,8 +76,15 @@
         [SVProgressHUD showInfoWithStatus:@"两次密码输入不一致"];
         return;
     }
-    [self startFindPwdWithPhone];
-    [self viewTapTextRfr];
+    else{
+        if ([PasswordValidate PassWordStringValidate:_textPwdAgain.text]) {
+            [self startFindPwdWithPhone];
+            [self viewTapTextRfr];
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:@"新密码格式有误"];
+        }
+    }
 }
 - (IBAction)buttonYzmImgsClick:(UIButton *)sender {
     [self getYzmImageView];

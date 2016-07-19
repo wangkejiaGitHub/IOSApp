@@ -126,6 +126,8 @@
 		1D489FF11D2BBB0D00D8665F /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D489FEC1D2BBB0D00D8665F /* libWeChatSDK.a */; };
 		1D489FF21D2BBB0D00D8665F /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1D489FED1D2BBB0D00D8665F /* README.txt */; };
 		1D489FF41D2BBB4F00D8665F /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D489FF31D2BBB4F00D8665F /* libsqlite3.0.tbd */; };
+		1D4DDC5D1D3DB5A10091E04C /* TestCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4DDC5C1D3DB5A10091E04C /* TestCenterViewController.m */; };
+		1D4DDC631D3E25030091E04C /* PasswordValidate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4DDC621D3E25030091E04C /* PasswordValidate.m */; };
 		1D56B7621D2B55610072E53B /* cog.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D56B7611D2B55610072E53B /* cog.png */; };
 		1D579EF71CE9668100578519 /* NSObject+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */; };
 		1D579EF81CE9668100578519 /* NSString+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED61CE9668100578519 /* NSString+Zirkfied.m */; };
@@ -598,6 +600,10 @@
 		1D489FEF1D2BBB0D00D8665F /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		1D489FF01D2BBB0D00D8665F /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		1D489FF31D2BBB4F00D8665F /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		1D4DDC5B1D3DB5A10091E04C /* TestCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCenterViewController.h; sourceTree = "<group>"; };
+		1D4DDC5C1D3DB5A10091E04C /* TestCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCenterViewController.m; sourceTree = "<group>"; };
+		1D4DDC611D3E25030091E04C /* PasswordValidate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordValidate.h; sourceTree = "<group>"; };
+		1D4DDC621D3E25030091E04C /* PasswordValidate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordValidate.m; sourceTree = "<group>"; };
 		1D56B7611D2B55610072E53B /* cog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cog.png; sourceTree = "<group>"; };
 		1D579ED31CE9668100578519 /* NSObject+Zirkfied.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zirkfied.h"; sourceTree = "<group>"; };
 		1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Zirkfied.m"; sourceTree = "<group>"; };
@@ -985,6 +991,8 @@
 				1D15C49C1D193C5A006C15A7 /* GuideView.m */,
 				1DE3C1571D2E268300415120 /* LoginUser.h */,
 				1DE3C1581D2E268300415120 /* LoginUser.m */,
+				1D4DDC611D3E25030091E04C /* PasswordValidate.h */,
+				1D4DDC621D3E25030091E04C /* PasswordValidate.m */,
 			);
 			name = CustomTools;
 			sourceTree = "<group>";
@@ -2127,6 +2135,8 @@
 				1DEFF1E21CA122D200994E2C /* SecoundSubjectViewController.m */,
 				1D18A02E1CABB0E00022642C /* SubjectInfoViewController.h */,
 				1D18A02F1CABB0E00022642C /* SubjectInfoViewController.m */,
+				1D4DDC5B1D3DB5A10091E04C /* TestCenterViewController.h */,
+				1D4DDC5C1D3DB5A10091E04C /* TestCenterViewController.m */,
 			);
 			name = TyProgramDtkMain;
 			sourceTree = "<group>";
@@ -2558,6 +2568,7 @@
 				1DBD93B81D08163D0050848D /* MGSwipeButton.m in Sources */,
 				1DF765901CE16E32002DE129 /* NotesElseUserViewController.m in Sources */,
 				1DEDC8561C9FA2920083B394 /* MKAnnotationView+WebCache.m in Sources */,
+				1D4DDC631D3E25030091E04C /* PasswordValidate.m in Sources */,
 				1D92C88E1D138A74006A937F /* TopicLookQtype3TableViewCell.m in Sources */,
 				1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */,
 				1DC18F0E1CB795D50006D642 /* UIScrollView+MJRefresh.m in Sources */,
@@ -2622,6 +2633,7 @@
 				1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */,
 				1DAF02F61D20C9B40042C8D8 /* selectChaperSubjectView.m in Sources */,
 				1DD126C51D1A6FB4003853E5 /* SelectSubjectViewController.m in Sources */,
+				1D4DDC5D1D3DB5A10091E04C /* TestCenterViewController.m in Sources */,
 				1D211FD41D0D57C600B895C6 /* TAPageControl.m in Sources */,
 				1DF950751CA3C52200104597 /* Reachability.m in Sources */,
 				1D92C8841D13828D006A937F /* NotesViewController.m in Sources */,
@@ -2774,7 +2786,7 @@
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/TyDtk";
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2782,7 +2794,7 @@
 					"$(PROJECT_DIR)/TyDtk/WeChatSDK",
 				);
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = tywhdk.com;
+				PRODUCT_BUNDLE_IDENTIFIER = ty.com.dtk002;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2803,7 +2815,7 @@
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/TyDtk";
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2811,7 +2823,7 @@
 					"$(PROJECT_DIR)/TyDtk/WeChatSDK",
 				);
 				OTHER_LDFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = tywhdk.com;
+				PRODUCT_BUNDLE_IDENTIFIER = ty.com.dtk002;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

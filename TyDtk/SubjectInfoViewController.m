@@ -1,10 +1,13 @@
 //
 //  SubjectInfoViewController.m
 //  TyDtk
-//  选择科目，并展示对应章节考点、模拟试卷、每周精选、只能出题模块
+//  选择科目，并展示对应章节考点、模拟试卷、每周精选、智能出题模块
 //  Created by 天一文化 on 16/3/30.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
+//////////////⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️//////////////
+////此模块暂时被 TestCenterViewController 控制类替换
+//////////////⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️//////////////
 
 #import "SubjectInfoViewController.h"
 //章节练习
@@ -15,6 +18,7 @@
 #import "WeekSelectViewController.h"
 //智能出题
 #import "IntelligentTopicViewController.h"
+
 @interface SubjectInfoViewController ()<CustomToolDelegate>
 //@property (weak, nonatomic) IBOutlet UIView *viewNaviTitle;
 //@property (weak, nonatomic) IBOutlet NSLayoutConstraint *buttonLayoutWidth;

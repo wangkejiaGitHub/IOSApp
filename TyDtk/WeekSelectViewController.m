@@ -48,8 +48,6 @@
     _arrayPapers = [NSMutableArray array];
     _tableViewWeek.tableFooterView = [UIView new];
     // Do any additional setup after loading the view.
-}
-- (void)viewWillAppear:(BOOL)animated{
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     
@@ -59,9 +57,7 @@
     else{
         _isLoginUser = NO;
     }
-
     
-    self.navigationController.tabBarController.tabBar.hidden = YES;
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
@@ -73,12 +69,16 @@
     if (_intPushWhere == 1) {
         _tableViewBottom.constant = -49;
     }
-}
-- (void)viewDidAppear:(BOOL)animated{
+
     _paterPages = 0;
     _paterIndexPage = 1;
-    [_arrayPapers removeAllObjects];
     [self getWeekSelectPaper];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = YES;
+}
+- (void)viewDidAppear:(BOOL)animated{
+
 }
 /**
  试卷信息列表的头试图
@@ -96,14 +96,14 @@
     NSString *imgsUrlSub = dicCurrSubject[@"productImageListStore"];
     [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:imgsUrlSub]];
     _hearhVIew.labTitle.text = dicCurrSubject[@"Names"];
-    NSString *remarkPriceSub =[NSString stringWithFormat:@"￥ %ld",[dicCurrSubject[@"marketPrice"] integerValue]];
+    NSString *remarkPriceSub =[NSString stringWithFormat:@"￥ %.2f",[dicCurrSubject[@"marketPrice"] floatValue]];
     //市场价格用属性字符串添加删除线
     NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:remarkPriceSub];
     [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleSingle | NSUnderlineStyleSingle) range:NSMakeRange(2,remarkPriceSub.length -2)];
     [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(2,remarkPriceSub.length-2)];
     //    _hearhVIew.labRemark.text = remarkPriceSub;
     [_hearhVIew.labRemark setAttributedText:attri];
-    NSString *priceSub = [NSString stringWithFormat:@"￥ %ld",[dicCurrSubject[@"price"] integerValue]];
+    NSString *priceSub = [NSString stringWithFormat:@"￥ %.2f",[dicCurrSubject[@"price"] floatValue]];
     _hearhVIew.labPrice.text = priceSub;
     
 }
@@ -131,7 +131,6 @@
  获取每周精选所有试题
  */
 - (void)getWeekSelectPaper{
-    //api/Weekly/GetWeeklyList?access_token={access_token}&page={page}&size={size}
     //在这之前比较当前页和最大页数的值
     if (_paterPages != 0) {
         if (_paterIndexPage > _paterPages) {
@@ -139,11 +138,14 @@
             return;
         }
     }
-    [SVProgressHUD show];
-    if (!_mzView) {
-    _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+    ///从联系中心进入
+    if (self.intPushWhere == 1) {
+        [SVProgressHUD show];
+        if (!_mzView) {
+            _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+        }
+        [self.navigationController.tabBarController.view addSubview:_mzView];
     }
-    [self.navigationController.tabBarController.view addSubview:_mzView];
     [self addHeardViewForPaterList];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/GetWeeklyList?access_token=%@&page=%ld",systemHttps,_accessToken,_paterIndexPage];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {

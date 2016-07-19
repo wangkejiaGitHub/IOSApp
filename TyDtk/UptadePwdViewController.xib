@@ -68,20 +68,32 @@
                         <outlet property="delegate" destination="-1" id="nzB-vj-D7x"/>
                     </connections>
                 </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="提示：密码只允许输入6~16位的数字、字母或两者的组合" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3zM-oQ-914">
+                    <rect key="frame" x="40" y="334" width="295" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="vgu-QY-rWM"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                    <color key="textColor" red="0.63169070510000003" green="0.63169070510000003" blue="0.63169070510000003" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Krb-Nx-5ue" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="0rT-rM-cna"/>
                 <constraint firstItem="kvp-ye-Cpw" firstAttribute="top" secondItem="PEl-Ka-nDE" secondAttribute="bottom" constant="15" id="8QW-d9-HCE"/>
                 <constraint firstItem="kvp-ye-Cpw" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="GWx-0W-Kka"/>
+                <constraint firstItem="3zM-oQ-914" firstAttribute="top" secondItem="Krb-Nx-5ue" secondAttribute="bottom" constant="10" id="HDM-Yw-n6a"/>
                 <constraint firstAttribute="trailing" secondItem="Krb-Nx-5ue" secondAttribute="trailing" constant="40" id="LCS-xk-yRU"/>
                 <constraint firstAttribute="trailing" secondItem="9ZD-ng-NG1" secondAttribute="trailing" constant="40" id="LTT-Li-ToH"/>
                 <constraint firstItem="3Td-0c-2Od" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="O3E-IR-te1"/>
+                <constraint firstItem="3zM-oQ-914" firstAttribute="trailing" secondItem="Krb-Nx-5ue" secondAttribute="trailing" id="UfO-aF-Ef7"/>
                 <constraint firstItem="PEl-Ka-nDE" firstAttribute="top" secondItem="9ZD-ng-NG1" secondAttribute="bottom" constant="15" id="WDF-tz-FLB"/>
                 <constraint firstAttribute="bottom" secondItem="3Td-0c-2Od" secondAttribute="bottom" id="WHy-94-Ei2"/>
                 <constraint firstItem="9ZD-ng-NG1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="XhJ-u2-BHf"/>
                 <constraint firstAttribute="trailing" secondItem="kvp-ye-Cpw" secondAttribute="trailing" constant="40" id="Xnw-ZX-bM1"/>
                 <constraint firstAttribute="trailing" secondItem="PEl-Ka-nDE" secondAttribute="trailing" constant="40" id="Y6Y-IV-jeP"/>
+                <constraint firstItem="3zM-oQ-914" firstAttribute="leading" secondItem="Krb-Nx-5ue" secondAttribute="leading" id="YWr-zu-dcD"/>
                 <constraint firstItem="Krb-Nx-5ue" firstAttribute="top" secondItem="kvp-ye-Cpw" secondAttribute="bottom" constant="20" id="Zzk-dl-v3X"/>
                 <constraint firstItem="9ZD-ng-NG1" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="114" id="ag3-am-nug"/>
                 <constraint firstItem="PEl-Ka-nDE" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="40" id="hvi-FC-9PI"/>

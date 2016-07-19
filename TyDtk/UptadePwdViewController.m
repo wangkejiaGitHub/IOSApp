@@ -59,7 +59,12 @@
         return;
     }
     else{
-        [self updateUserPwd];
+        if ([PasswordValidate PassWordStringValidate:_textPwdAg.text]) {
+            [self updateUserPwd];
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:@"新密码格式有误"];
+        }
     }
 }
 ///修改用户密码

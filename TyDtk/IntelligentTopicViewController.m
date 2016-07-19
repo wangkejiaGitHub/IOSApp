@@ -11,6 +11,8 @@
 @interface IntelligentTopicViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewIn;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTopLaout;
+
 @property (nonatomic,assign) CGFloat viewCellWidth;
 @property (nonatomic,strong) NSMutableArray *arraySelectView;
 //本地信息存储
@@ -37,6 +39,12 @@
     [viewHeader addSubview:imageV];
     _tableViewIn.tableHeaderView = viewHeader;
     _tableViewIn.tableFooterView = [UIView new];
+    if (self.intPushWhere == 0) {
+        _tableViewTopLaout.constant = 0;
+    }
+    else{
+        
+    }
 }
 - (void)viewWillAppear:(BOOL)animated{
      self.navigationController.tabBarController.tabBar.hidden = YES;
@@ -45,7 +53,7 @@
     return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 270 + _viewCellWidth + 180;
+    return 270 + _viewCellWidth + 170;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];

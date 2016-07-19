@@ -179,6 +179,7 @@
             //章节练习
             if (indexPath.row == 0) {
                 ChaptersViewController *chaperVc = [sCommon instantiateViewControllerWithIdentifier:@"ChaptersViewController"];
+                chaperVc.intPushWhere = 1;
                 chaperVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
                 chaperVc.dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
                 chaperVc.title = @"章节练习";
@@ -204,6 +205,7 @@
             //智能做题
             else if (indexPath.row == 3){
                 IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
+                intellVc.intPushWhere = 1;
                 intellVc.dicSubject = _dicSelectSubject;
                 [self.navigationController pushViewController:intellVc animated:YES];
             }

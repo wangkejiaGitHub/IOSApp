@@ -9,6 +9,8 @@
 #import "SecoundSubjectViewController.h"
 #import "SubjectInfoViewController.h"
 #import "LoginViewController.h"
+
+#import "TestCenterViewController.h"
 @interface SecoundSubjectViewController ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegateFlowLayout,UICollectionViewDataSource>
 //tableVIew 的宽度（页面适配）
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tabViewWidthCount;
@@ -129,13 +131,13 @@
     return _arrayCurrSelectSubject.count;
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(10, 10, 10, 10);
+    return UIEdgeInsetsMake(5, 10, 10, 5);
 }
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     return 25;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(((Scr_Width-_tabViewWidthCount.constant)-10), ((Scr_Width-_tabViewWidthCount.constant)-10)/2 - 10+30);
+    return CGSizeMake(_myCollectionView.bounds.size.width-10, (_myCollectionView.bounds.size.width-10)/2 - 10+30);
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"sscell" forIndexPath:indexPath];
@@ -161,7 +163,7 @@
     UILabel *labPersonNub = (UILabel *)[cell.contentView viewWithTag:12];
     labPersonNub.adjustsFontSizeToFitWidth = YES;
     NSString *studyNum = [NSString stringWithFormat:@"%ld 人在学",[dicCurrSubject[@"StudyNum"]integerValue]];
-    //有待修改？？？？？？
+    //有待修改
     NSMutableAttributedString *labPerson = [[NSMutableAttributedString alloc]initWithString:studyNum];
     [labPerson addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(0, [NSString stringWithFormat:@"%ld",[dicCurrSubject[@"StudyNum"] integerValue]].length)];
     labPersonNub.attributedText = labPerson;
@@ -179,7 +181,8 @@
     }
     NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
     [tyUser setObject:dic forKey:tyUserClass];
-    [self performSegueWithIdentifier:@"subjectin" sender:dic];
+//    [self performSegueWithIdentifier:@"subjectin" sender:dic];
+    [self performSegueWithIdentifier:@"test" sender:dic];
     
 
 }
@@ -197,6 +200,19 @@
         }
         //隐藏tabbar
         subVc.hidesBottomBarWhenPushed = YES;
+    }
+    else if ([segue.identifier isEqualToString:@"test"]){
+        TestCenterViewController *vc = segue.destinationViewController;
+        vc.dicSubject = sender;
+        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+        if ([tyUser objectForKey:tyUserUserInfo]) {
+            vc.isUserLogin = YES;
+        }
+        else{
+            vc.isUserLogin = NO;
+        }
+        //隐藏tabbar
+        vc.hidesBottomBarWhenPushed = YES;
     }
 }
 - (void)didReceiveMemoryWarning {

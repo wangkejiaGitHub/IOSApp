@@ -81,7 +81,7 @@
     
     _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
     _tableViewRe.mj_header = _refreshHeader;
-    _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 - (void)viewDidDisappear:(BOOL)animated{
     _refreshFooter = nil;

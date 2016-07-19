@@ -85,7 +85,7 @@
 }
 ///测试tabbar选中
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
-    NSLog(@"IndexTabBarController");
+//    NSLog(@"IndexTabBarController");
 }
 ///在用户未手动退出的时候，登录成功后回调（此代理在这里只有登录成功才会回调，不做任何操作）
 - (void)getUserInfoIsDictionary:(NSDictionary *)dicUser messagePara:(NSInteger)msgPara{

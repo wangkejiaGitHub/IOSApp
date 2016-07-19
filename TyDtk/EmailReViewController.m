@@ -63,8 +63,13 @@
 //立即注册
 - (IBAction)registeButtonClick:(UIButton *)sender {
     if (_textEmail.text.length > 0 && _textPwd.text.length >0) {
-        [self viewTapTextRfr];
-        [self startRegiste];
+        if ([PasswordValidate PassWordStringValidate:_textPwd.text]) {
+            [self viewTapTextRfr];
+            [self startRegiste];
+        }
+        else{
+            [SVProgressHUD showErrorWithStatus:@"新密码格式有误"];
+        }
     }
     else{
         [SVProgressHUD showInfoWithStatus:@"请完善注册信息"];
