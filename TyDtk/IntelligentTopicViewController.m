@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableViewIn;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewTopLaout;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewButtomLaout;
 
 @property (nonatomic,assign) CGFloat viewCellWidth;
 @property (nonatomic,strong) NSMutableArray *arraySelectView;
@@ -41,18 +42,21 @@
     _tableViewIn.tableFooterView = [UIView new];
     if (self.intPushWhere == 0) {
         _tableViewTopLaout.constant = 0;
+        _tableViewButtomLaout.constant = 49;
     }
     else{
-        
     }
 }
 - (void)viewWillAppear:(BOOL)animated{
-     self.navigationController.tabBarController.tabBar.hidden = YES;
+//    if (self.intPushWhere == 1) {
+        self.navigationController.tabBarController.tabBar.hidden = NO;
+//    }
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     return 270 + _viewCellWidth + 170;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

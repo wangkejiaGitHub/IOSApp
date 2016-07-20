@@ -103,7 +103,7 @@
                                     <constraint firstAttribute="width" constant="75" id="ij8-bC-mEH"/>
                                 </constraints>
                                 <state key="normal" title="免费注册">
-                                    <color key="titleColor" red="0.14055548079999999" green="0.36273404650000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <segue destination="3pN-nS-mQ7" kind="show" id="B3r-NE-pAp">
@@ -118,7 +118,7 @@
                                     <constraint firstAttribute="height" constant="20" id="Lkn-nE-fk5"/>
                                 </constraints>
                                 <state key="normal" title="忘记密码?">
-                                    <color key="titleColor" red="0.14055548079999999" green="0.36273404650000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <segue destination="L6C-vw-7jS" kind="show" id="ct3-jy-PAa">
@@ -863,6 +863,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="myTableView" destination="dSF-lc-50f" id="dqs-FP-SS9"/>
+                        <outlet property="tableViewBottomLayout" destination="a7Z-EL-RgO" id="ZEN-lt-tYr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wBe-7L-yp4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1154,15 +1155,23 @@
                         <constraints>
                             <constraint firstItem="oyo-Ch-fjG" firstAttribute="top" secondItem="20s-Vc-46i" secondAttribute="top" id="BR5-g8-Dgl"/>
                             <constraint firstItem="oyo-Ch-fjG" firstAttribute="leading" secondItem="20s-Vc-46i" secondAttribute="leading" id="O4c-Ga-Drr"/>
+                            <constraint firstAttribute="bottom" secondItem="oyo-Ch-fjG" secondAttribute="bottom" id="Wjn-5p-rnh"/>
+                            <constraint firstItem="esk-Gw-iM1" firstAttribute="top" secondItem="oyo-Ch-fjG" secondAttribute="bottom" id="bVM-gV-Ecz"/>
                             <constraint firstAttribute="trailing" secondItem="oyo-Ch-fjG" secondAttribute="trailing" id="jPX-3u-0td"/>
                             <constraint firstAttribute="bottomMargin" secondItem="oyo-Ch-fjG" secondAttribute="bottom" id="sHL-r7-BC1"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="sHL-r7-BC1"/>
+                                <exclude reference="bVM-gV-Ecz"/>
+                            </mask>
+                        </variation>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="Kdw-dR-v6c"/>
                     <navigationItem key="navigationItem" title="每周精选" id="xKH-CT-Isn"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="tableViewBottom" destination="sHL-r7-BC1" id="P0l-TC-Jzr"/>
+                        <outlet property="tableViewBottom" destination="Wjn-5p-rnh" id="0Th-Tz-cGm"/>
                         <outlet property="tableViewWeek" destination="oyo-Ch-fjG" id="GbD-z0-25v"/>
                         <segue destination="dbs-DQ-tMd" kind="show" identifier="topicStar" id="t9q-ND-zPo">
                             <nil key="action"/>
@@ -1538,15 +1547,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="ktC-Qi-Kqf" secondAttribute="bottom" id="2hr-9R-BFC"/>
                             <constraint firstAttribute="trailing" secondItem="ktC-Qi-Kqf" secondAttribute="trailing" id="DHf-j6-qrM"/>
                             <constraint firstItem="ca1-SY-3WG" firstAttribute="top" secondItem="ktC-Qi-Kqf" secondAttribute="bottom" id="Heb-6J-68H"/>
                             <constraint firstItem="ktC-Qi-Kqf" firstAttribute="leading" secondItem="zo6-WW-Ki6" secondAttribute="leading" id="NDq-1C-pMQ"/>
                             <constraint firstItem="ktC-Qi-Kqf" firstAttribute="top" secondItem="jVo-KX-al2" secondAttribute="bottom" constant="-64" id="iNr-Sp-FOG"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Heb-6J-68H"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" title="智能出题" id="Ljv-gc-zJb"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="tableViewButtomLaout" destination="2hr-9R-BFC" id="EmO-zK-hz6"/>
                         <outlet property="tableViewIn" destination="ktC-Qi-Kqf" id="o2l-Ke-UY0"/>
                         <outlet property="tableViewTopLaout" destination="iNr-Sp-FOG" id="HrR-AS-Hnq"/>
                         <segue destination="dbs-DQ-tMd" kind="show" identifier="strtopic" id="Cnp-rZ-Spx"/>
@@ -2071,7 +2087,7 @@
         <image name="top_backbtn" width="12" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Cnp-rZ-Spx"/>
+        <segue reference="t9q-ND-zPo"/>
         <segue reference="3TO-hV-wL9"/>
     </inferredMetricsTieBreakers>
 </document>

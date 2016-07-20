@@ -212,7 +212,7 @@
             vc.isUserLogin = NO;
         }
         //隐藏tabbar
-        vc.hidesBottomBarWhenPushed = YES;
+//        vc.hidesBottomBarWhenPushed = YES;
     }
 }
 - (void)didReceiveMemoryWarning {

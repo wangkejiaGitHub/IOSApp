@@ -12,8 +12,11 @@
 #import "WeekSelectViewController.h"
 #import "ModelPapersViewController.h"
 #import "IntelligentTopicViewController.h"
-@interface TestCenterViewController ()<UIScrollViewDelegate,CustomToolDelegate>
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentShowText;
+@interface TestCenterViewController ()<UIScrollViewDelegate,CustomToolDelegate,SYNavigationDropdownMenuDataSource, SYNavigationDropdownMenuDelegate>
+/////////////////暂时注释
+//@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentShowText;
+@property (weak, nonatomic) IBOutlet UIView *heardView;
+@property (nonatomic, strong) UIView *viewHeardLine;
 @property (nonatomic,strong) UIScrollView *scrollViewCenter;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 //从tyUser中获取到的用户信息
@@ -27,27 +30,46 @@
 ///当前选择的科目
 @property (nonatomic,strong) NSDictionary *dicCurrSubject;
 //下拉菜单
-@property (nonatomic,strong) DTKDropdownMenuView *menuView;
-@property (nonatomic,assign) NSInteger dropDownCurrIndex;
+@property (nonatomic,strong) SYNavigationDropdownMenu *menuView;
+@property (nonatomic, assign) BOOL isActiveSubject;
+@property (nonatomic ,strong) UIColor *colorLine;
 @end
 
 @implementation TestCenterViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    _colorLine = ColorWithRGB(53, 122, 255);
     _tyUser = [NSUserDefaults standardUserDefaults];
      _dicUserClass = [_tyUser objectForKey:tyUserClass];
+    _dicUser = [_tyUser objectForKey:tyUserUserInfo];
     _customTool = [[CustomTools alloc]init];
     _customTool.delegateTool = self;
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    _scrollViewCenter = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64 + 45, Scr_Width, self.view.bounds.size.height - 45 - 64)];
+    _scrollViewCenter = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64 + 40, Scr_Width, self.view.bounds.size.height - 40 - 64)];
     _scrollViewCenter.delegate = self;
     _scrollViewCenter.pagingEnabled = YES;
     _scrollViewCenter.backgroundColor = [UIColor groupTableViewBackgroundColor];
     _scrollViewCenter.contentSize = CGSizeMake(Scr_Width*4, _scrollViewCenter.bounds.size.height);
     [self.view addSubview:_scrollViewCenter];
-    _segmentShowText.selectedSegmentIndex = 0;
-    _segmentShowText.tintColor = [UIColor brownColor];
+    ///添加下划线
+    _viewHeardLine = [[UIView alloc]initWithFrame:CGRectMake(0, _heardView.bounds.size.height - 1, Scr_Width/4, 1)];
+    _viewHeardLine.backgroundColor = _colorLine;
+    [_heardView addSubview:_viewHeardLine];
+    ///默认选中第一个button颜色
+    for (id subView in _heardView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)subView;
+            if (btn.tag == 10) {
+                [btn setTitleColor:_colorLine forState:UIControlStateNormal];
+            }
+        }
+    }
+    /////////////////暂时注释
+//    _segmentShowText.selectedSegmentIndex = 0;
+//    _segmentShowText.tintColor = [UIColor brownColor];
+    /////////////////
 }
 - (void)viewDidAppear:(BOOL)animated{
     ///不是第一次加载（直接加载下拉菜单）
@@ -59,7 +81,12 @@
         [self getAllSubject];
     }
 }
+
+- (void)viewWillAppear:(BOOL)animated{
+     self.navigationController.tabBarController.tabBar.hidden = NO;
+}
 - (IBAction)btnLiftItemClick:(UIBarButtonItem *)sender {
+    [_menuView hide];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -84,6 +111,7 @@
     chapVc.dicSubject = _dicCurrSubject;
     chapVc.intPushWhere = 0;
     chapVc.subjectId =[NSString stringWithFormat:@"%ld", [_dicCurrSubject[@"Id"] integerValue]];
+    chapVc.isActiveSubject = _isActiveSubject;
     chapVc.view.frame = CGRectMake(0, 0, Scr_Width, _scrollViewCenter.bounds.size.height);
     chapVc.view.tag = 1000;
     [_scrollViewCenter addSubview:chapVc.view];
@@ -93,6 +121,7 @@
     modelVc.dicSubject = _dicCurrSubject;
     modelVc.subjectId =[NSString stringWithFormat:@"%ld", [_dicCurrSubject[@"Id"] integerValue]];
     modelVc.intPushWhere = 0;
+    modelVc.isActiveSubject = _isActiveSubject;
     modelVc.view.frame = CGRectMake(Scr_Width, 0, Scr_Width, _scrollViewCenter.bounds.size.height);
     modelVc.view.tag = 1000;
     [_scrollViewCenter addSubview:modelVc.view];
@@ -100,6 +129,7 @@
     WeekSelectViewController *weekVc = self.childViewControllers[2];
     weekVc.subjectId =[NSString stringWithFormat:@"%ld", [_dicCurrSubject[@"Id"] integerValue]];
     weekVc.intPushWhere = 0;
+    weekVc.isActiveSubject = _isActiveSubject;
     weekVc.view.frame = CGRectMake(Scr_Width*2, 0, Scr_Width,_scrollViewCenter.bounds.size.height);
     weekVc.view.tag = 1000;
     [_scrollViewCenter addSubview:weekVc.view];
@@ -107,6 +137,7 @@
     IntelligentTopicViewController *intellVc =self.childViewControllers[3];
     intellVc.dicSubject = _dicCurrSubject;
     intellVc.intPushWhere = 0;
+    intellVc.isActiveSubject = _isActiveSubject;
     intellVc.view.frame = CGRectMake(Scr_Width*3, 0, Scr_Width, _scrollViewCenter.bounds.size.height);
     intellVc.view.tag = 1000;
     [_scrollViewCenter addSubview:intellVc.view];
@@ -128,8 +159,6 @@
             [self addDropDownListMenu];
             _dicCurrSubject = _arraySubject[0];
             [self empowerWithSubjectDic];
-            
-
         }
         else{
             [SVProgressHUD showInfoWithStatus:dicSubject[@"errmsg"]];
@@ -141,49 +170,47 @@
 
 ///添加下拉菜单
 - (void)addDropDownListMenu{
-    ///菜单item数组
-    NSMutableArray *arrayMenuItem = [NSMutableArray array];
-    ///每个所有item中的字符串最大个数（计算最大宽度）
-    NSInteger menuStringLength = 0;
-    for (NSDictionary *dicSub in _arraySubject) {
-        NSString *name = dicSub[@"Names"];
-        NSInteger nameLength = name.length;
-        if (nameLength > menuStringLength) {
-            menuStringLength = nameLength;
-        }
-    }
-    
-    for (int i =0; i<_arraySubject.count; i++) {
-        NSDictionary *dicSubject = _arraySubject[i];
-        DTKDropdownItem *item = [DTKDropdownItem itemWithTitle:dicSubject[@"Names"] callBack:^(NSUInteger index, id info) {
-            [self itemMenuClick:index];
-        }];
-        [arrayMenuItem addObject:item];
-    }
-    _menuView = [DTKDropdownMenuView dropdownMenuViewForNavbarTitleViewWithFrame:CGRectMake(46, 0, Scr_Width - 92, 44) dropdownItems:arrayMenuItem];
-    _menuView.currentNav = self.navigationController;
-    _menuView.dropWidth = menuStringLength*19 - 15;
-    if (menuStringLength <= 10) {
-        _menuView.dropWidth = 200;
-    }
-    _menuView.titleFont = [UIFont systemFontOfSize:13.0];
-    _menuView.textColor = [UIColor brownColor];
-    _menuView.titleColor = [UIColor purpleColor];
-    _menuView.textFont = [UIFont systemFontOfSize:13.f];
-    _menuView.cellSeparatorColor = [UIColor lightGrayColor];
-    _menuView.textFont = [UIFont systemFontOfSize:14.f];
-    _menuView.animationDuration = 0.2f;
-    if (_dicCurrSubject != nil) {
-        _menuView.selectedIndex = [_arraySubject indexOfObject:_dicCurrSubject];
+    if (!_menuView) {
+        _menuView = [[SYNavigationDropdownMenu alloc]initWithNavigationController:self.navigationController];
+        _menuView.frame = CGRectMake(50, 10, Scr_Width - 100, self.navigationItem.titleView.frame.size.height - 20);
+        _menuView.delegate = self;
+        _menuView.dataSource = self;
     }
     self.navigationItem.titleView = _menuView;
+    if (_dicCurrSubject != nil) {
+        _menuView.titleLabel.text = _dicCurrSubject[@"Names"];
+    }
 }
-///下拉菜单中的item点击事件
-- (void)itemMenuClick:(NSInteger)indexItem{
-    _dicCurrSubject = _arraySubject[indexItem];
+///下拉下单代理事件
+- (NSArray<NSString *> *)titleArrayForNavigationDropdownMenu:(SYNavigationDropdownMenu *)navigationDropdownMenu {
+    NSMutableArray *arraySubjectName = [NSMutableArray array];
+    for (NSDictionary *dicSubject in _arraySubject) {
+        [arraySubjectName addObject:dicSubject[@"Names"]];
+    }
+    return arraySubjectName;
+}
+
+- (CGFloat)arrowPaddingForNavigationDropdownMenu:(SYNavigationDropdownMenu *)navigationDropdownMenu {
+    return 8.0;
+}
+
+- (UIImage *)arrowImageForNavigationDropdownMenu:(SYNavigationDropdownMenu *)navigationDropdownMenu {
+    return [UIImage imageNamed:@"arrow_down"];
+}
+- (void)menuTableFooterClick{
+    [_menuView hide];
+}
+- (void)navigationDropdownMenu:(SYNavigationDropdownMenu *)navigationDropdownMenu didSelectTitleAtIndex:(NSUInteger)index {
+    _dicCurrSubject = _arraySubject[index];
     [self empowerWithSubjectDic];
-    //获取储存的专业、科目信息
 }
+
+///下拉菜单中的item点击事件
+//- (void)itemMenuClick:(NSInteger)indexItem{
+//    _dicCurrSubject = _arraySubject[indexItem];
+//    [self empowerWithSubjectDic];
+//    //获取储存的专业、科目信息
+//}
 ///科目授权，默认是第一个科目
 - (void)empowerWithSubjectDic{
     NSString *subjectId = [NSString stringWithFormat:@"%ld",[_dicCurrSubject[@"Id"] integerValue]];
@@ -207,6 +234,18 @@
 }
 ////授权成功
 - (void)httpSussessReturnClick{
+    ////////先判断科目是否激活或可做题
+    if (_isUserLogin) {
+        [self determineSubjectActive];
+    }
+    else{
+        [self determineSubjectCanDo];
+    }
+}
+-(void)httpErrorReturnClick{
+    
+}
+- (void)clearChildViewAndAgainAddSubview{
     ///先清除所有子试图
     for (UIViewController *subViewCon in self.childViewControllers) {
         [subViewCon removeFromParentViewController];
@@ -223,13 +262,71 @@
     //加载模块
     [self addSubViewForScrollView];
 }
--(void)httpErrorReturnClick{
+///判断科目是否激活（登录情况下）
+- (void)determineSubjectActive{
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicSubject[@"Id"] integerValue]],_dicUser[@"jeeId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicActive);
+        if ([dicActive[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicActive[@"datas"];
+            ///激活
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                _isActiveSubject = YES;
+            }
+            ///未激活
+            else{
+                _isActiveSubject = NO;
+            }
+            [self clearChildViewAndAgainAddSubview];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+///未登录情况下判断科目是否可做（根据价格）
+- (void)determineSubjectCanDo{
+//    NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
+//    if ([subPrice floatValue] > 0) {
+//        _isActiveSubject = YES;
+//    }
+//    else{
+//        _isActiveSubject = NO;
+//    }
+//    
+    [self clearChildViewAndAgainAddSubview];
+}
+///模式切换按钮
+- (IBAction)btnSelectTopicModelClick:(UIButton *)sender {
+    NSInteger tagButton = sender.tag;
+    ///下划线跟踪
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rect = _viewHeardLine.frame;
+        rect.origin.x = (tagButton - 10)*(Scr_Width/4);
+        _viewHeardLine.frame = rect;
+    }];
+    ///button按钮跟踪
+    for (id subView in _heardView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)subView;
+            if (btn.tag == tagButton) {
+                [btn setTitleColor:_colorLine forState:UIControlStateNormal];
+            }
+            else{
+                [btn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            }
+        }
+    }
+    
+    ///设置scrollView偏移量
+    [_scrollViewCenter setContentOffset:CGPointMake((tagButton - 10)*Scr_Width, 0) animated:YES];
     
 }
+
 ///选择练习模式
-- (IBAction)selectTopicModelClick:(UISegmentedControl *)sender {
-    [_scrollViewCenter setContentOffset:CGPointMake(sender.selectedSegmentIndex * Scr_Width, 0) animated:YES];
-}
+//- (IBAction)selectTopicModelClick:(UISegmentedControl *)sender {
+//    [_scrollViewCenter setContentOffset:CGPointMake(sender.selectedSegmentIndex * Scr_Width, 0) animated:YES];
+//}
 ///acrollView 代理
 //完成拖拽
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
@@ -241,7 +338,27 @@
 ///跟踪
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     NSInteger selectIndex = scrollView.contentOffset.x/Scr_Width;
-    _segmentShowText.selectedSegmentIndex = selectIndex;
+//    _segmentShowText.selectedSegmentIndex = selectIndex;
+    ///下划线跟踪
+    [UIView animateWithDuration:0.2 animations:^{
+        CGRect rect = _viewHeardLine.frame;
+        rect.origin.x = selectIndex*(Scr_Width/4);
+        _viewHeardLine.frame = rect;
+    }];
+    
+    ///button按钮跟踪
+    for (id subView in _heardView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            UIButton *btn = (UIButton *)subView;
+            if (btn.tag == selectIndex + 10) {
+                [btn setTitleColor:_colorLine forState:UIControlStateNormal];
+            }
+            else{
+                [btn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+            }
+        }
+    }
+
     
 }
 - (void)didReceiveMemoryWarning {

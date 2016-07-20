@@ -13,4 +13,6 @@
 @property (nonatomic,assign) NSInteger intPushWhere;
 ///科目信息
 @property (nonatomic,strong) NSDictionary *dicSubject;
+///科目是否激活或者可做
+@property (nonatomic,assign) BOOL isActiveSubject;
 @end

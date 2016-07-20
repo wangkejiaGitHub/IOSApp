@@ -13,6 +13,8 @@
 #import "ActiveSubjectViewController.h"
 @interface ChaptersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveSubjectDelegate,SelectSubjectDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewBottomLayout;
+
 //授权工具
 @property (nonatomic,strong) CustomTools *customTools;
 //本地信息存储
@@ -50,9 +52,6 @@
 /****************************************************/
 @property (nonatomic,strong) selectChaperSubjectView *viewSelectChaper;
 @property (nonatomic,strong) NSDictionary *dicSelectChaper;
-
-///判断是否已购买科目
-@property (nonatomic,assign) BOOL isBuyDidSubject;
 ///判断是否登录
 @property (nonatomic,assign) BOOL isLoginUser;
 @end
@@ -72,52 +71,16 @@
     else{
         _isLoginUser = NO;
     }
-    [self isActiveSubject];
     [self addTableHeaderView];
-
+    
+    if (self.intPushWhere == 0) {
+        _tableViewBottomLayout.constant = 49;
+    }
+    
+    [self getChaptersInfo:_accessToken];
 }
 - (void)viewWillAppear:(BOOL)animated{
-
-}
-
-///判断是否购买了该科目（是否激活了科目）
-- (void)isActiveSubject{
-    if (_isLoginUser) {
-        [self isUserActiveSubject];
-    }
-    else{
-        NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
-        if ([subPrice floatValue] > 0) {
-            _isBuyDidSubject = NO;
-        }
-        else{
-            _isBuyDidSubject = YES;
-        }
-        [self getChaptersInfo:_accessToken];
-    }
-}
-- (void)isUserActiveSubject{
-    NSDictionary *dicUserIn = [_tyUser objectForKey:tyUserUserInfo];
-    ///ty/mobile/order/productValidate?productId systemHttpsKaoLaTopicImg
-    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicSubject[@"Id"] integerValue]],dicUserIn[@"jeeId"]];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dicActive);
-        if ([dicActive[@"code"] integerValue] == 1) {
-            NSDictionary *dicDatas = dicActive[@"datas"];
-            ///激活
-            if ([dicDatas[@"status"] integerValue] == 1) {
-                _isBuyDidSubject = YES;
-            }
-            ///未激活
-            else{
-                _isBuyDidSubject = NO;
-            }
-            [self getChaptersInfo:_accessToken];
-        }
-    } RequestFaile:^(NSError *error) {
-        
-    }];
+    self.navigationController.tabBarController.tabBar.hidden = NO;
 }
 /**
  获取tableView的头试图，并设置其参数值
@@ -291,6 +254,7 @@
     
     UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, Scr_Width - 10 - 60, view.frame.size.height)];
     //    labText.text = dicHeader[@"Names"];
+    labText.textColor = ColorWithRGB(53, 122, 255);
     labText.numberOfLines = 0;
     labText.font = [UIFont systemFontOfSize:14.0];
     
@@ -313,23 +277,9 @@
     return view;
 }
 - (void)btnDoTopicClick:(UIButton *)button{
-    if (_isBuyDidSubject) {
-        NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
-        NSDictionary *dicHeader = dicDate[@"id"];
-        SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
-        selectChap.chaperId = [dicHeader[@"Id"] integerValue];
-        selectChap.chaperName = dicHeader[@"Names"];
-        [self.navigationController pushViewController:selectChap animated:YES];
-    }
-    else{
-        if (_isLoginUser) {
-            [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目哦"];
-        }
-        else{
-            [SVProgressHUD showInfoWithStatus:@"此科目需要激活哦"];
-        }
-
-    }
+    NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
+    NSDictionary *dicHeader = dicDate[@"id"];
+    [self isActiveSubjectAndDoTopicWithDictionary:dicHeader];
 }
 //section折叠
 - (void)buttonSectionClick:(UIButton *)sender{
@@ -403,22 +353,7 @@
     [labT setAttributedText:attriTitle];
     
     MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
-        if (_isBuyDidSubject) {
-            SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
-            selectChap.chaperId = [dic[@"Id"] integerValue];
-            selectChap.chaperName = dic[@"Names"];
-            [self.navigationController pushViewController:selectChap animated:YES];
-
-        }
-        else{
-            if (_isLoginUser) {
-                [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目哦"];
-            }
-            else{
-                [SVProgressHUD showInfoWithStatus:@"此科目需要激活哦"];
-            }
-
-        }
+        [self isActiveSubjectAndDoTopicWithDictionary:dic];
         return YES;
     }];
     cell.rightButtons = @[btnTopic];
@@ -463,7 +398,6 @@
     _viewSelectChaper.delegateChaper = self;
     UIWindow *dd = [[UIApplication sharedApplication] keyWindow];
     [dd addSubview:_viewSelectChaper];
-    
 }
 
 //试图还原动画
@@ -471,7 +405,7 @@
     CABasicAnimation *cba1=[CABasicAnimation animationWithKeyPath:@"position"];
     cba1.fromValue=[NSValue valueWithCGPoint:CGPointMake(self.navigationController.tabBarController.view.center.x, self.navigationController.tabBarController.view.center.y - 30)];
     cba1.toValue=[NSValue valueWithCGPoint:self.navigationController.tabBarController.view.center];
-    
+
     CABasicAnimation *cba2=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
     cba2.fromValue=[NSNumber numberWithFloat:0.85];
     cba2.toValue=[NSNumber numberWithFloat:1];
@@ -490,7 +424,6 @@
     cba1.fromValue=[NSValue valueWithCGPoint:self.navigationController.tabBarController.view.center];
     cba1.toValue=[NSValue valueWithCGPoint:CGPointMake(self.navigationController.tabBarController.view.center.x, self.navigationController.tabBarController.view.center.y - 30)];
     
-    
     CABasicAnimation *cba2=[CABasicAnimation animationWithKeyPath:@"transform.scale"];
     cba2.fromValue=[NSNumber numberWithFloat:1];
     cba2.toValue=[NSNumber numberWithFloat:0.85];
@@ -507,23 +440,47 @@
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
     if (anim == [self.navigationController.tabBarController.view.layer animationForKey:@"big"]) {
         if (_dicSelectChaper != nil) {
-            if (_isBuyDidSubject) {
-                SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
-                selectChap.chaperId = [_dicSelectChaper[@"Id"] integerValue];
-                selectChap.chaperName = _dicSelectChaper[@"Names"];
-                [self.navigationController pushViewController:selectChap animated:YES];
-            }
-            else{
-                if (_isLoginUser) {
-                    [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目哦"];
-                }
-                else{
-                    [SVProgressHUD showInfoWithStatus:@"此科目需要激活哦"];
-                }
-            }
+            [self isActiveSubjectAndDoTopicWithDictionary:_dicSelectChaper];
         }
     }
 }
+///判断章节id是否可开放做题
+- (void)isActiveSubjectAndDoTopicWithDictionary:(NSDictionary *)dicChaper{
+    ///登录状态
+    if (_isLoginUser) {
+        ///先判断是否激活
+        if (_isActiveSubject) {
+            [self startDoToic:dicChaper];
+        }
+        ///如果未激活，判断isopen
+        else{
+            ///章节开放，可做题
+            if ([dicChaper[@"IsOpen"] integerValue] == 1) {
+               [self startDoToic:dicChaper];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:@"此章节需要激活科目才能做题哦"];
+            }
+        }
+    }
+    else{
+        ///直接判断是否isOpen
+        if ([dicChaper[@"IsOpen"] integerValue] == 1) {
+            [self startDoToic:dicChaper];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"此章节还未开放，您可以登录激活科目哦"];
+        }
+    }
+}
+///跳转到章节做题筛选页面
+- (void)startDoToic:(NSDictionary *)dicSelectTopic{
+    SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+    selectChap.chaperId = [dicSelectTopic[@"Id"] integerValue];
+    selectChap.chaperName = dicSelectTopic[@"Names"];
+    [self.navigationController pushViewController:selectChap animated:YES];
+}
+///选择三级（四级）后的章节回调
 - (void)selectSubjectViewDismiss:(NSDictionary *)dicSubject{
     _dicSelectChaper = dicSubject;
     [_viewSelectChaper removeFromSuperview];
@@ -531,7 +488,6 @@
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

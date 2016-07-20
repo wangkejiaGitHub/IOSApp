@@ -18,6 +18,7 @@
 
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSString *accessToken;
+@property (nonatomic,strong) NSDictionary *dicUser;
 @property (nonatomic,strong) NSArray *arrayAllChap;
 //???????级数
 @property (nonatomic,assign) NSInteger levelTT;
@@ -40,6 +41,7 @@
 @property (nonatomic,strong) CustomTools *customTools;
 //刷新
 @property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
+@property (nonatomic,assign) BOOL isActiveSubject;
 @end
 
 @implementation MyCollectViewController
@@ -48,6 +50,7 @@
     [super viewDidLoad];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
+    _dicUser = [_tyUser objectForKey:tyUserUserInfo];
     _tableViewCollect.separatorStyle = UITableViewCellSeparatorStyleNone;
     NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
     if (self.parameterView == 1) {
@@ -170,17 +173,7 @@
 - (void)httpSussessReturnClick{
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     [_tyUser setObject:_selectSubject forKey:tyUserSelectSubject];
-    if (self.parameterView == 1) {
-        [self getAboutChaperCollect];
-    }
-    //错题
-    else if (self.parameterView == 2) {
-        [self getAboutChaperErrorTopic];
-    }
-    //笔记
-    else if (self.parameterView == 3){
-        [self getAboutChaperNotes];
-    }
+    [self determineSubjectActive];
 }
 //授权失败
 -(void)httpErrorReturnClick{
@@ -200,15 +193,16 @@
             //            _intSubJectId = [dicFirst[@"Id"] integerValue];
             //            _labSubject.text = dicFirst[@"Names"];
             _labSubject.userInteractionEnabled = YES;
-            if (self.parameterView == 1) {
-                [self getAboutChaperCollect];
-            }
-            else if (self.parameterView == 2){
-                [self getAboutChaperErrorTopic];
-            }
-            else if (self.parameterView == 3){
-                [self getAboutChaperNotes];
-            }
+//            if (self.parameterView == 1) {
+//                [self getAboutChaperCollect];
+//            }
+//            else if (self.parameterView == 2){
+//                [self getAboutChaperErrorTopic];
+//            }
+//            else if (self.parameterView == 3){
+//                [self getAboutChaperNotes];
+//            }
+            [self determineSubjectActive];
             
         }
     } RequestFaile:^(NSError *error) {
@@ -607,11 +601,7 @@
 - (void)sectionTopicClick:(UIButton *)button{
     NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
     NSDictionary *dicHeader = dicDate[@"id"];
-    SelectParTopicViewController *selectVc = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
-    selectVc.chaperName = dicHeader[@"Names"];
-    selectVc.chaperId = [dicHeader[@"Id"] integerValue];
-    [self.navigationController pushViewController:selectVc animated:YES];
-//    NSLog(@"section Name= %@",dicHeader[@"Names"]);
+    [self isActiveSubjectAndDoTopicWithDictionary:dicHeader];
 }
 
 //section折叠
@@ -758,7 +748,6 @@
             vc.chaperId = [dic[@"Id"] integerValue];
             vc.parameterView = _parameterView;
             [self.navigationController pushViewController:vc animated:YES];
-
         }
         ///笔记
         else{
@@ -770,13 +759,7 @@
     [btnLook setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     btnLook.titleLabel.font = [UIFont systemFontOfSize:15.0];
     MGSwipeButton *btnTopic = [MGSwipeButton buttonWithTitle:@"做 题" icon:nil backgroundColor:ColorWithRGB(109, 188, 254) callback:^BOOL(MGSwipeTableCell *sender) {
-        NSLog(@"%ld",[dic[@"Id"] integerValue]);
-        //        [self performSegueWithIdentifier:@"dotopic" sender:[NSString stringWithFormat:@"%ld",[dic[@"Id"] integerValue]]];
-        NSLog(@"%ld == %ld",indexPath.section,indexPath.row);
-        SelectParTopicViewController *selectVc = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
-        selectVc.chaperId = [dic[@"Id"] integerValue];
-        selectVc.chaperName = dic[@"Names"];
-        [self.navigationController pushViewController:selectVc animated:YES];
+        [self isActiveSubjectAndDoTopicWithDictionary:dic];
         return YES;
     }];
     [btnTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
@@ -784,6 +767,67 @@
     cell.rightButtons = @[btnTopic,btnLook];
     cell.rightSwipeSettings.transition = MGSwipeTransitionBorder;
     return cell;
+}
+
+
+///判断章节id是否开放可做题
+- (void)isActiveSubjectAndDoTopicWithDictionary:(NSDictionary *)dicChaper{
+    ///先判断是否激活
+    if (_isActiveSubject) {
+        [self startDoToic:dicChaper];
+    }
+    ///如果未激活，判断isopen
+    else{
+        ///章节开放，可做题
+        if ([dicChaper[@"IsOpen"] integerValue] == 1) {
+            [self startDoToic:dicChaper];
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:@"此章节需要激活科目才能做题哦"];
+        }
+    }
+}
+///跳转到章节做题筛选页面
+- (void)startDoToic:(NSDictionary *)dicSelectTopic{
+    SelectParTopicViewController *selectChap = [[SelectParTopicViewController alloc]initWithNibName:@"SelectParTopicViewController" bundle:nil];
+    selectChap.chaperId = [dicSelectTopic[@"Id"] integerValue];
+    selectChap.chaperName = dicSelectTopic[@"Names"];
+    [self.navigationController pushViewController:selectChap animated:YES];
+}
+///判断科目是否激活（登录情况下）
+- (void)determineSubjectActive{
+    NSDictionary *dicSelectSubject = [_tyUser objectForKey:tyUserSelectSubject];
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[dicSelectSubject[@"Id"] integerValue]],_dicUser[@"jeeId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicActive);
+        if ([dicActive[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicActive[@"datas"];
+            ///激活
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                _isActiveSubject = YES;
+            }
+            ///未激活
+            else{
+                _isActiveSubject = NO;
+            }
+            
+            if (self.parameterView == 1) {
+                [self getAboutChaperCollect];
+            }
+            //错题
+            else if (self.parameterView == 2) {
+                [self getAboutChaperErrorTopic];
+            }
+            //笔记
+            else if (self.parameterView == 3){
+                [self getAboutChaperNotes];
+            }
+
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{

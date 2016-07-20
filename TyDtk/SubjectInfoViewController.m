@@ -52,7 +52,7 @@
 //当前需要显示的子试图的索引
 @property (nonatomic,assign) NSInteger indexCurrChildView;
 //下拉菜单
-@property (nonatomic,strong) DTKDropdownMenuView *menuView;
+//@property (nonatomic,strong) DTKDropdownMenuView *menuView;
 @property (nonatomic,assign) NSInteger dropDownCurrIndex;
 //章节练习
 @property (nonatomic,strong) ChaptersViewController *chapterVc;
@@ -259,49 +259,49 @@
 }
 ///添加下拉菜单
 - (void)addDropDownListMenu{
-    ///菜单item数组
-    NSMutableArray *arrayMenuItem = [NSMutableArray array];
-    ///每个所有item中的字符串最大个数（计算最大宽度）
-    NSInteger menuStringLength = 0;
-    for (NSDictionary *dicSub in _arraySubject) {
-        NSString *name = dicSub[@"Names"];
-        NSInteger nameLength = name.length;
-        if (nameLength > menuStringLength) {
-            menuStringLength = nameLength;
-        }
-    }
-    for (int i =0; i<_arraySubject.count + 1; i++) {
-        if (i == 0) {
-            DTKDropdownItem *item = [DTKDropdownItem itemWithTitle:@"--请选择你的科目--" callBack:^(NSUInteger index, id info) {
-                [self itemMenuClick:index];
-            }];
-            [arrayMenuItem addObject:item];
-        }
-        else{
-            NSDictionary *dicSubject = _arraySubject[i - 1];
-            DTKDropdownItem *item = [DTKDropdownItem itemWithTitle:dicSubject[@"Names"] callBack:^(NSUInteger index, id info) {
-                [self itemMenuClick:index];
-            }];
-            [arrayMenuItem addObject:item];
-        }
-    }
-    _menuView = [DTKDropdownMenuView dropdownMenuViewForNavbarTitleViewWithFrame:CGRectMake(46, 0, Scr_Width - 92, 44) dropdownItems:arrayMenuItem];
-    _menuView.currentNav = self.navigationController;
-    _menuView.dropWidth = menuStringLength*19 - 15;
-    if (menuStringLength <= 10) {
-        _menuView.dropWidth = 200;
-    }
-    _menuView.titleFont = [UIFont systemFontOfSize:13.0];
-    _menuView.textColor = [UIColor brownColor];
-    _menuView.titleColor = [UIColor purpleColor];
-    _menuView.textFont = [UIFont systemFontOfSize:13.f];
-    _menuView.cellSeparatorColor = [UIColor lightGrayColor];
-    _menuView.textFont = [UIFont systemFontOfSize:14.f];
-    _menuView.animationDuration = 0.2f;
-    if (_dicCurrSubject != nil) {
-        _menuView.selectedIndex = [_arraySubject indexOfObject:_dicCurrSubject] + 1;
-    }
-    self.navigationItem.titleView = _menuView;
+//    ///菜单item数组
+//    NSMutableArray *arrayMenuItem = [NSMutableArray array];
+//    ///每个所有item中的字符串最大个数（计算最大宽度）
+//    NSInteger menuStringLength = 0;
+//    for (NSDictionary *dicSub in _arraySubject) {
+//        NSString *name = dicSub[@"Names"];
+//        NSInteger nameLength = name.length;
+//        if (nameLength > menuStringLength) {
+//            menuStringLength = nameLength;
+//        }
+//    }
+//    for (int i =0; i<_arraySubject.count + 1; i++) {
+//        if (i == 0) {
+//            DTKDropdownItem *item = [DTKDropdownItem itemWithTitle:@"--请选择你的科目--" callBack:^(NSUInteger index, id info) {
+//                [self itemMenuClick:index];
+//            }];
+//            [arrayMenuItem addObject:item];
+//        }
+//        else{
+//            NSDictionary *dicSubject = _arraySubject[i - 1];
+//            DTKDropdownItem *item = [DTKDropdownItem itemWithTitle:dicSubject[@"Names"] callBack:^(NSUInteger index, id info) {
+//                [self itemMenuClick:index];
+//            }];
+//            [arrayMenuItem addObject:item];
+//        }
+//    }
+//    _menuView = [DTKDropdownMenuView dropdownMenuViewForNavbarTitleViewWithFrame:CGRectMake(46, 0, Scr_Width - 92, 44) dropdownItems:arrayMenuItem];
+//    _menuView.currentNav = self.navigationController;
+//    _menuView.dropWidth = menuStringLength*19 - 15;
+//    if (menuStringLength <= 10) {
+//        _menuView.dropWidth = 200;
+//    }
+//    _menuView.titleFont = [UIFont systemFontOfSize:13.0];
+//    _menuView.textColor = [UIColor brownColor];
+//    _menuView.titleColor = [UIColor purpleColor];
+//    _menuView.textFont = [UIFont systemFontOfSize:13.f];
+//    _menuView.cellSeparatorColor = [UIColor lightGrayColor];
+//    _menuView.textFont = [UIFont systemFontOfSize:14.f];
+//    _menuView.animationDuration = 0.2f;
+//    if (_dicCurrSubject != nil) {
+//        _menuView.selectedIndex = [_arraySubject indexOfObject:_dicCurrSubject] + 1;
+//    }
+//    self.navigationItem.titleView = _menuView;
 }
 ///下拉菜单中的item点击事件
 - (void)itemMenuClick:(NSInteger)indexItem{

@@ -51,8 +51,6 @@
 @property (nonatomic,strong) NSArray *arrayLevels;
 //试卷年份
 @property (nonatomic,strong) NSArray *arrayYears;
-///判断是否已购买科目
-@property (nonatomic,assign) BOOL isBuyDidSubject;
 ///用户判断tableView的滑动方向
 @property (nonatomic,assign) CGFloat lastContentOffset;
 @property (nonatomic,strong) UIView *viewHeader;
@@ -123,25 +121,12 @@
         _tableViewLayoutTop.constant = 0;
         _tableViewLauoutBottom.constant = -49;
     }
-
-    
-    _paterPages = 0;
-    _paterIndexPage = 1;
-    _paterYear = @"0";
-    _paterLevel = @"0";
     _arrayPapers = [NSMutableArray array];
     _myTableView.tableFooterView = [UIView new];
     [_buttonYear setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
      _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-
-    ///判断是否购买激活了该科目（未登录状态下和登录状态下）
-    [self isActiveSubject];
-}
-- (void)viewWillAppear:(BOOL)animated{
-    self.navigationController.tabBarController.tabBar.hidden = YES;
-}
-- (void)viewDidAppear:(BOOL)animated{
+    
     [self getPaperYears];
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
@@ -150,66 +135,23 @@
     [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
     [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _myTableView.mj_footer = _refreshFooter;
+        //添加试卷列表的头试图 科目信息
+    [self addHeardViewForPaterList];
+    _paterPages = 0;
+    _paterIndexPage = 1;
+    _paterYear = @"0";
+    _paterLevel = @"0";
+    [_arrayPapers removeAllObjects];
+    [self getModelPapersData];
+    [self getPaperLevels];
 }
-///判断是否购买了该科目（是否激活了科目）
-- (void)isActiveSubject{
-    ///登录状态下判断，直接调用接口判断
-    if (_isLoginUser) {
-        [self isUserActiveSubject];
-    }
-    ///未登录状态根据价格判断
-    else{
-        NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
-        if ([subPrice floatValue] > 0) {
-            _isBuyDidSubject = NO;
-        }
-        else{
-            _isBuyDidSubject = YES;
-        }
-        
-        _paterPages = 0;
-        _paterIndexPage = 1;
-        [_arrayPapers removeAllObjects];
-        [self getModelPapersData];
-        [self getPaperLevels];
-
-    }
-}
-- (void)isUserActiveSubject{
-    NSDictionary *dicUserIn = [_tyUser objectForKey:tyUserUserInfo];
-    ///ty/mobile/order/productValidate?productId systemHttpsKaoLaTopicImg
-    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicSubject[@"Id"] integerValue]],dicUserIn[@"jeeId"]];
-    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dicActive);
-        if ([dicActive[@"code"] integerValue] == 1) {
-            NSDictionary *dicDatas = dicActive[@"datas"];
-            ///激活
-            if ([dicDatas[@"status"] integerValue] == 1) {
-                _isBuyDidSubject = YES;
-            }
-            ///未激活
-            else{
-                _isBuyDidSubject = NO;
-            }
-            _paterPages = 0;
-            _paterIndexPage = 1;
-            [_arrayPapers removeAllObjects];
-            [self getModelPapersData];
-            [self getPaperLevels];
-        }
-    } RequestFaile:^(NSError *error) {
-        
-    }];
-}
-- (void)viewWillDisappear:(BOOL)animated{
-    _refreshFooter = nil;
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.tabBarController.tabBar.hidden = NO;
 }
 /**
  试卷信息列表的头试图
  */
 - (void)addHeardViewForPaterList{
-
     _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
     _hearhVIew.delegateAtive = self;
     NSDictionary *dicsubjectCu = [_tyUser objectForKey:tyUserSelectSubject];
@@ -218,12 +160,6 @@
     view.backgroundColor = [UIColor clearColor];
     _hearhVIew.subjectId = _subjectId;
     [_hearhVIew setActiveValue:dicsubjectCu];
-    if (_isBuyDidSubject) {
-       ////已购买
-    }
-    else{
-        ////未购买
-    }
     _myTableView.tableHeaderView = view;
 }
 /**
@@ -253,8 +189,6 @@
             return;
         }
     }
-    //添加试卷列表的头试图 科目信息
-    [self addHeardViewForPaterList];
     if (self.intPushWhere == 1) {
         [SVProgressHUD show];
         //获取试卷级别
@@ -311,7 +245,6 @@
         _buttonLeveles.userInteractionEnabled = NO;
     }];
 }
-
 /**
  获取试卷类型
  */
@@ -487,10 +420,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *diccc = _arrayPapers[indexPath.row];
-//    for (NSString *key in diccc) {
-//        NSLog(@"%@ == %@",key,diccc[key]);
-//    }
-    if (_isBuyDidSubject) {
+    if (_isActiveSubject) {
         [self performSegueWithIdentifier:@"topicStar" sender:diccc];
     }
     else{

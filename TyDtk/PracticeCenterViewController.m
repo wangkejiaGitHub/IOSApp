@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCenter;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSDictionary *dicSelectSubject;
+@property (nonatomic,strong) NSDictionary *dicUser;
 @property (nonatomic,strong) NSArray *arrayList;
 @property (nonatomic,strong) NSArray *arrayListSelf;
 @property (nonatomic,strong) NSArray *arrayImg;
@@ -39,6 +40,10 @@
 @property (nonatomic,strong) NSMutableArray *arraySubject;
 //所有专业
 @property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
+///科目是否激活
+@property (nonatomic,assign) BOOL isActiveSubject;
+///题库模块做题参数
+@property (nonatomic ,assign) NSInteger intDoTopicPara;
 @end
 
 @implementation PracticeCenterViewController
@@ -57,6 +62,9 @@
     //    _tableViewCenter.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 - (void)viewWillAppear:(BOOL)animated{
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        _dicUser = [_tyUser objectForKey:tyUserUserInfo];
+    }
     self.navigationController.tabBarController.tabBar.hidden = NO;
     [self addTableHeardView];
 }
@@ -66,11 +74,6 @@
 - (void)addTableHeardView{
     UIView *heardView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 60)];
     heardView.backgroundColor = [UIColor whiteColor];
-    //    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(20, 10, Scr_Width - 40, 50)];
-    //    view.layer.masksToBounds = YES;
-    //    view.layer.cornerRadius = 5;
-    //    view.backgroundColor = [UIColor clearColor];
-    
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, 70, 30)];
     lab.font = [UIFont systemFontOfSize:15.0];
     lab.textColor = [UIColor orangeColor];
@@ -168,7 +171,6 @@
         img.image = [UIImage imageNamed:_arrayImgSelf[indexPath.row]];
         labTitle.text = _arrayListSelf[indexPath.row];
     }
-    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -176,39 +178,8 @@
     if ([_tyUser objectForKey:tyUserSelectSubject]) {
         UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
         if (indexPath.section == 0) {
-            //章节练习
-            if (indexPath.row == 0) {
-                ChaptersViewController *chaperVc = [sCommon instantiateViewControllerWithIdentifier:@"ChaptersViewController"];
-                chaperVc.intPushWhere = 1;
-                chaperVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-                chaperVc.dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
-                chaperVc.title = @"章节练习";
-                [self.navigationController pushViewController:chaperVc animated:YES];
-            }
-            //模拟试卷
-            else if (indexPath.row == 1){
-                ModelPapersViewController *modelVc = [sCommon instantiateViewControllerWithIdentifier:@"ModelPapersViewController"];
-                modelVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-                modelVc.intPushWhere = 1;
-                modelVc.dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
-                modelVc.title = @"模拟试卷";
-                [self.navigationController pushViewController:modelVc animated:YES];
-            }
-            //每周精选
-            else if (indexPath.row == 2){
-                WeekSelectViewController *weekVc = [sCommon instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
-                weekVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
-                weekVc.intPushWhere = 1;
-                weekVc.title = @"每周精选";
-                [self.navigationController pushViewController:weekVc animated:YES];
-            }
-            //智能做题
-            else if (indexPath.row == 3){
-                IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
-                intellVc.intPushWhere = 1;
-                intellVc.dicSubject = _dicSelectSubject;
-                [self.navigationController pushViewController:intellVc animated:YES];
-            }
+            _intDoTopicPara = indexPath.row;
+            [self activeSubject];
         }
         else{
             ///判断是否登录
@@ -249,6 +220,95 @@
         [SVProgressHUD showInfoWithStatus:@"您还未选过科目~"];
         self.tabBarController.selectedIndex = 0;
     }
+}
+///题库模块做题跳转
+- (void)tiKuDoTopic{
+    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+    //章节练习
+    if (_intDoTopicPara == 0) {
+        ChaptersViewController *chaperVc = [sCommon instantiateViewControllerWithIdentifier:@"ChaptersViewController"];
+        chaperVc.intPushWhere = 1;
+        chaperVc.isActiveSubject = _isActiveSubject;
+        chaperVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
+        chaperVc.dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
+        chaperVc.title = @"章节练习";
+        [self.navigationController pushViewController:chaperVc animated:YES];
+    }
+    //模拟试卷
+    else if (_intDoTopicPara == 1){
+        ModelPapersViewController *modelVc = [sCommon instantiateViewControllerWithIdentifier:@"ModelPapersViewController"];
+        modelVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
+        modelVc.intPushWhere = 1;
+        modelVc.isActiveSubject = _isActiveSubject;
+        modelVc.dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
+        modelVc.title = @"模拟试卷";
+        [self.navigationController pushViewController:modelVc animated:YES];
+    }
+    //每周精选
+    else if (_intDoTopicPara == 2){
+        WeekSelectViewController *weekVc = [sCommon instantiateViewControllerWithIdentifier:@"WeekSelectViewController"];
+        weekVc.subjectId = [NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]];
+        weekVc.intPushWhere = 1;
+        weekVc.isActiveSubject = _isActiveSubject;
+        weekVc.title = @"每周精选";
+        [self.navigationController pushViewController:weekVc animated:YES];
+    }
+    //智能做题
+    else if (_intDoTopicPara == 3){
+        IntelligentTopicViewController *intellVc = [sCommon instantiateViewControllerWithIdentifier:@"IntelligentTopicViewController"];
+        intellVc.intPushWhere = 1;
+        intellVc.isActiveSubject = _isActiveSubject;
+        intellVc.dicSubject = _dicSelectSubject;
+        [self.navigationController pushViewController:intellVc animated:YES];
+    }
+
+}
+///先做科目激活判断
+- (void)activeSubject{
+    ///登录状态
+    if ([_tyUser objectForKey:tyUserUserInfo]) {
+        [self determineSubjectActive];
+    }
+    ///未登录状态
+    else{
+        [self determineSubjectCanDo];
+    }
+}
+///判断科目是否激活（登录情况下）
+- (void)determineSubjectActive{
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]],_dicUser[@"jeeId"]];
+    //d851f6de-64b1-4fc3-b9be-df32865a6038
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicActive);
+        if ([dicActive[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicActive[@"datas"];
+            ///激活
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                _isActiveSubject = YES;
+            }
+            ///未激活
+            else{
+                _isActiveSubject = NO;
+            }
+            
+            [self tiKuDoTopic];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+///未登录情况下判断科目是否可做（根据价格）
+- (void)determineSubjectCanDo{
+//    NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSelectSubject[@"price"] floatValue]];
+//    if ([subPrice floatValue] > 0) {
+//        _isActiveSubject = YES;
+//    }
+//    else{
+//        _isActiveSubject = NO;
+//    }
+    
+    [self tiKuDoTopic];
 }
 //////////////////专业科目信息//////////////////
 //数据请求，获取专业信息

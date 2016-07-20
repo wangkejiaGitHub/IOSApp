@@ -67,7 +67,10 @@
     _tableViewWeek.mj_footer = _refreshFooter;
     
     if (_intPushWhere == 1) {
-        _tableViewBottom.constant = -49;
+//        _tableViewBottom.constant = 49;
+    }
+    else{
+        _tableViewBottom.constant = 49;
     }
 
     _paterPages = 0;
@@ -75,7 +78,9 @@
     [self getWeekSelectPaper];
 }
 - (void)viewWillAppear:(BOOL)animated{
-    self.navigationController.tabBarController.tabBar.hidden = YES;
+//    if (self.intPushWhere == 1) {
+         self.navigationController.tabBarController.tabBar.hidden = NO;
+//    }
 }
 - (void)viewDidAppear:(BOOL)animated{
 
@@ -198,11 +203,16 @@
     UILabel *labTitle = (UILabel *)[cell.contentView viewWithTag:10];
     //标题
     NSString *titleString = [NSString stringWithFormat:@"%@(每周精选)",dicWeek[@"Title"]];
+    UIColor *colll = labTitle.textColor;
+    const CGFloat *components = CGColorGetComponents(colll.CGColor);
+    
+    NSLog(@"%f == %f == %f",components[0],components[1],components[2]);
     //标题属性字符串
     NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
     [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]
                           range:NSMakeRange([NSString stringWithFormat:@"%@",dicWeek[@"Title"]].length,6)];
     UIFont *titleFont = [UIFont systemFontOfSize:12.0];
+    
     [attriTitle addAttribute:NSFontAttributeName value:titleFont
                        range:NSMakeRange([NSString stringWithFormat:@"%@",dicWeek[@"Title"]].length,6)];
     
