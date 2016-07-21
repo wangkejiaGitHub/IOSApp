@@ -31,7 +31,6 @@
 @property (nonatomic,strong) NSDictionary *dicCurrSubject;
 //下拉菜单
 @property (nonatomic,strong) SYNavigationDropdownMenu *menuView;
-@property (nonatomic, assign) BOOL isActiveSubject;
 @property (nonatomic ,strong) UIColor *colorLine;
 @end
 
@@ -85,8 +84,10 @@
 - (void)viewWillAppear:(BOOL)animated{
      self.navigationController.tabBarController.tabBar.hidden = NO;
 }
-- (IBAction)btnLiftItemClick:(UIBarButtonItem *)sender {
+- (void)viewWillDisappear:(BOOL)animated{
     [_menuView hide];
+}
+- (IBAction)btnLiftItemClick:(UIBarButtonItem *)sender {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -146,39 +147,48 @@
  获取专业下所有科目
  */
 - (void)getAllSubject{
-    [SVProgressHUD show];
-    //    _buttonHeard.enabled = NO;
+//    [SVProgressHUD show];
     NSInteger subId = [_dicSubject[@"Id"] intValue];
     NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,subId];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicSubject[@"code"] integerValue];
         if (codeId == 1) {
-            [SVProgressHUD dismiss];
+//            [SVProgressHUD dismiss];
             _arraySubject = dicSubject[@"datas"];
             [self addDropDownListMenu];
             _dicCurrSubject = _arraySubject[0];
+            NSDictionary *dicDidSelectSubject = [_tyUser objectForKey:tyUserSelectSubject];
+            if ([_arraySubject containsObject:dicDidSelectSubject]) {
+                _dicCurrSubject = dicDidSelectSubject;
+            }
             [self empowerWithSubjectDic];
         }
         else{
             [SVProgressHUD showInfoWithStatus:dicSubject[@"errmsg"]];
         }
     } RequestFaile:^(NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+        httpsErrorShow;
     }];
 }
 
 ///添加下拉菜单
 - (void)addDropDownListMenu{
     if (!_menuView) {
-        _menuView = [[SYNavigationDropdownMenu alloc]initWithNavigationController:self.navigationController];
+        _menuView = [[SYNavigationDropdownMenu alloc]initWithNavigationController:self.navigationController menuItemCount:_arraySubject.count];
         _menuView.frame = CGRectMake(50, 10, Scr_Width - 100, self.navigationItem.titleView.frame.size.height - 20);
         _menuView.delegate = self;
         _menuView.dataSource = self;
     }
     self.navigationItem.titleView = _menuView;
     if (_dicCurrSubject != nil) {
-        _menuView.titleLabel.text = _dicCurrSubject[@"Names"];
+        [_menuView setTitle:_dicCurrSubject[@"Names"] forState:UIControlStateNormal];
+    }
+    else{
+        NSDictionary *dicDidSelectSubject = [_tyUser objectForKey:tyUserSelectSubject];
+        if ([_arraySubject containsObject:dicDidSelectSubject]) {
+            [_menuView setTitle:dicDidSelectSubject[@"Names"] forState:UIControlStateNormal];
+        }
     }
 }
 ///下拉下单代理事件
@@ -197,9 +207,11 @@
 - (UIImage *)arrowImageForNavigationDropdownMenu:(SYNavigationDropdownMenu *)navigationDropdownMenu {
     return [UIImage imageNamed:@"arrow_down"];
 }
+////////////////修改者：王可佳
 - (void)menuTableFooterClick{
     [_menuView hide];
 }
+////////////////修改者：王可佳
 - (void)navigationDropdownMenu:(SYNavigationDropdownMenu *)navigationDropdownMenu didSelectTitleAtIndex:(NSUInteger)index {
     _dicCurrSubject = _arraySubject[index];
     [self empowerWithSubjectDic];
@@ -264,7 +276,8 @@
 }
 ///判断科目是否激活（登录情况下）
 - (void)determineSubjectActive{
-    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicSubject[@"Id"] integerValue]],_dicUser[@"jeeId"]];
+    [SVProgressHUD show];
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicCurrSubject[@"Id"] integerValue]],_dicUser[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSLog(@"%@",dicActive);
@@ -279,21 +292,15 @@
                 _isActiveSubject = NO;
             }
             [self clearChildViewAndAgainAddSubview];
+            [SVProgressHUD dismiss];
         }
     } RequestFaile:^(NSError *error) {
         
     }];
 }
-///未登录情况下判断科目是否可做（根据价格）
+///未登录情况下
 - (void)determineSubjectCanDo{
-//    NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSubject[@"price"] floatValue]];
-//    if ([subPrice floatValue] > 0) {
-//        _isActiveSubject = YES;
-//    }
-//    else{
-//        _isActiveSubject = NO;
-//    }
-//    
+    _isActiveSubject = NO;
     [self clearChildViewAndAgainAddSubview];
 }
 ///模式切换按钮

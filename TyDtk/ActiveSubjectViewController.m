@@ -8,6 +8,7 @@
 
 #import "ActiveSubjectViewController.h"
 #import "OrderInfoViewController.h"
+#import "TestCenterViewController.h"
 @interface ActiveSubjectViewController ()<UITableViewDataSource,UITableViewDelegate,UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewProduct;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
@@ -33,22 +34,32 @@
     _arrayTitle = @[@"专业类别",@"所属专业",@"科目",@"价格"];
     _arrayProduct = [NSMutableArray array];
     _tableViewProduct.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self addLiftButtonitem];
     [self getProductInfoWithSubjectId];
-    // Do any additional setup after loading the view from its nib.
-}
-///添加navi左边按钮
-- (void)addLiftButtonitem{
-    UIBarButtonItem *BtnItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"top_backbtn"] style:UIBarButtonItemStylePlain target:self action:@selector(liftButtonitemClick:)];
-    self.navigationItem.leftBarButtonItem = BtnItem;
-}
-///pop
-- (void)liftButtonitemClick:(UIBarButtonItem *)buttonItem{
-    [self.navigationController popViewControllerAnimated:YES];
+    [self addTableViewHeardView];
+    
+//    _tableViewProduct.backgroundColor = [UIColor lightGrayColor];
 }
 ///添加tableView头试图，显示科目图片
 - (void)addTableViewHeardView{
     ///待开发
+    UIView *viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 50)];
+    
+//    labChp.backgroundColor = ColorWithRGB(190, 200, 252);
+//    labChp.textAlignment = NSTextAlignmentCenter;
+//    labChp.textColor = ColorWithRGB(90, 144, 266);
+    UIView *viewL = [[UIView alloc]initWithFrame:CGRectMake(0, viewHeader.bounds.size.height - 2, Scr_Width, 2)];
+    viewL.backgroundColor = ColorWithRGB(190, 200, 252);
+    [viewHeader addSubview:viewL];
+    
+    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(15, 18, 123, 30)];
+    labText.textAlignment = NSTextAlignmentCenter;
+    labText.text = @"科目信息";
+    labText.textColor = ColorWithRGB(90, 144, 266);
+    labText.backgroundColor = ColorWithRGB(190,200, 252);
+    labText.font = [UIFont systemFontOfSize:18.0];
+    [viewHeader addSubview:labText];
+    _tableViewProduct.tableHeaderView = viewHeader;
+    
 }
 ///添加tableView尾试图（激活码输入，激活按钮）
 - (void)addTableViewFooterView{
@@ -64,7 +75,7 @@
     [viewFooter addSubview:buttonAc];
     //激活
     if (self.payParameter == 0) {
-        viewFooter.frame = CGRectMake(0, 0, Scr_Width, 140);
+        viewFooter.frame = CGRectMake(0, 0, Scr_Width, 153+23);
         buttonAc.frame = CGRectMake(30, 90, Scr_Width - 60, 35);
         [buttonAc setTitle:@"激 活" forState:UIControlStateNormal];
         _textFile = [[UITextField alloc]initWithFrame:CGRectMake(30, 30, Scr_Width - 60, 40)];
@@ -74,6 +85,15 @@
         _textFile.delegate = self;
         _textFile.clearButtonMode = UITextFieldViewModeAlways;
         [viewFooter addSubview:_textFile];
+        
+        UIButton *btnGetACNumber = [UIButton buttonWithType:UIButtonTypeCustom];
+        btnGetACNumber.frame = CGRectMake(60, 133 + 3 + 3, Scr_Width - 120, 15);
+        btnGetACNumber.titleLabel.font = [UIFont systemFontOfSize:13.0];
+        btnGetACNumber.backgroundColor = [UIColor clearColor];
+        [btnGetACNumber setTitle:@"如何获取激活码？" forState:UIControlStateNormal];
+        [btnGetACNumber setTitleColor:ColorWithRGB(88, 155, 255) forState:UIControlStateNormal];
+        [btnGetACNumber addTarget:self action:@selector(btnGetAcNumClick:) forControlEvents:UIControlEventTouchUpInside];
+        [viewFooter addSubview:btnGetACNumber];
         //添加手势
         UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
         [_tableViewProduct addGestureRecognizer:tapGest];
@@ -82,6 +102,10 @@
 }
 - (void)tapClick:(UITapGestureRecognizer *)tapGest{
     [_textFile resignFirstResponder];
+}
+///如何获取激活码按钮（待开发）
+- (void)btnGetAcNumClick:(UIButton *)button{
+    NSLog(@"如何获取激活码");
 }
 ///激活按钮
 - (void)buttonActiveClick:(UIButton *)button{
@@ -187,6 +211,10 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
+}
+- (void)textFieldDidBeginEditing:(UITextField *)textField{
+    UIView *vvv = textField.superview.superview.superview;
+    NSLog(@"%f == %f",vvv.bounds.size.width,vvv.bounds.size.height);
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     //控制激活码在15个字符

@@ -277,7 +277,6 @@
 ///判断科目是否激活（登录情况下）
 - (void)determineSubjectActive{
     NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]],_dicUser[@"jeeId"]];
-    //d851f6de-64b1-4fc3-b9be-df32865a6038
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSLog(@"%@",dicActive);
@@ -307,7 +306,7 @@
 //    else{
 //        _isActiveSubject = NO;
 //    }
-    
+    _isActiveSubject = NO;
     [self tiKuDoTopic];
 }
 //////////////////专业科目信息//////////////////

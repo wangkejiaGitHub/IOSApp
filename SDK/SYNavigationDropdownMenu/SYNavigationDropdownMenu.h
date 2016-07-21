@@ -41,9 +41,9 @@
 
 @property (nonatomic, weak) id <SYNavigationDropdownMenuDataSource> dataSource;
 @property (nonatomic, weak) id <SYNavigationDropdownMenuDelegate> delegate;
-
-- (instancetype)initWithNavigationController:(UINavigationController *)navigationController;
-
+/////////////////修改者：王可佳
+- (instancetype)initWithNavigationController:(UINavigationController *)navigationController menuItemCount:(NSInteger)itemCount;
+/////////////////修改者：王可佳
 - (void)show;
 - (void)hide;
 

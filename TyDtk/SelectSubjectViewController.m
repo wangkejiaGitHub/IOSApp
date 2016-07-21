@@ -281,6 +281,7 @@
 }
 ///重新授权，重置令牌
 - (void)getAccessToken{
+    [SVProgressHUD show];
     _customTool = [[CustomTools alloc]init];
     _customTool.delegateTool = self;
     NSString *classId = [NSString stringWithFormat:@"%ld",[_dicClass[@"Id"] integerValue]];
@@ -297,12 +298,13 @@
     }
 }
 - (void)httpSussessReturnClick{
+    [SVProgressHUD dismiss];
     [_tyUser setObject:_dicClass forKey:tyUserClass];
     [_tyUser setObject:_dicSelectSubject forKey:tyUserSelectSubject];
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)httpErrorReturnClick{
-    
+    [SVProgressHUD dismiss];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

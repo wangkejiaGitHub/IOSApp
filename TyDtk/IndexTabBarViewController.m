@@ -5,13 +5,13 @@
 //  Created by 天一文化 on 16/5/26.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
-
 #import "IndexTabBarViewController.h"
 #import "GuideView.h"
 #import "DtkNavViewController.h"
 #import "PracticeNavViewController.h"
 #import "UserNavViewController.h"
 #import "LoginViewController.h"
+
 @interface IndexTabBarViewController ()<GuideViewDelegate,UITabBarControllerDelegate,LoginDelegate>
 @property (nonatomic,strong) GuideView *scrollViewFirst;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
@@ -100,6 +100,7 @@
     [_tyUser removeObjectForKey:tyUserAccount];
     [_tyUser removeObjectForKey:tyUserUserInfo];
     [_tyUser removeObjectForKey:tyUserAccessToken];
+    ///判断是否已选过科目，如果选过用默认账户授权
     if ([_tyUser objectForKey:tyUserSelectSubject]) {
         ///退出后用默认的账号授权
         [_loginUser empFirstComeAppWithUserId:defaultUserId userCode:defaultUserCode];

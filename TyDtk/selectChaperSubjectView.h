@@ -10,6 +10,6 @@
 ///主要使用代理方法
 #import "viewSelectSubject.h"
 @interface selectChaperSubjectView : UIView
-- (id)initWithFrame:(CGRect)frame arrayChaperSubject:(NSArray *)arrayZZZ chaperName:(NSString *)chaperName;
+- (id)initWithFrame:(CGRect)frame arrayChaperSubject:(NSArray *)arrayZZZ chaperName:(NSString *)chaperName isActiveSubject:(BOOL)acSubject;
 @property (nonatomic,assign) id<SelectSubjectDelegate> delegateChaper;
 @end

@@ -103,7 +103,12 @@
         NSInteger codeId = [dicRe[@"code"] integerValue];
         if (codeId == 1) {
             [SVProgressHUD showSuccessWithStatus:@"密码更新成功"];
-            
+            ///更新本地存储的用户账号和密码
+            NSUserDefaults *tyUserAcc = [NSUserDefaults standardUserDefaults];
+            NSDictionary *dicAccount = [tyUserAcc objectForKey:tyUserAccount];
+            NSMutableDictionary *dicAcc = [NSMutableDictionary dictionaryWithDictionary:dicAccount];
+            [dicAcc setObject:_textPwdAgain.text forKey:@"pwd"];
+            [tyUserAcc setObject:dicAcc forKey:tyUserAccount];
             [self.navigationController popViewControllerAnimated:YES];
         }
         else{

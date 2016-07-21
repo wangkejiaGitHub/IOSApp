@@ -42,9 +42,10 @@
 @property (nonatomic,assign) NSInteger paterPages;
 //所有试卷数据数组
 @property (nonatomic,strong) NSMutableArray *arrayPapers;
-//刷新控件
+//上拉刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
-
+//下拉刷新控件
+@property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
 //回到顶部的按钮
 @property (nonatomic,strong) UIButton *buttonTopTable;
 //试卷级别（试卷类型）
@@ -129,14 +130,6 @@
     
     [self getPaperYears];
     //设置tableView的上拉控件
-    _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
-    [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
-    [_refreshFooter setTitle:@"松开加载更多试卷" forState:MJRefreshStatePulling];
-    [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
-    [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
-    _myTableView.mj_footer = _refreshFooter;
-        //添加试卷列表的头试图 科目信息
-    [self addHeardViewForPaterList];
     _paterPages = 0;
     _paterIndexPage = 1;
     _paterYear = @"0";
@@ -144,10 +137,71 @@
     [_arrayPapers removeAllObjects];
     [self getModelPapersData];
     [self getPaperLevels];
+    [self addrefreshForTableViewFooter];
+    [self addRefreshForTableViewHeader];
 }
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.tabBarController.tabBar.hidden = NO;
 }
+///添加下拉刷新
+- (void)addRefreshForTableViewHeader{
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshMClick:)];
+    _myTableView.mj_header = _refreshHeader;
+}
+//下拉刷新
+- (void)headerRefereshMClick:(MJRefreshNormalHeader *)header{
+    _myTableView.userInteractionEnabled = NO;
+    ///重新判断科目是否激活
+    if (_isLoginUser) {
+        [self determineSubjectActive];
+    }
+    else{
+        _paterPages = 0;
+        _paterIndexPage = 1;
+        [_arrayPapers removeAllObjects];
+        [self getModelPapersData];
+    }
+}
+- (void)addrefreshForTableViewFooter{
+    _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshMClick:)];
+    [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
+    [_refreshFooter setTitle:@"松开加载更多试卷" forState:MJRefreshStatePulling];
+    [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
+    [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
+    _myTableView.mj_footer = _refreshFooter;
+}
+///上拉刷新
+- (void)footerRefreshMClick:(MJRefreshBackNormalFooter *)footer{
+    [self getModelPapersData];
+}
+///判断科目是否激活（登录情况下）
+- (void)determineSubjectActive{
+    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,_subjectId,dicUserInfo[@"jeeId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicActive);
+        if ([dicActive[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicActive[@"datas"];
+            ///激活
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                _isActiveSubject = YES;
+            }
+            ///未激活
+            else{
+                _isActiveSubject = NO;
+            }
+            
+            _paterPages = 0;
+            _paterIndexPage = 1;
+            [self getModelPapersData];
+
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+
 /**
  试卷信息列表的头试图
  */
@@ -160,6 +214,14 @@
     view.backgroundColor = [UIColor clearColor];
     _hearhVIew.subjectId = _subjectId;
     [_hearhVIew setActiveValue:dicsubjectCu];
+    
+    if (_isActiveSubject) {
+        [_hearhVIew.buttonActive setTitle:@"科目已激活" forState:UIControlStateNormal];
+        _hearhVIew.buttonActive.userInteractionEnabled = NO;
+        _hearhVIew.buttonPay.userInteractionEnabled = NO;
+        _hearhVIew.buttonPay.backgroundColor = [UIColor clearColor];
+        [_hearhVIew.buttonPay setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
+    }
     _myTableView.tableHeaderView = view;
 }
 /**
@@ -189,6 +251,8 @@
             return;
         }
     }
+    //添加试卷列表的头试图 科目信息
+    [self addHeardViewForPaterList];
     if (self.intPushWhere == 1) {
         [SVProgressHUD show];
         //获取试卷级别
@@ -197,13 +261,15 @@
             _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
         }
         [self.navigationController.tabBarController.view addSubview:_mzView];
-
     }
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPapers?access_token=%@&courseId=%@&page=%ld&level=%@&year=%@",systemHttps,_accessToken,_subjectId,_paterIndexPage,_paterLevel,_paterYear];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicModelPapers = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicModelPapers[@"code"] integerValue];
         if (codeId == 1) {
+            if (_paterIndexPage == 1) {
+                [_arrayPapers removeAllObjects];
+            }
             //获取最大页数
             NSDictionary *dicPage =dicModelPapers[@"page"];
             _paterPages = [dicPage[@"pages"] integerValue];
@@ -231,18 +297,21 @@
             [_mzView removeFromSuperview];
             [SVProgressHUD dismiss];
             [_refreshFooter endRefreshing];
+            [_refreshHeader endRefreshing];
             [_myTableView reloadData];
             _buttonLeveles.userInteractionEnabled = YES;
             _buttonYear.userInteractionEnabled = YES;
-            
+            _myTableView.userInteractionEnabled = YES;
         }
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
         httpsErrorShow;
         [_refreshFooter endRefreshing];
+        [_refreshHeader endRefreshing];
         _buttonYear.userInteractionEnabled = NO;
         _buttonLeveles.userInteractionEnabled = NO;
+        _myTableView.userInteractionEnabled = YES;
     }];
 }
 /**
@@ -275,9 +344,7 @@
         httpsErrorShow;
     }];
 }
-- (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
-    [self getModelPapersData];
-}
+
 //tableView上的scroll代理，用户判断是否显示'回到顶部'按钮
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (_myTableView.contentOffset.y > Scr_Height - 64 - 50) {
@@ -342,7 +409,7 @@
             _tableViewLayoutTop.constant = 40;
         }
     }
-
+    
 }
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
     _lastContentOffset = scrollView.contentOffset.y;
@@ -413,6 +480,33 @@
     [labPerson setAttributedText:attriperson];
     
     cell.backgroundColor = [UIColor whiteColor];
+    ////////////////////////////////////////////
+    ///登录状态
+    if (_isLoginUser) {
+        ///先判断是否激活
+        if (_isActiveSubject) {
+             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        ///如果未激活，判断isopen
+        else{
+            ///章节开放，可做题
+            if ([dicCurrPater[@"IsPublic"] integerValue] == 1) {
+                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+            else{
+                 cell.accessoryType = UITableViewCellAccessoryDetailButton;
+            }
+        }
+    }
+    else{
+        ///直接判断是否isOpen
+        if ([dicCurrPater[@"IsPublic"] integerValue] == 1) {
+             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        else{
+             cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        }
+    }
     return cell;
     
     
@@ -420,15 +514,30 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSDictionary *diccc = _arrayPapers[indexPath.row];
-    if (_isActiveSubject) {
-        [self performSegueWithIdentifier:@"topicStar" sender:diccc];
+    ///登录状态
+    if (_isLoginUser) {
+        ///先判断是否激活
+        if (_isActiveSubject) {
+            [self performSegueWithIdentifier:@"topicStar" sender:diccc];
+        }
+        ///如果未激活，判断isopen
+        else{
+            ///章节开放，可做题
+            if ([diccc[@"IsPublic"] integerValue] == 1) {
+               [self performSegueWithIdentifier:@"topicStar" sender:diccc];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:@"该试卷需要激活科目才能做题哦"];
+            }
+        }
     }
     else{
-        if (_isLoginUser) {
-            [SVProgressHUD showInfoWithStatus:@"您还没有激活该科目哦"];
+        ///直接判断是否isOpen
+        if ([diccc[@"IsPublic"] integerValue] == 1) {
+            [self performSegueWithIdentifier:@"topicStar" sender:diccc];
         }
         else{
-            [SVProgressHUD showInfoWithStatus:@"此科目需要激活哦"];
+            [SVProgressHUD showInfoWithStatus:@"该试卷还未开放，您可以登录激活科目哦"];
         }
     }
 }

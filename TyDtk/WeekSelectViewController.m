@@ -35,6 +35,7 @@
 //刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
 
+@property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
 //回到顶部的按钮
 @property (nonatomic,strong) UIButton *buttonTopTable;
 
@@ -58,14 +59,6 @@
         _isLoginUser = NO;
     }
     
-    //设置tableView的上拉控件
-    _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
-    [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
-    [_refreshFooter setTitle:@"松开加载更多试卷" forState:MJRefreshStatePulling];
-    [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
-    [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
-    _tableViewWeek.mj_footer = _refreshFooter;
-    
     if (_intPushWhere == 1) {
 //        _tableViewBottom.constant = 49;
     }
@@ -76,41 +69,93 @@
     _paterPages = 0;
     _paterIndexPage = 1;
     [self getWeekSelectPaper];
+    [self addRefreshForTableViewHeader];
+    [self addRefreshForTableViewFooter];
 }
 - (void)viewWillAppear:(BOOL)animated{
-//    if (self.intPushWhere == 1) {
-         self.navigationController.tabBarController.tabBar.hidden = NO;
-//    }
+    self.navigationController.tabBarController.tabBar.hidden = NO;
 }
-- (void)viewDidAppear:(BOOL)animated{
+- (void)addRefreshForTableViewFooter{
+    //设置tableView的上拉控件
+    _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
+    [_refreshFooter setTitle:@"上拉查看更多试卷" forState:MJRefreshStateIdle];
+    [_refreshFooter setTitle:@"松开加载更多试卷" forState:MJRefreshStatePulling];
+    [_refreshFooter setTitle:@"正在为您加载更多试卷..." forState:MJRefreshStateRefreshing];
+    [_refreshFooter setTitle:@"试卷已全部加载完毕" forState:MJRefreshStateNoMoreData];
+    _tableViewWeek.mj_footer = _refreshFooter;
+}
+//上拉刷新
+- (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
+    [self getWeekSelectPaper];
+}
+///添加下拉刷新
+- (void)addRefreshForTableViewHeader{
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshWClick:)];
+    _tableViewWeek.mj_header = _refreshHeader;
+}
+//下拉刷新
+- (void)headerRefereshWClick:(MJRefreshNormalHeader *)header{
+    _tableViewWeek.userInteractionEnabled = NO;
+    ///重新判断科目是否激活
+    if (_isLoginUser) {
+        [self determineSubjectActive];
+    }
+    else{
+        _paterPages = 0;
+        _paterIndexPage = 1;
+        [self getWeekSelectPaper];
+    }
+}
+///判断科目是否激活（登录情况下）
+- (void)determineSubjectActive{
+    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,_subjectId,dicUserInfo[@"jeeId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicActive);
+        if ([dicActive[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicActive[@"datas"];
+            ///激活
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                _isActiveSubject = YES;
+            }
+            ///未激活
+            else{
+                _isActiveSubject = NO;
+            }
+            
+            _paterPages = 0;
+            _paterIndexPage = 1;
+            [self getWeekSelectPaper];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
 
-}
 /**
  试卷信息列表的头试图
  */
 - (void)addHeardViewForPaterList{
-    if (!_hearhVIew) {
-        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
-        _hearhVIew.delegateAtive = self;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 - 10)];
-        [view addSubview:_hearhVIew];
-        view.backgroundColor = [UIColor clearColor];
-        _tableViewWeek.tableHeaderView = view;
-    }
+    _dicUserClass = [_tyUser objectForKey:tyUserClass];
     NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
-    NSString *imgsUrlSub = dicCurrSubject[@"productImageListStore"];
-    [_hearhVIew.imageView sd_setImageWithURL:[NSURL URLWithString:imgsUrlSub]];
-    _hearhVIew.labTitle.text = dicCurrSubject[@"Names"];
-    NSString *remarkPriceSub =[NSString stringWithFormat:@"￥ %.2f",[dicCurrSubject[@"marketPrice"] floatValue]];
-    //市场价格用属性字符串添加删除线
-    NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:remarkPriceSub];
-    [attri addAttribute:NSStrikethroughStyleAttributeName value:@(NSUnderlineStyleSingle | NSUnderlineStyleSingle) range:NSMakeRange(2,remarkPriceSub.length -2)];
-    [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(2,remarkPriceSub.length-2)];
-    //    _hearhVIew.labRemark.text = remarkPriceSub;
-    [_hearhVIew.labRemark setAttributedText:attri];
-    NSString *priceSub = [NSString stringWithFormat:@"￥ %.2f",[dicCurrSubject[@"price"] floatValue]];
-    _hearhVIew.labPrice.text = priceSub;
     
+    _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
+    _hearhVIew.delegateAtive = self;
+    _hearhVIew.subjectId = _subjectId;
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 -10)];
+    [view addSubview:_hearhVIew];
+    view.backgroundColor = [UIColor whiteColor];
+    _tableViewWeek.tableHeaderView = view;
+    [_hearhVIew setActiveValue:dicCurrSubject];
+    
+    if (_isActiveSubject) {
+        [_hearhVIew.buttonActive setTitle:@"科目已激活" forState:UIControlStateNormal];
+        _hearhVIew.buttonActive.userInteractionEnabled = NO;
+        _hearhVIew.buttonPay.userInteractionEnabled = NO;
+        _hearhVIew.buttonPay.backgroundColor = [UIColor clearColor];
+        [_hearhVIew.buttonPay setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
+    }
 }
 /**
  头试图回调代理
@@ -127,10 +172,6 @@
     else{
         [SVProgressHUD showInfoWithStatus:@"您还没有登录"];
     }
-}
-//上拉刷新
-- (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
-    [self getWeekSelectPaper];
 }
 /**
  获取每周精选所有试题
@@ -157,6 +198,9 @@
         NSDictionary *dicWeek = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicWeek[@"code"] integerValue];
         if (codeId == 1) {
+            if (_paterIndexPage == 1) {
+                [_arrayPapers removeAllObjects];
+            }
             NSDictionary *dicPage =dicWeek[@"page"];
             _paterPages = [dicPage[@"pages"] integerValue];
             //当前页数增加1
@@ -183,11 +227,15 @@
             [_mzView removeFromSuperview];
             [SVProgressHUD dismiss];
             [_refreshFooter endRefreshing];
+            [_refreshHeader endRefreshing];
             [_tableViewWeek reloadData];
+            _tableViewWeek.userInteractionEnabled = YES;
         }
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
         [_refreshFooter endRefreshing];
+        [_refreshHeader endRefreshing];
+        _tableViewWeek.userInteractionEnabled = YES;
         httpsErrorShow;
     }];
 }
@@ -203,10 +251,6 @@
     UILabel *labTitle = (UILabel *)[cell.contentView viewWithTag:10];
     //标题
     NSString *titleString = [NSString stringWithFormat:@"%@(每周精选)",dicWeek[@"Title"]];
-    UIColor *colll = labTitle.textColor;
-    const CGFloat *components = CGColorGetComponents(colll.CGColor);
-    
-    NSLog(@"%f == %f == %f",components[0],components[1],components[2]);
     //标题属性字符串
     NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
     [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor]

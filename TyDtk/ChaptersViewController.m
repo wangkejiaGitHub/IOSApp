@@ -71,33 +71,81 @@
     else{
         _isLoginUser = NO;
     }
-    [self addTableHeaderView];
     
     if (self.intPushWhere == 0) {
         _tableViewBottomLayout.constant = 49;
     }
     
     [self getChaptersInfo:_accessToken];
+    [self addRefreshForTableViewHeader];
 }
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.tabBarController.tabBar.hidden = NO;
 }
+///添加下拉刷新
+- (void)addRefreshForTableViewHeader{
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshCClick:)];
+    _myTableView.mj_header = _refreshHeader;
+}
+//下拉刷新
+- (void)headerRefereshCClick:(MJRefreshNormalHeader *)header{
+    ///重新判断科目是否激活
+    if (_isLoginUser) {
+        [self determineSubjectActive];
+    }
+    else{
+        [self getChaptersInfo:_accessToken];
+    }
+}
+///判断科目是否激活（登录情况下）
+- (void)determineSubjectActive{
+    NSDictionary *dicUserInfo = [_tyUser objectForKey:tyUserUserInfo];
+    NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,_subjectId,dicUserInfo[@"jeeId"]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dicActive);
+        if ([dicActive[@"code"] integerValue] == 1) {
+            NSDictionary *dicDatas = dicActive[@"datas"];
+            ///激活
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                _isActiveSubject = YES;
+            }
+            ///未激活
+            else{
+                _isActiveSubject = NO;
+            }
+            [self getChaptersInfo:_accessToken];
+        }
+    } RequestFaile:^(NSError *error) {
+        
+    }];
+}
+
 /**
  获取tableView的头试图，并设置其参数值
  */
 - (void)addTableHeaderView{
     _dicUserClass = [_tyUser objectForKey:tyUserClass];
     NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
-    if (!_hearhVIew) {
-        _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
-        _hearhVIew.delegateAtive = self;
-        _hearhVIew.subjectId = _subjectId;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 -10)];
-        [view addSubview:_hearhVIew];
-        view.backgroundColor = [UIColor whiteColor];
-        _myTableView.tableHeaderView = view;
-    }
+    
+    _hearhVIew= [[[NSBundle mainBundle] loadNibNamed:@"ActiveSubjetView" owner:self options:nil]lastObject];
+    _hearhVIew.delegateAtive = self;
+    _hearhVIew.subjectId = _subjectId;
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Width/2 -10)];
+    [view addSubview:_hearhVIew];
+    view.backgroundColor = [UIColor whiteColor];
+    _myTableView.tableHeaderView = view;
     [_hearhVIew setActiveValue:dicCurrSubject];
+    
+    
+    if (_isActiveSubject) {
+        [_hearhVIew.buttonActive setTitle:@"科目已激活" forState:UIControlStateNormal];
+        _hearhVIew.buttonActive.userInteractionEnabled = NO;
+        _hearhVIew.buttonPay.userInteractionEnabled = NO;
+        _hearhVIew.buttonPay.backgroundColor = [UIColor clearColor];
+        [_hearhVIew.buttonPay setTitleColor:[UIColor clearColor] forState:UIControlStateNormal];
+    }
+
 }
 
 /**
@@ -129,6 +177,7 @@
         }
         [self.navigationController.tabBarController.view addSubview:_mzView];
     }
+    [self addTableHeaderView];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetAll?access_token=%@",systemHttps,accessToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicChaper = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -153,6 +202,7 @@
 
         [_mzView removeFromSuperview];
         //重新刷新数据，让tableView返回到顶部
+        [_refreshHeader endRefreshing];
         [_myTableView reloadData];
         [SVProgressHUD dismiss];
     } RequestFaile:^(NSError *error) {
@@ -260,7 +310,32 @@
     
     [labText setAttributedText:attriTitle];
     [view addSubview:labText];
-    
+    if (_isLoginUser) {
+        if (_isActiveSubject) {
+            [view addSubview:[self getSectionButton:section]];
+        }
+        else{
+            if ([dicHeader[@"IsOpen"] integerValue] == 1) {
+                [view addSubview:[self getSectionButton:section]];
+                
+            }
+            else{
+                
+            }
+        }
+    }
+    else{
+        if ([dicHeader[@"IsOpen"] integerValue] == 1) {
+            [view addSubview:[self getSectionButton:section]];
+            
+        }
+        else{
+            
+        }
+    }
+    return view;
+}
+- (UIButton *)getSectionButton:(NSInteger)sectionTag{
     UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
     btnDoTopic.frame = CGRectMake(Scr_Width - 55, 11, 50, 23);
     btnDoTopic.layer.masksToBounds = YES;
@@ -269,12 +344,11 @@
     [btnDoTopic setTitle:@"做题" forState:UIControlStateNormal];
     btnDoTopic.layer.borderWidth = 1;
     btnDoTopic.layer.borderColor = [ColorWithRGBWithAlpp(0, 0, 0, 0.3) CGColor];
-    btnDoTopic.tag = 1000 +section;
+    btnDoTopic.tag = 1000 +sectionTag;
     btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:14.0];
     [btnDoTopic setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     [btnDoTopic addTarget:self action:@selector(btnDoTopicClick:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:btnDoTopic];
-    return view;
+    return btnDoTopic;
 }
 - (void)btnDoTopicClick:(UIButton *)button{
     NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
@@ -347,7 +421,7 @@
     [attriTitle addAttribute:NSFontAttributeName value:titleFont
                        range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length ,5+[NSString stringWithFormat:@"%ld",[dic[@"Quantity"] integerValue]].length)];
     
-    UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 60, 50)];
+    UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 70, 50)];
     labT.numberOfLines = 0;
     labT.font = [UIFont systemFontOfSize:13.0];
     [labT setAttributedText:attriTitle];
@@ -359,6 +433,14 @@
     cell.rightButtons = @[btnTopic];
     
     [cell.contentView addSubview:labT];
+    if ([dic[@"IsOpen"] integerValue] == 1) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        labT.frame = CGRectMake(40, 0, Scr_Width - 70, 50);
+    }
+    else{
+         cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        labT.frame = CGRectMake(40, 0, Scr_Width - 80, 50);
+    }
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -394,7 +476,7 @@
     }
     
     [self viewSmallAnimation];
-    _viewSelectChaper = [[selectChaperSubjectView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arrayChaperSubject:arrayZZZ chaperName:dicChaper[@"Names"]];
+    _viewSelectChaper = [[selectChaperSubjectView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arrayChaperSubject:arrayZZZ chaperName:dicChaper[@"Names"] isActiveSubject:_isActiveSubject];
     _viewSelectChaper.delegateChaper = self;
     UIWindow *dd = [[UIApplication sharedApplication] keyWindow];
     [dd addSubview:_viewSelectChaper];

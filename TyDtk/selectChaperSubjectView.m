@@ -12,13 +12,23 @@
 @property (nonatomic,strong) UITableView *tableViewChaper;
 @property (nonatomic,strong) NSArray *arrayZZZData;
 @property (nonatomic,strong) NSString *chaperName;
+@property (nonatomic,assign) BOOL isLoginUser;
+@property (nonatomic,assign) BOOL isActiveSubject;
 //section折叠数组
 @property (nonatomic ,strong) NSMutableArray *arraySection;
 @end
 @implementation selectChaperSubjectView
-- (id)initWithFrame:(CGRect)frame arrayChaperSubject:(NSArray *)arrayZZZ chaperName:(NSString *)chaperName{
+- (id)initWithFrame:(CGRect)frame arrayChaperSubject:(NSArray *)arrayZZZ chaperName:(NSString *)chaperName isActiveSubject:(BOOL)acSubject{
     self = [super initWithFrame:frame];
     if (self) {
+        NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+        if ([tyUser objectForKey:tyUserUserInfo]) {
+            _isLoginUser = YES;
+        }
+        else{
+            _isLoginUser = NO;
+        }
+        _isActiveSubject = acSubject;
         _arraySection = [NSMutableArray array];
         _arrayZZZData = arrayZZZ;
         _chaperName = chaperName;
@@ -111,21 +121,46 @@
     button.titleLabel.font = [UIFont systemFontOfSize:13.0];
     button.tag = 100 + section;
     [view addSubview:button];
-    /////
-    UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDoTopic.frame = CGRectMake(Scr_Width - 20 - 55, 11, 50, 23);
-    btnDoTopic.layer.masksToBounds = YES;
-    btnDoTopic.layer.cornerRadius = 3;
-    btnDoTopic.backgroundColor = ColorWithRGB(200, 200, 200);
-    [btnDoTopic setTitle:@"做题" forState:UIControlStateNormal];
-    btnDoTopic.layer.borderWidth = 1;
-    btnDoTopic.layer.borderColor = [ColorWithRGBWithAlpp(0, 0, 0, 0.3) CGColor];
-    [btnDoTopic setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:14.0];
-    [btnDoTopic addTarget:self action:@selector(BtnDoTopicClick:) forControlEvents:UIControlEventTouchUpInside];
-    btnDoTopic.tag = 1000 + section;
-    [view addSubview:btnDoTopic];
+//    /////
+//    UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btnDoTopic.frame = CGRectMake(Scr_Width - 20 - 55, 11, 50, 23);
+//    btnDoTopic.layer.masksToBounds = YES;
+//    btnDoTopic.layer.cornerRadius = 3;
+//    btnDoTopic.backgroundColor = ColorWithRGB(200, 200, 200);
+//    [btnDoTopic setTitle:@"做题" forState:UIControlStateNormal];
+//    btnDoTopic.layer.borderWidth = 1;
+//    btnDoTopic.layer.borderColor = [ColorWithRGBWithAlpp(0, 0, 0, 0.3) CGColor];
+//    [btnDoTopic setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//    btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:14.0];
+//    [btnDoTopic addTarget:self action:@selector(BtnDoTopicClick:) forControlEvents:UIControlEventTouchUpInside];
+//    btnDoTopic.tag = 1000 + section;
+//    [view addSubview:btnDoTopic];
     //title字符
+    if (_isLoginUser) {
+        if (_isActiveSubject) {
+            [view addSubview:[self getSectionButton:section]];
+        }
+        else{
+            if ([dicHeader[@"IsOpen"] integerValue] == 1) {
+                [view addSubview:[self getSectionButton:section]];
+                
+            }
+            else{
+                
+            }
+        }
+    }
+    else{
+        if ([dicHeader[@"IsOpen"] integerValue] == 1) {
+            [view addSubview:[self getSectionButton:section]];
+            
+        }
+        else{
+            
+        }
+    }
+
+    
     NSString *titleString = [NSString stringWithFormat:@"%@（总共%ld题）",dicHeader[@"Names"],[dicHeader[@"Quantity"] integerValue]];
     //标题属性字符串
     NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc] initWithString:titleString];
@@ -143,6 +178,21 @@
     [viewH addSubview:view];
     return viewH;
 }
+- (UIButton *)getSectionButton:(NSInteger)sectionTag{
+    UIButton *btnDoTopic = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnDoTopic.frame = CGRectMake(Scr_Width - 20 - 55, 11, 50, 23);
+    btnDoTopic.layer.masksToBounds = YES;
+    btnDoTopic.layer.cornerRadius = 3;
+    btnDoTopic.backgroundColor = ColorWithRGB(200, 200, 200);
+    [btnDoTopic setTitle:@"做题" forState:UIControlStateNormal];
+    btnDoTopic.layer.borderWidth = 1;
+    btnDoTopic.layer.borderColor = [ColorWithRGBWithAlpp(0, 0, 0, 0.3) CGColor];
+    btnDoTopic.tag = 1000 +sectionTag;
+    btnDoTopic.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    [btnDoTopic setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    [btnDoTopic addTarget:self action:@selector(btnDoTopicClick:) forControlEvents:UIControlEventTouchUpInside];
+    return btnDoTopic;
+}
 //section折叠
 - (void)buttonSectionClick:(UIButton *)sender{
     NSInteger sectoinId = sender.tag - 100;
@@ -157,7 +207,7 @@
     [_tableViewChaper reloadSections:[NSIndexSet indexSetWithIndex:sectoinId] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 ///做题
-- (void)BtnDoTopicClick:(UIButton *)button{
+- (void)btnDoTopicClick:(UIButton *)button{
     NSDictionary *dicDate = _arrayZZZData[button.tag - 1000];
     NSDictionary *dicHeader = dicDate[@"id"];
     [self.delegateChaper selectSubjectViewDismiss:dicHeader];
@@ -220,7 +270,7 @@
     [attriTitle addAttribute:NSFontAttributeName value:titleFont
                        range:NSMakeRange([NSString stringWithFormat:@"%@",dic[@"Names"]].length ,5+[NSString stringWithFormat:@"%ld",[dic[@"Quantity"] integerValue]].length)];
     
-    UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 60, 50)];
+    UILabel *labT = [[UILabel alloc]initWithFrame:CGRectMake(40, 0, Scr_Width - 80, 50)];
     labT.numberOfLines = 0;
     labT.font = [UIFont systemFontOfSize:13.0];
     [labT setAttributedText:attriTitle];
@@ -230,7 +280,15 @@
         return YES;
     }];
     cell.rightButtons = @[btnTopic];
-
+    
+    if ([dic[@"IsOpen"] integerValue] == 1) {
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        labT.frame = CGRectMake(40, 0, Scr_Width - 80, 50);
+    }
+    else{
+        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+        CGRectMake(40, 0, Scr_Width - 95, 50);
+    }
     [cell.contentView addSubview:labT];
     return cell;
 }

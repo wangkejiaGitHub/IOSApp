@@ -9,21 +9,26 @@
 @property (nonatomic, strong) UITableView *menuTableView;
 @property (nonatomic, strong) UIView *menuHeaderView;
 @property (nonatomic, strong) UIView *menuBackgroundView;
-
+/////////////////修改者：王可佳
+@property (nonatomic,assign) NSInteger menuItemCount;
+/////////////////修改者：王可佳
 @end
 
 @implementation SYNavigationDropdownMenu
-
-- (instancetype)initWithNavigationController:(UINavigationController *)navigationController {
+/////////////////修改者：王可佳
+- (instancetype)initWithNavigationController:(UINavigationController *)navigationController menuItemCount:(NSInteger)itemCount {
     self = [SYNavigationDropdownMenu buttonWithType:UIButtonTypeCustom];
     if (self) {
+        /////////////////修改者：王可佳
+        _menuItemCount = itemCount;
+        /////////////////修改者：王可佳
         self.frame = navigationController.navigationBar.frame;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.navigationController = navigationController;
     }
     return self;
 }
-
+/////////////////修改者：王可佳
 #pragma mark Layout method
 
 - (void)layoutSubviews {
@@ -158,7 +163,14 @@
 }
 /////////////////修改者：王可佳
 - (UIView *)addTableFooterView{
-    UIView *viewFooter = [[UIView alloc]initWithFrame:self.menuBackgroundView.bounds];
+    CGFloat footerViewHeight;
+    if (_menuItemCount * 45 >= (Scr_Height - 64)) {
+        footerViewHeight = 53;
+    }
+    else{
+        footerViewHeight = (Scr_Height - 64) - _menuItemCount * 45;
+    }
+    UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.menuBackgroundView.bounds.size.width, footerViewHeight)];
     viewFooter.backgroundColor = [UIColor clearColor];
     UITapGestureRecognizer *tapTest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapTestClick:)];
     [viewFooter addGestureRecognizer:tapTest];

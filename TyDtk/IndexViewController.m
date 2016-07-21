@@ -245,9 +245,6 @@
     }
     cell.layer.masksToBounds = YES;
     cell.layer.cornerRadius = 5;
-    UIView *selectView =[[UIView alloc]initWithFrame:CGRectMake(0, 0, cell.bounds.size.width, cell.bounds.size.height)];
-    selectView.backgroundColor = [UIColor lightGrayColor];
-    cell.selectedBackgroundView = selectView;
     cell.backgroundColor = ColorWithRGBWithAlpp(218, 218, 218, 0.3);
     cell.layer.masksToBounds = YES;
     cell.layer.cornerRadius = 5;
