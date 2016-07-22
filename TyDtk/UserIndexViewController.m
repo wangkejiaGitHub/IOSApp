@@ -244,9 +244,7 @@
         }
     }
     else{
-        ///关于我们
-        UIStoryboard *Scommon = CustomStoryboard(@"TyLearn");
-        NSLog(@"%@",Scommon);
+        //关于我们
         [self performSegueWithIdentifier:@"aboutwe" sender:nil];
     }
 }

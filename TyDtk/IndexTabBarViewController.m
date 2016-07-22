@@ -105,12 +105,20 @@
         ///退出后用默认的账号授权
         [_loginUser empFirstComeAppWithUserId:defaultUserId userCode:defaultUserCode];
     }
-    UINavigationController *nav = self.viewControllers[0];
-    ///重新登录
-    UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
-    LoginViewController *loginVc = [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    loginVc.hidesBottomBarWhenPushed = YES;
-    [nav pushViewController:loginVc animated:YES];
+    
+    
+    LXAlertView *loginAlert = [[LXAlertView alloc]initWithTitle:@"账户错误" message:@"您的账户或密码已修改或过期，是否重修登录" cancelBtnTitle:@"暂不登录" otherBtnTitle:@"去登录" clickIndexBlock:^(NSInteger clickIndex) {
+        if (clickIndex == 1) {
+            UINavigationController *nav = self.viewControllers[0];
+            ///重新登录
+            UIStoryboard *sCommon = CustomStoryboard(@"TyCommon");
+            LoginViewController *loginVc = [sCommon instantiateViewControllerWithIdentifier:@"LoginViewController"];
+            loginVc.hidesBottomBarWhenPushed = YES;
+            [nav pushViewController:loginVc animated:YES];
+        }
+    }];
+    loginAlert.animationStyle = LXASAnimationTopShake;
+    [loginAlert showLXAlertView];
 }
 /****************************************
  ****************************************

@@ -957,10 +957,10 @@
             </objects>
             <point key="canvasLocation" x="-465.5" y="2877.5"/>
         </scene>
-        <!--View Controller-->
+        <!--About App View Controller-->
         <scene sceneID="QC6-yI-Ajd">
             <objects>
-                <viewController storyboardIdentifier="333333333333333333" id="zRZ-9i-DjF" sceneMemberID="viewController">
+                <viewController id="zRZ-9i-DjF" customClass="AboutAppViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yE7-hy-1zI"/>
                         <viewControllerLayoutGuide type="bottom" id="C4H-yR-AHf"/>
@@ -968,12 +968,41 @@
                     <view key="view" contentMode="scaleToFill" id="VyJ-YP-v43">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="u5H-ur-hl9">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cella" id="V18-38-ewT">
+                                        <rect key="frame" x="0.0" y="92" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V18-38-ewT" id="MSB-JW-PYC">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="zRZ-9i-DjF" id="4hH-er-CTE"/>
+                                    <outlet property="delegate" destination="zRZ-9i-DjF" id="fia-UX-Ser"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="u5H-ur-hl9" secondAttribute="trailing" id="7Xp-qr-qIN"/>
+                            <constraint firstItem="u5H-ur-hl9" firstAttribute="leading" secondItem="VyJ-YP-v43" secondAttribute="leading" id="9E7-B7-IZh"/>
+                            <constraint firstItem="u5H-ur-hl9" firstAttribute="top" secondItem="yE7-hy-1zI" secondAttribute="bottom" constant="-64" id="EvT-To-BOJ"/>
+                            <constraint firstItem="C4H-yR-AHf" firstAttribute="top" secondItem="u5H-ur-hl9" secondAttribute="bottom" id="egq-cu-Tyl"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="u5H-ur-hl9" id="axq-QO-eGm"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uXI-bX-fOb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1358.5" y="3624.5"/>
+            <point key="canvasLocation" x="-895.5" y="4443.5"/>
         </scene>
         <!--专业分类-->
         <scene sceneID="Xg9-Qm-Zhs">
