@@ -8,7 +8,9 @@
 
 #import "ModelPapersViewController.h"
 #import "ActiveSubjectViewController.h"
-@interface ModelPapersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveSubjectDelegate,UIScrollViewDelegate>
+///下拉菜单
+#import "DOPDropDownMenu.h"
+@interface ModelPapersViewController ()<UITableViewDataSource,UITableViewDelegate,ActiveSubjectDelegate,UIScrollViewDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *tableViewLayoutTop;
@@ -48,13 +50,15 @@
 @property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
 //回到顶部的按钮
 @property (nonatomic,strong) UIButton *buttonTopTable;
-//试卷级别（试卷类型）
-@property (nonatomic,strong) NSArray *arrayLevels;
-//试卷年份
-@property (nonatomic,strong) NSArray *arrayYears;
 ///用户判断tableView的滑动方向
 @property (nonatomic,assign) CGFloat lastContentOffset;
-@property (nonatomic,strong) UIView *viewHeader;
+//@property (nonatomic,strong) UIView *dropDownMenu;
+///下拉菜单
+@property (nonatomic ,strong) DOPDropDownMenu *dropDownMenuHearder;
+//试卷年份
+@property (nonatomic ,strong) NSMutableArray *arrayYearN;
+//试卷级别（试卷类型）
+@property (nonatomic ,strong) NSMutableArray *arrayTypeN;
 ///判断是否登录
 @property (nonatomic,assign) BOOL isLoginUser;
 @end
@@ -66,6 +70,9 @@
     [self viewLoad];
 }
 - (void)viewLoad{
+    _arrayYearN = [NSMutableArray array];
+    _arrayTypeN = [NSMutableArray array];
+    
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
     if ([_tyUser objectForKey:tyUserUserInfo]) {
@@ -74,51 +81,12 @@
     else{
         _isLoginUser = NO;
     }
-    if (!_viewHeader) {
-        _viewHeader = [[UIView alloc]initWithFrame:CGRectMake(0, 64, Scr_Width, 40)];
-        _viewHeader.backgroundColor =ColorWithRGB(210, 210, 210);
-        UILabel *labTiopicType = [[UILabel alloc]initWithFrame:CGRectMake(10, 5, 60, 30)];
-        labTiopicType.font = [UIFont systemFontOfSize:12.0];
-        labTiopicType.text = @"试题类型>";
-        labTiopicType.textColor = [UIColor lightGrayColor];
-        [_viewHeader addSubview:labTiopicType];
-        _buttonLeveles = [UIButton buttonWithType:UIButtonTypeCustom];
-        _buttonLeveles.frame = CGRectMake(70, 5, 100, 30);
-        _buttonLeveles.titleLabel.font =[UIFont systemFontOfSize:15.0];
-        [_buttonLeveles setTitle:@"全部" forState:UIControlStateNormal];
-        [_buttonLeveles setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-        _buttonLeveles.backgroundColor = [UIColor clearColor];
-        _buttonLeveles.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [_buttonLeveles addTarget:self action:@selector(buttonTypeClick:) forControlEvents:UIControlEventTouchUpInside];
-        [_viewHeader addSubview:_buttonLeveles];
-        UILabel *labTiopicYear = [[UILabel alloc]initWithFrame:CGRectMake(Scr_Width - 70 - 40, 5, 35, 30)];
-        labTiopicYear.font = [UIFont systemFontOfSize:12.0];
-        labTiopicYear.text = @"年份>";
-        labTiopicYear.textColor = [UIColor lightGrayColor];
-        [_viewHeader addSubview:labTiopicYear];
-        
-        _buttonYear = [UIButton buttonWithType:UIButtonTypeCustom];
-        _buttonYear.frame = CGRectMake(Scr_Width - 70, 5, 60, 30);
-        _buttonYear.titleLabel.font =[UIFont systemFontOfSize:15.0];
-        [_buttonYear setTitle:@"全部" forState:UIControlStateNormal];
-        [_buttonYear setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-        _buttonYear.backgroundColor = [UIColor clearColor];
-        _buttonYear.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [_buttonYear addTarget:self action:@selector(buttonYearClick:) forControlEvents:UIControlEventTouchUpInside];
-        [_viewHeader addSubview:_buttonYear];
-        [self.view addSubview:_viewHeader];
-    }
-    
     //从题库进入
     if (_intPushWhere == 0) {
-        
-        _viewHeader.frame = CGRectMake(0, 0, Scr_Width, 40);
         _tableViewLayoutTop.constant = 40;
     }
     //从练习中心进入
     else{
-        
-        _viewHeader.frame = CGRectMake(0, 64, Scr_Width, 40);
         _tableViewLayoutTop.constant = 0;
         _tableViewLauoutBottom.constant = -49;
     }
@@ -128,7 +96,7 @@
     [_buttonLeveles setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
      _myTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
-    [self getPaperYears];
+    
     //设置tableView的上拉控件
     _paterPages = 0;
     _paterIndexPage = 1;
@@ -140,6 +108,24 @@
     [self addrefreshForTableViewFooter];
     [self addRefreshForTableViewHeader];
 }
+////////////////////////////////////////////////////
+///添加下拉菜单
+- (void)addDropDownMenuForTableView{
+    if (!_dropDownMenuHearder) {
+        _dropDownMenuHearder = [[DOPDropDownMenu alloc] initWithOrigin:CGPointMake(0, 64) andHeight:40];
+        if (self.intPushWhere == 0) {
+            CGRect rect = _dropDownMenuHearder.frame;
+            rect.origin.y = 0;
+            _dropDownMenuHearder.frame = rect;
+        }
+        _dropDownMenuHearder.indicatorColor = [UIColor orangeColor];
+        _dropDownMenuHearder.textColor = ColorWithRGB(53, 122, 255);
+        _dropDownMenuHearder.dataSource = self;
+        _dropDownMenuHearder.delegate = self;
+        [self.view addSubview:_dropDownMenuHearder];
+    }
+}
+////////////////////////////////////////////////////
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.tabBarController.tabBar.hidden = NO;
 }
@@ -150,6 +136,7 @@
 }
 //下拉刷新
 - (void)headerRefereshMClick:(MJRefreshNormalHeader *)header{
+    [self getPaperLevels];
     _myTableView.userInteractionEnabled = NO;
     ///重新判断科目是否激活
     if (_isLoginUser) {
@@ -323,9 +310,20 @@
         NSDictionary *dicLevels = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicLevels[@"code"] integerValue];
         if (codeId == 1) {
-            _arrayLevels = dicLevels[@"datas"];
+            [_arrayTypeN removeAllObjects];
+            NSArray *arrayType = dicLevels[@"datas"];
+            
+            NSDictionary *dicAllType = @{@"Names":@"全部试卷",@"Id":@"0"};
+            [_arrayTypeN addObject:dicAllType];
+            for (NSDictionary *dicType in arrayType) {
+                [_arrayTypeN addObject:dicType];
+            }
+            
+            [self getPaperYears];
         }
     } RequestFaile:^(NSError *error) {
+        [_refreshHeader endRefreshing];
+        _myTableView.userInteractionEnabled = YES;
         httpsErrorShow;
     }];
 }
@@ -338,52 +336,63 @@
         NSDictionary *dicYesrs = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicYesrs[@"code"] integerValue];
         if (codeId == 1) {
-            _arrayYears = dicYesrs[@"datas"];
+            [_arrayYearN removeAllObjects];
+            NSArray *arrayYear = dicYesrs[@"datas"];
+            
+            NSDictionary *dicAllYear = @{@"Text":@"全部年份",@"Value":@"0"};
+            [_arrayYearN addObject:dicAllYear];
+            for (NSDictionary *dicYear in arrayYear) {
+                [_arrayYearN addObject:dicYear];
+            }
+            
+            [self addDropDownMenuForTableView];
         }
     } RequestFaile:^(NSError *error) {
+        [_refreshHeader endRefreshing];
+        _myTableView.userInteractionEnabled = YES;
         httpsErrorShow;
     }];
 }
 
 //tableView上的scroll代理，用户判断是否显示'回到顶部'按钮
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (_myTableView.contentOffset.y > Scr_Height - 64 - 50) {
-        [_buttonTopTable removeFromSuperview];
-        if (!_buttonTopTable) {
-            _buttonTopTable = [UIButton buttonWithType:UIButtonTypeCustom];
-            _buttonTopTable.frame = CGRectMake(Scr_Width - 55, Scr_Height - 300, 100, 30);
-            [_buttonTopTable setTitle:@"回到顶部" forState:UIControlStateNormal];
-            _buttonTopTable.titleLabel.font = [UIFont systemFontOfSize:12.0];
-            _buttonTopTable.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
-            _buttonTopTable.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            _buttonTopTable.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.3);
-            [_buttonTopTable setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
-            _buttonTopTable.layer.masksToBounds = YES;
-            _buttonTopTable.layer.cornerRadius = 5;
-            [_buttonTopTable addTarget:self action:@selector(topButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        }
-        [self.view addSubview:_buttonTopTable];
-    }
-    else{
-        [_buttonTopTable removeFromSuperview];
-    }
+//    if (_myTableView.contentOffset.y > Scr_Height - 64 - 50) {
+//        [_buttonTopTable removeFromSuperview];
+//        if (!_buttonTopTable) {
+//            _buttonTopTable = [UIButton buttonWithType:UIButtonTypeCustom];
+//            _buttonTopTable.frame = CGRectMake(Scr_Width - 55, Scr_Height - 300, 100, 30);
+//            [_buttonTopTable setTitle:@"回到顶部" forState:UIControlStateNormal];
+//            _buttonTopTable.titleLabel.font = [UIFont systemFontOfSize:12.0];
+//            _buttonTopTable.contentEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+//            _buttonTopTable.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+//            _buttonTopTable.backgroundColor = ColorWithRGBWithAlpp(0, 0, 0, 0.3);
+//            [_buttonTopTable setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
+//            _buttonTopTable.layer.masksToBounds = YES;
+//            _buttonTopTable.layer.cornerRadius = 5;
+//            [_buttonTopTable addTarget:self action:@selector(topButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//        }
+//        [self.view addSubview:_buttonTopTable];
+//    }
+//    else{
+//        [_buttonTopTable removeFromSuperview];
+//    }
     
     if (_lastContentOffset < scrollView.contentOffset.y) {
         //从题库进入
         if (_intPushWhere == 0) {
             [UIView animateWithDuration:0.3 animations:^{
-                CGRect rect = _viewHeader.frame;
+                CGRect rect = _dropDownMenuHearder.frame;
                 rect.origin.y = -40;
-                _viewHeader.frame = rect;
+                _dropDownMenuHearder.frame = rect;
             }];
             _tableViewLayoutTop.constant = 0;
         }
         //从练习中心进入
         else{
             [UIView animateWithDuration:0.3 animations:^{
-                CGRect rect = _viewHeader.frame;
+                CGRect rect = _dropDownMenuHearder.frame;
                 rect.origin.y = 24;
-                _viewHeader.frame = rect;
+                _dropDownMenuHearder.frame = rect;
             }];
             _tableViewLayoutTop.constant = 0;
         }
@@ -393,18 +402,18 @@
         if (_intPushWhere == 0) {
             [UIView animateWithDuration:0.3 animations:^{
                 //             _heardViewLayoutTop.constant = -40;
-                CGRect rect = _viewHeader.frame;
+                CGRect rect = _dropDownMenuHearder.frame;
                 rect.origin.y = 0;
-                _viewHeader.frame = rect;
+                _dropDownMenuHearder.frame = rect;
             }];
             _tableViewLayoutTop.constant = 40;
         }
         //从练习中心进入
         else{
             [UIView animateWithDuration:0.3 animations:^{
-                CGRect rect = _viewHeader.frame;
+                CGRect rect = _dropDownMenuHearder.frame;
                 rect.origin.y = 64;
-                _viewHeader.frame = rect;
+                _dropDownMenuHearder.frame = rect;
             }];
             _tableViewLayoutTop.constant = 40;
         }
@@ -416,11 +425,7 @@
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView{
-//    if (_lastContentOffset < scrollView.contentOffset.y) {
-//        NSLog(@"向上滚动");
-//    }else{
-//        NSLog(@"向下滚动");
-//    }
+
 }
 //回到顶部按钮
 - (void)topButtonClick:(UIButton *)topButton{
@@ -541,113 +546,66 @@
         }
     }
 }
+//////////////////////////////////////////////////////////////////////////////
+/**********DropDownMenu 代理*********/
+///返回下拉菜单个数
+- (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu {
+    return 2;
+}
+///返回每个下拉菜单的item
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column {
+    if (column == 0) {
+        return _arrayTypeN.count;
+    }
+    else{
+        return _arrayYearN.count;
+    }
+}
+///返回每个下拉菜单的值
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath {
+    NSDictionary *dic;
+    switch (indexPath.column) {
+        case 0:
+            dic = _arrayTypeN[indexPath.row];
+            return dic[@"Names"];
+            break;
+        case 1:
+            dic = _arrayYearN[indexPath.row];
+            return dic[@"Text"];
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
+///下拉菜单点击事件
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
+    NSDictionary *dicSelect;
+    ///试卷类型
+    if (indexPath.column == 0) {
+        dicSelect = _arrayTypeN[indexPath.row];
+        _paterLevel = [NSString stringWithFormat:@"%ld",[dicSelect[@"Id"] integerValue]];
+    }
+    ///试卷年份
+    else{
+         dicSelect = _arrayYearN[indexPath.row];
+        _paterYear = dicSelect[@"Value"];
+    }
+    if (self.intPushWhere == 0) {
+        [SVProgressHUD show];
+    }
+    _myTableView.userInteractionEnabled = NO;
+    _paterIndexPage = 1;
+    _paterPages = 0;
+    [self getModelPapersData];
+}
+/**********DropDownMenu 代理*********/
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"topicStar"]) {
         StartDoTopicViewController *topicVc = segue.destinationViewController;
         topicVc.paperParameter = 2;
         topicVc.dicPater = sender;
     }
-}
-//试题类型按钮
-- (void)buttonTypeClick:(UIButton *)sender {
-    [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
-    [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
-    [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
-    ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self LevelsMenuItemArray]];
-    CGRect rectBtn = sender.frame;
-    if (self.intPushWhere == 0) {
-        rectBtn.origin.y = rectBtn.origin.y + 60 + 40;
-    }
-    else{
-        rectBtn.origin.y = rectBtn.origin.y + 55;
-    }
-    
-    rectBtn.origin.x = rectBtn.origin.x - 10;
-    [popupMenu showInView:self.navigationController.view fromRect:rectBtn layoutType:Vertical];
-    [self.navigationController.view addSubview:popupMenu];
-}
-//试题年份按钮
-- (void)buttonYearClick:(UIButton *)sender {
-    [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
-    [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
-    [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
-    ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self yearMenuItemArray]];
-    CGRect rectBtn = sender.frame;
-    if (self.intPushWhere == 0) {
-        rectBtn.origin.y = rectBtn.origin.y + 60 + 40;
-    }
-    else{
-        rectBtn.origin.y = rectBtn.origin.y + 55;
-    }
-    rectBtn.origin.x = rectBtn.origin.x - 10;
-    [popupMenu showInView:self.navigationController.view fromRect:rectBtn layoutType:Vertical];
-    [self.navigationController.view addSubview:popupMenu];
-}
-//返回试题类型菜单item数组
-- (NSArray *)LevelsMenuItemArray{
-    NSMutableArray *arrayLevelMuen = [NSMutableArray array];
-    ZFPopupMenuItem *itemA = [ZFPopupMenuItem initWithMenuName:@"全部" image:nil action:@selector(menuLevelsClick:) target:self];
-    itemA.tag = 100 + 0;
-    [arrayLevelMuen addObject:itemA];
-    for (int i = 0; i<_arrayLevels.count; i++) {
-        NSDictionary *dicLevels = _arrayLevels[i];
-        ZFPopupMenuItem *item = [ZFPopupMenuItem initWithMenuName:dicLevels[@"Names"] image:nil action:@selector(menuLevelsClick:) target:self];
-        item.tag = 100 + i + 1;
-        [arrayLevelMuen addObject:item];
-    }
-    return arrayLevelMuen;
-}
-//返回年份菜单item数组
-- (NSArray *)yearMenuItemArray{
-    NSMutableArray *arrayYearMuen = [NSMutableArray array];
-    ZFPopupMenuItem *itemA = [ZFPopupMenuItem initWithMenuName:@"全部" image:nil action:@selector(menuYearClick:) target:self];
-    itemA.tag = 1000 + 0;
-    [arrayYearMuen addObject:itemA];
-    for (int i =0; i<_arrayYears.count; i++) {
-        NSDictionary *dicYear = _arrayYears[i];
-        ZFPopupMenuItem *item = [ZFPopupMenuItem initWithMenuName:dicYear[@"Value"] image:nil action:@selector(menuYearClick:) target:self];
-        item.tag = 1000 + i + 1;
-        [arrayYearMuen addObject:item];
-    }
-    return arrayYearMuen;
-}
-//点击年份菜单事件
-- (void)menuYearClick:(ZFPopupMenuItem *)item{
-    NSInteger itemIndex = item.tag - 1000;
-    if (itemIndex == 0) {
-        _paterYear = @"0";
-        [_buttonYear setTitle:@"全部" forState:UIControlStateNormal];
-    }
-    else{
-        NSDictionary *dicYear = _arrayYears[itemIndex - 1];
-        _paterYear = dicYear[@"Value"];
-        [_buttonYear setTitle:dicYear[@"Value"] forState:UIControlStateNormal];
-    }
-    
-    _paterIndexPage = 1;
-    _paterPages = 0;
-    [_arrayPapers removeAllObjects];
-    
-    [self getModelPapersData];
-    
-}
-//点击试卷类型菜单事件
-- (void)menuLevelsClick:(ZFPopupMenuItem *)item{
-    NSInteger itemIndex = item.tag - 100;
-    if (itemIndex == 0) {
-        _paterLevel = @"0";
-        [_buttonLeveles setTitle:@"全部" forState:UIControlStateNormal];
-    }
-    else{
-        NSDictionary *dicLevels = _arrayLevels[itemIndex - 1];
-        _paterLevel = [NSString stringWithFormat:@"%ld",[dicLevels[@"Id"] integerValue]];
-        [_buttonLeveles setTitle:dicLevels[@"Names"] forState:UIControlStateNormal];
-    }
-    _paterIndexPage = 1;
-    _paterPages = 0;
-    [_arrayPapers removeAllObjects];
-    
-    [self getModelPapersData];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -137,7 +137,6 @@
         img.image = [UIImage imageNamed:_arrayCellImage[indexPath.row]];
         labTitle.text = _arrayCellTitle[indexPath.row];
         if (indexPath.row == 1) {
-//            labSiubject.adjustsFontSizeToFitWidth = YES;
             if ([_tyUser objectForKey:tyUserSelectSubject]) {
                 NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
                 labSiubject.text= dicCurrSubject[@"Names"];
@@ -158,7 +157,6 @@
     return  cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    // _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的考试",@"我的订单",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.section == 0) {
         UIStoryboard *Scommon = CustomStoryboard(@"TyCommon");
@@ -244,6 +242,12 @@
         else{
             [self getSubjectClass];
         }
+    }
+    else{
+        ///关于我们
+        UIStoryboard *Scommon = CustomStoryboard(@"TyLearn");
+        NSLog(@"%@",Scommon);
+        [self performSegueWithIdentifier:@"aboutwe" sender:nil];
     }
 }
 /////获取用户信息

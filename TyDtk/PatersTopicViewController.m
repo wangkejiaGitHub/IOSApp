@@ -433,9 +433,9 @@
     }
 }
 //回到顶部按钮点击事件
-- (void)topButtonClick:(UIButton *)topButton{
-    [_tableViewPater setContentOffset:CGPointMake(0, 0) animated:YES];
-}
+//- (void)topButtonClick:(UIButton *)topButton{
+//    [_tableViewPater setContentOffset:CGPointMake(0, 0) animated:YES];
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

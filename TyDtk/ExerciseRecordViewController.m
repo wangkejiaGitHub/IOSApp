@@ -11,14 +11,13 @@
 #import "StartAnalysisTopicViewController.h"
 #import "ExerciseTableViewCell.h"
 #import "SelectParTopicViewController.h"
-@interface ExerciseRecordViewController ()<UITableViewDataSource,UITableViewDelegate,ExerciseDelegate>
+
+#import "DOPDropDownMenu.h"
+@interface ExerciseRecordViewController ()<UITableViewDataSource,UITableViewDelegate,ExerciseDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
 @property (nonatomic, strong) UIScrollView *scrollViewHeard;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewRe;
-@property (weak, nonatomic) IBOutlet UIButton *buttonSubject;
-@property (weak, nonatomic) IBOutlet UIButton *buttonTypeTopic;
 
 @property (nonatomic,strong) NSUserDefaults *tyUser;
-@property (nonatomic,strong) NSArray *arraySubject;
 @property (nonatomic,strong) NSDictionary *dicSelectSubject;
 ///练习记录
 @property (nonatomic,strong) NSMutableArray *arrayExRe;
@@ -39,6 +38,10 @@
 //记录再次做题时获取的每周精选rid
 @property (nonatomic,strong) NSString *ridAgainWeekTopic;
 @property (nonatomic,assign) BOOL isContinueDoTopic;
+@property (nonatomic,strong) NSMutableArray *arraySubject;
+@property (nonatomic,strong) NSArray *arrayModelTopic;
+@property (nonatomic,strong) DOPDropDownMenu *dropDownMenu;
+
 @end
 
 @implementation ExerciseRecordViewController
@@ -46,18 +49,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _arrayExRe = [NSMutableArray array];
+    _arraySubject = [NSMutableArray array];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _accToken = [_tyUser objectForKey:tyUserAccessToken];
-    [_buttonTypeTopic setTitle:@"全部" forState:UIControlStateNormal];
     _topicModel = 0;
     _subjectId = 0;
+    
     _pageCurr = 1;
+    _pages = 0;
+    _arrayModelTopic = @[@"全部模块",@"章节练习",@"智能出题",@"每周精选",@"模拟试卷"];
     
-    
-    NSDictionary *dicCurrSubject = [_tyUser objectForKey:tyUserSelectSubject];
-    [_buttonSubject setTitle:dicCurrSubject[@"Names"] forState:UIControlStateNormal];
-    _buttonSubject.titleLabel.adjustsFontSizeToFitWidth = YES;
-    [_arrayExRe removeAllObjects];
     [self viewLoad];
 }
 - (void)viewLoad{
@@ -104,89 +105,35 @@
         NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicSubject[@"code"] integerValue];
         if (codeId == 1) {
-            _arraySubject = dicSubject[@"datas"];
+            NSDictionary *dicAllSubject = @{@"Id":@"0",@"Names":@"当前科目"};
+            [_arraySubject addObject:dicAllSubject];
+            NSArray *arraySub= dicSubject[@"datas"];
+            for (NSDictionary *dicSub in arraySub) {
+                [_arraySubject addObject:dicSub];
+            }
             [self getExerciseRe];
+            [self addDropDownMenuForTableView];
         }
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
 ////////////////////////////////////////////////////
-/////////////////////做题模式////////////////////////
-//做题模式按钮
-- (IBAction)buttonTypeClick:(UIButton *)sender {
-    [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
-    [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
-    [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
-    ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self typeMenuItemArray]];
-    [popupMenu showInView:self.navigationController.view fromRect:CGRectMake(Scr_Width - 50, -30, 50, 120) layoutType:Vertical];
-    [self.navigationController.view addSubview:popupMenu];
+- (void)addDropDownMenuForTableView{
+    if (!_dropDownMenu) {
+        _dropDownMenu = [[DOPDropDownMenu alloc]initWithOrigin:CGPointMake(0, 64) andHeight:40];
+        _dropDownMenu.indicatorColor = [UIColor orangeColor];
+        _dropDownMenu.textColor = ColorWithRGB(53, 122, 255);
+        _dropDownMenu.delegate = self;
+        _dropDownMenu.dataSource = self;
+        [self.view addSubview:_dropDownMenu];
+    }
 }
-//返回试题类型菜单item数组
-//1章节练习 2智能出题 3每周精选 4试卷
-- (NSArray *)typeMenuItemArray{
-    NSMutableArray *arrayTypeMuen = [NSMutableArray array];
-    ZFPopupMenuItem *itemA = [ZFPopupMenuItem initWithMenuName:@"全部" image:nil action:@selector(menuTypeClick:) target:self];
-    itemA.tag = 100;
-     ZFPopupMenuItem *item1 = [ZFPopupMenuItem initWithMenuName:@"章节练习" image:nil action:@selector(menuTypeClick:) target:self];
-    item1.tag = 101;
-     ZFPopupMenuItem *item2 = [ZFPopupMenuItem initWithMenuName:@"模拟试卷" image:nil action:@selector(menuTypeClick:) target:self];
-    item2.tag = 104;
-     ZFPopupMenuItem *item3 = [ZFPopupMenuItem initWithMenuName:@"每周精选" image:nil action:@selector(menuTypeClick:) target:self];
-    item3.tag = 103;
-     ZFPopupMenuItem *item4 = [ZFPopupMenuItem initWithMenuName:@"智能出题" image:nil action:@selector(menuTypeClick:) target:self];
-    item4.tag = 102;
-    [arrayTypeMuen addObject:itemA];
-    [arrayTypeMuen addObject:item1];
-    [arrayTypeMuen addObject:item2];
-    [arrayTypeMuen addObject:item3];
-    [arrayTypeMuen addObject:item4];
-    return arrayTypeMuen;
-}
-//做题模式按钮菜单点击事件
-- (void)menuTypeClick:(ZFPopupMenuItem *)item{
-    [_buttonTypeTopic setTitle:item.itemName forState:UIControlStateNormal];
-    _topicModel = item.tag - 100;
-    _pageCurr = 1;
-    [_arrayExRe removeAllObjects];
-    [self getExerciseRe];
-}
-//*******************做题模式////////////////////////
-/////////////////////做题模式////////////////////////
+////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////
-/////////////////////科目选项////////////////////////
-//科目选择按钮
-- (IBAction)buttonSubjectClick:(UIButton *)sender {
-    [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
-    [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
-    [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
-    ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self subjectMenuItemArray]];
-    [popupMenu showInView:self.navigationController.view fromRect:CGRectMake(55, -30, 0, 120) layoutType:Vertical];
-    [self.navigationController.view addSubview:popupMenu];
-}
+/////////////////////做题模式////////////////////////
 
-//返回科目菜单数组
-- (NSArray *)subjectMenuItemArray{
-    NSMutableArray *arraySubjectMuen = [NSMutableArray array];
-    for (int i =0; i<_arraySubject.count; i++) {
-        NSDictionary *dicSubject = _arraySubject[i];
-        ZFPopupMenuItem *item = [ZFPopupMenuItem initWithMenuName:dicSubject[@"Names"] image:nil action:@selector(menuSubjectClick:) target:self];
-        item.tag = 100 + 1 + i;
-        [arraySubjectMuen addObject:item];
-    }
-    return arraySubjectMuen;
-}
-//科目item点击事件
-- (void)menuSubjectClick:(ZFPopupMenuItem *)item{
-    NSDictionary *dicSubject = _arraySubject[item.tag - 100 - 1];
-    _subjectId = [dicSubject[@"Id"] integerValue];
-    [_buttonSubject setTitle:item.itemName forState:UIControlStateNormal];
-    [_arrayExRe removeAllObjects];
-    _pageCurr = 1;
-    [self getExerciseRe];
-}
-//*******************科目选项////////////////////////
 /////////////////////科目选项////////////////////////
 
 ///获取练习记录数据
@@ -204,6 +151,9 @@
         NSInteger codeId = [dicN[@"code"] integerValue];
         if (codeId == 1) {
             //获取最大页数
+            if (_pageCurr == 1) {
+                [_arrayExRe removeAllObjects];
+            }
             NSDictionary *dicPage =dicN[@"page"];
             _pages = [dicPage[@"pages"] integerValue];
             //当前页数增加1
@@ -215,7 +165,7 @@
             }
             ///判断第一次加载时是否为空数据
             if (_arrayExRe.count == 0) {
-                _viewDataNil = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 45, Scr_Width, Scr_Height - 45 - 64- 49) showText:@"没有更多记录了，换个做题试试看~"];
+                _viewDataNil = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 40, Scr_Width, Scr_Height - 40 - 64- 49) showText:@"没有更多记录了，换个做题试试看~"];
                 _tableViewRe.tableFooterView = _viewDataNil;
             }
             else{
@@ -259,7 +209,7 @@
         httpsErrorShow;
     }];
 }
-//tableView代理
+////////////////////////tableView代理
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _arrayExRe.count;
 }
@@ -292,13 +242,65 @@
     }];
     alert.animationStyle = LXASAnimationTopShake;
     [alert showLXAlertView];
-//    [_arrayExRe removeObjectAtIndex:indexPath.row];
-//    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//    NSLog(@"commitEditingStyle");
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _dicSelectSubject = _arrayExRe[indexPath.row];
 }
+/////////////////////////////////////////////////////////////
+//////////////dropDownMenu 代理 /////////////////////////////
+///返回下拉菜单个数
+- (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu {
+    return 2;
+}
+///返回每个下拉菜单的item
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column {
+    if (column == 0) {
+        return _arraySubject.count;
+    }
+    else{
+        return _arrayModelTopic.count;
+    }
+}
+///返回每个下拉菜单的值
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath {
+    NSDictionary *dic;
+    switch (indexPath.column) {
+        case 0:
+            dic = _arraySubject[indexPath.row];
+            return dic[@"Names"];
+            break;
+        case 1:
+            return _arrayModelTopic[indexPath.row];
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
+///下拉菜单点击事件
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
+    NSDictionary *dicSelect;
+    ///试卷类型
+    if (indexPath.column == 0) {
+        
+        dicSelect = _arraySubject[indexPath.row];
+        _subjectId = [dicSelect[@"Id"] integerValue];
+        _pageCurr = 1;
+        _pages = 0;
+        [self getExerciseRe];
+    }
+    ///试卷年份
+    else{
+        _topicModel = indexPath.row;
+        _pages = 0;
+        _pageCurr = 1;
+        [self getExerciseRe];
+    }
+}
+
+
+//////////////dropDownMenu 代理 /////////////////////////////
+
 ///cell上的查看解析按钮回调
 - (void)cellAnalysisWithDictionary:(NSDictionary *)dicModel{
     _topicModelCell = [dicModel[@"Mode"] integerValue];

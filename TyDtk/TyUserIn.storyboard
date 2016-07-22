@@ -123,6 +123,7 @@
                         <segue destination="4sg-5j-LrH" kind="show" identifier="selectSubject" id="Yqb-hr-4bk">
                             <nil key="action"/>
                         </segue>
+                        <segue destination="zRZ-9i-DjF" kind="show" identifier="aboutwe" id="C89-oj-0cF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DUJ-Tv-SLr" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -955,6 +956,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zVY-92-E6a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-465.5" y="2877.5"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="QC6-yI-Ajd">
+            <objects>
+                <viewController storyboardIdentifier="333333333333333333" id="zRZ-9i-DjF" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yE7-hy-1zI"/>
+                        <viewControllerLayoutGuide type="bottom" id="C4H-yR-AHf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VyJ-YP-v43">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uXI-bX-fOb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1358.5" y="3624.5"/>
         </scene>
         <!--专业分类-->
         <scene sceneID="Xg9-Qm-Zhs">
