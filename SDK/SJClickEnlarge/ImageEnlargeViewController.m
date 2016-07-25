@@ -9,7 +9,7 @@
 #import "ImageEnlargeViewController.h"
 #import "ImageEnlargeCell.h"
 
-@interface ImageEnlargeViewController ()<ImageEnlargeCellDelegate>
+@interface ImageEnlargeViewController ()<ImageEnlargeCellDelegate,LCActionSheetDelegate>
 
 // 显示图片的视图
 @property (nonatomic,strong) UIImageView *imageView ;
@@ -17,6 +17,7 @@
 // 显示缩放视图
 @property (nonatomic,strong) UICollectionView *collectionView ;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
+@property (nonatomic,strong) UIImage *imageShow;
 @end
 
 @implementation ImageEnlargeViewController
@@ -127,10 +128,15 @@
 //        }
 //    }];
 //    [alertView showLXAlertView];
-    [self imageTopicSave:image];
-    
+    _imageShow = image;
+    LCActionSheet *alertImg = [LCActionSheet sheetWithTitle:@"图片保存" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"保存", nil];
+    [alertImg show];
 }
-
+- (void)actionSheet:(LCActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        [self imageTopicSave:_imageShow];
+    }
+}
 //保存图片
 -(void)imageTopicSave:(UIImage *)image{
     [SVProgressHUD showWithStatus:@"正在保存图片..."];

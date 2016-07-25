@@ -13,7 +13,8 @@
 #import "LoginViewController.h"
 #import "ExerciseRecordViewController.h"
 #import "ImageEnlargeViewController.h"
-@interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate,LoginDelegate>
+
+@interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate,LoginDelegate,LCActionSheetDelegate>
 ///用于判断用户是否登录
 @property (nonatomic,assign) BOOL isLoginUser;
 @property (weak, nonatomic) IBOutlet UITableView *tableViewList;
@@ -291,7 +292,6 @@
     LXAlertView *loginAlert = [[LXAlertView alloc]initWithTitle:@"账户错误" message:@"您的账户或密码已过期，是否重修登录" cancelBtnTitle:@"不登录" otherBtnTitle:@"重新登录" clickIndexBlock:^(NSInteger clickIndex) {
         if (clickIndex == 0) {
             ///不登录 （清除所有信息，使用户保持退出状态）
-            
             [_tyUser removeObjectForKey:tyUserAccount];
             [_tyUser removeObjectForKey:tyUserUserInfo];
             [_tyUser removeObjectForKey:tyUserAccessToken];
@@ -321,7 +321,6 @@
     [_arraySubject removeAllObjects];
     [_arraySecoundSubject removeAllObjects];
     [HttpTools getHttpRequestURL:[NSString stringWithFormat:@"%@api/Classify/GetAll",systemHttps] RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
-        
         NSDictionary *dicSubject =[NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         
         NSArray *arrayDatas = dicSubject[@"datas"];
@@ -354,29 +353,53 @@
         [self.navigationController pushViewController:loginVc animated:YES];
     }
     else{
-        ///换头像
-        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"我的头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self persentImagePicker:1];
-        }];
+//        ///换头像
+//        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"我的头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+//        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self persentImagePicker:1];
+//        }];
+//        
+//        UIAlertAction *acCream = [UIAlertAction actionWithTitle:@"手机相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self persentImagePicker:0];
+//        }];
+//        
+//        UIAlertAction *acLook = [UIAlertAction actionWithTitle:@"查看大图" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            NSDictionary *dic = [_tyUser objectForKey:tyUserUserInfo];
+//            ImageEnlargeViewController *imageEnlargeVC = [[ImageEnlargeViewController alloc]init];
+//            imageEnlargeVC.imageUrlArrays = @[[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dic[@"headImg"]]];
+//            imageEnlargeVC.imageIndex = 1;
+//            [self presentViewController:imageEnlargeVC animated:YES completion:nil];
+//        }];
+//        UIAlertAction *acCan = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+//        [alertImg addAction:acPhoto];
+//        [alertImg addAction:acCream];
+//        [alertImg addAction:acLook];
+//        [alertImg addAction:acCan];
+//        [self.navigationController presentViewController:alertImg animated:YES completion:nil];
         
-        UIAlertAction *acCream = [UIAlertAction actionWithTitle:@"手机相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self persentImagePicker:0];
-        }];
-        
-        UIAlertAction *acLook = [UIAlertAction actionWithTitle:@"查看大图" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSDictionary *dic = [_tyUser objectForKey:tyUserUserInfo];
-            ImageEnlargeViewController *imageEnlargeVC = [[ImageEnlargeViewController alloc]init];
-            imageEnlargeVC.imageUrlArrays = @[[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dic[@"headImg"]]];
-            imageEnlargeVC.imageIndex = 1;
-            [self presentViewController:imageEnlargeVC animated:YES completion:nil];
-        }];
-        UIAlertAction *acCan = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alertImg addAction:acPhoto];
-        [alertImg addAction:acCream];
-        [alertImg addAction:acLook];
-        [alertImg addAction:acCan];
-        [self.navigationController presentViewController:alertImg animated:YES completion:nil];
+        LCActionSheet *AlertImg = [LCActionSheet sheetWithTitle:@"我的头像" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拍照",@"手机相册",@"查看大图",nil];
+        AlertImg.animationDuration = 0.2;
+        [AlertImg show];
+    }
+}
+///点击提示按钮
+- (void)actionSheet:(LCActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"buttonIndex == %ld",buttonIndex);
+    ///拍照
+    if (buttonIndex == 1) {
+         [self persentImagePicker:1];
+    }
+    ///手机相册
+    else if (buttonIndex == 2){
+        [self persentImagePicker:0];
+    }
+    ///查看大图
+    else if (buttonIndex == 3){
+        NSDictionary *dic = [_tyUser objectForKey:tyUserUserInfo];
+        ImageEnlargeViewController *imageEnlargeVC = [[ImageEnlargeViewController alloc]init];
+        imageEnlargeVC.imageUrlArrays = @[[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dic[@"headImg"]]];
+        imageEnlargeVC.imageIndex = 1;
+        [self presentViewController:imageEnlargeVC animated:YES completion:nil];
     }
 }
 ///调用本地相册或摄像头(picParameter:0、手机相册，1、手机摄像头

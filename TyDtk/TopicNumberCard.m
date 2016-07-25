@@ -50,24 +50,6 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section{
     return 10;
 }
-//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-//    //section头
-//    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-//        UICollectionReusableView *reView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"heardviewnum" forIndexPath:indexPath];
-//        for (id subView in reView.subviews) {
-//            [subView removeFromSuperview];
-//        }
-//        
-//        UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(30, 15, Scr_Width - 60, 20)];
-//        labText.text = @"试题编号";
-//        labText.font = [UIFont systemFontOfSize:18.0];
-//        labText.textColor = [UIColor blackColor];
-//        labText.textAlignment = NSTextAlignmentCenter;
-//        [reView addSubview:labText];
-//        return  reView;
-//    }
-//    return nil;
-//}
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cellnum" forIndexPath:indexPath];
     for (id subView in cell.contentView.subviews) {

@@ -79,10 +79,11 @@
     [_refreshFooter setTitle:@"正在为您加载更多记录..." forState:MJRefreshStateRefreshing];
     [_refreshFooter setTitle:@"记录已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _tableViewRe.mj_footer = _refreshFooter;
-    
+}
+///添加table头试图
+- (void)addRefreshHeaderForTableView{
     _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
     _tableViewRe.mj_header = _refreshHeader;
-//    _tableViewRe.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 - (void)viewDidDisappear:(BOOL)animated{
     _refreshFooter = nil;
@@ -128,6 +129,8 @@
         _dropDownMenu.dataSource = self;
         [self.view addSubview:_dropDownMenu];
     }
+    
+    [self addRefreshHeaderForTableView];
 }
 ////////////////////////////////////////////////////
 

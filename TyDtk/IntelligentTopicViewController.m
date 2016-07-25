@@ -48,9 +48,8 @@
     }
 }
 - (void)viewWillAppear:(BOOL)animated{
-//    if (self.intPushWhere == 1) {
-        self.navigationController.tabBarController.tabBar.hidden = NO;
-//    }
+    self.navigationController.tabBarController.tabBar.hidden = NO;
+    [SVProgressHUD dismiss];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;

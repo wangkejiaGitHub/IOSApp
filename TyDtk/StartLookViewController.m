@@ -276,9 +276,10 @@
     }
     
     ///向左拖拽pop返回上一页
-    if (scrollView.contentOffset.x < -10) {
+    if (scrollView.contentOffset.x < -20) {
         [self.navigationController popViewControllerAnimated:YES];
     }
+    
 }
 //////////////////////////////////////////////////////////////////
 - (IBAction)buttonTopicCardClick:(UIButton *)sender {

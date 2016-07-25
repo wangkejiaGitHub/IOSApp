@@ -106,7 +106,7 @@
     [self getModelPapersData];
     [self getPaperLevels];
     [self addrefreshForTableViewFooter];
-    [self addRefreshForTableViewHeader];
+    
 }
 ////////////////////////////////////////////////////
 ///添加下拉菜单
@@ -123,6 +123,7 @@
         _dropDownMenuHearder.dataSource = self;
         _dropDownMenuHearder.delegate = self;
         [self.view addSubview:_dropDownMenuHearder];
+        [self addRefreshForTableViewHeader];
     }
 }
 ////////////////////////////////////////////////////

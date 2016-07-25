@@ -10,7 +10,7 @@
 #import "UpdateUserInfoViewController.h"
 #import "UptadePwdViewController.h"
 #import "ImageEnlargeViewController.h"
-@interface UserInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,LoginDelegate>
+@interface UserInfoViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate, UIImagePickerControllerDelegate,LoginDelegate,LCActionSheetDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewUser;
 @property (nonatomic,strong) NSArray *arrayListName1;
 @property (nonatomic,strong) NSArray *arrayListName2;
@@ -197,28 +197,32 @@
     //修改头像
     if (indexPath.section == 0&&indexPath.row == 0) {
         ///换头像
-        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"我的头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self persentImagePicker:1];
-        }];
+//        UIAlertController *alertImg = [UIAlertController alertControllerWithTitle:@"我的头像" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+//        UIAlertAction *acPhoto = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self persentImagePicker:1];
+//        }];
+//        
+//        UIAlertAction *acCream = [UIAlertAction actionWithTitle:@"手机相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self persentImagePicker:0];
+//        }];
+//        
+//        UIAlertAction *acLook = [UIAlertAction actionWithTitle:@"查看大图" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            NSDictionary *dic = [_tyUser objectForKey:tyUserUserInfo];
+//            ImageEnlargeViewController *imageEnlargeVC = [[ImageEnlargeViewController alloc]init];
+//            imageEnlargeVC.imageUrlArrays = @[[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dic[@"headImg"]]];
+//            imageEnlargeVC.imageIndex = 1;
+//            [self presentViewController:imageEnlargeVC animated:YES completion:nil];
+//        }];
+//        UIAlertAction *acCan = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+//        [alertImg addAction:acPhoto];
+//        [alertImg addAction:acCream];
+//        [alertImg addAction:acLook];
+//        [alertImg addAction:acCan];
+//        [self.navigationController presentViewController:alertImg animated:YES completion:nil];
         
-        UIAlertAction *acCream = [UIAlertAction actionWithTitle:@"手机相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self persentImagePicker:0];
-        }];
-        
-        UIAlertAction *acLook = [UIAlertAction actionWithTitle:@"查看大图" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSDictionary *dic = [_tyUser objectForKey:tyUserUserInfo];
-            ImageEnlargeViewController *imageEnlargeVC = [[ImageEnlargeViewController alloc]init];
-            imageEnlargeVC.imageUrlArrays = @[[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dic[@"headImg"]]];
-            imageEnlargeVC.imageIndex = 1;
-            [self presentViewController:imageEnlargeVC animated:YES completion:nil];
-        }];
-        UIAlertAction *acCan = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alertImg addAction:acPhoto];
-        [alertImg addAction:acCream];
-        [alertImg addAction:acLook];
-        [alertImg addAction:acCan];
-        [self.navigationController presentViewController:alertImg animated:YES completion:nil];
+        LCActionSheet *AlertImg = [LCActionSheet sheetWithTitle:@"我的头像" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"拍照",@"手机相册",@"查看大图",nil];
+        AlertImg.animationDuration = 0.2;
+        [AlertImg show];
     }
     //修改基本信息（用户名，手机号，邮箱）
     else if (indexPath.section == 0&&indexPath.row != 0) {
@@ -242,7 +246,25 @@
         NSLog(@"退出登录");
     }
 }
-
+///点击提示框按钮回调
+- (void)actionSheet:(LCActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    ///拍照
+    if (buttonIndex == 1) {
+        [self persentImagePicker:1];
+    }
+    ///手机相册
+    else if (buttonIndex == 2){
+        [self persentImagePicker:0];
+    }
+    ///查看大图
+    else if (buttonIndex == 3){
+        NSDictionary *dic = [_tyUser objectForKey:tyUserUserInfo];
+        ImageEnlargeViewController *imageEnlargeVC = [[ImageEnlargeViewController alloc]init];
+        imageEnlargeVC.imageUrlArrays = @[[NSString stringWithFormat:@"%@%@",systemHttpsTyUser,dic[@"headImg"]]];
+        imageEnlargeVC.imageIndex = 1;
+        [self presentViewController:imageEnlargeVC animated:YES completion:nil];
+    }
+}
 ///调用本地相册或摄像头(picParameter:0、手机相册，1、手机摄像头
 - (void)persentImagePicker:(NSInteger)picParameter{
     if (!_imagePickerG) {

@@ -276,8 +276,10 @@
 }
 ///判断科目是否激活（登录情况下）
 - (void)determineSubjectActive{
+    [SVProgressHUD show];
     NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[_dicSelectSubject[@"Id"] integerValue]],_dicUser[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+//        [SVProgressHUD dismiss];
         NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSLog(@"%@",dicActive);
         if ([dicActive[@"code"] integerValue] == 1) {
@@ -290,22 +292,14 @@
             else{
                 _isActiveSubject = NO;
             }
-            
             [self tiKuDoTopic];
         }
     } RequestFaile:^(NSError *error) {
-        
+        httpsErrorShow;
     }];
 }
 ///未登录情况下判断科目是否可做（根据价格）
 - (void)determineSubjectCanDo{
-//    NSString *subPrice = [NSString stringWithFormat:@"%.2f",[_dicSelectSubject[@"price"] floatValue]];
-//    if ([subPrice floatValue] > 0) {
-//        _isActiveSubject = YES;
-//    }
-//    else{
-//        _isActiveSubject = NO;
-//    }
     _isActiveSubject = NO;
     [self tiKuDoTopic];
 }
