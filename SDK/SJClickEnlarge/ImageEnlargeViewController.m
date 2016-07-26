@@ -129,7 +129,7 @@
 //    }];
 //    [alertView showLXAlertView];
     _imageShow = image;
-    LCActionSheet *alertImg = [LCActionSheet sheetWithTitle:@"图片保存" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"保存", nil];
+    LCActionSheet *alertImg = [LCActionSheet sheetWithTitle:@"保存到本地" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"保存", nil];
     [alertImg show];
 }
 - (void)actionSheet:(LCActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{

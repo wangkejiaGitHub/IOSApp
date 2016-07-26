@@ -356,15 +356,6 @@
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="169"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kV7-1o-5Ze">
-                                                    <rect key="frame" x="95" y="15" width="237" height="20"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="20" id="H7K-Ao-tLD"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="创建时间：" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3c-Le-Ysl">
                                                     <rect key="frame" x="20" y="15" width="75" height="20"/>
                                                     <constraints>
@@ -447,6 +438,15 @@
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kV7-1o-5Ze">
+                                                    <rect key="frame" x="95" y="15" width="237" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="H7K-Ao-tLD"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="jhC-XL-sEJ" firstAttribute="trailing" secondItem="H3c-Le-Ysl" secondAttribute="trailing" id="0tx-v9-Uil"/>
@@ -502,9 +502,16 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="订单列表" id="cE8-Ww-utm"/>
+                    <navigationItem key="navigationItem" title="订单列表" id="cE8-Ww-utm">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="fbT-E2-weP">
+                            <connections>
+                                <action selector="buttonLiftItem:" destination="MRn-iv-N4y" id="mch-8y-SzP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="btnLiftItem" destination="fbT-E2-weP" id="BiP-wT-Hbx"/>
                         <outlet property="tableViewOrder" destination="V6D-aO-gtK" id="WZJ-rJ-Rr9"/>
                         <segue destination="3cM-hf-9rf" kind="show" identifier="orderinfo" id="ReD-hh-V6v"/>
                     </connections>

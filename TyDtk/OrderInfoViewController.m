@@ -22,6 +22,7 @@
     self.title = @"订单详情";
     [self addTableViewHeardOrderView];
 }
+
 ///添加头试图（展示订单信息）
 - (void)addTableViewHeardOrderView{
     ///添加viewH的目的是为了防止在6p或者6sp的手机运行时出现图层紊乱现象
@@ -39,7 +40,7 @@
     _tableViewOrder.tableHeaderView = viewH;
     ///未付款
     if ([_dicOrder[@"paymentStatus"] integerValue] == 5001) {
-        orderView.labOrderPayStatus.textColor = [UIColor redColor];
+        orderView.labOrderPayStatus.textColor = ColorWithRGB(90, 144, 266);
         [self addTableViewFooterView];
     }
     else{

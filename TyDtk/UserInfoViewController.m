@@ -66,7 +66,6 @@
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
         //让当前的tableView失去用户交互
         _tableViewUser.userInteractionEnabled = NO;
-        
     }
 }
 ///登录失败处理，在此不做任何操作

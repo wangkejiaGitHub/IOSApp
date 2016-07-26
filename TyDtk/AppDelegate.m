@@ -22,7 +22,7 @@
     // Override point for customization after application launch.
     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD setDefaultAnimationType:SVProgressHUDAnimationTypeNative];
-//    [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
+// [SVProgressHUD setDefaultMaskType:SVProgressHUDMaskTypeClear];
     
     
     //注册 微信
@@ -30,7 +30,7 @@
      参数1 : 微信Appid
      参数2 : 对项目的描述信息(用项目名称)
      */
-    [WXApi registerApp:@"wx5b46bf67c74352ac" withDescription:@"ff"];
+    [WXApi registerApp:@"wx5b46bf67c74352ac" withDescription:@"待测试。。。"];
     
     return YES;
 }
@@ -81,7 +81,6 @@
     return [WXApi handleOpenURL:url delegate:self];
 }
 #pragma mark 微信回调方法
-
 - (void)onResp:(BaseResp *)resp{
     NSString * strMsg = [NSString stringWithFormat:@"errorCode: %d",resp.errCode];
     NSLog(@"strMsg: %@",strMsg);
@@ -98,7 +97,6 @@
     
     NSString * wxPayResult;
     //判断是否是微信支付回调 (注意是PayResp 而不是PayReq)
-    
     if ([resp isKindOfClass:[PayResp class]])
     {
         //支付返回的结果, 实际支付结果需要去微信服务器端查询

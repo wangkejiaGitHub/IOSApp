@@ -10,6 +10,8 @@
 #import "OrderInfoViewController.h"
 @interface MyOrderViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewOrder;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *btnLiftItem;
+
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSDictionary *dicUserInfo;
 ///订单列表数组(可追加)
@@ -30,6 +32,7 @@
 @property (nonatomic,strong) ViewNullData *viewNilData;
 //朦层
 @property (nonatomic,strong) MZView *viewMz;
+@property (nonatomic,assign) NSInteger intOrderCount;
 @end
 
 @implementation MyOrderViewController
@@ -44,12 +47,15 @@
     [self addRefreshForTableViewHeader];
     ///默认获取的是未付款的订单:5001
     _intPaymentStatus = 5001;
-    
+    _btnLiftItem.title = @"未支付";
     _intPageSize = 20;
     _intPages = 0;
     _intCurrPage = 1;
     [SVProgressHUD show];
     [self getAllOrderList];
+}
+- (void)viewWillAppear:(BOOL)animated{
+    NSLog(@"fasfsa");
 }
 ///添加下拉刷新
 - (void)addRefreshForTableViewHeader{
@@ -67,34 +73,43 @@
     _tableViewOrder.mj_footer = _refreshFooter;
     _tableViewOrder.tableFooterView = [UIView new];
 }
-///添加tableView头试图
-- (void)addTableViewHeardView{
-    UIView *viewHeard = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 50)];
-    viewHeard.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    UIView *viewLine = [[UIView alloc]initWithFrame:CGRectMake(0, 48, Scr_Width, 2)];
-    viewLine.backgroundColor = ColorWithRGB(190, 200, 252);
-    [viewHeard addSubview:viewLine];
-    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(15, 18, 113, 30)];
-    labText.text = @"我的订单列表";
-    labText.textAlignment = NSTextAlignmentCenter;
-    labText.backgroundColor = ColorWithRGB(190, 200, 252);
-    labText.textColor = ColorWithRGB(90, 144, 266);
-    labText.font = [UIFont systemFontOfSize:15.0];
-    [viewHeard addSubview:labText];
+
+///在没有订单数据时加载未试图
+- (void)addTableFooterView{
+    NSString *alertString;
+    if (_intPaymentStatus == 5001) {
+        alertString = @"暂时没有未支付订单";
+    }
+    else{
+        alertString = @"暂时没有已完成订单";
+    }
     
-    ///已完成按钮
-    UIButton *btnNoPay = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnNoPay.frame = CGRectMake(Scr_Width - 60 - 10, 25, 60, 23);
-    btnNoPay.backgroundColor = ColorWithRGB(190, 200, 252);
-    [btnNoPay setTitle:@"已完成" forState:UIControlStateNormal];
-    [btnNoPay setTitleColor:ColorWithRGB(90, 144, 266) forState:UIControlStateNormal];
-    btnNoPay.titleLabel.font = [UIFont systemFontOfSize:13.0];
-    btnNoPay.layer.masksToBounds = YES;
-    btnNoPay.layer.cornerRadius = 2;
-    [viewHeard addSubview:btnNoPay];
-    
-    _tableViewOrder.tableHeaderView = viewHeard;
+    UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 50)];
+    viewFooter.backgroundColor = [UIColor whiteColor];
+    UILabel *labAlert = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, Scr_Width - 40, 30)];
+    labAlert.text = alertString;
+    labAlert.textColor = [UIColor lightGrayColor];
+    labAlert.backgroundColor = [UIColor clearColor];
+    labAlert.font = [UIFont systemFontOfSize:15.0];
+    labAlert.textAlignment = NSTextAlignmentCenter;
+    [viewFooter addSubview:labAlert];
+    _tableViewOrder.tableFooterView = viewFooter;
 }
+///付款状态切换
+- (IBAction)buttonLiftItem:(UIBarButtonItem *)sender {
+    if (_intPaymentStatus == 5001) {
+        sender.title = @"已完成";
+        _intPaymentStatus = 5003;
+    }
+    else{
+        sender.title = @"未支付";
+        _intPaymentStatus = 5001;
+    }
+    _intCurrPage = 1;
+    _intPages = 0;
+    [self getAllOrderList];
+}
+
 //下拉刷新
 - (void)headerTabRefereshClick:(MJRefreshNormalHeader *)header{
     _intPages = 0;
@@ -132,18 +147,18 @@
                     for (NSDictionary *dicOrderList in arrayOrderList) {
                         [_arrayOrderList addObject:dicOrderList];
                     }
+                    [_viewNilData removeFromSuperview];
                     _tableViewOrder.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+                    _tableViewOrder.tableFooterView = [UIView new];
                 }
                 else{
-                    if (!_viewNilData) {
-                        _viewNilData = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) showText:@"没有订单信息"];
-                        [self.view addSubview:_viewNilData];
-                    }
+                    [self addTableFooterView];
                 }
             }
             NSDictionary *dicPage = dicOrder[@"page"];
             _intPages = [dicPage[@"pages"] integerValue];
             _intCurrPage = _intCurrPage + 1;
+            _intOrderCount = [dicPage[@"counts"] integerValue];
             [_refreshFooter endRefreshing];
             [_refreshHeader endRefreshing];
             [_tableViewOrder reloadData];
@@ -199,78 +214,27 @@
     UIView *viewLine = [[UIView alloc]initWithFrame:CGRectMake(0, 48, Scr_Width, 2)];
     viewLine.backgroundColor = ColorWithRGB(190, 200, 252);
     [viewHeard addSubview:viewLine];
-    UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(10, 18, 113, 30)];
-    labText.text = @"我的订单列表";
+    UILabel *labText = [[UILabel alloc]init];
+    labText.text = [NSString stringWithFormat:@"我的订单列表 (%ld)",_intOrderCount];
+    
+    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我的订单列表 (%ld)",_intOrderCount]];
+    [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor]
+                       range:NSMakeRange(7,labText.text.length - 7)];
+    UIFont *titleFont = [UIFont systemFontOfSize:16.0];
+    
+    [attriTitle addAttribute:NSFontAttributeName value:titleFont range:NSMakeRange(7,labText.text.length - 7)];
+    
+    CGSize sizeLab = [labText sizeThatFits:CGSizeMake(MAXFLOAT, 30)];
+    labText.frame = CGRectMake(15, 18, sizeLab.width + 10, 30);
     labText.textAlignment = NSTextAlignmentCenter;
     labText.backgroundColor = ColorWithRGB(190, 200, 252);
     labText.textColor = ColorWithRGB(90, 144, 266);
     labText.font = [UIFont systemFontOfSize:15.0];
+    [labText setAttributedText:attriTitle];
     [viewHeard addSubview:labText];
-    ///已完成按钮
-    UIButton *btnDidPay = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnDidPay.frame = CGRectMake(Scr_Width - 60 - 10, 25, 60, 23);
-    btnDidPay.backgroundColor = ColorWithRGB(190, 200, 252);
-    [btnDidPay setTitle:@"已完成" forState:UIControlStateNormal];
-    [btnDidPay setTitleColor:ColorWithRGB(90, 144, 266) forState:UIControlStateNormal];
-    btnDidPay.titleLabel.font = [UIFont systemFontOfSize:13.0];
-    btnDidPay.layer.masksToBounds = YES;
-    btnDidPay.layer.cornerRadius = 2;
-//    btnDidPay.layer.borderWidth = 1;
-//    btnDidPay.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    btnDidPay.tag = 101;
-    [btnDidPay addTarget:self action:@selector(buttonPayStatuClick:) forControlEvents:UIControlEventTouchUpInside];
-    [viewHeard addSubview:btnDidPay];
-    ///未完成按钮
-    UIButton *btnNoPay = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnNoPay.frame = CGRectMake(Scr_Width - 60 - 60 - 10 - 10, 25, 60, 23);
-    btnNoPay.backgroundColor = ColorWithRGB(190, 200, 252);
-    [btnNoPay setTitle:@"未付款" forState:UIControlStateNormal];
-    [btnNoPay setTitleColor:ColorWithRGB(90, 144, 266) forState:UIControlStateNormal];
-    btnNoPay.titleLabel.font = [UIFont systemFontOfSize:13.0];
-    btnNoPay.layer.masksToBounds = YES;
-    btnNoPay.layer.cornerRadius = 2;
-//    btnNoPay.layer.borderWidth = 1;
-//    btnNoPay.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    btnNoPay.tag = 100;
-    [btnNoPay addTarget:self action:@selector(buttonPayStatuClick:) forControlEvents:UIControlEventTouchUpInside];
-    [viewHeard addSubview:btnNoPay];
-    
-    if (_intPaymentStatus == 5001) {
-        btnNoPay.backgroundColor = [UIColor lightGrayColor];
-        [btnNoPay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }
-    else{
-        btnDidPay.backgroundColor = [UIColor lightGrayColor];
-        [btnDidPay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    }
     return viewHeard;
 }
-- (void)buttonPayStatuClick:(UIButton *)button{
-    UIView *supViewBtn = button.superview;
-    for (id subView in supViewBtn.subviews) {
-        if ([subView isKindOfClass:[UIButton class]]) {
-            UIButton *btn = (UIButton *)subView;
-            if (btn == button) {
-                NSLog(@"btn.tag == %ld",btn.tag);
-                btn.backgroundColor = [UIColor lightGrayColor];
-                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            }
-            else{
-                btn.backgroundColor = ColorWithRGB(190, 200, 252);
-                [btn setTitleColor:ColorWithRGB(90, 144, 266) forState:UIControlStateNormal];
-            }
-        }
-    }
-    if (button.tag == 100) {
-        _intPaymentStatus = 5001;
-    }
-    else{
-        _intPaymentStatus = 5003;
-    }
-    _intCurrPage = 1;
-    _intPages = 0;
-    [self getAllOrderList];
-}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 170;
 }
@@ -293,7 +257,7 @@
     }
     else{
         labPayStutas.text = dicOrder[@"paymentStatusName"];
-        labPayStutas.textColor = [UIColor redColor];
+        labPayStutas.textColor = ColorWithRGB(90, 144, 266);
     }
     labOrderId.text = dicOrder[@"id"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
