@@ -57,9 +57,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sl3-ul-ZJX">
-                        <rect key="frame" x="355" y="16" width="35" height="30"/>
+                        <rect key="frame" x="360" y="16" width="30" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="35" id="H5u-wO-FbX"/>
+                            <constraint firstAttribute="width" constant="30" id="H5u-wO-FbX"/>
                             <constraint firstAttribute="height" constant="30" id="dRb-FZ-A96"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>

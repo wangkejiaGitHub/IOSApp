@@ -30,15 +30,15 @@
     _buttonSave.layer.cornerRadius = 3;
     if (_updateInfoPar == 1) {
         self.title = @"用户名";
-        _textValue.placeholder = @"填写用户名";
+        _textValue.placeholder = @"用户名(请不要超过20位)";
     }
     else if (_updateInfoPar == 2){
         self.title = @"手机号";
-        _textValue.placeholder = @"填写手机号码";
+        _textValue.placeholder = @"手机号";
     }
     else if (_updateInfoPar == 3){
         self.title = @"邮箱";
-        _textValue.placeholder = @"填写邮箱地址";
+        _textValue.placeholder = @"邮箱地址";
     }
     //添加手势
     UITapGestureRecognizer *tapView = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick:)];
@@ -59,6 +59,10 @@
     if (self.updateInfoPar == 1) {
         if ([_textValue.text isEqualToString:@""]) {
             [SVProgressHUD showInfoWithStatus:@"用户名不能为空"];
+            return;
+        }
+        else if (_textValue.text.length > 20){
+            [SVProgressHUD showInfoWithStatus:@"字符过长，用户名不要超过20位字符！"];
             return;
         }
         //用户名
@@ -84,28 +88,26 @@
 
 ///修改手机号
 - (void)updateUserPhone{
-    if ([self checkTelNumber:_textValue.text]) {
+    if ([StringValidate phoneNumberStringValidate:_textValue.text]) {
         [self updateUserInfo:@"mobile" stringValue:_textValue.text];
     }
     else{
-        [SVProgressHUD showInfoWithStatus:@"请输入正确的手机号"];
+        [SVProgressHUD showInfoWithStatus:@"手机号码格式有误"];
     }
 }
 ///修改邮箱
 - (void)updateUserEmail{
-    [self updateUserInfo:@"email" stringValue:_textValue.text];
+    if ([StringValidate emailAddressStringValidate:_textValue.text]) {
+        [self updateUserInfo:@"email" stringValue:_textValue.text];
+    }
+    else{
+        [SVProgressHUD showInfoWithStatus:@"邮箱地址格式有误"];
+    }
 }
 ///修改用户名
 - (void)updateUserName{
   
     [self updateUserInfo:@"name" stringValue:_textValue.text];
-}
-//手机号匹配
--(BOOL)checkTelNumber:(NSString *)telNumber{
-    NSString *pattern = @"^1+[3-9]+\\d{9}";
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", pattern];
-    BOOL isMatch = [pred evaluateWithObject:telNumber];
-    return isMatch;
 }
 - (void)updateUserInfo:(NSString *)stringKey stringValue:(NSString *)value{
     NSDictionary *dicUser = [_tyUser objectForKey:tyUserUserInfo];

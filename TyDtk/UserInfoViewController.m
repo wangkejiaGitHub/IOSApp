@@ -133,7 +133,6 @@
                 else{
                     imageVU.image = [UIImage imageNamed:@"heardNilImg"];
                 }
-                
                 UIImageView *imgP = (UIImageView *)[cell.contentView viewWithTag:12];
                 imgP.layer.masksToBounds = YES;
                 imgP.layer.cornerRadius = imgP.bounds.size.width/2;

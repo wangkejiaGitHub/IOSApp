@@ -1017,7 +1017,6 @@
         NSString *postStr = [[NSString alloc]initWithData:dataPostStr encoding:NSUTF8StringEncoding];
         dicPost = @{@"rid":_rIdString,@"postStr":postStr};
     }
-    
     [HttpTools postHttpRequestURL:urlString RequestPram:dicPost RequestSuccess:^(id respoes) {
         NSDictionary *dicSchedule = (NSDictionary *)respoes;
         NSInteger codeId = [dicSchedule[@"code"] integerValue];
@@ -1079,7 +1078,6 @@
                 else if (_paperParameter == 4){
                     [self submitIntelligentPaper];
                 }
-                
             }
         }];
     }

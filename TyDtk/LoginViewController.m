@@ -67,7 +67,6 @@
     }
     [self.view addSubview:_mzView];
     [_loginUser LoginAppWithAccount:_textName.text password:_textPwd.text];
-    
 }
 
 ///登录成功回调

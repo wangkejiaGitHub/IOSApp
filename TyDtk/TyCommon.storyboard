@@ -740,7 +740,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBrg.jpeg" translatesAutoresizingMaskIntoConstraints="NO" id="0rg-im-EO6">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </imageView>
-                            <textField opaque="NO" clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入邮箱" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iUd-NW-wKc">
+                            <textField opaque="NO" clipsSubviews="YES" alpha="0.80000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入邮箱" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="iUd-NW-wKc">
                                 <rect key="frame" x="40" y="50" width="295" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="F29-RQ-Ezc"/>
@@ -1205,6 +1205,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="Wuf-Bz-oa3"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="上一题"/>
                                         <connections>
                                             <action selector="lastBtnClick:" destination="dbs-DQ-tMd" eventType="touchUpInside" id="WNe-vi-zMX"/>
@@ -1216,6 +1217,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="60" id="S71-d1-w2s"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="下一题"/>
                                         <connections>
                                             <action selector="nextBtnClick:" destination="dbs-DQ-tMd" eventType="touchUpInside" id="z0m-8g-shC"/>
@@ -1381,52 +1383,70 @@
                                 <rect key="frame" x="0.0" y="622" width="375" height="45"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gNp-Ls-6UM">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="45"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="60" height="45"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="BvE-fy-qxY"/>
+                                            <constraint firstAttribute="width" constant="60" id="BvE-fy-qxY"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="上一题"/>
                                         <connections>
                                             <action selector="buttonLastClick:" destination="IwN-au-9qu" eventType="touchUpInside" id="Jao-Gh-ASM"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FaT-Wx-WVX">
-                                        <rect key="frame" x="295" y="0.0" width="80" height="45"/>
+                                        <rect key="frame" x="315" y="0.0" width="60" height="45"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="UJI-Fe-Z3b"/>
+                                            <constraint firstAttribute="width" constant="60" id="UJI-Fe-Z3b"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="下一题"/>
                                         <connections>
                                             <action selector="buttonNextClick:" destination="IwN-au-9qu" eventType="touchUpInside" id="QjM-FV-xGM"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fuv-XE-zmm">
-                                        <rect key="frame" x="150" y="10" width="75" height="25"/>
+                                        <rect key="frame" x="90" y="10" width="70" height="25"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" constant="25" id="ffO-b1-K8c"/>
-                                            <constraint firstAttribute="width" constant="75" id="iC2-VT-vKr"/>
+                                            <constraint firstAttribute="height" constant="25" id="1vG-aK-Ejf"/>
+                                            <constraint firstAttribute="width" constant="70" id="e8G-HS-EF1"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <state key="normal" title="分析报告">
-                                            <color key="titleColor" red="1" green="0.13595605050000001" blue="0.14670809039999999" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="titleColor" red="0.24081095429999999" green="0.64520547120000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
                                             <action selector="buttonAnalysisClick:" destination="IwN-au-9qu" eventType="touchUpInside" id="pqs-GN-7Hk"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTI-kZ-Zww">
+                                        <rect key="frame" x="215" y="10" width="70" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="25" id="Jqi-Dp-ewx"/>
+                                            <constraint firstAttribute="width" constant="70" id="wcw-Ub-9Wy"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="只看错题">
+                                            <color key="titleColor" red="1" green="0.58331439269999996" blue="0.12216659539999999" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="buttonLookErrorTopic:" destination="IwN-au-9qu" eventType="touchUpInside" id="itL-Ap-BCl"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.92218177359999998" green="0.90175128199999999" blue="0.87757860519999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="Fuv-XE-zmm" firstAttribute="leading" secondItem="gNp-Ls-6UM" secondAttribute="trailing" constant="30" id="06a-dC-UFr"/>
                                     <constraint firstItem="gNp-Ls-6UM" firstAttribute="leading" secondItem="4cs-ZZ-i8R" secondAttribute="leading" id="3uC-jJ-a3A"/>
                                     <constraint firstAttribute="height" constant="45" id="6hk-mC-RYz"/>
                                     <constraint firstItem="FaT-Wx-WVX" firstAttribute="top" secondItem="4cs-ZZ-i8R" secondAttribute="top" id="Fpc-ns-1Mi"/>
+                                    <constraint firstItem="FaT-Wx-WVX" firstAttribute="leading" secondItem="GTI-kZ-Zww" secondAttribute="trailing" constant="30" id="Qa5-sW-7tr"/>
                                     <constraint firstItem="gNp-Ls-6UM" firstAttribute="top" secondItem="4cs-ZZ-i8R" secondAttribute="top" id="at5-RK-keJ"/>
-                                    <constraint firstItem="Fuv-XE-zmm" firstAttribute="centerY" secondItem="4cs-ZZ-i8R" secondAttribute="centerY" id="eB0-W1-ufO"/>
                                     <constraint firstAttribute="trailing" secondItem="FaT-Wx-WVX" secondAttribute="trailing" id="hEu-Hy-iLH"/>
+                                    <constraint firstItem="Fuv-XE-zmm" firstAttribute="centerY" secondItem="4cs-ZZ-i8R" secondAttribute="centerY" id="hsT-aC-ksM"/>
+                                    <constraint firstItem="GTI-kZ-Zww" firstAttribute="centerY" secondItem="4cs-ZZ-i8R" secondAttribute="centerY" id="lnt-R1-6dw"/>
                                     <constraint firstAttribute="bottom" secondItem="FaT-Wx-WVX" secondAttribute="bottom" id="nHa-i2-EO9"/>
-                                    <constraint firstItem="Fuv-XE-zmm" firstAttribute="centerX" secondItem="4cs-ZZ-i8R" secondAttribute="centerX" id="pFe-dq-KxY"/>
                                     <constraint firstAttribute="bottom" secondItem="gNp-Ls-6UM" secondAttribute="bottom" id="y8o-uR-GFh"/>
                                 </constraints>
                             </view>
@@ -1444,27 +1464,103 @@
                                 <action selector="buttonLiftItemClick:" destination="IwN-au-9qu" id="Mht-wp-nPb"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="MVq-kZ-9p5">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="WV8-FY-NKN">
-                                <rect key="frame" x="276" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="buttonRightClick:" destination="IwN-au-9qu" eventType="touchUpInside" id="cS4-rR-PSP"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="buttonAnalysis" destination="Fuv-XE-zmm" id="TSb-dS-Yb0"/>
-                        <outlet property="buttonRight" destination="WV8-FY-NKN" id="9Ke-mL-4PI"/>
+                        <outlet property="buttonErrorTopic" destination="GTI-kZ-Zww" id="JrN-38-HaL"/>
                         <outlet property="lastButton" destination="gNp-Ls-6UM" id="9ns-L0-SG7"/>
                         <outlet property="nextButton" destination="FaT-Wx-WVX" id="Flv-vB-f2I"/>
+                        <segue destination="oWh-sg-Mq5" kind="show" identifier="errortopic" id="Ryt-JT-ARl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="C6x-d1-EgB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-6726.5" y="2123.5"/>
+        </scene>
+        <!--Analysis Error Topic View Controller-->
+        <scene sceneID="yk9-JA-jIC">
+            <objects>
+                <viewController storyboardIdentifier="AnalysisErrorTopicViewController" id="oWh-sg-Mq5" customClass="AnalysisErrorTopicViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0Sr-32-gKx"/>
+                        <viewControllerLayoutGuide type="bottom" id="JEf-yn-8m0"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="VX6-li-ntO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q6J-lb-mCx">
+                                <rect key="frame" x="0.0" y="622" width="375" height="45"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gqz-n2-gQw">
+                                        <rect key="frame" x="0.0" y="0.0" width="70" height="45"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="bei-99-Dla"/>
+                                        </constraints>
+                                        <state key="normal" title="上一题"/>
+                                        <connections>
+                                            <action selector="buttonLastClick:" destination="oWh-sg-Mq5" eventType="touchUpInside" id="udv-ud-9gT"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9zX-I8-jhD">
+                                        <rect key="frame" x="305" y="0.0" width="70" height="45"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="uPC-f2-Wm1"/>
+                                        </constraints>
+                                        <state key="normal" title="下一题"/>
+                                        <connections>
+                                            <action selector="buttonNextClick:" destination="oWh-sg-Mq5" eventType="touchUpInside" id="UeO-z6-1HB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Odf-O7-1HS">
+                                        <rect key="frame" x="147" y="8" width="80" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="80" id="LSz-Bv-cPr"/>
+                                            <constraint firstAttribute="height" constant="30" id="UHa-4E-6cR"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <state key="normal" title="试题编号">
+                                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="buttonTopicCardClick:" destination="oWh-sg-Mq5" eventType="touchUpInside" id="ZEj-AE-zYb"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.92218177359999998" green="0.90175128199999999" blue="0.87757860519999997" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="Odf-O7-1HS" firstAttribute="centerY" secondItem="q6J-lb-mCx" secondAttribute="centerY" id="7An-wk-saz"/>
+                                    <constraint firstAttribute="bottom" secondItem="gqz-n2-gQw" secondAttribute="bottom" id="F2k-LG-hfz"/>
+                                    <constraint firstAttribute="trailing" secondItem="9zX-I8-jhD" secondAttribute="trailing" id="JK1-l0-O56"/>
+                                    <constraint firstItem="gqz-n2-gQw" firstAttribute="top" secondItem="q6J-lb-mCx" secondAttribute="top" id="Nh8-jf-pbv"/>
+                                    <constraint firstItem="Odf-O7-1HS" firstAttribute="centerX" secondItem="q6J-lb-mCx" secondAttribute="centerX" id="cXX-mr-JQh"/>
+                                    <constraint firstAttribute="height" constant="45" id="eRJ-yC-0bz"/>
+                                    <constraint firstItem="gqz-n2-gQw" firstAttribute="leading" secondItem="q6J-lb-mCx" secondAttribute="leading" id="nbm-Rq-0ho"/>
+                                    <constraint firstAttribute="bottom" secondItem="9zX-I8-jhD" secondAttribute="bottom" id="ncj-TY-PDW"/>
+                                    <constraint firstItem="9zX-I8-jhD" firstAttribute="top" secondItem="q6J-lb-mCx" secondAttribute="top" id="xDd-Kg-kP5"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="q6J-lb-mCx" firstAttribute="leading" secondItem="VX6-li-ntO" secondAttribute="leading" id="L4o-VP-u1W"/>
+                            <constraint firstItem="JEf-yn-8m0" firstAttribute="top" secondItem="q6J-lb-mCx" secondAttribute="bottom" id="Xwp-Ge-f91"/>
+                            <constraint firstAttribute="trailing" secondItem="q6J-lb-mCx" secondAttribute="trailing" id="oV8-9Q-uJc"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="buttonTopNum" destination="Odf-O7-1HS" id="Z51-Ld-Eez"/>
+                        <outlet property="lastButton" destination="gqz-n2-gQw" id="hBJ-I6-hrf"/>
+                        <outlet property="nextButton" destination="9zX-I8-jhD" id="ptB-e0-fuz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gr0-8A-RFJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6237.5" y="2123.5"/>
         </scene>
         <!--智能出题-->
         <scene sceneID="OOk-eV-02R">
@@ -2013,7 +2109,7 @@
         <image name="top_backbtn" width="12" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="3TO-hV-wL9"/>
         <segue reference="5ot-CK-4YJ"/>
-        <segue reference="Qot-Ol-gXn"/>
     </inferredMetricsTieBreakers>
 </document>

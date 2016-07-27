@@ -34,7 +34,7 @@
 //刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
 @property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
-@property (nonatomic,strong) ViewNullData *viewDataNil;
+//@property (nonatomic,strong) ViewNullData *viewDataNil;
 //记录再次做题时获取的每周精选rid
 @property (nonatomic,strong) NSString *ridAgainWeekTopic;
 @property (nonatomic,assign) BOOL isContinueDoTopic;
@@ -95,7 +95,6 @@
 - (void)headerRefereshClick:(MJRefreshNormalHeader *)reFresh{
     _pageCurr = 1;
     _pages = 0;
-    [_arrayExRe removeAllObjects];
     [self getExerciseRe];
 }
 ///获取当前专业下的所有科目
@@ -168,8 +167,7 @@
             }
             ///判断第一次加载时是否为空数据
             if (_arrayExRe.count == 0) {
-                _viewDataNil = [[ViewNullData alloc]initWithFrame:CGRectMake(0, 40, Scr_Width, Scr_Height - 40 - 64- 49) showText:@"没有更多记录了，换个做题试试看~"];
-                _tableViewRe.tableFooterView = _viewDataNil;
+                [self addTableFooterView];
             }
             else{
                 _tableViewRe.tableFooterView = [UIView new];
@@ -212,6 +210,21 @@
         httpsErrorShow;
     }];
 }
+///当没有做题记录数据时加载未试图
+- (void)addTableFooterView{
+    NSString *alertString = @"没有相关做题记录，换个科目或模块试试";
+    UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 50)];
+    viewFooter.backgroundColor = [UIColor whiteColor];
+    UILabel *labAlert = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, Scr_Width - 40, 30)];
+    labAlert.text = alertString;
+    labAlert.textColor = [UIColor lightGrayColor];
+    labAlert.backgroundColor = [UIColor clearColor];
+    labAlert.font = [UIFont systemFontOfSize:15.0];
+    labAlert.textAlignment = NSTextAlignmentCenter;
+    [viewFooter addSubview:labAlert];
+    _tableViewRe.tableFooterView = viewFooter;
+}
+
 ////////////////////////tableView代理
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _arrayExRe.count;

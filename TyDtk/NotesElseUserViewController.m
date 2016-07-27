@@ -24,8 +24,6 @@
 //刷新控件
 @property (nonatomic,strong) MJRefreshBackNormalFooter *refreshFooter;
 @property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
-//没有笔记时显示的view
-@property (nonatomic,strong) ViewNullData *viewNilData;
 @end
 
 @implementation NotesElseUserViewController
@@ -81,15 +79,12 @@
             _pages = [dicPages[@"pages"] integerValue];
             _pageCurrIndex = _pageCurrIndex + 1;
             NSArray *arrayNotes = dicNotes[@"datas"];
-            [_viewNilData removeFromSuperview];
+            
             if (arrayNotes.count == 0) {
-                if (!_viewNilData) {
-                    _viewNilData = [[ViewNullData alloc]initWithFrame:_tableViewNotes.frame showText:@"暂时没有其他用户笔记，点击刷新试试"];
-                    _viewNilData.delegateNullData = self;
-                }
-                [self.view addSubview:_viewNilData];
+                [self addTableFooterView];
             }
             else{
+                _tableViewNotes.tableFooterView = [UIView new];
                 for (NSDictionary *dicN in arrayNotes) {
                     [_arrayNotes addObject:dicN];
                 }
@@ -103,6 +98,20 @@
     }];
 
 }
+///当没有笔记数据时加载未试图
+- (void)addTableFooterView{
+    NSString *alertString = @"暂时没有更多笔记, 下拉刷新试试";
+    UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 50)];
+    viewFooter.backgroundColor = [UIColor whiteColor];
+    UILabel *labAlert = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, Scr_Width - 40, 30)];
+    labAlert.text = alertString;
+    labAlert.textColor = [UIColor lightGrayColor];
+    labAlert.backgroundColor = [UIColor clearColor];
+    labAlert.font = [UIFont systemFontOfSize:15.0];
+    labAlert.textAlignment = NSTextAlignmentCenter;
+    [viewFooter addSubview:labAlert];
+    _tableViewNotes.tableFooterView = viewFooter;
+}
 //上拉刷新
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)footer{
     [self getElseNotes];
@@ -112,14 +121,6 @@
     _pageCurrIndex = 1;
     _pages = 0;
     [_arrayNotes removeAllObjects];
-    [self getElseNotes];
-}
-//空数据时点击屏幕触发
-- (void)nullDataTapGestClick{
-    _pageCurrIndex = 1;
-    _pages = 0;
-    [_arrayNotes removeAllObjects];
-    [_viewNilData removeFromSuperview];
     [self getElseNotes];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

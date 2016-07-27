@@ -266,15 +266,7 @@
             //追加数据
             NSArray *arrayPaters = dicModelPapers[@"datas"];
             if (arrayPaters.count == 0) {
-                UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 100)];
-                view.backgroundColor = [UIColor whiteColor];
-                UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(30, 30, Scr_Width - 60, 30)];
-                labText.font = [UIFont systemFontOfSize:18.0];
-                labText.textColor= [UIColor lightGrayColor];
-                labText.textAlignment = NSTextAlignmentCenter;
-                labText.text = @"没有更多试卷了";
-                [view addSubview:labText];
-                _myTableView.tableFooterView = view;
+                [self addTableFooterView];
             }
             else{
                 for (NSDictionary *dicPater in arrayPaters) {
@@ -301,6 +293,20 @@
         _buttonLeveles.userInteractionEnabled = NO;
         _myTableView.userInteractionEnabled = YES;
     }];
+}
+///当没有科目试卷信息时，显示空数据视图信息
+- (void)addTableFooterView{
+    NSString *alertString = @"暂时没有更多相关试卷";
+    UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 50)];
+    viewFooter.backgroundColor = [UIColor whiteColor];
+    UILabel *labAlert = [[UILabel alloc]initWithFrame:CGRectMake(20, 10, Scr_Width - 40, 30)];
+    labAlert.text = alertString;
+    labAlert.textColor = [UIColor lightGrayColor];
+    labAlert.backgroundColor = [UIColor clearColor];
+    labAlert.font = [UIFont systemFontOfSize:15.0];
+    labAlert.textAlignment = NSTextAlignmentCenter;
+    [viewFooter addSubview:labAlert];
+    _myTableView.tableFooterView = viewFooter;
 }
 /**
  获取试卷类型

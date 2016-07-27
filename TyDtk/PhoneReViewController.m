@@ -78,7 +78,7 @@
 //立即注册
 - (IBAction)registButtonClick:(UIButton *)sender {
     if (_allowRegiste && _textPwd.text.length>0) {
-        if ([PasswordValidate PassWordStringValidate:_textPwd.text]) {
+        if ([StringValidate passWordStringValidate:_textPwd.text]) {
             [self viewTapTextRfr];
             [self startRegiste];
         }

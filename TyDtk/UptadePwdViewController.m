@@ -59,7 +59,7 @@
         return;
     }
     else{
-        if ([PasswordValidate PassWordStringValidate:_textPwdAg.text]) {
+        if ([StringValidate passWordStringValidate:_textPwdAg.text]) {
             [self updateUserPwd];
         }
         else{

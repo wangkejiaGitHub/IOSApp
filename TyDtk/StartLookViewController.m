@@ -264,7 +264,6 @@
                 return;
             }
         }
-        
         //收藏的试题
         if (_parameterView == 1) {
             [self getCollectTopicWithChaperId:_chaperId];
@@ -279,7 +278,6 @@
     if (scrollView.contentOffset.x < -20) {
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
 }
 //////////////////////////////////////////////////////////////////
 - (IBAction)buttonTopicCardClick:(UIButton *)sender {

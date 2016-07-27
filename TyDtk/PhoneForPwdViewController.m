@@ -77,7 +77,7 @@
         return;
     }
     else{
-        if ([PasswordValidate PassWordStringValidate:_textPwdAgain.text]) {
+        if ([StringValidate passWordStringValidate:_textPwdAgain.text]) {
             [self startFindPwdWithPhone];
             [self viewTapTextRfr];
         }

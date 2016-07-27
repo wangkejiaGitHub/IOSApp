@@ -9,16 +9,19 @@
 #import "StartAnalysisTopicViewController.h"
 #import "PaperTopicAnalysisViewController.h"
 #import "NotesViewController.h"
+#import "AnalysisErrorTopicViewController.h"
 @interface StartAnalysisTopicViewController ()<TopicAnalysisCardDelegate,persentNotesDelegate,UIScrollViewDelegate>
 //所有展示试题的容器
-//@property (weak, nonatomic) IBOutlet UIScrollView *scrollViewPater;
-@property (weak, nonatomic) IBOutlet UIButton *buttonRight;
+//@property (weak, nonatomic) IBOutlet UIButton *buttonRight;
 
 @property (nonatomic,strong) UIScrollView *scrollViewPater;
 @property (weak, nonatomic) IBOutlet UIButton *lastButton;
 @property (weak, nonatomic) IBOutlet UIButton *nextButton;
 
 @property (weak, nonatomic) IBOutlet UIButton *buttonAnalysis;
+@property (weak, nonatomic) IBOutlet UIButton *buttonErrorTopic;
+
+@property (nonatomic,strong) UIBarButtonItem *buttonItemR;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) TopicAnalysisCardView *cardView;
 @property (nonatomic,assign) BOOL isShowTopicCard;
@@ -62,12 +65,24 @@
     [self.view addSubview:_scrollViewPater];
      _tyUser = [NSUserDefaults standardUserDefaults];
     _accessToken = [_tyUser objectForKey:tyUserAccessToken];
-    _buttonRight.userInteractionEnabled = NO;
-    [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
+//    _buttonRight.userInteractionEnabled = NO;
+//    [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
+    ///////
+    _buttonItemR = [[UIBarButtonItem alloc]initWithTitle:@"答题卡" style:UIBarButtonItemStylePlain target:self action:@selector(buttonItemRClick:)];
+    self.navigationItem.rightBarButtonItem = _buttonItemR;
+    ///////
     _buttonAnalysis.userInteractionEnabled = NO;
     _buttonAnalysis.layer.masksToBounds = YES;
     _buttonAnalysis.layer.cornerRadius = 5;
-    _buttonAnalysis.backgroundColor = ColorWithRGB(200, 200, 200);
+    _buttonAnalysis.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [_buttonAnalysis setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+    
+    _buttonErrorTopic.userInteractionEnabled = NO;
+    _buttonErrorTopic.layer.masksToBounds = YES;
+    _buttonErrorTopic.layer.cornerRadius = 5;
+    _buttonErrorTopic.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [_buttonErrorTopic setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+    
     [self getTopicAnalysisPaper];
     
 }
@@ -177,7 +192,7 @@
             _scrollViewPater.contentSize = CGSizeMake(_scrollContentWidth*Scr_Width, _scrollViewPater.bounds.size.height);
             
             [self addChildViewWithTopicForSelf];
-            _buttonRight.userInteractionEnabled = YES;
+//            _buttonRight.userInteractionEnabled = YES;
             [self addAnalysisTpoicCard];
             ///添加分析报告
             if (_paperAnalysisParameter == 1) {
@@ -193,6 +208,7 @@
                 [self getIntelligentPaperAnalysisReportInfo];
             }
             _buttonAnalysis.userInteractionEnabled = YES;
+            _buttonErrorTopic.userInteractionEnabled = YES;
             [SVProgressHUD dismiss];
         }
         else{
@@ -422,6 +438,11 @@
 - (void)viewAnalysisHiden:(UISwipeGestureRecognizer *)swipe{
      [self hidenViewAnalysis];
 }
+///只看错题
+- (IBAction)buttonLookErrorTopic:(UIButton *)sender {
+    [self performSegueWithIdentifier:@"errortopic" sender:_rId];
+}
+
 //显示分析报告试图
 - (IBAction)buttonAnalysisClick:(UIButton *)sender {
     [self addViewAnalysisForAnalysis];
@@ -468,7 +489,16 @@
 }
 
 //隐藏或显示答题卡
-- (IBAction)buttonRightClick:(UIButton *)sender {
+//- (IBAction)buttonRightClick:(UIButton *)sender {
+//    _isShowTopicCard = !_isShowTopicCard;
+//    if (_isShowTopicCard) {
+//        [self topicCardShow];
+//    }
+//    else{
+//        [self topicCardHiden];
+//    }
+//}
+- (void)buttonItemRClick:(UIBarButtonItem *)item{
     _isShowTopicCard = !_isShowTopicCard;
     if (_isShowTopicCard) {
         [self topicCardShow];
@@ -477,7 +507,6 @@
         [self topicCardHiden];
     }
 }
-
 /**
  添加解析答题卡信息
  */
@@ -492,7 +521,8 @@
  显示答题卡
  */
 - (void)topicCardShow{
-    [_buttonRight setTitle:@"隐藏答题卡" forState:UIControlStateNormal];
+//    [_buttonRight setTitle:@"隐藏答题卡" forState:UIControlStateNormal];
+    _buttonItemR.title = @"隐藏答题卡";
     //    [_collectionViewTopicCard setContentOffset:CGPointMake(0, 0) animated:YES];
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rect = _cardView.frame;
@@ -505,7 +535,9 @@
  */
 - (void)topicCardHiden{
     _isShowTopicCard = NO;
-    [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
+    _buttonItemR.title = @"";
+//    [_buttonRight setTitle:@"试卷答题卡" forState:UIControlStateNormal];
+    _buttonItemR.title = @"答题卡";
     [UIView animateWithDuration:0.2 animations:^{
         CGRect rect = _cardView.frame;
         rect.origin.x = Scr_Width;
@@ -598,11 +630,13 @@
     noteVc.questionId = questionId;
     [self.navigationController pushViewController:noteVc animated:YES];
 }
-//跳转到笔记界面
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//    NotesDataViewController *notesVc = segue.destinationViewController;
-//    notesVc.questionId = sender;
-//}
+//跳转到只看错题页面
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"errortopic"]) {
+        AnalysisErrorTopicViewController *errorTp = segue.destinationViewController;
+        errorTp.ridError = _rId;
+    }
+}
 //scrollView代理
 //动画结束，控制不让‘上一题’，‘下一题’连续点击
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView{

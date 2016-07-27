@@ -225,7 +225,7 @@
     [attriTitle addAttribute:NSFontAttributeName value:titleFont range:NSMakeRange(7,labText.text.length - 7)];
     
     CGSize sizeLab = [labText sizeThatFits:CGSizeMake(MAXFLOAT, 30)];
-    labText.frame = CGRectMake(15, 18, sizeLab.width + 10, 30);
+    labText.frame = CGRectMake(15, 18, sizeLab.width + 15, 30);
     labText.textAlignment = NSTextAlignmentCenter;
     labText.backgroundColor = ColorWithRGB(190, 200, 252);
     labText.textColor = ColorWithRGB(90, 144, 266);

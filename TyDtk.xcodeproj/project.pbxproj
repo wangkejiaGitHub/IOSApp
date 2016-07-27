@@ -131,7 +131,6 @@
 		1D489FF21D2BBB0D00D8665F /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1D489FED1D2BBB0D00D8665F /* README.txt */; };
 		1D489FF41D2BBB4F00D8665F /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D489FF31D2BBB4F00D8665F /* libsqlite3.0.tbd */; };
 		1D4DDC5D1D3DB5A10091E04C /* TestCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4DDC5C1D3DB5A10091E04C /* TestCenterViewController.m */; };
-		1D4DDC631D3E25030091E04C /* PasswordValidate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4DDC621D3E25030091E04C /* PasswordValidate.m */; };
 		1D56B7621D2B55610072E53B /* cog.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D56B7611D2B55610072E53B /* cog.png */; };
 		1D579EF71CE9668100578519 /* NSObject+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */; };
 		1D579EF81CE9668100578519 /* NSString+Zirkfied.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D579ED61CE9668100578519 /* NSString+Zirkfied.m */; };
@@ -203,6 +202,9 @@
 		1DC9B9091CE46A9E00A2E9A8 /* ZFPopupMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9051CE46A9E00A2E9A8 /* ZFPopupMenuItem.m */; };
 		1DC9B90A1CE46A9E00A2E9A8 /* ZFPopupOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */; };
 		1DCA16341CFD7DD10045229B /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCA16331CFD7DD10045229B /* UserInfoViewController.m */; };
+		1DCDBE141D484D1000DB1481 /* SSColorfulRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCDBE131D484D1000DB1481 /* SSColorfulRefresh.m */; };
+		1DCDBE171D4882B700DB1481 /* StringValidate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCDBE161D4882B700DB1481 /* StringValidate.m */; };
+		1DCDBE1B1D48A7E900DB1481 /* AnalysisErrorTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCDBE1A1D48A7E900DB1481 /* AnalysisErrorTopicViewController.m */; };
 		1DCE72E51D41F51B00D09209 /* DOPDropDownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCE72E41D41F51B00D09209 /* DOPDropDownMenu.m */; };
 		1DCE72E91D41FF0100D09209 /* AboutAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCE72E81D41FF0100D09209 /* AboutAppViewController.m */; };
 		1DD126BC1D1A1D42003853E5 /* try.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD126BB1D1A1D42003853E5 /* try.png */; };
@@ -614,8 +616,6 @@
 		1D489FF31D2BBB4F00D8665F /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		1D4DDC5B1D3DB5A10091E04C /* TestCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCenterViewController.h; sourceTree = "<group>"; };
 		1D4DDC5C1D3DB5A10091E04C /* TestCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCenterViewController.m; sourceTree = "<group>"; };
-		1D4DDC611D3E25030091E04C /* PasswordValidate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordValidate.h; sourceTree = "<group>"; };
-		1D4DDC621D3E25030091E04C /* PasswordValidate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordValidate.m; sourceTree = "<group>"; };
 		1D56B7611D2B55610072E53B /* cog.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cog.png; sourceTree = "<group>"; };
 		1D579ED31CE9668100578519 /* NSObject+Zirkfied.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Zirkfied.h"; sourceTree = "<group>"; };
 		1D579ED41CE9668100578519 /* NSObject+Zirkfied.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Zirkfied.m"; sourceTree = "<group>"; };
@@ -745,6 +745,12 @@
 		1DC9B9071CE46A9E00A2E9A8 /* ZFPopupOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZFPopupOverlayView.m; sourceTree = "<group>"; };
 		1DCA16321CFD7DD10045229B /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
 		1DCA16331CFD7DD10045229B /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
+		1DCDBE121D484D1000DB1481 /* SSColorfulRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSColorfulRefresh.h; sourceTree = "<group>"; };
+		1DCDBE131D484D1000DB1481 /* SSColorfulRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSColorfulRefresh.m; sourceTree = "<group>"; };
+		1DCDBE151D4882B700DB1481 /* StringValidate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringValidate.h; sourceTree = "<group>"; };
+		1DCDBE161D4882B700DB1481 /* StringValidate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StringValidate.m; sourceTree = "<group>"; };
+		1DCDBE191D48A7E900DB1481 /* AnalysisErrorTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnalysisErrorTopicViewController.h; sourceTree = "<group>"; };
+		1DCDBE1A1D48A7E900DB1481 /* AnalysisErrorTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnalysisErrorTopicViewController.m; sourceTree = "<group>"; };
 		1DCE72E31D41F51B00D09209 /* DOPDropDownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DOPDropDownMenu.h; sourceTree = "<group>"; };
 		1DCE72E41D41F51B00D09209 /* DOPDropDownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DOPDropDownMenu.m; sourceTree = "<group>"; };
 		1DCE72E71D41FF0100D09209 /* AboutAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutAppViewController.h; sourceTree = "<group>"; };
@@ -1005,8 +1011,8 @@
 				1D15C49C1D193C5A006C15A7 /* GuideView.m */,
 				1DE3C1571D2E268300415120 /* LoginUser.h */,
 				1DE3C1581D2E268300415120 /* LoginUser.m */,
-				1D4DDC611D3E25030091E04C /* PasswordValidate.h */,
-				1D4DDC621D3E25030091E04C /* PasswordValidate.m */,
+				1DCDBE151D4882B700DB1481 /* StringValidate.h */,
+				1DCDBE161D4882B700DB1481 /* StringValidate.m */,
 			);
 			name = CustomTools;
 			sourceTree = "<group>";
@@ -1513,6 +1519,7 @@
 		1D67D8461D0F8D13004720E0 /* DoTopic */ = {
 			isa = PBXGroup;
 			children = (
+				1DCDBE181D48A7C000DB1481 /* LookErrorTopic */,
 				1DDA96CF1CDC34D2001A7DAE /* AnalysisTopic */,
 				1DDA96CE1CDC34A6001A7DAE /* AnswerTopic */,
 				1D165E671CD1DA1E00F61EAE /* NotesView.xib */,
@@ -1708,6 +1715,24 @@
 			);
 			name = ZFPopupMenu;
 			path = ../TyDtk/ZFPopupMenu;
+			sourceTree = "<group>";
+		};
+		1DCDBE111D484D1000DB1481 /* SSColorfulRefresh */ = {
+			isa = PBXGroup;
+			children = (
+				1DCDBE121D484D1000DB1481 /* SSColorfulRefresh.h */,
+				1DCDBE131D484D1000DB1481 /* SSColorfulRefresh.m */,
+			);
+			path = SSColorfulRefresh;
+			sourceTree = "<group>";
+		};
+		1DCDBE181D48A7C000DB1481 /* LookErrorTopic */ = {
+			isa = PBXGroup;
+			children = (
+				1DCDBE191D48A7E900DB1481 /* AnalysisErrorTopicViewController.h */,
+				1DCDBE1A1D48A7E900DB1481 /* AnalysisErrorTopicViewController.m */,
+			);
+			name = LookErrorTopic;
 			sourceTree = "<group>";
 		};
 		1DCE72E21D41F51B00D09209 /* DropDownMenu */ = {
@@ -2019,6 +2044,7 @@
 		1DEDC8331C9FA2920083B394 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				1DCDBE111D484D1000DB1481 /* SSColorfulRefresh */,
 				1D27EFC31D45A9C200D3D2FA /* LCActionSheet */,
 				1DCE72E21D41F51B00D09209 /* DropDownMenu */,
 				1D3781741D3F176F0025BEC7 /* SYNavigationDropdownMenu */,
@@ -2533,9 +2559,11 @@
 				1DC18F091CB795D50006D642 /* MJRefreshNormalHeader.m in Sources */,
 				1DF9506F1CA3BFC500104597 /* SVProgressHUD.m in Sources */,
 				1D27EFEF1D45A9C200D3D2FA /* View+MASAdditions.m in Sources */,
+				1DCDBE1B1D48A7E900DB1481 /* AnalysisErrorTopicViewController.m in Sources */,
 				1DCE72E51D41F51B00D09209 /* DOPDropDownMenu.m in Sources */,
 				1D1CD88D1CD2EE4800A80E88 /* LXAlertView.m in Sources */,
 				1DEDC8161C9F880E0083B394 /* IndexViewController.m in Sources */,
+				1DCDBE141D484D1000DB1481 /* SSColorfulRefresh.m in Sources */,
 				1D2A6B1B1CB4AC72005D3455 /* ModelPapersViewController.m in Sources */,
 				1DF7658D1CE16E11002DE129 /* NotesUserViewController.m in Sources */,
 				1DEDC8791C9FA66B0083B394 /* AFSecurityPolicy.m in Sources */,
@@ -2551,6 +2579,7 @@
 				1DBD93B91D08163D0050848D /* MGSwipeTableCell.m in Sources */,
 				1DFE7A781D1D0BB800D7E504 /* viewSelectSubject.m in Sources */,
 				1DDE066B1CAA296A00FA1505 /* EmailForPwdViewController.m in Sources */,
+				1DCDBE171D4882B700DB1481 /* StringValidate.m in Sources */,
 				1DD127131D1A8F96003853E5 /* MyNoteViewController.m in Sources */,
 				1DC18F0D1CB795D50006D642 /* UIScrollView+MJExtension.m in Sources */,
 				1D579F031CE9668100578519 /* ZFPieChart.m in Sources */,
@@ -2631,7 +2660,6 @@
 				1DBD93B81D08163D0050848D /* MGSwipeButton.m in Sources */,
 				1DF765901CE16E32002DE129 /* NotesElseUserViewController.m in Sources */,
 				1DEDC8561C9FA2920083B394 /* MKAnnotationView+WebCache.m in Sources */,
-				1D4DDC631D3E25030091E04C /* PasswordValidate.m in Sources */,
 				1D92C88E1D138A74006A937F /* TopicLookQtype3TableViewCell.m in Sources */,
 				1D18A0301CABB0E00022642C /* SubjectInfoViewController.m in Sources */,
 				1DC18F0E1CB795D50006D642 /* UIScrollView+MJRefresh.m in Sources */,

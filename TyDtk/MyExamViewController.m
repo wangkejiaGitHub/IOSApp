@@ -101,7 +101,7 @@
     [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
     ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self LevelsMenuItemArray]];
     CGRect rectBtn;
-    rectBtn.origin.y = 60;
+    rectBtn.origin.y = 46;
     rectBtn.origin.x = Scr_Width - 30;
     [popupMenu showInView:self.navigationController.view fromRect:rectBtn layoutType:Vertical];
     [self.navigationController.view addSubview:popupMenu];

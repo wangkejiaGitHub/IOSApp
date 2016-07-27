@@ -14,6 +14,7 @@
 #import "ExerciseRecordViewController.h"
 #import "ImageEnlargeViewController.h"
 
+#import "SSColorfulRefresh.h"
 @interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate,LoginDelegate,LCActionSheetDelegate>
 ///用于判断用户是否登录
 @property (nonatomic,assign) BOOL isLoginUser;
@@ -33,12 +34,20 @@
 @property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
 
 @property (nonatomic,strong) LoginUser *loginUser;
+
 @end
 
 @implementation UserIndexViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+//    NSArray *arrayColor = @[ColorWithRGB(175, 18, 88),
+//                            ColorWithRGB(244, 13, 100),
+//                            ColorWithRGB(90, 13, 67),
+//                            ColorWithRGB(244, 222, 41),
+//                            ColorWithRGB(179, 197, 135),
+//                            ColorWithRGB(18, 53, 85)];
     // Do any additional setup after loading the view.
     _tyUser = [NSUserDefaults standardUserDefaults];
     _loginUser = [[LoginUser alloc]init];
@@ -58,6 +67,7 @@
     [self userLoginStatus];
     [SVProgressHUD dismiss];
 }
+
 ///判断用户的登录状态
 - (void)userLoginStatus{
     if ([_tyUser objectForKey:tyUserUserInfo]) {
@@ -71,6 +81,7 @@
         _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
     }
     [_tableViewList reloadData];
+    
 }
 
 ///添加tableView头试图

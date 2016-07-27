@@ -70,7 +70,7 @@
 //完成拖拽
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     NSLog(@"eeeee");
-    if (scrollView.contentOffset.x<0) {
+    if (scrollView.contentOffset.x< - 20) {
         NSLog(@"fsfffff");
         [self.navigationController popViewControllerAnimated:YES];
     }
