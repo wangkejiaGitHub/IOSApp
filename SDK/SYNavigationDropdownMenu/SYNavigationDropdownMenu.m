@@ -147,39 +147,48 @@
 
 - (UITableView *)menuTableView {
     if (_menuTableView == nil) {
-        _menuTableView = [[UITableView alloc] initWithFrame:self.menuBackgroundView.bounds style:UITableViewStylePlain];
+//        _menuTableView = [[UITableView alloc] initWithFrame:self.menuBackgroundView.bounds style:UITableViewStylePlain];
+        ///修改者：王可佳
+        _menuTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, Scr_Width, [self getTableViewHeightWithItemCount]) style:UITableViewStylePlain];
+        ///修改者：王可佳
         _menuTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
         _menuTableView.dataSource = self;
         _menuTableView.delegate = self;
         _menuTableView.backgroundColor = [UIColor clearColor];
         /////////////////修改者：王可佳
-//        _menuTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 0.0, CGFLOAT_MIN)];
-        _menuTableView.tableFooterView = [self addTableFooterView];
+        _menuTableView.tableFooterView = [UIView new];
+        _menuTableView.showsVerticalScrollIndicator = YES;
         /////////////////修改者：王可佳
         [_menuTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"Cell"];
         [self.menuBackgroundView addSubview:_menuTableView];
+        
+        ///修改者：王可佳
+        UIView *tapView = [[UIView alloc]initWithFrame:CGRectMake(0, _menuTableView.frame.origin.y + _menuTableView.frame.size.height , Scr_Width, self.menuBackgroundView.bounds.size.height - (_menuTableView.frame.origin.y + _menuTableView.frame.size.height))];
+        tapView.backgroundColor = [UIColor clearColor];
+        [self.menuBackgroundView addSubview:tapView];
+        UITapGestureRecognizer *tapBack = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapBackClick:)];
+        [tapView addGestureRecognizer:tapBack];
+        ///修改者：王可佳
+        
     }
     return _menuTableView;
 }
 /////////////////修改者：王可佳
-- (UIView *)addTableFooterView{
-    CGFloat footerViewHeight;
-    if (_menuItemCount * 45 >= (Scr_Height - 64)) {
-        footerViewHeight = 53;
-    }
-    else{
-        footerViewHeight = (Scr_Height - 64) - _menuItemCount * 45;
-    }
-    UIView *viewFooter = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.menuBackgroundView.bounds.size.width, footerViewHeight)];
-    viewFooter.backgroundColor = [UIColor clearColor];
-    UITapGestureRecognizer *tapTest = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapTestClick:)];
-    [viewFooter addGestureRecognizer:tapTest];
-    return viewFooter;
-}
-- (void)tapTestClick:(UITapGestureRecognizer *)tap{
+- (void)tapBackClick:(UITapGestureRecognizer *)tapGest{
     [self.dataSource menuTableFooterClick];
 }
-//////////////////
+///根据item的个数计算tableView的最大高度
+- (CGFloat)getTableViewHeightWithItemCount{
+    CGFloat maxH = Scr_Height/3 * 2 - 45;
+    CGFloat tabH = 45 * _menuItemCount;
+    if (tabH > maxH) {
+        return maxH;
+    }
+    else{
+        return tabH;
+    }
+}
+/////////////////修改者：王可佳
 - (UIView *)menuHeaderView {
     if (_menuHeaderView == nil) {
         _menuHeaderView = [[UIView alloc] initWithFrame:CGRectZero];

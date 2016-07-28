@@ -153,6 +153,7 @@
 		1D86FA331CCDFC23007DF87C /* ErrorTopicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */; };
 		1D88F0601D49ED6A0043883E /* getIPhoneIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88F05D1D49ED6A0043883E /* getIPhoneIP.m */; };
 		1D88F0611D49ED6A0043883E /* WXSignMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88F05F1D49ED6A0043883E /* WXSignMD5.m */; };
+		1D88F0651D49F0EF0043883E /* ODRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88F0641D49F0EF0043883E /* ODRefreshControl.m */; };
 		1D92C8841D13828D006A937F /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D92C8821D13828D006A937F /* NotesViewController.m */; };
 		1D92C8851D13828D006A937F /* NotesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D92C8831D13828D006A937F /* NotesViewController.xib */; };
 		1D92C8891D1389EB006A937F /* TopicLookQtpye1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D92C8881D1389EB006A937F /* TopicLookQtpye1TableViewCell.m */; };
@@ -658,6 +659,8 @@
 		1D88F05D1D49ED6A0043883E /* getIPhoneIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = getIPhoneIP.m; sourceTree = "<group>"; };
 		1D88F05E1D49ED6A0043883E /* WXSignMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXSignMD5.h; sourceTree = "<group>"; };
 		1D88F05F1D49ED6A0043883E /* WXSignMD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXSignMD5.m; sourceTree = "<group>"; };
+		1D88F0631D49F0EF0043883E /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
+		1D88F0641D49F0EF0043883E /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
 		1D92C8811D13828D006A937F /* NotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesViewController.h; sourceTree = "<group>"; };
 		1D92C8821D13828D006A937F /* NotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesViewController.m; sourceTree = "<group>"; };
 		1D92C8831D13828D006A937F /* NotesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesViewController.xib; sourceTree = "<group>"; };
@@ -1543,6 +1546,15 @@
 			path = WXSign;
 			sourceTree = "<group>";
 		};
+		1D88F0621D49F0EF0043883E /* ODRefreshControl */ = {
+			isa = PBXGroup;
+			children = (
+				1D88F0631D49F0EF0043883E /* ODRefreshControl.h */,
+				1D88F0641D49F0EF0043883E /* ODRefreshControl.m */,
+			);
+			path = ODRefreshControl;
+			sourceTree = "<group>";
+		};
 		1D92C8861D1389A9006A937F /* cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2055,6 +2067,7 @@
 		1DEDC8331C9FA2920083B394 /* SDK */ = {
 			isa = PBXGroup;
 			children = (
+				1D88F0621D49F0EF0043883E /* ODRefreshControl */,
 				1DCDBE111D484D1000DB1481 /* SSColorfulRefresh */,
 				1D27EFC31D45A9C200D3D2FA /* LCActionSheet */,
 				1DCE72E21D41F51B00D09209 /* DropDownMenu */,
@@ -2617,6 +2630,7 @@
 				1D27EFED1D45A9C200D3D2FA /* NSArray+MASAdditions.m in Sources */,
 				1DC18F071CB795D50006D642 /* MJRefreshBackStateFooter.m in Sources */,
 				1DA62EB51D361E1700ECE405 /* EditSetExamViewController.m in Sources */,
+				1D88F0651D49F0EF0043883E /* ODRefreshControl.m in Sources */,
 				1D15C49D1D193C5A006C15A7 /* GuideView.m in Sources */,
 				1DEDC8621C9FA2920083B394 /* UIImage+WebP.m in Sources */,
 				1DEDC8641C9FA2920083B394 /* UIImageView+WebCache.m in Sources */,

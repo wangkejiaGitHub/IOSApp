@@ -139,17 +139,19 @@
 }
 ///支付按钮
 - (void)btnPayClick:(UIButton *)button{
-//    if (_intCurrSelect == 0) {
-//        [self alipayPayment];
-//        NSLog(@"支付宝支付");
-//    }
-//    else{
-//        [self sendNetWorking_WXPay];
-//        NSLog(@"微信支付");
-//    }
-//    
-    [self qianMingTest];
+    if (_intCurrSelect == 0) {
+        [self alipayPayment];
+        NSLog(@"支付宝支付");
+    }
+    else{
+        [self sendNetWorking_WXPay];
+        NSLog(@"微信支付");
+    }
+
+//    [self qianMingTest];
 }
+
+/*********微信自定义MD5签名测试**********/
 - (void)qianMingTest{
     
 //    "appid": "wx5b46bf67c74352ac",
@@ -163,10 +165,8 @@
     WXSignMD5 *datamd5 = [[WXSignMD5 alloc]initWithAppid:@"33" mch_id:@"33" nonce_str:@"100100100" partner_id:@"533" body:@"33" out_trade_no:@"33" total_fee:@"33" spbill_create_ip:@"33" notify_url:@"33" trade_type:@"33"];
     NSString *ddd = [datamd5 getSignForMD5];
     NSLog(@"%@",ddd);
-    
-//    150217099B6420DD0C7C86E691439A61
-//    150217099B6420DD0C7C86E691439A61
 }
+/*********微信自定义MD5签名测试**********/
 /**
  支付宝支付
  */

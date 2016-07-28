@@ -240,15 +240,15 @@
     }
     //添加试卷列表的头试图 科目信息
     [self addHeardViewForPaterList];
-    if (self.intPushWhere == 1) {
-        [SVProgressHUD show];
-        //获取试卷级别
-        ///添加朦层
-        if (!_mzView) {
-            _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-        }
-        [self.navigationController.tabBarController.view addSubview:_mzView];
-    }
+//    if (self.intPushWhere == 1) {
+//        [SVProgressHUD show];
+//        //获取试卷级别
+//        ///添加朦层
+//        if (!_mzView) {
+//            _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+//        }
+//        [self.navigationController.tabBarController.view addSubview:_mzView];
+//    }
     NSString *urlString = [NSString stringWithFormat:@"%@api/Paper/GetPapers?access_token=%@&courseId=%@&page=%ld&level=%@&year=%@",systemHttps,_accessToken,_subjectId,_paterIndexPage,_paterLevel,_paterYear];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicModelPapers = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
@@ -273,15 +273,18 @@
                 }
                 _myTableView.tableFooterView = [UIView new];
             }
-            [_mzView removeFromSuperview];
-            [SVProgressHUD dismiss];
-            [_refreshFooter endRefreshing];
-            [_refreshHeader endRefreshing];
-            [_myTableView reloadData];
-            _buttonLeveles.userInteractionEnabled = YES;
-            _buttonYear.userInteractionEnabled = YES;
-            _myTableView.userInteractionEnabled = YES;
         }
+        else{
+            [SVProgressHUD showInfoWithStatus:dicModelPapers[@"errmsg"]];
+        }
+        [_mzView removeFromSuperview];
+        [SVProgressHUD dismiss];
+        [_refreshFooter endRefreshing];
+        [_refreshHeader endRefreshing];
+        [_myTableView reloadData];
+        _buttonLeveles.userInteractionEnabled = YES;
+        _buttonYear.userInteractionEnabled = YES;
+        _myTableView.userInteractionEnabled = YES;
         _myTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
@@ -586,6 +589,7 @@
 }
 ///下拉菜单点击事件
 - (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
+    [SVProgressHUD show];
     NSDictionary *dicSelect;
     ///试卷类型
     if (indexPath.column == 0) {

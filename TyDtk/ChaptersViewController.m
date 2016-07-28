@@ -168,14 +168,14 @@
  获取章节考点信息,并根据节点进行章节分类
  */
 - (void)getChaptersInfo:(NSString *)accessToken{
-    if (self.intPushWhere == 1) {
-        [SVProgressHUD show];
-        ///添加朦层
-        if (!_mzView) {
-            _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-        }
-        [self.navigationController.tabBarController.view addSubview:_mzView];
-    }
+//    if (self.intPushWhere == 1) {
+//        [SVProgressHUD show];
+//        ///添加朦层
+//        if (!_mzView) {
+//            _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+//        }
+//        [self.navigationController.tabBarController.view addSubview:_mzView];
+//    }
     [self addTableHeaderView];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Chapter/GetAll?access_token=%@",systemHttps,accessToken];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -197,6 +197,9 @@
                 [self addNilDataViewForTableFooterView];
             }
 
+        }
+        else{
+            [SVProgressHUD showInfoWithStatus:dicChaper[@"errmsg"]];
         }
 
         [_mzView removeFromSuperview];

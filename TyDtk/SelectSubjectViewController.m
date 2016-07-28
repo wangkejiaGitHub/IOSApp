@@ -182,6 +182,7 @@
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"%f",Scr_Height/3);
     NSDictionary *dic = _arrayCurrSelectSubject[indexPath.row];
     NSInteger courseNumId = [dic[@"CourseNum"] integerValue];
     if (courseNumId == 0) {
@@ -252,8 +253,8 @@
             NSArray *arrry = dicSubject[@"datas"];
             _viewSelectSubject = [[viewSelectSubject alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arraySubject:arrry className:dic[@"Names"]];
             _viewSelectSubject.delegateSelect = self;
-            UIWindow *dd = [[UIApplication sharedApplication] keyWindow];
-            [dd addSubview:_viewSelectSubject];
+            UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+            [keyWindow addSubview:_viewSelectSubject];
             [SVProgressHUD dismiss];
         }
         else{

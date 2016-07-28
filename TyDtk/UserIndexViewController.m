@@ -14,7 +14,7 @@
 #import "ExerciseRecordViewController.h"
 #import "ImageEnlargeViewController.h"
 
-#import "SSColorfulRefresh.h"
+#import "ODRefreshControl.h"
 @interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate,LoginDelegate,LCActionSheetDelegate>
 ///用于判断用户是否登录
 @property (nonatomic,assign) BOOL isLoginUser;
@@ -34,28 +34,26 @@
 @property (nonatomic,strong) NSMutableArray *arraySecoundSubject;
 
 @property (nonatomic,strong) LoginUser *loginUser;
-
+@property (nonatomic ,strong) ODRefreshControl *refreshHeard;
 @end
 
 @implementation UserIndexViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-//    NSArray *arrayColor = @[ColorWithRGB(175, 18, 88),
-//                            ColorWithRGB(244, 13, 100),
-//                            ColorWithRGB(90, 13, 67),
-//                            ColorWithRGB(244, 222, 41),
-//                            ColorWithRGB(179, 197, 135),
-//                            ColorWithRGB(18, 53, 85)];
-    // Do any additional setup after loading the view.
+//    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    _tableViewList.backgroundColor = [UIColor groupTableViewBackgroundColor];
     _tyUser = [NSUserDefaults standardUserDefaults];
     _loginUser = [[LoginUser alloc]init];
     _loginUser.delegateLogin = self;
+    _refreshHeard = [[ODRefreshControl alloc]initInScrollView:_tableViewList];
+    _refreshHeard.tintColor = ColorWithRGB(90, 144, 266);
+    _refreshHeard.activityIndicatorViewColor = [UIColor blueColor];
+    [_refreshHeard addTarget:self action:@selector(refreshHeardClick:) forControlEvents:UIControlEventValueChanged];
+    
     [self viewLoad];
 }
 - (void)viewLoad{
-    _imageViewBg.image = systemBackGrdImg;
     _arrayCellTitle = @[@"个人资料",@"当前科目",@"我的订单",@"我的考试",@"做题记录",@"我的收藏",@"我的错题",@"我的笔记"];
     _arrayCellImage = @[@"persenself",@"course",@"order",@"quest",@"learnrecord",@"collect",@"errquests",@"ebook"];
     [self addTableViewHeardView];
@@ -67,7 +65,10 @@
     [self userLoginStatus];
     [SVProgressHUD dismiss];
 }
-
+///下拉刷新
+- (void)refreshHeardClick:(ODRefreshControl *)refresh{
+    [self userLoginStatus];
+}
 ///判断用户的登录状态
 - (void)userLoginStatus{
     if ([_tyUser objectForKey:tyUserUserInfo]) {
@@ -79,6 +80,7 @@
         _isLoginUser = NO;
         _tableHeardView.labUserName.text = @"点击登录点题库";
         _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
+        [_refreshHeard endRefreshing];
     }
     [_tableViewList reloadData];
     
@@ -296,6 +298,8 @@
         _tableHeardView.imageHeardImg.image = [UIImage imageNamed:@"imgNullPer"];
         _tableHeardView.labUserName.text = @"请检查您的网络";
     }
+    
+    [_refreshHeard endRefreshing];
 }
 ///自动登录不成功，回调，退出或跳转到登录界面
 - (void)loginUserErrorString:(NSString *)errorStr{

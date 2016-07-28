@@ -129,7 +129,7 @@
             [self getWeekSelectPaper];
         }
     } RequestFaile:^(NSError *error) {
-        
+        httpsErrorShow;
     }];
 }
 
@@ -185,13 +185,13 @@
         }
     }
     ///从联系中心进入
-    if (self.intPushWhere == 1) {
-        [SVProgressHUD show];
-        if (!_mzView) {
-            _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
-        }
-        [self.navigationController.tabBarController.view addSubview:_mzView];
-    }
+//    if (self.intPushWhere == 1) {
+//        [SVProgressHUD show];
+//        if (!_mzView) {
+//            _mzView = [[MZView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height)];
+//        }
+//        [self.navigationController.tabBarController.view addSubview:_mzView];
+//    }
     [self addHeardViewForPaterList];
     NSString *urlString = [NSString stringWithFormat:@"%@api/Weekly/GetWeeklyList?access_token=%@&page=%ld",systemHttps,_accessToken,_paterIndexPage];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
@@ -207,15 +207,6 @@
             _paterIndexPage = _paterIndexPage+1;
             NSArray *arrayDatas = dicWeek[@"datas"];
             if (arrayDatas.count == 0) {
-//                UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 100)];
-//                view.backgroundColor = [UIColor whiteColor];
-//                UILabel *labText = [[UILabel alloc]initWithFrame:CGRectMake(30, 30, Scr_Width - 60, 30)];
-//                labText.font = [UIFont systemFontOfSize:18.0];
-//                labText.textColor= [UIColor lightGrayColor];
-//                labText.textAlignment = NSTextAlignmentCenter;
-//                labText.text = @"没有更多试卷了";
-//                [view addSubview:labText];
-//                _tableViewWeek.tableFooterView = view;
                 [self addTableFooterView];
             }
             else{
@@ -225,13 +216,16 @@
                 }
                 _tableViewWeek.tableFooterView = [UIView new];
             }
-            [_mzView removeFromSuperview];
-            [SVProgressHUD dismiss];
-            [_refreshFooter endRefreshing];
-            [_refreshHeader endRefreshing];
-            [_tableViewWeek reloadData];
-            _tableViewWeek.userInteractionEnabled = YES;
         }
+        else{
+            [SVProgressHUD showInfoWithStatus:dicWeek[@"errmsg"]];
+        }
+        [_mzView removeFromSuperview];
+        [SVProgressHUD dismiss];
+        [_refreshFooter endRefreshing];
+        [_refreshHeader endRefreshing];
+        [_tableViewWeek reloadData];
+        _tableViewWeek.userInteractionEnabled = YES;
     } RequestFaile:^(NSError *error) {
         [_mzView removeFromSuperview];
         [_refreshFooter endRefreshing];
