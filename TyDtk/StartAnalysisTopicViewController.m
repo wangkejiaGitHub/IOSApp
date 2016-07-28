@@ -73,15 +73,15 @@
     ///////
     _buttonAnalysis.userInteractionEnabled = NO;
     _buttonAnalysis.layer.masksToBounds = YES;
-    _buttonAnalysis.layer.cornerRadius = 5;
-    _buttonAnalysis.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    [_buttonAnalysis setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+    _buttonAnalysis.layer.cornerRadius = 3;
+//    _buttonAnalysis.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [_buttonAnalysis setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     
     _buttonErrorTopic.userInteractionEnabled = NO;
     _buttonErrorTopic.layer.masksToBounds = YES;
-    _buttonErrorTopic.layer.cornerRadius = 5;
-    _buttonErrorTopic.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    [_buttonErrorTopic setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
+    _buttonErrorTopic.layer.cornerRadius = 3;
+//    _buttonErrorTopic.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    [_buttonErrorTopic setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
     
     [self getTopicAnalysisPaper];
     
@@ -89,6 +89,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardHide:) name:UIKeyboardWillHideNotification object:nil];
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

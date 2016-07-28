@@ -395,7 +395,7 @@
 }
 ///点击提示按钮
 - (void)actionSheet:(LCActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"buttonIndex == %ld",buttonIndex);
+
     ///拍照
     if (buttonIndex == 1) {
          [self persentImagePicker:1];

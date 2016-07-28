@@ -151,9 +151,6 @@
     layer.position = position;
     layer.bounds = CGRectMake(0, 0, self.frame.size.width/self.numOfMenu, self.frame.size.height-1);
     layer.backgroundColor = color.CGColor;
-//    NSLog(@"bglayer bounds:%@",NSStringFromCGRect(layer.bounds));
-//    NSLog(@"bglayer position:%@", NSStringFromCGPoint(position));
-    
     return layer;
 }
 

@@ -151,6 +151,8 @@
 		1D6A484E1D22768300070614 /* wxpay.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A484D1D22768300070614 /* wxpay.png */; };
 		1D6A48501D22768800070614 /* alipay.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A484F1D22768800070614 /* alipay.png */; };
 		1D86FA331CCDFC23007DF87C /* ErrorTopicView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */; };
+		1D88F0601D49ED6A0043883E /* getIPhoneIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88F05D1D49ED6A0043883E /* getIPhoneIP.m */; };
+		1D88F0611D49ED6A0043883E /* WXSignMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D88F05F1D49ED6A0043883E /* WXSignMD5.m */; };
 		1D92C8841D13828D006A937F /* NotesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D92C8821D13828D006A937F /* NotesViewController.m */; };
 		1D92C8851D13828D006A937F /* NotesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D92C8831D13828D006A937F /* NotesViewController.xib */; };
 		1D92C8891D1389EB006A937F /* TopicLookQtpye1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D92C8881D1389EB006A937F /* TopicLookQtpye1TableViewCell.m */; };
@@ -280,8 +282,6 @@
 		1DF4993C1D2FAE1A00EF80E5 /* ic_business_detail_mark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF4993A1D2FAE1A00EF80E5 /* ic_business_detail_mark@2x.png */; };
 		1DF5B6D81D2C87D30087057B /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1DF5B6D61D2C87D30087057B /* AlipaySDK.bundle */; };
 		1DF5B6D91D2C87D30087057B /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5B6D71D2C87D30087057B /* AlipaySDK.framework */; };
-		1DF5B7231D2D008D0087057B /* getIPhoneIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF5B7221D2D008D0087057B /* getIPhoneIP.m */; };
-		1DF5B7261D2D00990087057B /* DataMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF5B7251D2D00990087057B /* DataMD5.m */; };
 		1DF7658D1CE16E11002DE129 /* NotesUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF7658C1CE16E11002DE129 /* NotesUserViewController.m */; };
 		1DF765901CE16E32002DE129 /* NotesElseUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF7658F1CE16E32002DE129 /* NotesElseUserViewController.m */; };
 		1DF765921CE183B2002DE129 /* NotesUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF765911CE183B2002DE129 /* NotesUserCell.xib */; };
@@ -654,6 +654,10 @@
 		1D6A484F1D22768800070614 /* alipay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alipay.png; sourceTree = "<group>"; };
 		1D86FA311CCDFC23007DF87C /* ErrorTopicView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorTopicView.h; sourceTree = "<group>"; };
 		1D86FA321CCDFC23007DF87C /* ErrorTopicView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorTopicView.m; sourceTree = "<group>"; };
+		1D88F05C1D49ED6A0043883E /* getIPhoneIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getIPhoneIP.h; sourceTree = "<group>"; };
+		1D88F05D1D49ED6A0043883E /* getIPhoneIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = getIPhoneIP.m; sourceTree = "<group>"; };
+		1D88F05E1D49ED6A0043883E /* WXSignMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXSignMD5.h; sourceTree = "<group>"; };
+		1D88F05F1D49ED6A0043883E /* WXSignMD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXSignMD5.m; sourceTree = "<group>"; };
 		1D92C8811D13828D006A937F /* NotesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesViewController.h; sourceTree = "<group>"; };
 		1D92C8821D13828D006A937F /* NotesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesViewController.m; sourceTree = "<group>"; };
 		1D92C8831D13828D006A937F /* NotesViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotesViewController.xib; sourceTree = "<group>"; };
@@ -884,10 +888,6 @@
 		1DF4993A1D2FAE1A00EF80E5 /* ic_business_detail_mark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_business_detail_mark@2x.png"; sourceTree = "<group>"; };
 		1DF5B6D61D2C87D30087057B /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		1DF5B6D71D2C87D30087057B /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
-		1DF5B7211D2D008D0087057B /* getIPhoneIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getIPhoneIP.h; sourceTree = "<group>"; };
-		1DF5B7221D2D008D0087057B /* getIPhoneIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = getIPhoneIP.m; sourceTree = "<group>"; };
-		1DF5B7241D2D00990087057B /* DataMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataMD5.h; sourceTree = "<group>"; };
-		1DF5B7251D2D00990087057B /* DataMD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataMD5.m; sourceTree = "<group>"; };
 		1DF7658B1CE16E11002DE129 /* NotesUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesUserViewController.h; sourceTree = "<group>"; };
 		1DF7658C1CE16E11002DE129 /* NotesUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotesUserViewController.m; sourceTree = "<group>"; };
 		1DF7658E1CE16E32002DE129 /* NotesElseUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotesElseUserViewController.h; sourceTree = "<group>"; };
@@ -1419,7 +1419,7 @@
 		1D489FEB1D2BBB0D00D8665F /* WeChatSDK */ = {
 			isa = PBXGroup;
 			children = (
-				1DF5B7201D2D008D0087057B /* GetIphoneIP */,
+				1D88F05B1D49ED6A0043883E /* WXSign */,
 				1D489FEC1D2BBB0D00D8665F /* libWeChatSDK.a */,
 				1D489FED1D2BBB0D00D8665F /* README.txt */,
 				1D489FEE1D2BBB0D00D8665F /* WechatAuthSDK.h */,
@@ -1530,6 +1530,17 @@
 				1D165E711CD1F85800F61EAE /* ErrorView.m */,
 			);
 			name = DoTopic;
+			sourceTree = "<group>";
+		};
+		1D88F05B1D49ED6A0043883E /* WXSign */ = {
+			isa = PBXGroup;
+			children = (
+				1D88F05E1D49ED6A0043883E /* WXSignMD5.h */,
+				1D88F05F1D49ED6A0043883E /* WXSignMD5.m */,
+				1D88F05C1D49ED6A0043883E /* getIPhoneIP.h */,
+				1D88F05D1D49ED6A0043883E /* getIPhoneIP.m */,
+			);
+			path = WXSign;
 			sourceTree = "<group>";
 		};
 		1D92C8861D1389A9006A937F /* cell */ = {
@@ -2222,17 +2233,6 @@
 			name = TyProgramDtkMain;
 			sourceTree = "<group>";
 		};
-		1DF5B7201D2D008D0087057B /* GetIphoneIP */ = {
-			isa = PBXGroup;
-			children = (
-				1DF5B7241D2D00990087057B /* DataMD5.h */,
-				1DF5B7251D2D00990087057B /* DataMD5.m */,
-				1DF5B7211D2D008D0087057B /* getIPhoneIP.h */,
-				1DF5B7221D2D008D0087057B /* getIPhoneIP.m */,
-			);
-			path = GetIphoneIP;
-			sourceTree = "<group>";
-		};
 		1DF7658A1CE16DF8002DE129 /* Notes */ = {
 			isa = PBXGroup;
 			children = (
@@ -2584,6 +2584,7 @@
 				1DC18F0D1CB795D50006D642 /* UIScrollView+MJExtension.m in Sources */,
 				1D579F031CE9668100578519 /* ZFPieChart.m in Sources */,
 				1DEFF1E01CA0E5D800994E2C /* ChineseToPinyin.m in Sources */,
+				1D88F0611D49ED6A0043883E /* WXSignMD5.m in Sources */,
 				1D92C8A01D139B3C006A937F /* PaperLookViewController.m in Sources */,
 				1D1626931CBDD5CC0050784B /* TopicCardCollectionView.m in Sources */,
 				1DEDC85F1C9FA2920083B394 /* UIButton+WebCache.m in Sources */,
@@ -2639,8 +2640,8 @@
 				1DEDC87C1C9FA66B0083B394 /* AFURLSessionManager.m in Sources */,
 				1D211FD21D0D57C600B895C6 /* TAAnimatedDotView.m in Sources */,
 				1DF9506D1CA3BFC500104597 /* SVIndefiniteAnimatedView.m in Sources */,
-				1DF5B7261D2D00990087057B /* DataMD5.m in Sources */,
 				1D27EFEE1D45A9C200D3D2FA /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				1D88F0601D49ED6A0043883E /* getIPhoneIP.m in Sources */,
 				1D436DC11D23CF5700D424F8 /* ActiveSubjectViewController.m in Sources */,
 				1D122BA71CDDC3F600A0BA08 /* AnalysisQtype6TableViewCell.m in Sources */,
 				1D27EFE91D45A9C200D3D2FA /* MASConstraintMaker.m in Sources */,
@@ -2716,7 +2717,6 @@
 				1D03B2921CC6131A00DCE77A /* PaterTopicQtype6TableViewCell.m in Sources */,
 				1DEDC8781C9FA66B0083B394 /* AFNetworkReachabilityManager.m in Sources */,
 				1D211FD51D0D57C600B895C6 /* SDCollectionViewCell.m in Sources */,
-				1DF5B7231D2D008D0087057B /* getIPhoneIP.m in Sources */,
 				1D064E461CBB6A4B007BD4E4 /* PatersTopicViewController.m in Sources */,
 				1DAF02F61D20C9B40042C8D8 /* selectChaperSubjectView.m in Sources */,
 				1DD126C51D1A6FB4003853E5 /* SelectSubjectViewController.m in Sources */,
@@ -2874,7 +2874,7 @@
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/TyDtk";
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2903,7 +2903,7 @@
 				GCC_PREFIX_HEADER = /Users/tianyiwenhua/Desktop/TyDtk/TyDtk/DtkPchFile.pch;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/TyDtk";
 				INFOPLIST_FILE = TyDtk/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

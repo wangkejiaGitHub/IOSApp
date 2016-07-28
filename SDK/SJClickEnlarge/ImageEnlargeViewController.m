@@ -105,7 +105,6 @@
 #pragma mark - UICollectionView 继承父类的方法------------------------------------
 // 减速结束
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-//    NSLog(@"停止减速，滑动视图停止了");
     
     // 视图停止滑动的时候执行一些操作
     int pageIndex = (int)self.collectionView.contentOffset.x / [UIScreen mainScreen].bounds.size.width ;
@@ -121,13 +120,6 @@
 }
 //长按图片保存图片
 - (void)enlargeCellSaveImage:(UIImage *)image{
-//    LXAlertView *alertView = [[LXAlertView alloc]initWithTitle:@"图片保存" message:@"要将图片保存到本地相册吗？" cancelBtnTitle:nil otherBtnTitle:@"保存" clickIndexBlock:^(NSInteger clickIndex) {
-//        //点击保存按钮
-//        if (clickIndex == 0) {
-//            NSLog(@"fsffffffffdf");
-//        }
-//    }];
-//    [alertView showLXAlertView];
     _imageShow = image;
     LCActionSheet *alertImg = [LCActionSheet sheetWithTitle:@"保存到本地" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"保存", nil];
     [alertImg show];

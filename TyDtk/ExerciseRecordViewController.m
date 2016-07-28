@@ -72,6 +72,15 @@
     self.navigationController.tabBarController.tabBar.hidden = NO;
 }
 - (void)viewDidAppear:(BOOL)animated{
+    
+}
+///添加下拉控件
+- (void)addRefreshHeaderForTableView{
+    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
+    _tableViewRe.mj_header = _refreshHeader;
+}
+///添加上拉控件
+- (void)addRefreshFooterForTableView{
     //设置tableView的上拉控件
     _refreshFooter = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(footerRefreshClick:)];
     [_refreshFooter setTitle:@"上拉查看更多记录" forState:MJRefreshStateIdle];
@@ -79,15 +88,7 @@
     [_refreshFooter setTitle:@"正在为您加载更多记录..." forState:MJRefreshStateRefreshing];
     [_refreshFooter setTitle:@"记录已全部加载完毕" forState:MJRefreshStateNoMoreData];
     _tableViewRe.mj_footer = _refreshFooter;
-}
-///添加table头试图
-- (void)addRefreshHeaderForTableView{
-    _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
-    _tableViewRe.mj_header = _refreshHeader;
-}
-- (void)viewDidDisappear:(BOOL)animated{
-    _refreshFooter = nil;
-    _refreshHeader = nil;
+
 }
 - (void)footerRefreshClick:(MJRefreshBackNormalFooter *)reFresh{
     [self getExerciseRe];
@@ -113,6 +114,8 @@
             }
             [self getExerciseRe];
             [self addDropDownMenuForTableView];
+            [self addRefreshFooterForTableView];
+            [self addRefreshHeaderForTableView];
         }
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
@@ -128,8 +131,6 @@
         _dropDownMenu.dataSource = self;
         [self.view addSubview:_dropDownMenu];
     }
-    
-    [self addRefreshHeaderForTableView];
 }
 ////////////////////////////////////////////////////
 
@@ -198,7 +199,7 @@
 
             //删除成功后重新获取记录，科目、做题模式不改变，初始页为1，清除记录数组
             _pageCurr = 1;
-            [_arrayExRe removeAllObjects];
+            _pages = 0;
             [self getExerciseRe];
             NSDictionary *dicDatas = dicRe[@"datas"];
             [SVProgressHUD showSuccessWithStatus:dicDatas[@"msg"]];

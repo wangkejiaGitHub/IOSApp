@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.title = @"笔记试题";
-    NSLog(@"%@",_dicNoteTopic);
+
     PaperLookViewController *paperChvc = [[PaperLookViewController alloc]init];
     [self addChildViewController:paperChvc];
 }

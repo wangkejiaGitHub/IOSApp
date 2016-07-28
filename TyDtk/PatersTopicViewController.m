@@ -423,7 +423,7 @@
                 [_buttonTopTable setTitleColor:[UIColor brownColor] forState:UIControlStateNormal];
                 _buttonTopTable.layer.masksToBounds = YES;
                 _buttonTopTable.layer.cornerRadius = 5;
-                [_buttonTopTable addTarget:self action:@selector(topButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//                [_buttonTopTable addTarget:self action:@selector(topButtonClick:) forControlEvents:UIControlEventTouchUpInside];
             }
             [self.view addSubview:_buttonTopTable];
         }

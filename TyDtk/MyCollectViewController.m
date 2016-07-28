@@ -12,9 +12,10 @@
 #import "StartLookViewController.h"
 #import "SelectParTopicViewController.h"
 #import "MyNoteViewController.h"
-@interface MyCollectViewController ()<UITableViewDataSource,UITableViewDelegate,CustomToolDelegate>
+#import "DOPDropDownMenu.h"
+@interface MyCollectViewController ()<UITableViewDataSource,UITableViewDelegate,CustomToolDelegate,DOPDropDownMenuDataSource,DOPDropDownMenuDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableViewCollect;
-@property (weak, nonatomic) IBOutlet UILabel *labSubject;
+//@property (weak, nonatomic) IBOutlet UILabel *labSubject;
 
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) NSString *accessToken;
@@ -30,7 +31,7 @@
 //section折叠数组
 @property (nonatomic ,strong) NSMutableArray *arraySection;
 //所有科目
-@property (nonatomic,strong) NSArray *arraySubject;
+@property (nonatomic,strong) NSMutableArray *arraySubject;
 //当前科目id
 @property (nonatomic,assign) NSInteger intSubJectId;
 //选中科目
@@ -42,6 +43,7 @@
 //刷新
 @property (nonatomic,strong) MJRefreshNormalHeader *refreshHeader;
 @property (nonatomic,assign) BOOL isActiveSubject;
+@property (nonatomic ,strong) DOPDropDownMenu *dropDownMenu;
 @end
 
 @implementation MyCollectViewController
@@ -53,6 +55,7 @@
     _dicUser = [_tyUser objectForKey:tyUserUserInfo];
     _tableViewCollect.separatorStyle = UITableViewCellSeparatorStyleNone;
     NSDictionary *dicSubject = [_tyUser objectForKey:tyUserSelectSubject];
+    _arraySubject = [NSMutableArray array];
     if (self.parameterView == 1) {
         self.title = @"我的收藏";
     }
@@ -69,11 +72,6 @@
     _levelTT = 0;
     _arrayLinS = [NSMutableArray array];
     
-    _labSubject.userInteractionEnabled = NO;
-    [self addTapGestForLabelSubject];
-    
-    _labSubject.text = dicSubject[@"Names"];
-    _labSubject.textColor = ColorWithRGB(90, 144, 266);
     NSDictionary *dicClass = [_tyUser objectForKey:tyUserClass];
     NSInteger classId = [dicClass[@"Id"] integerValue];
     [self getAllSubjectWithClass:classId];
@@ -82,15 +80,11 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.tabBarController.tabBar.hidden = NO;
-    //??????
-    //    [self chapterInfoTest];
-    //    [self getCollectTopicWithChaperId];
-    //??????
 }
-- (void)viewDidAppear:(BOOL)animated{
+///添加下拉刷新
+- (void)addRefreshHeaderForTableView{
     _refreshHeader = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(headerRefereshClick:)];
     _tableViewCollect.mj_header = _refreshHeader;
-    
 }
 - (void)headerRefereshClick:(MJRefreshNormalHeader *)reFresh{
     if (self.parameterView == 1) {
@@ -103,56 +97,7 @@
         [self getAboutChaperNotes];
     }
 }
-- (void)viewDidDisappear:(BOOL)animated{
-    _refreshHeader = nil;
-}
-///给科目label添加点击手势
-- (void)addTapGestForLabelSubject{
-    UITapGestureRecognizer *tapSubject = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelSelectSubjectClick:)];
-    [_labSubject addGestureRecognizer:tapSubject];
-}
-//选择科目
-- (void)labelSelectSubjectClick:(UITapGestureRecognizer *)tapGest{
-    [ZFPopupMenu setMenuBackgroundColorWithRed:0.6 green:0.4 blue:0.2 aphla:0.9];
-    [ZFPopupMenu setTextColorWithRed:1 green:1 blue:1 aphla:1.0];
-    [ZFPopupMenu setHighlightedImage:[UIImage imageNamed:@"cancelBg"]];
-    ZFPopupMenu *popupMenu = [[ZFPopupMenu alloc] initWithItems:[self subjectMenuItemArray]];
-    [popupMenu showInView:self.navigationController.view fromRect:CGRectMake(65, -30, 0, 120) layoutType:Vertical];
-    [self.navigationController.view addSubview:popupMenu];
-}
-///返回科目菜单数组
-- (NSArray *)subjectMenuItemArray{
-    NSMutableArray *arraySubjectMuen = [NSMutableArray array];
-    for (int i =0; i<_arraySubject.count; i++) {
-        NSDictionary *dicSubject = _arraySubject[i];
-        ZFPopupMenuItem *item = [ZFPopupMenuItem initWithMenuName:dicSubject[@"Names"] image:nil action:@selector(menuSubjectClick:) target:self];
-        item.tag = 100 + i;
-        [arraySubjectMuen addObject:item];
-    }
-    return arraySubjectMuen;
-}
-///科目选择点击事件
-- (void)menuSubjectClick:(ZFPopupMenuItem *)item{
-    _labSubject.text = item.itemName;
-    _selectSubject = _arraySubject[item.tag - 100];
-    _intSubJectId = [_selectSubject[@"Id"] integerValue];
-    _levelTT = 0;
-    [_arraySection removeAllObjects];
-    if (self.parameterView == 1) {
-        //我的收藏
-        [self customGetAccessToken:_intSubJectId];
-    }
-    else if (self.parameterView == 2){
-        //我的错题
-        //        [self getAboutChaperErrorTopic];
-        [self customGetAccessToken:_intSubJectId];
-    }
-    else if (self.parameterView == 3){
-        //我的笔记
-        //        [self getAboutChaperNotes];
-        [self customGetAccessToken:_intSubJectId];
-    }
-}
+
 /**
  科目授权
  */
@@ -187,22 +132,17 @@
         NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicSubject[@"code"] integerValue];
         if (codeId == 1) {
-            _arraySubject = dicSubject[@"datas"];
-            //            [self getExerciseRe];
-            //            NSDictionary *dicFirst = _arraySubject[0];
-            //            _intSubJectId = [dicFirst[@"Id"] integerValue];
-            //            _labSubject.text = dicFirst[@"Names"];
-            _labSubject.userInteractionEnabled = YES;
-//            if (self.parameterView == 1) {
-//                [self getAboutChaperCollect];
-//            }
-//            else if (self.parameterView == 2){
-//                [self getAboutChaperErrorTopic];
-//            }
-//            else if (self.parameterView == 3){
-//                [self getAboutChaperNotes];
-//            }
+            [_arraySubject removeAllObjects];
+            NSDictionary *dicAllSubject = @{@"Id":@"0",@"Names":@"当前科目"};
+            [_arraySubject addObject:dicAllSubject];
+            NSArray *arraySub= dicSubject[@"datas"];
+            for (NSDictionary *dicSub in arraySub) {
+                [_arraySubject addObject:dicSub];
+            }
+
             [self determineSubjectActive];
+            [self addDropDownMenuForTableView];
+            [self addRefreshHeaderForTableView];
             
         }
     } RequestFaile:^(NSError *error) {
@@ -431,6 +371,7 @@
     _arrayTableData = arrayZZZ;
     [_tableViewCollect reloadData];
 }
+#pragma  tableView代理
 ///////////////////////////////////
 ///  tableView代理
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -562,7 +503,6 @@
 - (void)sectionLookClick:(UIButton *)button{
     NSDictionary *dicDate = _arrayTableData[button.tag - 1000];
     NSDictionary *dicHeader = dicDate[@"id"];
-    NSLog(@"section id = %ld == Name = %@",[dicHeader[@"Id"] integerValue], dicHeader[@"Names"]);
     //        [self getCollectTopicWithChaperId:[dicHeader[@"Id"] integerValue]];
     if (_parameterView == 1) {
         NSInteger collectCount = [dicHeader[@"CollectionNum"] integerValue];
@@ -800,7 +740,6 @@
     NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,[NSString stringWithFormat:@"%ld",[dicSelectSubject[@"Id"] integerValue]],_dicUser[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dicActive);
         if ([dicActive[@"code"] integerValue] == 1) {
             NSDictionary *dicDatas = dicActive[@"datas"];
             ///激活
@@ -829,7 +768,56 @@
         
     }];
 }
+///添加下拉菜单
+- (void)addDropDownMenuForTableView{
+    _dropDownMenu = [[DOPDropDownMenu alloc]initWithOrigin:CGPointMake(0, 64) andHeight:40];
+    _dropDownMenu.delegate = self;
+    _dropDownMenu.dataSource = self;
+    [self.view addSubview:_dropDownMenu];
+}
+//////////////dropDownMenu 代理 /////////////////////////////
+///返回下拉菜单个数
+- (NSInteger)numberOfColumnsInMenu:(DOPDropDownMenu *)menu {
+    return 1;
+}
+///返回每个下拉菜单的item
+- (NSInteger)menu:(DOPDropDownMenu *)menu numberOfRowsInColumn:(NSInteger)column {
+    return _arraySubject.count;
+}
+///返回每个下拉菜单的值
+- (NSString *)menu:(DOPDropDownMenu *)menu titleForRowAtIndexPath:(DOPIndexPath *)indexPath {
+    NSDictionary *dic = _arraySubject[indexPath.row];
+    return dic[@"Names"];
+}
+///下拉菜单点击事件
+- (void)menu:(DOPDropDownMenu *)menu didSelectRowAtIndexPath:(DOPIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        _selectSubject = [_tyUser objectForKey:tyUserSelectSubject];
+    }
+    else{
+        _selectSubject = _arraySubject[indexPath.row];
+    }
+    _intSubJectId = [_selectSubject[@"Id"] integerValue];
+    _levelTT = 0;
+    [_arraySection removeAllObjects];
+    if (self.parameterView == 1) {
+        //我的收藏
+        [self customGetAccessToken:_intSubJectId];
+    }
+    else if (self.parameterView == 2){
+        //我的错题
+        //        [self getAboutChaperErrorTopic];
+        [self customGetAccessToken:_intSubJectId];
+    }
+    else if (self.parameterView == 3){
+        //我的笔记
+        //        [self getAboutChaperNotes];
+        [self customGetAccessToken:_intSubJectId];
+    }
+}
 
+
+//////////////dropDownMenu 代理 /////////////////////////////
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"mynote"]) {
          MyNoteViewController *noteVc = segue.destinationViewController;

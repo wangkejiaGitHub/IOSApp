@@ -110,7 +110,7 @@
     if ([request.URL.scheme isEqualToString:@"image-preview"]) {
         NSString *path = [request.URL.absoluteString substringFromIndex:[@"image-preview:" length]];
         //path 就是被点击图片的url
-        NSLog(@"%@",path);
+
         NSInteger imageClickIndex = [_arrayImgUrl indexOfObject:path];
         [self.delegateAnalysisCellClick imageTopicArray:_arrayImgUrl withImageIndex:imageClickIndex];
         return NO;

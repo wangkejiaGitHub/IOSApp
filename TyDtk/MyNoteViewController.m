@@ -134,7 +134,7 @@
             [self goNoteAboutTopic:dicNoteTopic];
         }
         [SVProgressHUD dismiss];
-        NSLog(@"%@",dicTopic);
+
     } RequestFaile:^(NSError *error) {
         httpsErrorShow;
     }];
@@ -150,7 +150,7 @@
     LXAlertView *alertDelete = [[LXAlertView alloc]initWithTitle:@"删除提示" message:@"确认删除这条笔记吗?" cancelBtnTitle:@"取消" otherBtnTitle:@"删除" clickIndexBlock:^(NSInteger clickIndex) {
         if (clickIndex == 1) {
             [self deleteUserNote:noteId];
-            NSLog(@"notes");
+
         }
     }];
     [alertDelete showLXAlertView];
@@ -169,11 +169,10 @@
             [self getNoteWipthChaperId];
             [SVProgressHUD showSuccessWithStatus:dicccc[@"msg"]];
         }
-        NSLog(@"%@",dicDele);
+
     } RequestFaile:^(NSError *erro) {
         httpsErrorShow;
     }];
-    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

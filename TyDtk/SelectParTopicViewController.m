@@ -135,8 +135,8 @@
                 [_arrayType addObject:dicT];
             }
         }
-        NSLog(@"%@",_arrayType);
-        NSLog(@"%@",dicType);
+
+
         [self getChaperTopicCount];
     } RequestFaile:^(NSError *error) {
         
@@ -237,7 +237,7 @@
                 [SVProgressHUD showInfoWithStatus:@"没有更多试题了，换个参数试试看~"];
             }
         }
-        NSLog(@"%@",dicChaper);
+
     } RequestFaile:^(NSError *erro) {
         
     }];
@@ -400,7 +400,7 @@
     }
     NSString *str = [NSString stringWithFormat:@"%ld",indexPath.section];
     [_arraySectionSelect removeObject:str];
-    NSLog(@"%@",_dicTopicParameter);
+
     
     [_tableViewSelect reloadData];
 }

@@ -1,8 +1,14 @@
+//
+//  WXSignMD5.m
+//  TyDtk
+//
+//  Created by 天一文化 on 16/7/28.
+//  Copyright © 2016年 天一文化.王可佳. All rights reserved.
+//
 
-
-#import "DataMD5.h"
+#import "WXSignMD5.h"
 #import <CommonCrypto/CommonDigest.h>
-@interface DataMD5()
+@interface WXSignMD5()
 @property (nonatomic,strong) NSString *appid;
 @property (nonatomic,strong) NSString *mch_id;
 @property (nonatomic,strong) NSString *nonce_str;
@@ -14,7 +20,7 @@
 @property (nonatomic,strong) NSString *notify_url;
 @property (nonatomic,strong) NSString *trade_type;
 @end
-@implementation DataMD5
+@implementation WXSignMD5
 -(instancetype)initWithAppid:(NSString *)appid_key
                       mch_id:(NSString *)mch_id_key
                    nonce_str:(NSString *)noce_str_key
@@ -57,7 +63,7 @@
 }
 
 //创建签名
--(NSString*) createMd5Sign:(NSMutableDictionary*)dict{
+- (NSString*)createMd5Sign:(NSMutableDictionary*)dict{
     NSMutableString *contentString  =[NSMutableString string];
     NSArray *keys = [dict allKeys];
     //按字母顺序排序
@@ -82,7 +88,7 @@
 }
 
 //创建发起支付时的sige签名
--(NSString *)createMD5SingForPay:(NSString *)appid_key partnerid:(NSString *)partnerid_key prepayid:(NSString *)prepayid_key package:(NSString *)package_key noncestr:(NSString *)noncestr_key timestamp:(UInt32)timestamp_key{
+- (NSString *)createMD5SingForPay:(NSString *)appid_key partnerid:(NSString *)partnerid_key prepayid:(NSString *)prepayid_key package:(NSString *)package_key noncestr:(NSString *)noncestr_key timestamp:(UInt32)timestamp_key{
     NSMutableDictionary *signParams = [NSMutableDictionary dictionary];
     [signParams setObject:appid_key forKey:@"appid"];
     [signParams setObject:noncestr_key forKey:@"noncestr"];
@@ -102,21 +108,20 @@
         if (   ![[signParams objectForKey:categoryId] isEqualToString:@""]
             && ![[signParams objectForKey:categoryId] isEqualToString:@"sign"]
             && ![[signParams objectForKey:categoryId] isEqualToString:@"key"]
-            )
-        {
+            ){
             [contentString appendFormat:@"%@=%@&", categoryId, [signParams objectForKey:categoryId]];
         }
     }
     //添加商户密钥key字段
-    //#warning 注意此处一定要添加上商户密钥
+    //#warning 注意此处一定要添加上商户密钥(_partnerkey)
     [contentString appendFormat:@"key=%@", @"PwAsFHNp20QaoDZZ0t1cP6y6oYMC7x5d"];
     //    NSString *signString =[self md5:contentString];
     NSString *result = [self md5:contentString];
     return result;
 }
--(NSString *) md5:(NSString *)str{
+- (NSString *)md5:(NSString *)str{
     const char *cStr = [str UTF8String];
-    //加密规则，因为逗比微信没有出微信支付demo，这里加密规则是参照安卓demo来得
+    //加密规则
     unsigned char result[16]= "0123456789abcdef";
     CC_MD5(cStr, (CC_LONG)strlen(cStr), result);
     //这里的x是小写则产生的md5也是小写，x是大写则md5是大写，这里只能用大写，逗比微信的大小写验证很逗
@@ -128,5 +133,6 @@
             result[12], result[13], result[14], result[15]
             ];
 }
+
 
 @end

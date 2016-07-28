@@ -69,14 +69,14 @@
 }
 //完成拖拽
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    NSLog(@"eeeee");
+
     if (scrollView.contentOffset.x< - 20) {
-        NSLog(@"fsfffff");
+
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    NSLog(@"gggggggg");
+
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     [_noteView.textViewNote resignFirstResponder];

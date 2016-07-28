@@ -241,7 +241,7 @@
             }
         }];
         [alertLx showLXAlertView];
-        NSLog(@"退出登录");
+
     }
 }
 ///点击提示框按钮回调
@@ -389,7 +389,7 @@
         else{
             [SVProgressHUD showInfoWithStatus:@"操作失败"];
         }
-        NSLog(@"%@",dicOut);
+
     } RequestFaile:^(NSError *error) {
         [SVProgressHUD showInfoWithStatus:@"操作失败"];
     }];

@@ -122,14 +122,14 @@
 - (void)menuTypeClick:(ZFPopupMenuItem *)item{
     _buttonLiftItem.title = item.itemName;
     if (item.tag == 101) {
-        NSLog(@"未激活");
+
         _intCurrActive = 1;
         _arrayCurrActive = _arrayNoActived;
     }
     else{
         _intCurrActive = 2;
         _arrayCurrActive = _arrayIsActived;
-        NSLog(@"已激活");
+
     }
     [_tableViewExam reloadData];
 }

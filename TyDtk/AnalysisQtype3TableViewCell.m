@@ -40,9 +40,6 @@
 - (void)setvalueForCellModel:(NSDictionary *)dic topicIndex:(NSInteger)index{
     _indexTopic = index;
     _dicTopic = dic;
-    if (index == 19) {
-        NSLog(@"11");
-    }
     //判断视图是否有图片
     NSString *topicTitle = dic[@"title"];
     //试题编号
@@ -137,7 +134,6 @@
         }
         
     }
-     NSLog(@"33333333333333333333333333");
 }
 //笔记按钮
 - (IBAction)buttonNoteClick:(UIButton *)sender {
@@ -319,7 +315,6 @@
     if ([request.URL.scheme isEqualToString:@"image-preview"]) {
         NSString *path = [request.URL.absoluteString substringFromIndex:[@"image-preview:" length]];
         //path 就是被点击图片的url
-        NSLog(@"%@",path);
         NSInteger imageClickIndex = [_arrayImgUrl indexOfObject:path];
         [self.delegateAnalysisCellClick imageTopicArray:_arrayImgUrl withImageIndex:imageClickIndex];
         return NO;

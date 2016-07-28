@@ -103,7 +103,6 @@
     NSString *urlString = [NSString stringWithFormat:@"%@/ty/mobile/order/productValidate?productId=%@&jeeId=%@",systemHttpsKaoLaTopicImg,_subjectId,dicUserInfo[@"jeeId"]];
     [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         NSDictionary *dicActive = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",dicActive);
         if ([dicActive[@"code"] integerValue] == 1) {
             NSDictionary *dicDatas = dicActive[@"datas"];
             ///激活

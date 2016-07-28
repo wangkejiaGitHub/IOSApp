@@ -29,6 +29,6 @@
     else{
         [self.delegateImg ImgButtonClick:0];
     }
-    NSLog(@"delegateImg");
+
 }
 @end

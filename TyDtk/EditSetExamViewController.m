@@ -290,7 +290,6 @@
         NSDate *dateSelect = _datePickerDate.date;
         NSString *selectTime = [NSString stringWithFormat:@"%@",dateSelect];
         selectTime = [selectTime substringToIndex:10];
-        NSLog(@"%@",selectTime);
         _textExamTime.text = selectTime;
     }
     [UIView animateWithDuration:0.2 animations:^{

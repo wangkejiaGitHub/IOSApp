@@ -5,6 +5,7 @@
 //  Created by 天一文化 on 16/7/5.
 //  Copyright © 2016年 天一文化.王可佳. All rights reserved.
 //
+#import "WXSignMD5.h"
 #define YYIP @"https://api.mch.weixin.qq.com/pay/unifiedorder"
 #import "PayMoneyViewController.h"
 ///支付宝相关
@@ -138,14 +139,33 @@
 }
 ///支付按钮
 - (void)btnPayClick:(UIButton *)button{
-    if (_intCurrSelect == 0) {
-        [self alipayPayment];
-        NSLog(@"支付宝支付");
-    }
-    else{
-        [self sendNetWorking_WXPay];
-        NSLog(@"微信支付");
-    }
+//    if (_intCurrSelect == 0) {
+//        [self alipayPayment];
+//        NSLog(@"支付宝支付");
+//    }
+//    else{
+//        [self sendNetWorking_WXPay];
+//        NSLog(@"微信支付");
+//    }
+//    
+    [self qianMingTest];
+}
+- (void)qianMingTest{
+    
+//    "appid": "wx5b46bf67c74352ac",
+//    "noncestr": "54429464",
+//    "packageStr": "Sign=WXPay",
+//    "partnerid": "1327299901",
+//    "prepayid": "wx20160728145321bfe27590450800923972",
+//    "sign": "EB9395ED24C7CED3F5E7A0985F6DE384",
+//    "timestamp": "1469688801436"
+
+    WXSignMD5 *datamd5 = [[WXSignMD5 alloc]initWithAppid:@"33" mch_id:@"33" nonce_str:@"100100100" partner_id:@"533" body:@"33" out_trade_no:@"33" total_fee:@"33" spbill_create_ip:@"33" notify_url:@"33" trade_type:@"33"];
+    NSString *ddd = [datamd5 getSignForMD5];
+    NSLog(@"%@",ddd);
+    
+//    150217099B6420DD0C7C86E691439A61
+//    150217099B6420DD0C7C86E691439A61
 }
 /**
  支付宝支付

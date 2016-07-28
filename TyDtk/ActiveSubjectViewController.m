@@ -175,10 +175,18 @@
         NSDictionary *dicOrder = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         if ([dicOrder[@"code"] integerValue] == 1) {
             NSDictionary *dicDatas = dicOrder[@"datas"];
-            NSDictionary *dicOrderInfo = dicDatas[@"data"];
-            [self goOrderInfoView:dicOrderInfo];
+            if ([dicDatas[@"status"] integerValue] == 1) {
+                [SVProgressHUD dismiss];
+                NSDictionary *dicOrderInfo = dicDatas[@"data"];
+                [self goOrderInfoView:dicOrderInfo];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:dicDatas[@"message"]];
+            }
         }
-        [SVProgressHUD dismiss];
+        else{
+            [SVProgressHUD showInfoWithStatus:@"订单创建失败"];
+        }
     } RequestFaile:^(NSError *error) {
         httpsErrorShow;
     }];
@@ -212,10 +220,7 @@
     [textField resignFirstResponder];
     return YES;
 }
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    UIView *vvv = textField.superview.superview.superview;
-    NSLog(@"%f == %f",vvv.bounds.size.width,vvv.bounds.size.height);
-}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
     //控制激活码在15个字符
     if (textField.text.length > 14 && ![string isEqualToString:@""]) {

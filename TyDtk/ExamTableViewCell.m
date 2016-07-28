@@ -95,7 +95,6 @@
         else{
             [SVProgressHUD showInfoWithStatus:@"操作异常"];
         }
-        NSLog(@"%@",dicExam);
         
     } RequestFaile:^(NSError *erro) {
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
@@ -111,7 +110,6 @@
         if (codeId == 1) {
             [self.delegateExam reFreshExamInfo];
         }
-        NSLog(@"%@",dicExam);
     } RequestFaile:^(NSError *erro) {
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];

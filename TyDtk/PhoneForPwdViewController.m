@@ -131,7 +131,7 @@
     CGRect keyboardRect = [aValue CGRectValue];
     //键盘高度
     CGFloat keyBoardHeight = keyboardRect.size.height;
-    NSLog(@"%f",Scr_Height);
+
     CGFloat cH = Scr_Height - keyBoardHeight;
     CGFloat textFoldH = _textBegin.frame.origin.y;
     //如果键盘能够覆盖文本框，让试图向上移动
@@ -247,7 +247,7 @@
         }
 
     } RequestFaile:^(NSError *error) {
-        NSLog(@"fasfafsf");
+
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }

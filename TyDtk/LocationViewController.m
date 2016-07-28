@@ -123,7 +123,6 @@
         }
         [_myTabVIewPronice reloadData];
     } RequestFaile:^(NSError *error) {
-        NSLog(@"%@",error);
         _myTabVIewPronice.separatorStyle = UITableViewCellSeparatorStyleNone;
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
         [self addViewWhenDataIsNull];

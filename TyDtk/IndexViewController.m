@@ -138,7 +138,8 @@
 //数据请求，获取专业信息
 - (void)getSubjectClass{
     [SVProgressHUD showWithStatus:@"加载中..."];
-    [HttpTools getHttpRequestURL:[NSString stringWithFormat:@"%@api/Classify/GetAll",systemHttps] RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+    NSString *urlString = [NSString stringWithFormat:@"%@api/Classify/GetAll",systemHttps];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
         
         NSDictionary *dicSubject =[NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         

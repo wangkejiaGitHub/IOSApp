@@ -33,7 +33,6 @@
     _labPrice.textColor = [UIColor redColor];
     _imageWidth.constant = Scr_Width/2 - 10;
     _imageHeight.constant = _imageWidth.constant - 30;
-    NSLog(@"%f",Scr_Width);
     
 }
 

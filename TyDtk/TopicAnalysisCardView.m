@@ -257,6 +257,6 @@
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     UILabel *labNumber = (UILabel *)[cell.contentView.subviews firstObject];
     [self.delegateCellClick topicCollectonViewCellClick:[labNumber.text integerValue]];
-    NSLog(@"%ld",[labNumber.text integerValue]);
+
 }
 @end

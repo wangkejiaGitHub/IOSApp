@@ -62,7 +62,6 @@
 }
 - (void)longSaveImage:(UILongPressGestureRecognizer *)longGest{
     if (longGest.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"fsfs");
         UIImageView *imageView =  (UIImageView *)longGest.view;
         [self.delegateImageCell enlargeCellSaveImage:imageView.image];
     }

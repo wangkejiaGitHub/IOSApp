@@ -55,7 +55,7 @@
     [self getAllOrderList];
 }
 - (void)viewWillAppear:(BOOL)animated{
-    NSLog(@"fasfsa");
+
 }
 ///添加下拉刷新
 - (void)addRefreshForTableViewHeader{

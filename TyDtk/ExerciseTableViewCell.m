@@ -14,12 +14,16 @@
     // Initialization code
     _buttonDoTopic.layer.borderWidth = 1;
     _buttonDoTopic.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    _buttonDoTopic.backgroundColor = ColorWithRGB(200, 200, 200);
-    
+    _buttonDoTopic.layer.masksToBounds = YES;
+    _buttonDoTopic.layer.cornerRadius = 2;
+//    _buttonDoTopic.backgroundColor = ColorWithRGB(200, 200, 200);
+    [_buttonDoTopic setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     _buttonAnalysis.layer.borderWidth = 1;
     _buttonAnalysis.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    _buttonAnalysis.backgroundColor = ColorWithRGB(200, 200, 200);
-    
+    _buttonAnalysis.layer.masksToBounds = YES;
+    _buttonAnalysis.layer.cornerRadius = 2;
+//    _buttonAnalysis.backgroundColor = ColorWithRGB(200, 200, 200);
+    [_buttonAnalysis setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     _labState.layer.masksToBounds = YES;
     _labState.layer.cornerRadius = 3;
     _labState.backgroundColor = ColorWithRGB(200, 200, 200);
