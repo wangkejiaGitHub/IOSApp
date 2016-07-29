@@ -211,7 +211,7 @@
         subVc.dicSubject = sender;
         NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
         if ([tyUser objectForKey:tyUserUserInfo]) {
-            subVc.isUserLogin = YES;
+            subVc.isUserLogin = YES;  
         }
         else{
             subVc.isUserLogin = NO;
