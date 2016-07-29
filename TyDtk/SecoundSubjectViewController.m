@@ -180,7 +180,6 @@
         return;
     }
     [self getAllSubjectWithClass:dic];
-
 }
 
 ///获取当前专业下的所有科目
@@ -205,7 +204,6 @@
         [SVProgressHUD showErrorWithStatus:@"网络异常"];
     }];
 }
-
 //页面跳转调用
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"subjectin"]) {
