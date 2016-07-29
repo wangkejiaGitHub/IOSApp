@@ -215,11 +215,16 @@
     viewLine.backgroundColor = ColorWithRGB(190, 200, 252);
     [viewHeard addSubview:viewLine];
     UILabel *labText = [[UILabel alloc]init];
-    labText.text = [NSString stringWithFormat:@"我的订单列表 (%ld)",_intOrderCount];
+    if (_intPaymentStatus == 5001) {
+        labText.text = [NSString stringWithFormat:@"未支付订单列表 (%ld)",_intOrderCount];
+    }
+    else{
+        labText.text = [NSString stringWithFormat:@"已完成订单列表 (%ld)",_intOrderCount];
+    }
     
-    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我的订单列表 (%ld)",_intOrderCount]];
+    NSMutableAttributedString *attriTitle = [[NSMutableAttributedString alloc]initWithString:labText.text];
     [attriTitle addAttribute:NSForegroundColorAttributeName value:[UIColor purpleColor]
-                       range:NSMakeRange(7,labText.text.length - 7)];
+                       range:NSMakeRange(8,labText.text.length - 8)];
     UIFont *titleFont = [UIFont systemFontOfSize:16.0];
     
     [attriTitle addAttribute:NSFontAttributeName value:titleFont range:NSMakeRange(7,labText.text.length - 7)];

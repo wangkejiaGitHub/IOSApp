@@ -142,12 +142,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="CE9-Ns-Muh">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </imageView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="40" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="JT1-M9-Ymz">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="usercell" rowHeight="67" id="Dcl-e4-DEB">
-                                        <rect key="frame" x="0.0" y="114" width="375" height="67"/>
+                                        <rect key="frame" x="0.0" y="50" width="375" height="67"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Dcl-e4-DEB" id="YsA-AK-Usf">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="66"/>
@@ -194,7 +197,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="imgcell" rowHeight="69" id="5JQ-51-XJa">
-                                        <rect key="frame" x="0.0" y="181" width="375" height="69"/>
+                                        <rect key="frame" x="0.0" y="117" width="375" height="69"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5JQ-51-XJa" id="pnj-sc-OpT">
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="68"/>
@@ -244,10 +247,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="JT1-M9-Ymz" firstAttribute="leading" secondItem="rzT-uR-uop" secondAttribute="leading" id="EWu-Qw-zjh"/>
-                            <constraint firstAttribute="trailing" secondItem="JT1-M9-Ymz" secondAttribute="trailing" id="Opr-id-sKq"/>
-                            <constraint firstItem="Eht-on-VFX" firstAttribute="top" secondItem="JT1-M9-Ymz" secondAttribute="bottom" id="PNi-gK-6sb"/>
-                            <constraint firstItem="JT1-M9-Ymz" firstAttribute="top" secondItem="Vqz-iU-Urx" secondAttribute="bottom" constant="-64" id="orc-aj-6T6"/>
+                            <constraint firstItem="JT1-M9-Ymz" firstAttribute="top" secondItem="Vqz-iU-Urx" secondAttribute="bottom" id="EKE-uB-jqc"/>
+                            <constraint firstItem="Eht-on-VFX" firstAttribute="top" secondItem="CE9-Ns-Muh" secondAttribute="bottom" id="KGw-T2-DIS"/>
+                            <constraint firstAttribute="trailing" secondItem="JT1-M9-Ymz" secondAttribute="trailing" id="LWm-6h-If0"/>
+                            <constraint firstItem="Eht-on-VFX" firstAttribute="top" secondItem="JT1-M9-Ymz" secondAttribute="bottom" id="Z6j-YJ-itu"/>
+                            <constraint firstAttribute="trailing" secondItem="CE9-Ns-Muh" secondAttribute="trailing" id="cr0-k4-L09"/>
+                            <constraint firstItem="CE9-Ns-Muh" firstAttribute="top" secondItem="Vqz-iU-Urx" secondAttribute="bottom" id="iZX-C9-Sjc"/>
+                            <constraint firstItem="CE9-Ns-Muh" firstAttribute="leading" secondItem="rzT-uR-uop" secondAttribute="leading" id="kAC-r4-tRb"/>
+                            <constraint firstItem="JT1-M9-Ymz" firstAttribute="leading" secondItem="rzT-uR-uop" secondAttribute="leading" id="kwe-7e-esR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="我的信息" id="Hsa-dL-jb7"/>

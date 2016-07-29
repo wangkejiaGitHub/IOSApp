@@ -23,6 +23,7 @@
 @property (nonatomic,strong) NSString *updateStringCurr;
 @property (nonatomic,strong) NSUserDefaults *tyUser;
 @property (nonatomic,strong) LoginUser *loginUser;
+@property (nonatomic,strong) ODRefreshControl *refreshHeader;
 @end
 
 @implementation UserInfoViewController
@@ -39,10 +40,24 @@
     _arrayListName2 = @[@"修改密码",@"退出登录"];
     _arrayImg2 = @[@"u_pwd",@"u_out"];
     [SVProgressHUD show];
+//    _refreshHeader = [[ODRefreshControl alloc]initInScrollView:_tableViewUser];
+//    _refreshHeader.tintColor = [UIColor lightGrayColor];
+//    _refreshHeader.activityIndicatorViewColor = [UIColor blackColor];
+//    [_refreshHeader addTarget:self action:@selector(refreshHeaderClickU:) forControlEvents:UIControlEventValueChanged];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [self getUserInfo];
 }
+//- (void)refreshHeaderClickU:(ODRefreshControl *)refresh{
+//    ///刷新控件显示时间
+//    double delayInSeconds = 2.0;
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//        ///此处刷新
+//        [self getUserInfo];
+//    });
+//
+//}
 ///获取用户信息
 - (void)getUserInfo{
     NSDictionary *dicUser = [_tyUser objectForKey:tyUserUserInfo];
@@ -54,6 +69,7 @@
     if (msgPara == 1) {
         [SVProgressHUD dismiss];
         _dicUserInfo = dicUser;
+        _tableViewUser.userInteractionEnabled = YES;
         [_tableViewUser reloadData];
     }
     ///获取信息失败(超时)
@@ -67,6 +83,7 @@
         //让当前的tableView失去用户交互
         _tableViewUser.userInteractionEnabled = NO;
     }
+    [_refreshHeader endRefreshing];
 }
 ///登录失败处理，在此不做任何操作
 - (void)loginUserErrorString:(NSString *)errorStr{
@@ -99,9 +116,9 @@
     labTitle.font = [UIFont systemFontOfSize:17.0];
     labTitle.textColor = ColorWithRGB(100, 134, 167);
     if (section == 0) {
-        UIView *viewL = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 1)];
-        viewL.backgroundColor = ColorWithRGB(200, 199, 204);
-        [view addSubview:viewL];
+//        UIView *viewL = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 1)];
+//        viewL.backgroundColor = ColorWithRGB(200, 199, 204);
+//        [view addSubview:viewL];
         labTitle.text = @"我的信息";
     }
     else{

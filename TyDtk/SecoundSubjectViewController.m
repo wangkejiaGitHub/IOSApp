@@ -179,13 +179,33 @@
         [SVProgressHUD showInfoWithStatus:@"暂时还没有科目哟~"];
         return;
     }
-    NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
-    [tyUser setObject:dic forKey:tyUserClass];
-//    [self performSegueWithIdentifier:@"subjectin" sender:dic];
-    [self performSegueWithIdentifier:@"test" sender:dic];
-    
+    [self getAllSubjectWithClass:dic];
 
 }
+
+///获取当前专业下的所有科目
+- (void)getAllSubjectWithClass:(NSDictionary *)dicClass{
+    [SVProgressHUD show];
+    NSString *urlString = [NSString stringWithFormat:@"%@api/CourseInfo/%ld",systemHttps,[dicClass[@"Id"] integerValue]];
+    [HttpTools getHttpRequestURL:urlString RequestSuccess:^(id repoes, NSURLSessionDataTask *task) {
+        NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
+        NSInteger codeId = [dicSubject[@"code"] integerValue];
+        if (codeId == 1) {
+            NSArray *arrayS = dicSubject[@"datas"];
+            if (arrayS.count > 0) {
+                NSUserDefaults *tyUser = [NSUserDefaults standardUserDefaults];
+                [tyUser setObject:dicClass forKey:tyUserClass];
+                [self performSegueWithIdentifier:@"test" sender:dicClass];
+            }
+            else{
+                [SVProgressHUD showInfoWithStatus:@"科目暂时还未开放哦"];
+            }
+        }
+    } RequestFaile:^(NSError *error) {
+        [SVProgressHUD showErrorWithStatus:@"网络异常"];
+    }];
+}
+
 //页面跳转调用
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"subjectin"]) {

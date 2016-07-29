@@ -249,13 +249,19 @@
         NSDictionary *dicSubject = [NSJSONSerialization JSONObjectWithData:repoes options:NSJSONReadingMutableLeaves error:nil];
         NSInteger codeId = [dicSubject[@"code"] integerValue];
         if (codeId == 1) {
-            [self viewSmallAnimation];
             NSArray *arrry = dicSubject[@"datas"];
-            _viewSelectSubject = [[viewSelectSubject alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arraySubject:arrry className:dic[@"Names"]];
-            _viewSelectSubject.delegateSelect = self;
-            UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-            [keyWindow addSubview:_viewSelectSubject];
-            [SVProgressHUD dismiss];
+            if (arrry.count > 0) {
+                [self viewSmallAnimation];
+                _viewSelectSubject = [[viewSelectSubject alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, Scr_Height) arraySubject:arrry className:dic[@"Names"]];
+                _viewSelectSubject.delegateSelect = self;
+                UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+                [keyWindow addSubview:_viewSelectSubject];
+                [SVProgressHUD dismiss];
+            }
+            else{
+                _isAnimation = NO;
+                [SVProgressHUD showInfoWithStatus:@"科目暂时还未开放哦"];
+            }
         }
         else{
             [SVProgressHUD showInfoWithStatus:dicSubject[@"errmsg"]];

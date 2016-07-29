@@ -57,7 +57,7 @@
 - (CGFloat)getTableViewHeghtWithArray{
     CGFloat maxH = Scr_Height/3 * 2;
 //    CGFloat maxH = 200;
-    CGFloat arrayH = _arraySubject.count * _cellHeight + 40;
+    CGFloat arrayH = _arraySubject.count * _cellHeight + 50;
     //如果大于最大值（max：scr_height/3 * 2 + 80）
     if (arrayH > maxH) {
         return maxH;
@@ -83,6 +83,14 @@
     labName.textAlignment = NSTextAlignmentCenter;
     [view addSubview:labName];
     view.backgroundColor = [UIColor groupTableViewBackgroundColor];
+    return view;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 10;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, Scr_Width, 10)];
+    view.backgroundColor = ColorWithRGB(200, 200, 200);
     return view;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

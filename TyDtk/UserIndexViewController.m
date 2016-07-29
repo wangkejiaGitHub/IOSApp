@@ -13,8 +13,6 @@
 #import "LoginViewController.h"
 #import "ExerciseRecordViewController.h"
 #import "ImageEnlargeViewController.h"
-
-#import "ODRefreshControl.h"
 @interface UserIndexViewController ()<UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,HeardImgDelegate,LoginDelegate,LCActionSheetDelegate>
 ///用于判断用户是否登录
 @property (nonatomic,assign) BOOL isLoginUser;
@@ -47,8 +45,9 @@
     _loginUser = [[LoginUser alloc]init];
     _loginUser.delegateLogin = self;
     _refreshHeard = [[ODRefreshControl alloc]initInScrollView:_tableViewList];
-    _refreshHeard.tintColor = ColorWithRGB(90, 144, 266);
-    _refreshHeard.activityIndicatorViewColor = [UIColor blueColor];
+//    _refreshHeard.tintColor = ColorWithRGB(90, 144, 266);
+    _refreshHeard.tintColor = [UIColor lightGrayColor];
+    _refreshHeard.activityIndicatorViewColor = [UIColor blackColor];
     [_refreshHeard addTarget:self action:@selector(refreshHeardClick:) forControlEvents:UIControlEventValueChanged];
     
     [self viewLoad];
@@ -67,7 +66,13 @@
 }
 ///下拉刷新
 - (void)refreshHeardClick:(ODRefreshControl *)refresh{
-    [self userLoginStatus];
+    ///刷新控件显示时间
+    double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        ///此处刷新
+        [self userLoginStatus];
+    });
 }
 ///判断用户的登录状态
 - (void)userLoginStatus{
